@@ -1,4 +1,4 @@
-# AGQO — bộ thử nghiệm có thể chạy ngay
+# AGQO
 
 ## Mục tiêu
 
