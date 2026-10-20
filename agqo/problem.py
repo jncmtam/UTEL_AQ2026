@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from itertools import combinations
+from functools import lru_cache
 
 import numpy as np
 
@@ -187,6 +188,40 @@ def exact_solve(problem: PortfolioProblem) -> tuple[np.ndarray, float]:
             best_bits, best_value = bits, value
     assert best_bits is not None
     return best_bits, float(best_value)
+
+
+@lru_cache(maxsize=8)
+def _combination_matrix(n: int, k: int) -> np.ndarray:
+    """Ma trận tổ hợp bất biến, dùng lại giữa các kỳ tái cân bằng."""
+    choices = np.asarray(list(combinations(range(n), k)), dtype=np.int16)
+    choices.setflags(write=False)
+    return choices
+
+
+def exact_solve_vectorized(problem: PortfolioProblem) -> tuple[np.ndarray, float]:
+    """Nghiệm chuẩn chính xác cho K cố định, tính đồng thời mọi tổ hợp khả thi."""
+    if problem.n > 30 or problem.k > 6:
+        raise ValueError("Duyệt chính xác giới hạn ở N<=30 và K<=6 theo proposal.")
+    choices = _combination_matrix(problem.n, problem.k)
+    selected_mu = problem.mu[choices].sum(axis=1)
+    selected_risk = problem.covariance.diagonal()[choices].sum(axis=1)
+    for left in range(problem.k):
+        for right in range(left + 1, problem.k):
+            selected_risk += 2 * problem.covariance[
+                choices[:, left], choices[:, right]
+            ]
+    score = problem.risk_aversion * selected_risk / problem.k**2 - selected_mu / problem.k
+    previous = problem.previous_weights
+    rate = problem.transaction_costs
+    base_cost = float(rate @ previous)
+    selected_cost_delta = np.abs(1 / problem.k - previous) - previous
+    score += problem.rebalances_per_year * (
+        base_cost + (rate * selected_cost_delta)[choices].sum(axis=1)
+    )
+    best_index = int(np.argmin(score))
+    bits = np.zeros(problem.n, dtype=np.int8)
+    bits[choices[best_index]] = 1
+    return bits, float(score[best_index])
 
 
 def greedy_solve(problem: PortfolioProblem) -> tuple[np.ndarray, float]:

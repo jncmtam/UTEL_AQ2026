@@ -1,262 +1,200 @@
-# AGQO: tối ưu danh mục với chuẩn đối chiếu lượng tử
+# AGQO: điều chỉnh rủi ro bằng AI và chọn danh mục bằng QAOA
 
-Dự án nghiên cứu cách chọn danh mục cổ phiếu theo lợi suất, rủi ro và chi phí giao dịch; sau đó đối chiếu QAOA với nghiệm chính xác cổ điển. Đây là nguyên mẫu nghiên cứu, chưa phải hệ thống giao dịch hay khuyến nghị đầu tư.
+AGQO kiểm định một quy trình đầu tư có thể đo từ đầu đến cuối: mô hình AI dự báo chế độ biến động của VN30, xác suất đó điều chỉnh mức ngại rủi ro và co rút hiệp phương sai, sau đó bộ giải chọn sáu cổ phiếu. QAOA được so với nghiệm chính xác cổ điển trên cùng hàm mục tiêu; hiệu quả danh mục được đo ngoài mẫu, sau phí và giới hạn thanh khoản.
+
+**Kết luận hiện tại:** quy trình đã chạy trên dữ liệu VN30, nhưng chưa có bằng chứng ưu thế lượng tử hoặc bằng chứng lợi nhuận có thể khái quát. Mô hình AI chưa thắng dự báo tỷ lệ nền. Bộ đối chứng Ledoit–Wolf cho kết quả tài chính tốt nhất trong cửa sổ ngắn này. QAOA X độ sâu 2 là cấu hình lượng tử có chất lượng nghiệm ổn định nhất, nhưng nghiệm chính xác cổ điển nhanh hơn nhiều.
+
+> Các kết quả cổ phiếu dùng OHLCV thô và ảnh chụp thành phần VN30 hiện tại áp ngược lịch sử. Chưa xác nhận điều chỉnh cổ tức/quyền và chưa có lịch sử thành phần theo ngày; không dùng các con số dưới đây làm lợi nhuận đầu tư thực tế.
 
 ## Kết quả chính
 
-- **Dữ liệu thị trường:** 37.308 dòng OHLCV của 30 mã VN30, chỉ số VN30 và VN-Index; từ 04/01/2022 đến 19/10/2026.
-- **Nghiệm trên rổ 30 mã:** bộ giải chính xác duyệt đủ 593.775 danh mục gồm sáu mã và chọn **HDB, SSB, GAS, SAB, VIC, VJC** trong 4,96 giây trên máy chạy hiện tại.
-- **Đối chiếu lượng tử:** trên 36 bài toán tổng hợp, QAOA với bộ trộn X đạt ngưỡng ở 18 bài; bộ trộn XY đạt 0. Ngưỡng đã đăng ký là 29/36. Kết quả này chưa ủng hộ tuyên bố ưu thế lượng tử.
-- **Phát hiện tài chính:** trong 252 phiên gần nhất, VN30 giảm 8,60%, VN-Index giảm 4,26%, danh mục đều 30 mã giảm 6,74%, trước chi phí.
-- **Giới hạn quan trọng:** giá cổ phiếu chưa xác nhận đã điều chỉnh quyền/cổ tức; thành phần VN30 hiện tại được áp ngược vào lịch sử. Chưa có kiểm định ngoài mẫu hoặc lượt chạy QPU thật.
+Kiểm định danh mục gồm 16 kỳ, từ 02/06/2025 đến 01/10/2026. Mỗi tín hiệu được tính sau phiên cuối tháng, giao dịch ở giá mở cửa phiên kế tiếp và nắm giữ đến lần vào lệnh kế tiếp. Vốn mô phỏng 100 triệu đồng, phí giả định 25 điểm cơ bản cho mỗi chiều, giới hạn lệnh 5% giá trị giao dịch bình quân ngày.
 
-Kết quả đầy đủ, cách diễn giải từng biểu đồ và các giới hạn được trình bày trong [báo cáo phân tích](results/BAO_CAO_KET_QUA.md). Danh mục tối ưu dùng thống kê trong mẫu, không phải lợi nhuận đã đạt được hay dự báo.
+| Phương pháp | CAGR ròng | Biến động năm hóa | Sharpe | Sụt giảm tối đa | Giá trị cuối kỳ từ 100 triệu |
+|---|---:|---:|---:|---:|---:|
+| VN30 | 24,58% | 20,64% | 1,17 | -9,22% | 134,04 triệu |
+| VN-Index | 23,63% | 19,05% | 1,21 | -8,64% | 132,68 triệu |
+| Rủi ro cố định, nghiệm chính xác trên toàn rổ | 33,26% | 29,99% | 1,11 | -20,69% | 146,64 triệu |
+| AI điều chỉnh λ và α, nghiệm chính xác trên toàn rổ | 44,60% | 27,90% | 1,47 | -15,93% | 163,52 triệu |
+| Ledoit–Wolf, nghiệm chính xác trên toàn rổ | 49,68% | 29,31% | 1,53 | -15,92% | 171,21 triệu |
+| AI và nghiệm chính xác trên 12 mã thanh khoản cao | 16,30% | 29,13% | 0,65 | -14,56% | 122,30 triệu |
+| AI + QAOA X, p=1 | 16,24% | 28,95% | 0,65 | -15,28% | 122,22 triệu |
+| AI + QAOA X, p=2 | 18,50% | 28,61% | 0,72 | -14,20% | 125,39 triệu |
+| AI + QAOA XY, p=1 | 24,70% | 27,42% | 0,94 | -11,90% | 134,23 triệu |
 
-## Bộ dữ liệu và nguồn
+Ledoit–Wolf vượt cả VN30 và danh mục AI trong mẫu này, nhưng kiểm tra ngắn và dữ liệu thô không cho phép kết luận có thể lặp lại. AI điều chỉnh cả λ và α có kết quả cao hơn rủi ro cố định, song mô hình dự báo biến động lại kém chuẩn nền; không thể quy phần vượt trội cho năng lực dự báo của AI.
 
-| Thuộc tính | Chi tiết |
-|---|---|
-| Phạm vi | 30 mã cổ phiếu, VN30 và VN-Index |
-| Số dòng | 37.308 dòng OHLCV ngày |
-| Khoảng ngày dữ liệu | 04/01/2022–19/10/2026 |
-| Ngày chụp rổ VN30 | 02/10/2026; danh sách bên thứ ba, không phải lịch thành phần lịch sử của HOSE |
-| Ngày tải | 20/10/2026 lúc 09:28 UTC (16:28 giờ Việt Nam) |
-| Thư viện lấy dữ liệu | [`vnstock-data`](https://github.com/nguyenthdat/vnstock-data), mã nguồn `d6bafb23dd02f3f63273f12b1f3e3949877b2242` |
-| Nguồn giá được thư viện gọi | [DNSE chart API](https://services.entrade.com.vn/chart-api/v2/ohlcs) |
-| Nguồn danh sách mã | [HODL.VN](https://www.hodl.vn/bai-hoc/vn30-gom-nhung-ma-nao), bản chụp ngày 02/10/2026 |
-| Tệp kê khai và mã băm | [`manifest.json`](data/vn30_snapshot_20261002/manifest.json) |
-| Danh sách mã | [`members.csv`](data/vn30_snapshot_20261002/members.csv) |
+### Đường vốn sau phí
 
-### Các mốc thời gian trong dữ liệu
+![Đường vốn danh mục và đối chuẩn](results/figures/walkforward/02_net_equity_curves.png)
 
-| Ngày | Mốc |
-|---|---|
-| 04/01/2022 | Phiên đầu tiên có trong dữ liệu của phần lớn mã và hai chỉ số |
-| 13/05/2025 | Phiên đầu tiên có dữ liệu của VPL; vì vậy lịch sử 30 mã không đồng đều |
-| 14/10/2025 | Bắt đầu cửa sổ 252 phiên hoàn chỉnh dùng cho phân tích gần nhất |
-| 02/10/2026 | Ngày chụp danh sách thành phần VN30 dùng trong dự án |
-| 13/10/2026 | Chạy bộ đối chiếu QAOA H2 trên bài toán tổng hợp |
-| 19/10/2026 | Ngày cuối của dữ liệu giá đã lưu |
-| 20/10/2026 | Tải bộ dữ liệu cố định, lập báo cáo và biểu đồ |
+### Lợi nhuận so với rủi ro
 
-### Cách xử lý dữ liệu
+![Lợi nhuận và rủi ro danh mục](results/figures/walkforward/04_risk_return_tradeoff.png)
 
-1. Bộ tải gọi `stock_historical_data` cho 30 cổ phiếu, VN30 và VNINDEX.
-2. Nếu nguồn trả nhiều đoạn nến cho cùng ngày, gộp thành một nến ngày: giá mở cửa đầu tiên, giá cao nhất, giá thấp nhất, giá đóng cửa cuối cùng và tổng khối lượng.
-3. Kiểm tra mã trùng, giá không dương, khối lượng âm và cấu trúc cột OHLCV; lưu độ phủ và mã băm SHA-256 trong tệp kê khai.
-4. Căn chỉnh cổ phiếu theo các phiên có đủ dữ liệu cho cả 30 mã; tính lợi suất đóng cửa, biến động, sụt giảm, tương quan và giá trị giao dịch xấp xỉ.
-5. Dùng 252 phiên hoàn chỉnh gần nhất làm đầu vào cho nghiệm danh mục. Kết quả và biểu đồ được dựng từ cùng bộ dữ liệu.
+### Chi phí, doanh số và sức chứa
 
-**Giới hạn quyền dữ liệu:** thư viện lấy dữ liệu là mã nguồn mở, nhưng giấy phép của thư viện không cấp quyền phân phối lại dữ liệu thị trường. Vì vậy, tệp OHLCV đầy đủ được giữ trong bản làm việc cục bộ và không đưa vào GitHub. Mã tải dữ liệu, tệp kê khai, danh sách mã và các kết quả tổng hợp được lưu trong kho. Hãy kiểm tra điều khoản của nhà cung cấp trước khi công bố hoặc phân phối dữ liệu thô.
+Danh mục AI toàn rổ có doanh số hai chiều trung bình 40,8% mỗi kỳ và tổng chi phí khoảng 2,41 triệu đồng trên vốn ban đầu 100 triệu. QAOA X p=1 có doanh số 81,5% và chi phí khoảng 4,06 triệu. Lệnh lớn nhất chỉ bằng khoảng 0,04% ADTV ở danh mục AI toàn rổ và 0,012% ở QAOA X; giới hạn thấp nhất 1% chưa ràng buộc ở quy mô vốn giả định này.
 
-Để tải lại bộ dữ liệu vào thư mục mặc định:
+![Độ nhạy phí và sức chứa lệnh](results/figures/walkforward/05_cost_and_capacity.png)
 
-```bash
-python -m pip install -r requirements-data.txt
-python scripts/download_vn30_dataset.py
-```
+### Cơ cấu danh mục
 
-Lệnh phân tích yêu cầu tệp `data/vn30_snapshot_20261002/ohlcv_daily.csv` đã có tại chỗ. Tải lại dữ liệu phụ thuộc dịch vụ bên ngoài; giá có thể thay đổi khi nguồn cập nhật lịch sử.
+Tỷ trọng nhóm ngân hàng trung bình chiếm 45,8% ở danh mục AI toàn rổ, 55,2% ở QAOA X p=1 và 58,3% ở QAOA X p=2. VIC xuất hiện trong cả 16 kỳ ở nghiệm AI toàn rổ; STB xuất hiện 14 kỳ. Đây là độ tập trung đáng kể cần đưa giới hạn ngành và giới hạn mã vào vòng tiếp theo.
 
-## Nhận định tài chính trên 252 phiên gần nhất
+![Mức tiếp xúc ngân hàng và tần suất chọn mã](results/figures/walkforward/06_exposure_and_holdings.png)
 
-Các con số dưới đây là lợi suất giá đóng cửa **trước chi phí**, trong chính cửa sổ được dùng để ước lượng đầu vào. Danh mục đều 30 mã được tái cân bằng mỗi phiên chỉ là đường tham chiếu mô tả, không phải chiến lược được kiểm định ngoài mẫu.
+## AI đã làm gì và đạt kết quả nào?
 
-| Chuỗi | Lợi suất gộp | Biến động năm hóa | Sụt giảm tối đa | Tỷ lệ phiên tăng |
-|---|---:|---:|---:|---:|
-| VN30 | -8,60% | 20,44% | -16,96% | 47,22% |
-| VN-Index | -4,26% | 20,36% | -16,38% | 49,60% |
-| Danh mục đều 30 mã, tái cân bằng mỗi phiên | -6,74% | 19,33% | -16,49% | 54,37% |
+- Đầu vào là sáu đặc trưng chỉ số VN30: biến động 20/60/120 phiên, lợi suất tích lũy 20/60 phiên và tỷ số biến động 20/120.
+- Nhãn là biến động năm hóa của 21 phiên tiếp theo vượt phân vị 70% đã tính trên tập huấn luyện.
+- Dùng hồi quy logistic có điều chuẩn L2. Tập huấn luyện ban đầu kết thúc ngày 31/10/2024; tập xác nhận từ 01/11/2024 đến 30/04/2025 chọn C=10 bằng log-loss. Nhãn bị chặn 21 phiên trước từng ranh giới.
+- Sau khi khóa C và ngưỡng, mô hình được khớp mở rộng tại mỗi ngày tín hiệu bằng nhãn đã trưởng thành; tập kiểm tra không tham gia chọn cấu hình.
+- Xác suất p điều chỉnh λ = 2 + 8p và α = 0,10 + 0,60p. Từ đó, AI điều chỉnh mức ngại rủi ro và mức co hiệp phương sai về đường chéo.
+- Trên 345 dự báo ngày ngoài mẫu, điểm Brier là 0,257 so với 0,225 của tỷ lệ nền mở rộng; kỹ năng Brier là -14,3%. Log-loss là 0,748 so với 0,643 của nền. Tại 16 tín hiệu tháng, Brier là 0,237 so với 0,217 của nền, kỹ năng -9,3%.
+- Nhãn ngày sử dụng 21 phiên tương lai chồng lấn; do đó 345 dự báo không phải 345 quan sát độc lập.
 
-**Diễn giải:** cả ba chuỗi đều giảm trong cửa sổ này. Danh mục đều giảm ít hơn VN30 nhưng nhiều hơn VN-Index; tỷ lệ phiên tăng cao hơn vẫn không ngăn được lợi suất gộp âm. Đây là ví dụ vì sao không thể dùng tỷ lệ phiên tăng riêng lẻ để kết luận hiệu quả đầu tư.
+![Xác suất AI và trạng thái biến động đã quan sát](results/figures/walkforward/01_ai_regime_walkforward.png)
 
-### Phân tán lợi suất giữa các mã
+## QAOA nằm ở đâu?
 
-| Nhóm | Mã | Lợi suất gộp | Biến động năm hóa | Sụt giảm tối đa | Giá trị giao dịch xấp xỉ (tỷ đồng/ngày) |
-|---|---|---:|---:|---:|---:|
-| Tăng mạnh | VIC | 101,56% | 51,19% | -32,07% | 804,6 |
-| Tăng mạnh | GAS | 30,24% | 49,68% | -49,96% | 169,9 |
-| Tăng mạnh | HDB | 17,45% | 31,55% | -18,86% | 301,5 |
-| Tăng mạnh | VJC | 16,24% | 39,08% | -30,72% | 204,9 |
-| Tăng mạnh | GVR | 11,57% | 47,80% | -43,17% | 125,5 |
-| Giảm mạnh | DGC | -56,67% | 47,00% | -62,42% | 158,2 |
-| Giảm mạnh | VRE | -44,50% | 49,27% | -49,18% | 235,2 |
-| Giảm mạnh | SHB | -40,86% | 27,17% | -44,26% | 871,4 |
-| Giảm mạnh | SSI | -34,22% | 35,13% | -41,70% | 606,8 |
-| Giảm mạnh | FPT | -31,56% | 32,06% | -40,83% | 675,7 |
+QAOA là bộ giải xấp xỉ cho bài toán chọn danh mục nhị phân sau khi AI đã thiết lập các tham số tài chính:
 
-> Lợi suất cổ phiếu tính từ giá thô, chưa xác nhận điều chỉnh cổ tức, chia tách hoặc quyền mua. Giá trị giao dịch là xấp xỉ `giá đóng cửa × khối lượng`, không phải giá trị khớp lệnh do sở giao dịch xác nhận.
+1. Một qubit biểu diễn một trong 12 cổ phiếu có giá trị giao dịch ước tính cao nhất trong 20 phiên.
+2. Chọn đúng K=6 cổ phiếu, tương ứng 12 qubit và 924 tổ hợp khả thi.
+3. Hàm mục tiêu là λ nhân phương sai danh mục chia K², trừ lợi nhuận trung bình ước lượng chia K.
+4. Bộ trộn X bắt đầu bằng chồng chập đều và thêm hạng phạt để buộc tổng số bit 1 bằng K. Bộ trộn XY trao đổi trạng thái liền kề để giữ nguyên K.
+5. COBYLA tối ưu góc QAOA với tối đa 50 lần đánh giá, 512 mẫu mỗi lần, ba hạt giống 11/23/47. Mỗi tháng chọn mẫu khả thi có điểm mục tiêu tốt nhất trong ba lượt.
+6. Nghiệm được so với bộ duyệt chính xác trên đúng 12 mã, cùng μ, Σ, λ, α. Sai lệch chuẩn hóa chia cho biên độ mục tiêu giữa nghiệm tốt và xấu trong 924 tổ hợp.
 
-### Tương quan và mức tập trung
-
-- 14/30 mã thuộc nhóm ngân hàng (46,7% theo số mã). Rổ chọn sáu mã có thể giữ lại rủi ro chung của ngành nếu chỉ xếp hạng từng cổ phiếu độc lập.
-- Tương quan cặp trung bình là **0,305**, trung vị **0,264**. Các mã không biến động độc lập; ma trận hiệp phương sai có vai trò trực tiếp trong kiểm soát rủi ro danh mục.
-- Cặp tương quan cao nhất: BID–VCB (**0,813**), GAS–PLX (**0,809**), CTG–MBB (**0,741**), TPB–VIB (**0,737**), BID–CTG (**0,733**).
-- Cặp tương quan thấp nhất: GVR–VIC (**-0,047**), PLX–VHM (**-0,043**), GVR–VHM (**-0,018**), PLX–VIC (**-0,011**), VIC–VNM (**-0,004**).
-
-## Bài toán danh mục và biện luận
-
-### Kết quả trên dữ liệu thị trường
-
-| Thiết lập | Kết quả |
-|---|---|
-| Vũ trụ / số mã chọn | N=30, K=6; chia đều tỷ trọng trong các mã được chọn |
-| Hàm mục tiêu | Phạt phương sai, thưởng lợi suất ước lượng và tính phí giao dịch |
-| Hệ số ngại rủi ro | λ=5,0 |
-| Co rút hiệp phương sai | α=0,40 |
-| Phí | 25 điểm cơ bản cho một lần mua từ tiền mặt; chưa mô phỏng tái cân bằng định kỳ |
-| Bộ giải | Duyệt chính xác mọi tổ hợp khả thi |
-| Số tổ hợp đã xét | C(30,6) = 593.775 |
-| Thời gian trên máy hiện tại | 4,96 giây |
-| Nghiệm | **HDB, SSB, GAS, SAB, VIC, VJC** |
-| Lợi suất trung bình lịch sử năm hóa của nghiệm | 29,43% |
-| Biến động mô hình năm hóa | 18,85% |
-
-Điểm mục tiêu gồm phạt rủi ro năm hóa **0,17773**, phần thưởng lợi suất **-0,29435** và phí giả định **0,00250**, tổng điểm **-0,11412**. Nghiệm chính xác chứng minh rằng bộ giải đã tìm cực tiểu toàn cục **cho đúng hàm mục tiêu và ước lượng trong mẫu này**. Con số 29,43% là trung bình lịch sử dùng trong mục tiêu, không phải lợi nhuận thực tế, kết quả kiểm định ngoài mẫu hay cam kết cho tương lai.
-
-### Kiểm tra phương pháp V1 trên dữ liệu tổng hợp nhỏ
-
-Thí nghiệm riêng dùng N=8, K=6, hạt giống 20261012; xác suất trạng thái biến động 0,70 chỉ đặt để minh họa, không phải dự báo từ mô hình. V1 cố định α=0,40, dùng λ=7,60, phí giả định 25 điểm cơ bản và 12 lần tái cân bằng năm hóa.
-
-| Bộ giải | Kết quả |
-|---|---|
-| Duyệt chính xác | SYN00, SYN02, SYN03, SYN04, SYN06, SYN07; điểm mục tiêu sau phí -0,00698667 |
-| Tham lam | Tìm cùng danh mục với nghiệm chính xác |
-| Tôi luyện | Tìm cùng danh mục với nghiệm chính xác |
-| QAOA, bộ trộn X | Đúng nghiệm ở 2/3 hạt giống |
-| QAOA, bộ trộn XY | 0/3 lượt đúng nghiệm; độ lệch trung vị 24,93% |
-
-Phí làm điểm mục tiêu tăng 0,02000000 nhưng không đổi nghiệm trong ví dụ này. Bài toán nhỏ và ba hạt giống chỉ xác nhận đường chạy, không đủ để kết luận chất lượng trên thị trường.
-
-### Đối chiếu QAOA trên 36 bài toán tổng hợp
-
-Thiết kế dùng QAOA độ sâu p=1, K=6, N=8/12/16, ba hạt giống 11/23/47, 512 mẫu mỗi lần đánh giá, tối đa 36 lần đánh giá mỗi lượt. Có 72 cấu hình bộ trộn (216 lượt tối ưu); tổng thời gian mô phỏng cổ điển 13,11 giây. Một cấu hình được tính là đạt nếu cả ba lượt có nghiệm khả thi và độ lệch chuẩn hóa trung vị không quá 5%. Ngưỡng đăng ký trước là 29/36.
-
-| Bộ trộn | Đạt ngưỡng | Độ lệch trung vị | Khả thi ở cả ba lượt |
+| Cấu hình | Kỳ có sai lệch mục tiêu ≤5% | Sai lệch trung bình | Xác suất mẫu khả thi trung bình |
 |---|---:|---:|---:|
-| X | 18/36 | 4,22% | 36/36 |
-| XY | 0/36 | 29,57% | 36/36 |
+| X, p=1 | 15/16 | 0,82% | 55,7% |
+| X, p=2 | 16/16 | 0,49% | 75,4% |
+| XY, p=1 | 1/16 | 20,20% | 100,0% |
 
-| Kích thước N | X đạt | Độ lệch X | XY đạt | Độ lệch XY |
-|---:|---:|---:|---:|---:|
-| 8 | 12/12 | 0,00% | 0/12 | 20,31% |
-| 12 | 6/12 | 4,22% | 0/12 | 31,53% |
-| 16 | 0/12 | 13,44% | 0/12 | 32,83% |
+![Sai lệch so với nghiệm chính xác](results/figures/walkforward/03_qaoa_optimality_gap.png)
 
-**Biện luận kỹ thuật:** bộ trộn XY giữ đúng số mã trong các mẫu đã đo nhưng chưa tìm được nghiệm đủ tốt; bộ trộn X giảm chất lượng khi tăng N. Cả hai đều không đạt ngưỡng tổng thể. Trên N=30, bộ giải chính xác cổ điển đã giải bài toán trong vài giây; QAOA mô phỏng véc-tơ trạng thái không chạy trên đủ 30 mã. Vì vậy, lợi thế đã chứng minh hiện nay là nghiệm chuẩn chính xác và quy trình đo được, chưa phải ưu thế lượng tử. Chưa chạy QPU thật.
+Mỗi lớp có 66 tương tác cặp do ma trận hiệp phương sai dày; p=2 tăng gấp đôi số lớp tương tác. Mô phỏng dùng véc-tơ trạng thái NumPy với 4.096 trạng thái cơ sở. Nghiệm chính xác trên cùng 12 mã mất tổng cộng 0,0036 giây trong 16 kỳ; QAOA X p=1 cần 0,912 giây cho 48 lượt mô phỏng. Khi đủ 30 mã, C(30,6)=593.775 danh mục; do VPL chưa đủ lịch sử ở các kỳ đầu, kích thước thực tế là 29–30 mã. Năm cấu hình nghiệm chính xác toàn rổ trong 16 kỳ mất tổng cộng 5,11 giây.
 
-Bản ghi đầy đủ theo cấu hình và hạt giống: [`qaoa_h2_20261013.jsonl`](results/qaoa_h2_20261013.jsonl).
+**Chưa chạy QPU.** Vì vậy đây là kết quả mô phỏng QAOA cổ điển, không phải bằng chứng lợi thế lượng tử. Nghiệm chính xác cổ điển vừa là chuẩn kỹ thuật vừa là phương pháp tài chính mạnh hơn ở quy mô hiện tại.
 
-## Hình ảnh và câu chuyện dữ liệu
+![Thời gian bộ giải chính xác và QAOA](results/figures/walkforward/07_solver_runtime.png)
 
-Các biểu đồ dưới đây được dựng từ bản dữ liệu đã lưu và 252 phiên phân tích, trừ biểu đồ QAOA dùng bài toán tổng hợp. Mọi diễn giải lợi suất cổ phiếu cần lưu ý giá thô và thiên lệch sống sót.
+## Dữ liệu
 
-### 1. Độ phủ dữ liệu
+| Thuộc tính | Giá trị |
+|---|---|
+| Phạm vi | 30 cổ phiếu hiện thuộc VN30, chỉ số VN30 và VN-Index |
+| Kích thước | 37.308 dòng OHLCV |
+| Khoảng giá | 04/01/2022–19/10/2026 |
+| Danh sách thành phần | Ảnh chụp ngày 02/10/2026 từ HODL.VN; không phải lịch sử thành phần theo ngày hiệu lực |
+| Bộ lấy dữ liệu | [Thư viện vnstock-data](https://github.com/nguyenthdat/vnstock-data), mã nguồn ghim trong tệp kê khai |
+| Đầu cuối giá | [DNSE chart API](https://services.entrade.com.vn/chart-api/v2/ohlcs) |
+| Bản kê khai | [manifest.json](data/vn30_snapshot_20261002/manifest.json) |
+| Mã trong ảnh chụp | [members.csv](data/vn30_snapshot_20261002/members.csv) |
+
+Dữ liệu thô được giữ ở máy làm việc tại data/vn30_snapshot_20261002/ohlcv_daily.csv và bị loại khỏi Git vì quyền phân phối lại chưa được xác nhận. Danh sách thành phần 02/10/2026 được chụp từ [HODL.VN](https://www.hodl.vn/bai-hoc/vn30-gom-nhung-ma-nao); đây không phải nguồn lịch sử thành phần HOSE. Bộ nạp gộp nến trùng ngày theo giá mở cửa đầu tiên, cao nhất, thấp nhất, giá đóng cửa cuối và tổng khối lượng. Các giá phải dương, không trùng mã-ngày, không có OHLC sai thứ tự và không có khối lượng âm.
+
+Lợi suất tính từ giá thô. Nghiệm danh mục dùng tối đa 252 phiên gần nhất, tối thiểu 126 quan sát hợp lệ mỗi mã. Ứng viên QAOA được lọc bằng giá trị giao dịch ước tính: giá đóng cửa nhân khối lượng, bình quân 20 phiên. Giá trị này không thay thế giá trị khớp lệnh chính thức.
+
+### Nhận định dữ liệu gần nhất
+
+Cửa sổ mô tả riêng gồm 252 phiên từ 14/10/2025 đến 19/10/2026; không nhầm với kỳ kiểm tra danh mục. Trong cửa sổ này, VN30 giảm 8,60%, VN-Index giảm 4,26%, còn danh mục đều 30 mã giảm 6,74%, trước phí. Lợi suất giá thô dao động mạnh giữa các mã: VIC tăng 101,56%, DGC giảm 56,67%. Tương quan cặp trung bình 0,305; 14/30 mã thuộc nhóm ngân hàng. Các kết quả này là mô tả dữ liệu, chưa điều chỉnh sự kiện doanh nghiệp.
+
+### Biểu đồ khám phá dữ liệu
+
+**Độ phủ:** VPL chỉ có lịch sử từ 13/05/2025; các ô trống là giai đoạn không có quan sát cho mã đó.
 
 ![Độ phủ dữ liệu theo thời gian](results/figures/vn30/01_coverage.png)
 
-Các khoảng trống biểu thị thời kỳ mã chưa có dữ liệu; VPL có lịch sử ngắn hơn phần lớn rổ.
-
-### 2. Diễn biến chỉ số
+**Chỉ số:** chuẩn hóa VN30 và VN-Index về cùng mốc 100, đồng thời theo dõi sụt giảm từ đỉnh.
 
 ![Diễn biến VN30 và VN-Index](results/figures/vn30/02_indices.png)
 
-Chuẩn hóa chỉ số về 100 để so xu hướng và mức sụt giảm từ đỉnh.
+**Lợi suất và rủi ro:** lợi suất cao đi cùng biến động và sụt giảm riêng biệt; kích thước điểm là giá trị giao dịch ước tính.
 
-### 3. Rủi ro và lợi suất theo mã
+![Lợi suất, rủi ro và thanh khoản theo mã](results/figures/vn30/03_risk_return.png)
 
-![Rủi ro và lợi suất theo mã](results/figures/vn30/03_risk_return.png)
-
-Đặt lợi suất cạnh biến động giúp thấy lợi suất cao có thể đi cùng rủi ro lớn; kích thước điểm là giá trị giao dịch xấp xỉ, ngôi sao đánh dấu nghiệm tối ưu.
-
-### 4. Xếp hạng lợi suất
+**Phân tán mã:** VIC tăng mạnh trong khi DGC, VRE và một số mã khác giảm sâu trên giá thô.
 
 ![Xếp hạng lợi suất 30 mã](results/figures/vn30/04_returns_rank.png)
 
-Cho thấy độ phân tán lớn giữa các mã; nghiệm sáu mã được tô màu riêng.
+**Tương quan:** các cặp ngân hàng và dầu khí có biến động đồng hướng rõ rệt; chọn mã riêng lẻ không đủ để kiểm soát rủi ro danh mục.
 
-### 5. Tương quan
+![Ma trận tương quan cổ phiếu](results/figures/vn30/05_correlations.png)
 
-![Ma trận tương quan các mã](results/figures/vn30/05_correlations.png)
+**Thanh khoản:** giá đóng cửa nhân khối lượng chỉ là đại diện thô, không phải giá trị khớp lệnh do sở giao dịch xác nhận.
 
-Những cụm tương quan cao làm rõ rủi ro chung mà việc xếp hạng từng mã có thể bỏ qua.
+![Giá trị giao dịch ước tính theo mã](results/figures/vn30/06_liquidity.png)
 
-### 6. Thanh khoản xấp xỉ
+**Chế độ rủi ro:** biến động trượt của hai chỉ số thay đổi đáng kể theo thời gian; đây là động lực để thử bộ điều khiển rủi ro AI.
 
-![Giá trị giao dịch xấp xỉ](results/figures/vn30/06_liquidity.png)
+![Biến động trượt của VN30 và VN-Index](results/figures/vn30/07_risk_regimes.png)
 
-Ước tính từ giá đóng cửa nhân khối lượng; dùng trục lôgarit để thể hiện các quy mô khác nhau.
+Các chỉ số, danh mục từng kỳ, cấu hình QAOA, chi phí và khoảng tin cậy được trình bày trong [báo cáo kết quả đầy đủ](results/BAO_CAO_AI_QAOA_WALK_FORWARD.md).
 
-### 7. Chế độ rủi ro thị trường
+## Công nghệ và mã nguồn
 
-![Biến động trượt 60 phiên của hai chỉ số](results/figures/vn30/07_risk_regimes.png)
-
-Biến động thay đổi theo thời gian; một tham số rủi ro cố định có thể không phản ánh mọi giai đoạn.
-
-### 8. Cấu phần nghiệm danh mục
-
-![Cấu phần mục tiêu và sáu mã được chọn](results/figures/vn30/08_optimizer.png)
-
-Tách phần phạt rủi ro, thưởng lợi suất và chi phí để giải thích vì sao nghiệm tối ưu không chỉ chọn sáu mã tăng mạnh nhất.
-
-### 9. Chuẩn QAOA
-
-![Kết quả đối chiếu QAOA](results/figures/vn30/09_qaoa_benchmark.png)
-
-Độ lệch, tỷ lệ đạt và thời gian mô phỏng theo kích thước bài toán tổng hợp; thời gian này không phải thời gian QPU.
-
-## Công nghệ và cách tái lập
-
-| Thành phần | Công nghệ / chức năng |
+| Thành phần | Công nghệ/chức năng |
 |---|---|
 | Ngôn ngữ | Python 3.12 |
-| Tính toán số | NumPy, SciPy |
-| Xử lý dữ liệu | pandas |
-| Mô hình chế độ rủi ro | scikit-learn; mã có hồi quy logistic, nhưng chưa có kết quả dự báo ngoài mẫu được báo cáo |
-| Tối ưu cổ điển | Duyệt chính xác, tham lam, tôi luyện mô phỏng |
-| Mô phỏng QAOA | Mô phỏng véc-tơ trạng thái bằng NumPy, COBYLA tối ưu góc, bộ trộn X và XY |
-| Mạch lượng tử | Qiskit và Qiskit Aer cho biên dịch/đối chiếu cục bộ |
-| Phần cứng lượng tử | IBM Quantum Runtime tùy chọn; chưa dùng để tạo kết quả trong báo cáo |
-| Biểu đồ | Matplotlib |
-| Mô hình ngôn ngữ lớn | Không được gọi trong đường chạy; không sinh tín hiệu giao dịch |
+| Bảng dữ liệu và ma trận | pandas, NumPy |
+| Mô hình AI | scikit-learn: StandardScaler, LogisticRegression |
+| Tối ưu góc | SciPy COBYLA |
+| Bộ giải danh mục | Duyệt chính xác cổ điển theo ma trận tổ hợp được lưu đệm |
+| Mô phỏng QAOA | NumPy, mô phỏng véc-tơ trạng thái, bộ trộn X và XY |
+| Mạch lượng tử tùy chọn | Qiskit và Aer; không tạo số liệu báo cáo này |
+| Thiết bị lượng tử | IBM Quantum Runtime tùy chọn; chưa gửi công việc |
+| Biểu đồ | Matplotlib, 7 hình kiểm định và 7 hình khám phá dữ liệu |
+| Mô hình ngôn ngữ lớn | Không nằm trong đường chạy, không sinh tín hiệu và không tạo số liệu |
 
-Cài đặt môi trường từ thư mục dự án:
+### Đường đi của một tín hiệu
 
-```bash
+1. Nạp OHLCV và danh sách mã, kiểm tra dữ liệu và căn chỉnh lịch chỉ số.
+2. Tính đặc trưng VN30 đến hết ngày tín hiệu; tạo xác suất trạng thái biến động 21 phiên.
+3. Cập nhật λ và α từ xác suất AI.
+4. Ước lượng lợi nhuận trung bình và hiệp phương sai từ dữ liệu quá khứ.
+5. Chọn K=6 mã bằng nghiệm chính xác trên toàn rổ hoặc QAOA trên 12 ứng viên thanh khoản.
+6. Chấm lại nghiệm, đặt lệnh ở phiên kế tiếp và mô phỏng phí, tiền mặt, khớp một phần theo ADTV.
+7. So hiệu quả ròng với VN30, VN-Index, đối chứng rủi ro cố định và Ledoit–Wolf.
+8. Xuất JSON chi tiết, báo cáo, biểu đồ, độ lệch QAOA và khoảng tin cậy lấy mẫu khối.
+
+Tệp kỹ thuật giải thích từng hàm, biến số, công thức, giới hạn mạch và cách tái lập: [TAI_LIEU_KY_THUAT_AGQO.md](TAI_LIEU_KY_THUAT_AGQO.md).
+
+## Tệp đầu ra và cách tái lập
+
+- Báo cáo kết quả đầy đủ: [BAO_CAO_AI_QAOA_WALK_FORWARD.md](results/BAO_CAO_AI_QAOA_WALK_FORWARD.md)
+- Mọi dự báo, danh mục theo tháng, phí, lợi nhuận, chỉ số và từng lượt QAOA: [vn30_ai_qaoa_walkforward.json](results/vn30_ai_qaoa_walkforward.json)
+- Mã xử lý chính: [walkforward.py](agqo/walkforward.py)
+- Mã vẽ biểu đồ: [walkforward_plots.py](agqo/walkforward_plots.py)
+- Mã dựng báo cáo: [walkforward_report.py](agqo/walkforward_report.py)
+- Lệnh chạy: [run_ai_qaoa_walkforward.py](scripts/run_ai_qaoa_walkforward.py)
+
+Khi đã có tệp OHLCV cục bộ:
+
+~~~bash
 python3.12 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements-lock.txt
 python -m pip install -e . --no-deps
-```
+python scripts/run_ai_qaoa_walkforward.py
+~~~
 
-Sau khi có tệp OHLCV cục bộ, dựng lại báo cáo và chín hình:
+Nếu thiếu CSV cục bộ, cài thêm phụ thuộc tải dữ liệu trong requirements-data.txt rồi chạy:
 
-```bash
-python -m agqo.cli market-data
-```
+~~~bash
+python -m pip install -r requirements-data.txt
+python scripts/download_vn30_dataset.py
+~~~
 
-Chạy ví dụ tổng hợp hoặc dựng lại bộ đối chiếu QAOA:
+## Rủi ro kết luận và việc cần làm trước vòng chung kết
 
-```bash
-agqo demo --n 8 --model-version v1
-agqo benchmark --limit 12 --max-evaluations 50
-```
+1. Lấy giá đã điều chỉnh cổ tức, chia tách và quyền mua; xác minh cách xử lý hành động doanh nghiệp.
+2. Lấy thành phần VN30 theo ngày hiệu lực để bỏ thiên lệch sống sót.
+3. Mở rộng kiểm tra cuốn chiếu qua nhiều chu kỳ thị trường độc lập và giữ tập kiểm tra cuối cùng chưa đụng đến.
+4. Cải thiện AI chỉ khi thắng tỷ lệ nền ở các giai đoạn ngoài mẫu; nếu không, bỏ AI khỏi tuyên bố tạo giá trị.
+5. Đăng ký trước ngưỡng thắng: log-loss/Brier cho AI; sai lệch mục tiêu, độ khả thi, thời gian và mức cổng cho QAOA; lợi nhuận ròng, mức giảm vốn, turnover và giới hạn sức chứa cho tài chính.
+6. Chỉ tuyên bố lợi thế lượng tử sau khi chạy phần cứng hoặc so sánh quy mô công bằng với các bộ giải cổ điển hiện đại.
 
-Lệnh QPU chỉ gửi công việc khi có cấu hình, thông tin xác thực và cờ `--submit`.
-
-## Cấu trúc dự án
-
-```text
-agqo/                         mô hình, hàm mục tiêu, bộ giải, phân tích và biểu đồ
-config/                       cấu hình mẫu cho QPU
-data/vn30_snapshot_20261002/  kê khai và danh sách mã; OHLCV đầy đủ chỉ lưu cục bộ
-results/                      báo cáo, chín hình và nhật ký QAOA tổng hợp
-scripts/                      bộ tải dữ liệu thị trường
-tests/                        kiểm tra công thức và bộ giải
-```
-
-## Tài liệu chi tiết
-
-- [Báo cáo phân tích đầy đủ](results/BAO_CAO_KET_QUA.md)
-- [Tài liệu kỹ thuật: công nghệ, hàm và quy trình](TAI_LIEU_KY_THUAT_AGQO.md)
-- [Kê khai dữ liệu, độ phủ và mã băm](data/vn30_snapshot_20261002/manifest.json)
+Mã nguồn tải dữ liệu, xử lý, tối ưu và biểu đồ có thể tái lập từ các tệp trong kho. Bản OHLCV thô hiện chỉ có ở máy cục bộ; kiểm tra điều khoản nguồn trước khi chia sẻ hoặc phân phối.

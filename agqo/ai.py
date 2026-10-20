@@ -75,6 +75,10 @@ class RegimeModel:
     chosen_c: float
     feature_names: tuple[str, ...]
     training_prevalence: float = 0.30
+    validation_log_losses: tuple[tuple[float, float], ...] = ()
+    training_samples: int = 0
+    validation_samples: int = 0
+    validation_prevalence: float = float("nan")
 
     def predict_probability(self, features: pd.DataFrame) -> np.ndarray:
         missing = set(self.feature_names) - set(features.columns)
@@ -144,6 +148,56 @@ def fit_regime_model(
         chosen_c,
         tuple(features.columns),
         float(final_y.mean()),
+        tuple((float(c), float(loss_value)) for loss_value, c in scored),
+        int(len(raw_train)),
+        int(len(raw_val)),
+        float(y_val.mean()),
+    )
+
+
+def fit_regime_model_as_of(
+    features: pd.DataFrame,
+    market_returns: pd.Series,
+    as_of: pd.Timestamp | str,
+    threshold: float,
+    chosen_c: float,
+    horizon: int = 21,
+    minimum_samples: int = 500,
+) -> RegimeModel:
+    """Khớp lại mô hình bằng các nhãn đã trưởng thành tại ngày tín hiệu.
+
+    Ngưỡng phân loại và C phải được chốt từ tập huấn luyện/xác nhận ban đầu;
+    hàm chỉ mở rộng mẫu huấn luyện theo thời gian, không tối ưu lại trên tập kiểm tra.
+    """
+    if horizon < 1 or minimum_samples < 2 or chosen_c <= 0:
+        raise ValueError("Cần chân trời, số mẫu tối thiểu và C hợp lệ.")
+    cutoff = pd.Timestamp(as_of)
+    positions = np.arange(len(features))
+    cutoff_position = int(features.index.searchsorted(cutoff, side="right") - 1)
+    if cutoff_position < 0:
+        raise ValueError("Ngày tín hiệu nằm trước dữ liệu.")
+    matured = (positions + horizon <= cutoff_position) & (features.index <= cutoff)
+    raw = features.loc[matured].replace([np.inf, -np.inf], np.nan)
+    target = forward_volatility(market_returns.reindex(features.index), horizon)
+    valid = raw.notna().all(axis=1) & target.loc[raw.index].notna()
+    raw = raw.loc[valid]
+    if len(raw) < minimum_samples:
+        raise ValueError(
+            f"Tại {cutoff.date()} chỉ có {len(raw)} nhãn trưởng thành; cần {minimum_samples}."
+        )
+    labels = (target.loc[raw.index] > float(threshold)).astype(int).to_numpy()
+    if np.unique(labels).size < 2:
+        raise ValueError("Tại ngày tín hiệu, dữ liệu huấn luyện chỉ có một lớp.")
+    scaler = StandardScaler().fit(raw)
+    classifier = LogisticRegression(C=float(chosen_c), solver="lbfgs", max_iter=2_000)
+    classifier.fit(scaler.transform(raw), labels)
+    return RegimeModel(
+        scaler=scaler,
+        classifier=classifier,
+        threshold=float(threshold),
+        chosen_c=float(chosen_c),
+        feature_names=tuple(features.columns),
+        training_prevalence=float(labels.mean()),
     )
 
 

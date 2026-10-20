@@ -1,305 +1,346 @@
 # Tài liệu kỹ thuật AGQO
 
-**Phiên bản đang mô tả:** V1 — tối ưu danh mục có tính chi phí giao dịch.<br>
-**Mục đích:** giải thích từ đầu đến cuối công nghệ, dữ liệu, thuật toán, hàm và đường đi tạo ra các kết quả trong [báo cáo chính](results/BAO_CAO_KET_QUA.md).
+**Phiên bản:** quy trình AI–QAOA ngoài mẫu trên VN30.
+**Kết quả chạy gần nhất:** [báo cáo tài chính và kỹ thuật](results/BAO_CAO_AI_QAOA_WALK_FORWARD.md).
+**Mục đích:** giải thích dữ liệu, mô hình, hàm mục tiêu, thiết kế QAOA, mô phỏng giao dịch, chỉ số đánh giá và đường tái lập từ đầu đến cuối.
 
-## 1. Tóm tắt kiến trúc
+## 1. Kiến trúc
 
-```text
-Bộ dữ liệu OHLCV thị trường đã kiểm tra cấu trúc cột
-        ↓
-Đặc trưng thị trường tại thời điểm t
-        ↓
-Mô hình hồi quy logistic → xác suất biến động cao
-        ↓
-Điều chỉnh λ; cố định mức co rút α = 0,40 trong V1
-        ↓
-Ước lượng μ, Σ và ghép chi phí với tỷ trọng trước giao dịch
-        ↓
-Bài toán chọn K mã → hàm mục tiêu → QUBO → Ising
-        ↓
-Nghiệm chính xác / tham lam / tôi luyện / QAOA / QPU tùy chọn
-        ↓
-Danh mục mục tiêu → mô phỏng phí, lợi nhuận ròng, doanh số, thanh khoản
-        ↓
-So với đối chuẩn và lượng hóa độ không chắc chắn
-```
+~~~text
+OHLCV đã lưu
+  → kiểm tra cột, OHLC, mã trùng và lịch dữ liệu
+  → tạo chuỗi lợi suất VN30 và đặc trưng thị trường đến ngày t
+  → hồi quy logistic dự báo biến động 21 phiên tương lai
+  → xác suất AI điều khiển λ và α
+  → ước lượng μ, Σ từ 252 phiên trước ngày tín hiệu
+  → chọn 6 mã bằng nghiệm chính xác hoặc QAOA trên 12 mã thanh khoản cao
+  → giao dịch mô phỏng tại giá mở cửa phiên kế tiếp
+  → trừ phí, giới hạn lệnh theo ADTV và tính lợi nhuận ròng
+  → so với VN30, VN-Index, rủi ro cố định và Ledoit–Wolf
+  → ghi JSON, báo cáo, biểu đồ và khoảng tin cậy
+~~~
 
-Kho mã hiện có bộ đọc và phân tích bộ dữ liệu VN30/VN-Index tại agqo/market_data.py. Lượt V1 tổng hợp vẫn là đối chứng kỹ thuật; dữ liệu thị trường tạo thêm một bài toán danh mục thực tế nhưng chưa đủ chất lượng để xác nhận lợi nhuận ngoài mẫu.
+Mô-đun chính của quy trình mới là agqo/walkforward.py. Mạch QAOA mô phỏng ở agqo/simulator.py; hàm mục tiêu, QUBO và bộ giải chính xác ở agqo/problem.py. Mã dựng biểu đồ, báo cáo và lệnh chạy nằm ở agqo/walkforward_plots.py, agqo/walkforward_report.py và scripts/run_ai_qaoa_walkforward.py.
 
-## 2. Công nghệ đã dùng
+## 2. Công nghệ và vai trò
 
-| Công nghệ | Phiên bản đã ghim trong môi trường dự án | Vai trò |
-|---|---:|---|
-| Python | 3.12.12 trong môi trường chạy; dự án cho phép từ 3.12 đến dưới 3.14 | Ngôn ngữ triển khai |
-| NumPy | 2.5.4 | Ma trận, véc-tơ trạng thái, lấy mẫu và sinh số PCG64 |
-| SciPy | 1.18.1 | Bộ tối ưu COBYLA và tính toán khoa học |
-| pandas | 3.0.6 | Bảng lợi nhuận, chỉ số tài sản, lịch tháng và căn chỉnh dữ liệu |
-| scikit-learn | 1.9.1 | Hồi quy logistic, chuẩn hóa, hiệp phương sai Ledoit–Wolf và co rút |
-| Matplotlib | 3.11.2 | Vẽ chín biểu đồ tĩnh về độ phủ, diễn biến chỉ số, lợi suất, rủi ro, tương quan, thanh khoản, nghiệm danh mục và kết quả QAOA |
-| Qiskit | 2.5.2 | Biểu diễn mạch tham số và biên dịch mạch |
-| Qiskit Aer | 0.17.2 | Mô phỏng mạch cục bộ và đối chiếu xác suất |
-| IBM Quantum Runtime | 0.50.0 | Giao diện SamplerV2 để gửi mạch đến thiết bị nếu được cấp quyền |
-| pytest | 9.1.1 | Hạ tầng kiểm thử của kho mã; bộ kiểm thử không được chạy trong lượt tạo tài liệu này |
+| Thành phần | Công nghệ | Vai trò trong kết quả |
+|---|---|---|
+| Ngôn ngữ | Python 3.12 | Điều phối xử lý dữ liệu, ước lượng, bộ giải và báo cáo |
+| Bảng dữ liệu | pandas 3.0.6 | Căn ngày, pivot OHLCV, lợi suất và lịch tái cân bằng |
+| Tính toán | NumPy 2.5.4 | Ma trận hiệp phương sai, liệt kê tổ hợp, véc-tơ trạng thái và lấy mẫu |
+| Mô hình AI | scikit-learn 1.9.1 | StandardScaler, LogisticRegression và Ledoit–Wolf |
+| Tối ưu góc | SciPy 1.18.1 | COBYLA tối ưu góc β, γ của QAOA |
+| Biểu đồ | Matplotlib 3.11.2 | Bảy biểu đồ kết quả ngoài mẫu và chín biểu đồ khám phá dữ liệu |
+| Mạch lượng tử tùy chọn | Qiskit 2.5.2, Aer 0.17.2 | Biên dịch/đối chiếu mạch cục bộ; không tạo các kết quả đã báo cáo |
+| Thiết bị tùy chọn | IBM Quantum Runtime 0.50.0 | Lớp gửi mạch phần cứng nếu có tài khoản và ngân sách; chưa được gọi |
+| Kiểm thử kho mã | pytest 9.1.1 | Có trong môi trường; bộ kiểm thử không được chạy trong lượt này |
 
-Các phiên bản được ghi trong `requirements-lock.txt`; các thư viện lượng tử là tùy chọn cài đặt trong `pyproject.toml`. Mã lõi mô phỏng QAOA nhỏ bằng NumPy/SciPy, không bắt buộc gọi dịch vụ lượng tử.
+Không gọi mô hình ngôn ngữ lớn, không dùng tin tức hay lời nhắc làm tín hiệu. “AI” ở đây là mô hình phân loại có giám sát, hồi quy logistic. Công cụ hội thoại chỉ hỗ trợ thiết kế và viết mã; đầu ra của nó không tham gia tính lợi suất hoặc QAOA.
 
-## 3. Vai trò của mô hình ngôn ngữ
+## 3. Dữ liệu và quy tắc làm sạch
 
-**Mô hình ngôn ngữ lớn không nằm trong đường chạy của sản phẩm.** Mã dự án không gọi API mô hình ngôn ngữ, không đưa tin tức vào mô hình ngôn ngữ để chấm mã, và không dùng mô hình ngôn ngữ phát tín hiệu mua bán.
+### 3.1. Nguồn và phạm vi
 
-Thành phần “AI” hiện tại là hồi quy logistic của scikit-learn, tức mô hình phân loại có giám sát. Codex/ChatGPT được dùng như công cụ hỗ trợ con người lập kế hoạch, rà soát thiết kế, chỉnh mã và viết tài liệu; đầu ra của công cụ này không phải dữ liệu đầu vào cho kết quả tài chính hay kết quả QAOA. Có thể tái lập phép chạy bằng mã, cấu hình và hạt giống mà không cần mô hình ngôn ngữ.
+- Tệp dữ liệu cục bộ: data/vn30_snapshot_20261002/ohlcv_daily.csv.
+- Kích thước: 37.308 dòng, gồm 30 cổ phiếu và hai chỉ số VN30/VN-Index.
+- Thời gian: 04/01/2022–19/10/2026.
+- Nguồn bộ lấy: thư viện vnstock-data, mã nguồn ghim trong manifest.
+- Đầu cuối giá: DNSE chart API.
+- Danh sách thành phần: HODL.VN, ảnh chụp 02/10/2026; không phải lịch thành phần theo ngày hiệu lực của HOSE.
+- Độ phủ chưa đều: VPL bắt đầu 13/05/2025; các mã khác có thể có phiên trống.
+- Quyền dữ liệu thị trường chưa được xác nhận; OHLCV thô không được đưa vào Git.
 
-## 4. Đường đi dữ liệu và mô hình AI
+Tệp kê khai, ngày tải, mã băm và độ phủ từng mã: data/vn30_snapshot_20261002/manifest.json.
 
-### 4.1. Đặc trưng
+### 3.2. Kiểm tra và căn lịch
 
-`build_daily_features` tạo đặc trưng đến hết phiên t:
+load_market_dataset xác nhận cột OHLCV, giá dương, số hữu hạn, khối lượng không âm, mã-ngày không lặp, đủ hai chỉ số và đủ 30 mã trong danh sách.
 
-- Độ biến động thị trường 20, 60 và 120 phiên.
-- Lợi nhuận thị trường cộng dồn 20 và 60 phiên.
-- Tỷ số biến động 20/120 phiên.
-- Trung vị tương quan 60 phiên giữa các mã.
-- Tỷ lệ mã có đủ lịch sử 252 phiên.
-- Trung vị log giá trị giao dịch bình quân 20 phiên.
-- Tỷ lệ mã tạm ngừng chỉ khi có chuỗi dữ liệu lịch sử đã được xác minh.
+walkforward._load_panels:
 
-Tại đầu cửa sổ dữ liệu, đặc trưng chưa đủ lịch sử được giữ thiếu và không đưa vào huấn luyện/chấm điểm.
+1. Pivot giá mở cửa/đóng cửa và khối lượng theo ngày, mã.
+2. Tạo lịch chỉ số chỉ gồm phiên có cả VN30 và VN-Index.
+3. Căn dữ liệu cổ phiếu lên cùng lịch chỉ số.
+4. Tính lợi suất đóng cửa với fill_method=None; không nội suy giá.
+5. Tính giá trị giao dịch ước tính bằng giá đóng cửa nhân khối lượng.
 
-### 4.2. Nhãn, chia tập và huấn luyện
+Trong dữ liệu nguồn có một phiên thiếu giá chỉ số. Nếu giữ phiên thiếu trong chuỗi rồi dùng cửa sổ lăn 120 phiên, các đặc trưng sẽ thiếu liên tục qua nhiều tháng. Mã hiện loại phiên không có cả hai chỉ số trước khi tính lợi suất; chuyển động giữa hai quan sát giá vẫn được ghi nhận tại quan sát tiếp theo. Không điền giá giả.
 
-`forward_volatility` tạo nhãn tương lai bằng độ biến động của lợi nhuận thị trường trong 21 phiên sau ngày t. Mốc chia tập hiện có trong đề cương là huấn luyện đến 2020, xác nhận 2021–2023, kiểm tra từ 2024 đến tháng đầy đủ mới nhất.
+### 3.3. Thiên lệch còn lại
 
-`fit_regime_model`:
+Danh sách VN30 hiện tại được áp ngược lịch sử, nên các mã đã rời chỉ số hoặc bị loại khỏi ảnh chụp không xuất hiện trong tập ứng viên. Đây là thiên lệch sống sót. Giá là OHLCV thô; chưa xác nhận điều chỉnh cổ tức, chia tách, quyền mua hoặc các hành động doanh nghiệp. Mọi lợi suất cổ phiếu vì vậy chỉ mang tính khám phá, không phải kiểm định đầu tư đáng tin.
 
-1. Bỏ hàng có đặc trưng thiếu và không dùng nhãn chưa trưởng thành qua ranh giới thời gian.
-2. Tạo ngưỡng biến động cao từ phân vị 70 của tập huấn luyện; cùng ngưỡng đó được dùng cho các tập sau.
-3. Khớp `StandardScaler` trên huấn luyện.
-4. Chọn độ điều chuẩn logistic `C` bằng hàm mất mát logarit trên xác nhận.
-5. Khớp lại trên huấn luyện cộng xác nhận sau khi chọn cấu hình; tập kiểm tra không tham gia.
+## 4. Mô hình AI dự báo chế độ biến động
 
-`RegimeModel.predict_probability` trả về xác suất trạng thái biến động cao. `evaluate_regime_model` và `evaluate_regime_probabilities` đo hàm mất mát logarit, điểm Brier, so sánh với xác suất nền lấy từ huấn luyện và lập bảng hiệu chỉnh. Chưa có dữ liệu thật để báo các chỉ số AI ngoài mẫu.
+### 4.1. Đặc trưng và nhãn
 
-### 4.3. Cách xác suất điều chỉnh danh mục
+_index_features chỉ dùng lợi suất chỉ số VN30 đến hết ngày t; không lấy lợi suất các thành phần VN30 làm đầu vào AI. Sáu đặc trưng:
 
-Trong V1, AI chỉ điều chỉnh hệ số ngại rủi ro:
+- Độ biến động lịch sử năm hóa trên 20, 60 và 120 phiên.
+- Lợi suất lũy kế 20 và 60 phiên.
+- Tỷ số độ biến động 20 phiên trên 120 phiên.
 
-\[
-\lambda(p)=\lambda_{min}+(\lambda_{max}-\lambda_{min})p,
-\qquad \lambda_{min}=2,\;\lambda_{max}=10.
-\]
+forward_volatility tạo nhãn:
 
-Với xác suất minh họa p = 0,70, λ = 7,60. Đây là ánh xạ ban đầu, chưa được tối ưu hay xác nhận bằng kiểm định ngoài mẫu. Mức co rút hiệp phương sai giữ α = 0,40 để tách đóng góp của AI khỏi đóng góp của việc đổi cách ước lượng rủi ro.
+~~~text
+y(t) = 1 nếu độ lệch chuẩn năm hóa của r(t+1),...,r(t+21)
+       lớn hơn phân vị 70% được tính trên tập huấn luyện ban đầu
+       0 nếu không
+~~~
 
-## 5. Ước lượng tài chính và hàm mục tiêu V1
+Nhãn chỉ dùng lợi suất tương lai để chấm sau này. Khi khớp tại ngày tín hiệu t, chỉ nhãn có toàn bộ 21 phiên tương lai trước hoặc bằng t mới được dùng.
 
-### 5.1. Đầu vào
+### 4.2. Chia tập và chọn mô hình
 
-`estimate_annual_inputs` nhận lợi nhuận ngày đã căn chỉnh theo mã:
+| Tập | Ngày | Quy tắc |
+|---|---|---|
+| Huấn luyện ban đầu | đến 31/10/2024 | Tính ngưỡng phân vị, chuẩn hóa đặc trưng và huấn luyện |
+| Xác nhận | 01/11/2024–30/04/2025 | Chọn C trong {0,01; 0,1; 1; 10} theo log-loss |
+| Kiểm tra dự báo | từ 01/05/2025 | Khóa C/ngưỡng; chỉ mở rộng mẫu bằng nhãn trưởng thành |
+| Tín hiệu danh mục | cuối tháng 05/2025–08/2026 | Chọn danh mục ngoài mẫu; giao dịch phiên kế tiếp |
 
-- Lợi nhuận kỳ vọng năm hóa: trung bình ngày × 252.
-- Hiệp phương sai năm hóa: hiệp phương sai ngày × 252; có thể dùng mẫu hoặc Ledoit–Wolf.
-- Nếu dùng co rút đường chéo, phương sai riêng được giữ, còn hiệp phương sai chéo được nhân với `1 - alpha`.
+fit_regime_model chặn 21 phiên cuối của mỗi giai đoạn để nhãn không tràn qua ranh giới. StandardScaler chỉ khớp trên tập huấn luyện. C=10 thắng tập xác nhận với log-loss 0,502 trên 99 dự báo; các giá trị C khác có log-loss 0,538; 0,598 và 0,558. Ngưỡng biến động được chốt là 21,95% năm hóa.
 
-### 5.2. Bài toán chọn danh mục
+fit_regime_model_as_of khớp lại bộ phân loại tại mỗi ngày kiểm tra bằng toàn bộ mẫu đã trưởng thành tới ngày đó. C và ngưỡng không được điều chỉnh lại bằng dữ liệu kiểm tra.
 
-Với N mã, mỗi biến `x_i` nhận 0 hoặc 1; danh mục chọn đúng K mã và chia tỷ trọng bằng nhau. Mục tiêu năm hóa cần tối thiểu hóa:
+### 4.3. Điều khiển danh mục
 
-\[
-J(x)=\lambda\frac{x^\top\Sigma x}{K^2}
--\frac{\mu^\top x}{K}
-+R\sum_i c_i\left|\frac{x_i}{K}-w_i^{trước}\right|,
-\qquad \sum_i x_i=K.
-\]
+regime_controls ánh xạ xác suất p:
 
-Trong đó μ là lợi nhuận kỳ vọng, Σ là hiệp phương sai, cᵢ là phí trên mỗi đồng mua/bán, `w_i^{trước}` là tỷ trọng trước giao dịch, và R là số lần tái cân bằng năm hóa. V1 mặc định dùng 25 điểm cơ bản và 12 lần một năm; đây là tham số giả định, phải thay bằng dữ liệu có căn cứ trước khi kết luận tài chính.
+~~~text
+λ(p) = 2 + 8p
+α(p) = 0,10 + 0,60p
+~~~
 
-`PortfolioProblem.score`, `two_way_turnover` và `annual_transaction_cost` chấm mục tiêu, doanh số và phí cho từng danh mục. `build_investable_problem` tạo V1; `build_regime_problem` cho phép đối chứng rộng hơn; `build_ledoit_wolf_problem` dựng đối chứng tài chính Ledoit–Wolf.
+λ kiểm soát mức phạt phương sai. α co ma trận hiệp phương sai về đường chéo, giảm mức phụ thuộc vào tương quan mẫu. Các đối chứng tách tác động:
 
-### 5.3. Bộ dữ liệu thị trường đã lưu
+- Rủi ro cố định: λ=5, α=0,40.
+- AI chỉ λ: λ thay đổi, α=0,40.
+- AI chỉ α: λ=5, α thay đổi.
+- AI cả hai: λ và α cùng thay đổi.
 
-Bộ dữ liệu nằm tại data/vn30_snapshot_20261002/: 37.308 dòng OHLCV ngày, 30 cổ phiếu và chỉ số VN30/VNINDEX, từ 04/01/2022 đến 19/10/2026. Thành phần là ảnh chụp ngày 02/10/2026 từ HODL.VN, không phải lịch tái cơ cấu lịch sử của HOSE.
+### 4.4. Chất lượng dự báo đo được
 
-scripts/download_vn30_dataset.py gọi stock_historical_data từ kho GitHub nguyenthdat/vnstock-data đã ghim trong requirements-data.txt; thư viện truy vấn DNSE chart API. Nếu một ngày trả nhiều phân đoạn nến, bộ nạp ghép thành một nến ngày theo OHLCV. manifest.json ghi thời gian tải, độ phủ từng mã và mã băm SHA-256.
+Trên 345 dự báo ngày ngoài mẫu, Brier=0,257 và log-loss=0,748, kém dự báo tỷ lệ nền mở rộng (Brier=0,225; log-loss=0,643). Kỹ năng Brier tương đối là -14,3%. Trên 16 tín hiệu tháng, Brier=0,237 so với 0,217 nền, kỹ năng -9,3%. Các nhãn ngày cách nhau một phiên nhưng nhìn 21 phiên tương lai nên chồng lấn; số dự báo ngày không phải số mẫu độc lập.
 
-agqo/market_data.py xác nhận cấu trúc cột và căn dữ liệu theo các phiên có cả hai chỉ số. Lợi suất được tính từ giá đóng cửa thô. Tín hiệu thị trường được đánh giá trên 252 phiên đồng thời gần nhất; lợi suất trung bình và hiệp phương sai được năm hóa bằng 252. Bảng nhận định gồm lợi suất chỉ số, biến động, sụt giảm, tương quan và giá trị giao dịch ước tính từ giá đóng cửa nhân khối lượng.
+Kết luận kỹ thuật: mô hình đã chạy đúng quy tắc thời gian nhưng chưa tạo giá trị dự báo ngoài mẫu so với tỷ lệ nền. Không dùng kết quả lợi nhuận danh mục để tuyên bố AI dự báo đúng chế độ.
 
-Lần dựng bài toán đã tắt AI, dùng λ = 5 và α = 0,40 vì bộ dữ liệu không có lịch thành phần theo ngày để huấn luyện đặc trưng thành viên không nhìn trước. Dùng K = 6 và phí giả định 25 điểm cơ bản cho một lần mua từ tiền mặt; chưa mô phỏng tái cân bằng định kỳ. Nghiệm chính xác cổ điển tìm tối ưu toàn cục trong C(30,6) = 593.775 danh mục; bộ mô phỏng QAOA hiện chỉ nhận N ≤ 20 và không chạy trên toàn rổ 30 mã. Chi tiết đầu ra nằm trong `results/BAO_CAO_KET_QUA.md`.
+## 5. Hàm mục tiêu và bài toán chọn cổ phiếu
 
-Không có giá đóng cửa điều chỉnh được xác nhận, giá trị giao dịch thực tế hay thành phần chỉ số theo ngày hiệu lực. Do đó kết quả của bộ dữ liệu chỉ là thống kê mô tả và đầu vào tối ưu hóa, không phải kiểm định lịch sử hợp lệ. Cần các trường dữ liệu đó trước khi dùng kết quả để biện luận chiến lược tài chính.
+### 5.1. Đầu vào tài chính
 
-## 6. Biểu diễn QUBO và Ising
+Tại mỗi tín hiệu cuối tháng, mã đủ điều kiện phải có ít nhất 126 quan sát trong tối đa 252 phiên gần nhất. Ma trận ước lượng sử dụng các ngày lợi suất đầy đủ đồng thời cho toàn bộ mã trong vũ trụ tại tín hiệu.
+
+estimate_annual_inputs tính:
+
+~~~text
+μ = trung bình lợi suất ngày × 252
+Σ = hiệp phương sai ngày × 252
+~~~
+
+Với co rút đường chéo:
+
+~~~text
+Σα = (1−α)Σ + α diag(diag(Σ))
+~~~
+
+Danh mục chọn đúng K=6 mã và chia tỷ trọng đều 1/6. Hàm mục tiêu QUBO chính không nhúng chi phí giao dịch:
+
+~~~text
+min J(x) = λ(xᵀΣαx)/K² − (μᵀx)/K
+s.t. xᵢ ∈ {0,1}; Σᵢxᵢ = K
+~~~
+
+Chi phí được đo trong lớp thực thi lệnh. Cách tách này giúp mọi nghiệm QAOA và nghiệm chính xác tối ưu cùng một hàm mục tiêu tài chính.
+
+### 5.2. Vũ trụ và cách giảm kích thước cho QAOA
+
+- Nghiệm chính xác cổ điển chạy trên toàn bộ 29–30 mã đủ điều kiện, tùy thời điểm VPL đủ lịch sử.
+- QAOA không chạy trên đủ 30 mã. Mỗi tín hiệu chọn trước 12 mã đủ điều kiện có giá trị giao dịch ước tính bình quân 20 phiên cao nhất.
+- Bên trong 12 mã, QAOA chọn K=6. Có C(12,6)=924 trạng thái khả thi.
+- Cách lọc thanh khoản là bước tiền xử lý cổ điển; kết quả QAOA chỉ tối ưu trong tập 12 mã đã lọc, không thể so trực tiếp nghiệm đó với nghiệm tối ưu toàn rổ.
+
+## 6. QUBO, Ising và QAOA
 
 ### 6.1. QUBO
 
-`build_qubo` đưa phương sai thành hệ số bậc hai, lợi nhuận và chi phí thành hệ số tuyến tính. Với biến nhị phân, chi phí tuyệt đối có thể viết chính xác:
+Với xᵢ là biến có/không chọn mã:
 
-\[
-\left|\frac{x_i}{K}-w_i^{trước}\right|
-=w_i^{trước}+
-\left(\left|\frac{1}{K}-w_i^{trước}\right|-w_i^{trước}\right)x_i.
-\]
+~~~text
+Q(x) = λ/K² · ΣᵢΣⱼ Σαᵢⱼ xᵢxⱼ − 1/K · Σᵢ μᵢxᵢ
+~~~
 
-Hằng số được lưu trong phần bù QUBO. Nhờ đó điểm QUBO của mọi trạng thái khả thi bằng đúng mục tiêu danh mục, kể cả phần phí.
+build_qubo đưa hạng chéo hiệp phương sai vào hệ số tương tác cặp. Với bộ trộn X, mã thêm hạng phạt:
 
-Với bộ trộn X, QUBO thêm hạng phạt:
+~~~text
+P(Σᵢxᵢ − K)²
+~~~
 
-\[
-P\left(\sum_i x_i-K\right)^2,
-\]
+P được đặt lớn hơn khoảng dao động của mục tiêu trên các trạng thái khả thi để mẫu sai số lượng mã không thắng. Bộ trộn XY bảo toàn tổng số bit 1 nên không cần hạng phạt cardinality.
 
-để mẫu sai số lượng mã không thắng do hạng phạt quá thấp. Nếu không truyền P, mã chọn mức lớn hơn khoảng dao động mục tiêu khả thi. Với XY, không thêm phạt số lượng vì bộ trộn bảo toàn số bit 1.
+to_ising đổi biến theo x=(1−Z)/2, bao gồm trường Z, tương tác ZZ và phần hằng. Trong lượt kiểm tra, mục tiêu tài chính trước hết được kiểm tra lại bằng PortfolioProblem.score; các nghiệm khả thi được so theo điểm gốc.
 
-### 6.2. Ising và mạch
+### 6.2. Mã hóa và cấu trúc mạch
 
-`to_ising` đổi biến theo `x = (1 - Z)/2`, giữ trường, tương tác cặp và hằng số. Ở mỗi lớp QAOA, mạch áp dụng pha hàm mục tiêu rồi bộ trộn:
+- 12 mã ứng viên tương ứng 12 qubit; mỗi qubit mang biến chọn một cổ phiếu.
+- K=6; bộ duyệt chuẩn kiểm tra đủ 924 tổ hợp.
+- 2¹²=4.096 trạng thái cơ sở trong mô phỏng véc-tơ trạng thái.
+- Ma trận hiệp phương sai dày tạo 12×11/2=66 tương tác cặp trong mỗi lớp cost. p=2 có hai lớp cost; số gate vật lý sau biên dịch còn phụ thuộc kiến trúc và cách tách cổng.
+- X: khởi tạo chồng chập đều; cost dùng pha QUBO; mixer áp dụng RX trên từng qubit. Ràng buộc K chỉ được giữ bằng hạng phạt và lọc mẫu.
+- XY: khởi tạo một chuỗi K-bit khả thi; mixer áp dụng trao đổi lân cận trên vòng bằng tích Trotter; số bit 1 luôn bảo toàn.
 
-- X: trạng thái chồng chập Hadamard, pha chi phí bằng cổng RZ/RZZ và bộ trộn RX.
-- XY: trạng thái đầu có đúng K bit 1; bộ trộn trên vòng dùng cặp RXX/RYY theo tích Trotter bậc một, giữ số mã đã chọn.
+XY hiện bắt đầu từ một trạng thái cơ sở khả thi, không phải chồng chập đều trên 924 danh mục. Đây là lựa chọn thuật toán cần cân nhắc khi phát triển tiếp.
 
-Trạng thái đầu XY hiện là **một trạng thái cơ sở khả thi duy nhất** sau khi hoán vị mã; đây không phải chồng chập đều trên mọi danh mục K mã. Đây là lựa chọn triển khai hiện tại và là một yếu tố cần nghiên cứu nếu muốn cải thiện chất lượng XY.
+### 6.3. Bộ tối ưu và tiêu chí kỹ thuật
 
-Độ sâu p hiện dùng trong thí nghiệm là 1. `optimize_qaoa` chọn góc β, γ bằng COBYLA; mỗi lần đánh giá lấy 512 mẫu. H2 cũ giới hạn 50 lần đánh giá và dùng ba hạt giống.
+optimize_qaoa mô phỏng QAOA bằng NumPy trên CPU, tối ưu các góc β,γ bằng COBYLA. Mỗi lần chấm lấy mẫu hữu hạn 512 trạng thái; tối đa 50 lần đánh giá mỗi seed. Mỗi cấu hình có ba seed 11, 23, 47; từ ba kết quả, giữ danh mục khả thi có điểm QUBO tốt nhất. Cả ba cấu hình được chạy lại ở từng tín hiệu tháng.
 
-Kết quả `QaoaResult` lưu bộ trộn, p, hạt giống, N/K, λ, tỷ trọng và phí trước giao dịch, số lần đánh giá, mục tiêu ước lượng, điểm tốt nhất trong mẫu khả thi, tỷ lệ khả thi đo được và lý tưởng, số mẫu, chuỗi bit tốt nhất, góc tối ưu và thời gian mô phỏng.
+Độ lệch chuẩn hóa dùng để so các bài toán có thang điểm khác nhau:
 
-Khi đọc nhật ký, dùng `best_feasible_score` để so điểm tài chính. `objective_estimate` là kỳ vọng năng lượng QUBO lấy mẫu; với bộ trộn X, năng lượng này có thể bao gồm hạng phạt. Trong đầu ra QPU, trường `best_feasible_qubo_energy` được giữ vì tương thích nhật ký cũ nhưng hiện chứa cùng điểm mục tiêu danh mục như `best_feasible_score`, không phải năng lượng QUBO thuần.
+~~~text
+regret = (điểm QAOA tốt nhất − điểm tối ưu chính xác)
+         / (điểm lớn nhất − điểm nhỏ nhất trên 924 tổ hợp khả thi)
+~~~
 
-## 7. Các bộ giải và chuẩn so sánh
+Ngưỡng kỹ thuật đã dùng trong báo cáo là regret ≤5%:
 
-| Bộ giải | Hàm | Cách làm |
-|---|---|---|
-| Nghiệm chính xác | `exact_solve` | Duyệt toàn bộ tổ hợp khả thi; hiện giới hạn N ≤ 30, K ≤ 6 |
-| Tham lam | `greedy_solve` | Lần lượt thêm mã làm giảm mục tiêu nhiều nhất |
-| Tôi luyện | `anneal_solve` | Đổi một mã đang chọn với một mã ngoài danh mục; chỉ đi trong miền K khả thi |
-| QAOA mô phỏng | `statevector`, `optimize_qaoa` | Mô phỏng véc-tơ trạng thái NumPy, lấy mẫu hữu hạn và tối ưu góc bằng COBYLA |
-| Mạch Aer | `crosscheck_aer` | Đối chiếu phân bố mạch Qiskit với véc-tơ trạng thái; không gọi mạng |
-| QPU tùy chọn | `run_qpu` | Biên dịch mạch theo thiết bị, gửi bằng SamplerV2, ghi số mẫu, cổng và độ sâu |
+| Bộ trộn / độ sâu | Kỳ đạt / 16 | Sai lệch trung bình | Seed tối ưu có mẫu khả thi | Xác suất khả thi TB của seed được chọn |
+|---|---:|---:|---:|---:|
+| X, p=1 | 15 | 0,82% | 48/48 | 55,70% |
+| X, p=2 | 16 | 0,49% | 48/48 | 75,38% |
+| XY, p=1 | 1 | 20,20% | 48/48 | 100,00% |
 
-QPU chưa được dùng để tạo các kết quả trong báo cáo. Mã QPU có chốt cấu hình, yêu cầu token qua biến môi trường, giới hạn ngân sách mẫu và sổ giữ chỗ; phần này mới là đường chạy sẵn sàng có điều kiện, chưa phải bằng chứng thiết bị.
+p=2 X là lựa chọn có chất lượng mục tiêu mạnh nhất trong lượt chạy. Đổi lại, thời gian mô phỏng tổng 48 lượt tăng từ khoảng 0,91 lên 1,96 giây. XY đạt khả thi chắc chắn nhưng điểm mục tiêu kém xa nghiệm chính xác.
 
-## 8. Đánh giá kết quả tài chính
+### 6.4. QAOA thực sự và phần chưa chạy
 
-`simulate_monthly_portfolios` nhận bảng trọng số mục tiêu và lợi nhuận tháng cùng ngày, cùng mã. Mỗi kỳ, hàm tính thay đổi vị thế, phí mua/bán, lợi nhuận gộp và ròng, doanh số một/hai chiều, giá trị tài khoản và mức tham gia ADTV.
+Kết quả trong JSON được tạo bằng bộ mô phỏng véc-tơ trạng thái NumPy; Qiskit/Aer không được dùng để tạo những số liệu này và không có lượt chạy IBM QPU. Vì vậy:
 
-`summarize_monthly_returns` trả về số tháng, tăng trưởng kép, biến động năm hóa, Sharpe, Sortino, mức sụt giảm tối đa, tỷ lệ tháng dương và giá trị cuối kỳ. `compare_monthly_returns` căn hai chuỗi theo các tháng chung, tính chênh lệch lợi nhuận và gọi `paired_block_bootstrap_mean_ci` để lập khoảng tin cậy bằng lấy mẫu khối tròn; mặc định khối ba tháng, 10.000 lần lấy mẫu, hạt giống 11.
+- Có bằng chứng rằng ánh xạ bài toán sang QUBO và quá trình tối ưu góc hoạt động trên 12 qubit mô phỏng.
+- Chưa có bằng chứng về mạch đã biên dịch, độ sâu vật lý, nhiễu thiết bị, thời gian QPU hay ưu thế lượng tử.
+- “12 qubit” là số biến được mô phỏng, không có nghĩa 12 qubit vật lý đã chạy.
+- Trên N=12, nghiệm chính xác cổ điển hoàn tất 16 bài toán trong khoảng 0,0036 giây; QAOA p=1 cần khoảng 0,91 giây cho 48 lượt mô phỏng.
+- Bộ chính xác véc-tơ hóa giải 593.775 tổ hợp N=30,K=6; năm cấu hình nghiệm toàn rổ trong 16 tín hiệu mất khoảng 5,11 giây tổng.
 
-Chi phí trong hàm mục tiêu giúp bộ chọn cân nhắc trước khi đổi danh mục; trong mô phỏng danh mục tháng, phí khớp lệnh được trừ một lần khỏi tài khoản. Hai bước có vai trò khác nhau, không trừ hai lần cùng một khoản trên một đường lợi nhuận.
+Không tuyên bố QAOA nhanh hơn, rẻ hơn hay kiếm tiền tốt hơn ở quy mô hiện tại.
 
-Giới hạn quan trọng: mô phỏng giả định đủ khớp lệnh. ADTV chỉ gắn cờ vượt giới hạn tham gia; chưa phân bổ lệnh qua nhiều ngày, mô phỏng khớp một phần, chênh lệch mua/bán hay tác động thị trường. Các hàm đánh giá chưa được chạy trên dữ liệu thị trường trong dự án hiện tại.
+## 7. Mô phỏng thực thi và chỉ số tài chính
 
-## 9. Danh mục hàm theo tệp
+### 7.1. Quy tắc nắm giữ và giao dịch
 
-### `agqo/ai.py`
+- Tín hiệu được tính sau giá đóng cửa phiên cuối tháng.
+- Giao dịch tại giá mở cửa phiên chỉ số tiếp theo.
+- Nắm giữ đến giá mở cửa kỳ tái cân bằng kế tiếp.
+- Vốn khởi đầu: 100.000.000 đồng.
+- Phí cơ sở: 25 điểm cơ bản trên cả mua và bán; độ nhạy 10/25/50 điểm cơ bản.
+- Giới hạn lệnh: 5% ADTV; độ nhạy 1/5/10%.
+- Bán trước để giải phóng tiền, sau đó mua; lệnh vượt giới hạn thanh khoản được khớp một phần. Mọi tài sản đang nắm giữ phải có giá mở cửa đầu/cuối kỳ.
+- Giá trị giao dịch ước tính từ giá đóng cửa × khối lượng trong 20 phiên trước tín hiệu.
 
-| Hàm / lớp | Vai trò |
+Đây là mô hình thực thi giản lược: chưa có giá trị khớp lệnh chính thức, bảng lệnh, trượt giá, thuế, bước giá, lô chẵn hay lãi tiền mặt. Với vốn 100 triệu, lệnh lớn nhất là khoảng 0,037% ADTV trên chiến lược toàn rổ và khoảng 0,012% trên QAOA X, thấp hơn ngưỡng 1%; giới hạn ADTV không ràng buộc trong mẫu.
+
+### 7.2. Đối chứng và chỉ số
+
+Đối chứng gồm:
+
+1. Rủi ro cố định λ=5, α=0,40, nghiệm chính xác toàn rổ.
+2. AI chỉ điều chỉnh λ.
+3. AI chỉ điều chỉnh α.
+4. AI điều chỉnh λ và α.
+5. Hiệp phương sai Ledoit–Wolf với λ=5.
+6. Nghiệm chính xác AI trên cùng 12 mã lọc thanh khoản.
+7. QAOA X p=1, X p=2, XY p=1 trên cùng 12 mã.
+8. VN30 và VN-Index theo cùng ngày mở cửa vào/ra.
+
+summarize_monthly_returns đo CAGR, biến động năm hóa, Sharpe (lãi suất phi rủi ro bằng 0), Sortino, sụt giảm tối đa, tỷ lệ tháng dương và giá trị cuối kỳ. compare_monthly_returns so sánh lợi nhuận từng kỳ được ghép cặp và paired_block_bootstrap_mean_ci lấy mẫu khối tròn 10.000 lần, độ dài khối 3 và 6 tháng.
+
+Khoảng tin cậy không sửa được thiên lệch sống sót, dữ liệu giá thô, việc thử nhiều cấu hình hoặc số kỳ nhỏ. Cần diễn giải như kiểm tra thăm dò.
+
+### 7.3. Kết quả tài chính có thể nói
+
+- AI λ+α toàn rổ: CAGR ròng 44,60%, Sharpe 1,47, sụt giảm tối đa -15,93%, giá trị cuối 163,52 triệu đồng.
+- Đối chứng Ledoit–Wolf: CAGR 49,68%, Sharpe 1,53; cao hơn cấu hình AI trong cửa sổ.
+- VN30: CAGR 24,58%, Sharpe 1,17, sụt giảm -9,22%.
+- QAOA X p=1: CAGR 16,24%, Sharpe 0,65, dưới VN30. Khoảng lấy mẫu khối lợi nhuận vượt của QAOA so với VN30 cắt qua 0.
+- QAOA XY p=1 có CAGR 24,70% trong mẫu nhưng sai lệch mục tiêu trung bình 20,20%, doanh số hai chiều 98,84% và phí 5,23 triệu. Kết quả ngắn hạn này không chứng minh chất lượng tối ưu hay hiệu quả ổn định.
+- Tỷ trọng ngân hàng chiếm trung bình 45,8% của AI toàn rổ, 55,2% của QAOA X p=1 và 58,3% của QAOA X p=2. VIC xuất hiện ở 16/16 kỳ của AI toàn rổ.
+
+## 8. Tệp, hàm và đầu ra
+
+### 8.1. Mô hình và ước lượng
+
+| Tệp / hàm | Chức năng |
 |---|---|
-| `build_daily_features` | Tạo đặc trưng thị trường theo dữ liệu đến phiên hiện tại |
-| `forward_volatility` | Tạo nhãn biến động tương lai |
-| `RegimeModel` | Giữ bộ chuẩn hóa, bộ phân loại, ngưỡng và xác suất nền huấn luyện |
-| `fit_regime_model` | Chia thời gian, chọn C trên xác nhận, khớp mô hình cuối |
-| `regime_controls` | Ánh xạ cũ đồng thời sang λ và α; giữ cho đối chứng V0 |
-| `risk_aversion_from_probability` | Ánh xạ xác suất sang λ trong miền chỉ định của V1 |
-| `evaluate_regime_probabilities` | Đo hàm mất mát logarit, điểm Brier và hiệu chỉnh |
-| `evaluate_regime_model` | Chấm mô hình trên khoảng thời gian được chỉ định |
-| `diagonal_shrinkage` | Co hiệp phương sai về đường chéo |
+| agqo/ai.py · build_daily_features | Bộ đặc trưng tổng quát có thành phần cổ phiếu; không dùng trong walk-forward mới |
+| agqo/ai.py · _index_features | Sáu đặc trưng chỉ số được dùng thật trong quy trình mới |
+| agqo/ai.py · forward_volatility | Tạo nhãn biến động tương lai và giữ thiếu nhãn chưa trưởng thành |
+| agqo/ai.py · fit_regime_model | Chọn C trên tập xác nhận có purge thời gian |
+| agqo/ai.py · fit_regime_model_as_of | Khớp lại tại ngày tín hiệu bằng nhãn đã trưởng thành |
+| agqo/ai.py · regime_controls | Ánh xạ xác suất sang λ, α |
+| agqo/estimators.py · estimate_annual_inputs | Tính μ, Σ năm hóa |
+| agqo/estimators.py · build_regime_problem | Mục tiêu với điều khiển chế độ và các ablation |
+| agqo/estimators.py · build_ledoit_wolf_problem | Chuẩn hiệp phương sai Ledoit–Wolf |
 
-### `agqo/estimators.py`
+### 8.2. Bài toán và bộ giải
 
-| Hàm | Vai trò |
+| Tệp / hàm | Chức năng |
 |---|---|
-| `estimate_annual_inputs` | Tính μ và Σ năm hóa |
-| `build_regime_problem` | Dựng bài toán có điều khiển chế độ và các tùy chọn đối chứng |
-| `build_investable_problem` | Dựng V1: α cố định, AI chỉ đổi λ, có phí và tỷ trọng cũ |
-| `build_ledoit_wolf_problem` | Dựng đối chứng hiệp phương sai Ledoit–Wolf |
+| agqo/problem.py · PortfolioProblem | Mã, μ, Σ, K, λ, tỷ trọng cũ, phí và cách tính điểm |
+| agqo/problem.py · build_qubo / to_ising | Ánh xạ bài toán sang QUBO và Ising |
+| agqo/problem.py · exact_solve | Duyệt tổ hợp chuẩn chậm hơn nhưng đơn giản |
+| agqo/problem.py · exact_solve_vectorized | Duyệt chính xác theo ma trận tổ hợp được lưu đệm; dùng trong walk-forward |
+| agqo/problem.py · greedy_solve / anneal_solve | Đối chứng cổ điển tham lam và tôi luyện |
+| agqo/simulator.py · statevector | Áp lớp pha cost và bộ trộn trên véc-tơ trạng thái |
+| agqo/simulator.py · _mix_x / _mix_xy_ring | Bộ trộn X và XY vòng |
+| agqo/simulator.py · optimize_qaoa | Lấy mẫu, tối ưu COBYLA, trả điểm tốt nhất khả thi |
 
-### `agqo/problem.py`
+### 8.3. Đánh giá và kết xuất
 
-| Hàm / lớp | Vai trò |
+| Tệp / hàm | Chức năng |
 |---|---|
-| `PortfolioProblem` | Lưu đầu vào, ràng buộc, mục tiêu, chi phí và doanh số |
-| `Qubo`, `Ising` | Lưu các hệ số của hai biểu diễn nhị phân/Pauli |
-| `build_qubo`, `to_ising` | Chuyển bài toán danh mục sang biểu diễn cho QAOA |
-| `exact_solve`, `greedy_solve`, `anneal_solve` | Ba đối chứng cổ điển |
-| `synthetic_problem` | Sinh bài toán tái lập bằng PCG64; không sinh dữ liệu thị trường |
+| agqo/walkforward.py · run_walkforward | Chạy chia tập, tín hiệu tháng, bộ giải, thực thi, benchmark và JSON |
+| agqo/walkforward.py · _capacity_ledger | Sổ tiền mặt/cổ phiếu, phí, lệnh khớp một phần và ADTV |
+| agqo/evaluation.py · summarize_monthly_returns | Chỉ số tài chính |
+| agqo/evaluation.py · compare_monthly_returns | Chênh lệch đối chuẩn và khoảng tin cậy |
+| agqo/walkforward_plots.py · build_walkforward_plots | Tạo bảy biểu đồ kể chuyện dữ liệu |
+| agqo/walkforward_report.py · write_walkforward_report | Dựng báo cáo tiếng Việt |
+| scripts/run_ai_qaoa_walkforward.py | Lệnh chạy trọn quy trình |
 
-### `agqo/simulator.py`, `agqo/aer.py`, `agqo/qpu.py`
+Đầu ra đã lưu:
 
-| Hàm / lớp | Vai trò |
+- results/vn30_ai_qaoa_walkforward.json: mọi cấu hình, xác suất, danh mục theo tháng, lợi nhuận từng kỳ, phí, đối chuẩn, khoảng tin cậy và từng seed QAOA.
+- results/BAO_CAO_AI_QAOA_WALK_FORWARD.md: báo cáo phân tích.
+- results/figures/walkforward/: bảy biểu đồ.
+- results/figures/vn30/: bảy biểu đồ khám phá dữ liệu giá thô 252 phiên; phần tóm tắt insight nằm trong README.
+
+## 9. Tái lập
+
+Yêu cầu tệp OHLCV cục bộ có trong manifest. Từ thư mục gốc dự án:
+
+~~~bash
+python scripts/run_ai_qaoa_walkforward.py
+~~~
+
+Lệnh dựng lại JSON, bảy biểu đồ và báo cáo. Thiết lập mặc định trong ResearchConfig:
+
+- Huấn luyện đến 31/10/2024; xác nhận đến 30/04/2025; kiểm tra dự báo từ 01/05/2025.
+- Tín hiệu danh mục cuối tháng đến 31/08/2026; kỳ thoát cuối 01/10/2026.
+- Chân trời nhãn 21 phiên; cửa sổ tài chính 252 phiên; tối thiểu 126 quan sát; K=6, 12 qubit QAOA.
+- Vốn 100 triệu đồng; phí 25 điểm cơ bản; giới hạn ADTV 5%.
+- p=1 X, p=2 X và p=1 XY; 512 mẫu, 50 lần đánh giá, ba seed.
+
+Không chạy bộ kiểm thử tự động trong lượt này. Đã kiểm tra cú pháp mô-đun, so khớp nghiệm véc-tơ hóa với bộ duyệt cũ trên một bài toán tổng hợp N=12,K=6, chạy thử một kỳ để kiểm tra đường xuất, rồi chạy đủ 16 kỳ và dựng lại biểu đồ/báo cáo.
+
+## 10. Hướng phát triển và tiêu chí đạt
+
+| Hạng mục | Tiêu chí đề xuất trước khi công bố kết luận |
 |---|---|
-| `_basis_energies` | Tính trước năng lượng mọi trạng thái cơ sở |
-| `_mix_x`, `_mix_xy_ring` | Áp dụng hai bộ trộn trong mô phỏng véc-tơ trạng thái |
-| `statevector`, `optimize_qaoa`, `QaoaResult` | Chạy mô phỏng, tối ưu góc và lưu kết quả |
-| `crosscheck_aer` | Đối chiếu mạch Aer với mô phỏng NumPy |
-| `QpuConfig`, `load_qpu_config`, `validate_qpu_config` | Đọc và kiểm tra cấu hình thiết bị |
-| `_update_ledger`, `_reserve_shots`, `_finalize_shots` | Khóa và ghi sổ ngân sách mẫu |
-| `build_parameterized_circuit` | Tạo mạch có tham số β, γ |
-| `_counts_energy`, `_two_qubit_gate_metrics` | Chấm mẫu và tính chỉ số mạch sau biên dịch |
-| `run_qpu` | Gửi và đọc công việc lượng tử khi cấu hình/token cho phép |
+| Dữ liệu | Giá điều chỉnh; thành phần VN30 theo ngày hiệu lực; ghi rõ nguồn/quyền dữ liệu |
+| Dự báo AI | Brier và log-loss thắng tỷ lệ nền trong nhiều cửa sổ cuốn chiếu; kiểm tra hiệu chỉnh |
+| Kinh tế | Lợi nhuận ròng sau phí/thuế/trượt giá vượt đối chuẩn; kiểm soát giảm vốn, turnover, ngành và sức chứa |
+| QAOA | Sai lệch mục tiêu, tỷ lệ khả thi, độ lặp lại, thời gian và số cổng báo đủ seed |
+| Ưu thế lượng tử | So sánh cùng bài toán và chất lượng với solver cổ điển hiện đại; chạy QPU và công bố lỗi, độ sâu, thời gian, shot |
+| Tính khái quát | Có giai đoạn kiểm tra cuối giữ kín, tiêu chí đăng ký trước và không chọn theo kết quả tốt nhất hậu nghiệm |
 
-### `agqo/evaluation.py`, `agqo/cli.py`
-
-| Hàm | Vai trò |
-|---|---|
-| `_cost_matrix_bps` | Căn chi phí theo mã và kỳ |
-| `simulate_monthly_portfolios` | Tính đường lợi nhuận ròng và thanh khoản |
-| `summarize_monthly_returns` | Tính chỉ số lợi nhuận và rủi ro |
-| `paired_block_bootstrap_mean_ci` | Khoảng tin cậy lấy mẫu khối |
-| `compare_monthly_returns` | So sánh hai chiến lược trên tháng ghép cặp |
-| `_save` | Ghi từng bản ghi JSONL |
-| `_demo` | Chạy mẫu V1 hoặc so sánh với V0 |
-| `_benchmark` | Chạy bộ H2 tổng hợp |
-| `_qpu`, `main` | Điều khiển nhánh QPU và giao diện dòng lệnh |
-
-`_save` ghi từng bản ghi thành một dòng JSONL trong thư mục `outputs/`; mặc định tên tệp dùng thời gian UTC. Bản chạy V1 trong báo cáo được gọi từ môi trường `.venv` và kết quả tóm tắt được đưa vào báo cáo, không lưu tệp kết quả tạm làm nguồn dữ liệu thị trường.
-
-### agqo/market_data.py và scripts/download_vn30_dataset.py
-
-| Hàm / lệnh | Vai trò |
-|---|---|
-| load_market_dataset | Đọc CSV OHLCV, kiểm tra cấu trúc cột, dữ liệu thiếu, mã trùng và phạm vi rổ |
-| analyze_market_dataset | Căn ngày, tính lợi suất, rủi ro, tương quan và nghiệm danh mục chính xác |
-| write_market_report | Ghi báo cáo nhận định bằng tiếng Việt |
-| summarize_qaoa_benchmark | Tóm tắt số bài đạt, độ lệch và khả thi theo kích thước |
-| create_market_figures trong `agqo/plots.py` | Dựng chín biểu đồ thị trường và đối chiếu QAOA |
-| summary_json | Định dạng tóm tắt kết quả cho giao diện dòng lệnh |
-| scripts/download_vn30_dataset.py | Tải đủ 30 mã cùng VN30/VNINDEX, chuẩn hóa nến ngày và ghi manifest |
-| agqo market-data | Chạy phân tích bộ dữ liệu đã lưu |
-
-## 10. Tái lập đường chạy
-
-Phân tích bộ dữ liệu và tạo lại báo cáo cùng biểu đồ:
-
-    ./.venv/bin/python -m agqo.cli market-data
-
-Cài bộ kết nối đã ghim và tải lại bộ dữ liệu:
-
-    ./.venv/bin/python -m pip install -r requirements-data.txt
-    ./.venv/bin/python scripts/download_vn30_dataset.py
-
-Trong môi trường đã tạo theo `requirements-lock.txt`:
-
-```bash
-./.venv/bin/python -m agqo.cli demo \
-  --n 8 \
-  --model-version v1 \
-  --transaction-cost-bps 25 \
-  --max-evaluations 50 \
-  --output outputs/agqo_v1_demo.jsonl
-```
-
-Lệnh demo và H2 dùng dữ liệu tổng hợp. Nhật ký H2 hiện có tại `results/qaoa_h2_20261013.jsonl`; có thể tái tạo bằng `agqo benchmark --limit 12 --max-evaluations 50`. Nhánh QPU chỉ chạy khi cấu hình, token và quyền sử dụng thiết bị đã sẵn sàng.
-
-## 11. Những phần cần phát triển tiếp
-
-1. Bộ nhập dữ liệu có nguồn, quyền sử dụng, lịch thành phần lịch sử và kiểm tra sự kiện doanh nghiệp.
-2. Bộ điều phối kiểm định cuốn chiếu tạo trọng số tháng từ dữ liệu tại thời điểm đó, không nhìn trước.
-3. Mô hình khớp lệnh có phí, thuế, chênh lệch mua/bán, trượt giá, ADTV, lệnh khớp một phần và tác động giá.
-4. Đối chuẩn tài chính chạy trên đúng cùng ngày, tài sản, chi phí và thời điểm khớp.
-5. Tập bài toán lượng tử mới chưa dùng để chọn thiết kế; đối chiếu p = 1, 2, 3, nhiều trạng thái đầu và cấu trúc bộ trộn trong cùng ngân sách.
-6. Nếu chạy thiết bị thật, ghi riêng thời gian hàng đợi, biên dịch, thời gian thiết bị, số cổng hai qubit, độ sâu hai qubit và kết quả có nhiễu.
-
-## Tệp liên quan
-
-- [Báo cáo kết quả](results/BAO_CAO_KET_QUA.md)
-- [Hướng dẫn sử dụng](README.md)
+Ở quy mô hiện tại, hướng có căn cứ nhất là dùng Ledoit–Wolf và nghiệm chính xác làm chuẩn tài chính; dùng QAOA X p=2 như nhánh nghiên cứu thuật toán có thể đo; giữ mô hình AI ở trạng thái cần cải thiện thay vì khẳng định nó tạo lợi nhuận.
