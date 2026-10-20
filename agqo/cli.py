@@ -10,6 +10,8 @@ from pathlib import Path
 import numpy as np
 
 from .ai import diagonal_shrinkage, regime_controls, risk_aversion_from_probability
+from .market_data import analyze_market_dataset, summary_json, write_market_report
+from .plots import create_market_figures
 from .problem import PortfolioProblem, anneal_solve, exact_solve, greedy_solve, synthetic_problem
 from .qpu import load_qpu_config, run_qpu
 from .simulator import optimize_qaoa
@@ -156,6 +158,26 @@ def _qpu(args: argparse.Namespace) -> int:
     return 0
 
 
+def _market_data(args: argparse.Namespace) -> int:
+    summary = analyze_market_dataset(
+        args.data,
+        args.members,
+        lookback=args.lookback,
+        k=args.k,
+        transaction_cost_bps=args.transaction_cost_bps,
+    )
+    figures = create_market_figures(args.data, args.members, summary, args.figures, args.benchmark)
+    report = write_market_report(summary, args.report, figures, args.benchmark)
+    print(
+        json.dumps(
+            {"report_file": str(report), "figure_files": [str(path) for path in figures], "summary": summary},
+            ensure_ascii=False,
+            indent=2,
+        )
+    )
+    return 0
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(prog="agqo", description="Thử nghiệm nghiên cứu AGQO.")
     commands = parser.add_subparsers(dest="command", required=True)
@@ -180,6 +202,31 @@ def main() -> int:
     qpu.add_argument("--submit", action="store_true")
     qpu.add_argument("--output")
     qpu.set_defaults(func=_qpu)
+    market = commands.add_parser(
+        "market-data",
+        help="Phân tích snapshot OHLCV VN30 và VN-Index đã lưu trong dự án.",
+    )
+    market.add_argument(
+        "--data",
+        default="data/vn30_snapshot_20261002/ohlcv_daily.csv",
+        help="Tệp OHLCV chuẩn hóa đã tải.",
+    )
+    market.add_argument(
+        "--members",
+        default="data/vn30_snapshot_20261002/members.csv",
+        help="Danh sách 30 thành phần tại ngày chụp.",
+    )
+    market.add_argument("--lookback", type=int, default=252)
+    market.add_argument("--k", type=int, default=6)
+    market.add_argument("--transaction-cost-bps", type=float, default=25.0)
+    market.add_argument("--report", default="results/BAO_CAO_KET_QUA.md")
+    market.add_argument("--figures", default="results/figures/vn30")
+    market.add_argument(
+        "--benchmark",
+        default="results/qaoa_h2_20261013.jsonl",
+        help="Tệp kết quả QAOA tổng hợp; bỏ qua phần đối chiếu nếu đường dẫn không tồn tại.",
+    )
+    market.set_defaults(func=_market_data)
     args = parser.parse_args()
     return args.func(args)
 

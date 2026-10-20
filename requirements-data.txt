@@ -1,0 +1,3 @@
+# Bộ nạp lịch sử dùng giao diện vnstock cũ tại kho vnstock-data đã chọn.
+# Ghim mã nguồn để có thể tái lập công cụ; dữ liệu được truy xuất từ dịch vụ bên ngoài.
+vnstock @ git+https://github.com/nguyenthdat/vnstock-data.git@d6bafb23dd02f3f63273f12b1f3e3949877b2242

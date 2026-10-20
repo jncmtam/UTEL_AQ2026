@@ -1,12 +1,12 @@
 # Tài liệu kỹ thuật AGQO
 
 **Phiên bản đang mô tả:** V1 — tối ưu danh mục có tính chi phí giao dịch.<br>
-**Mục đích:** giải thích từ đầu đến cuối công nghệ, dữ liệu, thuật toán, hàm và đường đi tạo ra các kết quả trong [báo cáo kết quả AGQO](BAO_CAO_KET_QUA_AGQO.md).
+**Mục đích:** giải thích từ đầu đến cuối công nghệ, dữ liệu, thuật toán, hàm và đường đi tạo ra các kết quả trong [báo cáo chính](results/BAO_CAO_KET_QUA.md).
 
 ## 1. Tóm tắt kiến trúc
 
 ```text
-Dữ liệu lịch sử đã được xác minh
+Bộ dữ liệu OHLCV thị trường đã kiểm tra cấu trúc cột
         ↓
 Đặc trưng thị trường tại thời điểm t
         ↓
@@ -25,7 +25,7 @@ Danh mục mục tiêu → mô phỏng phí, lợi nhuận ròng, doanh số, th
 So với đối chuẩn và lượng hóa độ không chắc chắn
 ```
 
-Hiện chưa có bộ đọc dữ liệu thị trường và bộ điều phối toàn bộ chuỗi trên dữ liệu thật. Các lớp ước lượng, tối ưu và đánh giá đã có giao diện để nối dữ liệu vào; lượt V1 được báo cáo dùng dữ liệu tổng hợp.
+Kho mã hiện có bộ đọc và phân tích bộ dữ liệu VN30/VN-Index tại agqo/market_data.py. Lượt V1 tổng hợp vẫn là đối chứng kỹ thuật; dữ liệu thị trường tạo thêm một bài toán danh mục thực tế nhưng chưa đủ chất lượng để xác nhận lợi nhuận ngoài mẫu.
 
 ## 2. Công nghệ đã dùng
 
@@ -36,6 +36,7 @@ Hiện chưa có bộ đọc dữ liệu thị trường và bộ điều phối
 | SciPy | 1.18.1 | Bộ tối ưu COBYLA và tính toán khoa học |
 | pandas | 3.0.6 | Bảng lợi nhuận, chỉ số tài sản, lịch tháng và căn chỉnh dữ liệu |
 | scikit-learn | 1.9.1 | Hồi quy logistic, chuẩn hóa, hiệp phương sai Ledoit–Wolf và co rút |
+| Matplotlib | 3.11.2 | Vẽ chín biểu đồ tĩnh về độ phủ, diễn biến chỉ số, lợi suất, rủi ro, tương quan, thanh khoản, nghiệm danh mục và kết quả QAOA |
 | Qiskit | 2.5.2 | Biểu diễn mạch tham số và biên dịch mạch |
 | Qiskit Aer | 0.17.2 | Mô phỏng mạch cục bộ và đối chiếu xác suất |
 | IBM Quantum Runtime | 0.50.0 | Giao diện SamplerV2 để gửi mạch đến thiết bị nếu được cấp quyền |
@@ -114,6 +115,18 @@ J(x)=\lambda\frac{x^\top\Sigma x}{K^2}
 Trong đó μ là lợi nhuận kỳ vọng, Σ là hiệp phương sai, cᵢ là phí trên mỗi đồng mua/bán, `w_i^{trước}` là tỷ trọng trước giao dịch, và R là số lần tái cân bằng năm hóa. V1 mặc định dùng 25 điểm cơ bản và 12 lần một năm; đây là tham số giả định, phải thay bằng dữ liệu có căn cứ trước khi kết luận tài chính.
 
 `PortfolioProblem.score`, `two_way_turnover` và `annual_transaction_cost` chấm mục tiêu, doanh số và phí cho từng danh mục. `build_investable_problem` tạo V1; `build_regime_problem` cho phép đối chứng rộng hơn; `build_ledoit_wolf_problem` dựng đối chứng tài chính Ledoit–Wolf.
+
+### 5.3. Bộ dữ liệu thị trường đã lưu
+
+Bộ dữ liệu nằm tại data/vn30_snapshot_20261002/: 37.308 dòng OHLCV ngày, 30 cổ phiếu và chỉ số VN30/VNINDEX, từ 04/01/2022 đến 19/10/2026. Thành phần là ảnh chụp ngày 02/10/2026 từ HODL.VN, không phải lịch tái cơ cấu lịch sử của HOSE.
+
+scripts/download_vn30_dataset.py gọi stock_historical_data từ kho GitHub nguyenthdat/vnstock-data đã ghim trong requirements-data.txt; thư viện truy vấn DNSE chart API. Nếu một ngày trả nhiều phân đoạn nến, bộ nạp ghép thành một nến ngày theo OHLCV. manifest.json ghi thời gian tải, độ phủ từng mã và mã băm SHA-256.
+
+agqo/market_data.py xác nhận cấu trúc cột và căn dữ liệu theo các phiên có cả hai chỉ số. Lợi suất được tính từ giá đóng cửa thô. Tín hiệu thị trường được đánh giá trên 252 phiên đồng thời gần nhất; lợi suất trung bình và hiệp phương sai được năm hóa bằng 252. Bảng nhận định gồm lợi suất chỉ số, biến động, sụt giảm, tương quan và giá trị giao dịch ước tính từ giá đóng cửa nhân khối lượng.
+
+Lần dựng bài toán đã tắt AI, dùng λ = 5 và α = 0,40 vì bộ dữ liệu không có lịch thành phần theo ngày để huấn luyện đặc trưng thành viên không nhìn trước. Dùng K = 6 và phí giả định 25 điểm cơ bản cho một lần mua từ tiền mặt; chưa mô phỏng tái cân bằng định kỳ. Nghiệm chính xác cổ điển tìm tối ưu toàn cục trong C(30,6) = 593.775 danh mục; bộ mô phỏng QAOA hiện chỉ nhận N ≤ 20 và không chạy trên toàn rổ 30 mã. Chi tiết đầu ra nằm trong `results/BAO_CAO_KET_QUA.md`.
+
+Không có giá đóng cửa điều chỉnh được xác nhận, giá trị giao dịch thực tế hay thành phần chỉ số theo ngày hiệu lực. Do đó kết quả của bộ dữ liệu chỉ là thống kê mô tả và đầu vào tối ưu hóa, không phải kiểm định lịch sử hợp lệ. Cần các trường dữ liệu đó trước khi dùng kết quả để biện luận chiến lược tài chính.
 
 ## 6. Biểu diễn QUBO và Ising
 
@@ -240,7 +253,29 @@ Giới hạn quan trọng: mô phỏng giả định đủ khớp lệnh. ADTV c
 
 `_save` ghi từng bản ghi thành một dòng JSONL trong thư mục `outputs/`; mặc định tên tệp dùng thời gian UTC. Bản chạy V1 trong báo cáo được gọi từ môi trường `.venv` và kết quả tóm tắt được đưa vào báo cáo, không lưu tệp kết quả tạm làm nguồn dữ liệu thị trường.
 
+### agqo/market_data.py và scripts/download_vn30_dataset.py
+
+| Hàm / lệnh | Vai trò |
+|---|---|
+| load_market_dataset | Đọc CSV OHLCV, kiểm tra cấu trúc cột, dữ liệu thiếu, mã trùng và phạm vi rổ |
+| analyze_market_dataset | Căn ngày, tính lợi suất, rủi ro, tương quan và nghiệm danh mục chính xác |
+| write_market_report | Ghi báo cáo nhận định bằng tiếng Việt |
+| summarize_qaoa_benchmark | Tóm tắt số bài đạt, độ lệch và khả thi theo kích thước |
+| create_market_figures trong `agqo/plots.py` | Dựng chín biểu đồ thị trường và đối chiếu QAOA |
+| summary_json | Định dạng tóm tắt kết quả cho giao diện dòng lệnh |
+| scripts/download_vn30_dataset.py | Tải đủ 30 mã cùng VN30/VNINDEX, chuẩn hóa nến ngày và ghi manifest |
+| agqo market-data | Chạy phân tích bộ dữ liệu đã lưu |
+
 ## 10. Tái lập đường chạy
+
+Phân tích bộ dữ liệu và tạo lại báo cáo cùng biểu đồ:
+
+    ./.venv/bin/python -m agqo.cli market-data
+
+Cài bộ kết nối đã ghim và tải lại bộ dữ liệu:
+
+    ./.venv/bin/python -m pip install -r requirements-data.txt
+    ./.venv/bin/python scripts/download_vn30_dataset.py
 
 Trong môi trường đã tạo theo `requirements-lock.txt`:
 
@@ -253,7 +288,7 @@ Trong môi trường đã tạo theo `requirements-lock.txt`:
   --output outputs/agqo_v1_demo.jsonl
 ```
 
-Lệnh này dùng dữ liệu tổng hợp. Để chạy bộ H2 đầy đủ theo giao diện hiện có, dùng `agqo benchmark --limit 12 --max-evaluations 50`; kết quả H2 trong thư mục `results/` là lượt chạy lịch sử trước V1. Nhánh QPU chỉ chạy khi cấu hình, token và quyền sử dụng thiết bị đã sẵn sàng; không bật gửi công việc trong tài liệu này.
+Lệnh demo và H2 dùng dữ liệu tổng hợp. Nhật ký H2 hiện có tại `results/qaoa_h2_20261013.jsonl`; có thể tái tạo bằng `agqo benchmark --limit 12 --max-evaluations 50`. Nhánh QPU chỉ chạy khi cấu hình, token và quyền sử dụng thiết bị đã sẵn sàng.
 
 ## 11. Những phần cần phát triển tiếp
 
@@ -266,7 +301,5 @@ Lệnh này dùng dữ liệu tổng hợp. Để chạy bộ H2 đầy đủ th
 
 ## Tệp liên quan
 
-- [Báo cáo kết quả đạt được](BAO_CAO_KET_QUA_AGQO.md)
+- [Báo cáo kết quả](results/BAO_CAO_KET_QUA.md)
 - [Hướng dẫn sử dụng](README.md)
-- [Đề cương nghiên cứu](AGQO_Final_Research_Proposal.md)
-- [Kế hoạch hướng đến chung kết](KE_HOACH_CHOT_HUONG_DI_CHUNG_KET.md)

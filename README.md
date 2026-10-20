@@ -1,157 +1,262 @@
-# AGQO
+# AGQO: tối ưu danh mục với chuẩn đối chiếu lượng tử
 
-## Mục tiêu
+Dự án nghiên cứu cách chọn danh mục cổ phiếu theo lợi suất, rủi ro và chi phí giao dịch; sau đó đối chiếu QAOA với nghiệm chính xác cổ điển. Đây là nguyên mẫu nghiên cứu, chưa phải hệ thống giao dịch hay khuyến nghị đầu tư.
 
-Đây là bản triển khai kỹ thuật cho đề cương: mô hình hồi quy logistic ước lượng xác suất biến động cao; xác suất này chỉ điều chỉnh hệ số ngại rủi ro λ và mức co rút hiệp phương sai α. Sau đó bộ giải chọn đúng K = 6 mã theo cùng một hàm mục tiêu rủi ro–lợi nhuận. Không có dự báo lợi nhuận riêng từng mã, mô hình ngôn ngữ lớn hay quyết định mua bán tự động.
+## Kết quả chính
 
-Đây là bộ nghiên cứu, không phải hệ thống giao dịch. Mẫu tổng hợp chỉ kiểm tra thuật toán; nó không tạo bằng chứng về lợi nhuận tại Việt Nam. Chưa kèm dữ liệu thị trường có giấy phép.
+- **Dữ liệu thị trường:** 37.308 dòng OHLCV của 30 mã VN30, chỉ số VN30 và VN-Index; từ 04/01/2022 đến 19/10/2026.
+- **Nghiệm trên rổ 30 mã:** bộ giải chính xác duyệt đủ 593.775 danh mục gồm sáu mã và chọn **HDB, SSB, GAS, SAB, VIC, VJC** trong 4,96 giây trên máy chạy hiện tại.
+- **Đối chiếu lượng tử:** trên 36 bài toán tổng hợp, QAOA với bộ trộn X đạt ngưỡng ở 18 bài; bộ trộn XY đạt 0. Ngưỡng đã đăng ký là 29/36. Kết quả này chưa ủng hộ tuyên bố ưu thế lượng tử.
+- **Phát hiện tài chính:** trong 252 phiên gần nhất, VN30 giảm 8,60%, VN-Index giảm 4,26%, danh mục đều 30 mã giảm 6,74%, trước chi phí.
+- **Giới hạn quan trọng:** giá cổ phiếu chưa xác nhận đã điều chỉnh quyền/cổ tức; thành phần VN30 hiện tại được áp ngược vào lịch sử. Chưa có kiểm định ngoài mẫu hoặc lượt chạy QPU thật.
 
-## Từ viết tắt
+Kết quả đầy đủ, cách diễn giải từng biểu đồ và các giới hạn được trình bày trong [báo cáo phân tích](results/BAO_CAO_KET_QUA.md). Danh mục tối ưu dùng thống kê trong mẫu, không phải lợi nhuận đã đạt được hay dự báo.
 
-- **AI** (Artificial Intelligence, trí tuệ nhân tạo); **LLM** (Large Language Model, mô hình ngôn ngữ lớn).
-- **QAOA** (Quantum Approximate Optimization Algorithm, thuật toán tối ưu gần đúng lượng tử); **QUBO** (Quadratic Unconstrained Binary Optimization, tối ưu nhị phân bậc hai không ràng buộc); **QPU** (Quantum Processing Unit, bộ xử lý lượng tử).
-- **COBYLA** (Constrained Optimization BY Linear Approximations, tối ưu không đạo hàm bằng xấp xỉ tuyến tính); **H2** (Hypothesis 2, giả thuyết số 2).
-- **IBM** (International Business Machines); **CPU** (Central Processing Unit, bộ xử lý trung tâm); **GPU** (Graphics Processing Unit, bộ xử lý đồ họa).
-- **RAM** (Random Access Memory, bộ nhớ truy cập ngẫu nhiên); **SSD** (Solid-State Drive, ổ lưu trữ thể rắn); **CUDA** (Compute Unified Device Architecture, kiến trúc tính toán song song của NVIDIA).
-- **ADTV** (Average Daily Traded Value, giá trị giao dịch bình quân ngày); **CSV** (Comma-Separated Values, dữ liệu phân tách bằng dấu phẩy).
-- **JSON** (JavaScript Object Notation, ký pháp đối tượng JavaScript); **PCG64** (Permuted Congruential Generator 64-bit, bộ sinh số giả ngẫu nhiên 64 bit).
+## Bộ dữ liệu và nguồn
 
-## Hai đường chạy
+| Thuộc tính | Chi tiết |
+|---|---|
+| Phạm vi | 30 mã cổ phiếu, VN30 và VN-Index |
+| Số dòng | 37.308 dòng OHLCV ngày |
+| Khoảng ngày dữ liệu | 04/01/2022–19/10/2026 |
+| Ngày chụp rổ VN30 | 02/10/2026; danh sách bên thứ ba, không phải lịch thành phần lịch sử của HOSE |
+| Ngày tải | 20/10/2026 lúc 09:28 UTC (16:28 giờ Việt Nam) |
+| Thư viện lấy dữ liệu | [`vnstock-data`](https://github.com/nguyenthdat/vnstock-data), mã nguồn `d6bafb23dd02f3f63273f12b1f3e3949877b2242` |
+| Nguồn giá được thư viện gọi | [DNSE chart API](https://services.entrade.com.vn/chart-api/v2/ohlcs) |
+| Nguồn danh sách mã | [HODL.VN](https://www.hodl.vn/bai-hoc/vn30-gom-nhung-ma-nao), bản chụp ngày 02/10/2026 |
+| Tệp kê khai và mã băm | [`manifest.json`](data/vn30_snapshot_20261002/manifest.json) |
+| Danh sách mã | [`members.csv`](data/vn30_snapshot_20261002/members.csv) |
 
-| Đường chạy | Dùng để làm gì | Có cần thiết bị lượng tử thật? |
-|---|---|---|
-| Cục bộ | Duyệt chính xác, tham lam, tôi luyện, máy mô phỏng véc-tơ trạng thái, kiểm tra mạch cục bộ | Không |
-| Thiết bị lượng tử | Biên dịch mạch, lấy mẫu bằng IBM Quantum Runtime và lưu mã công việc/số cổng/độ sâu | Có tài khoản, token, backend và hạn mức được cấp |
+### Các mốc thời gian trong dữ liệu
 
-Máy mô phỏng véc-tơ trạng thái trong lõi dùng NumPy và SciPy; mã mạch dùng Qiskit. Có thể bật Qiskit Aer để đối chiếu độc lập mạch với trạng thái lý tưởng. Nhánh thiết bị dùng SamplerV2; cấu hình mẫu không chứa khóa truy cập và sẽ bị chặn trước khi có thông tin hợp lệ.
+| Ngày | Mốc |
+|---|---|
+| 04/01/2022 | Phiên đầu tiên có trong dữ liệu của phần lớn mã và hai chỉ số |
+| 13/05/2025 | Phiên đầu tiên có dữ liệu của VPL; vì vậy lịch sử 30 mã không đồng đều |
+| 14/10/2025 | Bắt đầu cửa sổ 252 phiên hoàn chỉnh dùng cho phân tích gần nhất |
+| 02/10/2026 | Ngày chụp danh sách thành phần VN30 dùng trong dự án |
+| 13/10/2026 | Chạy bộ đối chiếu QAOA H2 trên bài toán tổng hợp |
+| 19/10/2026 | Ngày cuối của dữ liệu giá đã lưu |
+| 20/10/2026 | Tải bộ dữ liệu cố định, lập báo cáo và biểu đồ |
 
-## Cài đặt
+### Cách xử lý dữ liệu
 
-Khuyến nghị Python 3.12. Tại thư mục dự án:
+1. Bộ tải gọi `stock_historical_data` cho 30 cổ phiếu, VN30 và VNINDEX.
+2. Nếu nguồn trả nhiều đoạn nến cho cùng ngày, gộp thành một nến ngày: giá mở cửa đầu tiên, giá cao nhất, giá thấp nhất, giá đóng cửa cuối cùng và tổng khối lượng.
+3. Kiểm tra mã trùng, giá không dương, khối lượng âm và cấu trúc cột OHLCV; lưu độ phủ và mã băm SHA-256 trong tệp kê khai.
+4. Căn chỉnh cổ phiếu theo các phiên có đủ dữ liệu cho cả 30 mã; tính lợi suất đóng cửa, biến động, sụt giảm, tương quan và giá trị giao dịch xấp xỉ.
+5. Dùng 252 phiên hoàn chỉnh gần nhất làm đầu vào cho nghiệm danh mục. Kết quả và biểu đồ được dựng từ cùng bộ dữ liệu.
 
-    python3.12 -m venv .venv
-    source .venv/bin/activate
-    python -m pip install --upgrade pip
-    python -m pip install -r requirements-lock.txt
-    python -m pip install -e . --no-deps
+**Giới hạn quyền dữ liệu:** thư viện lấy dữ liệu là mã nguồn mở, nhưng giấy phép của thư viện không cấp quyền phân phối lại dữ liệu thị trường. Vì vậy, tệp OHLCV đầy đủ được giữ trong bản làm việc cục bộ và không đưa vào GitHub. Mã tải dữ liệu, tệp kê khai, danh sách mã và các kết quả tổng hợp được lưu trong kho. Hãy kiểm tra điều khoản của nhà cung cấp trước khi công bố hoặc phân phối dữ liệu thô.
 
-Tệp khóa ghim phiên bản chính xác đã cài trên Python 3.12; lệnh cuối đăng ký gói AGQO tại chỗ. Nếu chỉ chạy lõi NumPy, có thể bỏ qua các thư viện Qiskit, Aer và IBM Runtime; khi đó bỏ qua kiểm tra mạch và nhánh QPU.
+Để tải lại bộ dữ liệu vào thư mục mặc định:
 
-## Chạy thử lõi
-
-    agqo demo --n 8 --max-evaluations 50
-    pytest
-
-Lệnh mẫu tạo bài toán tổng hợp có 8 mã, K = 6; so nghiệm chính xác với tham lam, tôi luyện, QAOA với bộ trộn X và XY; dùng ba giá trị khởi tạo ngẫu nhiên 11, 23, 47; ghi nhật ký theo từng dòng vào outputs/. Mỗi lần đánh giá góc lấy mẫu 512 lần đo; trần mỗi lần khởi tạo là 50 đánh giá. Để kiểm tra nhanh, đặt --max-evaluations 6.
-
-Đối chiếu Qiskit Aer với trạng thái lý tưởng:
-
-    python -c 'from agqo.aer import crosscheck_aer; from agqo.problem import synthetic_problem; print(crosscheck_aer(synthetic_problem(20261012, n=8), mixer="XY"))'
-
-Trên GPU, chỉ đổi device="GPU" sau khi đã cài bản Qiskit Aer có CUDA tương thích. Gói GPU chính thức chỉ được phát hành sẵn cho Linux x86-64; máy Mac dùng CPU. Tài liệu Aer nêu rõ máy mặc định chạy CPU và GPU phụ thuộc bản cài, trình điều khiển và CUDA [1].
-
-## Chạy tiêu chí H2
-
-    agqo benchmark --limit 12 --max-evaluations 50
-
-Lệnh trên chạy đủ 12 nguồn tổng hợp × 3 kích thước N = 8, 12, 16 × 2 bộ trộn = 72 cấu hình. Mỗi cấu hình có ba giá trị khởi tạo. X và XY được đánh giá riêng; mỗi nguồn đóng góp ba bài toán vào tiêu chí 29/36 của đề cương. --limit 1 chạy 6 cấu hình. Bộ sinh dùng PCG64 với các giá trị từ 20261012 đến 20261023 và đúng phân phối ma trận nhân tố, biến động riêng, lợi nhuận trong đề cương.
-
-Độ lệch chuẩn hóa được tính từ nghiệm khả thi tốt nhất lấy mẫu ở mỗi lần chạy, so với nghiệm chính xác. Tỷ lệ nghiệm khả thi và năng lượng mục tiêu ước lượng được lưu riêng để không đánh đồng chúng với độ lệch mục tiêu.
-
-Lượt chạy ngày 13/10/2026 trên 36 bài toán tổng hợp đạt 18/36 cấu hình với X và 0/36 với XY, dưới ngưỡng 29/36 đã khóa. X đạt 12/12 ở N=8, 6/12 ở N=12 và 0/12 ở N=16. Chi tiết giới hạn, máy thử và đề nghị tài nguyên nằm trong [báo cáo H2](results/BAO_CAO_THU_NGHIEM_H2_2026-10-13.md); dữ liệu từng cấu hình nằm trong [nhật ký thô](results/synthetic_h2_20261013.jsonl). Đây là kết quả kỹ thuật tổng hợp, không phải lợi nhuận thị trường.
-
-## Lõi toán học
-
-Với vector lợi nhuận năm μ, ma trận hiệp phương sai năm Σ, hệ số ngại rủi ro λ, biến chọn nhị phân x và K mã:
-
-    f(x) = λ xᵀΣx / K² − μᵀx / K
-
-QUBO (Quadratic Unconstrained Binary Optimization, tối ưu nhị phân bậc hai không ràng buộc) của bộ trộn X cộng hạng phạt A(Σxᵢ−K)². Bộ trộn XY dùng mục tiêu gốc và khởi tạo ở chuỗi có đúng K bit 1; các cổng XY trên vòng bảo toàn số bit 1. Vì các cạnh kề nhau không giao hoán, mạch dùng tích Trotter bậc nhất theo thứ tự cạnh trên vòng, giống nhau ở máy mô phỏng và bộ nối QPU. Chuyển sang Hamiltonian Ising theo xᵢ=(1−Zᵢ)/2, giữ hằng số để kiểm chứng mọi chuỗi bit.
-
-Tối ưu góc dùng COBYLA (Constrained Optimization BY Linear Approximations, tối ưu không đạo hàm bằng xấp xỉ tuyến tính) với trần số lần gọi hàm mục tiêu. Mạch QPU được tạo từ chính hệ số Ising đó; nghiệm đo được đảo thứ tự bit của Qiskit trước khi ánh xạ lại mã.
-
-## Lớp AI và ước lượng tài chính
-
-agqo/ai.py tạo biến động 20/60/120 phiên, lợi nhuận chỉ số 20/60 phiên, tương quan trung vị 60 phiên, tỷ số biến động, tỷ lệ mã đủ lịch sử và giá trị giao dịch bình quân ngày. Mã thành viên và mã đủ điều kiện được xác định theo từng ngày. Nếu nguồn lịch sử tạm ngừng giao dịch được xác nhận, có thể truyền thêm tỷ lệ tạm ngừng; nếu không thì cột này không tồn tại ở bất kỳ kỳ nào.
-
-Nhãn là biến động của 21 phiên sau ngày t. Hàm khớp loại mẫu chưa trưởng thành trước ranh giới từng tập, lấy ngưỡng phân vị 70% từ tập huấn luyện, chuẩn hóa trên tập huấn luyện, chọn C bằng log-loss xác nhận, rồi khớp lại trước tập kiểm tra. Cần ít nhất 500 mẫu huấn luyện và cả hai lớp trong huấn luyện/xác nhận; nếu thiếu, hàm dừng thay vì tạo kết luận AI.
-
-agqo/estimators.py tính μ = 252 × trung bình lợi nhuận ngày; hiệp phương sai mẫu hoặc Ledoit–Wolf được năm hóa ×252. Hàm build_regime_problem nối xác suất AI với λ/α và tạo đối tượng đầu vào dùng chung cho bộ giải. Mức co rút đường chéo bị chặn trong [0,10; 0,70]. Các hàm này chưa tải dữ liệu và không tự chọn ngày/mã.
-
-## Nối dữ liệu thị trường
-
-Chưa đưa dữ liệu VN30/VN100 vào kho mã. Trước khi đưa kết quả tài chính vào báo cáo, cần cung cấp dữ liệu được phép sử dụng và lịch thành phần chỉ số theo ngày hiệu lực. Cấu trúc cần chuẩn hóa:
-
-- Giá ngày đã điều chỉnh và giá mở cửa cho từng mã.
-- Giá trị giao dịch ngày để tính ADTV 20 phiên.
-- Giá đóng cửa chỉ số thị trường.
-- Lịch thành phần lịch sử: mã, ngày bắt đầu hiệu lực, ngày hết hiệu lực.
-- Cờ tạm ngừng lịch sử chỉ khi nhà cung cấp xác nhận độ tin cậy.
-
-Không thay lịch thành phần lịch sử bằng danh sách hiện tại. Chưa có bộ đọc CSV và kiểm định lịch sử đầy đủ trong bản này; vì vậy không đưa ra CAGR, Sharpe, mức giảm tối đa hay tuyên bố hiệu quả đầu tư. Các quyết định quản trị dữ liệu, thời kỳ huấn luyện/xác nhận/kiểm tra khóa, phí, thanh khoản và vốn giả định vẫn theo proposal.
-
-## Nhánh QPU để điền sau
-
-1. Sao chép config/qpu.example.toml thành config/qpu.toml.
-2. Điền kênh dịch vụ, mã phiên bản dịch vụ và tên backend trong cấu hình cá nhân.
-3. Đặt token ở biến môi trường, ví dụ export IBM_QUANTUM_TOKEN='…'. Không ghi token vào tệp cấu hình hoặc nhật ký.
-4. Chạy kiểm tra không gửi: agqo qpu.
-5. Chỉ gửi khi đã xác nhận thiết bị, số lần đo và hạn mức: agqo qpu --n 8 --mixer XY --submit.
-
-Mỗi lần đánh giá dùng 512 lần đo; trần mặc định 50 lần đánh giá. Sổ outputs/qpu_shot_ledger.json giữ chỗ cho ngân sách tổng 800.000 lần đo trước khi gửi và chốt số thực tế sau khi hoàn tất. Dữ liệu tổng hợp là đầu vào mặc định cho phép thử QPU. Chưa có token, backend hay job nào được gửi trong lượt xây dựng này. Tài liệu IBM mô tả SamplerV2 nhận mạch và trả mẫu đo; cấu hình mode=backend gắn job với backend được chọn [2][3].
-
-## Tài nguyên theo proposal
-
-- **CPU (Central Processing Unit, bộ xử lý trung tâm):** 16 lõi ảo, 64 GB RAM (Random Access Memory, bộ nhớ truy cập ngẫu nhiên) và 100 GB SSD (Solid-State Drive, ổ lưu trữ thể rắn) trong 4 tuần là mức đề nghị để chạy song song toàn bộ lịch thí nghiệm, không phải yêu cầu tối thiểu của demo. Với N = 30, K = 6 có 593.775 tổ hợp; mã duyệt chính xác giới hạn N ≤ 30, K ≤ 6.
-- **GPU (Graphics Processing Unit, bộ xử lý đồ họa):** tối đa 40 giờ, bộ nhớ đồ họa 24 GB chỉ xin sau khi đo lợi ích tăng tốc trên nút Linux có CUDA. Hồi quy logistic và mẫu N = 8–16 hiện không cần GPU.
-- **QPU (Quantum Processing Unit, bộ xử lý lượng tử):** ưu tiên 8–12 qubit, trần kế hoạch 800.000 lần đo; không phải điều kiện hoàn thành. Bộ nối hiện giới hạn mỗi lần chạy trong ngân sách cấu hình.
-
-Đề nghị tài nguyên là theo đề cương; chưa có benchmark trên máy 16 lõi/64 GB hay chi phí nhà cung cấp. Aer có thể mô phỏng trạng thái trên GPU với một số phương thức và bản cài phù hợp, nhưng GPU không tự động cần thiết hoặc tự động nhanh hơn [1].
-
-Phép đo bổ sung trên máy thử 8 lõi/16 GB đã duyệt chính xác một bài toán tổng hợp N=30, K=6 trong 3,987 giây. Con số này không đại diện cho toàn bộ kiểm định lịch sử; nó cho thấy CPU/GPU/QPU trong đề nghị là dự phòng cho chạy song song, mở rộng và đo mạch, không phải điều kiện để tìm nghiệm VN30.
-
-## Tệp chính
-
-- agqo/problem.py: công thức danh mục, QUBO, Ising, duyệt chính xác, tham lam, tôi luyện, dữ liệu tổng hợp.
-- agqo/simulator.py: QAOA véc-tơ trạng thái, bộ trộn X/XY và tối ưu COBYLA.
-- agqo/ai.py: đặc trưng, nhãn 21 phiên, hồi quy logistic, ánh xạ λ/α.
-- agqo/estimators.py: trung bình lợi nhuận, hiệp phương sai mẫu/Ledoit–Wolf và nối xác suất AI thành λ/α.
-- agqo/aer.py: kiểm tra chéo mạch bằng Qiskit Aer.
-- agqo/qpu.py: tạo mạch, kiểm tra cấu hình và IBM Quantum Runtime.
-- tests/: kiểm tra tương đương mục tiêu/QUBO/Ising, bảo toàn K, giới hạn bộ giải và mạch Qiskit.
-
-## Tài liệu chính thức
-
-1. [Qiskit Aer — AerSimulator và hỗ trợ GPU](https://qiskit.github.io/qiskit-aer/stubs/qiskit_aer.AerSimulator.html).
-2. [IBM Quantum — SamplerV2](https://quantum.cloud.ibm.com/docs/en/api/qiskit-ibm-runtime/sampler-v2).
-3. [IBM Quantum — chạy công việc trên thiết bị](https://quantum.cloud.ibm.com/docs/en/guides/get-started-with-sampler).
-4. [Qiskit Algorithms — QAOA và bộ trộn ràng buộc](https://qiskit-community.github.io/qiskit-algorithms/stubs/qiskit_algorithms.QAOA.html).
-5. [scikit-learn — hiệp phương sai Ledoit–Wolf](https://scikit-learn.org/stable/modules/generated/sklearn.covariance.ledoit_wolf.html).
-
-## Phiên bản chính V1 có xét chi phí đổi danh mục
-
-V1 là hướng phát triển chính: cố định mức co rút hiệp phương sai ở 0,40, chỉ cho xác suất trạng thái biến động điều chỉnh hệ số ngại rủi ro, và cộng chi phí giao dịch dự kiến vào mục tiêu mà các bộ giải cùng tối ưu. V0 được giữ trong mã để làm đối chứng lịch sử. Chi phí theo mã được truyền bằng điểm cơ bản; tỷ trọng trước giao dịch phải cùng thứ tự với mã. Chi phí trong hàm mục tiêu được nhân với số lần tái cân bằng năm hóa.
-
-```python
-from agqo.estimators import build_investable_problem
-
-problem, controls = build_investable_problem(
-    daily_returns,
-    tickers,
-    probability_high_volatility=0.70,
-    transaction_cost_bps=25,
-    previous_weights=pre_trade_weights,
-)
+```bash
+python -m pip install -r requirements-data.txt
+python scripts/download_vn30_dataset.py
 ```
 
-Để xem đường chạy tổng hợp V1 (không phải kết quả thị trường):
+Lệnh phân tích yêu cầu tệp `data/vn30_snapshot_20261002/ohlcv_daily.csv` đã có tại chỗ. Tải lại dữ liệu phụ thuộc dịch vụ bên ngoài; giá có thể thay đổi khi nguồn cập nhật lịch sử.
 
-    agqo demo --n 8 --model-version v1 --transaction-cost-bps 25
+## Nhận định tài chính trên 252 phiên gần nhất
 
-`agqo.evaluation.simulate_monthly_portfolios` nhận bảng trọng số mục tiêu và bảng lợi nhuận tài sản tháng có cùng ngày/cột, tính phí, doanh số và giá trị tài khoản ròng. Có thể truyền ADTV để đánh dấu lệnh vượt giới hạn tham gia. Hàm giả định khớp đủ lệnh; nó không mô phỏng phần khớp thiếu hoặc tác động thị trường. `summarize_monthly_returns` tính các chỉ số rủi ro/lợi nhuận; `compare_monthly_returns` so sánh hai chiến lược trên cùng tháng và dùng lấy mẫu khối cho khoảng tin cậy của chênh lệch.
+Các con số dưới đây là lợi suất giá đóng cửa **trước chi phí**, trong chính cửa sổ được dùng để ước lượng đầu vào. Danh mục đều 30 mã được tái cân bằng mỗi phiên chỉ là đường tham chiếu mô tả, không phải chiến lược được kiểm định ngoài mẫu.
 
-`agqo.ai.evaluate_regime_probabilities` báo hàm mất mát logarit, điểm Brier, đối chứng tỷ lệ nền và bảng hiệu chỉnh xác suất. Với QPU, nhật ký có thêm số cổng hai qubit, độ sâu hai qubit và số cổng SWAP sau biên dịch.
+| Chuỗi | Lợi suất gộp | Biến động năm hóa | Sụt giảm tối đa | Tỷ lệ phiên tăng |
+|---|---:|---:|---:|---:|
+| VN30 | -8,60% | 20,44% | -16,96% | 47,22% |
+| VN-Index | -4,26% | 20,36% | -16,38% | 49,60% |
+| Danh mục đều 30 mã, tái cân bằng mỗi phiên | -6,74% | 19,33% | -16,49% | 54,37% |
 
-Thiết kế và các cổng đạt/trượt được ghi trong [kế hoạch chốt hướng đi đến chung kết](KE_HOACH_CHOT_HUONG_DI_CHUNG_KET.md). Chưa có bộ đọc dữ liệu thị trường hoặc nguồn giá được cấp phép trong dự án; các hàm này chưa tạo ra bằng chứng lợi nhuận.
+**Diễn giải:** cả ba chuỗi đều giảm trong cửa sổ này. Danh mục đều giảm ít hơn VN30 nhưng nhiều hơn VN-Index; tỷ lệ phiên tăng cao hơn vẫn không ngăn được lợi suất gộp âm. Đây là ví dụ vì sao không thể dùng tỷ lệ phiên tăng riêng lẻ để kết luận hiệu quả đầu tư.
 
-Tài liệu đọc theo hai phần: [kết quả đã đạt được](BAO_CAO_KET_QUA_AGQO.md) và [kỹ thuật tạo ra kết quả](TAI_LIEU_KY_THUAT_AGQO.md).
+### Phân tán lợi suất giữa các mã
+
+| Nhóm | Mã | Lợi suất gộp | Biến động năm hóa | Sụt giảm tối đa | Giá trị giao dịch xấp xỉ (tỷ đồng/ngày) |
+|---|---|---:|---:|---:|---:|
+| Tăng mạnh | VIC | 101,56% | 51,19% | -32,07% | 804,6 |
+| Tăng mạnh | GAS | 30,24% | 49,68% | -49,96% | 169,9 |
+| Tăng mạnh | HDB | 17,45% | 31,55% | -18,86% | 301,5 |
+| Tăng mạnh | VJC | 16,24% | 39,08% | -30,72% | 204,9 |
+| Tăng mạnh | GVR | 11,57% | 47,80% | -43,17% | 125,5 |
+| Giảm mạnh | DGC | -56,67% | 47,00% | -62,42% | 158,2 |
+| Giảm mạnh | VRE | -44,50% | 49,27% | -49,18% | 235,2 |
+| Giảm mạnh | SHB | -40,86% | 27,17% | -44,26% | 871,4 |
+| Giảm mạnh | SSI | -34,22% | 35,13% | -41,70% | 606,8 |
+| Giảm mạnh | FPT | -31,56% | 32,06% | -40,83% | 675,7 |
+
+> Lợi suất cổ phiếu tính từ giá thô, chưa xác nhận điều chỉnh cổ tức, chia tách hoặc quyền mua. Giá trị giao dịch là xấp xỉ `giá đóng cửa × khối lượng`, không phải giá trị khớp lệnh do sở giao dịch xác nhận.
+
+### Tương quan và mức tập trung
+
+- 14/30 mã thuộc nhóm ngân hàng (46,7% theo số mã). Rổ chọn sáu mã có thể giữ lại rủi ro chung của ngành nếu chỉ xếp hạng từng cổ phiếu độc lập.
+- Tương quan cặp trung bình là **0,305**, trung vị **0,264**. Các mã không biến động độc lập; ma trận hiệp phương sai có vai trò trực tiếp trong kiểm soát rủi ro danh mục.
+- Cặp tương quan cao nhất: BID–VCB (**0,813**), GAS–PLX (**0,809**), CTG–MBB (**0,741**), TPB–VIB (**0,737**), BID–CTG (**0,733**).
+- Cặp tương quan thấp nhất: GVR–VIC (**-0,047**), PLX–VHM (**-0,043**), GVR–VHM (**-0,018**), PLX–VIC (**-0,011**), VIC–VNM (**-0,004**).
+
+## Bài toán danh mục và biện luận
+
+### Kết quả trên dữ liệu thị trường
+
+| Thiết lập | Kết quả |
+|---|---|
+| Vũ trụ / số mã chọn | N=30, K=6; chia đều tỷ trọng trong các mã được chọn |
+| Hàm mục tiêu | Phạt phương sai, thưởng lợi suất ước lượng và tính phí giao dịch |
+| Hệ số ngại rủi ro | λ=5,0 |
+| Co rút hiệp phương sai | α=0,40 |
+| Phí | 25 điểm cơ bản cho một lần mua từ tiền mặt; chưa mô phỏng tái cân bằng định kỳ |
+| Bộ giải | Duyệt chính xác mọi tổ hợp khả thi |
+| Số tổ hợp đã xét | C(30,6) = 593.775 |
+| Thời gian trên máy hiện tại | 4,96 giây |
+| Nghiệm | **HDB, SSB, GAS, SAB, VIC, VJC** |
+| Lợi suất trung bình lịch sử năm hóa của nghiệm | 29,43% |
+| Biến động mô hình năm hóa | 18,85% |
+
+Điểm mục tiêu gồm phạt rủi ro năm hóa **0,17773**, phần thưởng lợi suất **-0,29435** và phí giả định **0,00250**, tổng điểm **-0,11412**. Nghiệm chính xác chứng minh rằng bộ giải đã tìm cực tiểu toàn cục **cho đúng hàm mục tiêu và ước lượng trong mẫu này**. Con số 29,43% là trung bình lịch sử dùng trong mục tiêu, không phải lợi nhuận thực tế, kết quả kiểm định ngoài mẫu hay cam kết cho tương lai.
+
+### Kiểm tra phương pháp V1 trên dữ liệu tổng hợp nhỏ
+
+Thí nghiệm riêng dùng N=8, K=6, hạt giống 20261012; xác suất trạng thái biến động 0,70 chỉ đặt để minh họa, không phải dự báo từ mô hình. V1 cố định α=0,40, dùng λ=7,60, phí giả định 25 điểm cơ bản và 12 lần tái cân bằng năm hóa.
+
+| Bộ giải | Kết quả |
+|---|---|
+| Duyệt chính xác | SYN00, SYN02, SYN03, SYN04, SYN06, SYN07; điểm mục tiêu sau phí -0,00698667 |
+| Tham lam | Tìm cùng danh mục với nghiệm chính xác |
+| Tôi luyện | Tìm cùng danh mục với nghiệm chính xác |
+| QAOA, bộ trộn X | Đúng nghiệm ở 2/3 hạt giống |
+| QAOA, bộ trộn XY | 0/3 lượt đúng nghiệm; độ lệch trung vị 24,93% |
+
+Phí làm điểm mục tiêu tăng 0,02000000 nhưng không đổi nghiệm trong ví dụ này. Bài toán nhỏ và ba hạt giống chỉ xác nhận đường chạy, không đủ để kết luận chất lượng trên thị trường.
+
+### Đối chiếu QAOA trên 36 bài toán tổng hợp
+
+Thiết kế dùng QAOA độ sâu p=1, K=6, N=8/12/16, ba hạt giống 11/23/47, 512 mẫu mỗi lần đánh giá, tối đa 36 lần đánh giá mỗi lượt. Có 72 cấu hình bộ trộn (216 lượt tối ưu); tổng thời gian mô phỏng cổ điển 13,11 giây. Một cấu hình được tính là đạt nếu cả ba lượt có nghiệm khả thi và độ lệch chuẩn hóa trung vị không quá 5%. Ngưỡng đăng ký trước là 29/36.
+
+| Bộ trộn | Đạt ngưỡng | Độ lệch trung vị | Khả thi ở cả ba lượt |
+|---|---:|---:|---:|
+| X | 18/36 | 4,22% | 36/36 |
+| XY | 0/36 | 29,57% | 36/36 |
+
+| Kích thước N | X đạt | Độ lệch X | XY đạt | Độ lệch XY |
+|---:|---:|---:|---:|---:|
+| 8 | 12/12 | 0,00% | 0/12 | 20,31% |
+| 12 | 6/12 | 4,22% | 0/12 | 31,53% |
+| 16 | 0/12 | 13,44% | 0/12 | 32,83% |
+
+**Biện luận kỹ thuật:** bộ trộn XY giữ đúng số mã trong các mẫu đã đo nhưng chưa tìm được nghiệm đủ tốt; bộ trộn X giảm chất lượng khi tăng N. Cả hai đều không đạt ngưỡng tổng thể. Trên N=30, bộ giải chính xác cổ điển đã giải bài toán trong vài giây; QAOA mô phỏng véc-tơ trạng thái không chạy trên đủ 30 mã. Vì vậy, lợi thế đã chứng minh hiện nay là nghiệm chuẩn chính xác và quy trình đo được, chưa phải ưu thế lượng tử. Chưa chạy QPU thật.
+
+Bản ghi đầy đủ theo cấu hình và hạt giống: [`qaoa_h2_20261013.jsonl`](results/qaoa_h2_20261013.jsonl).
+
+## Hình ảnh và câu chuyện dữ liệu
+
+Các biểu đồ dưới đây được dựng từ bản dữ liệu đã lưu và 252 phiên phân tích, trừ biểu đồ QAOA dùng bài toán tổng hợp. Mọi diễn giải lợi suất cổ phiếu cần lưu ý giá thô và thiên lệch sống sót.
+
+### 1. Độ phủ dữ liệu
+
+![Độ phủ dữ liệu theo thời gian](results/figures/vn30/01_coverage.png)
+
+Các khoảng trống biểu thị thời kỳ mã chưa có dữ liệu; VPL có lịch sử ngắn hơn phần lớn rổ.
+
+### 2. Diễn biến chỉ số
+
+![Diễn biến VN30 và VN-Index](results/figures/vn30/02_indices.png)
+
+Chuẩn hóa chỉ số về 100 để so xu hướng và mức sụt giảm từ đỉnh.
+
+### 3. Rủi ro và lợi suất theo mã
+
+![Rủi ro và lợi suất theo mã](results/figures/vn30/03_risk_return.png)
+
+Đặt lợi suất cạnh biến động giúp thấy lợi suất cao có thể đi cùng rủi ro lớn; kích thước điểm là giá trị giao dịch xấp xỉ, ngôi sao đánh dấu nghiệm tối ưu.
+
+### 4. Xếp hạng lợi suất
+
+![Xếp hạng lợi suất 30 mã](results/figures/vn30/04_returns_rank.png)
+
+Cho thấy độ phân tán lớn giữa các mã; nghiệm sáu mã được tô màu riêng.
+
+### 5. Tương quan
+
+![Ma trận tương quan các mã](results/figures/vn30/05_correlations.png)
+
+Những cụm tương quan cao làm rõ rủi ro chung mà việc xếp hạng từng mã có thể bỏ qua.
+
+### 6. Thanh khoản xấp xỉ
+
+![Giá trị giao dịch xấp xỉ](results/figures/vn30/06_liquidity.png)
+
+Ước tính từ giá đóng cửa nhân khối lượng; dùng trục lôgarit để thể hiện các quy mô khác nhau.
+
+### 7. Chế độ rủi ro thị trường
+
+![Biến động trượt 60 phiên của hai chỉ số](results/figures/vn30/07_risk_regimes.png)
+
+Biến động thay đổi theo thời gian; một tham số rủi ro cố định có thể không phản ánh mọi giai đoạn.
+
+### 8. Cấu phần nghiệm danh mục
+
+![Cấu phần mục tiêu và sáu mã được chọn](results/figures/vn30/08_optimizer.png)
+
+Tách phần phạt rủi ro, thưởng lợi suất và chi phí để giải thích vì sao nghiệm tối ưu không chỉ chọn sáu mã tăng mạnh nhất.
+
+### 9. Chuẩn QAOA
+
+![Kết quả đối chiếu QAOA](results/figures/vn30/09_qaoa_benchmark.png)
+
+Độ lệch, tỷ lệ đạt và thời gian mô phỏng theo kích thước bài toán tổng hợp; thời gian này không phải thời gian QPU.
+
+## Công nghệ và cách tái lập
+
+| Thành phần | Công nghệ / chức năng |
+|---|---|
+| Ngôn ngữ | Python 3.12 |
+| Tính toán số | NumPy, SciPy |
+| Xử lý dữ liệu | pandas |
+| Mô hình chế độ rủi ro | scikit-learn; mã có hồi quy logistic, nhưng chưa có kết quả dự báo ngoài mẫu được báo cáo |
+| Tối ưu cổ điển | Duyệt chính xác, tham lam, tôi luyện mô phỏng |
+| Mô phỏng QAOA | Mô phỏng véc-tơ trạng thái bằng NumPy, COBYLA tối ưu góc, bộ trộn X và XY |
+| Mạch lượng tử | Qiskit và Qiskit Aer cho biên dịch/đối chiếu cục bộ |
+| Phần cứng lượng tử | IBM Quantum Runtime tùy chọn; chưa dùng để tạo kết quả trong báo cáo |
+| Biểu đồ | Matplotlib |
+| Mô hình ngôn ngữ lớn | Không được gọi trong đường chạy; không sinh tín hiệu giao dịch |
+
+Cài đặt môi trường từ thư mục dự án:
+
+```bash
+python3.12 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements-lock.txt
+python -m pip install -e . --no-deps
+```
+
+Sau khi có tệp OHLCV cục bộ, dựng lại báo cáo và chín hình:
+
+```bash
+python -m agqo.cli market-data
+```
+
+Chạy ví dụ tổng hợp hoặc dựng lại bộ đối chiếu QAOA:
+
+```bash
+agqo demo --n 8 --model-version v1
+agqo benchmark --limit 12 --max-evaluations 50
+```
+
+Lệnh QPU chỉ gửi công việc khi có cấu hình, thông tin xác thực và cờ `--submit`.
+
+## Cấu trúc dự án
+
+```text
+agqo/                         mô hình, hàm mục tiêu, bộ giải, phân tích và biểu đồ
+config/                       cấu hình mẫu cho QPU
+data/vn30_snapshot_20261002/  kê khai và danh sách mã; OHLCV đầy đủ chỉ lưu cục bộ
+results/                      báo cáo, chín hình và nhật ký QAOA tổng hợp
+scripts/                      bộ tải dữ liệu thị trường
+tests/                        kiểm tra công thức và bộ giải
+```
+
+## Tài liệu chi tiết
+
+- [Báo cáo phân tích đầy đủ](results/BAO_CAO_KET_QUA.md)
+- [Tài liệu kỹ thuật: công nghệ, hàm và quy trình](TAI_LIEU_KY_THUAT_AGQO.md)
+- [Kê khai dữ liệu, độ phủ và mã băm](data/vn30_snapshot_20261002/manifest.json)

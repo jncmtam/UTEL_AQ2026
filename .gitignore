@@ -6,3 +6,6 @@ __pycache__/
 .pytest_cache/
 *.py[cod]
 *.egg-info/
+.DS_Store
+data/vn30_snapshot_20261002/ohlcv_daily.csv
+data/vn30_snapshot_20261002/download_failures.json

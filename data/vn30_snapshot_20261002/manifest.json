@@ -1,0 +1,250 @@
+{
+  "dataset_name": "vn30_current_members_and_indices_daily",
+  "retrieved_at_utc": "2026-10-20T09:28:07.327594+00:00",
+  "requested_start_date": "2022-01-01",
+  "requested_end_date": "2026-10-19",
+  "source_library": "https://github.com/nguyenthdat/vnstock-data",
+  "source_library_commit": "d6bafb23dd02f3f63273f12b1f3e3949877b2242",
+  "market_data_endpoint": "https://services.entrade.com.vn/chart-api/v2/ohlcs",
+  "member_snapshot_date": "2026-10-02",
+  "member_snapshot_source": "https://www.hodl.vn/bai-hoc/vn30-gom-nhung-ma-nao",
+  "member_count": 30,
+  "index_tickers": [
+    "VN30",
+    "VNINDEX"
+  ],
+  "rows": 37308,
+  "ohlcv_sha256": "fa9d5acf70a149bc05da382c72d2f079f0c1ce29a5671e8c22c330a1c3c78b54",
+  "members_sha256": "45a33d5c453deb76b81dca1ba3626f3733d96145b4a91449dcc189f8bf27d6c0",
+  "coverage": [
+    {
+      "instrument_type": "index",
+      "ticker": "VN30",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1190
+    },
+    {
+      "instrument_type": "index",
+      "ticker": "VNINDEX",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1190
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "ACB",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "BID",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "CTG",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "DGC",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "FPT",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "GAS",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "GVR",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "HDB",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "HPG",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "LPB",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "MBB",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "MSN",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "MWG",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "PLX",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "SAB",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "SHB",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "SSB",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "SSI",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "STB",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "TCB",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "TPB",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "VCB",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "VHM",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "VIB",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "VIC",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "VJC",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "VNM",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "VPB",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "VPL",
+      "first_date": "2025-05-13",
+      "last_date": "2026-10-19",
+      "sessions": 360
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "VRE",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    }
+  ],
+  "price_unit": "VND per share/index points as returned by the source connector",
+  "price_adjustment": "The connector provides OHLCV only; adjusted-close/total-return status is not asserted.",
+  "daily_bar_aggregation": "Duplicate records for the same ticker and date are combined as first open, maximum high, minimum low, last close, and summed volume.",
+  "membership_limitation": "The present-day VN30 membership snapshot is used for all historical rows; this is not point-in-time constituent history and creates survivorship bias in historical portfolio backtests.",
+  "data_rights": "The connector software license does not establish redistribution rights for source market data. Retain locally for research and verify source terms before publishing or redistributing."
+}
