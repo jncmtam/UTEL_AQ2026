@@ -151,7 +151,7 @@ def simulate_monthly_portfolios(
 
 def summarize_monthly_returns(
     monthly_returns: pd.Series, monthly_risk_free_rate: float = 0.0
-) -> dict[str, float | int]:
+) -> dict[str, float | int | None]:
     """Tóm tắt lợi nhuận tháng bằng CAGR, biến động, Sharpe và mức giảm vốn."""
     values = monthly_returns.to_numpy(dtype=float)
     if values.ndim != 1 or not len(values) or not np.isfinite(values).all() or (values <= -1).any():
@@ -166,19 +166,31 @@ def summarize_monthly_returns(
     sharpe = float(np.mean(excess) / excess_std * np.sqrt(12)) if excess_std > 0 else float("nan")
     peaks = np.maximum.accumulate(np.concatenate(([1.0], wealth)))[1:]
     drawdowns = wealth / peaks - 1
+    max_drawdown = float(np.min(drawdowns))
     downside_deviation = float(np.sqrt(np.mean(np.minimum(excess, 0.0) ** 2)))
     sortino = (
         float(np.mean(excess) / downside_deviation * np.sqrt(12))
         if downside_deviation > 0
         else float("nan")
     )
+    var_95 = float(np.quantile(values, 0.05))
+    cvar_95 = float(np.mean(values[values <= var_95]))
+    losses = float(-values[values < 0].sum())
+    gains = float(values[values > 0].sum())
     return {
         "months": int(len(values)),
         "cagr": cagr,
+        "annualized_arithmetic_return": float(np.mean(values) * 12),
         "annualized_volatility": volatility,
         "sharpe": sharpe,
         "sortino": sortino,
-        "max_drawdown": float(np.min(drawdowns)),
+        "calmar": float(cagr / abs(max_drawdown)) if max_drawdown < 0 else None,
+        "max_drawdown": max_drawdown,
+        "monthly_var_95": var_95,
+        "monthly_cvar_95": cvar_95,
+        "profit_factor": gains / losses if losses > 0 else None,
+        "best_month": float(np.max(values)),
+        "worst_month": float(np.min(values)),
         "positive_month_fraction": float(np.mean(values > 0)),
         "ending_value_per_unit": float(wealth[-1]),
     }

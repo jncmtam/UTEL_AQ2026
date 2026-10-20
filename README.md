@@ -1,8 +1,8 @@
 # AGQO: điều chỉnh rủi ro bằng AI và chọn danh mục bằng QAOA
 
-AGQO kiểm định một quy trình đầu tư có thể đo từ đầu đến cuối: mô hình AI dự báo chế độ biến động của VN30, xác suất đó điều chỉnh mức ngại rủi ro và co rút hiệp phương sai, sau đó bộ giải chọn sáu cổ phiếu. QAOA được so với nghiệm chính xác cổ điển trên cùng hàm mục tiêu; hiệu quả danh mục được đo ngoài mẫu, sau phí và giới hạn thanh khoản.
+AGQO là quy trình lai: mô hình học máy tạo xác suất chế độ thị trường, mô hình ngôn ngữ đọc các insight định lượng cùng kết quả đã khép của những chính sách trước, rồi chọn cấu hình QAOA từ một danh mục hữu hạn. QAOA giải bài toán chọn sáu cổ phiếu; các phương pháp hiện có tiếp tục chạy làm đối chứng. Hiệu quả được so trên lợi nhuận ròng, rủi ro, chi phí và chất lượng nghiệm.
 
-**Kết luận hiện tại:** quy trình đã chạy trên dữ liệu VN30, nhưng chưa có bằng chứng ưu thế lượng tử hoặc bằng chứng lợi nhuận có thể khái quát. Mô hình AI chưa thắng dự báo tỷ lệ nền. Bộ đối chứng Ledoit–Wolf cho kết quả tài chính tốt nhất trong cửa sổ ngắn này. QAOA X độ sâu 2 là cấu hình lượng tử có chất lượng nghiệm ổn định nhất, nhưng nghiệm chính xác cổ điển nhanh hơn nhiều.
+**Kết quả đã lưu hiện tại là đường cơ sở:** lần chạy này chưa gọi LLM nên chưa có số liệu lợi nhuận AGQO. Mã AGQO và bộ triển khai Modal đã được bổ sung; khi bật, mỗi tín hiệu sẽ chạy bóng toàn bộ 12 chính sách QAOA, để LLM dùng kết quả các kỳ đã đóng làm căn cứ chọn cấu hình kế tiếp. Kết quả nền hiện có chưa cho thấy ưu thế lượng tử: mô hình phân loại chưa thắng tỷ lệ nền, Ledoit–Wolf có hiệu quả tài chính cao nhất trong cửa sổ ngắn, còn nghiệm chính xác cổ điển nhanh hơn QAOA.
 
 > Các kết quả cổ phiếu dùng OHLCV thô và ảnh chụp thành phần VN30 hiện tại áp ngược lịch sử. Chưa xác nhận điều chỉnh cổ tức/quyền và chưa có lịch sử thành phần theo ngày; không dùng các con số dưới đây làm lợi nhuận đầu tư thực tế.
 
@@ -23,6 +23,20 @@ Kiểm định danh mục gồm 16 kỳ, từ 02/06/2025 đến 01/10/2026. Mỗ
 | AI + QAOA XY, p=1 | 24,70% | 27,42% | 0,94 | -11,90% | 134,23 triệu |
 
 Ledoit–Wolf vượt cả VN30 và danh mục AI trong mẫu này, nhưng kiểm tra ngắn và dữ liệu thô không cho phép kết luận có thể lặp lại. AI điều chỉnh cả λ và α có kết quả cao hơn rủi ro cố định, song mô hình dự báo biến động lại kém chuẩn nền; không thể quy phần vượt trội cho năng lực dự báo của AI.
+
+### Các thước đo tài chính bổ sung của đường cơ sở
+
+| Phương pháp | Sortino | Calmar | VaR tháng 95% | CVaR tháng 95% | Hệ số lợi nhuận | Tháng dương |
+|---|---:|---:|---:|---:|---:|---:|
+| VN30 | 2,42 | 2,66 | -6,66% | -9,22% | 2,57 | 62,5% |
+| VN-Index | 2,38 | 2,73 | -6,79% | -8,64% | 2,49 | 56,3% |
+| AI λ+α, nghiệm chính xác toàn rổ | 2,73 | 2,80 | -7,92% | -15,93% | 3,07 | 75,0% |
+| Ledoit–Wolf, nghiệm chính xác toàn rổ | 3,06 | 3,12 | -7,92% | -15,92% | 3,44 | 75,0% |
+| QAOA X, p=1 | 1,39 | 1,06 | -7,48% | -9,07% | 1,66 | 56,3% |
+| QAOA X, p=2 | 1,59 | 1,30 | -7,38% | -8,69% | 1,75 | 56,3% |
+| QAOA XY, p=1 | 2,10 | 2,08 | -6,80% | -7,22% | 1,96 | 56,3% |
+
+Sharpe giả định lãi suất phi rủi ro bằng 0. VaR là phân vị 5% của lợi suất tháng; CVaR là lợi suất trung bình ở phần đuôi đó. Chỉ có 16 kỳ nên cả các thước đo đuôi rủi ro lẫn hệ số lợi nhuận đều mang tính mô tả, chưa phải ước lượng ổn định.
 
 ### Đường vốn sau phí
 
@@ -147,18 +161,44 @@ Các chỉ số, danh mục từng kỳ, cấu hình QAOA, chi phí và khoảng
 | Mạch lượng tử tùy chọn | Qiskit và Aer; không tạo số liệu báo cáo này |
 | Thiết bị lượng tử | IBM Quantum Runtime tùy chọn; chưa gửi công việc |
 | Biểu đồ | Matplotlib, 7 hình kiểm định và 7 hình khám phá dữ liệu |
-| Mô hình ngôn ngữ lớn | Không nằm trong đường chạy, không sinh tín hiệu và không tạo số liệu |
+| Bộ hướng dẫn QAOA | GPT-5 mini qua giao diện OpenAI Responses, chạy trong hàm Modal tùy chọn; chưa được gọi trong kết quả đã lưu |
 
 ### Đường đi của một tín hiệu
 
 1. Nạp OHLCV và danh sách mã, kiểm tra dữ liệu và căn chỉnh lịch chỉ số.
-2. Tính đặc trưng VN30 đến hết ngày tín hiệu; tạo xác suất trạng thái biến động 21 phiên.
-3. Cập nhật λ và α từ xác suất AI.
-4. Ước lượng lợi nhuận trung bình và hiệp phương sai từ dữ liệu quá khứ.
-5. Chọn K=6 mã bằng nghiệm chính xác trên toàn rổ hoặc QAOA trên 12 ứng viên thanh khoản.
-6. Chấm lại nghiệm, đặt lệnh ở phiên kế tiếp và mô phỏng phí, tiền mặt, khớp một phần theo ADTV.
-7. So hiệu quả ròng với VN30, VN-Index, đối chứng rủi ro cố định và Ledoit–Wolf.
-8. Xuất JSON chi tiết, báo cáo, biểu đồ, độ lệch QAOA và khoảng tin cậy lấy mẫu khối.
+2. Tính đặc trưng VN30 đến ngày tín hiệu; mô hình logistic dự báo xác suất biến động cao trong 21 phiên.
+3. Tính insight về lợi suất, biến động, tương quan, độ phân tán, độ rộng thị trường, ngành và thanh khoản.
+4. Khi bật AGQO, gửi insight cùng kết quả tài chính đã khép của các chính sách đến LLM; LLM chọn mã chính sách trong danh mục có sẵn.
+5. Chính sách quy định λ, α, bộ trộn, độ sâu p và số mẫu; QAOA chạy cấu hình được chọn trên 12 mã thanh khoản cao.
+6. Chạy đồng thời 12 đối chứng chính sách cố định, nghiệm chính xác và các chiến lược nền; không đưa lợi nhuận kỳ chưa khép vào quyết định.
+7. Mô phỏng giao dịch tại phiên kế tiếp, tính phí, sức chứa, lợi nhuận và rủi ro; so với VN30 và VN-Index.
+8. Xuất quyết định LLM, dữ liệu đầu vào, danh mục, chỉ số tài chính, chất lượng nghiệm, báo cáo và biểu đồ.
+
+## AGQO đầy đủ: mô hình ngôn ngữ hướng dẫn QAOA
+
+Phần triển khai nằm tại [guide.py](agqo/guide.py), [modal_agqo.py](modal_agqo.py) và [lệnh chạy walk-forward](scripts/run_ai_qaoa_walkforward.py). Mô hình ngôn ngữ là **GPT-5 mini**, gọi qua giao diện Responses của OpenAI và được phục vụ bởi Modal. Đây là bộ điều khiển tham số: nó không tự giải bài toán danh mục, không viết mã lượng tử và không được quyền đặt λ hay độ sâu tùy ý.
+
+Tại mỗi tín hiệu, LLM nhận xác suất biến động từ mô hình logistic, biến động và xu hướng VN30, tương quan cổ phiếu, độ phân tán lợi suất, độ rộng mã tăng, cơ cấu ngành, thanh khoản ứng viên và kết quả tài chính ròng của các kỳ đã khép cho từng chính sách cố định. Mỗi chính sách xác định mức ngại rủi ro λ, mức co rút α, bộ trộn X/XY, độ sâu p và số mẫu. QAOA của AGQO tối ưu mục tiêu có thêm phí đổi danh mục dự kiến từ tỷ trọng mục tiêu kỳ trước; sổ mô phỏng vẫn tính phí và sức chứa thực tế sau đó. LLM trả mã chính sách, insight được viện dẫn, lý do, ghi chú rủi ro và mức tin cậy tự khai. Mã kiểm tra lại đầu ra với danh mục cho phép trước khi chạy QAOA.
+
+Kết quả mỗi tín hiệu được lưu vào `results/agqo_llm_decisions.json`; khóa bộ nhớ đệm gồm nội dung tín hiệu, mã mô hình, tên hàm và phiên bản lời nhắc. Chạy lại cùng đầu vào sẽ không gọi LLM lại. Modal chỉ nhận các chỉ số tổng hợp và kết quả chiến lược, không nhận OHLCV thô hay tên mã. Khóa API nằm trong bí mật Modal `agqo-openai`. Giao diện đầu ra có cấu trúc và kho bí mật theo [tài liệu OpenAI](https://platform.openai.com/docs/api-reference/responses) và [tài liệu Modal](https://modal.com/docs/guide/secrets).
+
+### Bật AGQO trên Modal
+
+~~~bash
+python -m pip install -e '.[llm-modal]'
+modal setup
+modal secret create agqo-openai OPENAI_API_KEY=YOUR_OPENAI_API_KEY
+AGQO_MODAL_SECRET_NAME=agqo-openai modal deploy modal_agqo.py
+python scripts/run_ai_qaoa_walkforward.py --llm-guide modal
+~~~
+
+Thay `YOUR_OPENAI_API_KEY` bằng khóa của bạn khi tạo bí mật. Mặc định mô hình là `gpt-5-mini`; có thể đặt `AGQO_LLM_MODEL` trước lệnh chạy cục bộ để chọn mô hình tương thích. Tên mô hình được gửi tường minh cho Modal và đưa vào khóa bộ nhớ đệm. Lệnh chạy sẽ gọi LLM một lần cho mỗi tín hiệu chưa có trong bộ nhớ đệm. Khi bật AGQO, quy trình chạy cả 12 chính sách ở chế độ bóng để tạo đối chứng và dữ liệu lịch sử cho các quyết định tiếp theo; thời gian tính QAOA sẽ tăng so với đường cơ sở.
+
+### Tiêu chí so sánh
+
+Tài chính được báo cáo riêng cho mỗi chính sách: CAGR ròng, Sharpe, Sortino, sụt giảm tối đa, VaR/CVaR tháng, hệ số lợi nhuận, tỷ lệ tháng dương, phí, doanh số, sức chứa ADTV và lợi nhuận vượt VN30 với khoảng tin cậy lấy mẫu khối. Chất lượng lượng tử được chấm bằng sai lệch so với nghiệm chính xác trên cùng hàm mục tiêu, tỷ lệ mẫu khả thi, xác suất khả thi và thời gian mô phỏng. Không gộp hai nhóm thành một điểm số tùy tiện.
+
+LLM dùng lợi nhuận của các kỳ kiểm tra đã đóng để chọn cấu hình cho kỳ sau. Đây là kiểm định cuốn chiếu thích nghi, không phải một tập cuối cùng hoàn toàn chưa đụng đến; cần thêm giai đoạn khóa riêng trước khi kết luận AGQO tổng quát tốt hơn. Mức tin cậy do LLM tự khai không phải chỉ số dự báo đã hiệu chỉnh. Kết quả hiện đã lưu vẫn là đường cơ sở chưa gọi LLM; chỉ sau lần chạy Modal mới có thể đánh giá liệu AGQO có tạo thêm giá trị.
 
 Tệp kỹ thuật giải thích từng hàm, biến số, công thức, giới hạn mạch và cách tái lập: [TAI_LIEU_KY_THUAT_AGQO.md](TAI_LIEU_KY_THUAT_AGQO.md).
 

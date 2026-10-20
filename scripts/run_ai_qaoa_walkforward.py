@@ -4,8 +4,10 @@
 from __future__ import annotations
 
 import argparse
+import os
 from pathlib import Path
 
+from agqo.guide import CachedGuide, ModalGuide, PROMPT_CACHE_VERSION
 from agqo.walkforward import ResearchConfig, run_walkforward
 from agqo.walkforward_plots import build_walkforward_plots
 from agqo.walkforward_report import write_walkforward_report
@@ -46,9 +48,34 @@ def main() -> int:
         default=ROOT / "results/figures/walkforward",
         help="Thư mục lưu biểu đồ.",
     )
+    parser.add_argument(
+        "--llm-guide",
+        choices=("none", "modal"),
+        default="none",
+        help="Bật bộ điều khiển LLM trên Modal; các đối chứng hiện tại luôn được giữ.",
+    )
+    parser.add_argument(
+        "--guide-cache",
+        type=Path,
+        default=ROOT / "results/agqo_llm_decisions.json",
+        help="Tệp lưu lời khuyên LLM đã xác thực để tránh gọi lại cùng tín hiệu.",
+    )
+    parser.add_argument("--modal-app", default="agqo-llm-guide")
+    parser.add_argument("--modal-function", default="guide_qaoa_policy")
     args = parser.parse_args()
 
-    result = run_walkforward(args.data, args.members, args.json, ResearchConfig())
+    guide = None
+    if args.llm_guide == "modal":
+        model_name = os.environ.get("AGQO_LLM_MODEL", "gpt-5-mini")
+        guide = CachedGuide(
+            ModalGuide(args.modal_app, args.modal_function, model_name=model_name),
+            args.guide_cache,
+            cache_namespace=(
+                f"{PROMPT_CACHE_VERSION}:{args.modal_app}:{args.modal_function}:"
+                f"{model_name}"
+            ),
+        )
+    result = run_walkforward(args.data, args.members, args.json, ResearchConfig(), guide=guide)
     figures = build_walkforward_plots(args.json, args.figures)
     report = write_walkforward_report(args.json, args.report)
     print(f"Đã lưu dữ liệu đo: {args.json}")
@@ -60,6 +87,15 @@ def main() -> int:
         f"QAOA X p=1={result['portfolio']['performance']['AI + QAOA p=1, bộ trộn X / 12 mã thanh khoản cao']['metrics']['cagr']:.2%}; "
         f"VN30={result['portfolio']['performance']['VN30']['metrics']['cagr']:.2%}."
     )
+    if result["agqo_guidance"]["enabled"]:
+        agqo = result["portfolio"]["performance"]["AGQO LLM→QAOA / chính sách thích nghi / 12 mã thanh khoản cao"]["metrics"]
+        print(
+            "AGQO LLM→QAOA: "
+            f"CAGR={agqo['cagr']:.2%}, Sharpe={agqo['sharpe']:.2f}, "
+            f"MaxDD={agqo['max_drawdown']:.2%}; "
+            f"LLM đã chọn {result['agqo_guidance']['decision_count']} cấu hình; "
+            f"{result['agqo_guidance']['recorded_token_usage']['total_tokens']:,} token trong phản hồi đã lưu."
+        )
     return 0
 
 

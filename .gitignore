@@ -2,6 +2,8 @@
 .env
 config/qpu.toml
 outputs/
+results/agqo_llm_decisions.json
+results/.agqo_llm_decisions.json.*.tmp
 __pycache__/
 .pytest_cache/
 *.py[cod]

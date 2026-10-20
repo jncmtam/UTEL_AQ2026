@@ -12,6 +12,7 @@
 - Tổ hợp AI điều chỉnh λ và α cùng nghiệm chính xác trên toàn bộ mã đủ điều kiện đạt CAGR ròng 44.60%, Sharpe 1.47. Đối chứng Ledoit–Wolf cao hơn với CAGR 49.68%; vì vậy kết quả chưa chứng minh AI là thành phần tạo thêm giá trị.
 - Trên 12 mã thanh khoản cao, QAOA X p=1 đạt sai lệch mục tiêu chuẩn hóa trung bình 0.82% và đạt sai lệch không quá 5% ở 15/16 kỳ; p=2 đạt 16/16. Đây là kết quả mô phỏng cổ điển, chưa chạy QPU.
 - Trên cùng 12 mã, bộ giải chính xác cổ điển nhanh hơn mô phỏng QAOA; hiện chưa có bằng chứng ưu thế lượng tử.
+- Lượt này chưa bật LLM; các hàng bên dưới là đối chứng hiện tại để so với AGQO sau khi chạy Modal.
 
 ## 1. Thiết kế và chia thời gian
 
@@ -53,6 +54,22 @@ Lợi suất được tính từ giá mở cửa phiên kế tiếp đến giá 
 | QAOA X, p=2 | 18.50% | 28.61% | 0.72 | -14.20% | 125.39 triệu | 3.87 triệu | 77.58% |
 | QAOA XY, p=1 | 24.70% | 27.42% | 0.94 | -11.90% | 134.23 triệu | 5.23 triệu | 98.84% |
 
+### Chỉ số giao dịch bổ sung
+
+| Phương pháp | Sortino | Calmar | VaR tháng 95% | CVaR tháng 95% | Hệ số lợi nhuận | Tỷ lệ tháng dương |
+|---|---:|---:|---:|---:|---:|---:|
+| VN30 | 2.42 | 2.66 | -6.66% | -9.22% | 2.57 | 62.50% |
+| VN-Index | 2.38 | 2.73 | -6.79% | -8.64% | 2.49 | 56.25% |
+| Cố định, toàn rổ | 1.90 | 1.61 | -11.68% | -15.93% | 2.23 | 75.00% |
+| AI chỉ λ, toàn rổ | 1.97 | 1.64 | -11.68% | -15.93% | 2.31 | 75.00% |
+| AI chỉ α, toàn rổ | 2.59 | 2.62 | -7.92% | -15.92% | 2.96 | 75.00% |
+| AI λ+α, toàn rổ | 2.73 | 2.80 | -7.92% | -15.93% | 3.07 | 75.00% |
+| Ledoit–Wolf, toàn rổ | 3.06 | 3.12 | -7.92% | -15.92% | 3.44 | 75.00% |
+| AI λ+α, chính xác 12 | 1.40 | 1.12 | -7.38% | -8.69% | 1.66 | 56.25% |
+| QAOA X, p=1 | 1.39 | 1.06 | -7.48% | -9.07% | 1.66 | 56.25% |
+| QAOA X, p=2 | 1.59 | 1.30 | -7.38% | -8.69% | 1.75 | 56.25% |
+| QAOA XY, p=1 | 2.10 | 2.08 | -6.80% | -7.22% | 1.96 | 56.25% |
+
 ![Đường vốn ngoài mẫu sau phí](figures/walkforward/02_net_equity_curves.png)
 
 ![Lợi nhuận và rủi ro](figures/walkforward/04_risk_return_tradeoff.png)
@@ -90,7 +107,7 @@ Khoảng tin cậy lấy mẫu khối dùng chênh lệch lợi nhuận theo th�
 |---|---|
 | Mã hóa | 1 qubit cho mỗi ứng viên trong 12 mã có ADTV 20 phiên cao nhất; tổng cộng 12 qubit |
 | Ràng buộc | Chọn đúng K=6 mã; có 924 tổ hợp khả thi |
-| Hàm mục tiêu | Giảm phương sai danh mục theo λ, thưởng lợi nhuận trung bình ước lượng; λ và α do AI điều chỉnh |
+| Hàm mục tiêu | Giảm phương sai danh mục theo λ, thưởng lợi nhuận trung bình ước lượng; đường cơ sở dùng AI, AGQO để LLM chọn λ và α trong danh mục |
 | Bộ trộn X | Chồng chập đều, cộng hạng phạt để giữ K; trạng thái có 2^12 = 4.096 chuỗi bit |
 | Bộ trộn XY | Khởi tạo một chuỗi khả thi và dùng trao đổi lân cận trên vòng để bảo toàn K |
 | Độ sâu | p=1 cơ sở; p=2 kiểm tra độ sâu; mỗi lớp có 66 tương tác cặp do ma trận hiệp phương sai dày |
@@ -98,25 +115,29 @@ Khoảng tin cậy lấy mẫu khối dùng chênh lệch lợi nhuận theo th�
 | Lặp lại | Hạt giống 11, 23, 47; chọn mẫu khả thi có điểm tốt nhất trong ba lượt |
 | Đối chứng | Duyệt chính xác mọi tổ hợp N=12,K=6, dùng cùng μ, Σ, λ, α |
 
-QUBO dùng mục tiêu λ(xᵀΣx)/K² − (μᵀx)/K; phí giao dịch được đo ở lớp mô phỏng danh mục. Bộ trộn X cộng hạng phạt bình phương (Σxᵢ−K)²; XY bảo toàn số mã được chọn. Mỗi nghiệm được chấm lại bằng hàm mục tiêu danh mục gốc trước khi so với chuẩn chính xác.
+QUBO dùng mục tiêu λ(xᵀΣαx)/K² − (μᵀx)/K; phí giao dịch được đo ở lớp mô phỏng danh mục. Bộ trộn X cộng hạng phạt bình phương (Σxᵢ−K)²; XY bảo toàn số mã được chọn. Mỗi nghiệm được chấm lại bằng hàm mục tiêu danh mục gốc trước khi so với chuẩn chính xác.
 
-| Cấu hình | Kỳ đạt sai lệch ≤5% | Sai lệch TB | Có mẫu khả thi trong lượt tối ưu | Xác suất khả thi TB của seed được chọn | Thời gian CPU tổng 48 lượt |
-|---|---:|---:|---:|---:|---:|
-| X, p=1 | 15/16 | 0.82% | 100.00% | 55.70% | 0.912 giây |
-| X, p=2 | 16/16 | 0.49% | 100.00% | 75.38% | 1.960 giây |
-| XY, p=1 | 1/16 | 20.20% | 100.00% | 100.00% | 0.867 giây |
+| Cấu hình | Kỳ đạt sai lệch ≤5% | Sai lệch TB | Kỳ dự phòng nghiệm chính xác | Có mẫu khả thi trong lượt tối ưu | Xác suất khả thi TB của seed được chọn | Thời gian CPU tổng 48 lượt |
+|---|---:|---:|---:|---:|---:|---:|
+| X, p=1 | 15/16 | 0.82% | 0 | 100.00% | 55.70% | 0.958 giây |
+| X, p=2 | 16/16 | 0.49% | 0 | 100.00% | 75.38% | 1.915 giây |
+| XY, p=1 | 1/16 | 20.20% | 0 | 100.00% | 100.00% | 0.895 giây |
+
+Lượt báo cáo này chưa gọi LLM. Khi bật AGQO trên Modal, phần quyết định theo từng tín hiệu, insight đầu vào, chính sách đã chọn và kết quả QAOA sẽ được ghi tại đây.
 
 ![Sai lệch mục tiêu QAOA](figures/walkforward/03_qaoa_optimality_gap.png)
 
-Chuẩn chính xác N=12 cần tổng 0.0036 giây cho 16 tín hiệu, còn QAOA X p=1 cần 0.912 giây cho 48 lượt mô phỏng. Khi đủ 30 mã, nghiệm chính xác xét tối đa 593.775 tổ hợp mỗi kỳ; các kỳ đầu có 29 mã do VPL chưa đủ lịch sử. Tổng thời gian của năm cấu hình cổ điển trên 16 tín hiệu là 5.11 giây. Hai cách không cùng quy mô; máy véc-tơ trạng thái chỉ là mô phỏng cổ điển.
+Chuẩn chính xác N=12 cần tổng 0.0050 giây cho 16 tín hiệu, còn QAOA X p=1 cần 0.958 giây cho 48 lượt mô phỏng. Khi đủ 30 mã, nghiệm chính xác xét tối đa 593.775 tổ hợp mỗi kỳ; các kỳ đầu có 29 mã do VPL chưa đủ lịch sử. Tổng thời gian của năm cấu hình cổ điển trên 16 tín hiệu là 5.23 giây. Hai cách không cùng quy mô; máy véc-tơ trạng thái chỉ là mô phỏng cổ điển.
 
 ![Thời gian bộ giải](figures/walkforward/07_solver_runtime.png)
 
 ### Kết luận chọn hướng đi
 
-**Hướng nghiên cứu được chốt:** giữ AI làm bộ điều khiển chế độ rủi ro, dùng nghiệm chính xác và Ledoit–Wolf làm chuẩn tài chính, đồng thời chọn QAOA X p=2 trên 12 mã thanh khoản làm cấu hình lượng tử chính vì đạt chuẩn mục tiêu ổn định nhất trong lượt này. Trình bày QAOA như phép thử kỹ thuật có đối chứng; không tuyên bố nó kiếm thêm tiền hay nhanh hơn chuẩn cổ điển.
+**Hướng AGQO:** AI/LLM rút insight tài chính từ dữ liệu có sẵn tại ngày tín hiệu, chọn một chính sách QAOA trong danh mục đã khóa, rồi QAOA giải danh mục theo chính sách đó. Hồi quy logistic, cấu hình QAOA cố định, Ledoit–Wolf và nghiệm chính xác vẫn được giữ làm đối chứng. Chỉ công nhận LLM có ích nếu AGQO thắng đối chứng theo tiêu chí tài chính và chất lượng nghiệm đã đăng ký trên dữ liệu ngoài mẫu.
 
-Trước khi biến kết quả thành tuyên bố đầu tư, cần thay dữ liệu bằng chuỗi đã điều chỉnh, lấy thành phần VN30 theo ngày hiệu lực, mở rộng các chu kỳ thị trường độc lập, xác định phí/thuế/trượt giá theo nhà môi giới, và đăng ký trước tiêu chí chọn mô hình. Mục tiêu vòng tiếp theo là làm cho AI thắng chuẩn tỷ lệ nền trên các giai đoạn cuốn chiếu chưa dùng để chọn mô hình.
+Báo cáo này chưa bật LLM; các con số đang thấy là chuẩn đối chiếu, chưa phải kết quả của vòng AGQO đầy đủ.
+
+Trước khi biến kết quả thành tuyên bố đầu tư, cần thay dữ liệu bằng chuỗi đã điều chỉnh, lấy thành phần VN30 theo ngày hiệu lực, mở rộng các chu kỳ thị trường độc lập, xác định phí/thuế/trượt giá theo nhà môi giới, và đăng ký trước tiêu chí chọn mô hình. Cần chạy lời hướng dẫn LLM trên Modal, lưu nguyên quyết định theo ngày, rồi kiểm định thêm nhiều chu kỳ chưa dùng để chọn chính sách.
 
 ## 4. Nguồn dữ liệu và xử lý
 
@@ -136,5 +157,6 @@ Trước khi biến kết quả thành tuyên bố đầu tư, cần thay dữ l
 - Khả năng khớp lệnh chỉ mô phỏng giới hạn theo tỷ lệ ADTV; không có dữ liệu sổ lệnh, bước giá, thuế và lô giao dịch.
 - AI dùng nhãn biến động tương lai 21 phiên chồng lấn; số dự báo ngày không độc lập.
 - QAOA là mô phỏng véc-tơ trạng thái cổ điển, không phải bằng chứng ưu thế lượng tử hay kết quả QPU.
+- LLM chỉ chọn trong danh mục chính sách cho phép; hiệu quả chính sách AGQO phải được đánh giá ngoài mẫu và không được suy diễn thành bảo đảm lợi nhuận.
 
 Tệp JSON lưu dự báo, xác suất, danh mục theo tháng, lợi nhuận từng kỳ, phí, doanh số, đối chiếu lấy mẫu khối, kết quả từng hạt giống QAOA và thời gian chạy: vn30_ai_qaoa_walkforward.json.

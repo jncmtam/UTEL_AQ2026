@@ -4,23 +4,36 @@ from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass
+from itertools import combinations
 from math import comb
 from pathlib import Path
 from time import perf_counter
+from typing import Any, Callable
 
 import numpy as np
 import pandas as pd
 from sklearn.metrics import log_loss
 
 from .ai import fit_regime_model, fit_regime_model_as_of, forward_volatility, regime_controls
-from .estimators import build_ledoit_wolf_problem, build_regime_problem
+from .estimators import (
+    build_ledoit_wolf_problem,
+    build_regime_problem,
+    estimate_annual_inputs,
+)
 from .evaluation import compare_monthly_returns, summarize_monthly_returns
+from .guide import POLICIES, policy_catalog, validate_guidance
 from .market_data import load_market_dataset
-from .problem import exact_solve_vectorized
+from .problem import PortfolioProblem, exact_solve_vectorized
 from .simulator import optimize_qaoa
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
+AGQO_STRATEGY_NAME = "AGQO LLM→QAOA / chính sách thích nghi / 12 mã thanh khoản cao"
+POLICY_STRATEGY_PREFIX = "Đối chứng chính sách QAOA cố định / "
+
+
+def _policy_strategy_name(policy_id: str) -> str:
+    return f"{POLICY_STRATEGY_PREFIX}{policy_id}"
 
 
 @dataclass(frozen=True)
@@ -169,7 +182,165 @@ def _build_problem(
     raise ValueError(f"Phiên bản mục tiêu không hợp lệ: {variant}")
 
 
-def _qaoa_best(problem, mixer: str, depth: int, config: ResearchConfig):
+def _build_policy_problem(
+    returns: pd.DataFrame,
+    tickers: tuple[str, ...],
+    policy_id: str,
+    k: int,
+    previous_tickers: tuple[str, ...] = (),
+    fee_bps: float = 25.0,
+    rebalances_per_year: int = 12,
+) -> PortfolioProblem:
+    """Dựng mục tiêu AGQO, gồm rủi ro, lợi nhuận và phí đổi danh mục năm hóa."""
+    policy = POLICIES[policy_id]
+    mu, covariance = estimate_annual_inputs(returns, "sample")
+    covariance = (1 - policy.shrinkage) * covariance + policy.shrinkage * np.diag(
+        np.diag(covariance)
+    )
+    previous_weights = np.asarray(
+        [1 / k if ticker in previous_tickers else 0.0 for ticker in tickers],
+        dtype=float,
+    )
+    return PortfolioProblem(
+        tickers=tickers,
+        mu=mu,
+        covariance=covariance,
+        k=k,
+        risk_aversion=policy.risk_aversion,
+        previous_weights=previous_weights,
+        transaction_costs=np.full(len(tickers), fee_bps / 10_000, dtype=float),
+        rebalances_per_year=rebalances_per_year,
+    )
+
+
+def _past_strategy_metrics(
+    signal: pd.Timestamp,
+    strategy_targets: dict[str, list[tuple[str, ...]]],
+    tickers: tuple[str, ...],
+    stock_open: pd.DataFrame,
+    entries: list[pd.Timestamp],
+    exits: list[pd.Timestamp],
+    liquidities: list[pd.Series],
+    config: ResearchConfig,
+) -> dict[str, dict[str, Any]]:
+    """Chỉ trả kết quả danh mục đã thoát lệnh trước ngày tín hiệu hiện tại."""
+    completed = sum(exit_date <= signal for exit_date in exits)
+    if completed == 0:
+        return {}
+    result: dict[str, dict[str, Any]] = {}
+    for name, targets in strategy_targets.items():
+        if len(targets) < completed:
+            continue
+        ledger = _capacity_ledger(
+            targets[:completed], tickers, stock_open,
+            entries[:completed], exits[:completed], liquidities[:completed],
+            config, config.fee_bps, config.adtv_participation,
+        )
+        values = ledger.net_return.to_numpy(dtype=float)
+        stats = summarize_monthly_returns(ledger.net_return)
+        tail3 = values[-3:]
+        tail6 = values[-6:]
+        result[name] = {
+            "completed_periods": int(len(values)),
+            "trailing_3_period_net_return": float(np.prod(1 + tail3) - 1),
+            "trailing_6_period_net_return": float(np.prod(1 + tail6) - 1),
+            "cagr_to_date": float(stats["cagr"]),
+            "annualized_sharpe_to_date": (
+                float(stats["sharpe"]) if np.isfinite(stats["sharpe"]) else None
+            ),
+            "sortino_to_date": (
+                float(stats["sortino"]) if np.isfinite(stats["sortino"]) else None
+            ),
+            "max_drawdown_to_date": float(stats["max_drawdown"]),
+            "monthly_var_95_to_date": float(stats["monthly_var_95"]),
+            "monthly_cvar_95_to_date": float(stats["monthly_cvar_95"]),
+            "profit_factor_to_date": stats["profit_factor"],
+            "positive_month_fraction_to_date": float(stats["positive_month_fraction"]),
+            "mean_two_way_turnover": float(ledger.executed_turnover.mean()),
+            "total_transaction_cost_vnd": float(ledger.transaction_cost_vnd.sum()),
+        }
+    return result
+
+
+def _build_agqo_payload(
+    signal: pd.Timestamp,
+    features: pd.DataFrame,
+    probability: float,
+    returns: pd.DataFrame,
+    eligible: tuple[str, ...],
+    candidates: tuple[str, ...],
+    liquidity: pd.Series,
+    groups: dict[str, str],
+    past_strategy_metrics: dict[str, dict[str, Any]],
+    past_policy_metrics: dict[str, dict[str, Any]],
+    fee_bps: float,
+) -> dict[str, Any]:
+    """Tạo insight có căn cứ từ dữ liệu quá khứ để LLM chọn trong bộ chính sách."""
+    values = returns.loc[:, eligible]
+    correlation = values.corr().to_numpy(dtype=float)
+    upper = correlation[np.triu_indices_from(correlation, k=1)]
+    recent = (1 + values.tail(20)).prod(axis=0) - 1
+    candidate_liquidity = liquidity.reindex(candidates).dropna()
+    bank_share = float(np.mean([groups.get(ticker) == "Ngân hàng" for ticker in eligible]))
+    candidate_groups = pd.Series([groups.get(ticker, "Không rõ") for ticker in candidates])
+    candidate_group_fraction = (
+        candidate_groups.value_counts(normalize=True).sort_index().to_dict()
+    )
+    row = features.loc[signal]
+    insight = {
+        "as_of_date": str(signal.date()),
+        "ai_high_volatility_probability": float(probability),
+        "vn30_annualized_volatility_20d": float(row["vol_20"]),
+        "vn30_annualized_volatility_60d": float(row["vol_60"]),
+        "vn30_annualized_volatility_120d": float(row["vol_120"]),
+        "vn30_return_20d": float(row["return_20"]),
+        "vn30_return_60d": float(row["return_60"]),
+        "volatility_ratio_20d_to_120d": float(row["vol_ratio_20_120"]),
+        "eligible_stock_count": len(eligible),
+        "candidate_stock_count": len(candidates),
+        "mean_pairwise_correlation_252d": float(np.nanmean(upper)),
+        "90th_percentile_pairwise_correlation_252d": float(np.nanquantile(upper, 0.90)),
+        "cross_sectional_20d_return_dispersion": float(recent.std(ddof=1)),
+        "fraction_stocks_positive_20d": float((recent > 0).mean()),
+        "bank_fraction_of_eligible_stocks": bank_share,
+        "candidate_group_fraction": {
+            str(group): float(fraction)
+            for group, fraction in candidate_group_fraction.items()
+        },
+        "candidate_median_daily_traded_value_proxy_vnd": float(candidate_liquidity.median()),
+        "candidate_min_daily_traded_value_proxy_vnd": float(candidate_liquidity.min()),
+        "candidate_max_daily_traded_value_proxy_vnd": float(candidate_liquidity.max()),
+    }
+    return {
+        "as_of_date": str(signal.date()),
+        "information_cutoff": "Mọi đặc trưng và kết quả quá khứ chỉ đến hết ngày tín hiệu; không chứa lợi nhuận tương lai.",
+        "market_insights": insight,
+        "past_completed_strategy_metrics": past_strategy_metrics,
+        "past_completed_policy_benchmarks": past_policy_metrics,
+        "qaoa_objective_specification": {
+            "formula": "λ(xᵀΣαx)/K² − (μᵀx)/K + 12 × phí × Σᵢ|xᵢ/K − wᵢ_trước|",
+            "transaction_fee_bps_per_side": float(fee_bps),
+            "rebalances_per_year": 12,
+            "previous_weight_source": "Danh mục AGQO đã chọn ở kỳ trước; ban đầu là tiền mặt.",
+        },
+        "policy_catalog": policy_catalog(),
+        "selection_objective": (
+            "Chọn một chính sách QAOA có triển vọng cải thiện lợi nhuận ròng đã điều chỉnh rủi ro "
+            "sau khi đã tính phí đổi danh mục năm hóa theo mục tiêu QAOA; "
+            "ưu tiên bằng chứng theo từng chính sách từ các kỳ đã đóng, cân nhắc CAGR, Sharpe, Sortino, "
+            "sụt giảm, VaR/CVaR, hệ số lợi nhuận, doanh số, chi phí và số kỳ quan sát. "
+            "Không coi vài kỳ ngắn là bằng chứng chắc chắn và không dùng kết quả của kỳ hiện tại."
+        ),
+    }
+
+
+def _qaoa_best(
+    problem: PortfolioProblem,
+    mixer: str,
+    depth: int,
+    config: ResearchConfig,
+    shots: int | None = None,
+):
     results = [
         optimize_qaoa(
             problem,
@@ -177,7 +348,7 @@ def _qaoa_best(problem, mixer: str, depth: int, config: ResearchConfig):
             depth=depth,
             seed=seed,
             max_evaluations=config.qaoa_max_evaluations,
-            shots=config.qaoa_shots,
+            shots=config.qaoa_shots if shots is None else shots,
         )
         for seed in config.qaoa_seeds
     ]
@@ -360,8 +531,9 @@ def run_walkforward(
     members_path: str | Path,
     output_json: str | Path,
     config: ResearchConfig = ResearchConfig(),
+    guide: Callable[[dict[str, Any]], dict[str, Any]] | None = None,
 ) -> dict[str, object]:
-    """Chạy toàn bộ thí nghiệm AI–QAOA trên kỳ kiểm tra khóa trước."""
+    """Chạy các đối chứng hiện tại và tùy chọn bộ điều khiển LLM→QAOA AGQO."""
     started = perf_counter()
     (
         data, members, dates, stock_open, stock_close, stock_returns,
@@ -386,7 +558,7 @@ def run_walkforward(
     if not paired_signals:
         raise ValueError("Không tạo được các kỳ nắm giữ tháng trong giai đoạn kiểm tra.")
 
-    strategy_names = (
+    baseline_strategy_names = (
         "Cố định λ=5, α=0,40 / nghiệm chính xác / toàn bộ mã đủ điều kiện",
         "AI chỉ điều chỉnh λ / nghiệm chính xác / toàn bộ mã đủ điều kiện",
         "AI chỉ điều chỉnh α / nghiệm chính xác / toàn bộ mã đủ điều kiện",
@@ -397,13 +569,26 @@ def run_walkforward(
         "AI + QAOA p=2, bộ trộn X / 12 mã thanh khoản cao",
         "AI + QAOA p=1, bộ trộn XY / 12 mã thanh khoản cao",
     )
+    policy_strategy_names = {
+        policy_id: _policy_strategy_name(policy_id) for policy_id in sorted(POLICIES)
+    }
+    strategy_names = baseline_strategy_names + (
+        ((AGQO_STRATEGY_NAME,) + tuple(policy_strategy_names.values())) if guide else ()
+    )
     targets: dict[str, list[tuple[str, ...]]] = {name: [] for name in strategy_names}
     signal_rows = []
     qaoa_rows = []
     optimality_rows = []
+    guidance_rows = []
     entries, exits, liquidities = [], [], []
+    group_by_ticker = members.set_index("ticker")["group"].astype(str).to_dict()
     exact_full_solve_seconds = 0.0
     exact_12_solve_seconds = 0.0
+    exact_ai12_solve_seconds = 0.0
+    exact_agqo_solve_seconds = 0.0
+    agqo_qaoa_seconds = 0.0
+    policy_catalog_exact_solve_seconds = 0.0
+    policy_catalog_qaoa_seconds = 0.0
     for signal, entry, exit_date in paired_signals:
         fitted = fit_regime_model_as_of(
             features, index_returns, signal, model.threshold, model.chosen_c,
@@ -439,6 +624,44 @@ def run_walkforward(
         exits.append(exit_date)
         liquidities.append(liquidity)
 
+        agqo_policy = None
+        if guide is not None:
+            history = _past_strategy_metrics(
+                signal, targets, tickers, stock_open, entries, exits, liquidities, config
+            )
+            past_policy_metrics = {
+                policy_id: history[strategy_name]
+                for policy_id, strategy_name in policy_strategy_names.items()
+                if strategy_name in history
+            }
+            comparator_metrics = {
+                name: metrics for name, metrics in history.items()
+                if name not in policy_strategy_names.values()
+            }
+            payload = _build_agqo_payload(
+                signal, features, probability, returns, eligible, candidates, liquidity,
+                group_by_ticker, comparator_metrics, past_policy_metrics, config.fee_bps,
+            )
+            envelope = guide(payload)
+            if not isinstance(envelope, dict):
+                raise ValueError("Bộ điều khiển AGQO phải trả về một đối tượng JSON.")
+            decision = validate_guidance(envelope.get("decision", {}))
+            agqo_policy = POLICIES[decision["policy_id"]]
+            guidance_rows.append(
+                {
+                    "signal_date": str(signal.date()),
+                    "information_cutoff": str(signal.date()),
+                    "context": payload,
+                    "decision": decision,
+                    "policy": asdict(agqo_policy),
+                    "model": envelope.get("model"),
+                    "response_id": envelope.get("response_id"),
+                    "usage": envelope.get("usage"),
+                    "cache_key": envelope.get("cache_key"),
+                    "cache_hit": envelope.get("cache_hit", False),
+                }
+            )
+
         definitions = [
             (strategy_names[0], "fixed", eligible),
             (strategy_names[1], "ai_lambda", eligible),
@@ -467,10 +690,10 @@ def run_walkforward(
         exact12_bits, exact12_score = exact_solve_vectorized(ai12_problem)
         exact12_elapsed = perf_counter() - exact12_start
         exact_12_solve_seconds += exact12_elapsed
+        exact_ai12_solve_seconds += exact12_elapsed
         exact12_tickers = tuple(candidates[i] for i in np.flatnonzero(exact12_bits))
         targets[strategy_names[5]].append(exact12_tickers)
         all_scores = []
-        from itertools import combinations
         for chosen in combinations(range(ai12_problem.n), ai12_problem.k):
             bits = np.zeros(ai12_problem.n, dtype=np.int8)
             bits[list(chosen)] = 1
@@ -515,6 +738,152 @@ def run_walkforward(
                 optimality_rows.append(
                     {"signal_date": str(signal.date()), "variant": label, "regret": regret}
                 )
+
+        if agqo_policy is not None:
+            for policy_id, policy in sorted(POLICIES.items()):
+                previous_policy_target = tuple(targets[policy_strategy_names[policy_id]][-1]) if targets[policy_strategy_names[policy_id]] else ()
+                policy_problem = _build_policy_problem(
+                    returns.loc[:, candidates], candidates, policy_id, config.k,
+                    previous_tickers=previous_policy_target,
+                    fee_bps=config.fee_bps,
+                )
+                exact_start = perf_counter()
+                exact_bits, exact_score = exact_solve_vectorized(policy_problem)
+                exact_elapsed = perf_counter() - exact_start
+                exact_12_solve_seconds += exact_elapsed
+                policy_catalog_exact_solve_seconds += exact_elapsed
+                policy_scores = []
+                for chosen in combinations(range(policy_problem.n), policy_problem.k):
+                    bits = np.zeros(policy_problem.n, dtype=np.int8)
+                    bits[list(chosen)] = 1
+                    policy_scores.append(policy_problem.score(bits))
+                objective_span = max(policy_scores) - min(policy_scores)
+                qaoa_best, runs = _qaoa_best(
+                    policy_problem, policy.mixer, policy.depth, config, shots=policy.shots
+                )
+                if qaoa_best is None:
+                    selected_bits = exact_bits
+                    best_score = None
+                    regret = None
+                    fallback_used = "exact_classical_no_feasible_qaoa_sample"
+                else:
+                    selected_bits = np.asarray(qaoa_best.best_bits, dtype=np.int8)
+                    best_score = float(qaoa_best.best_feasible_score)
+                    regret = (
+                        float((best_score - exact_score) / objective_span)
+                        if objective_span > 0 else 0.0
+                    )
+                    fallback_used = None
+                target = tuple(candidates[i] for i in np.flatnonzero(selected_bits))
+                targets[policy_strategy_names[policy_id]].append(target)
+                run_dicts = [run.to_dict() for run in runs]
+                variant = f"POLICY:{policy_id}"
+                policy_row = {
+                    "signal_date": str(signal.date()),
+                    "entry_date": str(entry.date()),
+                    "variant": variant,
+                    "policy_id": policy_id,
+                    "n_qubits": policy_problem.n,
+                    "k": config.k,
+                    "depth": policy.depth,
+                    "mixer": policy.mixer,
+                    "shots": policy.shots,
+                    "exact_score": float(exact_score),
+                    "qaoa_best_score": best_score,
+                    "normalized_objective_regret": regret,
+                    "best_seed": None if qaoa_best is None else qaoa_best.seed,
+                    "best_sampled_feasible_probability": (
+                        None if qaoa_best is None else qaoa_best.sampled_feasible_probability
+                    ),
+                    "fallback_used": fallback_used,
+                    "runs": run_dicts,
+                }
+                qaoa_rows.append(policy_row)
+                policy_catalog_qaoa_seconds += sum(
+                    run.elapsed_seconds for run in runs
+                )
+                if regret is not None:
+                    optimality_rows.append(
+                        {"signal_date": str(signal.date()), "variant": variant, "regret": regret}
+                    )
+
+            previous_agqo_target = (
+                tuple(targets[AGQO_STRATEGY_NAME][-1]) if targets[AGQO_STRATEGY_NAME] else ()
+            )
+            agqo_problem = _build_policy_problem(
+                returns.loc[:, candidates], candidates, agqo_policy.policy_id, config.k,
+                previous_tickers=previous_agqo_target,
+                fee_bps=config.fee_bps,
+            )
+            exact_start = perf_counter()
+            agqo_exact_bits, agqo_exact_score = exact_solve_vectorized(agqo_problem)
+            selected_exact_elapsed = perf_counter() - exact_start
+            exact_12_solve_seconds += selected_exact_elapsed
+            exact_agqo_solve_seconds += selected_exact_elapsed
+            agqo_scores = []
+            for chosen in combinations(range(agqo_problem.n), agqo_problem.k):
+                bits = np.zeros(agqo_problem.n, dtype=np.int8)
+                bits[list(chosen)] = 1
+                agqo_scores.append(agqo_problem.score(bits))
+            agqo_span = max(agqo_scores) - min(agqo_scores)
+            agqo_best, agqo_runs = _qaoa_best(
+                agqo_problem, agqo_policy.mixer, agqo_policy.depth, config,
+                shots=agqo_policy.shots,
+            )
+            if agqo_best is None:
+                selected_bits = agqo_exact_bits
+                best_score = None
+                regret = None
+                fallback_used = "exact_classical_no_feasible_qaoa_sample"
+            else:
+                selected_bits = np.asarray(agqo_best.best_bits, dtype=np.int8)
+                best_score = float(agqo_best.best_feasible_score)
+                regret = (
+                    float((best_score - agqo_exact_score) / agqo_span)
+                    if agqo_span > 0 else 0.0
+                )
+                fallback_used = None
+            selected_target = tuple(candidates[i] for i in np.flatnonzero(selected_bits))
+            targets[AGQO_STRATEGY_NAME].append(selected_target)
+            agqo_qaoa_seconds += sum(run.elapsed_seconds for run in agqo_runs)
+            agqo_row = {
+                "signal_date": str(signal.date()),
+                "entry_date": str(entry.date()),
+                "variant": "AGQO",
+                "policy_id": agqo_policy.policy_id,
+                "n_qubits": agqo_problem.n,
+                "k": config.k,
+                "depth": agqo_policy.depth,
+                "mixer": agqo_policy.mixer,
+                "shots": agqo_policy.shots,
+                "exact_score": float(agqo_exact_score),
+                "qaoa_best_score": best_score,
+                "normalized_objective_regret": regret,
+                "best_seed": None if agqo_best is None else agqo_best.seed,
+                "best_sampled_feasible_probability": (
+                    None if agqo_best is None else agqo_best.sampled_feasible_probability
+                ),
+                "fallback_used": fallback_used,
+                "runs": [run.to_dict() for run in agqo_runs],
+            }
+            qaoa_rows.append(agqo_row)
+            if regret is not None:
+                optimality_rows.append(
+                    {
+                        "signal_date": str(signal.date()),
+                        "variant": "AGQO",
+                        "regret": regret,
+                    }
+                )
+            signal_rows[-1]["agqo_policy_id"] = agqo_policy.policy_id
+            signal_rows[-1]["agqo_policy_parameters"] = asdict(agqo_policy)
+            guidance_rows[-1]["qaoa_result"] = {
+                key: agqo_row[key]
+                for key in (
+                    "exact_score", "qaoa_best_score", "normalized_objective_regret",
+                    "best_seed", "best_sampled_feasible_probability", "fallback_used",
+                )
+            }
 
     monthly_y = np.asarray(
         [row["realized_high_volatility"] for row in signal_rows], dtype=int
@@ -647,7 +1016,12 @@ def run_walkforward(
             ),
         }
     comparisons = {}
-    key_names = (strategy_names[0], strategy_names[3], strategy_names[5], strategy_names[6], strategy_names[7], strategy_names[8])
+    key_names = (
+        strategy_names[0], strategy_names[3], strategy_names[5],
+        strategy_names[6], strategy_names[7], strategy_names[8],
+    ) + ((AGQO_STRATEGY_NAME,) if guide else ())
+    if guide:
+        key_names += tuple(policy_strategy_names.values())
     for name in key_names:
         for benchmark in ("VN30", "VN-Index"):
             compare = compare_monthly_returns(
@@ -666,9 +1040,18 @@ def run_walkforward(
             }
 
     qaoa_summary = {}
-    for variant in ("X_p1", "X_p2", "XY_p1"):
+    qaoa_variants = ("X_p1", "X_p2", "XY_p1") + (
+        (("AGQO",) + tuple(f"POLICY:{policy_id}" for policy_id in sorted(POLICIES)))
+        if guide else ()
+    )
+    for variant in qaoa_variants:
         subset = [row for row in qaoa_rows if row["variant"] == variant]
         runs = [run for row in subset for run in row["runs"]]
+        feasible_probabilities = [
+            row["best_sampled_feasible_probability"]
+            for row in subset
+            if row["best_sampled_feasible_probability"] is not None
+        ]
         regrets = [
             row["normalized_objective_regret"]
             for row in subset
@@ -677,6 +1060,9 @@ def run_walkforward(
         qaoa_summary[variant] = {
             "monthly_instances": len(subset),
             "seed_runs": len(runs),
+            "exact_fallback_months": int(sum(
+                row.get("fallback_used") is not None for row in subset
+            )),
             "feasible_seed_run_fraction": float(
                 np.mean([run["best_bits"] is not None for run in runs])
             ) if runs else None,
@@ -685,17 +1071,21 @@ def run_walkforward(
             ),
             "mean_normalized_regret": float(np.mean(regrets)) if regrets else None,
             "median_normalized_regret": float(np.median(regrets)) if regrets else None,
-            "mean_best_seed_feasible_probability": float(np.mean([
-                row["best_sampled_feasible_probability"] for row in subset
-                if row["best_sampled_feasible_probability"] is not None
-            ])) if subset else None,
+            "mean_best_seed_feasible_probability": (
+                float(np.mean(feasible_probabilities)) if feasible_probabilities else None
+            ),
             "total_cpu_simulation_seconds": float(sum(
                 run["elapsed_seconds"] for run in runs
             )),
         }
 
     cost_sensitivity = {}
-    for name in (strategy_names[3], strategy_names[6], strategy_names[7], strategy_names[8]):
+    sensitivity_names = (
+        strategy_names[3], strategy_names[6], strategy_names[7], strategy_names[8]
+    ) + ((AGQO_STRATEGY_NAME,) if guide else ())
+    if guide:
+        sensitivity_names += tuple(policy_strategy_names.values())
+    for name in sensitivity_names:
         rows = []
         for fee in (10.0, 25.0, 50.0):
             for capacity in (0.01, 0.05, 0.10):
@@ -726,6 +1116,14 @@ def run_walkforward(
                 )
         cost_sensitivity[name] = rows
 
+    recorded_llm_tokens = {
+        key: int(sum(
+            (record.get("usage") or {}).get(key, 0)
+            for record in guidance_rows
+        ))
+        for key in ("input_tokens", "output_tokens", "total_tokens")
+    }
+
     results = {
         "project": "AGQO VN30 AI–QAOA walk-forward",
         "generated_at_local": pd.Timestamp.now(tz="Asia/Ho_Chi_Minh").isoformat(),
@@ -740,6 +1138,27 @@ def run_walkforward(
             "opening_price_assumption": "Mô phỏng khớp tại giá mở cửa phiên kế tiếp; giá thô, chưa tính trượt giá/thuế/lô giao dịch.",
         },
         "config": asdict(config),
+        "agqo_guidance": {
+            "enabled": guide is not None,
+            "controller": "LLM trên Modal; đầu ra JSON có cấu trúc, chọn trong danh mục chính sách hữu hạn.",
+            "policy_catalog": policy_catalog() if guide else [],
+            "decisions": guidance_rows,
+            "decision_count": len(guidance_rows),
+            "recorded_token_usage": recorded_llm_tokens,
+            "information_cutoff_rule": "Tại tín hiệu t chỉ cung cấp chỉ số thị trường đến t và kết quả danh mục có ngày thoát lệnh không muộn hơn t.",
+            "selection_parameters": ["risk_aversion", "shrinkage", "mixer", "depth", "shots"],
+            "counterfactual_policy_benchmarks": (
+                "Mỗi tín hiệu chạy bóng tất cả chính sách trong danh mục; LLM chỉ nhận số liệu tài chính của những kỳ đã đóng."
+                if guide else None
+            ),
+            "policy_strategy_names": policy_strategy_names if guide else {},
+            "optimizer_and_seed_policy": {
+                "optimizer": "COBYLA",
+                "max_evaluations_per_seed": config.qaoa_max_evaluations,
+                "seeds": list(config.qaoa_seeds),
+                "selection": "Nghiệm khả thi tốt nhất trong các hạt giống; nếu không có mẫu khả thi thì dùng nghiệm chính xác và ghi rõ dự phòng.",
+            },
+        },
         "ai": {
             "feature_names": list(features.columns),
             "target": f"Biến động VN30 năm hóa trong {config.horizon} phiên kế tiếp vượt ngưỡng phân vị 70% của tập huấn luyện.",
@@ -782,8 +1201,13 @@ def run_walkforward(
         },
         "qaoa": {
             "implementation": "Mô phỏng véc-tơ trạng thái bằng NumPy; COBYLA tối ưu góc; lấy mẫu hữu hạn; chưa chạy QPU.",
-            "objective": "min λ(xᵀΣx)/K² − (μᵀx)/K, với Σ co về đường chéo theo α; ràng buộc tổng xᵢ=K.",
-            "primary_qaoa_strategy": strategy_names[6],
+            "objective": (
+                "AGQO: min λ(xᵀΣαx)/K² − (μᵀx)/K + 12 × phí × Σᵢ|xᵢ/K − wᵢ_trước|; ràng buộc tổng xᵢ=K."
+                if guide else
+                "Đường cơ sở: min λ(xᵀΣαx)/K² − (μᵀx)/K; ràng buộc tổng xᵢ=K. Phí được trừ trong sổ giao dịch."
+            ),
+            "transaction_cost_in_objective": bool(guide),
+            "primary_qaoa_strategy": AGQO_STRATEGY_NAME if guide else strategy_names[6],
             "n_qubits": config.qaoa_candidates,
             "k": config.k,
             "p_values": [1, 2],
@@ -808,6 +1232,11 @@ def run_walkforward(
             "solver_runtime_seconds": {
                 "exact_full_universe_total": exact_full_solve_seconds,
                 "exact_12_universe_total": exact_12_solve_seconds,
+                "exact_ai12_universe_total": exact_ai12_solve_seconds,
+                "exact_agqo_12_universe_total": exact_agqo_solve_seconds,
+                "agqo_qaoa_total": agqo_qaoa_seconds,
+                "policy_catalog_exact_total": policy_catalog_exact_solve_seconds,
+                "policy_catalog_qaoa_total": policy_catalog_qaoa_seconds,
                 "end_to_end_elapsed": perf_counter() - started,
             },
         },
@@ -818,6 +1247,13 @@ def run_walkforward(
             "Khả năng khớp lệnh chỉ mô phỏng giới hạn theo tỷ lệ ADTV; không có dữ liệu sổ lệnh, bước giá, thuế và lô giao dịch.",
             "AI dùng nhãn biến động tương lai 21 phiên chồng lấn; số dự báo ngày không độc lập.",
             "QAOA là mô phỏng véc-tơ trạng thái cổ điển, không phải bằng chứng ưu thế lượng tử hay kết quả QPU.",
+            "LLM chỉ chọn trong danh mục chính sách cho phép; hiệu quả chính sách AGQO phải được đánh giá ngoài mẫu và không được suy diễn thành bảo đảm lợi nhuận.",
+            *(
+                [
+                    "AGQO dùng lợi nhuận của các kỳ kiểm tra đã đóng để điều chỉnh lựa chọn ở kỳ sau; đây là walk-forward thích nghi, cần thêm một giai đoạn cuối khóa riêng trước khi kết luận tổng quát."
+                ]
+                if guide else []
+            ),
         ],
     }
     out = Path(output_json)
