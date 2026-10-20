@@ -33,6 +33,9 @@ def crosscheck_aer(
             problem.covariance[np.ix_(asset_order, asset_order)],
             k=problem.k,
             risk_aversion=problem.risk_aversion,
+            previous_weights=problem.previous_weights[asset_order],
+            transaction_costs=problem.transaction_costs[asset_order],
+            rebalances_per_year=problem.rebalances_per_year,
         )
         initial_bits = np.zeros(problem.n, dtype=np.int8)
         initial_bits[: problem.k] = 1

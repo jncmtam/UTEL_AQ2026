@@ -16,6 +16,12 @@ class QaoaResult:
     mixer: str
     depth: int
     seed: int
+    n: int
+    k: int
+    risk_aversion: float
+    previous_weights: tuple[float, ...]
+    transaction_cost_rates: tuple[float, ...]
+    rebalances_per_year: int
     evaluations: int
     objective_estimate: float
     best_feasible_score: float | None
@@ -120,6 +126,9 @@ def optimize_qaoa(
             problem.covariance[np.ix_(asset_order, asset_order)],
             k=problem.k,
             risk_aversion=problem.risk_aversion,
+            previous_weights=problem.previous_weights[asset_order],
+            transaction_costs=problem.transaction_costs[asset_order],
+            rebalances_per_year=problem.rebalances_per_year,
         )
         initial_index = (1 << problem.k) - 1
     else:
@@ -165,6 +174,12 @@ def optimize_qaoa(
         mixer=mixer,
         depth=depth,
         seed=seed,
+        n=problem.n,
+        k=problem.k,
+        risk_aversion=problem.risk_aversion,
+        previous_weights=tuple(float(x) for x in problem.previous_weights),
+        transaction_cost_rates=tuple(float(x) for x in problem.transaction_costs),
+        rebalances_per_year=problem.rebalances_per_year,
         evaluations=calls,
         objective_estimate=float(result.fun),
         best_feasible_score=None if best_score is None else float(best_score),

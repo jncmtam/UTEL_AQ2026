@@ -9,8 +9,8 @@ from pathlib import Path
 
 import numpy as np
 
-from .ai import diagonal_shrinkage, regime_controls
-from .problem import anneal_solve, exact_solve, greedy_solve, synthetic_problem
+from .ai import diagonal_shrinkage, regime_controls, risk_aversion_from_probability
+from .problem import PortfolioProblem, anneal_solve, exact_solve, greedy_solve, synthetic_problem
 from .qpu import load_qpu_config, run_qpu
 from .simulator import optimize_qaoa
 
@@ -26,40 +26,68 @@ def _save(records: list[dict], output: str | None) -> Path:
 
 def _demo(args: argparse.Namespace) -> int:
     base_problem = synthetic_problem(args.seed, n=args.n, k=6)
-    # Xác suất minh họa đi qua đúng λ/α rồi mới tạo bài toán đưa cho mọi bộ giải.
+    # Chỉ là xác suất minh họa trên dữ liệu tổng hợp, không phải dự báo thị trường.
     probability = 0.70
-    risk_aversion, alpha = regime_controls(probability)
-    problem = type(base_problem)(
-        base_problem.tickers,
-        base_problem.mu,
-        diagonal_shrinkage(base_problem.covariance, alpha),
-        k=base_problem.k,
-        risk_aversion=risk_aversion,
-    )
-    exact_bits, exact_value = exact_solve(problem)
-    greedy_bits, greedy_value = greedy_solve(problem)
-    anneal_bits, anneal_value = anneal_solve(problem, seed=args.seed, steps=2_000)
-    records = [
-        {
-            "kind": "demo",
-            "seed": args.seed,
-            "data_source": "synthetic_only",
-            "n": problem.n,
-            "k": problem.k,
-            "regime_probability_demo_only": probability,
-            "risk_aversion_demo_only": risk_aversion,
-            "diagonal_shrinkage_demo_only": alpha,
-            "exact": {"score": exact_value, "bits": exact_bits.tolist()},
-            "greedy": {"score": greedy_value, "bits": greedy_bits.tolist()},
-            "annealing": {"score": anneal_value, "bits": anneal_bits.tolist()},
-        }
-    ]
-    for mixer in ("X", "XY"):
-        for seed in (11, 23, 47):
-            result = optimize_qaoa(
-                problem, mixer=mixer, seed=seed, max_evaluations=args.max_evaluations, shots=512
-            )
-            records.append({"kind": "qaoa", "data_source": "synthetic_only", **result.to_dict()})
+    rng = np.random.Generator(np.random.PCG64(args.seed + 1))
+    previous_weights = np.zeros(base_problem.n, dtype=float)
+    previous_weights[rng.choice(base_problem.n, base_problem.k, replace=False)] = 1 / base_problem.k
+    versions = ("v0", "v1") if args.model_version == "compare" else (args.model_version,)
+    records = []
+    for version in versions:
+        if version == "v0":
+            risk_aversion, alpha = regime_controls(probability)
+            cost_bps = 0.0
+        else:
+            # V1 tách AI khỏi co rút và tính phí đổi danh mục vào cùng mục tiêu.
+            risk_aversion = risk_aversion_from_probability(probability)
+            alpha = 0.40
+            cost_bps = args.transaction_cost_bps
+        problem = PortfolioProblem(
+            base_problem.tickers,
+            base_problem.mu,
+            diagonal_shrinkage(base_problem.covariance, alpha),
+            k=base_problem.k,
+            risk_aversion=risk_aversion,
+            previous_weights=previous_weights,
+            transaction_costs=np.full(base_problem.n, cost_bps / 10_000),
+            rebalances_per_year=12,
+        )
+        exact_bits, exact_value = exact_solve(problem)
+        greedy_bits, greedy_value = greedy_solve(problem)
+        anneal_bits, anneal_value = anneal_solve(problem, seed=args.seed, steps=2_000)
+        records.append(
+            {
+                "kind": "demo",
+                "model_version": version,
+                "seed": args.seed,
+                "data_source": "synthetic_only",
+                "n": problem.n,
+                "k": problem.k,
+                "regime_probability_demo_only": probability,
+                "risk_aversion_demo_only": risk_aversion,
+                "diagonal_shrinkage_demo_only": alpha,
+                "previous_weights": previous_weights.tolist(),
+                "transaction_cost_bps": cost_bps,
+                "exact_two_way_turnover": problem.two_way_turnover(exact_bits),
+                "exact_annual_transaction_cost": problem.annual_transaction_cost(exact_bits),
+                "exact": {"score": exact_value, "bits": exact_bits.tolist()},
+                "greedy": {"score": greedy_value, "bits": greedy_bits.tolist()},
+                "annealing": {"score": anneal_value, "bits": anneal_bits.tolist()},
+            }
+        )
+        for mixer in ("X", "XY"):
+            for seed in (11, 23, 47):
+                result = optimize_qaoa(
+                    problem, mixer=mixer, seed=seed, max_evaluations=args.max_evaluations, shots=512
+                )
+                records.append(
+                    {
+                        "kind": "qaoa",
+                        "model_version": version,
+                        "data_source": "synthetic_only",
+                        **result.to_dict(),
+                    }
+                )
     path = _save(records, args.output)
     print(json.dumps({"results_file": str(path), "records": records}, ensure_ascii=False, indent=2))
     return 0
@@ -135,6 +163,8 @@ def main() -> int:
     demo.add_argument("--n", type=int, choices=(8, 12, 16), default=8)
     demo.add_argument("--seed", type=int, default=20261012)
     demo.add_argument("--max-evaluations", type=int, default=50)
+    demo.add_argument("--model-version", choices=("v0", "v1", "compare"), default="v0")
+    demo.add_argument("--transaction-cost-bps", type=float, default=25.0)
     demo.add_argument("--output")
     demo.set_defaults(func=_demo)
     benchmark = commands.add_parser("benchmark", help="Chạy H2 trên tối đa 12×3 bài toán.")

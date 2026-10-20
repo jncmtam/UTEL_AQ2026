@@ -17,31 +17,79 @@ class PortfolioProblem:
     covariance: np.ndarray
     k: int = 6
     risk_aversion: float = 5.0
+    previous_weights: np.ndarray | None = None
+    transaction_costs: np.ndarray | None = None
+    rebalances_per_year: int = 12
 
     def __post_init__(self) -> None:
         n = len(self.tickers)
         if n == 0 or self.mu.shape != (n,) or self.covariance.shape != (n, n):
             raise ValueError("Kích thước mã, lợi nhuận và hiệp phương sai không khớp.")
-        if not 1 <= self.k <= n or self.risk_aversion < 0:
+        if not 1 <= self.k <= n or not np.isfinite(self.risk_aversion) or self.risk_aversion < 0:
             raise ValueError("Cần 1 <= K <= N và hệ số ngại rủi ro không âm.")
+        if not np.isfinite(self.mu).all() or not np.isfinite(self.covariance).all():
+            raise ValueError("Lợi nhuận và hiệp phương sai phải hữu hạn.")
         if not np.allclose(self.covariance, self.covariance.T, atol=1e-10):
             raise ValueError("Ma trận hiệp phương sai phải đối xứng.")
         if np.linalg.eigvalsh(self.covariance).min() < -1e-9:
             raise ValueError("Ma trận hiệp phương sai phải bán xác định dương.")
+        previous = (
+            np.zeros(n, dtype=float)
+            if self.previous_weights is None
+            else np.asarray(self.previous_weights, dtype=float)
+        )
+        costs = (
+            np.zeros(n, dtype=float)
+            if self.transaction_costs is None
+            else np.asarray(self.transaction_costs, dtype=float)
+        )
+        if previous.shape != (n,) or not np.isfinite(previous).all() or (previous < 0).any():
+            raise ValueError("Tỷ trọng trước giao dịch phải là vector hữu hạn, không âm và có N phần tử.")
+        if previous.sum() > 1 + 1e-8:
+            raise ValueError("Tổng tỷ trọng trước giao dịch không được vượt quá 1.")
+        if costs.shape != (n,) or not np.isfinite(costs).all() or (costs < 0).any():
+            raise ValueError("Chi phí giao dịch phải là vector hữu hạn, không âm và có N phần tử.")
+        if (costs >= 1).any():
+            raise ValueError("Chi phí trên mỗi đồng giao dịch phải nhỏ hơn 100%.")
+        if not isinstance(self.rebalances_per_year, (int, np.integer)) or self.rebalances_per_year < 1:
+            raise ValueError("Số lần tái cân bằng năm hóa phải là số nguyên dương.")
+        object.__setattr__(self, "rebalances_per_year", int(self.rebalances_per_year))
+        object.__setattr__(self, "previous_weights", previous)
+        object.__setattr__(self, "transaction_costs", costs)
 
     @property
     def n(self) -> int:
         return len(self.tickers)
 
     def score(self, bits: np.ndarray) -> float:
-        """Tính hàm mục tiêu năm theo tỷ trọng bằng nhau đã khóa trong proposal."""
+        """Tính mục tiêu năm hóa, gồm phí tái cân bằng dự kiến nếu có."""
         x = np.asarray(bits, dtype=float)
         if x.shape != (self.n,) or not np.isin(x, (0, 1)).all():
             raise ValueError("Danh mục phải là chuỗi N bit.")
+        target_weights = x / self.k
+        annual_cost = self.rebalances_per_year * float(
+            self.transaction_costs @ np.abs(target_weights - self.previous_weights)
+        )
         return float(
             self.risk_aversion * (x @ self.covariance @ x) / self.k**2
             - (self.mu @ x) / self.k
+            + annual_cost
         )
+
+    def two_way_turnover(self, bits: np.ndarray) -> float:
+        """Tổng giá trị mua và bán theo tỷ trọng danh mục."""
+        x = np.asarray(bits, dtype=float)
+        if x.shape != (self.n,) or not np.isin(x, (0, 1)).all():
+            raise ValueError("Danh mục phải là chuỗi N bit.")
+        return float(np.abs(x / self.k - self.previous_weights).sum())
+
+    def annual_transaction_cost(self, bits: np.ndarray) -> float:
+        """Chi phí giao dịch năm hóa trong cùng đơn vị lợi nhuận với score."""
+        x = np.asarray(bits, dtype=float)
+        if x.shape != (self.n,) or not np.isin(x, (0, 1)).all():
+            raise ValueError("Danh mục phải là chuỗi N bit.")
+        traded_weights = np.abs(x / self.k - self.previous_weights)
+        return float(self.rebalances_per_year * (self.transaction_costs @ traded_weights))
 
 
 @dataclass(frozen=True)
@@ -71,7 +119,7 @@ class Ising:
 
 
 def build_qubo(problem: PortfolioProblem, mixer: str = "X", penalty: float | None = None) -> Qubo:
-    """Đổi hàm mục tiêu sang QUBO; chỉ X-mixer mới cần phạt sai số lượng mã."""
+    """Đổi cùng hàm mục tiêu sang QUBO; chỉ bộ trộn X cần phạt sai số lượng mã."""
     n, k = problem.n, problem.k
     linear = problem.risk_aversion * np.diag(problem.covariance) / k**2 - problem.mu / k
     quadratic = np.zeros((n, n), dtype=float)
@@ -79,8 +127,16 @@ def build_qubo(problem: PortfolioProblem, mixer: str = "X", penalty: float | Non
         for j in range(i + 1, n):
             quadratic[i, j] = 2 * problem.risk_aversion * problem.covariance[i, j] / k**2
 
+    # Với x_i ∈ {0,1}, |x_i/K - w_i| = w_i + (|1/K-w_i|-w_i)x_i.
+    # Hằng số và hệ số tuyến tính này mã hóa chi phí đổi danh mục chính xác.
+    cost_scale = float(problem.rebalances_per_year)
+    previous = problem.previous_weights
+    rates = problem.transaction_costs
+    offset = cost_scale * float(rates @ previous)
+    linear += cost_scale * rates * (np.abs(1 / k - previous) - previous)
+
     if mixer.upper() == "XY":
-        return Qubo(linear=linear, quadratic=quadratic)
+        return Qubo(linear=linear, quadratic=quadratic, offset=offset)
     if mixer.upper() != "X":
         raise ValueError("Bộ trộn hợp lệ là X hoặc XY.")
 
@@ -99,7 +155,7 @@ def build_qubo(problem: PortfolioProblem, mixer: str = "X", penalty: float | Non
     for i in range(n):
         for j in range(i + 1, n):
             quadratic[i, j] += 2 * penalty
-    return Qubo(linear=linear, quadratic=quadratic, offset=penalty * k**2)
+    return Qubo(linear=linear, quadratic=quadratic, offset=offset + penalty * k**2)
 
 
 def to_ising(qubo: Qubo) -> Ising:
@@ -150,12 +206,21 @@ def anneal_solve(
     problem: PortfolioProblem, seed: int = 11, steps: int = 20_000
 ) -> tuple[np.ndarray, float]:
     """Tôi luyện trên không gian khả thi bằng phép đổi một mã đang chọn/một mã bỏ."""
+    if problem.k == problem.n:
+        bits = np.ones(problem.n, dtype=np.int8)
+        return bits, problem.score(bits)
     rng = np.random.Generator(np.random.PCG64(seed))
     bits = np.zeros(problem.n, dtype=np.int8)
     bits[rng.choice(problem.n, problem.k, replace=False)] = 1
     current = problem.score(bits)
     best_bits, best_value = bits.copy(), current
-    scale = max(np.std(problem.mu), 1e-4)
+    neighbor_deltas = []
+    for selected in np.flatnonzero(bits):
+        for rejected in np.flatnonzero(bits == 0):
+            candidate = bits.copy()
+            candidate[selected], candidate[rejected] = 0, 1
+            neighbor_deltas.append(problem.score(candidate) - current)
+    scale = max(float(np.std(neighbor_deltas)), float(np.mean(np.abs(neighbor_deltas))), 1e-4)
     for step in range(steps):
         chosen = rng.choice(np.flatnonzero(bits))
         rejected = rng.choice(np.flatnonzero(bits == 0))

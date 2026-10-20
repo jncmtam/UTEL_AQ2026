@@ -127,3 +127,31 @@ Phép đo bổ sung trên máy thử 8 lõi/16 GB đã duyệt chính xác một
 3. [IBM Quantum — chạy công việc trên thiết bị](https://quantum.cloud.ibm.com/docs/en/guides/get-started-with-sampler).
 4. [Qiskit Algorithms — QAOA và bộ trộn ràng buộc](https://qiskit-community.github.io/qiskit-algorithms/stubs/qiskit_algorithms.QAOA.html).
 5. [scikit-learn — hiệp phương sai Ledoit–Wolf](https://scikit-learn.org/stable/modules/generated/sklearn.covariance.ledoit_wolf.html).
+
+## Phiên bản chính V1 có xét chi phí đổi danh mục
+
+V1 là hướng phát triển chính: cố định mức co rút hiệp phương sai ở 0,40, chỉ cho xác suất trạng thái biến động điều chỉnh hệ số ngại rủi ro, và cộng chi phí giao dịch dự kiến vào mục tiêu mà các bộ giải cùng tối ưu. V0 được giữ trong mã để làm đối chứng lịch sử. Chi phí theo mã được truyền bằng điểm cơ bản; tỷ trọng trước giao dịch phải cùng thứ tự với mã. Chi phí trong hàm mục tiêu được nhân với số lần tái cân bằng năm hóa.
+
+```python
+from agqo.estimators import build_investable_problem
+
+problem, controls = build_investable_problem(
+    daily_returns,
+    tickers,
+    probability_high_volatility=0.70,
+    transaction_cost_bps=25,
+    previous_weights=pre_trade_weights,
+)
+```
+
+Để xem đường chạy tổng hợp V1 (không phải kết quả thị trường):
+
+    agqo demo --n 8 --model-version v1 --transaction-cost-bps 25
+
+`agqo.evaluation.simulate_monthly_portfolios` nhận bảng trọng số mục tiêu và bảng lợi nhuận tài sản tháng có cùng ngày/cột, tính phí, doanh số và giá trị tài khoản ròng. Có thể truyền ADTV để đánh dấu lệnh vượt giới hạn tham gia. Hàm giả định khớp đủ lệnh; nó không mô phỏng phần khớp thiếu hoặc tác động thị trường. `summarize_monthly_returns` tính các chỉ số rủi ro/lợi nhuận; `compare_monthly_returns` so sánh hai chiến lược trên cùng tháng và dùng lấy mẫu khối cho khoảng tin cậy của chênh lệch.
+
+`agqo.ai.evaluate_regime_probabilities` báo hàm mất mát logarit, điểm Brier, đối chứng tỷ lệ nền và bảng hiệu chỉnh xác suất. Với QPU, nhật ký có thêm số cổng hai qubit, độ sâu hai qubit và số cổng SWAP sau biên dịch.
+
+Thiết kế và các cổng đạt/trượt được ghi trong [kế hoạch chốt hướng đi đến chung kết](KE_HOACH_CHOT_HUONG_DI_CHUNG_KET.md). Chưa có bộ đọc dữ liệu thị trường hoặc nguồn giá được cấp phép trong dự án; các hàm này chưa tạo ra bằng chứng lợi nhuận.
+
+Tài liệu đọc theo hai phần: [kết quả đã đạt được](BAO_CAO_KET_QUA_AGQO.md) và [kỹ thuật tạo ra kết quả](TAI_LIEU_KY_THUAT_AGQO.md).

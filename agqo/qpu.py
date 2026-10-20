@@ -175,6 +175,21 @@ def _counts_energy(counts: dict[str, int], qubo: Qubo, k: int) -> tuple[float, f
     return energy / total, feasible_shots / total, best_bits
 
 
+def _two_qubit_gate_metrics(circuit) -> tuple[int, int]:
+    """Đếm cổng hai qubit và độ sâu của lớp cổng hai qubit sau biên dịch."""
+    qubit_depths = [0] * circuit.num_qubits
+    gate_count = 0
+    for item in circuit.data:
+        if item.operation.num_qubits != 2:
+            continue
+        gate_count += 1
+        qubits = [circuit.find_bit(qubit).index for qubit in item.qubits]
+        layer = 1 + max(qubit_depths[index] for index in qubits)
+        for index in qubits:
+            qubit_depths[index] = layer
+    return gate_count, max(qubit_depths, default=0)
+
+
 def run_qpu(
     problem: PortfolioProblem,
     config: QpuConfig,
@@ -203,6 +218,9 @@ def run_qpu(
             problem.covariance[np.ix_(asset_order, asset_order)],
             k=problem.k,
             risk_aversion=problem.risk_aversion,
+            previous_weights=problem.previous_weights[asset_order],
+            transaction_costs=problem.transaction_costs[asset_order],
+            rebalances_per_year=problem.rebalances_per_year,
         )
         initial_bits = np.zeros(problem.n, dtype=np.int8)
         initial_bits[: problem.k] = 1
@@ -223,6 +241,7 @@ def run_qpu(
         raise ValueError("Cấu hình đang yêu cầu QPU thật nhưng backend được chọn là máy mô phỏng.")
     pass_manager = generate_preset_pass_manager(backend=backend, optimization_level=1)
     isa_circuit = pass_manager.run(circuit)
+    two_qubit_count, two_qubit_depth = _two_qubit_gate_metrics(isa_circuit)
     sampler = SamplerV2(mode=backend)
     ledger_run_id = _reserve_shots(config)
     start, calls, jobs = perf_counter(), 0, []
@@ -260,16 +279,28 @@ def run_qpu(
         "mixer": mixer,
         "depth": depth,
         "seed": seed,
+        "n": problem.n,
+        "k": problem.k,
+        "risk_aversion": problem.risk_aversion,
+        "previous_weights": problem.previous_weights.tolist(),
+        "transaction_cost_rates": problem.transaction_costs.tolist(),
+        "rebalances_per_year": problem.rebalances_per_year,
         "asset_order": asset_order.tolist(),
         "evaluations": calls,
         "shots_used": calls * config.shots,
         "budget_ledger_run_id": ledger_run_id,
         "mean_feasible_probability": float(np.mean(feasible_rates)),
         "best_feasible_bits": best_bits,
+        # Giữ khóa cũ để tương thích nhật ký; giá trị này là mục tiêu danh mục,
+        # không phải năng lượng QUBO có thể chứa hạng phạt.
         "best_feasible_qubo_energy": None if best_bits is None else float(best_score),
+        "best_feasible_score": None if best_bits is None else float(best_score),
         "best_parameters": [float(value) for value in result.x],
         "job_ids": jobs,
         "elapsed_seconds": perf_counter() - start,
         "circuit_depth": isa_circuit.depth(),
+        "two_qubit_gate_count": two_qubit_count,
+        "two_qubit_depth": two_qubit_depth,
+        "swap_gate_count": int(isa_circuit.count_ops().get("swap", 0)),
         "circuit_operations": {str(key): int(value) for key, value in isa_circuit.count_ops().items()},
     }
