@@ -2,7 +2,7 @@
 
 AGQO là quy trình lai: mô hình học máy tạo xác suất chế độ thị trường, mô hình ngôn ngữ đọc các insight định lượng cùng kết quả đã khép của những chính sách trước, rồi chọn cấu hình QAOA từ một danh mục hữu hạn. QAOA giải bài toán chọn sáu cổ phiếu; các phương pháp hiện có tiếp tục chạy làm đối chứng. Hiệu quả được so trên lợi nhuận ròng, rủi ro, chi phí và chất lượng nghiệm.
 
-**Kết quả đã lưu hiện tại là đường cơ sở:** lần chạy này chưa gọi LLM nên chưa có số liệu lợi nhuận AGQO. Mã AGQO và bộ triển khai Modal đã được bổ sung; khi bật, mỗi tín hiệu sẽ chạy bóng toàn bộ 12 chính sách QAOA, để LLM dùng kết quả các kỳ đã đóng làm căn cứ chọn cấu hình kế tiếp. Kết quả nền hiện có chưa cho thấy ưu thế lượng tử: mô hình phân loại chưa thắng tỷ lệ nền, Ledoit–Wolf có hiệu quả tài chính cao nhất trong cửa sổ ngắn, còn nghiệm chính xác cổ điển nhanh hơn QAOA.
+**Kết quả đã lưu hiện tại là đường cơ sở:** lần chạy này chưa gọi LLM nên chưa có số liệu lợi nhuận AGQO thích nghi. Đã có [notebook Qwen3 trên Modal](notebooks/AGQO_Qwen3_Modal.ipynb), dùng mô hình mã nguồn mở trực tiếp trên GPU Modal, không cần API OpenAI. Khi bật, mỗi tín hiệu sẽ chạy bóng toàn bộ 12 chính sách QAOA để LLM dùng kết quả các kỳ đã đóng khi chọn cấu hình kế tiếp. Kết quả nền hiện có chưa cho thấy ưu thế lượng tử: mô hình phân loại chưa thắng tỷ lệ nền, Ledoit–Wolf có hiệu quả tài chính cao nhất trong cửa sổ ngắn, còn nghiệm chính xác cổ điển nhanh hơn QAOA.
 
 > Các kết quả cổ phiếu dùng OHLCV thô và ảnh chụp thành phần VN30 hiện tại áp ngược lịch sử. Chưa xác nhận điều chỉnh cổ tức/quyền và chưa có lịch sử thành phần theo ngày; không dùng các con số dưới đây làm lợi nhuận đầu tư thực tế.
 
@@ -161,7 +161,7 @@ Các chỉ số, danh mục từng kỳ, cấu hình QAOA, chi phí và khoảng
 | Mạch lượng tử tùy chọn | Qiskit và Aer; không tạo số liệu báo cáo này |
 | Thiết bị lượng tử | IBM Quantum Runtime tùy chọn; chưa gửi công việc |
 | Biểu đồ | Matplotlib, 7 hình kiểm định và 7 hình khám phá dữ liệu |
-| Bộ hướng dẫn QAOA | GPT-5 mini qua giao diện OpenAI Responses, chạy trong hàm Modal tùy chọn; chưa được gọi trong kết quả đã lưu |
+| Bộ hướng dẫn QAOA | Qwen3-4B qua Transformers trong Modal Notebook; không cần API OpenAI; chưa được gọi trong kết quả đã lưu |
 
 ### Đường đi của một tín hiệu
 
@@ -176,23 +176,24 @@ Các chỉ số, danh mục từng kỳ, cấu hình QAOA, chi phí và khoảng
 
 ## AGQO đầy đủ: mô hình ngôn ngữ hướng dẫn QAOA
 
-Phần triển khai nằm tại [guide.py](agqo/guide.py), [modal_agqo.py](modal_agqo.py) và [lệnh chạy walk-forward](scripts/run_ai_qaoa_walkforward.py). Mô hình ngôn ngữ là **GPT-5 mini**, gọi qua giao diện Responses của OpenAI và được phục vụ bởi Modal. Đây là bộ điều khiển tham số: nó không tự giải bài toán danh mục, không viết mã lượng tử và không được quyền đặt λ hay độ sâu tùy ý.
+Phần triển khai nằm tại [guide.py](agqo/guide.py), [notebook Qwen3 trên Modal](notebooks/AGQO_Qwen3_Modal.ipynb) và [lệnh chạy walk-forward](scripts/run_ai_qaoa_walkforward.py). **Lựa chọn khuyến nghị là Qwen3-4B**, tải từ Hugging Face và suy luận trực tiếp bằng Transformers trong nhân Modal Notebook. Không cần khóa OpenAI và không gọi API OpenAI. Qwen3 là bộ điều khiển tham số: nó không tự giải bài toán danh mục, không viết mã lượng tử và không được quyền đặt λ hay độ sâu tùy ý.
 
 Tại mỗi tín hiệu, LLM nhận xác suất biến động từ mô hình logistic, biến động và xu hướng VN30, tương quan cổ phiếu, độ phân tán lợi suất, độ rộng mã tăng, cơ cấu ngành, thanh khoản ứng viên và kết quả tài chính ròng của các kỳ đã khép cho từng chính sách cố định. Mỗi chính sách xác định mức ngại rủi ro λ, mức co rút α, bộ trộn X/XY, độ sâu p và số mẫu. QAOA của AGQO tối ưu mục tiêu có thêm phí đổi danh mục dự kiến từ tỷ trọng mục tiêu kỳ trước; sổ mô phỏng vẫn tính phí và sức chứa thực tế sau đó. LLM trả mã chính sách, insight được viện dẫn, lý do, ghi chú rủi ro và mức tin cậy tự khai. Mã kiểm tra lại đầu ra với danh mục cho phép trước khi chạy QAOA.
 
-Kết quả mỗi tín hiệu được lưu vào `results/agqo_llm_decisions.json`; khóa bộ nhớ đệm gồm nội dung tín hiệu, mã mô hình, tên hàm và phiên bản lời nhắc. Chạy lại cùng đầu vào sẽ không gọi LLM lại. Modal chỉ nhận các chỉ số tổng hợp và kết quả chiến lược, không nhận OHLCV thô hay tên mã. Khóa API nằm trong bí mật Modal `agqo-openai`. Giao diện đầu ra có cấu trúc và kho bí mật theo [tài liệu OpenAI](https://platform.openai.com/docs/api-reference/responses) và [tài liệu Modal](https://modal.com/docs/guide/secrets).
+Kết quả mỗi tín hiệu được lưu vào tệp lưu đệm và JSON kiểm định; khóa lưu đệm tính từ nội dung tín hiệu, mô hình và phiên bản lời nhắc. Chạy lại cùng đầu vào không cần sinh lại quyết định. Lời nhắc chỉ chứa thống kê tổng hợp, không chứa nến OHLCV thô hay mã cổ phiếu. Đầu ra được kiểm tra bằng lược đồ cục bộ; nếu sai định dạng, Qwen3 được yêu cầu sửa một lần. Chỉ mã chính sách có trong danh sách cho phép mới được áp dụng. Notebook lưu CSV, trọng số mô hình và đầu ra trên Modal Volume; người dùng tải ZIP kết quả về máy từ bảng tệp Modal.
 
-### Bật AGQO trên Modal
+### Chạy Qwen3 trên Modal Notebook
 
-~~~bash
-python -m pip install -e '.[llm-modal]'
-modal setup
-modal secret create agqo-openai OPENAI_API_KEY=YOUR_OPENAI_API_KEY
-AGQO_MODAL_SECRET_NAME=agqo-openai modal deploy modal_agqo.py
-python scripts/run_ai_qaoa_walkforward.py --llm-guide modal
-~~~
+1. Mở [Modal Notebooks](https://modal.com/notebooks), tải lên `notebooks/AGQO_Qwen3_Modal.ipynb` và tạo Volume `agqo-data`, gắn vào `/mnt/agqo`.
+2. Chọn GPU T4 hoặc L4. Tải `ohlcv_daily.csv` và `members.csv` từ thư mục dữ liệu cục bộ lên `/mnt/agqo/input/`; có thể tải thêm `manifest.json`.
+3. Chạy lần lượt các ô. Notebook lấy mã dự án, cài thư viện, tải Qwen3-4B, chạy kiểm định AGQO và QAOA, tạo báo cáo/biểu đồ, rồi đóng gói kết quả tại `/mnt/agqo/results/agqo_qwen3_results.zip`.
+4. Tải ZIP và báo cáo về từ bảng Files trong Modal. Tắt nhân sau khi xong.
 
-Thay `YOUR_OPENAI_API_KEY` bằng khóa của bạn khi tạo bí mật. Mặc định mô hình là `gpt-5-mini`; có thể đặt `AGQO_LLM_MODEL` trước lệnh chạy cục bộ để chọn mô hình tương thích. Tên mô hình được gửi tường minh cho Modal và đưa vào khóa bộ nhớ đệm. Lệnh chạy sẽ gọi LLM một lần cho mỗi tín hiệu chưa có trong bộ nhớ đệm. Khi bật AGQO, quy trình chạy cả 12 chính sách ở chế độ bóng để tạo đối chứng và dữ liệu lịch sử cho các quyết định tiếp theo; thời gian tính QAOA sẽ tăng so với đường cơ sở.
+Qwen3 và mã mô hình được cung cấp theo giấy phép Apache 2.0; Modal vẫn tính phí tài nguyên GPU/CPU theo mức sử dụng và gói tài khoản. Có thể đổi sang `Qwen/Qwen3-0.6B` cùng `REQUIRE_GPU = False` để chạy thử trên CPU, nhưng tốc độ và chất lượng hướng dẫn có thể thấp hơn. Không có kết quả AGQO nào được tạo sẵn trong kho mã; lần chạy trên notebook mới tạo kết quả này. Khi AGQO bật, thời gian tính tăng vì mỗi tín hiệu chạy 12 chính sách QAOA đối chứng.
+
+#### Bộ OpenAI cũ (tùy chọn)
+
+`modal_agqo.py` và tùy chọn `--llm-guide modal` vẫn được giữ để đối chiếu, nhưng cần khóa API OpenAI và không cần thiết khi chạy notebook Qwen3. Trên môi trường cục bộ có CUDA và cài `.[qwen3]`, có thể gọi `python scripts/run_ai_qaoa_walkforward.py --llm-guide qwen3`; mặc định yêu cầu GPU và dùng `Qwen/Qwen3-4B`.
 
 ### Tiêu chí so sánh
 

@@ -52,7 +52,7 @@ INSIGHT_CODES = (
     "low_liquidity",
     "mixed_signals",
 )
-PROMPT_CACHE_VERSION = "agqo-prompt-v1"
+PROMPT_CACHE_VERSION = "agqo-prompt-v2"
 
 
 def policy_catalog() -> list[dict[str, Any]]:
@@ -179,6 +179,159 @@ class ModalGuide:
 
     def __call__(self, payload: dict[str, Any]) -> dict[str, Any]:
         return self.function.remote({"payload": payload, "model_name": self.model_name})
+
+
+class TransformersQwen3Guide:
+    """Chạy Qwen3 ngay trong máy tính Modal Notebook; không cần dịch vụ suy luận/API LLM."""
+
+    def __init__(
+        self,
+        model_name: str = "Qwen/Qwen3-4B",
+        max_new_tokens: int = 480,
+        require_gpu: bool = True,
+        revision: str | None = None,
+    ):
+        if not isinstance(model_name, str) or not model_name.strip():
+            raise ValueError("Cần tên mô hình Qwen3 hợp lệ.")
+        if max_new_tokens < 64:
+            raise ValueError("Ngân sách sinh phải ít nhất 64 token.")
+        try:
+            import torch
+            from transformers import AutoModelForCausalLM, AutoTokenizer
+        except ImportError as exc:
+            raise RuntimeError(
+                "Cài Transformers và PyTorch trong Modal Notebook trước khi nạp Qwen3."
+            ) from exc
+
+        if require_gpu and not torch.cuda.is_available():
+            raise RuntimeError(
+                "Không tìm thấy GPU. Trong Modal Notebook, chọn GPU T4/L4 rồi khởi động lại kernel; "
+                "hoặc dùng Qwen3-0.6B với require_gpu=False để thử trên CPU."
+            )
+        if torch.cuda.is_available():
+            dtype = (
+                torch.bfloat16
+                if torch.cuda.is_bf16_supported()
+                else torch.float16
+            )
+        else:
+            dtype = torch.float32
+        self.torch = torch
+        self.model_name = model_name
+        self.requested_revision = revision
+        self.max_new_tokens = int(max_new_tokens)
+        load_options = {"revision": revision} if revision else {}
+        self.tokenizer = AutoTokenizer.from_pretrained(model_name, **load_options)
+        self.model = AutoModelForCausalLM.from_pretrained(
+            model_name,
+            torch_dtype=dtype,
+            device_map="auto",
+            **load_options,
+        )
+        self.model_revision = (
+            revision
+            or getattr(self.model.config, "_commit_hash", None)
+            or "unresolved"
+        )
+        self.model.eval()
+
+    @staticmethod
+    def _read_json(text: str) -> dict[str, Any]:
+        """Đọc JSON thuần hoặc phần JSON trong hàng rào mã; không thực thi văn bản mô hình."""
+        stripped = text.strip()
+        if stripped.startswith("```"):
+            stripped = stripped.split("\n", 1)[-1]
+            if stripped.endswith("```"):
+                stripped = stripped[:-3].strip()
+        try:
+            value = json.loads(stripped)
+        except json.JSONDecodeError:
+            start, end = stripped.find("{"), stripped.rfind("}")
+            if start < 0 or end <= start:
+                raise ValueError("Qwen3 không trả đối tượng JSON có thể đọc được.")
+            value = json.loads(stripped[start : end + 1])
+        if not isinstance(value, dict):
+            raise ValueError("Đầu ra Qwen3 phải là một đối tượng JSON.")
+        return value
+
+    def _generate(self, messages: list[dict[str, str]]) -> tuple[str, int, int]:
+        torch = self.torch
+        encoded = self.tokenizer.apply_chat_template(
+            messages,
+            tokenize=True,
+            add_generation_prompt=True,
+            enable_thinking=False,
+            return_tensors="pt",
+            return_dict=True,
+        )
+        device = self.model.get_input_embeddings().weight.device
+        encoded = {key: value.to(device) for key, value in encoded.items()}
+        input_tokens = int(encoded["input_ids"].shape[-1])
+        with torch.inference_mode():
+            output = self.model.generate(
+                **encoded,
+                max_new_tokens=self.max_new_tokens,
+                do_sample=False,
+                use_cache=True,
+            )
+        generated = output[0, input_tokens:]
+        return (
+            self.tokenizer.decode(generated, skip_special_tokens=True).strip(),
+            input_tokens,
+            int(generated.numel()),
+        )
+
+    def __call__(self, payload: dict[str, Any]) -> dict[str, Any]:
+        if not isinstance(payload, dict):
+            raise ValueError("Bối cảnh AGQO phải là một đối tượng JSON.")
+        instructions = (
+            "Bạn là bộ điều khiển AGQO. Chỉ dùng số liệu trong bối cảnh đến ngày as_of_date. "
+            "Đọc insight thị trường và kết quả kiểm định các chính sách đã hoàn tất, sau đó chọn "
+            "đúng một policy_id từ policy_catalog. Ưu tiên lợi nhuận ròng đã điều chỉnh rủi ro "
+            "sau chi phí; xem xét CAGR, Sharpe, Sortino, sụt giảm tối đa, VaR/CVaR, hệ số lợi nhuận, "
+            "doanh số, chi phí và số kỳ. Nếu lịch sử ngắn hoặc thiếu, nêu rõ hạn chế và giảm mức khẳng định. "
+            "Không dùng kết quả chưa khép, không dự báo lợi nhuận tương lai, không tự tạo tham số, "
+            "không chọn cổ phiếu. Chỉ gắn insight_codes được số liệu hỗ trợ. Viết rationale và risk_note "
+            "bằng tiếng Việt, dẫn trường số liệu cụ thể. confidence là mức tự đánh giá chưa hiệu chỉnh. "
+            "Đây là nghiên cứu, không phải khuyến nghị đầu tư. Trả về duy nhất JSON hợp lệ theo schema "
+            f"này, không có lời dẫn: {json.dumps(decision_json_schema(), ensure_ascii=False)}"
+        )
+        user_prompt = create_guide_prompt(payload)
+        messages = [
+            {"role": "system", "content": instructions},
+            {"role": "user", "content": user_prompt},
+        ]
+        raw_text, input_tokens, output_tokens = self._generate(messages)
+        try:
+            decision = validate_guidance(self._read_json(raw_text))
+        except (ValueError, json.JSONDecodeError):
+            messages.extend(
+                [
+                    {"role": "assistant", "content": raw_text},
+                    {
+                        "role": "user",
+                        "content": (
+                            "Đầu ra trước sai định dạng hoặc vi phạm schema. Hãy sửa và chỉ trả một "
+                            "đối tượng JSON hợp lệ có đủ mọi trường bắt buộc; không thêm văn bản."
+                        ),
+                    },
+                ]
+            )
+            raw_text, retry_input_tokens, retry_output_tokens = self._generate(messages)
+            input_tokens += retry_input_tokens
+            output_tokens += retry_output_tokens
+            decision = validate_guidance(self._read_json(raw_text))
+        return {
+            "decision": decision,
+            "model": self.model_name,
+            "model_revision": self.model_revision,
+            "response_id": None,
+            "usage": {
+                "input_tokens": input_tokens,
+                "output_tokens": output_tokens,
+                "total_tokens": input_tokens + output_tokens,
+            },
+        }
 
 
 def create_guide_prompt(payload: dict[str, Any]) -> str:

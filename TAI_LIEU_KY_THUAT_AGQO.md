@@ -181,9 +181,15 @@ J_AGQO(x) = λ(xᵀΣαx)/K² − (μᵀx)/K
 
 `w_trước` là tỷ trọng mục tiêu của chính sách cố định ở kỳ trước, hoặc danh mục AGQO thích nghi ở kỳ trước. Kỳ đầu bắt đầu bằng tiền mặt. Hạng phí dùng cùng thang năm hóa với μ, Σ; sổ giao dịch sau đó vẫn mô phỏng phí thực tế từng lệnh và giới hạn ADTV. Đường cơ sở cũ không bị thay đổi và tiếp tục dùng mục tiêu rủi ro/lợi nhuận không có hạng phí trực tiếp.
 
-`modal_agqo.py` khai báo ứng dụng `agqo-llm-guide` và hàm `guide_qaoa_policy` trên Modal. Hàm gọi GPT-5 mini bằng OpenAI Responses API với đầu ra JSON theo lược đồ chặt, ghi mã mô hình, mã phản hồi và số token; khóa `OPENAI_API_KEY` được lấy từ bí mật Modal `agqo-openai`. Tùy chọn `store=False` tránh lưu nội dung phản hồi phía API. Hàm chỉ cần CPU và không nạp bộ dữ liệu thị trường.
+`TransformersQwen3Guide` trong `agqo/guide.py` chạy mô hình Qwen3 ngay trong tiến trình Python của Modal Notebook bằng thư viện Transformers; đường khuyến nghị dùng `Qwen/Qwen3-4B` với GPU T4/L4. Mô hình được nạp một lần bằng `AutoTokenizer` và `AutoModelForCausalLM`, sinh ở chế độ không suy nghĩ để tập trung vào đầu ra JSON. Notebook đặt `HF_HOME=/mnt/agqo/hf-cache`, nhờ đó trọng số đã tải được giữ trên Volume qua các lần chạy. Không cần bí mật, khóa OpenAI hay dịch vụ suy luận; internet chỉ được dùng để lấy mã nguồn dự án, thư viện và trọng số công khai từ Hugging Face.
 
-`CachedGuide` lưu quyết định theo mã băm SHA-256 của nội dung tín hiệu, tên ứng dụng/hàm, tên mô hình và phiên bản lời nhắc; dữ liệu được ghi vào tệp tạm rồi thay thế nguyên tử. Việc này hỗ trợ kiểm toán, tránh gọi lại API khi chạy lại đúng đầu vào và giữ lại số token của phản hồi. Tệp lưu đệm mặc định là `results/agqo_llm_decisions.json` và bị loại khỏi Git. Đổi insight, lịch sử chính sách hoặc danh mục sẽ tạo khóa mới; khi chỉnh lời nhắc, cần tăng `PROMPT_CACHE_VERSION` trong `agqo/guide.py`.
+Lời nhắc gồm xác suất biến động từ mô hình logistic, thống kê thị trường đến ngày tín hiệu, kết quả tài chính của các kỳ đã khép và danh mục hữu hạn 12 chính sách. Nó không chứa OHLCV thô hoặc mã cổ phiếu. Mô hình sinh JSON, mã cục bộ phân tích cấu trúc và gọi `validate_guidance`; nếu định dạng/lược đồ không hợp lệ thì thử sửa một lần. Nếu vẫn không hợp lệ, lượt chạy dừng thay vì thực thi tham số ngoài danh mục. Mức tin cậy chỉ là tự đánh giá của LLM, không được hiệu chỉnh.
+
+Notebook `notebooks/AGQO_Qwen3_Modal.ipynb` lấy CSV từ `/mnt/agqo/input/`, chạy walk-forward bằng mã dự án, lưu kết quả, nhật ký quyết định, báo cáo và biểu đồ ở `/mnt/agqo/results/`, rồi tạo `agqo_qwen3_results.zip` để tải về. Dữ liệu và kết quả được giữ trên Modal Volume. Bộ mô phỏng QAOA véc-tơ trạng thái NumPy cùng bộ tối ưu SciPy COBYLA chạy trên CPU; GPU Modal chỉ dùng cho suy luận Qwen3.
+
+`modal_agqo.py` vẫn được giữ làm lựa chọn cũ để đối chiếu. Tệp này gọi GPT-5 mini qua OpenAI Responses API, yêu cầu đầu ra JSON và ghi mã mô hình, mã phản hồi cùng số token. Khóa `OPENAI_API_KEY` lấy từ bí mật Modal `agqo-openai`; tùy chọn này có thể phát sinh phí OpenAI và không cần cho notebook Qwen3.
+
+`CachedGuide` lưu quyết định theo mã băm SHA-256 của nội dung tín hiệu, tên ứng dụng/hàm, tên mô hình và phiên bản lời nhắc; dữ liệu được ghi vào tệp tạm rồi thay thế nguyên tử. Việc này hỗ trợ kiểm toán, tránh sinh lại quyết định khi chạy lại đúng đầu vào và giữ lại số token của phản hồi. Với Qwen3, khóa còn gồm mã phiên bản trọng số đã tải. Tệp lưu đệm mặc định là `results/agqo_llm_decisions.json` và bị loại khỏi Git. Đổi insight, lịch sử chính sách hoặc danh mục sẽ tạo khóa mới; khi chỉnh lời nhắc, cần tăng `PROMPT_CACHE_VERSION` trong `agqo/guide.py`.
 
 Trong từng tín hiệu, walk-forward chạy QAOA cho cả 12 chính sách ở chế độ bóng. Chỉ danh mục theo chính sách LLM chọn được ghi vào dòng lợi nhuận AGQO thích nghi; từng chính sách còn lại tạo một đường đối chứng cố định. Khi tín hiệu kế tiếp đến, LLM nhận các kết quả đã đóng của cả 12 đường đối chứng. Mỗi đường được so với nghiệm chính xác của cùng hàm mục tiêu riêng, không so điểm mục tiêu của hai λ/α khác nhau với nhau. Sau khi chọn chính sách, AGQO còn chạy cấu hình đó trên mục tiêu có trọng số danh mục AGQO kỳ trước; vì vậy nghiệm động có thể khác đường cố định cùng mã chính sách.
 
@@ -375,7 +381,9 @@ Khoảng tin cậy không sửa được thiên lệch sống sót, dữ liệu 
 | agqo/walkforward_plots.py · build_walkforward_plots | Tạo bảy biểu đồ cơ sở và biểu đồ chính sách AGQO khi bật |
 | agqo/walkforward_report.py · write_walkforward_report | Dựng báo cáo tiếng Việt |
 | agqo/guide.py · policy_catalog / validate_guidance | Lấy danh mục chính sách và kiểm tra đầu ra LLM |
-| agqo/guide.py · CachedGuide / ModalGuide | Lưu đệm theo đầu vào, kiểm toán quyết định và gọi hàm Modal đã triển khai |
+| agqo/guide.py · CachedGuide / ModalGuide | Lưu đệm theo đầu vào, kiểm toán quyết định và gọi dịch vụ OpenAI Modal cũ |
+| agqo/guide.py · TransformersQwen3Guide | Chạy Qwen3 bằng Transformers, sinh JSON và xác thực chính sách AGQO mà không gọi API LLM |
+| notebooks/AGQO_Qwen3_Modal.ipynb | Đọc dữ liệu trên Volume, chạy Qwen3→QAOA, tạo và tải gói kết quả |
 | modal_agqo.py · guide_qaoa_policy | Gọi GPT-5 mini bằng đầu ra JSON có cấu trúc; không nhận OHLCV thô |
 | scripts/run_ai_qaoa_walkforward.py | Lệnh chạy trọn quy trình |
 
@@ -394,7 +402,15 @@ Yêu cầu tệp OHLCV cục bộ có trong manifest. Từ thư mục gốc dự
 python scripts/run_ai_qaoa_walkforward.py
 ~~~
 
-Đường cơ sở giữ nguyên, không gọi mô hình ngôn ngữ. Để chạy AGQO, cần có quyền sử dụng Modal và khóa OpenAI:
+Đường cơ sở giữ nguyên, không gọi mô hình ngôn ngữ. Để chạy Qwen3 theo cách khuyến nghị, mở notebook `notebooks/AGQO_Qwen3_Modal.ipynb` tại Modal, gắn Volume vào `/mnt/agqo`, tải `ohlcv_daily.csv` và `members.csv` vào `/mnt/agqo/input/`, chọn GPU T4/L4, rồi chạy các ô lần lượt. Mã nguồn được lấy từ nhánh `main`; báo cáo và biểu đồ ghi vào `/mnt/agqo/results/`.
+
+Có thể chạy Qwen3 trực tiếp trong môi trường cục bộ có GPU bằng cách cài `.[qwen3]` và bật:
+
+~~~bash
+python scripts/run_ai_qaoa_walkforward.py --llm-guide qwen3 --qwen3-model Qwen/Qwen3-4B
+~~~
+
+Tùy chọn cũ dùng GPT-5 mini và yêu cầu khóa API OpenAI:
 
 ~~~bash
 python -m pip install -e '.[llm-modal]'
@@ -404,7 +420,7 @@ AGQO_MODAL_SECRET_NAME=agqo-openai modal deploy modal_agqo.py
 python scripts/run_ai_qaoa_walkforward.py --llm-guide modal
 ~~~
 
-Mặc định là `gpt-5-mini`; có thể đặt `AGQO_LLM_MODEL` trước lệnh chạy cục bộ để chọn mô hình tương thích. Tên mô hình được gửi rõ cho Modal và nằm trong không gian khóa bộ nhớ đệm. Mỗi tín hiệu chưa có bộ nhớ đệm gọi Modal một lần; các lượt chạy lại cùng payload dùng lại kết quả cũ. Khi bật AGQO, mỗi tín hiệu chạy QAOA cho cả 12 chính sách để tạo đường đối chứng bóng; chi phí và thời gian tính toán cao hơn đáng kể so với đường cơ sở.
+Mặc định là `gpt-5-mini`; có thể đặt `AGQO_LLM_MODEL` trước lệnh chạy cục bộ để chọn mô hình tương thích. Tên mô hình được gửi rõ cho Modal và nằm trong không gian khóa bộ nhớ đệm. Đây là lựa chọn tách biệt, không cần thiết cho Qwen3. Khi bật AGQO, mỗi tín hiệu chạy QAOA cho cả 12 chính sách để tạo đường đối chứng bóng; thời gian tính toán cao hơn đáng kể so với đường cơ sở.
 
 Lệnh dựng lại JSON, bảy biểu đồ đường cơ sở (thêm biểu đồ số 8 khi AGQO bật) và báo cáo. Thiết lập mặc định trong ResearchConfig:
 

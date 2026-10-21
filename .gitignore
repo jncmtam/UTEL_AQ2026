@@ -10,4 +10,5 @@ __pycache__/
 *.egg-info/
 .DS_Store
 data/vn30_snapshot_20261002/ohlcv_daily.csv
+data/vn30_snapshot_20261002/modal_upload.zip
 data/vn30_snapshot_20261002/download_failures.json

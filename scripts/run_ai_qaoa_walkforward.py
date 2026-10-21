@@ -7,7 +7,12 @@ import argparse
 import os
 from pathlib import Path
 
-from agqo.guide import CachedGuide, ModalGuide, PROMPT_CACHE_VERSION
+from agqo.guide import (
+    CachedGuide,
+    ModalGuide,
+    PROMPT_CACHE_VERSION,
+    TransformersQwen3Guide,
+)
 from agqo.walkforward import ResearchConfig, run_walkforward
 from agqo.walkforward_plots import build_walkforward_plots
 from agqo.walkforward_report import write_walkforward_report
@@ -50,9 +55,9 @@ def main() -> int:
     )
     parser.add_argument(
         "--llm-guide",
-        choices=("none", "modal"),
+        choices=("none", "modal", "qwen3"),
         default="none",
-        help="Bật bộ điều khiển LLM trên Modal; các đối chứng hiện tại luôn được giữ.",
+        help="Bật bộ điều khiển Qwen3 cục bộ (trong Modal Notebook) hoặc bộ OpenAI Modal cũ.",
     )
     parser.add_argument(
         "--guide-cache",
@@ -62,6 +67,16 @@ def main() -> int:
     )
     parser.add_argument("--modal-app", default="agqo-llm-guide")
     parser.add_argument("--modal-function", default="guide_qaoa_policy")
+    parser.add_argument(
+        "--qwen3-model",
+        default=os.environ.get("AGQO_QWEN3_MODEL", "Qwen/Qwen3-4B"),
+        help="Tên mô hình Qwen3 trên Hugging Face; mặc định Qwen/Qwen3-4B.",
+    )
+    parser.add_argument(
+        "--qwen3-revision",
+        default=os.environ.get("AGQO_QWEN3_REVISION"),
+        help="Mã nhánh hoặc mã phiên bản Hugging Face; để trống sẽ ghi lại mã đã tải.",
+    )
     args = parser.parse_args()
 
     guide = None
@@ -73,6 +88,20 @@ def main() -> int:
             cache_namespace=(
                 f"{PROMPT_CACHE_VERSION}:{args.modal_app}:{args.modal_function}:"
                 f"{model_name}"
+            ),
+        )
+    elif args.llm_guide == "qwen3":
+        model_name = args.qwen3_model
+        qwen_guide = TransformersQwen3Guide(
+            model_name=model_name,
+            revision=args.qwen3_revision,
+        )
+        guide = CachedGuide(
+            qwen_guide,
+            args.guide_cache,
+            cache_namespace=(
+                f"{PROMPT_CACHE_VERSION}:transformers:{model_name}:"
+                f"{qwen_guide.model_revision}"
             ),
         )
     result = run_walkforward(args.data, args.members, args.json, ResearchConfig(), guide=guide)

@@ -655,6 +655,7 @@ def run_walkforward(
                     "decision": decision,
                     "policy": asdict(agqo_policy),
                     "model": envelope.get("model"),
+                    "model_revision": envelope.get("model_revision"),
                     "response_id": envelope.get("response_id"),
                     "usage": envelope.get("usage"),
                     "cache_key": envelope.get("cache_key"),
