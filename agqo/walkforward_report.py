@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import math
+import os
 from pathlib import Path
 
 from .walkforward_plots import SHORT
@@ -502,9 +503,18 @@ def render_walkforward_report(result: dict[str, object]) -> str:
     return "\n".join(lines)
 
 
-def write_walkforward_report(result_json: str | Path, output_report: str | Path) -> Path:
+def write_walkforward_report(
+    result_json: str | Path,
+    output_report: str | Path,
+    figures_dir: str | Path | None = None,
+) -> Path:
     result = json.loads(Path(result_json).read_text(encoding="utf-8"))
     destination = Path(output_report)
     destination.parent.mkdir(parents=True, exist_ok=True)
-    destination.write_text(render_walkforward_report(result), encoding="utf-8")
+    report = render_walkforward_report(result)
+    if figures_dir is not None:
+        figure_prefix = Path(os.path.relpath(Path(figures_dir).resolve(), destination.parent.resolve()))
+        figure_prefix = figure_prefix.as_posix().rstrip("/")
+        report = report.replace("figures/walkforward/", f"{figure_prefix}/")
+    destination.write_text(report, encoding="utf-8")
     return destination

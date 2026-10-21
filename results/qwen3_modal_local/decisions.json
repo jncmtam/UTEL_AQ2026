@@ -1,0 +1,374 @@
+{
+  "a84028804f4ee67297d2e33f6416c503a79a368e59580ca883bd130a083b665a": {
+    "decision": {
+      "policy_id": "balanced_x_p2",
+      "insight_codes": [
+        "high_volatility",
+        "high_correlation",
+        "bank_concentration"
+      ],
+      "rationale": "Cổ phiếu ngân hàng chiếm 41.67% trong danh mục ứng cử, thể hiện sự tập trung cao trong ngành, đồng thời tỷ lệ tương quan cặp đôi 252 ngày là 0.64, cho thấy sự liên kết cao giữa các cổ phiếu. Tỷ lệ biến động hàng ngày của cổ phiếu ứng cử là 0.105, cho thấy mức độ biến động cao. Chính sách balanced_x_p2 có độ nhạy rủi ro trung bình (risk_aversion = 5.0) phù hợp với môi trường thị trường hiện tại, với số mẫu lớn (shots = 512) và mức co rút vừa phải (shrinkage = 0.4), giúp cân bằng giữa hiệu suất và rủi ro.",
+      "risk_note": "Sự tập trung vào ngành ngân hàng có thể làm tăng rủi ro nếu thị trường ngành này biến động mạnh. Tỷ lệ tương quan cao giữa các cổ phiếu có thể làm giảm lợi nhuận do sự đồng biến của các tài sản.",
+      "confidence": 0.75
+    },
+    "model": "Qwen/Qwen3-4B",
+    "model_revision": "1cfa9a7208912126459214e8b04321603b3df60c",
+    "response_id": null,
+    "usage": {
+      "input_tokens": 1922,
+      "output_tokens": 279,
+      "total_tokens": 2201
+    },
+    "cache_key": "a84028804f4ee67297d2e33f6416c503a79a368e59580ca883bd130a083b665a",
+    "cache_hit": false
+  },
+  "092cbe7c71633fa1d06f328a3b7f7ee5f14fb636a2e7936ddd5bfe7125cf3fec": {
+    "decision": {
+      "policy_id": "balanced_x_p1",
+      "insight_codes": [
+        "high_volatility",
+        "high_correlation",
+        "bank_concentration"
+      ],
+      "rationale": "Cổ phiếu ngân hàng chiếm 50% trong danh mục ứng cử, thể hiện sự tập trung cao trong ngành, đồng thời tỷ lệ tương quan cặp đôi 252 ngày là 0.64, cho thấy sự liên kết cao giữa các cổ phiếu. Tỷ lệ biến động hàng ngày của cổ phiếu ứng cử cao, với giá trị trung bình hàng ngày giao dịch là 435.714 tỷ VND, cho thấy tính thanh khoản thấp. Tỷ lệ lợi nhuận 20 ngày dương là 79.31%, nhưng cùng với tỷ lệ biến động cao, điều này có thể dẫn đến rủi ro lớn. Chính sách balanced_x_p1 có độ nhạy rủi ro trung bình, phù hợp với bối cảnh thị trường hiện tại.",
+      "risk_note": "Sự tập trung vào ngành ngân hàng và mức độ tương quan cao giữa các cổ phiếu có thể làm tăng rủi ro thanh khoản và biến động. Cần theo dõi sát hơn các yếu tố thị trường trong thời gian tới.",
+      "confidence": 0.75
+    },
+    "model": "Qwen/Qwen3-4B",
+    "model_revision": "1cfa9a7208912126459214e8b04321603b3df60c",
+    "response_id": null,
+    "usage": {
+      "input_tokens": 1888,
+      "output_tokens": 286,
+      "total_tokens": 2174
+    },
+    "cache_key": "092cbe7c71633fa1d06f328a3b7f7ee5f14fb636a2e7936ddd5bfe7125cf3fec",
+    "cache_hit": false
+  },
+  "ba9d8d523f069e90b7983641fcab718208274e9ce495a8f8eef1f1d425b4c19f": {
+    "decision": {
+      "policy_id": "diversified_x_p1",
+      "insight_codes": [
+        "high_volatility",
+        "high_correlation",
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "rationale": "Chính sách diversified_x_p1 có CAGR cao nhất (1.0149) và có mức sụt giảm tối đa bằng 0, cho thấy khả năng quản lý rủi ro tốt. Tuy nhiên, tỷ lệ biến động (volatility) cao (0.2311) và độ tương quan cao (0.4494) giữa các cổ phiếu trong danh mục cho thấy rủi ro về biến động giá. Ngoài ra, tỷ lệ cổ phiếu ngân hàng trong danh mục (0.4828) cho thấy sự tập trung vào lĩnh vực có rủi ro cao. Mặc dù có lợi nhuận cao, cần lưu ý đến rủi ro từ sự biến động và tập trung trong ngành ngân hàng.",
+      "risk_note": "Dù có CAGR cao, chính sách này có thể chịu ảnh hưởng từ biến động thị trường và tập trung vào ngành ngân hàng, điều này có thể dẫn đến rủi ro cao hơn trong trường hợp thị trường biến động mạnh.",
+      "confidence": 0.8
+    },
+    "model": "Qwen/Qwen3-4B",
+    "model_revision": "1cfa9a7208912126459214e8b04321603b3df60c",
+    "response_id": null,
+    "usage": {
+      "input_tokens": 7412,
+      "output_tokens": 282,
+      "total_tokens": 7694
+    },
+    "cache_key": "ba9d8d523f069e90b7983641fcab718208274e9ce495a8f8eef1f1d425b4c19f",
+    "cache_hit": false
+  },
+  "e54ee23721b3cc68c5b546b286f0515d44f4a56cec528425610d0d35c027b1cb": {
+    "decision": {
+      "policy_id": "diversified_xy_p1",
+      "insight_codes": [
+        "high_volatility",
+        "high_correlation",
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "rationale": "Chính sách diversified_xy_p1 có CAGR cao nhất (1.4645583240591074) và Sharpe cao nhất (8.601035645079504), cho thấy hiệu suất vượt trội so với các chính sách khác. Tuy nhiên, tỷ lệ biến động cao (90th percentile pairwise correlation 0.6047) và độ phân tán cao (cross_sectional 20d return dispersion 0.1198) cho thấy rủi ro cao. Ngoài ra, tỷ lệ cổ phiếu ngân hàng trong danh mục (0.5833) cho thấy sự tập trung vào lĩnh vực có rủi ro cao.",
+      "risk_note": "Dù có hiệu suất cao, chính sách này có rủi ro cao do biến động giá và tập trung vào ngành ngân hàng. Cần theo dõi sát hơn để đảm bảo không bị ảnh hưởng bởi biến động thị trường.",
+      "confidence": 0.85
+    },
+    "model": "Qwen/Qwen3-4B",
+    "model_revision": "1cfa9a7208912126459214e8b04321603b3df60c",
+    "response_id": null,
+    "usage": {
+      "input_tokens": 7720,
+      "output_tokens": 281,
+      "total_tokens": 8001
+    },
+    "cache_key": "e54ee23721b3cc68c5b546b286f0515d44f4a56cec528425610d0d35c027b1cb",
+    "cache_hit": false
+  },
+  "20247ffba6d227bd2c1200d7f33174fa27824e12829122a16750a0233409570c": {
+    "decision": {
+      "policy_id": "diversified_x_p2",
+      "insight_codes": [
+        "high_volatility",
+        "high_correlation",
+        "bank_concentration"
+      ],
+      "rationale": "Chính sách diversified_x_p2 có CAGR cao nhất (3.3794707103979427%) và Sharpe cao (4.87700417279057), cho thấy hiệu suất vượt trội so với các chính sách khác. Tuy nhiên, tỷ lệ phần trăm cổ phiếu ngân hàng (bank_fraction_of_eligible_stocks: 0.4827586206896552) cao, thể hiện sự tập trung vào lĩnh vực này, có thể dẫn đến rủi ro cao hơn. Ngoài ra, tỷ lệ biến động cặp đôi (mean_pairwise_correlation_252d: 0.4190719254737773) và tỷ lệ biến động trong 20 ngày (cross_sectional_20d_return_dispersion: 0.09232237082108309) cho thấy mức độ biến động cao, phù hợp với insight_codes 'high_volatility' và 'high_correlation'.",
+      "risk_note": "Sự tập trung vào ngân hàng có thể làm tăng rủi ro, và mức độ biến động cao có thể dẫn đến sụt giảm giá trong tương lai. Dữ liệu lịch sử ngắn (3 kỳ) có thể không đủ để đánh giá đầy đủ.",
+      "confidence": 0.8
+    },
+    "model": "Qwen/Qwen3-4B",
+    "model_revision": "1cfa9a7208912126459214e8b04321603b3df60c",
+    "response_id": null,
+    "usage": {
+      "input_tokens": 7703,
+      "output_tokens": 364,
+      "total_tokens": 8067
+    },
+    "cache_key": "20247ffba6d227bd2c1200d7f33174fa27824e12829122a16750a0233409570c",
+    "cache_hit": false
+  },
+  "5f9db37a2f72e33e35cf12355e7cc1e48cd121f72da6f64c8314c06656dd4a5b": {
+    "decision": {
+      "policy_id": "diversified_x_p2",
+      "insight_codes": [
+        "high_volatility",
+        "high_correlation",
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "rationale": "Chính sách diversified_x_p2 có CAGR cao nhất (1.5328938952935003) và Sharpe cao (2.4133979176222957), cho thấy hiệu suất vượt trội so với các chính sách khác. Tuy nhiên, có sự tập trung vào ngân hàng (bank_fraction_of_eligible_stocks: 0.3333333333333333) và độ phân tán cao (cross_sectional_20d_return_dispersion: 0.10118788236756004), điều này có thể dẫn đến rủi ro cao hơn. Ngoài ra, độ biến động cao (vn30_annualized_volatility_20d: 0.31996861971128215) và tương quan cao (mean_pairwise_correlation_252d: 0.4356189537974712) cũng là yếu tố cần lưu ý.",
+      "risk_note": "Dù có hiệu suất tốt, chính sách này có thể chịu rủi ro cao do sự tập trung vào ngân hàng và độ phân tán cao trong thị trường. Cần theo dõi sát hơn để đảm bảo tính ổn định.",
+      "confidence": 0.85
+    },
+    "model": "Qwen/Qwen3-4B",
+    "model_revision": "1cfa9a7208912126459214e8b04321603b3df60c",
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8572,
+      "output_tokens": 370,
+      "total_tokens": 8942
+    },
+    "cache_key": "5f9db37a2f72e33e35cf12355e7cc1e48cd121f72da6f64c8314c06656dd4a5b",
+    "cache_hit": false
+  },
+  "b29aafa39b176d70206e8ae5e33f0d9f70a8283bc7974f4962d6482a09510073": {
+    "decision": {
+      "policy_id": "diversified_x_p2",
+      "insight_codes": [
+        "high_volatility",
+        "high_correlation",
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "rationale": "Chính sách diversified_x_p2 có CAGR cao nhất (0.769589) và Sharpe cao nhất (1.489915), đồng thời có mức sụt giảm tối đa thấp nhất (-0.123151). Tuy nhiên, có sự tập trung vào ngân hàng (bank_fraction_of_eligible_stocks: 0.4667) và độ phân tán cao (cross_sectional_20d_return_dispersion: 0.0911), điều này có thể dẫn đến rủi ro cao hơn. Ngoài ra, có sự tương quan cao giữa các tài sản (mean_pairwise_correlation_252d: 0.3391) và xác suất cao về biến động (ai_high_volatility_probability: 0.3251). Chính sách này có tiềm năng cao nhưng cần lưu ý về rủi ro liên quan đến tập trung và biến động.",
+      "risk_note": "Có sự tập trung vào ngân hàng và độ phân tán cao trong danh mục đầu tư, điều này có thể làm tăng rủi ro. Ngoài ra, mức độ biến động cao (ai_high_volatility_probability: 0.3251) và tương quan cao giữa các tài sản (mean_pairwise_correlation_252d: 0.3391) có thể làm giảm hiệu quả phân tán rủi ro.",
+      "confidence": 0.85
+    },
+    "model": "Qwen/Qwen3-4B",
+    "model_revision": "1cfa9a7208912126459214e8b04321603b3df60c",
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8573,
+      "output_tokens": 379,
+      "total_tokens": 8952
+    },
+    "cache_key": "b29aafa39b176d70206e8ae5e33f0d9f70a8283bc7974f4962d6482a09510073",
+    "cache_hit": false
+  },
+  "2e852e07c37d86302d77064e24e5a94e88fd821241fa9609dd44ce46723447eb": {
+    "decision": {
+      "policy_id": "diversified_x_p2",
+      "insight_codes": [
+        "high_volatility",
+        "high_correlation",
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "rationale": "Chính sách diversified_x_p2 có CAGR cao nhất (0.8478) và Sharpe cao (1.7485), đồng thời có mức sụt giảm tối đa thấp (-0.1231). Tuy nhiên, có sự phân tán cao (cross_sectional_20d_return_dispersion 0.1005) và tỷ lệ cổ phiếu ngân hàng cao (0.4167), cho thấy rủi ro về sự phụ thuộc vào ngành ngân hàng. Mặc dù có lợi nhuận ròng cao, nhưng cần lưu ý rằng dữ liệu lịch sử có thể không đủ để đánh giá đầy đủ.",
+      "risk_note": "Dù có CAGR và Sharpe cao, nhưng sự phân tán cao và tỷ lệ cổ phiếu ngân hàng cao có thể dẫn đến rủi ro về sự phụ thuộc vào ngành. Dữ liệu lịch sử ngắn có thể không phản ánh đầy đủ tính năng của chính sách.",
+      "confidence": 0.8
+    },
+    "model": "Qwen/Qwen3-4B",
+    "model_revision": "1cfa9a7208912126459214e8b04321603b3df60c",
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8808,
+      "output_tokens": 267,
+      "total_tokens": 9075
+    },
+    "cache_key": "2e852e07c37d86302d77064e24e5a94e88fd821241fa9609dd44ce46723447eb",
+    "cache_hit": false
+  },
+  "45d078d346e46cbbcb3919b664ffe6c487c296fd750ca970104831c467126cd2": {
+    "decision": {
+      "policy_id": "balanced_xy_p1",
+      "insight_codes": [
+        "high_volatility",
+        "high_correlation",
+        "high_dispersion"
+      ],
+      "rationale": "Chính sách balanced_xy_p1 có CAGR cao nhất (0.7851) và Sharpe cao nhất (2.1134), đồng thời có tỷ lệ lợi nhuận dương cao (100%) và sụt giảm tối đa thấp (-0.1190). Tuy nhiên, nó có tỷ lệ giao dịch cao nhất (1.0231), điều này có thể dẫn đến chi phí giao dịch cao hơn. Dù vậy, do hiệu suất tài chính vượt trội, chính sách này được chọn.",
+      "risk_note": "Chính sách này có tỷ lệ giao dịch cao, có thể dẫn đến chi phí giao dịch cao hơn. Ngoài ra, sụt giảm tối đa mặc dù thấp nhưng vẫn có thể ảnh hưởng đến lợi nhuận trong trường hợp thị trường biến động mạnh.",
+      "confidence": 0.85
+    },
+    "model": "Qwen/Qwen3-4B",
+    "model_revision": "1cfa9a7208912126459214e8b04321603b3df60c",
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8767,
+      "output_tokens": 235,
+      "total_tokens": 9002
+    },
+    "cache_key": "45d078d346e46cbbcb3919b664ffe6c487c296fd750ca970104831c467126cd2",
+    "cache_hit": false
+  },
+  "b7e4e258581ee7b40d29a22d732ede7846088b7b8cb5ef168a707bd9f9b89da7": {
+    "decision": {
+      "policy_id": "balanced_xy_p1",
+      "insight_codes": [
+        "high_volatility",
+        "high_correlation",
+        "high_dispersion"
+      ],
+      "rationale": "Chính sách balanced_xy_p1 có CAGR cao nhất (0.5930) và Sharpe cao nhất (1.7436), đồng thời có Sortino cao nhất (4.5709), cho thấy hiệu suất vượt trội so với các chính sách khác. Tỷ lệ lợi nhuận (profit_factor) cũng cao (3.2710), cho thấy khả năng sinh lời tốt. Tuy nhiên, có sự phân tán cao (cross_sectional_20d_return_dispersion: 0.0602) và tương quan cao (mean_pairwise_correlation_252d: 0.2789), cho thấy rủi ro về biến động giá. Do đó, chính sách này phù hợp với mục tiêu tối ưu hóa lợi nhuận ròng sau khi điều chỉnh rủi ro.",
+      "risk_note": "Dù có hiệu suất cao, chính sách balanced_xy_p1 có mức sụt giảm tối đa (-0.1190) và VaR/CVaR (-0.0666), cho thấy rủi ro về biến động giá. Cần theo dõi chặt chẽ để đảm bảo không vượt quá giới hạn rủi ro.",
+      "confidence": 0.85
+    },
+    "model": "Qwen/Qwen3-4B",
+    "model_revision": "1cfa9a7208912126459214e8b04321603b3df60c",
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8880,
+      "output_tokens": 319,
+      "total_tokens": 9199
+    },
+    "cache_key": "b7e4e258581ee7b40d29a22d732ede7846088b7b8cb5ef168a707bd9f9b89da7",
+    "cache_hit": false
+  },
+  "06f51104821e7b5367ad26d9333caf42831386064c17ec6f52ec29cdde4336c5": {
+    "decision": {
+      "policy_id": "balanced_xy_p1",
+      "insight_codes": [
+        "high_volatility",
+        "high_correlation",
+        "high_dispersion"
+      ],
+      "rationale": "Chính sách balanced_xy_p1 có CAGR cao nhất (0.5243) và Sharpe cao nhất (1.6649), đồng thời có Sortino cao nhất (4.3822), cho thấy hiệu suất vượt trội so với các chính sách khác. Tỷ lệ lợi nhuận (profit factor) cũng cao (3.3093), cho thấy khả năng sinh lời tốt. Tuy nhiên, có sự phân tán cao (high_dispersion) và tương quan cao (high_correlation) giữa các tài sản, điều này có thể dẫn đến rủi ro khi thị trường biến động. Ngoài ra, tỷ lệ biến động (volatility) cao (0.2509) và tỷ lệ VaR/CVaR (monthly_var_95_to_date: -0.0624) cho thấy rủi ro về biến động giá.",
+      "risk_note": "Dù có hiệu suất tốt, chính sách balanced_xy_p1 có thể chịu rủi ro cao do sự phân tán và tương quan cao giữa các tài sản. Cần theo dõi sát thị trường để điều chỉnh chiến lược khi cần thiết.",
+      "confidence": 0.85
+    },
+    "model": "Qwen/Qwen3-4B",
+    "model_revision": "1cfa9a7208912126459214e8b04321603b3df60c",
+    "response_id": null,
+    "usage": {
+      "input_tokens": 9171,
+      "output_tokens": 307,
+      "total_tokens": 9478
+    },
+    "cache_key": "06f51104821e7b5367ad26d9333caf42831386064c17ec6f52ec29cdde4336c5",
+    "cache_hit": false
+  },
+  "b41fef085ebc95c5002d578f492c65777dc050aede02e0709969a5e0a4a3d3c8": {
+    "decision": {
+      "policy_id": "balanced_xy_p1",
+      "insight_codes": [
+        "high_volatility",
+        "high_correlation",
+        "high_dispersion"
+      ],
+      "rationale": "Chính sách balanced_xy_p1 có CAGR cao nhất (0.33546) và Sharpe cao nhất (1.14064), đồng thời có mức sụt giảm tối đa thấp nhất (-0.11904). Tuy nhiên, có sự phân tán cao (0.13651) và độ tương quan cao (0.32015), cho thấy rủi ro cao. Do đó, chính sách này phù hợp với mục tiêu cân bằng giữa lợi nhuận và rủi ro.",
+      "risk_note": "Mặc dù có CAGR và Sharpe cao, nhưng mức sụt giảm tối đa và độ phân tán cao cho thấy rủi ro không nhỏ. Cần theo dõi sát hơn trong tương lai.",
+      "confidence": 0.8
+    },
+    "model": "Qwen/Qwen3-4B",
+    "model_revision": "1cfa9a7208912126459214e8b04321603b3df60c",
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8870,
+      "output_tokens": 226,
+      "total_tokens": 9096
+    },
+    "cache_key": "b41fef085ebc95c5002d578f492c65777dc050aede02e0709969a5e0a4a3d3c8",
+    "cache_hit": false
+  },
+  "9299145c5b0bef3882019b0b80db68c6bfdace2dd8b696312199248941932128": {
+    "decision": {
+      "policy_id": "balanced_xy_p1",
+      "insight_codes": [
+        "high_volatility",
+        "high_correlation",
+        "high_dispersion"
+      ],
+      "rationale": "Chính sách balanced_xy_p1 có CAGR cao nhất (0.4414) và Sharpe cao nhất (1.4343), đồng thời có mức sụt giảm tối đa thấp nhất (-0.1190). Tuy nhiên, có sự phân tán cao trong lợi nhuận (0.0651) và độ lệch tương quan cao (0.5698), cho thấy rủi ro về biến động và tương quan giữa các tài sản. Dù có lợi nhuận ròng cao, nhưng cần lưu ý đến rủi ro về biến động và tương quan cao.",
+      "risk_note": "Có thể gặp rủi ro về biến động và tương quan cao giữa các tài sản trong danh mục, ảnh hưởng đến ổn định của lợi nhuận. Cần theo dõi sát hơn các chỉ số VaR/CVaR và phân tán lợi nhuận.",
+      "confidence": 0.85
+    },
+    "model": "Qwen/Qwen3-4B",
+    "model_revision": "1cfa9a7208912126459214e8b04321603b3df60c",
+    "response_id": null,
+    "usage": {
+      "input_tokens": 9185,
+      "output_tokens": 251,
+      "total_tokens": 9436
+    },
+    "cache_key": "9299145c5b0bef3882019b0b80db68c6bfdace2dd8b696312199248941932128",
+    "cache_hit": false
+  },
+  "7b2adf110034f0c56ec997972990426d10949c2b5b88429f3276144139fa5f71": {
+    "decision": {
+      "policy_id": "balanced_xy_p1",
+      "insight_codes": [
+        "high_volatility",
+        "high_correlation",
+        "high_dispersion"
+      ],
+      "rationale": "Chính sách balanced_xy_p1 có CAGR cao nhất (0.354961) và Sharpe cao nhất (1.229877), đồng thời có tỷ lệ lợi nhuận cao (2.349990) và giảm thiểu rủi ro với sụt giảm tối đa (-0.119042). Tuy nhiên, có sự phân tán cao (0.048180) và tương quan cao (0.568014), cho thấy rủi ro về biến động giá. Do đó, chính sách này phù hợp với mục tiêu cân bằng giữa lợi nhuận và rủi ro.",
+      "risk_note": "Có thể xảy ra biến động giá do phân tán cao và tương quan cao trong danh mục đầu tư, ảnh hưởng đến lợi nhuận ròng sau khi tính phí.",
+      "confidence": 0.85
+    },
+    "model": "Qwen/Qwen3-4B",
+    "model_revision": "1cfa9a7208912126459214e8b04321603b3df60c",
+    "response_id": null,
+    "usage": {
+      "input_tokens": 9186,
+      "output_tokens": 245,
+      "total_tokens": 9431
+    },
+    "cache_key": "7b2adf110034f0c56ec997972990426d10949c2b5b88429f3276144139fa5f71",
+    "cache_hit": false
+  },
+  "809ed584290242b7bad636e840023deb163715f5e1bbd463dd1ece4ec83f83a0": {
+    "decision": {
+      "policy_id": "balanced_xy_p1",
+      "insight_codes": [
+        "high_correlation",
+        "high_volatility"
+      ],
+      "rationale": "Chính sách balanced_xy_p1 có CAGR cao nhất (0.3271) và Sharpe cao (1.1904), đồng thời có tỷ lệ Sharpe cao hơn nhiều so với các chính sách khác. Tuy nhiên, có sự tương quan cao giữa các tài sản (90th percentile pairwise correlation 252d là 0.5845), điều này có thể dẫn đến rủi ro tăng. Ngoài ra, tỷ lệ sụt giảm tối đa (-0.1190) không quá lớn, nhưng vẫn cần lưu ý về tính ổn định của chính sách.",
+      "risk_note": "Có thể xảy ra rủi ro do tương quan cao giữa các tài sản trong danh mục, ảnh hưởng đến hiệu quả phân tán rủi ro. Cần theo dõi sát hơn về biến động và sự ổn định của chính sách trong tương lai.",
+      "confidence": 0.8
+    },
+    "model": "Qwen/Qwen3-4B",
+    "model_revision": "1cfa9a7208912126459214e8b04321603b3df60c",
+    "response_id": null,
+    "usage": {
+      "input_tokens": 9177,
+      "output_tokens": 243,
+      "total_tokens": 9420
+    },
+    "cache_key": "809ed584290242b7bad636e840023deb163715f5e1bbd463dd1ece4ec83f83a0",
+    "cache_hit": false
+  },
+  "e8146af0425f5c940cf10189afdfcc3b7f13930f2c11311f6f1f5cb649b15517": {
+    "decision": {
+      "policy_id": "balanced_xy_p1",
+      "insight_codes": [
+        "high_correlation",
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "rationale": "Chính sách balanced_xy_p1 có CAGR cao nhất (0.2348) và Sharpe cao nhất (0.9124), đồng thời có tỷ lệ lợi nhuận cao (1.9166) và giảm thiểu rủi ro với mức sụt giảm tối đa (-0.1190). Tuy nhiên, có sự tương quan cao (90th percentile pairwise correlation 0.6079) và phân tán cao (cross-sectional 20d return dispersion 0.0609), đồng thời có sự tập trung vào ngân hàng (bank fraction 0.4667).",
+      "risk_note": "Có thể có rủi ro từ sự tương quan cao và phân tán cao, đồng thời sự tập trung vào ngân hàng có thể làm tăng rủi ro trong trường hợp thị trường biến động.",
+      "confidence": 0.85
+    },
+    "model": "Qwen/Qwen3-4B",
+    "model_revision": "1cfa9a7208912126459214e8b04321603b3df60c",
+    "response_id": null,
+    "usage": {
+      "input_tokens": 9198,
+      "output_tokens": 248,
+      "total_tokens": 9446
+    },
+    "cache_key": "e8146af0425f5c940cf10189afdfcc3b7f13930f2c11311f6f1f5cb649b15517",
+    "cache_hit": false
+  }
+}

@@ -26,6 +26,7 @@ MODEL_REVISION = os.environ.get("AGQO_QWEN3_REVISION", QWEN3_MODEL_REVISION)
 MODEL_VOLUME_NAME = os.environ.get("AGQO_QWEN3_VOLUME", "agqo-qwen3-model-cache")
 MODEL_CACHE_PATH = "/model-cache"
 MAX_NEW_TOKENS = int(os.environ.get("AGQO_QWEN3_MAX_NEW_TOKENS", "480"))
+GPU_TYPE = os.environ.get("AGQO_QWEN3_GPU", "L4")
 
 app = modal.App(APP_NAME)
 model_cache = modal.Volume.from_name(MODEL_VOLUME_NAME, create_if_missing=True)
@@ -51,7 +52,7 @@ def _load_model():
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
     if not torch.cuda.is_available():
-        raise RuntimeError("Modal function cần GPU; kiểm tra cấu hình GPU T4.")
+        raise RuntimeError(f"Modal function cần GPU; kiểm tra cấu hình {GPU_TYPE}.")
     dtype = torch.bfloat16 if torch.cuda.is_bf16_supported() else torch.float16
     _TOKENIZER = AutoTokenizer.from_pretrained(
         MODEL_NAME,
@@ -61,7 +62,7 @@ def _load_model():
     _MODEL = AutoModelForCausalLM.from_pretrained(
         MODEL_NAME,
         revision=MODEL_REVISION,
-        torch_dtype=dtype,
+        dtype=dtype,
         device_map="auto",
         cache_dir=f"{MODEL_CACHE_PATH}/huggingface",
     )
@@ -105,7 +106,7 @@ def _generate(tokenizer, model, torch, messages: list[dict[str, str]]):
     name=FUNCTION_NAME,
     image=image,
     volumes={MODEL_CACHE_PATH: model_cache},
-    gpu="T4",
+    gpu=GPU_TYPE,
     timeout=900,
     retries=0,
     scaledown_window=60,

@@ -134,7 +134,7 @@ def main() -> int:
         )
     result = run_walkforward(args.data, args.members, args.json, ResearchConfig(), guide=guide)
     figures = build_walkforward_plots(args.json, args.figures)
-    report = write_walkforward_report(args.json, args.report)
+    report = write_walkforward_report(args.json, args.report, args.figures)
     print(f"Đã lưu dữ liệu đo: {args.json}")
     print(f"Đã lưu báo cáo: {report}")
     print(f"Đã tạo {len(figures)} biểu đồ trong: {args.figures}")

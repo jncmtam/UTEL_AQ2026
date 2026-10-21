@@ -2,9 +2,29 @@
 
 AGQO là quy trình lai: mô hình học máy tạo xác suất chế độ thị trường, mô hình ngôn ngữ đọc các insight định lượng cùng kết quả đã khép của những chính sách trước, rồi chọn cấu hình QAOA từ một danh mục hữu hạn. QAOA giải bài toán chọn sáu cổ phiếu; các phương pháp hiện có tiếp tục chạy làm đối chứng. Hiệu quả được so trên lợi nhuận ròng, rủi ro, chi phí và chất lượng nghiệm.
 
-**Kết quả đã lưu hiện tại là đường cơ sở:** lần chạy này chưa gọi LLM nên chưa có số liệu lợi nhuận AGQO thích nghi. Đã có [notebook Qwen3 trên Modal](notebooks/AGQO_Qwen3_Modal.ipynb), dùng mô hình mã nguồn mở trực tiếp trên GPU Modal, không cần API OpenAI. Khi bật, mỗi tín hiệu sẽ chạy bóng toàn bộ 12 chính sách QAOA để LLM dùng kết quả các kỳ đã đóng khi chọn cấu hình kế tiếp. Kết quả nền hiện có chưa cho thấy ưu thế lượng tử: mô hình phân loại chưa thắng tỷ lệ nền, Ledoit–Wolf có hiệu quả tài chính cao nhất trong cửa sổ ngắn, còn nghiệm chính xác cổ điển nhanh hơn QAOA.
+Bộ kết quả nền vẫn được giữ làm đối chứng. Đã chạy thêm toàn bộ quy trình AGQO với Qwen3-4B trên Modal và lưu báo cáo, dữ liệu đo, quyết định của LLM cùng biểu đồ ở [thư mục kết quả lượt chạy](results/qwen3_modal_local/). Lượt chạy này chưa cho thấy AGQO vượt VN30 hoặc cấu hình QAOA cố định tốt nhất; xem [báo cáo chi tiết](results/qwen3_modal_local/BAO_CAO_QWEN3_WALK_FORWARD.md). QAOA vẫn là mô phỏng véc-tơ trạng thái cổ điển, chưa chạy phần cứng lượng tử.
 
 > Các kết quả cổ phiếu dùng OHLCV thô và ảnh chụp thành phần VN30 hiện tại áp ngược lịch sử. Chưa xác nhận điều chỉnh cổ tức/quyền và chưa có lịch sử thành phần theo ngày; không dùng các con số dưới đây làm lợi nhuận đầu tư thực tế.
+
+## Lượt chạy AGQO với Qwen3 trên Modal — 21/10/2026
+
+Lượt kiểm định gồm 16 kỳ nắm giữ, từ 02/06/2025 đến 01/10/2026, vốn mô phỏng 100 triệu đồng và phí 25 điểm cơ bản mỗi chiều. Qwen3-4B đọc thống kê thị trường và kết quả các kỳ đã khép, rồi chọn một trong 12 cấu hình QAOA được phép. QAOA biểu diễn 12 ứng viên bằng 12 qubit mô phỏng và chọn 6 mã. Mô hình đã đưa ra 16 quyết định; lượt này ghi nhận 125.032 token đầu vào và 4.582 token đầu ra. OHLCV và mô phỏng QAOA được giữ ở máy local; Modal chỉ nhận thống kê tổng hợp.
+
+| Phương pháp | CAGR ròng | Sharpe | Sụt giảm tối đa |
+|---|---:|---:|---:|
+| VN30 | 24,58% | 1,17 | -9,22% |
+| QAOA cố định X, p=1 | 16,24% | 0,65 | -15,28% |
+| QAOA cố định X, p=2 | 18,50% | 0,72 | -14,20% |
+| QAOA cố định XY, p=1 | 24,70% | 0,94 | -11,90% |
+| AGQO: Qwen3 chọn cấu hình, QAOA giải danh mục | 20,29% | 0,77 | -12,78% |
+
+AGQO thấp hơn VN30 4,29 điểm phần trăm CAGR và có Sharpe thấp hơn; mức sụt giảm tối đa cũng sâu hơn. So với cấu hình cố định XY p=1, AGQO thấp hơn 0,60 điểm phần trăm CAGR. Khoảng tin cậy 95% của lợi nhuận vượt VN30 theo lấy mẫu khối 3 tháng là -14,60% đến 12,39%, bao gồm mức 0; chưa có bằng chứng vượt trội tài chính ổn định. Mô hình dự báo chế độ biến động cũng chưa thắng mức nền: kỹ năng Brier tại 16 tín hiệu tháng là -9,30%.
+
+Qwen3 chọn `balanced_xy_p1` ở 8/16 tín hiệu và `diversified_x_p2` ở 4/16. Sai lệch mục tiêu QAOA chuẩn hóa của AGQO trung bình 10,32%, với 6/16 kỳ đạt sai lệch không quá 5%. Đối chứng QAOA X p=1 đạt 0,82% và 15/16 kỳ; X p=2 đạt 0,49% và 16/16 kỳ. Vì vậy, lượt chạy xác nhận được luồng AI hướng dẫn QAOA hoạt động và được đo đối chứng, nhưng chưa chứng minh LLM hay QAOA tạo thêm lợi ích tài chính hoặc ưu thế lượng tử.
+
+[Đọc báo cáo đầy đủ](results/qwen3_modal_local/BAO_CAO_QWEN3_WALK_FORWARD.md) · [Dữ liệu đo JSON](results/qwen3_modal_local/vn30_qwen3_walkforward.json) · [16 quyết định Qwen3](results/qwen3_modal_local/decisions.json)
+
+![So sánh AGQO với các chính sách QAOA cố định](results/qwen3_modal_local/figures/08_agqo_policy_comparison.png)
 
 ## Kết quả chính
 
@@ -201,6 +221,8 @@ python scripts/run_ai_qaoa_walkforward.py --llm-guide modal-qwen3
 
 `modal setup` mở trình duyệt để đăng nhập Modal và lưu thông tin vào hồ sơ cá nhân; không gửi mã bí mật vào cuộc trò chuyện hoặc thêm vào Git. Tệp `config/modal-qwen3.env` chỉ chứa tên ứng dụng, tên hàm, mô hình và bản trọng số đã ghim. Thay các giá trị nếu bạn đặt tên khác trên Modal. Lệnh kiểm tra gửi đúng một payload giả lập để xác nhận kết nối; chỉ sau đó mới chạy walk-forward trên CSV cục bộ. QAOA và các đối chứng tiếp tục chạy bằng CPU trên máy bạn. Lần gọi đầu tiên tải Qwen3 vào Volume Modal, các lần sau dùng bộ nhớ đệm trọng số.
 
+Hàm suy luận dùng GPU L4 để có thêm bộ nhớ cho ngữ cảnh AGQO so với T4. Biến `AGQO_QWEN3_GPU` trong tệp cấu hình cho phép đổi loại GPU; Modal tính phí theo thời gian dùng GPU và tài nguyên CPU/bộ nhớ.
+
 Nếu Modal yêu cầu chọn môi trường làm việc, đặt `MODAL_ENVIRONMENT` trong `config/modal-qwen3.env` theo tên hiển thị trong tài khoản. Với tài khoản cá nhân chỉ có một môi trường, thường không cần điền mục này.
 
 ### Chạy toàn bộ trên Modal Notebook
@@ -210,7 +232,7 @@ Nếu Modal yêu cầu chọn môi trường làm việc, đặt `MODAL_ENVIRONM
 3. Chạy lần lượt các ô. Notebook lấy mã dự án, cài thư viện, tải Qwen3-4B, chạy kiểm định AGQO và QAOA, tạo báo cáo/biểu đồ, rồi đóng gói kết quả tại `/mnt/agqo/results/agqo_qwen3_results.zip`.
 4. Tải ZIP và báo cáo về từ bảng Files trong Modal. Tắt nhân sau khi xong.
 
-Qwen3 và mã mô hình được cung cấp theo giấy phép Apache 2.0; Modal vẫn tính phí tài nguyên GPU/CPU theo mức sử dụng và gói tài khoản. Có thể đổi sang `Qwen/Qwen3-0.6B` cùng `REQUIRE_GPU = False` để chạy thử trên CPU, nhưng tốc độ và chất lượng hướng dẫn có thể thấp hơn. Không có kết quả AGQO nào được tạo sẵn trong kho mã; lần chạy trên notebook mới tạo kết quả này. Khi AGQO bật, thời gian tính tăng vì mỗi tín hiệu chạy 12 chính sách QAOA đối chứng.
+Qwen3 và mã mô hình được cung cấp theo giấy phép Apache 2.0; Modal vẫn tính phí tài nguyên GPU/CPU theo mức sử dụng và gói tài khoản. Có thể đổi sang `Qwen/Qwen3-0.6B` cùng `REQUIRE_GPU = False` để chạy thử trên CPU, nhưng tốc độ và chất lượng hướng dẫn có thể thấp hơn. Báo cáo và dữ liệu đo của lượt chạy Qwen3-4B qua Modal đã được lưu trong `results/qwen3_modal_local/`. Mỗi tín hiệu chạy bóng 12 chính sách QAOA đối chứng; thời gian và chi phí Modal phụ thuộc số lần suy luận và loại GPU.
 
 #### Bộ OpenAI cũ (tùy chọn)
 
@@ -220,7 +242,7 @@ Qwen3 và mã mô hình được cung cấp theo giấy phép Apache 2.0; Modal 
 
 Tài chính được báo cáo riêng cho mỗi chính sách: CAGR ròng, Sharpe, Sortino, sụt giảm tối đa, VaR/CVaR tháng, hệ số lợi nhuận, tỷ lệ tháng dương, phí, doanh số, sức chứa ADTV và lợi nhuận vượt VN30 với khoảng tin cậy lấy mẫu khối. Chất lượng lượng tử được chấm bằng sai lệch so với nghiệm chính xác trên cùng hàm mục tiêu, tỷ lệ mẫu khả thi, xác suất khả thi và thời gian mô phỏng. Không gộp hai nhóm thành một điểm số tùy tiện.
 
-LLM dùng lợi nhuận của các kỳ kiểm tra đã đóng để chọn cấu hình cho kỳ sau. Đây là kiểm định cuốn chiếu thích nghi, không phải một tập cuối cùng hoàn toàn chưa đụng đến; cần thêm giai đoạn khóa riêng trước khi kết luận AGQO tổng quát tốt hơn. Mức tin cậy do LLM tự khai không phải chỉ số dự báo đã hiệu chỉnh. Kết quả hiện đã lưu vẫn là đường cơ sở chưa gọi LLM; chỉ sau lần chạy Modal mới có thể đánh giá liệu AGQO có tạo thêm giá trị.
+LLM dùng lợi nhuận của các kỳ kiểm tra đã đóng để chọn cấu hình cho kỳ sau. Đây là kiểm định cuốn chiếu thích nghi, không phải một tập cuối cùng hoàn toàn chưa đụng đến; cần thêm giai đoạn khóa riêng trước khi kết luận AGQO tổng quát tốt hơn. Mức tin cậy do LLM tự khai không phải chỉ số dự báo đã hiệu chỉnh. Đã có kết quả Qwen3-4B chạy trên Modal và được lưu tại `results/qwen3_modal_local/`; kết quả hiện chưa cho thấy AGQO vượt VN30 hoặc cấu hình cố định tốt nhất. Cần thêm giai đoạn kiểm tra cuối đã khóa trước khi kết luận khả năng khái quát.
 
 Tệp kỹ thuật giải thích từng hàm, biến số, công thức, giới hạn mạch và cách tái lập: [TAI_LIEU_KY_THUAT_AGQO.md](TAI_LIEU_KY_THUAT_AGQO.md).
 
