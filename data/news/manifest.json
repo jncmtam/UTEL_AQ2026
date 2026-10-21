@@ -1,0 +1,44 @@
+{
+  "manifest_version": "agqo-news-v1",
+  "status": "disabled_no_point_in_time_records",
+  "records_count": 0,
+  "primary_evaluation_enabled": false,
+  "raw_article_text_stored": false,
+  "collection_date": "2026-10-21",
+  "decision_time_timezone": "Asia/Ho_Chi_Minh",
+  "eligibility_rule": "Include only records with an exact timezone-aware published_at no later than the decision cutoff; unknown or date-only timestamps are excluded from the primary evaluation.",
+  "storage_policy": "Metadata, source URL, event tags, version identifiers and content hashes only. Store a short excerpt only when the publisher's terms permit it. Never archive full article text by default.",
+  "disabled_reason": "No ticker-linked historical news feed with verified publication timestamps, revision history, access terms and redistribution rights has been acquired for the study window. No external news features or event attributions are included in model results; methodology documents may be cited as non-feature structural context.",
+  "candidate_primary_sources": [
+    {
+      "name": "HOSE information disclosures",
+      "url": "https://www.hsx.vn/",
+      "use": "Company disclosures, exchange notices and index methodology documents.",
+      "integration_status": "candidate_only",
+      "rights_status": "source terms and programmatic access not cleared"
+    },
+    {
+      "name": "State Securities Commission information disclosure system",
+      "url": "https://ids.ssc.gov.vn/",
+      "use": "Regulatory and public-company disclosures where accessible.",
+      "integration_status": "candidate_only",
+      "rights_status": "authentication, access terms and historical export not cleared"
+    }
+  ],
+  "required_record_fields": [
+    "evidence_id",
+    "source_name",
+    "source_tier",
+    "canonical_url",
+    "headline",
+    "ticker_entities",
+    "event_category",
+    "published_at",
+    "collected_at",
+    "timezone",
+    "timestamp_precision",
+    "content_sha256",
+    "extraction_version",
+    "revision_id"
+  ]
+}

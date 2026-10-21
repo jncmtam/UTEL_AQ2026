@@ -52,7 +52,11 @@ Các phương pháp được so trên cùng 16 kỳ danh mục theo cấu hình 
 
 ![Đường vốn sau phí của AGQO và các mốc so sánh](results/final/figures/02_net_equity_curves.png)
 
+**Hình 2. Đường vốn ròng và chuẩn so sánh.** Giá trị vốn mô phỏng 100 triệu đồng của AGQO, bộ chọn quy tắc, VN30 và các đối chứng; AGQO kết thúc thấp hơn VN30 trong 16 kỳ, nên đây là bằng chứng chống lại tuyên bố alpha hiện tại. Nguồn: results/final/agqo_final_walkforward.json · portfolio.performance. Kỳ: 2025-06 đến 2026-10. Đơn vị: VND, lợi nhuận ròng. Lưu ý: Giá thô, giả định phí và lệnh khớp; tập đã xem.
+
 ![Đối chiếu lợi nhuận và rủi ro](results/final/figures/04_risk_return_tradeoff.png)
+
+**Hình 4. Lợi nhuận và rủi ro sau chi phí.** CAGR và biến động/độ sụt giảm đặt cạnh nhau để tránh chọn chiến lược chỉ theo lợi nhuận; Ledoit–Wolf toàn rổ mạnh hơn trong cửa sổ này nhưng rủi ro và phạm vi tài sản cũng khác. Nguồn: results/final/agqo_final_walkforward.json · portfolio.performance. Kỳ: 2025-06 đến 2026-10. Đơn vị: CAGR, biến động, sụt giảm. Lưu ý: Chỉ 16 kỳ; các phương pháp có thể khác quy mô vũ trụ.
 
 ### Ý nghĩa của các thước đo tài chính
 
@@ -76,11 +80,19 @@ Bộ dữ liệu nghiên cứu có 37.308 dòng OHLCV, gồm 30 mã cổ phiếu
 
 ![Độ phủ dữ liệu theo mã](results/final/figures/data/01_coverage.png)
 
+**Hình 16. Độ phủ lịch sử theo mã.** Bản đồ phiên có quan sát cho từng cổ phiếu cho thấy VPL chỉ có 360 phiên trong khi phần lớn mã có 1.192; lịch sử không đồng đều ảnh hưởng đến khả năng tạo vũ trụ điểm-thời-gian. Nguồn: CSV OHLCV cục bộ · dataset_summary.json. Kỳ: 2022-01-04 đến 2026-10-19. Đơn vị: tỷ lệ phiên có dữ liệu. Lưu ý: Màu trắng không phân biệt ngày nghỉ, tạm ngừng hay thiếu feed.
+
 ![VN30, VN-Index và các đợt sụt giảm](results/final/figures/data/02_indices.png)
+
+**Hình 17. Diễn biến VN30 và VN-Index cùng sụt giảm.** Chỉ số chuẩn hóa và drawdown minh họa diễn biến thị trường chung và khoảng cách từ đỉnh; dùng để đặt kết quả danh mục vào bối cảnh thị trường. Nguồn: CSV OHLCV cục bộ · VN30 và VNINDEX. Kỳ: 2022-01-04 đến 2026-10-19. Đơn vị: chỉ số cơ sở 100, drawdown phần trăm. Lưu ý: Chỉ số giá không thay thế total-return index.
 
 ![Phân tán lợi suất và biến động giữa các mã](results/final/figures/data/04_returns_rank.png)
 
+**Hình 19. Phân tán lợi suất tích lũy giữa các mã.** Sắp xếp mã từ thấp lên cao để thấy độ phân tán lớn trong cùng cửa sổ; chỉ là thống kê mô tả trên giá hiện có, không đại diện cho danh mục đầu tư tại thời điểm lịch sử. Nguồn: CSV OHLCV cục bộ · 252 phiên hoàn chỉnh gần nhất. Kỳ: 252 phiên kết thúc 2026-10-19. Đơn vị: lợi suất tích lũy phần trăm. Lưu ý: Giá thô và thành phần snapshot hiện tại.
+
 ![Tương quan lợi suất cổ phiếu](results/final/figures/data/05_correlations.png)
+
+**Hình 20. Tương quan lợi suất theo nhóm cổ phiếu.** Ma trận cho thấy tương quan có cấu trúc theo ngành; cùng chiều cao làm giảm lợi ích đa dạng hóa. Dải màu hiển thị hệ số tương quan từ −1 đến 1. Nguồn: CSV OHLCV cục bộ · 252 phiên hoàn chỉnh gần nhất. Kỳ: 252 phiên kết thúc 2026-10-19. Đơn vị: hệ số tương quan Pearson. Lưu ý: Các cặp cùng snapshot hiện tại; không phải bằng chứng quan hệ nhân quả.
 
 ### Một đối chứng quan trọng về quy mô
 
@@ -118,6 +130,8 @@ LogisticRegression chỉ dự báo khả năng VN30 bước vào chế độ bi�
 **Điểm mạnh có thể bảo vệ:** hệ thống đo và công khai một mô hình phụ không đạt nền, đồng thời chặn vai trò của nó thay vì kể câu chuyện rằng “AI dự báo được thị trường”.
 
 ![Kiểm toán đề xuất và cấu hình được thực thi](results/final/figures/11_agqo_decision_audit.png)
+
+**Hình 11. Kiểm toán đề xuất LLM và policy được thực thi.** Đối chiếu policy Qwen đề xuất với policy vượt qua giám sát số học; biểu đồ giúp xác nhận quyết định nào được chấp nhận hay fallback và lý do. Nguồn: results/final/agqo_final_walkforward.json · agqo_guidance.decisions. Kỳ: 16 tín hiệu 2025-05 đến 2026-08. Đơn vị: mã policy, ngày tín hiệu. Lưu ý: Đầu ra hợp lệ không đồng nghĩa với lợi ích tài chính.
 
 ---
 
@@ -163,7 +177,11 @@ Regret ở đây là khoảng cách của nghiệm QAOA so với nghiệm vét c
 
 ![Cấu trúc cổng và mixer QAOA](results/final/figures/09_qaoa_gate_and_mixer_design.png)
 
+**Hình 9. Nguyên lý cổng logic và đồ thị bộ trộn.** Hình khái quát cách mã hóa cost Hamiltonian và mixer X/XY để giải thích lựa chọn thiết kế; đây là sơ đồ phương pháp, không đại diện cho một lần chạy cụ thể. Nguồn: agqo/simulator.py · statevector và mixer_edges_for_problem. Kỳ: thiết kế bộ giải hiện tại. Đơn vị: cổng logic, qubit, lớp p. Lưu ý: Sơ đồ nguyên lý; mạch của một run cụ thể nằm ở Hình 15.
+
 ![Chất lượng nghiệm so với chi phí cổng](results/final/figures/10_qaoa_quality_vs_gate_cost.png)
+
+**Hình 10. Regret QAOA so với chi phí cổng logic.** Biểu đồ chất lượng–tài nguyên cho các policy; kích thước nút biểu diễn độ sâu và màu biểu diễn số qubit, giúp thấy rằng tăng mạch không tự động cải thiện regret. Nguồn: results/final/agqo_final_walkforward.json · qaoa.quality_summary và policy_catalog. Kỳ: các tín hiệu 2025-05 đến 2026-08. Đơn vị: regret phần trăm, số cổng logic hai qubit. Lưu ý: Bộ đếm logic chưa transpile, không gồm nhiễu phần cứng.
 
 ### Câu trả lời thẳng cho câu hỏi “Quantum nằm ở đâu?”
 
@@ -220,6 +238,8 @@ QAOA là bộ tối ưu danh mục nằm ở bước 6 của luồng AGQO: các 
 
 Dữ liệu được lấy qua thư viện vnstock-data và DNSE chart API. Ảnh chụp thành phần VN30 hiện tại đang được áp ngược lịch sử; OHLCV thô chưa xác nhận điều chỉnh cổ tức, chia tách và quyền mua. Giá đóng cửa nhân khối lượng chỉ là đại diện thanh khoản. Tệp OHLCV không đưa lên Git vì chưa xác nhận quyền phân phối lại.
 
+Rà soát tài liệu công khai cho thấy HOSE áp dụng phiên bản 4.0 của phương pháp chỉ số từ kỳ rà soát tháng 7/2025 và tài liệu nêu giới hạn tỷ trọng ngành 40%. Đây là bối cảnh cấu tạo chỉ số giúp giải thích vì sao lịch sử thành phần và quy tắc chỉ số cần được lưu theo ngày hiệu lực; nó không được dùng làm tín hiệu dự báo hay giải thích nhân quả cho biến động giá. Tính năng tin tức vẫn tắt vì chưa có chuỗi tin theo mã, dấu thời gian sửa đổi và quyền sử dụng được xác minh. [Thông cáo HOSE tháng 7/2025](https://staticfile.hsx.vn/Uploads/UploadDocuments/2391309/TCBC_%20Cai%20tien%20chi%20so%20VN30%20t7.2025.pdf). Vnstock cũng phân biệt giấy phép phần mềm với quyền dữ liệu từ nhà cung cấp gốc; vì vậy quyền phân phối dữ liệu vẫn cần kiểm tra riêng. [Điều khoản sử dụng Vnstock](https://www.vnstocks.com/onboard/giay-phep-su-dung).
+
 - [Báo cáo kết quả walk-forward chi tiết](results/final/BAO_CAO_AGQO_CUOI_CUNG.md)
 - [Kết quả định lượng đầy đủ](results/final/agqo_final_walkforward.json)
 - [Insight và nghiệm tối ưu trên ảnh chụp dữ liệu](results/final/dataset_summary.json)
@@ -242,6 +262,22 @@ Môi trường dùng Python 3.12, pandas, NumPy, scikit-learn, SciPy/COBYLA, Mat
 
 ---
 
-## Kết luận
+## Hình bổ sung: thị trường, pipeline và circuit đã chạy
 
-**AGQO đã chứng minh được khả năng tích hợp và đo lường; chưa chứng minh được khả năng vượt trội về đầu tư hay lượng tử.** Câu chuyện mạnh nhất trước ban giám khảo là sự phân biệt rõ giữa ba tầng: LLM hướng dẫn cấu hình, QAOA giải bài toán tổ hợp, và bộ đánh giá tài chính quyết định liệu kết quả có đáng tin hay không. Vòng tiếp theo cần thắng bằng dữ liệu point-in-time, một tập ngoài mẫu đã khóa, đối chứng LLM có ablation và một bài toán lượng tử đủ lớn để so sánh công bằng với thuật toán cổ điển.
+Các hình này kết nối trạng thái dữ liệu với luồng AGQO và circuit được dựng từ log thực tế. Mỗi hình có tên, giải thích, nguồn, kỳ, đơn vị và lưu ý đi kèm.
+
+![Kiến trúc AGQO từ dữ liệu đến bằng chứng](results/final/figures/12_agqo_pipeline.png)
+
+**Hình 12. Kiến trúc AGQO từ dữ liệu đến bằng chứng.** Luồng chỉ ra ranh giới cắt thời gian, local/Modal, RAG, Qwen, bộ giám sát, QAOA, đối chứng cổ điển và đường fallback; lớp tin ngoài được đánh dấu tắt do chưa có dữ liệu hợp lệ. Nguồn: Mã nguồn AGQO và manifest tin tức. Kỳ: kiến trúc phiên bản hiện tại. Đơn vị: thành phần và luồng dữ liệu. Lưu ý: QAOA hiện mô phỏng trên CPU; không có QPU.
+
+![Giá, biến động, độ rộng và phân tán thị trường](results/final/figures/13_market_regime_timeline.png)
+
+**Hình 13. Giá, biến động, độ rộng và phân tán thị trường.** Các trục căn chỉnh cho thấy giai đoạn thị trường theo chỉ số, biến động thực hiện, tỷ lệ cổ phiếu dương và phân tán chéo; không gắn tiêu đề tin khi kho sự kiện đang rỗng. Nguồn: CSV OHLCV cục bộ. Kỳ: 2022-01-04 đến 2026-10-19. Đơn vị: chỉ số chuẩn hóa, phần trăm, độ lệch chuẩn. Lưu ý: Dữ liệu giá chưa xác nhận điều chỉnh; vũ trụ có thiên lệch sống sót.
+
+![Bản đồ lợi suất tháng theo cổ phiếu](results/final/figures/14_cross_section_monthly_returns.png)
+
+**Hình 14. Bản đồ lợi suất tháng theo cổ phiếu.** Ma trận mã–tháng dùng thang màu phân kỳ có tâm 0 để nhìn rõ tháng tăng/giảm và độ đa dạng thực tế; thang màu được giới hạn theo phân vị 97,5 nhưng lợi suất gốc không bị thay đổi. Nguồn: CSV OHLCV cục bộ · monthly close-to-close. Kỳ: 2022-01 đến 2026-10. Đơn vị: lợi suất tháng phần trăm. Lưu ý: Ô xám là thiếu lịch sử; giá chưa xác nhận điều chỉnh và snapshot thành phần gây survivorship bias.
+
+![Mạch QAOA qua ba bối cảnh thị trường đã lưu](results/final/figures/15_actual_qaoa_circuit_comparison.png)
+
+**Hình 15. Mạch QAOA qua ba bối cảnh thị trường đã lưu.** Ba đồ thị dùng tín hiệu xác suất biến động thấp, cao và tương quan chéo cao; từng ánh xạ mã–qubit, seed, góc beta/gamma, cạnh cost, cạnh mixer, shots và regret được dựng từ lần chạy đã lưu. Màu nút cho biết mã thuộc nghiệm tốt nhất đã lấy mẫu; nhãn phân biệt policy AGQO thực thi với policy đối chứng cố định. Nguồn: results/final/circuit_metadata.json và results/final/agqo_final_walkforward.json. Kỳ: tín hiệu 2025-05-30, 2026-03-31 và 2025-07-31; kết quả tháng liền sau. Đơn vị: qubit, RZZ/RXX/RYY/RX, shots, regret. Lưu ý: Cổng logic của simulator, chưa transpile hoặc chạy QPU.

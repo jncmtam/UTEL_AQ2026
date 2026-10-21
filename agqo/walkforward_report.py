@@ -370,6 +370,18 @@ def render_walkforward_report(result: dict[str, Any]) -> str:
         "- [Farhi, Goldstone và Gutmann: QAOA](https://arxiv.org/abs/1411.4028)",
         "- [Hadfield và cộng sự: mixer cho tối ưu tổ hợp](https://arxiv.org/abs/1709.03489)",
         "",
+        "### Hình kiểm toán bổ sung",
+        "",
+        "Các hình dưới đây nối insight thị trường với luồng xử lý và mạch thật của ba tín hiệu đã lưu. Metadata của từng hình ghi rõ nguồn, kỳ, đơn vị và giới hạn.",
+        "",
+        "![Kiến trúc AGQO từ dữ liệu đến bằng chứng](figures/12_agqo_pipeline.png)",
+        "",
+        "![Giá, biến động, độ rộng và phân tán thị trường](figures/13_market_regime_timeline.png)",
+        "",
+        "![Bản đồ lợi suất tháng theo cổ phiếu](figures/14_cross_section_monthly_returns.png)",
+        "",
+        "![Mạch QAOA qua ba bối cảnh thị trường đã lưu](figures/15_actual_qaoa_circuit_comparison.png)",
+        "",
     ]
     return "\n".join(lines)
 
