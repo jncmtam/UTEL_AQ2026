@@ -4,6 +4,8 @@
 
 > **Kết luận điều hành:** AGQO đã nối được mô hình ngôn ngữ với bộ tối ưu QAOA trong một quy trình có thể kiểm toán. Tuy nhiên, kết quả hiện tại **chưa chứng minh lợi thế tài chính, giá trị gia tăng của LLM hay ưu thế lượng tử**. Trong 16 kỳ danh mục, AGQO đạt CAGR ròng 18,81%, thấp hơn VN30 ở mức 24,58% và bộ chọn quy tắc ở mức 19,98%. QAOA được mô phỏng véc-tơ trạng thái trên CPU; nghiệm cổ điển chính xác vẫn là đối chứng mạnh và nhanh ở quy mô đang thử.
 
+> **Trạng thái hiệu chỉnh dữ liệu ngày 21/10/2026:** mã nguồn đã được sửa để dùng lịch VN30 theo ngày hiệu lực, tách giá VCI điều chỉnh khỏi giá DNSE thô, và hỗ trợ siêu dữ liệu tin GDELT có mốc khả dụng. **Các con số, hình và kết luận hiệu suất bên dưới vẫn là kết quả của lượt chạy cũ trên snapshot thành phần và OHLCV cũ; chưa được tính lại bằng pipeline mới. Không dùng chúng làm bằng chứng đã loại bỏ thiên lệch.** Bộ nạp dữ liệu hiện yêu cầu xác thực miễn phí Vnstock Cộng đồng để lấy giá điều chỉnh trước 365 ngày; cho đến khi dữ liệu được tải lại, pipeline từ chối chạy kiểm định đã hiệu chỉnh.
+
 Báo cáo trình bày luận điểm đầu tư, dữ liệu và nhận định thị trường, cách trí tuệ nhân tạo (AI) và mô hình ngôn ngữ lớn (LLM) hướng dẫn QAOA, kết quả kiểm định, các giới hạn và điều kiện cần đạt trước khi đưa ra tuyên bố mạnh hơn. Đây là nghiên cứu lịch sử, không phải khuyến nghị đầu tư.
 
 ## Tóm tắt kết quả
@@ -13,7 +15,7 @@ Báo cáo trình bày luận điểm đầu tư, dữ liệu và nhận định 
 | Hiệu quả danh mục | AGQO CAGR ròng 18,81%, Sharpe 0,80, sụt giảm tối đa 11,90% | Thấp hơn VN30 và bộ chọn quy tắc trong 16 kỳ |
 | Giá trị của LLM | 16/16 phản hồi hợp lệ; không có lần nào bị bộ giám sát thay thế | Chứng minh được tích hợp và tuân thủ định dạng; chưa chứng minh lợi ích tài chính |
 | Chất lượng QAOA | Đã đo hối tiếc nghiệm, tỷ lệ thỏa ràng buộc, số qubit, độ sâu và số cổng logic | Có đánh đổi giữa tính khả thi và chất lượng; chưa có ưu thế so với bộ giải cổ điển |
-| Tính đại diện dữ liệu | 37.308 dòng, 30 cổ phiếu cùng VN30 và VN-Index, 04/01/2022–19/10/2026 | Lịch sử thành phần và điều chỉnh giá còn hạn chế |
+| Tính đại diện dữ liệu của lượt chạy cũ | 37.308 dòng, 30 cổ phiếu cùng VN30 và VN-Index, 04/01/2022–19/10/2026 | Dùng snapshot hiện tại; kết quả cần tính lại bằng lịch thành phần và giá điều chỉnh |
 | Kiểm định bổ sung | Một quyết định ngày 30/09, nắm giữ 12 phiên đến 19/10/2026 | Chẩn đoán bổ sung; không phải tập mù độc lập |
 
 ## 1. Hiệu quả danh mục và ý nghĩa tài chính
@@ -73,7 +75,7 @@ AGQO hơn danh mục bình quân sáu mã thanh khoản cao **0,13 điểm phầ
 
 ## 2. Dữ liệu và nhận định thị trường
 
-Tập nghiên cứu gồm **37.308 quan sát OHLCV** — giá mở cửa, cao, thấp, đóng cửa và khối lượng — của 30 cổ phiếu cùng VN30 và VN-Index, từ 04/01/2022 đến 19/10/2026. Tệp dữ liệu đầy đủ nằm trong máy nghiên cứu và không được đưa lên Git; kê khai nguồn và danh sách mã nằm trong data/vn30_snapshot_20261002/.
+Lượt chạy cũ dùng **37.308 quan sát OHLCV** — giá mở cửa, cao, thấp, đóng cửa và khối lượng — của 30 cổ phiếu cùng VN30 và VN-Index, từ 04/01/2022 đến 19/10/2026. Bộ dữ liệu đó không có lịch sử thành phần theo ngày và chưa có cột giá điều chỉnh; các thống kê lịch sử bên dưới mô tả đúng bộ dữ liệu cũ, không đại diện cho lượt hiệu chỉnh đang được thiết lập.
 
 Trong 252 phiên gần nhất của dữ liệu:
 
@@ -106,10 +108,10 @@ Trong 252 phiên gần nhất của dữ liệu:
 
 ### Những giới hạn cần đọc cùng các nhận định
 
-- Ảnh chụp thành phần VN30 hiện tại được áp ngược vào lịch sử; đây là **thiên lệch sống sót**.
-- Chưa xác nhận giá OHLCV đã điều chỉnh đầy đủ cổ tức, chia tách và quyền mua. Giá đóng cửa nhân khối lượng chỉ là đại diện thanh khoản.
-- Không có chuỗi tin tức theo mã với dấu thời gian và quyền sử dụng đã xác minh; tin tức bên ngoài hiện **không tham gia** mô hình hoặc giải thích kết quả.
-- Tập dữ liệu đầy đủ không được đưa lên Git do quyền phân phối lại chưa được xác nhận riêng với nhà cung cấp.
+- **Thành phần chỉ số — đã sửa trong mã, chưa chạy lại kết quả.** [Lịch thành phần theo thời gian](data/vn30_snapshot_20261002/vn30_membership_history.csv) và [nhật ký rà soát](data/vn30_snapshot_20261002/vn30_membership_events.csv) bao phủ 2022–2026, neo vào [snapshot kỳ tháng 1/2026](data/vn30_snapshot_20261002/vn30_anchor_2026-02-02.csv), gồm các lần đổi mã PNJ/VIB, KDH/BCM, NVL/PDR–SHB/SSB, POW/LPB, BVH/DGC, BCM/VPL, DGC/BSR và PLX/TPB–MCH/TCX. Mỗi tín hiệu walk-forward chỉ xét thành viên có hiệu lực tại ngày đó. Lịch là bản tổng hợp các thông báo tìm được, chưa đối chiếu toàn bộ kỳ rà soát quý; các kết quả cũ vẫn bị thiên lệch thành phần cho tới khi chạy lại.
+- **Giá sự kiện doanh nghiệp — đã nối nguồn và đường tính, chưa tải lại toàn kỳ.** Bộ nạp giữ OHLC thô DNSE cho giả định giá khớp và `close × volume`, đồng thời dùng OHLC VCI đã điều chỉnh để ước lượng lợi suất và đánh dấu giá trị danh mục theo tỷ lệ giá mở cửa điều chỉnh. Phí và sức chứa vẫn mô phỏng theo lệnh danh nghĩa với dữ liệu thô. Đây chưa phải sổ sự kiện doanh nghiệp: chưa đối soát từng cổ tức, chia tách, cổ phiếu thưởng, quyền mua và thời điểm ghi có; các giả định khớp không có sổ lệnh thực. Vnstock ở quyền Khách chỉ trả tối đa 365 ngày; cần đăng ký miễn phí Cộng đồng bằng `vnstock register`, kiểm tra `vnstock status`, rồi tải lại lịch sử 2022–2026. Nguồn VCI và KBS có thể điều chỉnh khác nhau; `close × volume` vẫn chỉ là đại diện thanh khoản, không phải giá trị khớp lệnh xác nhận.
+- **Tin tức — bộ nạp và bộ lọc thời điểm đã có, nguồn đang giới hạn truy cập.** Tùy chọn GDELT chỉ giữ đường dẫn, mã truy vấn, dấu lần đầu được ghi nhận, giờ thu thập và mã băm; tiêu đề và nội dung bài không được lưu. Điều khoản GDELT cho phép dùng và phân phối lại dữ liệu GDELT khi ghi nguồn, còn điều khoản của nhà xuất bản vẫn áp dụng cho bài gốc. `seendate` là giờ GDELT ghi nhận nguồn lần đầu, không phải giờ đăng bài; mã được gắn theo bí danh công ty truy vấn nên chưa phải phân loại mã đã được người xác nhận. Lượt thử hiện trả HTTP 429; manifest ghi rõ nguồn tạm giới hạn, tệp bản tin chỉ có tiêu đề cột, và bộ chạy sẽ từ chối tệp có bản ghi nếu thiếu lượt thu đủ toàn bộ bí danh. Bản tin tải ngược sau ngày tín hiệu bị loại. Tin tức **chưa tham gia** các kết quả hiện có.
+- **Quyền dữ liệu giá.** Tệp OHLCV đầy đủ không được theo dõi bởi Git. Giấy phép phần mềm Vnstock không cấp quyền phân phối dữ liệu từ DNSE/VCI; cần kiểm tra điều khoản từng nhà cung cấp trước khi công bố hoặc chia sẻ lại dữ liệu.
 
 ## 3. Kiến trúc AI–Quantum và vai trò của từng thành phần
 
@@ -117,7 +119,7 @@ AGQO không giao cho mô hình ngôn ngữ lớn (LLM) quyền chọn cổ phi�
 
 ![Luồng AGQO từ dữ liệu đến kết quả tài chính](results/final/figures/12_agqo_pipeline.png)
 
-**Quy trình AGQO.** Luồng cho thấy ranh giới dữ liệu, truy xuất ghi chú, Qwen, bộ giám sát, QAOA và đối chứng cổ điển; nhánh tin tức được tắt vì chưa có dữ liệu hợp lệ. Mạch QAOA hiện được mô phỏng trên CPU, chưa chạy QPU.
+**Quy trình AGQO.** Luồng cho thấy ranh giới dữ liệu, truy xuất ghi chú, Qwen, bộ giám sát, QAOA và đối chứng cổ điển. Nhánh GDELT là tùy chọn, cần thu thập siêu dữ liệu tại thời điểm thực; chưa có bản ghi trong lượt kết quả cũ. Mạch QAOA hiện được mô phỏng trên CPU, chưa chạy QPU.
 
 | Chặng | Công nghệ hoặc chức năng | Vai trò |
 |---|---|---|
@@ -241,7 +243,11 @@ Chỉ gọi AGQO có lợi thế đầu tư nếu chiến lược vượt chuẩ
 
 ### Nguồn dữ liệu và quyền sử dụng
 
-Giá lịch sử được thu qua thư viện vnstock-data và DNSE chart API; kê khai nằm trong [manifest dữ liệu](data/vn30_snapshot_20261002/manifest.json) và [danh sách mã](data/vn30_snapshot_20261002/members.csv). Tệp OHLCV đầy đủ nằm tại data/vn30_snapshot_20261002/ohlcv_daily.csv trong máy nghiên cứu, không được theo dõi bởi Git. Quyền dùng thư viện không mặc nhiên cấp quyền phân phối dữ liệu từ nhà cung cấp. [Điều khoản sử dụng Vnstock](https://www.vnstocks.com/onboard/giay-phep-su-dung).
+Mã tải dữ liệu mới dùng Vnstock 5.1.0 để lấy OHLC đã điều chỉnh từ VCI và gọi DNSE chart API để lưu giá thô. Cài bằng `python -m pip install -r requirements-data.txt`, sau đó đăng ký miễn phí quyền Cộng đồng bằng `vnstock register`; kiểm tra quyền bằng `vnstock status`. Quyền Khách bị giới hạn một năm lịch sử và không đủ để tạo lại tập 2022–2026.
+
+Trước khi tải lại, chạy `python scripts/build_vn30_membership_history.py`, rồi `python scripts/download_vn30_dataset.py`. Tệp giá nằm trong máy nghiên cứu và không được theo dõi bởi Git. Kê khai nguồn, dấu băm và trạng thái điều chỉnh nằm trong [manifest dữ liệu](data/vn30_snapshot_20261002/manifest.json); lịch thành phần nằm trong [lịch hiệu lực](data/vn30_snapshot_20261002/vn30_membership_history.csv). Vnstock là công cụ kết nối, không phải nhà cung cấp dữ liệu; giấy phép phần mềm không mặc nhiên cấp quyền phân phối dữ liệu thị trường. [Điều khoản sử dụng Vnstock](https://www.vnstocks.com/onboard/giay-phep-su-dung).
+
+Để thu thập tin gần đây theo thời gian thực, dùng `python scripts/fetch_gdelt_news_metadata.py --days 30`. Cần truy vấn đủ mọi bí danh; `--ticker FPT` chỉ dành cho chẩn đoán và không được bộ chạy chấp nhận làm nguồn toàn danh mục. Chỉ truyền `--news data/news/gdelt_metadata.csv` cho `scripts/run_ai_qaoa_walkforward.py` khi manifest có `status=collected_metadata_only`, `complete_universe_query=true` và `news_context_available=true`. Bộ thu thập chờ tối thiểu năm giây giữa các truy vấn, không lưu tiêu đề hay toàn văn. [Điều khoản dữ liệu GDELT](https://www.gdeltproject.org/about.html).
 
 HOSE áp dụng phiên bản 4.0 của phương pháp chỉ số từ kỳ rà soát tháng 07/2025; tài liệu nêu giới hạn tỷ trọng ngành 40%. Đây là bối cảnh về cấu tạo chỉ số, không phải tín hiệu dự báo. [Thông cáo HOSE tháng 07/2025](https://staticfile.hsx.vn/Uploads/UploadDocuments/2391309/TCBC_%20Cai%20tien%20chi%20so%20VN30%20t7.2025.pdf).
 

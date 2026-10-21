@@ -1,5 +1,7 @@
 # Báo cáo kết quả cuối cùng: AGQO trên cổ phiếu Việt Nam
 
+> **Lưu ý cập nhật dữ liệu 21/10/2026:** các số liệu và hình trong báo cáo này được tạo từ lượt chạy cũ với giá thô và snapshot thành phần VN30, chưa chạy lại bằng lịch thành phần theo thời điểm và chuỗi giá VCI điều chỉnh đang được thiết lập. Không diễn giải chúng như kết quả đã loại bỏ thiên lệch sống sót hoặc đã đối soát sự kiện doanh nghiệp. Chi tiết mã nguồn và điều kiện chạy lại nằm ở [README](../../README.md).
+
 **Giai đoạn danh mục:** 2025-06-02 đến 2026-10-01 · **16 kỳ tháng** · **vốn mô phỏng:** 100.00 triệu đồng · **phí cơ sở:** 25 điểm cơ bản mỗi chiều · **ngày tạo:** 2026-10-21T17:50:50.092908+07:00
 
 > Kết quả là nghiên cứu lịch sử, không phải lợi nhuận đầu tư có thể thực hiện. Dữ liệu dùng giá OHLCV thô và ảnh chụp thành phần VN30 hiện tại áp ngược lịch sử. Các phiên bản trước của dự án đã xem cùng khoảng kiểm định; vì vậy đây không còn là một tập kiểm tra độc lập chưa từng được quan sát.

@@ -116,13 +116,28 @@ _NOTES: tuple[dict[str, Any], ...] = (
         "title": "Vietnam equity dataset limitations",
         "tags": ("dataset", "vn30", "ohlcv", "survivorship", "history", "data", "liquidity", "corporate action", "dividend"),
         "text": (
-            "This experiment uses daily Vietnamese equity OHLCV and a snapshot of current VN30 members applied to historical "
-            "dates. This creates survivorship and constituent-history bias. The local source has not been confirmed as fully "
-            "adjusted for dividends, splits and other corporate actions; close*volume is only a traded-value proxy. The backtest "
-            "uses a short monthly evaluation sample and modeled fees/capacity, not confirmed executable fills. Treat historical "
-            "results as research evidence, not a claim of deployable profit."
+            "The walk-forward uses a curated VN30 membership interval file and selects constituents effective on each signal date; "
+            "review source links must still be audited. Returns use VCI OHLC prices documented as adjusted for entitlement events, "
+            "and portfolio wealth is marked through adjusted-open return ratios as a synthetic total-return approximation, not an "
+            "event-level cash-and-share ledger. Raw DNSE prices are used for assumed execution and close*volume. Completeness of each "
+            "dividend, split, bonus issue and rights event has not been independently reconciled. close*volume remains only a liquidity proxy. The backtest "
+            "uses modeled fees and capacity, not confirmed executable fills. Treat results as research evidence, not deployable profit."
         ),
         "source": "Project data manifest and experiment configuration",
+    },
+    {
+        "id": "AGQO-NEWS-01",
+        "title": "News metadata, point-in-time availability and use limits",
+        "tags": ("news", "gdelt", "timestamp", "first seen", "published", "rights", "headline", "event"),
+        "text": (
+            "Optional news features use GDELT DOC metadata only. The source first-seen timestamp is an availability proxy, "
+            "not the publisher's publication timestamp. A record is excluded from historical decisions unless both its first-seen "
+            "time and local collection time precede the decision cutoff, preventing present-day backfills from entering a past test. "
+            "Ticker association is based on the company-name query alias and is not human-verified entity resolution. Retain URLs, "
+            "timestamps, source fields, ticker query matches and hashes only; discard headlines and article text. Do not infer "
+            "sentiment or causality. News counts are contextual evidence only and are never added to the QAOA financial objective."
+        ),
+        "source": "GDELT terms at https://www.gdeltproject.org/about.html; implementation: agqo/news.py and scripts/fetch_gdelt_news_metadata.py",
     },
 )
 

@@ -1,31 +1,31 @@
 ticker,group
 ACB,Ngân hàng
 BID,Ngân hàng
+BSR,Năng lượng
 CTG,Ngân hàng
+FPT,Công nghệ
+GAS,Năng lượng
+GVR,Nguyên vật liệu
 HDB,Ngân hàng
+HPG,Nguyên vật liệu
 LPB,Ngân hàng
 MBB,Ngân hàng
+MCH,Tiêu dùng
+MSN,Tiêu dùng
+MWG,Tiêu dùng
+SAB,Tiêu dùng
 SHB,Ngân hàng
 SSB,Ngân hàng
+SSI,Chứng khoán
 STB,Ngân hàng
 TCB,Ngân hàng
-TPB,Ngân hàng
+TCX,Chứng khoán
 VCB,Ngân hàng
+VHM,Bất động sản
 VIB,Ngân hàng
+VIC,Bất động sản
+VJC,Hàng không
+VNM,Tiêu dùng
 VPB,Ngân hàng
-DGC,Ngành khác
-FPT,Ngành khác
-GAS,Ngành khác
-GVR,Ngành khác
-HPG,Ngành khác
-MSN,Ngành khác
-MWG,Ngành khác
-PLX,Ngành khác
-SAB,Ngành khác
-SSI,Ngành khác
-VHM,Ngành khác
-VIC,Ngành khác
-VJC,Ngành khác
-VNM,Ngành khác
-VPL,Ngành khác
-VRE,Ngành khác
+VPL,Bất động sản
+VRE,Bất động sản

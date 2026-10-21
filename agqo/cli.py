@@ -213,8 +213,8 @@ def main() -> int:
     )
     market.add_argument(
         "--members",
-        default="data/vn30_snapshot_20261002/members.csv",
-        help="Danh sách 30 thành phần tại ngày chụp.",
+        default="data/vn30_snapshot_20261002/vn30_membership_history.csv",
+        help="Lịch thành phần VN30 theo khoảng ngày hiệu lực.",
     )
     market.add_argument("--lookback", type=int, default=252)
     market.add_argument("--k", type=int, default=6)

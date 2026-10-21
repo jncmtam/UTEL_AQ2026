@@ -35,7 +35,7 @@ def ensure_visual_appendix(path: Path) -> None:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--data", type=Path, default=ROOT / "data/vn30_snapshot_20261002/ohlcv_daily.csv")
-    parser.add_argument("--members", type=Path, default=ROOT / "data/vn30_snapshot_20261002/members.csv")
+    parser.add_argument("--members", type=Path, default=ROOT / "data/vn30_snapshot_20261002/vn30_membership_history.csv")
     parser.add_argument("--result", type=Path, default=ROOT / "results/final/agqo_final_walkforward.json")
     parser.add_argument("--figures", type=Path, default=ROOT / "results/final/figures")
     args = parser.parse_args()

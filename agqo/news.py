@@ -1,15 +1,18 @@
 """Kiểm tra nguồn gốc và mốc thời gian của bằng chứng tin tức AGQO.
 
-Mô-đun này chỉ nhận siêu dữ liệu và trích đoạn được cấp phép; không tải, lưu
-hay chuyển tiếp toàn văn bài báo. Bằng chứng thiếu giờ công bố hoặc múi giờ bị
-loại khỏi tập dùng tại thời điểm quyết định.
+Mô-đun này chỉ nhận siêu dữ liệu được phép dùng; không tải, lưu hay chuyển tiếp
+toàn văn bài báo. Bằng chứng chỉ được dùng khi có mốc xuất bản chính xác hoặc
+mốc nguồn ghi nhận đầu tiên chính xác, cùng giờ thu thập không sau quyết định.
 """
 
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
-from datetime import date, datetime, time, timezone
+import csv
+import json
+from datetime import date, datetime, time, timedelta, timezone
 from hashlib import sha256
+from pathlib import Path
 from typing import Any, Iterable
 from urllib.parse import urlparse
 
@@ -36,7 +39,7 @@ class NewsRecord:
     source_name: str
     source_tier: str
     canonical_url: str
-    headline: str
+    headline: str | None
     ticker_entities: tuple[str, ...]
     event_category: str
     published_at: str | None
@@ -46,13 +49,15 @@ class NewsRecord:
     content_sha256: str
     extraction_version: str
     revision_id: str = "original"
+    availability_at: str | None = None
+    availability_basis: str = "published_at"
 
     @classmethod
     def from_mapping(cls, row: dict[str, Any]) -> "NewsRecord":
         """Tạo bản ghi đã kiểm tra cấu trúc, đường dẫn và dấu thời gian."""
         required = {
             "evidence_id", "source_name", "source_tier", "canonical_url",
-            "headline", "ticker_entities", "event_category", "published_at",
+            "ticker_entities", "event_category", "published_at",
             "collected_at", "timezone", "timestamp_precision", "content_sha256",
             "extraction_version",
         }
@@ -84,8 +89,22 @@ class NewsRecord:
         collected_at = _parse_instant(row["collected_at"], "collected_at")
         if published_at is not None and _parse_published(published_at, precision, timezone_name) > collected_at:
             raise ValueError("published_at không thể nằm sau collected_at.")
-        if precision == "exact" and published_at is None:
+        availability_basis = str(row.get("availability_basis", "published_at"))
+        if precision == "exact" and published_at is None and availability_basis != "source_first_seen":
             raise ValueError("Dấu thời gian chính xác bắt buộc có published_at.")
+        if availability_basis not in {"published_at", "source_first_seen"}:
+            raise ValueError("availability_basis phải là published_at hoặc source_first_seen.")
+        availability_at = row.get("availability_at")
+        if availability_basis == "source_first_seen":
+            if availability_at is None:
+                raise ValueError("Nguồn dùng mốc first-seen phải có availability_at.")
+            available = _parse_instant(availability_at, "availability_at")
+            if precision != "exact":
+                raise ValueError("Mốc source_first_seen chỉ hợp lệ với timestamp_precision=exact.")
+            if available > collected_at:
+                raise ValueError("availability_at không thể nằm sau collected_at.")
+        elif availability_at not in (None, ""):
+            _parse_instant(availability_at, "availability_at")
         digest = _nonempty(row["content_sha256"], "content_sha256").lower()
         if len(digest) != 64 or any(char not in "0123456789abcdef" for char in digest):
             raise ValueError("content_sha256 phải là SHA-256 dạng 64 ký tự hex.")
@@ -99,7 +118,10 @@ class NewsRecord:
             source_name=_nonempty(row["source_name"], "source_name"),
             source_tier=source_tier,
             canonical_url=url,
-            headline=_nonempty(row["headline"], "headline"),
+            headline=(
+                None if row.get("headline") in (None, "")
+                else _nonempty(row["headline"], "headline")
+            ),
             ticker_entities=tuple(dict.fromkeys(ticker.upper() for ticker in tickers)),
             event_category=category,
             published_at=(None if published_at is None else str(published_at)),
@@ -109,16 +131,24 @@ class NewsRecord:
             content_sha256=digest,
             extraction_version=_nonempty(row["extraction_version"], "extraction_version"),
             revision_id=str(row.get("revision_id", "original")),
+            availability_at=(None if availability_at in (None, "") else str(availability_at)),
+            availability_basis=availability_basis,
         )
 
     def point_in_time_eligible(self, as_of: str | date | datetime) -> bool:
         """Chỉ nhận mốc công bố/thu thập chính xác, có múi giờ và không sau cutoff."""
+        cutoff = _parse_cutoff(as_of)
+        collected = _parse_instant(self.collected_at, "collected_at")
+        if collected > cutoff:
+            return False
+        if self.availability_basis == "source_first_seen":
+            if self.availability_at is None:
+                return False
+            return _parse_instant(self.availability_at, "availability_at") <= cutoff
         if self.timestamp_precision != "exact" or self.published_at is None:
             return False
-        cutoff = _parse_cutoff(as_of)
         published = _parse_published(self.published_at, self.timestamp_precision, self.timezone)
-        collected = _parse_instant(self.collected_at, "collected_at")
-        return published <= cutoff and collected <= cutoff
+        return published <= cutoff
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -143,6 +173,89 @@ def content_digest(content: str | bytes) -> str:
     """Trả mã băm nội dung để kiểm tra phiên bản; không giữ lại nội dung."""
     value = content.encode("utf-8") if isinstance(content, str) else content
     return sha256(value).hexdigest()
+
+
+def load_news_records(path: str | Path) -> list[NewsRecord]:
+    """Read point-in-time evidence metadata from CSV or JSONL, never article text."""
+    source = Path(path)
+    if source.suffix.lower() in {".jsonl", ".ndjson"}:
+        rows = [
+            json.loads(line)
+            for line in source.read_text(encoding="utf-8").splitlines()
+            if line.strip()
+        ]
+    else:
+        rows = []
+        with source.open(newline="", encoding="utf-8") as file:
+            for row in csv.DictReader(file):
+                row["ticker_entities"] = json.loads(row.get("ticker_entities") or "[]")
+                for field in ("published_at", "availability_at"):
+                    if row.get(field) == "":
+                        row[field] = None
+                rows.append(row)
+    return [NewsRecord.from_mapping(row) for row in rows]
+
+
+def summarize_news_as_of(
+    records: Iterable[NewsRecord],
+    as_of: str | date | datetime,
+    tickers: Iterable[str],
+) -> dict[str, Any]:
+    """Return counts from locally captured, point-in-time ticker evidence."""
+    cutoff = _parse_cutoff(as_of)
+    ticker_set = {ticker.upper() for ticker in tickers}
+    eligible = filter_point_in_time(records, as_of)
+    rows: list[tuple[NewsRecord, datetime]] = []
+    for record in eligible:
+        available_value = (
+            record.availability_at
+            if record.availability_basis == "source_first_seen"
+            else record.published_at
+        )
+        if available_value is None or record.timestamp_precision != "exact":
+            continue
+        available = _parse_instant(available_value, "available_at")
+        if available <= cutoff and ticker_set.intersection(record.ticker_entities):
+            rows.append((record, available))
+
+    by_ticker: dict[str, dict[str, Any]] = {}
+    for ticker in sorted(ticker_set):
+        matching = [(record, available) for record, available in rows if ticker in record.ticker_entities]
+        ticker_counts: dict[str, Any] = {}
+        for days in (5, 20):
+            threshold = cutoff - timedelta(days=days)
+            ticker_counts[f"mentions_{days}d"] = sum(available >= threshold for _, available in matching)
+        ticker_counts["latest_available_at"] = (
+            max(available for _, available in matching).isoformat() if matching else None
+        )
+        ticker_counts["evidence_ids"] = [record.evidence_id for record, _ in matching[-10:]]
+        by_ticker[ticker] = ticker_counts
+    evidence_ids = {record.evidence_id for record, _ in rows}
+    source_references = [
+        {
+            "evidence_id": record.evidence_id,
+            "url": record.canonical_url,
+            "available_at": available.isoformat(),
+            "ticker_entities": list(record.ticker_entities),
+        }
+        for record, available in sorted(rows, key=lambda item: item[1], reverse=True)[:10]
+    ]
+    return {
+        "eligible_record_count": len(evidence_ids),
+        "coverage_window_days": [5, 20],
+        "aggregate_mentions_5d": sum(
+            count for row in by_ticker.values() for key, count in row.items()
+            if key == "mentions_5d"
+        ),
+        "aggregate_mentions_20d": sum(
+            count for row in by_ticker.values() for key, count in row.items()
+            if key == "mentions_20d"
+        ),
+        "tickers": by_ticker,
+        "source_references": source_references,
+        "source": "GDELT DOC metadata; source first-seen timestamp, not publisher publication time",
+        "article_text_or_headlines_retained": False,
+    }
 
 
 def _nonempty(value: Any, field: str) -> str:
@@ -177,7 +290,12 @@ def _parse_published(value: Any, precision: str, timezone_name: str) -> datetime
 def _parse_cutoff(value: str | date | datetime) -> datetime:
     if isinstance(value, datetime):
         if value.tzinfo is None or value.utcoffset() is None:
-            raise ValueError("as_of dạng datetime phải có múi giờ.")
+            # Research signals are exchange-local dates represented by naive
+            # pandas timestamps. Treat them as the full Vietnam trading day.
+            local = value.replace(tzinfo=VIETNAM_TZ)
+            if local.time() == time.min:
+                local = local.replace(hour=23, minute=59, second=59, microsecond=999999)
+            return local.astimezone(timezone.utc)
         return value.astimezone(timezone.utc)
     if isinstance(value, date):
         cutoff_date = value

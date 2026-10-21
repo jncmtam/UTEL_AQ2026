@@ -37,6 +37,7 @@ from agqo.guide import (
     validate_guidance,
 )
 from agqo.market_data import load_market_dataset
+from agqo.universe import members_as_of
 from agqo.problem import exact_solve_vectorized, greedy_solve
 from agqo.walkforward import (
     AGQO_STRATEGY_NAME,
@@ -60,7 +61,7 @@ TEST_ENTRY = pd.Timestamp("2026-10-01")
 TEST_EXIT = pd.Timestamp("2026-10-19")
 OLD_RESULT = ROOT / "results/final/agqo_final_walkforward.json"
 DATA_PATH = ROOT / "data/vn30_snapshot_20261002/ohlcv_daily.csv"
-MEMBERS_PATH = ROOT / "data/vn30_snapshot_20261002/members.csv"
+MEMBERS_PATH = ROOT / "data/vn30_snapshot_20261002/vn30_membership_history.csv"
 OUT_JSON = ROOT / "results/final/agqo_tail_probe_20261019.json"
 OUT_REPORT = ROOT / "results/final/AGQO_KIEM_DINH_DUOI_20261019.md"
 FIG_DIR = ROOT / "results/final/figures/tail_probe_20261019"
@@ -455,16 +456,24 @@ def main() -> int:
     started = perf_counter()
     old = _load_old_result()
     config = ResearchConfig()
-    data, members, dates, stock_open, stock_close, stock_returns, index_open, index_close, index_returns, traded_value = _load_panels(DATA_PATH, MEMBERS_PATH)
+    (data, members, membership_history, dates, stock_open, stock_adjusted_open,
+     stock_close, stock_returns, index_open, index_close, index_returns,
+     traded_value) = _load_panels(DATA_PATH, MEMBERS_PATH)
     if dates[-1] != TEST_EXIT or SIGNAL_DATE not in dates or TEST_ENTRY not in dates:
         raise ValueError(f"Dữ liệu không có ngày kiểm định yêu cầu: cuối={dates[-1].date()}.")
     if TEST_ENTRY <= SIGNAL_DATE or TEST_EXIT <= TEST_ENTRY:
         raise ValueError("Thời điểm giao dịch không đúng thứ tự.")
     if old["data"]["last_date"] != str(dates[-1].date()):
         raise ValueError("Kết quả nền cũ và bộ dữ liệu có ngày kết thúc khác nhau; cần rà soát trước khi so sánh.")
+    if old["data"].get("membership_point_in_time") is not True:
+        raise ValueError(
+            "Kết quả nền cũ được tạo bằng snapshot thành phần hiện tại; hãy chạy lại "
+            "walk-forward đầy đủ với lịch membership_history trước khi tạo phép thử đuôi."
+        )
 
-    tickers = tuple(members.ticker.astype(str))
-    group_by_ticker = members.set_index("ticker")["group"].astype(str).to_dict()
+    tickers = tuple(stock_returns.columns.astype(str))
+    active_members = members_as_of(membership_history, SIGNAL_DATE)
+    group_by_ticker = active_members.set_index("ticker")["group"].astype(str).to_dict()
     features = _index_features(index_returns)
     model = fit_regime_model(
         features, index_returns, config.train_end, config.validation_start,
@@ -476,7 +485,7 @@ def main() -> int:
     )
     probability = float(asof_model.predict_probability(features.loc[[SIGNAL_DATE]])[0])
     returns, eligible, candidates, liquidity = _eligible_universe(
-        SIGNAL_DATE, tickers, stock_returns, traded_value, config
+        SIGNAL_DATE, tickers, stock_returns, traded_value, config, membership_history
     )
 
     performance = old["portfolio"]["performance"]
@@ -500,7 +509,8 @@ def main() -> int:
         if value.get("period_details") is not None
     }
     past_strategy_metrics = _past_strategy_metrics(
-        SIGNAL_DATE, strategy_targets, tickers, stock_open, historic_entries,
+        SIGNAL_DATE, strategy_targets, tickers, stock_open, stock_adjusted_open,
+        historic_entries,
         historic_exits, historic_liquidities, config,
     )
     policy_names = old["agqo_guidance"]["policy_strategy_names"]
@@ -797,8 +807,9 @@ def main() -> int:
         "limitations": [
             f"Only one LLM decision and {test_market_sessions} market sessions; annualized Sharpe is descriptive and unstable.",
             "This data tail was not scored in the old portfolio table but the market dates were already present in project artifacts; it is not a blind holdout.",
-            "The membership file is the current VN30 snapshot applied historically; survivorship and membership-history bias remain.",
-            "OHLCV uses unverified raw price basis; no verified corporate-action adjustment, tax, lot size, market impact, or halted-stock execution.",
+            "Point-in-time membership is used from the documented VN30 review timeline; reviewed intervals should still be audited against HOSE source records.",
+            "VCI price adjustment is used for returns, but each cash dividend, split, bonus issue and rights event has not been independently reconciled; tax, lot size, impact and halted-stock execution are not modeled.",
+            "Raw close×volume remains a liquidity proxy and does not replace confirmed traded value or order-book capacity.",
             "QAOA runs on a classical simulator; gate counts are logical circuit proxies and cannot establish quantum advantage.",
             "No external news feed was used in this probe; price moves are not attributed to specific events.",
             "The monthly historical portfolio entries/exits in source results remain based on the existing backtest assumptions.",

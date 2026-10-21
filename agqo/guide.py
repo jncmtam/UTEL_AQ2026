@@ -322,7 +322,10 @@ def qwen3_system_prompt() -> str:
         "have matured or Brier skill is not positive, treat its probability as unverified and do not use it alone to "
         "increase risk or QAOA depth. Brier score is lower-is-better; overlapping 21-session labels are not independent. "
         "Use insight_code_rules as exact thresholds. Only codes listed in allowed_insight_codes can be returned; if none "
-        "of the measured warning conditions apply, use mixed_signals.\n\n"
+        "of the measured warning conditions apply, use mixed_signals. If news_context is present, its counts come from "
+        "company-name search aliases and GDELT first-seen timestamps, not verified publisher publication times. Treat "
+        "them only as coverage context: do not infer sentiment, a verified issuer match, or causal explanation from counts. "
+        "When no news evidence ID is supplied, make no news claim.\n\n"
         "Return exactly one JSON object matching response_schema from the payload, with no Markdown or additional fields. "
         "This is research, not investment advice."
     )

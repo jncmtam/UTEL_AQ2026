@@ -12,6 +12,7 @@ import pandas as pd
 
 from .estimators import build_investable_problem
 from .problem import exact_solve
+from .universe import MEMBERSHIP_COLUMNS, latest_members, load_membership_history
 
 REQUIRED_COLUMNS = {
     "date",
@@ -25,23 +26,39 @@ REQUIRED_COLUMNS = {
 }
 
 
-def load_market_dataset(data_path: str | Path, members_path: str | Path) -> tuple[pd.DataFrame, pd.DataFrame]:
-    """Đọc CSV dài và danh sách rổ; dừng nếu sai cấu trúc cột hoặc dữ liệu không hợp lệ."""
+def load_market_dataset(
+    data_path: str | Path,
+    members_path: str | Path,
+    *,
+    require_point_in_time_membership: bool = False,
+    require_adjusted_prices: bool = False,
+) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Read OHLCV and either a static snapshot or validated constituent intervals."""
     data = pd.read_csv(data_path)
     missing = REQUIRED_COLUMNS - set(data.columns)
     if missing:
         raise ValueError(f"Thiếu các cột OHLCV bắt buộc: {sorted(missing)}")
-    members = pd.read_csv(members_path)
-    if not {"ticker", "group"}.issubset(members.columns):
-        raise ValueError("Tệp thành phần phải có cột ticker và group.")
-    if len(members) != 30 or members["ticker"].duplicated().any():
-        raise ValueError("Danh sách thành phần phải có đúng 30 mã duy nhất.")
-
     data["date"] = pd.to_datetime(data["date"], errors="raise").dt.normalize()
     data["ticker"] = data["ticker"].astype(str).str.upper()
     data["instrument_type"] = data["instrument_type"].astype(str)
     for column in ("open", "high", "low", "close", "volume"):
         data[column] = pd.to_numeric(data[column], errors="raise")
+    adjusted_columns = [f"{column}_adjusted" for column in ("open", "high", "low", "close")]
+    if require_adjusted_prices and not set(adjusted_columns).issubset(data.columns):
+        raise ValueError(
+            "Backtest tài chính cần đủ open/high/low/close_adjusted từ nguồn đã khai báo; "
+            "hãy dựng lại bộ dữ liệu bằng scripts/download_vn30_dataset.py."
+        )
+    if set(adjusted_columns).issubset(data.columns):
+        for column in adjusted_columns:
+            data[column] = pd.to_numeric(data[column], errors="raise")
+        stock_adjusted = data.loc[data.instrument_type == "stock", adjusted_columns]
+        if require_adjusted_prices and stock_adjusted.isna().any().any():
+            raise ValueError("OHLC điều chỉnh còn thiếu; không được coi tập dữ liệu là hoàn chỉnh.")
+        if not np.isfinite(stock_adjusted.to_numpy()).all():
+            raise ValueError("OHLC điều chỉnh chứa giá trị không hữu hạn.")
+        if (stock_adjusted <= 0).any().any():
+            raise ValueError("OHLC điều chỉnh phải dương.")
     if data.duplicated(["date", "ticker"]).any():
         raise ValueError("Có ngày và mã bị lặp.")
     if not np.isfinite(data[["open", "high", "low", "close", "volume"]].to_numpy()).all():
@@ -50,8 +67,30 @@ def load_market_dataset(data_path: str | Path, members_path: str | Path) -> tupl
         raise ValueError("Giá OHLC phải dương.")
     if (data["volume"] < 0).any():
         raise ValueError("Khối lượng không được âm.")
-    if not set(members["ticker"]).issubset(set(data.loc[data.instrument_type == "stock", "ticker"])):
-        raise ValueError("Có mã thành phần không xuất hiện trong dữ liệu cổ phiếu.")
+    membership_file = pd.read_csv(members_path, nrows=1)
+    is_history = MEMBERSHIP_COLUMNS.issubset(membership_file.columns)
+    if require_point_in_time_membership and not is_history:
+        raise ValueError(
+            "Đường chạy walk-forward yêu cầu lịch thành phần lịch sử, không nhận snapshot hiện tại. "
+            "Dùng data/vn30_snapshot_20261002/vn30_membership_history.csv."
+        )
+    if is_history:
+        history = load_membership_history(members_path)
+        members = latest_members(history, data["date"].max())
+        required_tickers = set(history["ticker"])
+    else:
+        members = pd.read_csv(members_path)
+        if not {"ticker", "group"}.issubset(members.columns):
+            raise ValueError("Tệp thành phần phải có cột ticker và group.")
+        if len(members) != 30 or members["ticker"].duplicated().any():
+            raise ValueError("Danh sách thành phần phải có đúng 30 mã duy nhất.")
+        required_tickers = set(members["ticker"].astype(str).str.upper())
+    if not required_tickers.issubset(set(data.loc[data.instrument_type == "stock", "ticker"])):
+        absent = sorted(required_tickers - set(data.loc[data.instrument_type == "stock", "ticker"]))
+        raise ValueError(
+            "Dữ liệu giá thiếu các mã từng thuộc VN30 trong giai đoạn nghiên cứu: "
+            f"{absent}. Hãy tải lại toàn bộ hợp nhất thành phần bằng scripts/download_vn30_dataset.py."
+        )
     if not {"VN30", "VNINDEX"}.issubset(
         set(data.loc[data.instrument_type == "index", "ticker"])
     ):
@@ -88,7 +127,8 @@ def analyze_market_dataset(
     tickers = tuple(members["ticker"].astype(str))
     index_prices = indices.pivot(index="date", columns="ticker", values="close")
     aligned_index_dates = index_prices[["VN30", "VNINDEX"]].dropna().index
-    prices = stock.pivot(index="date", columns="ticker", values="close").reindex(
+    price_column = "close_adjusted" if "close_adjusted" in stock.columns else "close"
+    prices = stock.pivot(index="date", columns="ticker", values=price_column).reindex(
         index=aligned_index_dates, columns=tickers
     )
     returns = prices.pct_change(fill_method=None)
@@ -106,13 +146,13 @@ def analyze_market_dataset(
         raise ValueError("Dữ liệu chỉ số không bao phủ đủ cửa sổ cổ phiếu được chọn.")
 
     stock_window_metrics: dict[str, dict[str, float]] = {}
-    traded_value = stock.assign(traded_value=stock["close"] * stock["volume"])
+    traded_value = stock.assign(traded_value_proxy=stock["close"] * stock["volume"])
     traded_panel = traded_value.pivot(
-        index="date", columns="ticker", values="traded_value"
+        index="date", columns="ticker", values="traded_value_proxy"
     ).reindex(index=window.index, columns=tickers)
     for ticker in tickers:
         stock_window_metrics[ticker] = _series_metrics(window[ticker])
-        stock_window_metrics[ticker]["mean_daily_traded_value_vnd"] = float(
+        stock_window_metrics[ticker]["mean_daily_traded_value_proxy_vnd"] = float(
             traded_panel[ticker].mean()
         )
 
@@ -223,8 +263,13 @@ def analyze_market_dataset(
             "tăng theo 2^N; bộ giải chính xác cổ điển dùng được cho N=30, K=6."
         ),
         "data_quality_note": (
-            "Nguồn chỉ trả OHLCV, không có giá đóng cửa điều chỉnh được xác nhận; "
-            "thành phần VN30 là ảnh chụp hiện tại, không phải lịch sử theo ngày."
+            "Lợi suất cổ phiếu dùng OHLC điều chỉnh theo quyền do VCI trả về; giá khớp và "
+            "giá trị close×volume dùng OHLC thô từ DNSE. close×volume vẫn là đại diện thanh khoản, "
+            "không phải giá trị khớp lệnh xác nhận. Danh sách mô tả là VN30 tại ngày cuối; "
+            "walk-forward dùng lịch thành phần theo ngày hiệu lực."
+            if "close_adjusted" in data.columns
+            else "Tập dữ liệu chưa có cột OHLC điều chỉnh; các số lợi suất chỉ là phân tích thăm dò, "
+            "không được dùng làm kết quả backtest đã xử lý sự kiện doanh nghiệp."
         ),
     }
 

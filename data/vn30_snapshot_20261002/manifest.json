@@ -6,8 +6,6 @@
   "source_library": "https://github.com/nguyenthdat/vnstock-data",
   "source_library_commit": "d6bafb23dd02f3f63273f12b1f3e3949877b2242",
   "market_data_endpoint": "https://services.entrade.com.vn/chart-api/v2/ohlcs",
-  "member_snapshot_date": "2026-10-02",
-  "member_snapshot_source": "https://www.hodl.vn/bai-hoc/vn30-gom-nhung-ma-nao",
   "member_count": 30,
   "index_tickers": [
     "VN30",
@@ -15,7 +13,6 @@
   ],
   "rows": 37308,
   "ohlcv_sha256": "fa9d5acf70a149bc05da382c72d2f079f0c1ce29a5671e8c22c330a1c3c78b54",
-  "members_sha256": "45a33d5c453deb76b81dca1ba3626f3733d96145b4a91449dcc189f8bf27d6c0",
   "coverage": [
     {
       "instrument_type": "index",
@@ -246,5 +243,17 @@
   "price_adjustment": "The connector provides OHLCV only; adjusted-close/total-return status is not asserted.",
   "daily_bar_aggregation": "Duplicate records for the same ticker and date are combined as first open, maximum high, minimum low, last close, and summed volume.",
   "membership_limitation": "The present-day VN30 membership snapshot is used for all historical rows; this is not point-in-time constituent history and creates survivorship bias in historical portfolio backtests.",
-  "data_rights": "The connector software license does not establish redistribution rights for source market data. Retain locally for research and verify source terms before publishing or redistributing."
+  "data_rights": "The connector software license does not establish redistribution rights for source market data. Retain locally for research and verify source terms before publishing or redistributing.",
+  "dataset_status": "legacy_raw_snapshot_not_valid_for_corrected_backtest",
+  "legacy_members_snapshot_date": "2026-10-02",
+  "legacy_members_snapshot_source": "https://www.hodl.vn/bai-hoc/vn30-gom-nhung-ma-nao",
+  "legacy_members_snapshot_sha256": "45a33d5c453deb76b81dca1ba3626f3733d96145b4a91449dcc189f8bf27d6c0",
+  "current_members_file": "members.csv",
+  "current_members_file_sha256": "f77c2aa5003268a4826e817aff6bfefa5e58c53e5f245dc85f0b23a082da2a79",
+  "point_in_time_membership_file": "vn30_membership_history.csv",
+  "point_in_time_membership_sha256": "4f8d3a0d4544237bf25b18df81f3a9bd009933106c93a2aa3a768169bd5ddd13",
+  "membership_event_file": "vn30_membership_events.csv",
+  "membership_research_limit": "Curated public-source reconstruction; not an exhaustive licensed exchange history. The legacy OHLCV file was not refreshed and does not contain the adjusted-price columns required by the corrected walk-forward.",
+  "corporate_action_adjustment_status": "legacy OHLCV has no adjusted-price columns; corrected downloader is configured to fetch VCI-adjusted OHLC and fails closed on incomplete history.",
+  "news_status": "No GDELT metadata records collected; current request was rate-limited with HTTP 429. News is disabled."
 }

@@ -37,8 +37,14 @@ def main() -> int:
     parser.add_argument(
         "--members",
         type=Path,
-        default=ROOT / "data/vn30_snapshot_20261002/members.csv",
-        help="Đường dẫn CSV thành phần VN30.",
+        default=ROOT / "data/vn30_snapshot_20261002/vn30_membership_history.csv",
+        help="Đường dẫn CSV lịch thành phần VN30 theo ngày hiệu lực.",
+    )
+    parser.add_argument(
+        "--news",
+        type=Path,
+        default=None,
+        help="Tệp CSV siêu dữ liệu GDELT đã thu thập tại thời điểm thực; bỏ trống thì không dùng tin tức.",
     )
     parser.add_argument(
         "--json",
@@ -122,7 +128,9 @@ def main() -> int:
                 f"{args.qwen3_modal_function}:{model_name}:{revision}"
             ),
         )
-    result = run_walkforward(args.data, args.members, args.json, ResearchConfig(), guide=guide)
+    result = run_walkforward(
+        args.data, args.members, args.json, ResearchConfig(), guide=guide, news_path=args.news
+    )
     figures = build_walkforward_plots(args.json, args.figures)
     figures.extend(build_final_visuals(args.json, args.figures))
     dataset_summary = analyze_market_dataset(args.data, args.members)

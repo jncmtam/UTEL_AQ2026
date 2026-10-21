@@ -1,0 +1,12 @@
+event_type,review_id,announcement_date,effective_date,added,removed,source_url,source_tier
+no_constituent_change,2022-01-regular,2022-01-17,,,,https://vn.investing.com/news/stock-market-news/dao-vn30-ky-thang-12022-giu-nguyen-danh-muc-1970141,secondary_report_of_hose_notice
+constituent_change,2022-07-regular,2022-07-18,2022-08-01,VIB,PNJ,https://www.phs.vn/tin-tuc/dao-danh-muc-vn30-loai-pnj-them-moi-vib/5608281,exchange_notice_republished
+constituent_change,2023-01-regular,2023-01-17,2023-02-06,BCM,KDH,https://www.funan.com.vn/vi/dao-danh-muc-vn30-thang-12023-them-bcm-loai-kdh.1031504,exchange_notice_republished
+constituent_change,2023-07-regular,2023-07-17,2023-08-07,SHB;SSB,NVL;PDR,https://vnexpress.net/hai-co-phieu-bat-dong-san-bi-loai-khoi-ro-von-hoa-lon-4630469.html,secondary_report_of_hose_notice
+no_constituent_change,2024-01-regular,2024-01-18,,,,https://www.funan.com.vn/vi/dao-danh-muc-vn30-ky-thang-1-2024-khong-co-thay-doi.1054482,exchange_notice_republished
+no_constituent_change,2024-07-regular,2024-07-15,,,,https://www.phs.vn/tin-tuc/cac-quy-etf-vn30-vnfinlead-se-dao-danh-muc-ra-sao-trong-ky-review-thang-7/6187821,secondary_report_of_hose_notice
+constituent_change,2025-01-regular,2025-01-20,2025-02-03,LPB,POW,https://mobi.fireant.vn/News/NewsAttachedFile/1732373,hose_notice_mirror
+constituent_change,2025-07-regular,2025-07-25,2025-08-04,DGC,BVH,https://www.phs.vn/tin-tuc/hose-cai-tien-chi-so-vn30-ky-thang-72025/6313827,hose_notice_republished
+constituent_change,2026-01-regular,2026-01-21,2026-02-02,VPL,BCM,https://www.phs.vn/tin-tuc/dao-danh-muc-vn30-ky-thang-12026-vpl-gia-nhap-bcm-bi-loai-ra/6361458,hose_notice_republished
+constituent_change,2026-05-off-cycle,2026-05-08,2026-05-13,BSR,DGC,https://www.bsr.com.vn/en/web/bsr/w/bsr-chinh-thuc-gia-nhap-ro-vn30-tu-13-5-2026-dau-moc-khang-dinh-vi-the-doanh-nghiep-nang-luong-tru-cot,issuer_report_of_hose_notice
+constituent_change,2026-07-regular,2026-07-15,2026-08-03,MCH;TCX,PLX;TPB,https://www.tinnhanhchungkhoan.vn/hose-chot-ro-vn30-mch-tcx-se-thay-the-cho-tpb-va-plx-post394082.html,secondary_report_of_hose_notice

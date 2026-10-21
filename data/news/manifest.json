@@ -1,44 +1,33 @@
 {
-  "manifest_version": "agqo-news-v1",
-  "status": "disabled_no_point_in_time_records",
+  "manifest_version": "agqo-news-v2-gdelt-metadata",
+  "status": "temporarily_rate_limited",
   "records_count": 0,
-  "primary_evaluation_enabled": false,
-  "raw_article_text_stored": false,
-  "collection_date": "2026-10-21",
+  "news_context_available": false,
+  "collection_completed_at_utc": "2026-10-21T12:44:47.150609+00:00",
   "decision_time_timezone": "Asia/Ho_Chi_Minh",
-  "eligibility_rule": "Include only records with an exact timezone-aware published_at no later than the decision cutoff; unknown or date-only timestamps are excluded from the primary evaluation.",
-  "storage_policy": "Metadata, source URL, event tags, version identifiers and content hashes only. Store a short excerpt only when the publisher's terms permit it. Never archive full article text by default.",
-  "disabled_reason": "No ticker-linked historical news feed with verified publication timestamps, revision history, access terms and redistribution rights has been acquired for the study window. No external news features or event attributions are included in model results; methodology documents may be cited as non-feature structural context.",
-  "candidate_primary_sources": [
+  "source": "GDELT DOC 2.0; API returns article URL, title and GDELT seendate; AGQO discards title and stores only URL, source first-seen timestamp, ticker alias query and metadata hash.",
+  "timestamp_policy": "GDELT seendate is treated as source first-seen/availability time, never as publisher publication time. Historical rows retrieved after a decision are excluded by collected_at <= decision cutoff.",
+  "entity_matching": "Each record is associated with the exact company-name query alias used; the match is a retrieval proxy, not human-confirmed ticker entity resolution. No sentiment is inferred.",
+  "rights_status": "GDELT dataset metadata may be used and redistributed with attribution under https://www.gdeltproject.org/about.html; source article text and headlines are not stored or redistributed. Underlying publisher terms continue to govern article content.",
+  "raw_article_text_stored": false,
+  "article_headline_stored": false,
+  "source_url_stored": true,
+  "feed_file": "gdelt_metadata.csv",
+  "feed_sha256": "466107d798cb3bf81b5f80399510e6f090d633f8e62a42c568e3645f25e56a29",
+  "query_window_days": 30,
+  "query_details": [
     {
-      "name": "HOSE information disclosures",
-      "url": "https://www.hsx.vn/",
-      "use": "Company disclosures, exchange notices and index methodology documents.",
-      "integration_status": "candidate_only",
-      "rights_status": "source terms and programmatic access not cleared"
-    },
-    {
-      "name": "State Securities Commission information disclosure system",
-      "url": "https://ids.ssc.gov.vn/",
-      "use": "Regulatory and public-company disclosures where accessible.",
-      "integration_status": "candidate_only",
-      "rights_status": "authentication, access terms and historical export not cleared"
+      "ticker": "FPT",
+      "alias_hash": "c500eed0ad244b23c33d1080b66dc628b3757a4b8c6fc1fbd99e34da42f28a07",
+      "error": "HTTPError('429 Client Error: Too Many Requests for url: https://api.gdeltproject.org/api/v2/doc/doc?query=%22FPT+Corporation%22&mode=ArtList&format=json&maxrecords=250&startdatetime=20260921124437&enddatetime=20261021124437&sort=HybridRel')"
     }
   ],
-  "required_record_fields": [
-    "evidence_id",
-    "source_name",
-    "source_tier",
-    "canonical_url",
-    "headline",
-    "ticker_entities",
-    "event_category",
-    "published_at",
-    "collected_at",
-    "timezone",
-    "timestamp_precision",
-    "content_sha256",
-    "extraction_version",
-    "revision_id"
-  ]
+  "disabled_reason": "GDELT DOC returned HTTP 429 for the FPT query. Collection stopped after the rate-limit response; no partial batch is added to the feed. Retry after the source cooldown and collect all configured company aliases before enabling model context.",
+  "usage_guard": "News is context only; it is not a return forecast and is not added to the QAOA financial objective.",
+  "query_scope_tickers": [
+    "FPT"
+  ],
+  "complete_universe_query": false,
+  "query_window_start_utc": "2026-09-21T12:44:37.788317+00:00",
+  "query_window_end_utc": "2026-10-21T12:44:47.150609+00:00"
 }

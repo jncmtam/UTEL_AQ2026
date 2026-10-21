@@ -36,6 +36,8 @@ from .insights import (
     support_insight_codes,
 )
 from .market_data import load_market_dataset
+from .news import load_news_records, summarize_news_as_of
+from .universe import load_membership_history, members_as_of
 from .problem import (
     PortfolioProblem,
     anneal_solve,
@@ -210,8 +212,13 @@ class ResearchConfig:
 
 
 def _load_panels(data_path: str | Path, members_path: str | Path):
-    data, members = load_market_dataset(data_path, members_path)
-    tickers = tuple(members["ticker"].astype(str))
+    data, members = load_market_dataset(
+        data_path,
+        members_path,
+        require_point_in_time_membership=True,
+        require_adjusted_prices=True,
+    )
+    membership_history = load_membership_history(members_path)
     stock = data.loc[data.instrument_type == "stock"]
     index = data.loc[data.instrument_type == "index"]
     index_open = index.pivot(index="date", columns="ticker", values="open").sort_index()
@@ -219,20 +226,30 @@ def _load_panels(data_path: str | Path, members_path: str | Path):
     dates = index_close[["VN30", "VNINDEX"]].dropna().index
     index_open = index_open.reindex(index=dates, columns=["VN30", "VNINDEX"])
     index_close = index_close.reindex(index=dates, columns=["VN30", "VNINDEX"])
+    stock_close = stock.pivot(index="date", columns="ticker", values="close").reindex(
+        index=dates
+    ).sort_index()
+    stock_adjusted_open = stock.pivot(
+        index="date", columns="ticker", values="open_adjusted"
+    ).reindex(index=dates).sort_index()
+    tickers = tuple(stock_close.columns.astype(str))
     stock_open = stock.pivot(index="date", columns="ticker", values="open").reindex(
         index=dates, columns=tickers
     ).sort_index()
-    stock_close = stock.pivot(index="date", columns="ticker", values="close").reindex(
-        index=dates, columns=tickers
-    ).sort_index()
+    stock_close = stock_close.reindex(columns=tickers)
+    stock_adjusted_open = stock_adjusted_open.reindex(columns=tickers)
+    stock_adjusted_close = stock.pivot(
+        index="date", columns="ticker", values="close_adjusted"
+    ).reindex(index=dates, columns=tickers).sort_index()
     volume = stock.pivot(index="date", columns="ticker", values="volume").reindex(
         index=dates, columns=tickers
     ).sort_index()
-    stock_returns = stock_close.pct_change(fill_method=None)
+    stock_returns = stock_adjusted_close.pct_change(fill_method=None)
     index_returns = index_close["VN30"].pct_change(fill_method=None).rename("VN30")
     traded_value = stock_close * volume
     return (
-        data, members, dates, stock_open, stock_close, stock_returns,
+        data, members, membership_history, dates, stock_open, stock_adjusted_open,
+        stock_close, stock_returns,
         index_open, index_close, index_returns, traded_value,
     )
 
@@ -287,10 +304,16 @@ def _eligible_universe(
     stock_returns: pd.DataFrame,
     traded_value: pd.DataFrame,
     config: ResearchConfig,
+    membership_history: pd.DataFrame | None = None,
 ):
     history = stock_returns.loc[:signal].tail(config.lookback)
+    if membership_history is None:
+        active_tickers = set(tickers)
+    else:
+        active_tickers = set(members_as_of(membership_history, signal)["ticker"].astype(str))
     eligible = tuple(
-        ticker for ticker in tickers if int(history[ticker].count()) >= config.min_history
+        ticker for ticker in tickers
+        if ticker in active_tickers and int(history[ticker].count()) >= config.min_history
     )
     complete = history.loc[:, eligible].dropna(how="any")
     if len(complete) < config.min_history:
@@ -373,6 +396,7 @@ def _past_strategy_metrics(
     strategy_targets: dict[str, list[tuple[str, ...]]],
     tickers: tuple[str, ...],
     stock_open: pd.DataFrame,
+    adjusted_open: pd.DataFrame,
     entries: list[pd.Timestamp],
     exits: list[pd.Timestamp],
     liquidities: list[pd.Series],
@@ -387,7 +411,7 @@ def _past_strategy_metrics(
         if len(targets) < completed:
             continue
         ledger = _capacity_ledger(
-            targets[:completed], tickers, stock_open,
+            targets[:completed], tickers, stock_open, adjusted_open,
             entries[:completed], exits[:completed], liquidities[:completed],
             config, config.fee_bps, config.adtv_participation,
         )
@@ -434,6 +458,7 @@ def _build_agqo_payload(
     capital_vnd: float,
     adtv_participation: float,
     k: int,
+    news_context: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Tạo bảng chứng cứ gọn, có mã tham chiếu để LLM hướng dẫn QAOA."""
     values = returns.loc[:, eligible]
@@ -485,6 +510,12 @@ def _build_agqo_payload(
         "minimum_daily_value_for_full_position_fill_vnd": float(
             capital_vnd / max(k, 1) / max(adtv_participation, 1e-12)
         ),
+        "news_context": news_context or {
+            "enabled": False,
+            "eligible_record_count": 0,
+            "reason": "No local, point-in-time news metadata was supplied.",
+            "article_text_or_headlines_retained": False,
+        },
     }
     evidence = {
         "MKT:VOLATILITY": {
@@ -509,6 +540,16 @@ def _build_agqo_payload(
             "median_daily_value_vnd": round(float(candidate_liquidity.median()), 0),
         },
     }
+    if news_context and int(news_context.get("eligible_record_count", 0)) > 0:
+        evidence["NEWS:ISSUER_COVERAGE"] = {
+            "eligible_records": int(news_context["eligible_record_count"]),
+            "issuer_name_query_mentions_5d": int(news_context["aggregate_mentions_5d"]),
+            "issuer_name_query_mentions_20d": int(news_context["aggregate_mentions_20d"]),
+            "timestamp_basis": "GDELT source first-seen timestamp; not publisher publication time",
+            "entity_resolution": "Exact company-name query alias; not human-confirmed ticker classification",
+            "source_references": news_context.get("source_references", []),
+            "text_or_sentiment": "Not retained or inferred",
+        }
     matured_ai_rows = [
         item for item in signal_history
         if item.get("signal_date")
@@ -643,12 +684,14 @@ def _build_agqo_payload(
         "as_of_date": str(signal.date()),
         "information_cutoff": "Use features available on the signal date and completed portfolio periods with exit dates no later than the signal date.",
         "dataset_profile": {
-            "market": "Vietnam equities; daily OHLCV; VN30 current-members snapshot applied to historical observations.",
+            "market": "Vietnam equities; daily point-in-time VN30 constituent intervals; DNSE raw execution prices and VCI rights-adjusted price series.",
             "known_limitations": [
-                "Current-member snapshot creates survivorship and constituent-history bias.",
-                "Corporate-action adjustment has not been independently confirmed.",
+                "Historical membership intervals are curated from exchange review records and should be audited against each source link.",
+                "VCI states prices are adjusted for entitlement events; each cash dividend, split, bonus issue and rights event has not been independently reconciled.",
+                "Portfolio wealth is marked through adjusted-open return ratios; this is a synthetic total-return approximation, not an event-level cash-and-share ledger.",
                 "Close multiplied by volume is a traded-value proxy, not verified exchange turnover.",
                 "Historical simulation with modeled fees and capacity is not proof of executable profit.",
+                "If news_context is supplied, counts reflect source first-seen timestamps and issuer-name queries; they are not verified publication times, sentiment, or causal attribution.",
             ],
         },
         "submodels": {
@@ -794,6 +837,7 @@ def _capacity_ledger(
     targets: list[tuple[str, ...]],
     tickers: tuple[str, ...],
     stock_open: pd.DataFrame,
+    adjusted_open: pd.DataFrame,
     entries: list[pd.Timestamp],
     exits: list[pd.Timestamp],
     liquidities: list[pd.Series],
@@ -801,22 +845,23 @@ def _capacity_ledger(
     fee_bps: float,
     participation: float,
 ) -> pd.DataFrame:
-    """Mô phỏng tiền mặt, cổ phiếu, phí và lệnh khớp một phần theo ADTV."""
-    shares = pd.Series(0.0, index=tickers)
+    """Mark positions to adjusted total-return prices and cap trades on raw turnover."""
+    holdings = pd.Series(0.0, index=tickers)
     cash = float(config.capital_vnd)
     previous_nav = cash
     fee_rate = fee_bps / 10_000
     rows = []
     for target, entry, exit_date, adv in zip(targets, entries, exits, liquidities):
         prices_in = stock_open.loc[entry].reindex(tickers)
-        prices_out = stock_open.loc[exit_date].reindex(tickers)
+        adjusted_in = adjusted_open.loc[entry].reindex(tickers)
+        adjusted_out = adjusted_open.loc[exit_date].reindex(tickers)
         if target and prices_in[list(target)].isna().any():
             raise ValueError(f"Thiếu giá mở cửa ở ngày vào {entry.date()}.")
-        if shares.abs().sum() and prices_in[shares.abs() > 0].isna().any():
-            raise ValueError(f"Thiếu giá mở cửa để định giá danh mục tại {entry.date()}.")
-        if prices_out[shares.abs() > 0].isna().any():
-            raise ValueError(f"Thiếu giá mở cửa để định giá danh mục tại {exit_date.date()}.")
-        current_values = shares * prices_in.fillna(0.0)
+        if holdings.abs().sum() and adjusted_in[holdings.abs() > 0].isna().any():
+            raise ValueError(f"Thiếu giá điều chỉnh để định giá danh mục tại {entry.date()}.")
+        if holdings.abs().sum() and adjusted_out[holdings.abs() > 0].isna().any():
+            raise ValueError(f"Thiếu giá điều chỉnh để định giá danh mục tại {exit_date.date()}.")
+        current_values = holdings.copy()
         nav_before = float(cash + current_values.sum())
         desired = pd.Series(0.0, index=tickers)
         if target:
@@ -839,12 +884,12 @@ def _capacity_ledger(
                 max_requested_participation, order / adv_value if adv_value > 0 else 0.0
             )
             capacity_unfilled += order - fill
-            shares[ticker] -= fill / prices_in[ticker]
+            holdings[ticker] -= fill
             fee = fill * fee_rate
             cash += fill - fee
             traded += fill
             cost += fee
-        current_values = shares * prices_in.fillna(0.0)
+        current_values = holdings.copy()
         for ticker in tickers:
             if delta[ticker] <= 0:
                 continue
@@ -859,17 +904,21 @@ def _capacity_ledger(
             )
             capacity_unfilled += order - cap_limited_order
             funding_unfilled += cap_limited_order - fill
-            shares[ticker] += fill / prices_in[ticker]
+            holdings[ticker] += fill
             fee = fill * fee_rate
             cash -= fill + fee
             traded += fill
             cost += fee
-        if prices_out[shares.abs() > 0].isna().any():
-            raise ValueError(f"Thiếu giá mở cửa để định giá lệnh vừa khớp tại {exit_date.date()}.")
-        nav_after_trade = float(cash + (shares * prices_in.fillna(0.0)).sum())
-        end_value = float(cash + (shares * prices_out.fillna(0.0)).sum())
+        nav_after_trade = float(cash + holdings.sum())
+        active = holdings.abs() > 0
+        if active.any():
+            total_return_factors = adjusted_out[active] / adjusted_in[active]
+            if not np.isfinite(total_return_factors.to_numpy()).all() or (total_return_factors <= 0).any():
+                raise ValueError(f"Lợi suất giá mở cửa điều chỉnh không hợp lệ đến {exit_date.date()}.")
+            holdings.loc[active] *= total_return_factors
+        end_value = float(cash + holdings.sum())
         net_return = end_value / previous_nav - 1
-        gross_return = net_return
+        gross_return = (end_value + cost) / previous_nav - 1 if previous_nav else np.nan
         rows.append(
             {
                 "entry_date": entry,
@@ -965,14 +1014,35 @@ def run_walkforward(
     output_json: str | Path,
     config: ResearchConfig = ResearchConfig(),
     guide: Callable[[dict[str, Any]], dict[str, Any]] | None = None,
+    news_path: str | Path | None = None,
 ) -> dict[str, object]:
     """Chạy các đối chứng hiện tại và tùy chọn bộ điều khiển LLM→QAOA AGQO."""
     started = perf_counter()
     (
-        data, members, dates, stock_open, stock_close, stock_returns,
+        data, members, membership_history, dates, stock_open, stock_adjusted_open,
+        stock_close, stock_returns,
         index_open, index_close, index_returns, traded_value,
     ) = _load_panels(data_path, members_path)
-    tickers = tuple(members.ticker.astype(str))
+    if news_path is not None:
+        news_file = Path(news_path)
+        if not news_file.exists():
+            raise FileNotFoundError(f"Không tìm thấy tệp tin tức đã chỉ định: {news_file}")
+        news_records = load_news_records(news_file)
+        news_manifest_path = news_file.with_name("manifest.json")
+        if news_records and news_manifest_path.exists():
+            news_manifest = json.loads(news_manifest_path.read_text(encoding="utf-8"))
+            if (
+                news_manifest.get("status") != "collected_metadata_only"
+                or news_manifest.get("complete_universe_query") is not True
+                or news_manifest.get("news_context_available") is not True
+            ):
+                raise ValueError(
+                    "Manifest tin không xác nhận lượt thu thập đầy đủ cho toàn bộ bí danh; "
+                    "không đưa tập tin một phần hoặc bị giới hạn tốc độ vào hướng dẫn LLM."
+                )
+    else:
+        news_records = []
+    tickers = tuple(stock_returns.columns.astype(str))
     features = _index_features(index_returns)
     model = fit_regime_model(
         features,
@@ -1016,7 +1086,7 @@ def run_walkforward(
     optimality_rows = []
     guidance_rows = []
     entries, exits, liquidities = [], [], []
-    group_by_ticker = members.set_index("ticker")["group"].astype(str).to_dict()
+    group_by_ticker = membership_history.drop_duplicates("ticker").set_index("ticker")["group"].astype(str).to_dict()
     exact_full_solve_seconds = 0.0
     exact_12_solve_seconds = 0.0
     exact_ai12_solve_seconds = 0.0
@@ -1032,7 +1102,7 @@ def run_walkforward(
         probability = float(fitted.predict_probability(features.loc[[signal]])[0])
         controls_lambda, controls_alpha = regime_controls(probability)
         returns, eligible, candidates, liquidity = _eligible_universe(
-            signal, tickers, stock_returns, traded_value, config
+            signal, tickers, stock_returns, traded_value, config, membership_history
         )
         baseline_candidates = candidates[: config.qaoa_candidates]
         if len(eligible) < config.k or len(candidates) < config.k:
@@ -1065,7 +1135,8 @@ def run_walkforward(
         rule_policy_id = None
         if guide is not None:
             history = _past_strategy_metrics(
-                signal, targets, tickers, stock_open, entries, exits, liquidities, config
+                signal, targets, tickers, stock_open, stock_adjusted_open,
+                entries, exits, liquidities, config
             )
             past_policy_metrics = {
                 policy_id: history[strategy_name]
@@ -1086,6 +1157,7 @@ def run_walkforward(
                 group_by_ticker, comparator_metrics, past_policy_metrics,
                 past_qaoa_rows, signal_rows, config.fee_bps, config.capital_vnd,
                 config.adtv_participation, config.k,
+                summarize_news_as_of(news_records, signal, candidates) if news_records else None,
             )
             payload = enrich_guide_payload(payload)
             envelope = guide(payload)
@@ -1486,14 +1558,16 @@ def run_walkforward(
 
     strategy_ledgers = {
         name: _capacity_ledger(
-            strategy_targets, tickers, stock_open, entries, exits, liquidities,
+            strategy_targets, tickers, stock_open, stock_adjusted_open,
+            entries, exits, liquidities,
             config, config.fee_bps, config.adtv_participation,
         )
         for name, strategy_targets in targets.items()
     }
     gross_ledgers = {
         name: _capacity_ledger(
-            strategy_targets, tickers, stock_open, entries, exits, liquidities,
+            strategy_targets, tickers, stock_open, stock_adjusted_open,
+            entries, exits, liquidities,
             config, 0.0, config.adtv_participation,
         )
         for name, strategy_targets in targets.items()
@@ -1516,7 +1590,7 @@ def run_walkforward(
     returns_by_strategy["VN-Index"] = benchmarks.VNINDEX
     performance = {}
     selection_summary = {}
-    group_by_ticker = members.set_index("ticker")["group"].astype(str).to_dict()
+    group_by_ticker = membership_history.drop_duplicates("ticker").set_index("ticker")["group"].astype(str).to_dict()
     for name, series in returns_by_strategy.items():
         ledger = strategy_ledgers.get(name)
         if ledger is not None:
@@ -1671,7 +1745,8 @@ def run_walkforward(
         for fee in (10.0, 25.0, 50.0):
             for capacity in (0.01, 0.05, 0.10):
                 ledger = _capacity_ledger(
-                    targets[name], tickers, stock_open, entries, exits, liquidities,
+                    targets[name], tickers, stock_open, stock_adjusted_open,
+                    entries, exits, liquidities,
                     config, fee, capacity,
                 )
                 stats = summarize_monthly_returns(ledger.net_return)
@@ -1725,8 +1800,18 @@ def run_walkforward(
             "ticker_count": int(data.ticker.nunique()),
             "first_date": str(data.date.min().date()),
             "last_date": str(data.date.max().date()),
-            "price_basis": "OHLCV thô; trạng thái điều chỉnh cổ tức/quyền chưa xác nhận.",
-            "membership": "Ảnh chụp thành phần VN30 hiện tại áp ngược lịch sử; tồn tại thiên lệch sống sót.",
+            "return_price_basis": "VCI OHLC điều chỉnh theo sự kiện quyền; dùng close_adjusted cho lợi suất.",
+            "execution_price_basis": "DNSE OHLC thô; dùng open/close cho giá khớp giả định và close×volume làm đại diện thanh khoản.",
+            "portfolio_marking_basis": "Dùng tỷ lệ open_adjusted giữa ngày vào và ngày ra; lợi suất tổng hợp, không phải sổ kế toán tiền mặt/cổ phiếu theo từng sự kiện doanh nghiệp.",
+            "membership": "Dùng lịch VN30 theo ngày hiệu lực; mỗi tín hiệu chỉ xét thành viên có hiệu lực ở ngày tín hiệu.",
+            "membership_point_in_time": True,
+            "membership_history_path": _portable_path(members_path),
+            "membership_history_coverage": [str(membership_history.valid_from.min().date()), str(membership_history.valid_to.max().date())],
+            "corporate_action_completeness": "Nguồn VCI xác nhận giá đã điều chỉnh theo sự kiện quyền; chưa đối chiếu độc lập từng cổ tức, chia tách, cổ phiếu thưởng và quyền mua.",
+            "liquidity_measure": "close thô nhân volume là đại diện thanh khoản, không phải giá trị khớp lệnh đã xác nhận.",
+            "news_context_enabled": bool(news_records),
+            "news_records_loaded": len(news_records),
+            "news_usage": "GDELT source first-seen timestamps and ticker-name query counts only; no headline, article text, sentiment or causal attribution." if news_records else "No external news records supplied; news is not used in guidance or result explanation.",
             "opening_price_assumption": "Mô phỏng khớp tại giá mở cửa phiên kế tiếp; giá thô, chưa tính trượt giá/thuế/lô giao dịch.",
         },
         "config": asdict(config),
