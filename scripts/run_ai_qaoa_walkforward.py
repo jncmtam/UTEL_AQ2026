@@ -10,7 +10,10 @@ from pathlib import Path
 from agqo.guide import (
     CachedGuide,
     ModalGuide,
+    ModalQwen3Guide,
     PROMPT_CACHE_VERSION,
+    QWEN3_MODEL_NAME,
+    QWEN3_MODEL_REVISION,
     TransformersQwen3Guide,
 )
 from agqo.walkforward import ResearchConfig, run_walkforward
@@ -55,9 +58,9 @@ def main() -> int:
     )
     parser.add_argument(
         "--llm-guide",
-        choices=("none", "modal", "qwen3"),
+        choices=("none", "modal", "qwen3", "modal-qwen3"),
         default="none",
-        help="Bật bộ điều khiển Qwen3 cục bộ (trong Modal Notebook) hoặc bộ OpenAI Modal cũ.",
+        help="Chọn bộ điều khiển Qwen3 cục bộ, Qwen3 trên Modal hoặc bộ OpenAI Modal cũ.",
     )
     parser.add_argument(
         "--guide-cache",
@@ -69,13 +72,23 @@ def main() -> int:
     parser.add_argument("--modal-function", default="guide_qaoa_policy")
     parser.add_argument(
         "--qwen3-model",
-        default=os.environ.get("AGQO_QWEN3_MODEL", "Qwen/Qwen3-4B"),
+        default=os.environ.get("AGQO_QWEN3_MODEL", QWEN3_MODEL_NAME),
         help="Tên mô hình Qwen3 trên Hugging Face; mặc định Qwen/Qwen3-4B.",
     )
     parser.add_argument(
         "--qwen3-revision",
-        default=os.environ.get("AGQO_QWEN3_REVISION"),
-        help="Mã nhánh hoặc mã phiên bản Hugging Face; để trống sẽ ghi lại mã đã tải.",
+        default=os.environ.get("AGQO_QWEN3_REVISION", QWEN3_MODEL_REVISION),
+        help="Mã phiên bản Hugging Face; mặc định ghim vào phiên bản đã kiểm tra.",
+    )
+    parser.add_argument(
+        "--qwen3-modal-app",
+        default=os.environ.get("AGQO_QWEN3_MODAL_APP", "agqo-qwen3-guide"),
+        help="Tên ứng dụng Modal đã triển khai cho Qwen3.",
+    )
+    parser.add_argument(
+        "--qwen3-modal-function",
+        default=os.environ.get("AGQO_QWEN3_MODAL_FUNCTION", "guide_qaoa_policy"),
+        help="Tên hàm Qwen3 trong ứng dụng Modal.",
     )
     args = parser.parse_args()
 
@@ -102,6 +115,21 @@ def main() -> int:
             cache_namespace=(
                 f"{PROMPT_CACHE_VERSION}:transformers:{model_name}:"
                 f"{qwen_guide.model_revision}"
+            ),
+        )
+    elif args.llm_guide == "modal-qwen3":
+        model_name, revision = args.qwen3_model, args.qwen3_revision
+        guide = CachedGuide(
+            ModalQwen3Guide(
+                app_name=args.qwen3_modal_app,
+                function_name=args.qwen3_modal_function,
+                model_name=model_name,
+                revision=revision,
+            ),
+            args.guide_cache,
+            cache_namespace=(
+                f"{PROMPT_CACHE_VERSION}:modal-qwen3:{args.qwen3_modal_app}:"
+                f"{args.qwen3_modal_function}:{model_name}:{revision}"
             ),
         )
     result = run_walkforward(args.data, args.members, args.json, ResearchConfig(), guide=guide)

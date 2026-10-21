@@ -181,13 +181,15 @@ J_AGQO(x) = λ(xᵀΣαx)/K² − (μᵀx)/K
 
 `w_trước` là tỷ trọng mục tiêu của chính sách cố định ở kỳ trước, hoặc danh mục AGQO thích nghi ở kỳ trước. Kỳ đầu bắt đầu bằng tiền mặt. Hạng phí dùng cùng thang năm hóa với μ, Σ; sổ giao dịch sau đó vẫn mô phỏng phí thực tế từng lệnh và giới hạn ADTV. Đường cơ sở cũ không bị thay đổi và tiếp tục dùng mục tiêu rủi ro/lợi nhuận không có hạng phí trực tiếp.
 
-`TransformersQwen3Guide` trong `agqo/guide.py` chạy mô hình Qwen3 ngay trong tiến trình Python của Modal Notebook bằng thư viện Transformers; đường khuyến nghị dùng `Qwen/Qwen3-4B` với GPU T4/L4. Mô hình được nạp một lần bằng `AutoTokenizer` và `AutoModelForCausalLM`, sinh ở chế độ không suy nghĩ để tập trung vào đầu ra JSON. Notebook đặt `HF_HOME=/mnt/agqo/hf-cache`, nhờ đó trọng số đã tải được giữ trên Volume qua các lần chạy. Không cần bí mật, khóa OpenAI hay dịch vụ suy luận; internet chỉ được dùng để lấy mã nguồn dự án, thư viện và trọng số công khai từ Hugging Face.
+`TransformersQwen3Guide` trong `agqo/guide.py` chạy mô hình Qwen3 trực tiếp trong Modal Notebook bằng thư viện Transformers; đường notebook dùng `Qwen/Qwen3-4B` với GPU T4/L4. Mô hình được nạp một lần bằng `AutoTokenizer` và `AutoModelForCausalLM`, sinh ở chế độ không suy nghĩ để tập trung vào đầu ra JSON. Notebook đặt `HF_HOME=/mnt/agqo/hf-cache`, nhờ đó trọng số đã tải được giữ trên Volume qua các lần chạy.
+
+Với cách chạy cục bộ, `ModalQwen3Guide` trong cùng mô-đun tra cứu hàm `guide_qaoa_policy` đã triển khai rồi gọi `.remote(...)`. `modal_qwen3_agqo.py` dựng bộ suy luận riêng trên GPU T4, giữ mô hình trong bộ nhớ container giữa các tín hiệu và dùng Volume `agqo-qwen3-model-cache` làm bộ nhớ đệm trọng số. Phiên bản mô hình được ghim theo mã `1cfa9a7208912126459214e8b04321603b3df60c` và được đưa vào khóa lưu đệm. Máy cá nhân chỉ gửi payload định lượng; CSV và QAOA vẫn nằm cục bộ. Không cần khóa OpenAI hay bí mật API riêng; cần đăng nhập tài khoản Modal bằng `modal setup`.
 
 Lời nhắc gồm xác suất biến động từ mô hình logistic, thống kê thị trường đến ngày tín hiệu, kết quả tài chính của các kỳ đã khép và danh mục hữu hạn 12 chính sách. Nó không chứa OHLCV thô hoặc mã cổ phiếu. Mô hình sinh JSON, mã cục bộ phân tích cấu trúc và gọi `validate_guidance`; nếu định dạng/lược đồ không hợp lệ thì thử sửa một lần. Nếu vẫn không hợp lệ, lượt chạy dừng thay vì thực thi tham số ngoài danh mục. Mức tin cậy chỉ là tự đánh giá của LLM, không được hiệu chỉnh.
 
 Notebook `notebooks/AGQO_Qwen3_Modal.ipynb` lấy CSV từ `/mnt/agqo/input/`, chạy walk-forward bằng mã dự án, lưu kết quả, nhật ký quyết định, báo cáo và biểu đồ ở `/mnt/agqo/results/`, rồi tạo `agqo_qwen3_results.zip` để tải về. Dữ liệu và kết quả được giữ trên Modal Volume. Bộ mô phỏng QAOA véc-tơ trạng thái NumPy cùng bộ tối ưu SciPy COBYLA chạy trên CPU; GPU Modal chỉ dùng cho suy luận Qwen3.
 
-`modal_agqo.py` vẫn được giữ làm lựa chọn cũ để đối chiếu. Tệp này gọi GPT-5 mini qua OpenAI Responses API, yêu cầu đầu ra JSON và ghi mã mô hình, mã phản hồi cùng số token. Khóa `OPENAI_API_KEY` lấy từ bí mật Modal `agqo-openai`; tùy chọn này có thể phát sinh phí OpenAI và không cần cho notebook Qwen3.
+`modal_agqo.py` vẫn được giữ làm lựa chọn cũ để đối chiếu. Tệp này gọi GPT-5 mini qua OpenAI Responses API, yêu cầu đầu ra JSON và ghi mã mô hình, mã phản hồi cùng số token. Khóa `OPENAI_API_KEY` lấy từ bí mật Modal `agqo-openai`; tùy chọn này có thể phát sinh phí OpenAI và không cần cho các cách chạy Qwen3.
 
 `CachedGuide` lưu quyết định theo mã băm SHA-256 của nội dung tín hiệu, tên ứng dụng/hàm, tên mô hình và phiên bản lời nhắc; dữ liệu được ghi vào tệp tạm rồi thay thế nguyên tử. Việc này hỗ trợ kiểm toán, tránh sinh lại quyết định khi chạy lại đúng đầu vào và giữ lại số token của phản hồi. Với Qwen3, khóa còn gồm mã phiên bản trọng số đã tải. Tệp lưu đệm mặc định là `results/agqo_llm_decisions.json` và bị loại khỏi Git. Đổi insight, lịch sử chính sách hoặc danh mục sẽ tạo khóa mới; khi chỉnh lời nhắc, cần tăng `PROMPT_CACHE_VERSION` trong `agqo/guide.py`.
 
@@ -382,7 +384,10 @@ Khoảng tin cậy không sửa được thiên lệch sống sót, dữ liệu 
 | agqo/walkforward_report.py · write_walkforward_report | Dựng báo cáo tiếng Việt |
 | agqo/guide.py · policy_catalog / validate_guidance | Lấy danh mục chính sách và kiểm tra đầu ra LLM |
 | agqo/guide.py · CachedGuide / ModalGuide | Lưu đệm theo đầu vào, kiểm toán quyết định và gọi dịch vụ OpenAI Modal cũ |
-| agqo/guide.py · TransformersQwen3Guide | Chạy Qwen3 bằng Transformers, sinh JSON và xác thực chính sách AGQO mà không gọi API LLM |
+| agqo/guide.py · TransformersQwen3Guide | Chạy Qwen3 bằng Transformers trong Modal Notebook hoặc máy có GPU |
+| agqo/guide.py · ModalQwen3Guide | Gọi hàm Qwen3 đã triển khai qua Modal SDK từ máy cục bộ |
+| modal_qwen3_agqo.py | Dịch vụ Qwen3 trên GPU Modal, có Volume lưu bộ nhớ đệm và phiên bản trọng số đã ghim |
+| scripts/check_modal_qwen3.py | Gửi một payload giả lập để xác nhận đăng nhập, triển khai và phản hồi JSON |
 | notebooks/AGQO_Qwen3_Modal.ipynb | Đọc dữ liệu trên Volume, chạy Qwen3→QAOA, tạo và tải gói kết quả |
 | modal_agqo.py · guide_qaoa_policy | Gọi GPT-5 mini bằng đầu ra JSON có cấu trúc; không nhận OHLCV thô |
 | scripts/run_ai_qaoa_walkforward.py | Lệnh chạy trọn quy trình |
@@ -402,7 +407,24 @@ Yêu cầu tệp OHLCV cục bộ có trong manifest. Từ thư mục gốc dự
 python scripts/run_ai_qaoa_walkforward.py
 ~~~
 
-Đường cơ sở giữ nguyên, không gọi mô hình ngôn ngữ. Để chạy Qwen3 theo cách khuyến nghị, mở notebook `notebooks/AGQO_Qwen3_Modal.ipynb` tại Modal, gắn Volume vào `/mnt/agqo`, tải `ohlcv_daily.csv` và `members.csv` vào `/mnt/agqo/input/`, chọn GPU T4/L4, rồi chạy các ô lần lượt. Mã nguồn được lấy từ nhánh `main`; báo cáo và biểu đồ ghi vào `/mnt/agqo/results/`.
+Đường cơ sở giữ nguyên, không gọi mô hình ngôn ngữ. Để chạy dữ liệu và QAOA ở máy cá nhân, cài SDK Modal, đăng nhập bằng `modal setup`, triển khai bộ suy luận và kiểm tra một payload trước khi chạy đủ walk-forward:
+
+~~~bash
+source .venv/bin/activate
+python -m pip install -e '.[llm-modal]'
+modal setup
+cp config/modal-qwen3.env.example config/modal-qwen3.env
+set -a
+source config/modal-qwen3.env
+set +a
+modal deploy modal_qwen3_agqo.py
+python scripts/check_modal_qwen3.py
+python scripts/run_ai_qaoa_walkforward.py --llm-guide modal-qwen3
+~~~
+
+`modal setup` mở trình duyệt và lưu xác thực trong hồ sơ người dùng tại máy, không cần chép khóa vào kho dự án. Chỉnh `config/modal-qwen3.env` nếu muốn tên ứng dụng, hàm, Volume hoặc phiên bản mô hình khác. Nếu tài khoản có nhiều môi trường, điền thêm `MODAL_ENVIRONMENT`. Hàm Modal dùng T4; Qwen3 chạy ở đó, trong khi dữ liệu, mô phỏng QAOA, báo cáo và biểu đồ được xử lý cục bộ.
+
+Để chạy tất cả trên Modal, mở notebook `notebooks/AGQO_Qwen3_Modal.ipynb`, gắn Volume vào `/mnt/agqo`, tải `modal_upload.zip` vào `/mnt/agqo/input/`, chọn GPU T4/L4 rồi chạy các ô. Báo cáo và biểu đồ ghi vào `/mnt/agqo/results/`.
 
 Có thể chạy Qwen3 trực tiếp trong môi trường cục bộ có GPU bằng cách cài `.[qwen3]` và bật:
 

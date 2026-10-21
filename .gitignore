@@ -1,6 +1,7 @@
 .venv/
 .env
 config/qpu.toml
+config/modal-qwen3.env
 outputs/
 results/agqo_llm_decisions.json
 results/.agqo_llm_decisions.json.*.tmp

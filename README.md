@@ -161,7 +161,7 @@ Các chỉ số, danh mục từng kỳ, cấu hình QAOA, chi phí và khoảng
 | Mạch lượng tử tùy chọn | Qiskit và Aer; không tạo số liệu báo cáo này |
 | Thiết bị lượng tử | IBM Quantum Runtime tùy chọn; chưa gửi công việc |
 | Biểu đồ | Matplotlib, 7 hình kiểm định và 7 hình khám phá dữ liệu |
-| Bộ hướng dẫn QAOA | Qwen3-4B qua Transformers trong Modal Notebook; không cần API OpenAI; chưa được gọi trong kết quả đã lưu |
+| Bộ hướng dẫn QAOA | Qwen3-4B qua Transformers trong hàm Modal hoặc Modal Notebook; không cần API OpenAI; chưa được gọi trong kết quả đã lưu |
 
 ### Đường đi của một tín hiệu
 
@@ -182,10 +182,31 @@ Tại mỗi tín hiệu, LLM nhận xác suất biến động từ mô hình lo
 
 Kết quả mỗi tín hiệu được lưu vào tệp lưu đệm và JSON kiểm định; khóa lưu đệm tính từ nội dung tín hiệu, mô hình và phiên bản lời nhắc. Chạy lại cùng đầu vào không cần sinh lại quyết định. Lời nhắc chỉ chứa thống kê tổng hợp, không chứa nến OHLCV thô hay mã cổ phiếu. Đầu ra được kiểm tra bằng lược đồ cục bộ; nếu sai định dạng, Qwen3 được yêu cầu sửa một lần. Chỉ mã chính sách có trong danh sách cho phép mới được áp dụng. Notebook lưu CSV, trọng số mô hình và đầu ra trên Modal Volume; người dùng tải ZIP kết quả về máy từ bảng tệp Modal.
 
-### Chạy Qwen3 trên Modal Notebook
+### Chạy QAOA cục bộ và gọi Qwen3 trên Modal
+
+Đây là luồng khuyến nghị nếu muốn dữ liệu và mô phỏng QAOA ở máy cá nhân, còn Qwen3 chạy trên Modal. Máy cá nhân chỉ gửi insight tổng hợp và nhận lại mã chính sách cùng lời giải thích; OHLCV thô không được tải lên. Gói SDK Modal đã cài trong môi trường `.venv` của dự án.
+
+~~~bash
+source .venv/bin/activate
+python -m pip install -e '.[llm-modal]'
+modal setup
+cp config/modal-qwen3.env.example config/modal-qwen3.env
+set -a
+source config/modal-qwen3.env
+set +a
+modal deploy modal_qwen3_agqo.py
+python scripts/check_modal_qwen3.py
+python scripts/run_ai_qaoa_walkforward.py --llm-guide modal-qwen3
+~~~
+
+`modal setup` mở trình duyệt để đăng nhập Modal và lưu thông tin vào hồ sơ cá nhân; không gửi mã bí mật vào cuộc trò chuyện hoặc thêm vào Git. Tệp `config/modal-qwen3.env` chỉ chứa tên ứng dụng, tên hàm, mô hình và bản trọng số đã ghim. Thay các giá trị nếu bạn đặt tên khác trên Modal. Lệnh kiểm tra gửi đúng một payload giả lập để xác nhận kết nối; chỉ sau đó mới chạy walk-forward trên CSV cục bộ. QAOA và các đối chứng tiếp tục chạy bằng CPU trên máy bạn. Lần gọi đầu tiên tải Qwen3 vào Volume Modal, các lần sau dùng bộ nhớ đệm trọng số.
+
+Nếu Modal yêu cầu chọn môi trường làm việc, đặt `MODAL_ENVIRONMENT` trong `config/modal-qwen3.env` theo tên hiển thị trong tài khoản. Với tài khoản cá nhân chỉ có một môi trường, thường không cần điền mục này.
+
+### Chạy toàn bộ trên Modal Notebook
 
 1. Mở [Modal Notebooks](https://modal.com/notebooks), tải lên `notebooks/AGQO_Qwen3_Modal.ipynb` và tạo Volume `agqo-data`, gắn vào `/mnt/agqo`.
-2. Chọn GPU T4 hoặc L4. Tải `ohlcv_daily.csv` và `members.csv` từ thư mục dữ liệu cục bộ lên `/mnt/agqo/input/`; có thể tải thêm `manifest.json`.
+2. Chọn GPU T4 hoặc L4. Tải `modal_upload.zip` hoặc hai tệp `ohlcv_daily.csv` và `members.csv` từ thư mục dữ liệu cục bộ lên `/mnt/agqo/input/`; có thể tải thêm `manifest.json`.
 3. Chạy lần lượt các ô. Notebook lấy mã dự án, cài thư viện, tải Qwen3-4B, chạy kiểm định AGQO và QAOA, tạo báo cáo/biểu đồ, rồi đóng gói kết quả tại `/mnt/agqo/results/agqo_qwen3_results.zip`.
 4. Tải ZIP và báo cáo về từ bảng Files trong Modal. Tắt nhân sau khi xong.
 
@@ -193,7 +214,7 @@ Qwen3 và mã mô hình được cung cấp theo giấy phép Apache 2.0; Modal 
 
 #### Bộ OpenAI cũ (tùy chọn)
 
-`modal_agqo.py` và tùy chọn `--llm-guide modal` vẫn được giữ để đối chiếu, nhưng cần khóa API OpenAI và không cần thiết khi chạy notebook Qwen3. Trên môi trường cục bộ có CUDA và cài `.[qwen3]`, có thể gọi `python scripts/run_ai_qaoa_walkforward.py --llm-guide qwen3`; mặc định yêu cầu GPU và dùng `Qwen/Qwen3-4B`.
+`modal_agqo.py` và tùy chọn `--llm-guide modal` vẫn được giữ để đối chiếu, nhưng cần khóa API OpenAI và không cần thiết khi dùng Qwen3. Nếu máy cục bộ có CUDA, có thể cài `.[qwen3]` và chọn `--llm-guide qwen3` để chạy mô hình ngay trên GPU cục bộ thay vì Modal.
 
 ### Tiêu chí so sánh
 

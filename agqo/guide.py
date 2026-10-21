@@ -53,6 +53,8 @@ INSIGHT_CODES = (
     "mixed_signals",
 )
 PROMPT_CACHE_VERSION = "agqo-prompt-v2"
+QWEN3_MODEL_NAME = "Qwen/Qwen3-4B"
+QWEN3_MODEL_REVISION = "1cfa9a7208912126459214e8b04321603b3df60c"
 
 
 def policy_catalog() -> list[dict[str, Any]]:
@@ -181,15 +183,59 @@ class ModalGuide:
         return self.function.remote({"payload": payload, "model_name": self.model_name})
 
 
+class ModalQwen3Guide:
+    """Máy khách cục bộ gọi bộ suy luận Qwen3 đã triển khai trên Modal."""
+
+    def __init__(
+        self,
+        app_name: str = "agqo-qwen3-guide",
+        function_name: str = "guide_qaoa_policy",
+        model_name: str = QWEN3_MODEL_NAME,
+        revision: str = QWEN3_MODEL_REVISION,
+    ):
+        try:
+            import modal
+        except ImportError as exc:
+            raise RuntimeError("Cài SDK bằng `python -m pip install -e '.[llm-modal]'`.") from exc
+        self.function = modal.Function.from_name(app_name, function_name)
+        self.model_name = model_name
+        self.model_revision = revision
+
+    def __call__(self, payload: dict[str, Any]) -> dict[str, Any]:
+        return self.function.remote(
+            {
+                "payload": payload,
+                "model_name": self.model_name,
+                "revision": self.model_revision,
+            }
+        )
+
+
+def qwen3_system_prompt() -> str:
+    """Chỉ dẫn chung cho bộ suy luận Qwen3 tại chỗ hoặc trên Modal."""
+    return (
+        "Bạn là bộ điều khiển AGQO. Chỉ dùng số liệu trong bối cảnh đến ngày as_of_date. "
+        "Đọc insight thị trường và kết quả kiểm định các chính sách đã hoàn tất, sau đó chọn "
+        "đúng một policy_id từ policy_catalog. Ưu tiên lợi nhuận ròng đã điều chỉnh rủi ro "
+        "sau chi phí; xem xét CAGR, Sharpe, Sortino, sụt giảm tối đa, VaR/CVaR, hệ số lợi nhuận, "
+        "doanh số, chi phí và số kỳ. Nếu lịch sử ngắn hoặc thiếu, nêu rõ hạn chế và giảm mức khẳng định. "
+        "Không dùng kết quả chưa khép, không dự báo lợi nhuận tương lai, không tự tạo tham số, "
+        "không chọn cổ phiếu. Chỉ gắn insight_codes được số liệu hỗ trợ. Viết rationale và risk_note "
+        "bằng tiếng Việt, dẫn trường số liệu cụ thể. confidence là mức tự đánh giá chưa hiệu chỉnh. "
+        "Đây là nghiên cứu, không phải khuyến nghị đầu tư. Trả về duy nhất JSON hợp lệ theo schema "
+        f"này, không có lời dẫn: {json.dumps(decision_json_schema(), ensure_ascii=False)}"
+    )
+
+
 class TransformersQwen3Guide:
     """Chạy Qwen3 ngay trong máy tính Modal Notebook; không cần dịch vụ suy luận/API LLM."""
 
     def __init__(
         self,
-        model_name: str = "Qwen/Qwen3-4B",
+        model_name: str = QWEN3_MODEL_NAME,
         max_new_tokens: int = 480,
         require_gpu: bool = True,
-        revision: str | None = None,
+        revision: str | None = QWEN3_MODEL_REVISION,
     ):
         if not isinstance(model_name, str) or not model_name.strip():
             raise ValueError("Cần tên mô hình Qwen3 hợp lệ.")
@@ -284,21 +330,9 @@ class TransformersQwen3Guide:
     def __call__(self, payload: dict[str, Any]) -> dict[str, Any]:
         if not isinstance(payload, dict):
             raise ValueError("Bối cảnh AGQO phải là một đối tượng JSON.")
-        instructions = (
-            "Bạn là bộ điều khiển AGQO. Chỉ dùng số liệu trong bối cảnh đến ngày as_of_date. "
-            "Đọc insight thị trường và kết quả kiểm định các chính sách đã hoàn tất, sau đó chọn "
-            "đúng một policy_id từ policy_catalog. Ưu tiên lợi nhuận ròng đã điều chỉnh rủi ro "
-            "sau chi phí; xem xét CAGR, Sharpe, Sortino, sụt giảm tối đa, VaR/CVaR, hệ số lợi nhuận, "
-            "doanh số, chi phí và số kỳ. Nếu lịch sử ngắn hoặc thiếu, nêu rõ hạn chế và giảm mức khẳng định. "
-            "Không dùng kết quả chưa khép, không dự báo lợi nhuận tương lai, không tự tạo tham số, "
-            "không chọn cổ phiếu. Chỉ gắn insight_codes được số liệu hỗ trợ. Viết rationale và risk_note "
-            "bằng tiếng Việt, dẫn trường số liệu cụ thể. confidence là mức tự đánh giá chưa hiệu chỉnh. "
-            "Đây là nghiên cứu, không phải khuyến nghị đầu tư. Trả về duy nhất JSON hợp lệ theo schema "
-            f"này, không có lời dẫn: {json.dumps(decision_json_schema(), ensure_ascii=False)}"
-        )
         user_prompt = create_guide_prompt(payload)
         messages = [
-            {"role": "system", "content": instructions},
+            {"role": "system", "content": qwen3_system_prompt()},
             {"role": "user", "content": user_prompt},
         ]
         raw_text, input_tokens, output_tokens = self._generate(messages)
