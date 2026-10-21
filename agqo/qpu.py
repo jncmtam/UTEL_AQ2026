@@ -15,6 +15,7 @@ import numpy as np
 from scipy.optimize import minimize
 
 from .problem import PortfolioProblem, Qubo, build_qubo, to_ising
+from .simulator import mixer_edges_for_problem
 
 
 PLACEHOLDERS = {"FILL_IN_FROM_PROVIDER", "FILL_IN", "YOUR_BACKEND"}
@@ -117,7 +118,12 @@ def _finalize_shots(config: QpuConfig, run_id: str, actual_shots: int) -> None:
 
 
 def build_parameterized_circuit(
-    qubo: Qubo, mixer: str, depth: int, initial_bits: np.ndarray | None = None
+    qubo: Qubo,
+    mixer: str,
+    depth: int,
+    initial_bits: np.ndarray | None = None,
+    mixer_layout: str = "ring",
+    mixer_edges: tuple[tuple[int, int], ...] | None = None,
 ):
     """Tạo mạch Qiskit tham số hóa bằng đúng các hệ số Ising đã kiểm thử."""
     try:
@@ -152,8 +158,12 @@ def build_parameterized_circuit(
             circuit.rx(2 * beta[layer], range(qubo.n))
         else:
             # Tích Trotter bậc nhất theo thứ tự vòng; từng cạnh thực hiện exp(-i beta(XX+YY)).
-            for i in range(qubo.n):
-                j = (i + 1) % qubo.n
+            edges = mixer_edges
+            if edges is None:
+                if mixer_layout == "correlation":
+                    raise ValueError("XY tương quan cần truyền mixer_edges từ hiệp phương sai.")
+                edges = mixer_edges_for_problem(np.eye(qubo.n), mixer_layout)
+            for i, j in edges:
                 circuit.rxx(2 * beta[layer], i, j)
                 circuit.ryy(2 * beta[layer], i, j)
     circuit.measure_all()
@@ -196,6 +206,7 @@ def run_qpu(
     mixer: str = "XY",
     depth: int = 1,
     seed: int = 11,
+    mixer_layout: str = "ring",
 ) -> dict:
     """Tối ưu bằng COBYLA lấy mẫu thật; chỉ gọi sau khi config và backend đã được kiểm tra."""
     validate_qpu_config(config)
@@ -221,6 +232,8 @@ def run_qpu(
             previous_weights=problem.previous_weights[asset_order],
             transaction_costs=problem.transaction_costs[asset_order],
             rebalances_per_year=problem.rebalances_per_year,
+            outside_previous_weight=problem.outside_previous_weight,
+            outside_transaction_cost_rate=problem.outside_transaction_cost_rate,
         )
         initial_bits = np.zeros(problem.n, dtype=np.int8)
         initial_bits[: problem.k] = 1
@@ -228,7 +241,10 @@ def run_qpu(
         asset_order = np.arange(problem.n)
         ordered_problem = problem
     qubo = build_qubo(ordered_problem, mixer=mixer)
-    circuit, parameters = build_parameterized_circuit(qubo, mixer, depth, initial_bits)
+    edges = mixer_edges_for_problem(ordered_problem.covariance, mixer_layout)
+    circuit, parameters = build_parameterized_circuit(
+        qubo, mixer, depth, initial_bits, mixer_layout=mixer_layout, mixer_edges=edges
+    )
     service = QiskitRuntimeService(
         channel=config.channel,
         token=os.environ[config.token_env],

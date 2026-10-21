@@ -1,0 +1,428 @@
+{
+  "c5d84bde4b2b06492ff765f58961c7b7049090c27c5b9ac43d205180cd41da74": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p1",
+      "insight_codes": [
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "evidence_ids": [
+        "MKT:VOLATILITY",
+        "MKT:TREND",
+        "MKT:CROSS_SECTION",
+        "MKT:LIQUIDITY"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3-8B",
+    "model_revision": "b968826d9c46dd6066d109eabc6255188de91218",
+    "quantization": "NF4 4-bit",
+    "response_id": null,
+    "usage": {
+      "input_tokens": 6008,
+      "output_tokens": 59,
+      "total_tokens": 6067
+    },
+    "cache_key": "c5d84bde4b2b06492ff765f58961c7b7049090c27c5b9ac43d205180cd41da74",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v9-en-rag-submodel-allowlisted-structured"
+  },
+  "1701ece75fee0de65357c530f166bcdce74620712734c9b44d494b549dd0ccf8": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p1",
+      "insight_codes": [
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "evidence_ids": [
+        "MKT:VOLATILITY",
+        "MKT:TREND",
+        "MKT:CROSS_SECTION",
+        "MKT:LIQUIDITY"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3-8B",
+    "model_revision": "b968826d9c46dd6066d109eabc6255188de91218",
+    "quantization": "NF4 4-bit",
+    "response_id": null,
+    "usage": {
+      "input_tokens": 6008,
+      "output_tokens": 59,
+      "total_tokens": 6067
+    },
+    "cache_key": "1701ece75fee0de65357c530f166bcdce74620712734c9b44d494b549dd0ccf8",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v9-en-rag-submodel-allowlisted-structured"
+  },
+  "ef4a7c7ede12eab8f3313694bbec8763dbfac94cf845ddb71ccf9855588166d8": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p1",
+      "insight_codes": [
+        "high_dispersion"
+      ],
+      "evidence_ids": [
+        "MKT:VOLATILITY",
+        "MKT:TREND",
+        "MKT:CROSS_SECTION"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3-8B",
+    "model_revision": "b968826d9c46dd6066d109eabc6255188de91218",
+    "quantization": "NF4 4-bit",
+    "response_id": null,
+    "usage": {
+      "input_tokens": 7483,
+      "output_tokens": 47,
+      "total_tokens": 7530
+    },
+    "cache_key": "ef4a7c7ede12eab8f3313694bbec8763dbfac94cf845ddb71ccf9855588166d8",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v9-en-rag-submodel-allowlisted-structured"
+  },
+  "4f03abccf9ed60ea1dac59067092d86c87b17b7d8ae7a471b3d61ca5ccdc3f81": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p1",
+      "insight_codes": [
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "evidence_ids": [
+        "MKT:VOLATILITY",
+        "MKT:TREND",
+        "MKT:CROSS_SECTION",
+        "MKT:LIQUIDITY"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3-8B",
+    "model_revision": "b968826d9c46dd6066d109eabc6255188de91218",
+    "quantization": "NF4 4-bit",
+    "response_id": null,
+    "usage": {
+      "input_tokens": 7778,
+      "output_tokens": 59,
+      "total_tokens": 7837
+    },
+    "cache_key": "4f03abccf9ed60ea1dac59067092d86c87b17b7d8ae7a471b3d61ca5ccdc3f81",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v9-en-rag-submodel-allowlisted-structured"
+  },
+  "1341e3032230939b86c47967830c010753344a3914dfe385be0d326c6613aff4": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p1",
+      "insight_codes": [
+        "high_dispersion"
+      ],
+      "evidence_ids": [
+        "MKT:VOLATILITY",
+        "MKT:TREND",
+        "MKT:CROSS_SECTION"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3-8B",
+    "model_revision": "b968826d9c46dd6066d109eabc6255188de91218",
+    "quantization": "NF4 4-bit",
+    "response_id": null,
+    "usage": {
+      "input_tokens": 7774,
+      "output_tokens": 47,
+      "total_tokens": 7821
+    },
+    "cache_key": "1341e3032230939b86c47967830c010753344a3914dfe385be0d326c6613aff4",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v9-en-rag-submodel-allowlisted-structured"
+  },
+  "00b407d0c75e2ed29a9533613404d69b1a8c748d3e541b35525d13447663e999": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p1",
+      "insight_codes": [
+        "volatility_rising",
+        "high_dispersion"
+      ],
+      "evidence_ids": [
+        "MKT:VOLATILITY",
+        "MKT:CROSS_SECTION"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3-8B",
+    "model_revision": "b968826d9c46dd6066d109eabc6255188de91218",
+    "quantization": "NF4 4-bit",
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8101,
+      "output_tokens": 46,
+      "total_tokens": 8147
+    },
+    "cache_key": "00b407d0c75e2ed29a9533613404d69b1a8c748d3e541b35525d13447663e999",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v9-en-rag-submodel-allowlisted-structured"
+  },
+  "19590de0f4cb96d7b39bc72b0693ae294c9303eaecb4fa69e652a08bf9a0e67c": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p1",
+      "insight_codes": [
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "evidence_ids": [
+        "MKT:VOLATILITY",
+        "MKT:TREND",
+        "MKT:CROSS_SECTION",
+        "MKT:LIQUIDITY"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3-8B",
+    "model_revision": "b968826d9c46dd6066d109eabc6255188de91218",
+    "quantization": "NF4 4-bit",
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8099,
+      "output_tokens": 59,
+      "total_tokens": 8158
+    },
+    "cache_key": "19590de0f4cb96d7b39bc72b0693ae294c9303eaecb4fa69e652a08bf9a0e67c",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v9-en-rag-submodel-allowlisted-structured"
+  },
+  "6cafc0134d1647fe41bbbea1d9105e852511f41e147c1f052a812ea3e13fba7a": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p2",
+      "insight_codes": [
+        "high_dispersion"
+      ],
+      "evidence_ids": [
+        "MKT:VOLATILITY",
+        "MKT:CROSS_SECTION"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3-8B",
+    "model_revision": "b968826d9c46dd6066d109eabc6255188de91218",
+    "quantization": "NF4 4-bit",
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8471,
+      "output_tokens": 52,
+      "total_tokens": 8523
+    },
+    "cache_key": "6cafc0134d1647fe41bbbea1d9105e852511f41e147c1f052a812ea3e13fba7a",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v9-en-rag-submodel-allowlisted-structured"
+  },
+  "20727a859cdffbfc46fe6201fe8db52a5ece6652530ee0be3fc41eb6508384f2": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p2",
+      "insight_codes": [
+        "high_dispersion"
+      ],
+      "evidence_ids": [
+        "MKT:VOLATILITY",
+        "MKT:TREND",
+        "MKT:CROSS_SECTION",
+        "MKT:LIQUIDITY"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3-8B",
+    "model_revision": "b968826d9c46dd6066d109eabc6255188de91218",
+    "quantization": "NF4 4-bit",
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8479,
+      "output_tokens": 55,
+      "total_tokens": 8534
+    },
+    "cache_key": "20727a859cdffbfc46fe6201fe8db52a5ece6652530ee0be3fc41eb6508384f2",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v9-en-rag-submodel-allowlisted-structured"
+  },
+  "ac9f7c6efdf552ffe2c4c8541798a2a1389e17626e6e4846b460ea8f2e86a7bc": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p2",
+      "insight_codes": [
+        "high_dispersion"
+      ],
+      "evidence_ids": [
+        "MKT:VOLATILITY",
+        "MKT:CROSS_SECTION"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3-8B",
+    "model_revision": "b968826d9c46dd6066d109eabc6255188de91218",
+    "quantization": "NF4 4-bit",
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8481,
+      "output_tokens": 52,
+      "total_tokens": 8533
+    },
+    "cache_key": "ac9f7c6efdf552ffe2c4c8541798a2a1389e17626e6e4846b460ea8f2e86a7bc",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v9-en-rag-submodel-allowlisted-structured"
+  },
+  "c3e703306c6248d23a384dd63e326b59a31a5c29d48f48165474f6381faa8a5a": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p2",
+      "insight_codes": [
+        "volatility_rising",
+        "high_dispersion"
+      ],
+      "evidence_ids": [
+        "MKT:VOLATILITY",
+        "MKT:CROSS_SECTION",
+        "MKT:TREND"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3-8B",
+    "model_revision": "b968826d9c46dd6066d109eabc6255188de91218",
+    "quantization": "NF4 4-bit",
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8483,
+      "output_tokens": 52,
+      "total_tokens": 8535
+    },
+    "cache_key": "c3e703306c6248d23a384dd63e326b59a31a5c29d48f48165474f6381faa8a5a",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v9-en-rag-submodel-allowlisted-structured"
+  },
+  "f3fca28e80de6a307b0aee9024d3abe4e8b7593a30935a75ea23cb7dde847b31": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p2",
+      "insight_codes": [
+        "high_dispersion"
+      ],
+      "evidence_ids": [
+        "MKT:VOLATILITY",
+        "MKT:TREND",
+        "MKT:CROSS_SECTION",
+        "MKT:LIQUIDITY"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3-8B",
+    "model_revision": "b968826d9c46dd6066d109eabc6255188de91218",
+    "quantization": "NF4 4-bit",
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8528,
+      "output_tokens": 55,
+      "total_tokens": 8583
+    },
+    "cache_key": "f3fca28e80de6a307b0aee9024d3abe4e8b7593a30935a75ea23cb7dde847b31",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v9-en-rag-submodel-allowlisted-structured"
+  },
+  "5a0db41992adf7a0875823cd9d82ae1c1911bf797b29b2ac746b9c84f75d6411": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p2",
+      "insight_codes": [
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "evidence_ids": [
+        "MKT:VOLATILITY",
+        "MKT:CROSS_SECTION",
+        "MKT:LIQUIDITY"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3-8B",
+    "model_revision": "b968826d9c46dd6066d109eabc6255188de91218",
+    "quantization": "NF4 4-bit",
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8507,
+      "output_tokens": 66,
+      "total_tokens": 8573
+    },
+    "cache_key": "5a0db41992adf7a0875823cd9d82ae1c1911bf797b29b2ac746b9c84f75d6411",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v9-en-rag-submodel-allowlisted-structured"
+  },
+  "d5cca45d4dcb91b39f3ed37fbc4ae95958aa43ce471edd59e36ac60dbb3ae332": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p2",
+      "insight_codes": [
+        "high_dispersion"
+      ],
+      "evidence_ids": [
+        "MKT:VOLATILITY",
+        "MKT:CROSS_SECTION"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3-8B",
+    "model_revision": "b968826d9c46dd6066d109eabc6255188de91218",
+    "quantization": "NF4 4-bit",
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8530,
+      "output_tokens": 41,
+      "total_tokens": 8571
+    },
+    "cache_key": "d5cca45d4dcb91b39f3ed37fbc4ae95958aa43ce471edd59e36ac60dbb3ae332",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v9-en-rag-submodel-allowlisted-structured"
+  },
+  "6cc71c376708402c5cac8ae54b6ea54b699973550f1e7343be9a6b5a9edf8f97": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p2",
+      "insight_codes": [
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "evidence_ids": [
+        "MKT:VOLATILITY",
+        "MKT:TREND",
+        "MKT:CROSS_SECTION",
+        "MKT:LIQUIDITY"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3-8B",
+    "model_revision": "b968826d9c46dd6066d109eabc6255188de91218",
+    "quantization": "NF4 4-bit",
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8523,
+      "output_tokens": 59,
+      "total_tokens": 8582
+    },
+    "cache_key": "6cc71c376708402c5cac8ae54b6ea54b699973550f1e7343be9a6b5a9edf8f97",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v9-en-rag-submodel-allowlisted-structured"
+  },
+  "43cd9fd5e69e4f0fbe23fd1921e06dbb3aedb23c82181db4929af26e341713dd": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p2",
+      "insight_codes": [
+        "high_dispersion"
+      ],
+      "evidence_ids": [
+        "MKT:VOLATILITY",
+        "MKT:CROSS_SECTION"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3-8B",
+    "model_revision": "b968826d9c46dd6066d109eabc6255188de91218",
+    "quantization": "NF4 4-bit",
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8530,
+      "output_tokens": 41,
+      "total_tokens": 8571
+    },
+    "cache_key": "43cd9fd5e69e4f0fbe23fd1921e06dbb3aedb23c82181db4929af26e341713dd",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v9-en-rag-submodel-allowlisted-structured"
+  }
+}

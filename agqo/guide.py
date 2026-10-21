@@ -4,12 +4,13 @@ from __future__ import annotations
 
 import hashlib
 import json
-import math
 import os
 import tempfile
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any, Callable
+
+from .insights import supported_insight_codes
 
 
 @dataclass(frozen=True)
@@ -22,24 +23,28 @@ class QAOAPolicy:
     mixer: str
     depth: int
     shots: int
+    n_qubits: int
+    mixer_layout: str
     description: str
 
 
 POLICIES: dict[str, QAOAPolicy] = {
     policy.policy_id: policy
     for policy in (
-        QAOAPolicy("balanced_x_p1", 5.0, 0.40, "X", 1, 512, "Cân bằng, mạch X nông."),
-        QAOAPolicy("balanced_x_p2", 5.0, 0.40, "X", 2, 512, "Cân bằng, mạch X sâu hơn."),
-        QAOAPolicy("balanced_xy_p1", 5.0, 0.40, "XY", 1, 512, "Cân bằng, bộ trộn bảo toàn số mã."),
-        QAOAPolicy("balanced_x_p2_1024", 5.0, 0.40, "X", 2, 1024, "Cân bằng, p=2 và tăng số mẫu."),
-        QAOAPolicy("defensive_x_p1", 8.0, 0.70, "X", 1, 512, "Ưu tiên giảm rủi ro và co rút mạnh."),
-        QAOAPolicy("defensive_x_p2", 8.0, 0.70, "X", 2, 512, "Ưu tiên giảm rủi ro, p=2."),
-        QAOAPolicy("defensive_xy_p1", 8.0, 0.70, "XY", 1, 512, "Phòng thủ với ràng buộc cardinality tự nhiên."),
-        QAOAPolicy("diversified_x_p1", 5.0, 0.70, "X", 1, 512, "Tăng co rút để giảm nhiễu hiệp phương sai."),
-        QAOAPolicy("diversified_x_p2", 5.0, 0.70, "X", 2, 512, "Co rút mạnh hơn, p=2."),
-        QAOAPolicy("growth_x_p1", 2.0, 0.10, "X", 1, 512, "Ít ngại rủi ro hơn, co rút nhẹ."),
-        QAOAPolicy("growth_x_p2", 2.0, 0.10, "X", 2, 512, "Ít ngại rủi ro hơn, p=2."),
-        QAOAPolicy("diversified_xy_p1", 5.0, 0.70, "XY", 1, 512, "Co rút mạnh và bộ trộn bảo toàn số mã."),
+        QAOAPolicy("n08_defensive_x_p1", 8.0, 0.70, "X", 1, 1024, 8, "single", "8 qubits; X mixer; p=1; defensive risk penalty."),
+        QAOAPolicy("n08_balanced_xy_ring_p1", 5.0, 0.40, "XY", 1, 1024, 8, "ring", "8 qubits; XY ring mixer; p=1."),
+        QAOAPolicy("n08_balanced_xy_ring_p2", 5.0, 0.40, "XY", 2, 1024, 8, "ring", "8 qubits; XY ring mixer; p=2."),
+        QAOAPolicy("n12_balanced_x_p1", 5.0, 0.40, "X", 1, 1024, 12, "single", "12 qubits; X mixer; p=1."),
+        QAOAPolicy("n12_balanced_x_p2", 5.0, 0.40, "X", 2, 1024, 12, "single", "12 qubits; X mixer; p=2."),
+        QAOAPolicy("n12_balanced_xy_ring_p1", 5.0, 0.40, "XY", 1, 1024, 12, "ring", "12 qubits; XY ring mixer; p=1."),
+        QAOAPolicy("n12_balanced_xy_ring_p2", 5.0, 0.40, "XY", 2, 1024, 12, "ring", "12 qubits; XY ring mixer; p=2."),
+        QAOAPolicy("n12_diversified_xy_linear_p2", 5.0, 0.70, "XY", 2, 1024, 12, "linear", "12 qubits; XY linear mixer; p=2; stronger diagonal covariance shrinkage."),
+        QAOAPolicy("n12_diversified_xy_complete_p1", 5.0, 0.70, "XY", 1, 1024, 12, "complete", "12 qubits; complete XY mixer; p=1; stronger diagonal covariance shrinkage."),
+        QAOAPolicy("n12_correlation_xy_p2", 5.0, 0.40, "XY", 2, 1024, 12, "correlation", "12 qubits; correlation-informed XY mixer; p=2."),
+        QAOAPolicy("n16_balanced_x_p1", 5.0, 0.40, "X", 1, 1024, 16, "single", "16 qubits; X mixer; p=1."),
+        QAOAPolicy("n16_balanced_xy_ring_p1", 5.0, 0.40, "XY", 1, 1024, 16, "ring", "16 qubits; XY ring mixer; p=1."),
+        QAOAPolicy("n16_balanced_xy_ring_p2", 5.0, 0.40, "XY", 2, 1024, 16, "ring", "16 qubits; XY ring mixer; p=2."),
+        QAOAPolicy("n16_correlation_xy_p2", 5.0, 0.40, "XY", 2, 1024, 16, "correlation", "16 qubits; correlation-informed XY mixer; p=2."),
     )
 }
 
@@ -52,9 +57,9 @@ INSIGHT_CODES = (
     "low_liquidity",
     "mixed_signals",
 )
-PROMPT_CACHE_VERSION = "agqo-prompt-v2"
-QWEN3_MODEL_NAME = "Qwen/Qwen3-4B"
-QWEN3_MODEL_REVISION = "1cfa9a7208912126459214e8b04321603b3df60c"
+PROMPT_CACHE_VERSION = "agqo-prompt-v9-en-rag-submodel-allowlisted-structured"
+QWEN3_MODEL_NAME = "Qwen/Qwen3-8B"
+QWEN3_MODEL_REVISION = "b968826d9c46dd6066d109eabc6255188de91218"
 
 
 def policy_catalog() -> list[dict[str, Any]]:
@@ -62,52 +67,138 @@ def policy_catalog() -> list[dict[str, Any]]:
     return [asdict(POLICIES[key]) for key in sorted(POLICIES)]
 
 
-def decision_json_schema() -> dict[str, Any]:
-    """Lược đồ chặt: mô hình chỉ được chọn mã chính sách và insight đã cho phép."""
+def decision_json_schema(
+    allowed_policy_ids: set[str] | None = None,
+    allowed_evidence_ids: set[str] | None = None,
+    allowed_insight_codes: list[str] | None = None,
+) -> dict[str, Any]:
+    """Lược đồ gọn: mô hình chỉ trả lựa chọn và mã insight, không viết nhận định tự do."""
+    policy_ids = sorted(POLICIES if allowed_policy_ids is None else allowed_policy_ids)
+    evidence_ids = sorted(allowed_evidence_ids) if allowed_evidence_ids is not None else None
+    insight_codes = allowed_insight_codes or list(INSIGHT_CODES)
     return {
         "type": "object",
         "properties": {
-            "policy_id": {"type": "string", "enum": sorted(POLICIES)},
+            "policy_id": {"type": "string", "enum": policy_ids},
             "insight_codes": {
                 "type": "array",
-                "items": {"type": "string", "enum": list(INSIGHT_CODES)},
+                "items": {"type": "string", "enum": insight_codes},
+                "minItems": 1,
             },
-            "rationale": {"type": "string"},
-            "risk_note": {"type": "string"},
-            "confidence": {"type": "number"},
+            "evidence_ids": {
+                "type": "array",
+                "items": {"type": "string", **({"enum": evidence_ids} if evidence_ids is not None else {})},
+                "minItems": 1,
+            },
         },
-        "required": ["policy_id", "insight_codes", "rationale", "risk_note", "confidence"],
+        "required": ["policy_id", "insight_codes", "evidence_ids"],
         "additionalProperties": False,
     }
 
 
-def validate_guidance(raw: dict[str, Any]) -> dict[str, Any]:
+def validate_guidance(
+    raw: dict[str, Any],
+    allowed_evidence_ids: set[str] | None = None,
+    allowed_policy_ids: set[str] | None = None,
+    allowed_insight_codes: set[str] | None = None,
+) -> dict[str, Any]:
     """Kiểm tra đầu ra LLM bằng luật cục bộ; không tin lời giải thích để thực thi mã."""
     if not isinstance(raw, dict):
         raise ValueError("Lời hướng dẫn AGQO phải là một đối tượng JSON.")
+    allowed_fields = {"policy_id", "insight_codes", "evidence_ids"}
+    unexpected_fields = set(raw) - allowed_fields
+    if unexpected_fields:
+        raise ValueError(f"Đầu ra có trường ngoài lược đồ: {sorted(unexpected_fields)}.")
     policy_id = raw.get("policy_id")
-    if not isinstance(policy_id, str) or policy_id not in POLICIES:
+    permitted_policies = set(POLICIES) if allowed_policy_ids is None else set(allowed_policy_ids)
+    if not permitted_policies or not permitted_policies.issubset(POLICIES):
+        raise ValueError("Danh sách policy được phép không hợp lệ hoặc rỗng.")
+    if not isinstance(policy_id, str) or policy_id not in permitted_policies:
         raise ValueError(f"Mã cấu hình LLM không được phép: {policy_id!r}.")
     codes = raw.get("insight_codes")
-    if not isinstance(codes, list) or not codes or any(code not in INSIGHT_CODES for code in codes):
+    permitted_insights = set(INSIGHT_CODES) if allowed_insight_codes is None else set(allowed_insight_codes)
+    if not permitted_insights or not permitted_insights.issubset(INSIGHT_CODES):
+        raise ValueError("Danh sách insight được phép không hợp lệ hoặc rỗng.")
+    if not isinstance(codes, list) or not codes or any(
+        not isinstance(code, str) or code not in permitted_insights for code in codes
+    ):
         raise ValueError("Mã insight phải thuộc danh sách insight được phép.")
-    confidence = raw.get("confidence")
-    if isinstance(confidence, bool) or not isinstance(confidence, (int, float)):
-        raise ValueError("Độ tin cậy phải là số trong khoảng từ 0 đến 1.")
-    if not math.isfinite(float(confidence)) or not 0 <= float(confidence) <= 1:
-        raise ValueError("Độ tin cậy phải là số hữu hạn trong khoảng từ 0 đến 1.")
-    rationale, risk_note = raw.get("rationale"), raw.get("risk_note")
-    if not isinstance(rationale, str) or not rationale.strip() or len(rationale) > 800:
-        raise ValueError("Lý do chọn cấu hình phải có từ 1 đến 800 ký tự.")
-    if not isinstance(risk_note, str) or not risk_note.strip() or len(risk_note) > 400:
-        raise ValueError("Ghi chú rủi ro phải có từ 1 đến 400 ký tự.")
+    evidence_ids = raw.get("evidence_ids")
+    if not isinstance(evidence_ids, list) or not evidence_ids:
+        raise ValueError("Quyết định phải viện dẫn ít nhất một mã bằng chứng.")
+    if any(not isinstance(item, str) for item in evidence_ids):
+        raise ValueError("Mã bằng chứng phải là chuỗi.")
+    if allowed_evidence_ids is not None and any(item not in allowed_evidence_ids for item in evidence_ids):
+        raise ValueError("Quyết định viện dẫn mã bằng chứng không có trong dữ liệu đầu vào.")
     return {
         "policy_id": policy_id,
         "insight_codes": list(dict.fromkeys(codes)),
-        "rationale": rationale.strip(),
-        "risk_note": risk_note.strip(),
-        "confidence": float(confidence),
+        "evidence_ids": list(dict.fromkeys(evidence_ids)),
     }
+
+
+def repair_guidance(
+    raw: dict[str, Any],
+    allowed_evidence_ids: set[str],
+    allowed_policy_ids: set[str] | None = None,
+    allowed_insight_codes: set[str] | None = None,
+) -> tuple[dict[str, Any], list[str]]:
+    """Normalize malformed model fields into a valid, auditable safe decision."""
+    if not isinstance(raw, dict):
+        raw = {}
+    repaired: list[str] = []
+    allowed_fields = {"policy_id", "insight_codes", "evidence_ids"}
+    if set(raw) - allowed_fields:
+        repaired.append("unsupported_free_text_fields_removed")
+    permitted_policies = set(POLICIES) if allowed_policy_ids is None else set(allowed_policy_ids)
+    if not permitted_policies or not permitted_policies.issubset(POLICIES):
+        raise ValueError("Danh sách policy được phép không hợp lệ hoặc rỗng.")
+    permitted_insights = set(INSIGHT_CODES) if allowed_insight_codes is None else set(allowed_insight_codes)
+    if not permitted_insights or not permitted_insights.issubset(INSIGHT_CODES):
+        raise ValueError("Danh sách insight được phép không hợp lệ hoặc rỗng.")
+    policy_id = raw.get("policy_id")
+    if not isinstance(policy_id, str) or policy_id not in permitted_policies:
+        warmup = "n12_balanced_xy_ring_p1"
+        policy_id = warmup if warmup in permitted_policies else sorted(permitted_policies)[0]
+        repaired.append("policy_id_to_warmup_default")
+    codes = raw.get("insight_codes")
+    if not isinstance(codes, list):
+        codes = []
+        repaired.append("insight_codes_type")
+    valid_codes = list(dict.fromkeys(code for code in codes if isinstance(code, str) and code in permitted_insights))
+    if len(valid_codes) != len(codes):
+        repaired.append("unknown_insight_codes_removed")
+    if not valid_codes:
+        fallback_insight = (
+            "mixed_signals"
+            if "mixed_signals" in permitted_insights
+            else sorted(permitted_insights)[0]
+        )
+        valid_codes = [fallback_insight]
+        repaired.append("insight_codes_defaulted")
+    evidence_ids = raw.get("evidence_ids")
+    if not isinstance(evidence_ids, list):
+        evidence_ids = []
+        repaired.append("evidence_ids_type")
+    valid_evidence = list(dict.fromkeys(item for item in evidence_ids if isinstance(item, str) and item in allowed_evidence_ids))
+    evidence_invalid = len(valid_evidence) != len(evidence_ids)
+    if evidence_invalid:
+        repaired.append("unsupported_evidence_ids_removed")
+    if not valid_evidence:
+        if not allowed_evidence_ids:
+            raise ValueError("Không có bằng chứng hợp lệ để sửa quyết định LLM.")
+        valid_evidence = [sorted(allowed_evidence_ids)[0]]
+        repaired.append("evidence_id_defaulted")
+    return validate_guidance(
+        {
+            "policy_id": policy_id,
+            "insight_codes": valid_codes,
+            "evidence_ids": valid_evidence,
+        },
+        allowed_evidence_ids,
+        permitted_policies,
+        permitted_insights,
+    ), list(dict.fromkeys(repaired))
 
 
 def _canonical_hash(payload: dict[str, Any]) -> str:
@@ -134,7 +225,15 @@ class CachedGuide:
             loaded = json.loads(self.cache_path.read_text(encoding="utf-8"))
             if not isinstance(loaded, dict):
                 raise ValueError("Tệp lưu đệm AGQO phải là đối tượng JSON.")
-            self.cache = loaded
+            # Keep the tracked decision artifact aligned to the active English prompt.
+            # Older entries remain reproducible from Git history and should not be
+            # mixed into a final report for a newer prompt version.
+            self.cache = {
+                key: value
+                for key, value in loaded.items()
+                if isinstance(value, dict)
+                and value.get("prompt_version") == PROMPT_CACHE_VERSION
+            }
 
     def __call__(self, payload: dict[str, Any]) -> dict[str, Any]:
         key = _canonical_hash({"namespace": self.cache_namespace, "payload": payload})
@@ -145,8 +244,19 @@ class CachedGuide:
         response = self.invoke(payload)
         if not isinstance(response, dict):
             raise ValueError("Dịch vụ Modal trả kết quả không đúng cấu trúc.")
-        decision = validate_guidance(response.get("decision", {}))
-        result = {**response, "decision": decision, "cache_key": key, "cache_hit": False}
+        decision = validate_guidance(
+            response.get("decision", {}),
+            set(payload.get("evidence_ids", [])),
+            set(payload.get("eligible_policy_ids", POLICIES)),
+            set(payload.get("allowed_insight_codes", INSIGHT_CODES)),
+        )
+        result = {
+            **response,
+            "decision": decision,
+            "cache_key": key,
+            "cache_hit": False,
+            "prompt_version": PROMPT_CACHE_VERSION,
+        }
         self.cache[key] = result
         self.cache_path.parent.mkdir(parents=True, exist_ok=True)
         fd, temporary_name = tempfile.mkstemp(
@@ -161,26 +271,6 @@ class CachedGuide:
             if os.path.exists(temporary_name):
                 os.unlink(temporary_name)
         return result
-
-
-class ModalGuide:
-    """Máy khách mỏng gọi hàm LLM đã triển khai trên Modal."""
-
-    def __init__(
-        self,
-        app_name: str = "agqo-llm-guide",
-        function_name: str = "guide_qaoa_policy",
-        model_name: str = "gpt-5-mini",
-    ):
-        try:
-            import modal
-        except ImportError as exc:
-            raise RuntimeError("Cài tiện ích đám mây bằng `pip install -e '.[llm-modal]'`.") from exc
-        self.function = modal.Function.from_name(app_name, function_name)
-        self.model_name = model_name
-
-    def __call__(self, payload: dict[str, Any]) -> dict[str, Any]:
-        return self.function.remote({"payload": payload, "model_name": self.model_name})
 
 
 class ModalQwen3Guide:
@@ -212,18 +302,29 @@ class ModalQwen3Guide:
 
 
 def qwen3_system_prompt() -> str:
-    """Chỉ dẫn chung cho bộ suy luận Qwen3 tại chỗ hoặc trên Modal."""
+    """English operating instructions for Qwen3; no hidden reasoning is requested."""
     return (
-        "Bạn là bộ điều khiển AGQO. Chỉ dùng số liệu trong bối cảnh đến ngày as_of_date. "
-        "Đọc insight thị trường và kết quả kiểm định các chính sách đã hoàn tất, sau đó chọn "
-        "đúng một policy_id từ policy_catalog. Ưu tiên lợi nhuận ròng đã điều chỉnh rủi ro "
-        "sau chi phí; xem xét CAGR, Sharpe, Sortino, sụt giảm tối đa, VaR/CVaR, hệ số lợi nhuận, "
-        "doanh số, chi phí và số kỳ. Nếu lịch sử ngắn hoặc thiếu, nêu rõ hạn chế và giảm mức khẳng định. "
-        "Không dùng kết quả chưa khép, không dự báo lợi nhuận tương lai, không tự tạo tham số, "
-        "không chọn cổ phiếu. Chỉ gắn insight_codes được số liệu hỗ trợ. Viết rationale và risk_note "
-        "bằng tiếng Việt, dẫn trường số liệu cụ thể. confidence là mức tự đánh giá chưa hiệu chỉnh. "
-        "Đây là nghiên cứu, không phải khuyến nghị đầu tư. Trả về duy nhất JSON hợp lệ theo schema "
-        f"này, không có lời dẫn: {json.dumps(decision_json_schema(), ensure_ascii=False)}"
+        "You are a constrained decision controller in AGQO (AI Guide for Quantum Optimization), not a financial analyst. "
+        "Qwen3-8B may not know the project's finance definitions and must not fill gaps from memory. The supplied, "
+        "date-cutoff payload and its retrieved method_notes are the only authority. They define this dataset's units, "
+        "financial metrics, QAOA objective, solver metrics, and known data limitations. Follow those definitions exactly. "
+        "The task is narrow: choose one policy_id from eligible_policy_ids, choose only currently supported insight codes, "
+        "and cite evidence IDs already supplied. QAOA—not the LLM—selects the assets. Do not invent returns, explain "
+        "causality, choose securities, tune values outside the catalog, or write prose.\n\n"
+        "Use this decision order: (1) exclude every policy outside eligible_policy_ids; this list enforces at least six "
+        "completed outcomes and matured solver evidence, or names the mandatory warm-up policy when history is short; "
+        "(2) compare only outcomes whose exit_date is no later than as_of_date; (3) compare net return together with "
+        "Sharpe, drawdown, CVaR, turnover and fees; (4) check exact-solver regret and feasible-shot rate; (5) where "
+        "financial and solver evidence is similar, prefer fewer logical two-qubit gates; (6) do not let one metric, one "
+        "seed, self-confidence, or a noisy short history dominate. Logical gate counts are simulator proxies, not "
+        "hardware depth, runtime, or evidence of quantum advantage.\n\n"
+        "The logistic submodel estimates only a high-volatility regime, not returns. If fewer than six monthly forecasts "
+        "have matured or Brier skill is not positive, treat its probability as unverified and do not use it alone to "
+        "increase risk or QAOA depth. Brier score is lower-is-better; overlapping 21-session labels are not independent. "
+        "Use insight_code_rules as exact thresholds. Only codes listed in allowed_insight_codes can be returned; if none "
+        "of the measured warning conditions apply, use mixed_signals.\n\n"
+        "Return exactly one JSON object matching response_schema from the payload, with no Markdown or additional fields. "
+        "This is research, not investment advice."
     )
 
 
@@ -233,9 +334,10 @@ class TransformersQwen3Guide:
     def __init__(
         self,
         model_name: str = QWEN3_MODEL_NAME,
-        max_new_tokens: int = 480,
+        max_new_tokens: int = 192,
         require_gpu: bool = True,
         revision: str | None = QWEN3_MODEL_REVISION,
+        quantize_4bit: bool = True,
     ):
         if not isinstance(model_name, str) or not model_name.strip():
             raise ValueError("Cần tên mô hình Qwen3 hợp lệ.")
@@ -243,7 +345,7 @@ class TransformersQwen3Guide:
             raise ValueError("Ngân sách sinh phải ít nhất 64 token.")
         try:
             import torch
-            from transformers import AutoModelForCausalLM, AutoTokenizer
+            from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
         except ImportError as exc:
             raise RuntimeError(
                 "Cài Transformers và PyTorch trong Modal Notebook trước khi nạp Qwen3."
@@ -251,7 +353,7 @@ class TransformersQwen3Guide:
 
         if require_gpu and not torch.cuda.is_available():
             raise RuntimeError(
-                "Không tìm thấy GPU. Trong Modal Notebook, chọn GPU T4/L4 rồi khởi động lại kernel; "
+                "Không tìm thấy GPU. Trong Modal Notebook, chọn GPU L4/A10 rồi khởi động lại kernel; "
                 "hoặc dùng Qwen3-0.6B với require_gpu=False để thử trên CPU."
             )
         if torch.cuda.is_available():
@@ -266,11 +368,21 @@ class TransformersQwen3Guide:
         self.model_name = model_name
         self.requested_revision = revision
         self.max_new_tokens = int(max_new_tokens)
+        self.quantize_4bit = bool(quantize_4bit and torch.cuda.is_available())
         load_options = {"revision": revision} if revision else {}
         self.tokenizer = AutoTokenizer.from_pretrained(model_name, **load_options)
+        if self.quantize_4bit:
+            compute_dtype = torch.bfloat16 if torch.cuda.is_bf16_supported() else torch.float16
+            quantization_config = BitsAndBytesConfig(
+                load_in_4bit=True,
+                bnb_4bit_quant_type="nf4",
+                bnb_4bit_use_double_quant=True,
+                bnb_4bit_compute_dtype=compute_dtype,
+            )
+            load_options["quantization_config"] = quantization_config
         self.model = AutoModelForCausalLM.from_pretrained(
             model_name,
-            torch_dtype=dtype,
+            dtype=dtype,
             device_map="auto",
             **load_options,
         )
@@ -330,14 +442,21 @@ class TransformersQwen3Guide:
     def __call__(self, payload: dict[str, Any]) -> dict[str, Any]:
         if not isinstance(payload, dict):
             raise ValueError("Bối cảnh AGQO phải là một đối tượng JSON.")
-        user_prompt = create_guide_prompt(payload)
+        prompt_payload = enrich_guide_payload(payload)
+        user_prompt = json.dumps(prompt_payload, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
         messages = [
             {"role": "system", "content": qwen3_system_prompt()},
             {"role": "user", "content": user_prompt},
         ]
         raw_text, input_tokens, output_tokens = self._generate(messages)
         try:
-            decision = validate_guidance(self._read_json(raw_text))
+            allowed_evidence_ids = set(prompt_payload.get("evidence_ids", []))
+            allowed_policy_ids = set(prompt_payload.get("eligible_policy_ids", POLICIES))
+            allowed_insight_codes = set(prompt_payload.get("allowed_insight_codes", INSIGHT_CODES))
+            decision = validate_guidance(
+                self._read_json(raw_text), allowed_evidence_ids, allowed_policy_ids, allowed_insight_codes
+            )
+            validation_repairs: list[str] = []
         except (ValueError, json.JSONDecodeError):
             messages.extend(
                 [
@@ -345,8 +464,7 @@ class TransformersQwen3Guide:
                     {
                         "role": "user",
                         "content": (
-                            "Đầu ra trước sai định dạng hoặc vi phạm schema. Hãy sửa và chỉ trả một "
-                            "đối tượng JSON hợp lệ có đủ mọi trường bắt buộc; không thêm văn bản."
+                            "The previous response was invalid JSON or violated the schema. Return exactly one valid JSON object containing only the required fields from the schema. Select policy_id only from eligible_policy_ids. Do not add rationale, risk flags, or any prose."
                         ),
                     },
                 ]
@@ -354,9 +472,23 @@ class TransformersQwen3Guide:
             raw_text, retry_input_tokens, retry_output_tokens = self._generate(messages)
             input_tokens += retry_input_tokens
             output_tokens += retry_output_tokens
-            decision = validate_guidance(self._read_json(raw_text))
+            try:
+                decision = validate_guidance(
+                    self._read_json(raw_text), allowed_evidence_ids, allowed_policy_ids, allowed_insight_codes
+                )
+                validation_repairs = ["format_retry_used"]
+            except (ValueError, json.JSONDecodeError):
+                try:
+                    retry_object = self._read_json(raw_text)
+                except (ValueError, json.JSONDecodeError):
+                    retry_object = {}
+                decision, validation_repairs = repair_guidance(
+                    retry_object, allowed_evidence_ids, allowed_policy_ids, allowed_insight_codes
+                )
+                validation_repairs.insert(0, "format_retry_used")
         return {
             "decision": decision,
+            "validation_repairs": validation_repairs,
             "model": self.model_name,
             "model_revision": self.model_revision,
             "response_id": None,
@@ -365,9 +497,41 @@ class TransformersQwen3Guide:
                 "output_tokens": output_tokens,
                 "total_tokens": input_tokens + output_tokens,
             },
+        "quantization": "NF4 4-bit" if self.quantize_4bit else "bf16/fp16/fp32",
         }
 
 
+def enrich_guide_payload(payload: dict[str, Any]) -> dict[str, Any]:
+    """Attach the versioned local retrieval results for persistence and inference."""
+    from .knowledge import CORPUS_VERSION, retrieve_method_notes
+
+    enriched = dict(payload)
+    enriched["local_knowledge_base_version"] = CORPUS_VERSION
+    enriched["method_notes"] = retrieve_method_notes(payload, top_k=7)
+    eligible_policy_ids = set(enriched.get("eligible_policy_ids", POLICIES))
+    if not eligible_policy_ids:
+        eligible_policy_ids = {"n12_balanced_xy_ring_p1"}
+    allowed_evidence_ids = set(enriched.get("evidence_ids", []))
+    allowed_insights = supported_insight_codes(enriched)
+    enriched["allowed_insight_codes"] = allowed_insights
+    enriched["response_schema"] = decision_json_schema(
+        eligible_policy_ids, allowed_evidence_ids, allowed_insights
+    )
+    enriched["controller_contract"] = {
+        "task": "Select one eligible QAOA policy and identify supported market insight codes.",
+        "selection_order": [
+            "Only compare matured, completed policy outcomes available by as_of_date.",
+            "Compare net return with Sharpe, drawdown, CVaR, turnover, fees, exact-solver regret, and feasible-shot rate.",
+            "If evidence is comparable, prefer fewer logical two-qubit gates.",
+        ],
+        "policy_allowlist": sorted(eligible_policy_ids),
+        "insight_allowlist": allowed_insights,
+        "output": "JSON only; no rationale or risk flags. Local deterministic code creates Vietnamese explanations.",
+    }
+    return enriched
+
+
 def create_guide_prompt(payload: dict[str, Any]) -> str:
-    """Đóng gói bối cảnh định lượng, không gửi chuỗi dữ liệu tương lai hay OHLCV thô."""
-    return json.dumps(payload, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+    """Attach relevant local reference notes and serialize a compact, auditable prompt."""
+    enriched = enrich_guide_payload(payload)
+    return json.dumps(enriched, ensure_ascii=False, sort_keys=True, separators=(",", ":"))

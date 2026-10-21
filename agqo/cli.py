@@ -219,11 +219,11 @@ def main() -> int:
     market.add_argument("--lookback", type=int, default=252)
     market.add_argument("--k", type=int, default=6)
     market.add_argument("--transaction-cost-bps", type=float, default=25.0)
-    market.add_argument("--report", default="results/BAO_CAO_KET_QUA.md")
-    market.add_argument("--figures", default="results/figures/vn30")
+    market.add_argument("--report", default="results/final/BAO_CAO_PHAN_TICH_DU_LIEU.md")
+    market.add_argument("--figures", default="results/final/figures/data")
     market.add_argument(
         "--benchmark",
-        default="results/qaoa_h2_20261013.jsonl",
+        default="results/final/qaoa_h2_20261013.jsonl",
         help="Tệp kết quả QAOA tổng hợp; bỏ qua phần đối chiếu nếu đường dẫn không tồn tại.",
     )
     market.set_defaults(func=_market_data)

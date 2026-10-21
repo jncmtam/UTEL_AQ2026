@@ -38,7 +38,8 @@ SHORT = {
     "AI + QAOA p=1, bộ trộn X / 12 mã thanh khoản cao": "QAOA X, p=1",
     "AI + QAOA p=2, bộ trộn X / 12 mã thanh khoản cao": "QAOA X, p=2",
     "AI + QAOA p=1, bộ trộn XY / 12 mã thanh khoản cao": "QAOA XY, p=1",
-    "AGQO LLM→QAOA / chính sách thích nghi / 12 mã thanh khoản cao": "AGQO LLM→QAOA",
+    "AGQO Qwen→giám sát→QAOA / chính sách thích nghi": "AGQO Qwen→giám sát→QAOA",
+    "Bộ chọn quy tắc→QAOA / đối chứng không LLM": "Bộ chọn quy tắc→QAOA",
     "VN30": "VN30",
     "VN-Index": "VN-Index",
 }
@@ -122,7 +123,7 @@ def build_walkforward_plots(
         "VN30",
         "VN-Index",
     ]
-    agqo_name = "AGQO LLM→QAOA / chính sách thích nghi / 12 mã thanh khoản cao"
+    agqo_name = "AGQO Qwen→giám sát→QAOA / chính sách thích nghi"
     if agqo_name in performance:
         chosen.insert(-2, agqo_name)
     dates = pd.to_datetime(portfolio["entry_dates"])
@@ -369,9 +370,9 @@ def build_walkforward_plots(
     bar_colors = [PALETTE["gray"], PALETTE["blue"], PALETTE["navy"], PALETTE["gold"]]
     if has_agqo:
         labels.insert(1, "Chính xác\nchính sách AGQO")
-        vals.insert(1, qaoa["solver_runtime_seconds"]["exact_agqo_12_universe_total"])
+        vals.insert(1, qaoa["solver_runtime_seconds"]["exact_agqo_universe_total"])
         bar_colors.insert(1, PALETTE["green"])
-        labels.append("AGQO LLM→QAOA\nchính sách đã chọn")
+        labels.append("AGQO Qwen→giám sát→QAOA\nchính sách đã chọn")
         vals.append(qaoa["quality_summary"]["AGQO"]["total_cpu_simulation_seconds"])
         bar_colors.append(PALETTE["red"])
         labels.extend(["Chính xác\nlưới 12 chính sách", "QAOA lưới\n12 chính sách"])
@@ -399,7 +400,10 @@ def build_walkforward_plots(
     guidance = result.get("agqo_guidance", {})
     policy_strategy_names = guidance.get("policy_strategy_names", {})
     if guidance.get("enabled") and policy_strategy_names:
-        rows = [("AGQO thích nghi", agqo_name, "AGQO")]
+        rule_name = "Bộ chọn quy tắc→QAOA / đối chứng không LLM"
+        rows = [("AGQO sau giám sát", agqo_name, "AGQO")]
+        if rule_name in performance and "RULE_ADAPTIVE" in qaoa["quality_summary"]:
+            rows.append(("Bộ chọn quy tắc", rule_name, "RULE_ADAPTIVE"))
         rows.extend(
             (policy_id, strategy_name, f"POLICY:{policy_id}")
             for policy_id, strategy_name in sorted(policy_strategy_names.items())
@@ -415,7 +419,7 @@ def build_walkforward_plots(
             for row in rows
         ]
         y = np.arange(len(rows))
-        colors = [PALETTE["red"]] + [PALETTE["blue"]] * (len(rows) - 1)
+        colors = [PALETTE["red"]] + [PALETTE["gray"]] + [PALETTE["blue"]] * (len(rows) - 2)
         fig, axes = plt.subplots(1, 4, figsize=(18, 8), sharey=True)
         panels = (
             (axes[0], cagr, "CAGR ròng (%)", "Lợi nhuận"),

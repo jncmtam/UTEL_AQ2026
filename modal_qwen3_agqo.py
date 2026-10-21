@@ -12,7 +12,9 @@ from agqo.guide import (
     QWEN3_MODEL_NAME,
     QWEN3_MODEL_REVISION,
     create_guide_prompt,
+    enrich_guide_payload,
     qwen3_system_prompt,
+    repair_guidance,
     validate_guidance,
 )
 
@@ -25,14 +27,22 @@ MODEL_NAME = os.environ.get("AGQO_QWEN3_MODEL", QWEN3_MODEL_NAME)
 MODEL_REVISION = os.environ.get("AGQO_QWEN3_REVISION", QWEN3_MODEL_REVISION)
 MODEL_VOLUME_NAME = os.environ.get("AGQO_QWEN3_VOLUME", "agqo-qwen3-model-cache")
 MODEL_CACHE_PATH = "/model-cache"
-MAX_NEW_TOKENS = int(os.environ.get("AGQO_QWEN3_MAX_NEW_TOKENS", "480"))
-GPU_TYPE = os.environ.get("AGQO_QWEN3_GPU", "L4")
+MAX_NEW_TOKENS = int(os.environ.get("AGQO_QWEN3_MAX_NEW_TOKENS", "192"))
+GPU_TYPES = [
+    item.strip()
+    for item in os.environ.get("AGQO_QWEN3_GPU", "L4,A10").split(",")
+    if item.strip()
+]
+LOAD_IN_4BIT = os.environ.get("AGQO_QWEN3_LOAD_IN_4BIT", "1").strip().lower() not in {"0", "false", "no"}
 
 app = modal.App(APP_NAME)
 model_cache = modal.Volume.from_name(MODEL_VOLUME_NAME, create_if_missing=True)
 image = (
     modal.Image.debian_slim(python_version="3.12")
-    .uv_pip_install("torch>=2.6,<3", "transformers>=4.51,<5", "accelerate>=1.6")
+    .uv_pip_install(
+        "torch>=2.6,<3", "transformers>=4.51,<5", "accelerate>=1.6",
+        "bitsandbytes>=0.46,<1",
+    )
     .add_local_python_source("agqo")
 )
 
@@ -49,22 +59,31 @@ def _load_model():
         return _TOKENIZER, _MODEL, _MODEL_REVISION, _TORCH
 
     import torch
-    from transformers import AutoModelForCausalLM, AutoTokenizer
+    from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
     if not torch.cuda.is_available():
-        raise RuntimeError(f"Modal function cần GPU; kiểm tra cấu hình {GPU_TYPE}.")
+        raise RuntimeError(f"Modal function cần GPU; kiểm tra cấu hình {GPU_TYPES}.")
     dtype = torch.bfloat16 if torch.cuda.is_bf16_supported() else torch.float16
     _TOKENIZER = AutoTokenizer.from_pretrained(
         MODEL_NAME,
         revision=MODEL_REVISION,
         cache_dir=f"{MODEL_CACHE_PATH}/huggingface",
     )
+    load_options = {}
+    if LOAD_IN_4BIT:
+        load_options["quantization_config"] = BitsAndBytesConfig(
+            load_in_4bit=True,
+            bnb_4bit_quant_type="nf4",
+            bnb_4bit_use_double_quant=True,
+            bnb_4bit_compute_dtype=dtype,
+        )
     _MODEL = AutoModelForCausalLM.from_pretrained(
         MODEL_NAME,
         revision=MODEL_REVISION,
         dtype=dtype,
         device_map="auto",
         cache_dir=f"{MODEL_CACHE_PATH}/huggingface",
+        **load_options,
     )
     _MODEL.eval()
     _MODEL_REVISION = (
@@ -106,7 +125,7 @@ def _generate(tokenizer, model, torch, messages: list[dict[str, str]]):
     name=FUNCTION_NAME,
     image=image,
     volumes={MODEL_CACHE_PATH: model_cache},
-    gpu=GPU_TYPE,
+    gpu=GPU_TYPES[0] if len(GPU_TYPES) == 1 else GPU_TYPES,
     timeout=900,
     retries=0,
     scaledown_window=60,
@@ -126,15 +145,25 @@ def guide_qaoa_policy(request: dict[str, Any]) -> dict[str, Any]:
         )
 
     tokenizer, model, revision, torch = _load_model()
+    prompt_payload = enrich_guide_payload(request["payload"])
     messages = [
         {"role": "system", "content": qwen3_system_prompt()},
-        {"role": "user", "content": create_guide_prompt(request["payload"])},
+        {"role": "user", "content": create_guide_prompt(prompt_payload)},
     ]
     raw_text, input_tokens, output_tokens = _generate(
         tokenizer, model, torch, messages
     )
+    allowed_evidence_ids = set(prompt_payload.get("evidence_ids", []))
+    allowed_policy_ids = set(prompt_payload.get("eligible_policy_ids", [])) or {
+        "n12_balanced_xy_ring_p1"
+    }
+    allowed_insight_codes = set(prompt_payload.get("allowed_insight_codes", [])) or {"mixed_signals"}
     try:
-        decision = validate_guidance(TransformersJsonReader.read(raw_text))
+        decision = validate_guidance(
+            TransformersJsonReader.read(raw_text), allowed_evidence_ids, allowed_policy_ids,
+            allowed_insight_codes,
+        )
+        validation_repairs = []
     except (ValueError, json.JSONDecodeError):
         messages.extend(
             [
@@ -142,8 +171,7 @@ def guide_qaoa_policy(request: dict[str, Any]) -> dict[str, Any]:
                 {
                     "role": "user",
                     "content": (
-                        "Đầu ra trước sai định dạng hoặc vi phạm schema. Hãy sửa và chỉ trả một "
-                        "đối tượng JSON hợp lệ có đủ mọi trường bắt buộc; không thêm văn bản."
+                        "The previous response was invalid JSON or violated response_schema. Read response_schema in the payload and return exactly one JSON object matching it. Do not add rationale, risk flags, confidence, or prose."
                     ),
                 },
             ]
@@ -153,12 +181,28 @@ def guide_qaoa_policy(request: dict[str, Any]) -> dict[str, Any]:
         )
         input_tokens += retry_input_tokens
         output_tokens += retry_output_tokens
-        decision = validate_guidance(TransformersJsonReader.read(raw_text))
+        try:
+            decision = validate_guidance(
+                TransformersJsonReader.read(raw_text), allowed_evidence_ids, allowed_policy_ids,
+                allowed_insight_codes,
+            )
+            validation_repairs = ["format_retry_used"]
+        except (ValueError, json.JSONDecodeError):
+            try:
+                retry_object = TransformersJsonReader.read(raw_text)
+            except (ValueError, json.JSONDecodeError):
+                retry_object = {}
+            decision, validation_repairs = repair_guidance(
+                retry_object, allowed_evidence_ids, allowed_policy_ids, allowed_insight_codes
+            )
+            validation_repairs.insert(0, "format_retry_used")
 
     return {
         "decision": decision,
+        "validation_repairs": validation_repairs,
         "model": MODEL_NAME,
         "model_revision": revision,
+        "quantization": "NF4 4-bit" if LOAD_IN_4BIT else "bf16/fp16",
         "response_id": None,
         "usage": {
             "input_tokens": input_tokens,

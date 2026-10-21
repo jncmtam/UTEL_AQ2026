@@ -21,6 +21,8 @@ class PortfolioProblem:
     previous_weights: np.ndarray | None = None
     transaction_costs: np.ndarray | None = None
     rebalances_per_year: int = 12
+    outside_previous_weight: float = 0.0
+    outside_transaction_cost_rate: float = 0.0
 
     def __post_init__(self) -> None:
         n = len(self.tickers)
@@ -52,11 +54,19 @@ class PortfolioProblem:
             raise ValueError("Chi phí giao dịch phải là vector hữu hạn, không âm và có N phần tử.")
         if (costs >= 1).any():
             raise ValueError("Chi phí trên mỗi đồng giao dịch phải nhỏ hơn 100%.")
+        outside_weight = float(self.outside_previous_weight)
+        outside_rate = float(self.outside_transaction_cost_rate)
+        if not np.isfinite(outside_weight) or not 0 <= outside_weight <= 1:
+            raise ValueError("Tỷ trọng kỳ trước ngoài tập ứng viên phải thuộc [0,1].")
+        if not np.isfinite(outside_rate) or not 0 <= outside_rate < 1:
+            raise ValueError("Phí thanh lý ngoài tập ứng viên phải thuộc [0,1).")
         if not isinstance(self.rebalances_per_year, (int, np.integer)) or self.rebalances_per_year < 1:
             raise ValueError("Số lần tái cân bằng năm hóa phải là số nguyên dương.")
         object.__setattr__(self, "rebalances_per_year", int(self.rebalances_per_year))
         object.__setattr__(self, "previous_weights", previous)
         object.__setattr__(self, "transaction_costs", costs)
+        object.__setattr__(self, "outside_previous_weight", outside_weight)
+        object.__setattr__(self, "outside_transaction_cost_rate", outside_rate)
 
     @property
     def n(self) -> int:
@@ -70,6 +80,7 @@ class PortfolioProblem:
         target_weights = x / self.k
         annual_cost = self.rebalances_per_year * float(
             self.transaction_costs @ np.abs(target_weights - self.previous_weights)
+            + self.outside_transaction_cost_rate * self.outside_previous_weight
         )
         return float(
             self.risk_aversion * (x @ self.covariance @ x) / self.k**2
@@ -82,7 +93,10 @@ class PortfolioProblem:
         x = np.asarray(bits, dtype=float)
         if x.shape != (self.n,) or not np.isin(x, (0, 1)).all():
             raise ValueError("Danh mục phải là chuỗi N bit.")
-        return float(np.abs(x / self.k - self.previous_weights).sum())
+        return float(
+            np.abs(x / self.k - self.previous_weights).sum()
+            + self.outside_previous_weight
+        )
 
     def annual_transaction_cost(self, bits: np.ndarray) -> float:
         """Chi phí giao dịch năm hóa trong cùng đơn vị lợi nhuận với score."""
@@ -90,7 +104,13 @@ class PortfolioProblem:
         if x.shape != (self.n,) or not np.isin(x, (0, 1)).all():
             raise ValueError("Danh mục phải là chuỗi N bit.")
         traded_weights = np.abs(x / self.k - self.previous_weights)
-        return float(self.rebalances_per_year * (self.transaction_costs @ traded_weights))
+        return float(
+            self.rebalances_per_year
+            * (
+                self.transaction_costs @ traded_weights
+                + self.outside_transaction_cost_rate * self.outside_previous_weight
+            )
+        )
 
 
 @dataclass(frozen=True)
@@ -134,6 +154,7 @@ def build_qubo(problem: PortfolioProblem, mixer: str = "X", penalty: float | Non
     previous = problem.previous_weights
     rates = problem.transaction_costs
     offset = cost_scale * float(rates @ previous)
+    offset += cost_scale * problem.outside_transaction_cost_rate * problem.outside_previous_weight
     linear += cost_scale * rates * (np.abs(1 / k - previous) - previous)
 
     if mixer.upper() == "XY":
@@ -141,15 +162,12 @@ def build_qubo(problem: PortfolioProblem, mixer: str = "X", penalty: float | Non
     if mixer.upper() != "X":
         raise ValueError("Bộ trộn hợp lệ là X hoặc XY.")
 
-    # Hạng phạt lớn hơn toàn bộ độ dao động khả thi để nghiệm sai K không thắng.
+    # Cận hạng phạt bao trùm dao động của hàm mục tiêu trên toàn bộ siêu lập phương.
+    # Chỉ dùng biên độ giữa các nghiệm khả thi là chưa đủ: trạng thái sai cardinality
+    # có thể mang năng lượng mục tiêu thấp hơn nghiệm khả thi tốt nhất.
     if penalty is None:
-        feasible = []
-        for chosen in combinations(range(n), k):
-            bits = np.zeros(n, dtype=np.int8)
-            bits[list(chosen)] = 1
-            feasible.append(problem.score(bits))
-        span = max(feasible) - min(feasible)
-        penalty = max(span, 1e-12) * 1.01
+        objective_range_bound = float(np.abs(linear).sum() + np.abs(quadratic).sum())
+        penalty = max(objective_range_bound, 1e-12) * 1.01
     if penalty <= 0:
         raise ValueError("Hệ số phạt phải dương.")
     linear = linear + penalty * (1 - 2 * k)
@@ -213,7 +231,10 @@ def exact_solve_vectorized(problem: PortfolioProblem) -> tuple[np.ndarray, float
     score = problem.risk_aversion * selected_risk / problem.k**2 - selected_mu / problem.k
     previous = problem.previous_weights
     rate = problem.transaction_costs
-    base_cost = float(rate @ previous)
+    base_cost = float(
+        rate @ previous
+        + problem.outside_transaction_cost_rate * problem.outside_previous_weight
+    )
     selected_cost_delta = np.abs(1 / problem.k - previous) - previous
     score += problem.rebalances_per_year * (
         base_cost + (rate * selected_cost_delta)[choices].sum(axis=1)

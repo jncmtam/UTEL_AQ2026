@@ -1,284 +1,132 @@
-# AGQO: điều chỉnh rủi ro bằng AI và chọn danh mục bằng QAOA
+# AGQO: AI hướng dẫn tối ưu hóa lượng tử
 
-AGQO là quy trình lai: mô hình học máy tạo xác suất chế độ thị trường, mô hình ngôn ngữ đọc các insight định lượng cùng kết quả đã khép của những chính sách trước, rồi chọn cấu hình QAOA từ một danh mục hữu hạn. QAOA giải bài toán chọn sáu cổ phiếu; các phương pháp hiện có tiếp tục chạy làm đối chứng. Hiệu quả được so trên lợi nhuận ròng, rủi ro, chi phí và chất lượng nghiệm.
+AGQO kết hợp mô hình ngôn ngữ với QAOA để chọn cấu hình tối ưu danh mục cổ phiếu Việt Nam. Mô hình AI phân tích thống kê thị trường, insight có ngưỡng định lượng và kết quả của các chính sách đã hoàn tất; QAOA giải bài toán chọn đúng 6 mã. Bộ giám sát số học độc lập quyết định đề xuất nào đủ bằng chứng để thực thi.
 
-Bộ kết quả nền vẫn được giữ làm đối chứng. Đã chạy thêm toàn bộ quy trình AGQO với Qwen3-4B trên Modal và lưu báo cáo, dữ liệu đo, quyết định của LLM cùng biểu đồ ở [thư mục kết quả lượt chạy](results/qwen3_modal_local/). Lượt chạy này chưa cho thấy AGQO vượt VN30 hoặc cấu hình QAOA cố định tốt nhất; xem [báo cáo chi tiết](results/qwen3_modal_local/BAO_CAO_QWEN3_WALK_FORWARD.md). QAOA vẫn là mô phỏng véc-tơ trạng thái cổ điển, chưa chạy phần cứng lượng tử.
+## Kết quả hiện tại
 
-> Các kết quả cổ phiếu dùng OHLCV thô và ảnh chụp thành phần VN30 hiện tại áp ngược lịch sử. Chưa xác nhận điều chỉnh cổ tức/quyền và chưa có lịch sử thành phần theo ngày; không dùng các con số dưới đây làm lợi nhuận đầu tư thực tế.
-
-## Lượt chạy AGQO với Qwen3 trên Modal — 21/10/2026
-
-Lượt kiểm định gồm 16 kỳ nắm giữ, từ 02/06/2025 đến 01/10/2026, vốn mô phỏng 100 triệu đồng và phí 25 điểm cơ bản mỗi chiều. Qwen3-4B đọc thống kê thị trường và kết quả các kỳ đã khép, rồi chọn một trong 12 cấu hình QAOA được phép. QAOA biểu diễn 12 ứng viên bằng 12 qubit mô phỏng và chọn 6 mã. Mô hình đã đưa ra 16 quyết định; lượt này ghi nhận 125.032 token đầu vào và 4.582 token đầu ra. OHLCV và mô phỏng QAOA được giữ ở máy local; Modal chỉ nhận thống kê tổng hợp.
+Đây là kết quả walk-forward 16 kỳ từ **02/06/2025 đến 01/10/2026**, vốn mô phỏng 100 triệu đồng và phí 25 điểm cơ bản mỗi chiều. Thời gian kiểm định đã được xem ở các phiên bản trước, nên không còn là tập kiểm tra độc lập chưa từng quan sát.
 
 | Phương pháp | CAGR ròng | Sharpe | Sụt giảm tối đa |
 |---|---:|---:|---:|
 | VN30 | 24,58% | 1,17 | -9,22% |
-| QAOA cố định X, p=1 | 16,24% | 0,65 | -15,28% |
-| QAOA cố định X, p=2 | 18,50% | 0,72 | -14,20% |
-| QAOA cố định XY, p=1 | 24,70% | 0,94 | -11,90% |
-| AGQO: Qwen3 chọn cấu hình, QAOA giải danh mục | 20,29% | 0,77 | -12,78% |
+| VN-Index | 23,63% | 1,21 | -8,64% |
+| Ledoit–Wolf, nghiệm chính xác trên toàn rổ | 49,68% | 1,53 | -15,92% |
+| QAOA, XY vòng, p=1, 12 mã | 22,07% | 0,85 | -11,90% |
+| Bộ chọn quy tắc → QAOA | 19,98% | 0,84 | -11,90% |
+| **AGQO: Qwen → giám sát → QAOA** | **18,81%** | **0,80** | **-11,90%** |
 
-AGQO thấp hơn VN30 4,29 điểm phần trăm CAGR và có Sharpe thấp hơn; mức sụt giảm tối đa cũng sâu hơn. So với cấu hình cố định XY p=1, AGQO thấp hơn 0,60 điểm phần trăm CAGR. Khoảng tin cậy 95% của lợi nhuận vượt VN30 theo lấy mẫu khối 3 tháng là -14,60% đến 12,39%, bao gồm mức 0; chưa có bằng chứng vượt trội tài chính ổn định. Mô hình dự báo chế độ biến động cũng chưa thắng mức nền: kỹ năng Brier tại 16 tín hiệu tháng là -9,30%.
+Lượt chạy **chưa chứng minh AGQO tạo thêm lợi nhuận**: CAGR và Sharpe của AGQO thấp hơn VN30, bộ chọn quy tắc và cấu hình XY cố định. Bộ giám sát không đổi đề xuất nào (0/16); cả 16 lựa chọn đều qua kiểm tra thực thi theo bằng chứng đã khép. Vì thế, giá trị được chứng minh hiện tại là một quy trình AI–QAOA có thể kiểm toán, chứ chưa phải lợi thế đầu tư hay ưu thế lượng tử.
 
-Qwen3 chọn `balanced_xy_p1` ở 8/16 tín hiệu và `diversified_x_p2` ở 4/16. Sai lệch mục tiêu QAOA chuẩn hóa của AGQO trung bình 10,32%, với 6/16 kỳ đạt sai lệch không quá 5%. Đối chứng QAOA X p=1 đạt 0,82% và 15/16 kỳ; X p=2 đạt 0,49% và 16/16 kỳ. Vì vậy, lượt chạy xác nhận được luồng AI hướng dẫn QAOA hoạt động và được đo đối chứng, nhưng chưa chứng minh LLM hay QAOA tạo thêm lợi ích tài chính hoặc ưu thế lượng tử.
+![Đường vốn sau phí của AGQO và các mốc so sánh](results/final/figures/02_net_equity_curves.png)
 
-[Đọc báo cáo đầy đủ](results/qwen3_modal_local/BAO_CAO_QWEN3_WALK_FORWARD.md) · [Dữ liệu đo JSON](results/qwen3_modal_local/vn30_qwen3_walkforward.json) · [16 quyết định Qwen3](results/qwen3_modal_local/decisions.json)
+### QAOA có đo được ưu thế kỹ thuật không?
 
-![So sánh AGQO với các chính sách QAOA cố định](results/qwen3_modal_local/figures/08_agqo_policy_comparison.png)
+Đã so sánh 14 cấu hình trên 8, 12 và 16 qubit, với K=6, bộ trộn X/XY, độ sâu p=1/2 và nhiều cách nối. Mỗi lần tối ưu dùng 1.024 mẫu, COBYLA tối đa 100 lần đánh giá mỗi seed và ba seed cố định. Nghiệm vét cạn cổ điển trên cùng hàm mục tiêu là mốc tối ưu.
 
-## Kết quả chính
+| Cấu hình | Kỳ regret ≤5% | Regret trung bình | Mẫu khả thi trung bình | Cổng hai qubit logic |
+|---|---:|---:|---:|---:|
+| X, p=1, 12 qubit | 16/16 | 0,36% | 40,05% | 66 |
+| X, p=2, 12 qubit | 16/16 | 0,45% | 54,08% | 132 |
+| XY vòng, p=1, 12 qubit | 0/16 | 20,51% | 100,00% | 90 |
+| XY vòng, p=2, 12 qubit | 4/16 | 13,85% | 100,00% | 180 |
+| XY tương quan, p=2, 12 qubit | 13/16 | 2,53% | 100,00% | 240 |
 
-Kiểm định danh mục gồm 16 kỳ, từ 02/06/2025 đến 01/10/2026. Mỗi tín hiệu được tính sau phiên cuối tháng, giao dịch ở giá mở cửa phiên kế tiếp và nắm giữ đến lần vào lệnh kế tiếp. Vốn mô phỏng 100 triệu đồng, phí giả định 25 điểm cơ bản cho mỗi chiều, giới hạn lệnh 5% giá trị giao dịch bình quân ngày.
+Trong mô phỏng này, bộ trộn X đạt regret thấp nhưng chỉ tạo khoảng 40–54% mẫu khả thi; XY luôn giữ đúng số mã nhưng chất lượng phụ thuộc cách nối. XY tương quan p=2 giảm regret đáng kể với chi phí cổng cao hơn. Các con số là proxy logic của mô phỏng, không phải số cổng sau biên dịch phần cứng. Chưa chạy QPU và chưa có bằng chứng ưu thế lượng tử.
 
-| Phương pháp | CAGR ròng | Biến động năm hóa | Sharpe | Sụt giảm tối đa | Giá trị cuối kỳ từ 100 triệu |
-|---|---:|---:|---:|---:|---:|
-| VN30 | 24,58% | 20,64% | 1,17 | -9,22% | 134,04 triệu |
-| VN-Index | 23,63% | 19,05% | 1,21 | -8,64% | 132,68 triệu |
-| Rủi ro cố định, nghiệm chính xác trên toàn rổ | 33,26% | 29,99% | 1,11 | -20,69% | 146,64 triệu |
-| AI điều chỉnh λ và α, nghiệm chính xác trên toàn rổ | 44,60% | 27,90% | 1,47 | -15,93% | 163,52 triệu |
-| Ledoit–Wolf, nghiệm chính xác trên toàn rổ | 49,68% | 29,31% | 1,53 | -15,92% | 171,21 triệu |
-| AI và nghiệm chính xác trên 12 mã thanh khoản cao | 16,30% | 29,13% | 0,65 | -14,56% | 122,30 triệu |
-| AI + QAOA X, p=1 | 16,24% | 28,95% | 0,65 | -15,28% | 122,22 triệu |
-| AI + QAOA X, p=2 | 18,50% | 28,61% | 0,72 | -14,20% | 125,39 triệu |
-| AI + QAOA XY, p=1 | 24,70% | 27,42% | 0,94 | -11,90% | 134,23 triệu |
+![So sánh chất lượng và rủi ro các chính sách](results/final/figures/08_agqo_policy_comparison.png)
 
-Ledoit–Wolf vượt cả VN30 và danh mục AI trong mẫu này, nhưng kiểm tra ngắn và dữ liệu thô không cho phép kết luận có thể lặp lại. AI điều chỉnh cả λ và α có kết quả cao hơn rủi ro cố định, song mô hình dự báo biến động lại kém chuẩn nền; không thể quy phần vượt trội cho năng lực dự báo của AI.
+![Regret QAOA so với chi phí cổng](results/final/figures/10_qaoa_quality_vs_gate_cost.png)
 
-### Các thước đo tài chính bổ sung của đường cơ sở
+## Thiết kế AI–Quantum
 
-| Phương pháp | Sortino | Calmar | VaR tháng 95% | CVaR tháng 95% | Hệ số lợi nhuận | Tháng dương |
-|---|---:|---:|---:|---:|---:|---:|
-| VN30 | 2,42 | 2,66 | -6,66% | -9,22% | 2,57 | 62,5% |
-| VN-Index | 2,38 | 2,73 | -6,79% | -8,64% | 2,49 | 56,3% |
-| AI λ+α, nghiệm chính xác toàn rổ | 2,73 | 2,80 | -7,92% | -15,93% | 3,07 | 75,0% |
-| Ledoit–Wolf, nghiệm chính xác toàn rổ | 3,06 | 3,12 | -7,92% | -15,92% | 3,44 | 75,0% |
-| QAOA X, p=1 | 1,39 | 1,06 | -7,48% | -9,07% | 1,66 | 56,3% |
-| QAOA X, p=2 | 1,59 | 1,30 | -7,38% | -8,69% | 1,75 | 56,3% |
-| QAOA XY, p=1 | 2,10 | 2,08 | -6,80% | -7,22% | 1,96 | 56,3% |
+Toàn bộ prompt điều khiển Qwen được viết bằng tiếng Anh. Vì không giả định Qwen3-8B có kiến thức tài chính chuyên sâu, hệ thống giới hạn mô hình vào lựa chọn có cấu trúc và cung cấp định nghĩa theo đúng dữ liệu của dự án.
 
-Sharpe giả định lãi suất phi rủi ro bằng 0. VaR là phân vị 5% của lợi suất tháng; CVaR là lợi suất trung bình ở phần đuôi đó. Chỉ có 16 kỳ nên cả các thước đo đuôi rủi ro lẫn hệ số lợi nhuận đều mang tính mô tả, chưa phải ước lượng ổn định.
+### Qwen3-8B, RAG và tiểu mô hình
 
-### Đường vốn sau phí
+- **Mô hình ngôn ngữ:** `Qwen/Qwen3-8B`, ghim phiên bản `b968826d9c46dd6066d109eabc6255188de91218`, NF4 4-bit qua Transformers trên Modal. Ưu tiên L4, dự phòng A10.
+- **Phiên bản prompt:** `agqo-prompt-v9-en-rag-submodel-allowlisted-structured`; hướng dẫn và nhãn trong payload gửi mô hình dùng tiếng Anh.
+- **RAG cục bộ:** bảy ghi chú có phiên bản về định nghĩa Sharpe/CAGR/CVaR, ý nghĩa trường VN30, hàm mục tiêu danh mục, QAOA, benchmark và các giới hạn dữ liệu. Kho tri thức không gọi API ngoài.
+- **Tiểu mô hình dự báo:** `StandardScaler` + `LogisticRegression` dự báo xác suất VN30 vào chế độ biến động cao trong 21 phiên. Nó không dự báo lợi suất hoặc chọn mã.
+- **Bộ insight định lượng:** tính xu hướng biến động, tương quan, độ phân tán, tỷ trọng ngành và thanh khoản đại diện theo ngưỡng cố định; từng insight được xác minh lại bằng mã.
+- **Bộ giám sát:** so đề xuất với chính sách quy tắc dựa trên kết quả đã khép, regret, tỷ lệ mẫu khả thi, rủi ro và chi phí cổng.
 
-![Đường vốn danh mục và đối chuẩn](results/figures/walkforward/02_net_equity_curves.png)
+Độ tin cậy dự báo biến động chưa đạt nền trong kỳ thử: Brier tháng **0,237** so với nền **0,217**, kỹ năng Brier **-9,32%**. Vì vậy prompt yêu cầu không tăng rủi ro hay độ sâu mạch chỉ dựa vào xác suất của mô hình này.
 
-### Lợi nhuận so với rủi ro
+Qwen chỉ nhận payload thống kê tổng hợp, không nhận OHLCV thô. Ở từng tín hiệu, lược đồ JSON được tạo động để chỉ cho phép `policy_id`, `insight_codes` và `evidence_ids` nằm trong danh sách hợp lệ. Qwen không viết lời giải thích tự do hoặc tự tạo cờ rủi ro. Mã Python dựng phần diễn giải tiếng Việt và cờ rủi ro từ số liệu đã xác minh.
 
-![Lợi nhuận và rủi ro danh mục](results/figures/walkforward/04_risk_return_tradeoff.png)
+**Trích đoạn chỉ dẫn chính trong prompt:**
 
-### Chi phí, doanh số và sức chứa
+> You are a constrained decision controller in AGQO, not a financial analyst. Qwen3-8B may not know the project's finance definitions and must not fill gaps from memory. The supplied, date-cutoff payload and its retrieved method notes are the only authority. Choose one eligible policy, compare net financial outcomes with risk and solver evidence, and return only the allow-listed JSON fields.
 
-Danh mục AI toàn rổ có doanh số hai chiều trung bình 40,8% mỗi kỳ và tổng chi phí khoảng 2,41 triệu đồng trên vốn ban đầu 100 triệu. QAOA X p=1 có doanh số 81,5% và chi phí khoảng 4,06 triệu. Lệnh lớn nhất chỉ bằng khoảng 0,04% ADTV ở danh mục AI toàn rổ và 0,012% ở QAOA X; giới hạn thấp nhất 1% chưa ràng buộc ở quy mô vốn giả định này.
+Trong 16 tín hiệu, phiên bản prompt `agqo-prompt-v9-en-rag-submodel-allowlisted-structured` chọn XY vòng p=1 bảy lần và XY vòng p=2 chín lần. Cả 16 phản hồi đều hợp lệ theo lược đồ, không có sửa lỗi, và bộ giám sát không đổi đề xuất nào. Tổng mức dùng là 127.783 token đầu vào và 849 token đầu ra. Kết quả chưa cho thấy Qwen chọn ổn định được cấu hình có regret thấp nhất; đây là điểm cần cải thiện trước khi khẳng định AI làm bộ hướng dẫn tốt hơn bộ quy tắc.
 
-![Độ nhạy phí và sức chứa lệnh](results/figures/walkforward/05_cost_and_capacity.png)
+![Kiểm toán đề xuất, cấu hình thực thi và lý do giám sát](results/final/figures/11_agqo_decision_audit.png)
 
-### Cơ cấu danh mục
+### Bài toán tài chính và lượng tử
 
-Tỷ trọng nhóm ngân hàng trung bình chiếm 45,8% ở danh mục AI toàn rổ, 55,2% ở QAOA X p=1 và 58,3% ở QAOA X p=2. VIC xuất hiện trong cả 16 kỳ ở nghiệm AI toàn rổ; STB xuất hiện 14 kỳ. Đây là độ tập trung đáng kể cần đưa giới hạn ngành và giới hạn mã vào vòng tiếp theo.
+Mỗi qubit biểu diễn một mã cổ phiếu. Bài toán chọn đúng K=6 mã trong N ứng viên, giảm thiểu:
 
-![Mức tiếp xúc ngân hàng và tần suất chọn mã](results/figures/walkforward/06_exposure_and_holdings.png)
+```text
+λ (xᵀ Σα x) / K² − (μᵀ x) / K + chi phí tái cân bằng ước lượng
+Σα = (1 − α) Σ + α diag(Σ),  với  Σ xi = K
+```
 
-## AI đã làm gì và đạt kết quả nào?
+`μ` và `Σ` được ước lượng từ dữ liệu lịch sử; `λ` điều chỉnh phạt rủi ro, `α` co rút hiệp phương sai. Mỗi chính sách định nghĩa sẵn N, mixer, bố trí mixer, p, λ, α và shots. Qwen chỉ chọn mã chính sách; QAOA không nhận văn bản tự do.
 
-- Đầu vào là sáu đặc trưng chỉ số VN30: biến động 20/60/120 phiên, lợi suất tích lũy 20/60 phiên và tỷ số biến động 20/120.
-- Nhãn là biến động năm hóa của 21 phiên tiếp theo vượt phân vị 70% đã tính trên tập huấn luyện.
-- Dùng hồi quy logistic có điều chuẩn L2. Tập huấn luyện ban đầu kết thúc ngày 31/10/2024; tập xác nhận từ 01/11/2024 đến 30/04/2025 chọn C=10 bằng log-loss. Nhãn bị chặn 21 phiên trước từng ranh giới.
-- Sau khi khóa C và ngưỡng, mô hình được khớp mở rộng tại mỗi ngày tín hiệu bằng nhãn đã trưởng thành; tập kiểm tra không tham gia chọn cấu hình.
-- Xác suất p điều chỉnh λ = 2 + 8p và α = 0,10 + 0,60p. Từ đó, AI điều chỉnh mức ngại rủi ro và mức co hiệp phương sai về đường chéo.
-- Trên 345 dự báo ngày ngoài mẫu, điểm Brier là 0,257 so với 0,225 của tỷ lệ nền mở rộng; kỹ năng Brier là -14,3%. Log-loss là 0,748 so với 0,643 của nền. Tại 16 tín hiệu tháng, Brier là 0,237 so với 0,217 của nền, kỹ năng -9,3%.
-- Nhãn ngày sử dụng 21 phiên tương lai chồng lấn; do đó 345 dự báo không phải 345 quan sát độc lập.
+![Cấu trúc cổng và bộ trộn QAOA](results/final/figures/09_qaoa_gate_and_mixer_design.png)
 
-![Xác suất AI và trạng thái biến động đã quan sát](results/figures/walkforward/01_ai_regime_walkforward.png)
+## Câu chuyện dữ liệu
 
-## QAOA nằm ở đâu?
+Tập nghiên cứu cục bộ có **37.308 dòng**, **30 cổ phiếu cùng VN30 và VN-Index**, từ **04/01/2022 đến 19/10/2026**. Dữ liệu được lấy qua thư viện `vnstock-data` và đầu cuối DNSE chart API. Mã VN30 hiện tại được áp vào toàn bộ lịch sử; đây không phải lịch sử thành phần theo ngày hiệu lực. OHLCV thô chưa được xác minh điều chỉnh cổ tức, chia tách hay quyền mua. `close × volume` chỉ là đại diện thanh khoản.
 
-QAOA là bộ giải xấp xỉ cho bài toán chọn danh mục nhị phân sau khi AI đã thiết lập các tham số tài chính:
+Tệp OHLCV đầy đủ nằm tại `data/vn30_snapshot_20261002/ohlcv_daily.csv` trong máy làm việc và không đưa lên Git do quyền phân phối lại chưa được xác nhận. Bản kê khai nguồn, ngày tải và mã băm ở [manifest.json](data/vn30_snapshot_20261002/manifest.json); danh sách 30 mã ở [members.csv](data/vn30_snapshot_20261002/members.csv). Quy trình nạp và kiểm tra dữ liệu nằm trong [scripts/download_vn30_dataset.py](scripts/download_vn30_dataset.py) và [agqo/market_data.py](agqo/market_data.py).
 
-1. Một qubit biểu diễn một trong 12 cổ phiếu có giá trị giao dịch ước tính cao nhất trong 20 phiên.
-2. Chọn đúng K=6 cổ phiếu, tương ứng 12 qubit và 924 tổ hợp khả thi.
-3. Hàm mục tiêu là λ nhân phương sai danh mục chia K², trừ lợi nhuận trung bình ước lượng chia K.
-4. Bộ trộn X bắt đầu bằng chồng chập đều và thêm hạng phạt để buộc tổng số bit 1 bằng K. Bộ trộn XY trao đổi trạng thái liền kề để giữ nguyên K.
-5. COBYLA tối ưu góc QAOA với tối đa 50 lần đánh giá, 512 mẫu mỗi lần, ba hạt giống 11/23/47. Mỗi tháng chọn mẫu khả thi có điểm mục tiêu tốt nhất trong ba lượt.
-6. Nghiệm được so với bộ duyệt chính xác trên đúng 12 mã, cùng μ, Σ, λ, α. Sai lệch chuẩn hóa chia cho biên độ mục tiêu giữa nghiệm tốt và xấu trong 924 tổ hợp.
+Trong 252 phiên gần nhất (**14/10/2025–19/10/2026**), VN30 giảm **8,60%**, VN-Index giảm **4,26%** theo giá chỉ số. Giá cổ phiếu thô cho thấy phân tán lớn: VIC tăng **101,56%**, còn DGC giảm **56,67%**. Tương quan cao nhất gồm BID–VCB **0,813** và GAS–PLX **0,809**. Những số liệu này mô tả giai đoạn, không phải lợi suất điều chỉnh có thể giao dịch.
 
-| Cấu hình | Kỳ có sai lệch mục tiêu ≤5% | Sai lệch trung bình | Xác suất mẫu khả thi trung bình |
-|---|---:|---:|---:|
-| X, p=1 | 15/16 | 0,82% | 55,7% |
-| X, p=2 | 16/16 | 0,49% | 75,4% |
-| XY, p=1 | 1/16 | 20,20% | 100,0% |
+![Độ phủ dữ liệu theo mã](results/final/figures/data/01_coverage.png)
 
-![Sai lệch so với nghiệm chính xác](results/figures/walkforward/03_qaoa_optimality_gap.png)
+![VN30 và VN-Index cùng các đợt sụt giảm](results/final/figures/data/02_indices.png)
 
-Mỗi lớp có 66 tương tác cặp do ma trận hiệp phương sai dày; p=2 tăng gấp đôi số lớp tương tác. Mô phỏng dùng véc-tơ trạng thái NumPy với 4.096 trạng thái cơ sở. Nghiệm chính xác trên cùng 12 mã mất tổng cộng 0,0036 giây trong 16 kỳ; QAOA X p=1 cần 0,912 giây cho 48 lượt mô phỏng. Khi đủ 30 mã, C(30,6)=593.775 danh mục; do VPL chưa đủ lịch sử ở các kỳ đầu, kích thước thực tế là 29–30 mã. Năm cấu hình nghiệm chính xác toàn rổ trong 16 kỳ mất tổng cộng 5,11 giây.
+![Lợi suất, biến động và thanh khoản đại diện](results/final/figures/data/03_risk_return.png)
 
-**Chưa chạy QPU.** Vì vậy đây là kết quả mô phỏng QAOA cổ điển, không phải bằng chứng lợi thế lượng tử. Nghiệm chính xác cổ điển vừa là chuẩn kỹ thuật vừa là phương pháp tài chính mạnh hơn ở quy mô hiện tại.
+![Cấu phần của nghiệm danh mục tham chiếu trên 30 mã](results/final/figures/data/08_optimizer.png)
 
-![Thời gian bộ giải chính xác và QAOA](results/figures/walkforward/07_solver_runtime.png)
+![Phân tán lợi suất giá thô giữa các mã](results/final/figures/data/04_returns_rank.png)
 
-## Dữ liệu
+![Tương quan lợi suất cổ phiếu](results/final/figures/data/05_correlations.png)
 
-| Thuộc tính | Giá trị |
-|---|---|
-| Phạm vi | 30 cổ phiếu hiện thuộc VN30, chỉ số VN30 và VN-Index |
-| Kích thước | 37.308 dòng OHLCV |
-| Khoảng giá | 04/01/2022–19/10/2026 |
-| Danh sách thành phần | Ảnh chụp ngày 02/10/2026 từ HODL.VN; không phải lịch sử thành phần theo ngày hiệu lực |
-| Bộ lấy dữ liệu | [Thư viện vnstock-data](https://github.com/nguyenthdat/vnstock-data), mã nguồn ghim trong tệp kê khai |
-| Đầu cuối giá | [DNSE chart API](https://services.entrade.com.vn/chart-api/v2/ohlcs) |
-| Bản kê khai | [manifest.json](data/vn30_snapshot_20261002/manifest.json) |
-| Mã trong ảnh chụp | [members.csv](data/vn30_snapshot_20261002/members.csv) |
+![Thanh khoản ước tính bằng giá đóng cửa nhân khối lượng](results/final/figures/data/06_liquidity.png)
 
-Dữ liệu thô được giữ ở máy làm việc tại data/vn30_snapshot_20261002/ohlcv_daily.csv và bị loại khỏi Git vì quyền phân phối lại chưa được xác nhận. Danh sách thành phần 02/10/2026 được chụp từ [HODL.VN](https://www.hodl.vn/bai-hoc/vn30-gom-nhung-ma-nao); đây không phải nguồn lịch sử thành phần HOSE. Bộ nạp gộp nến trùng ngày theo giá mở cửa đầu tiên, cao nhất, thấp nhất, giá đóng cửa cuối và tổng khối lượng. Các giá phải dương, không trùng mã-ngày, không có OHLC sai thứ tự và không có khối lượng âm.
+![Chế độ biến động của hai chỉ số](results/final/figures/data/07_risk_regimes.png)
 
-Lợi suất tính từ giá thô. Nghiệm danh mục dùng tối đa 252 phiên gần nhất, tối thiểu 126 quan sát hợp lệ mỗi mã. Ứng viên QAOA được lọc bằng giá trị giao dịch ước tính: giá đóng cửa nhân khối lượng, bình quân 20 phiên. Giá trị này không thay thế giá trị khớp lệnh chính thức.
+## Tài liệu, số liệu và cách chạy
 
-### Nhận định dữ liệu gần nhất
+- [Báo cáo kết quả đầy đủ](results/final/BAO_CAO_AGQO_CUOI_CUNG.md)
+- [Số liệu walk-forward, QAOA và quyết định AGQO](results/final/agqo_final_walkforward.json)
+- [Thống kê khám phá dữ liệu và nghiệm 30 mã](results/final/dataset_summary.json)
+- [Toàn bộ quyết định Qwen3 đã xác thực](results/final/qwen3_decisions.json)
+- [Tài liệu kỹ thuật từ đầu đến cuối](TAI_LIEU_KY_THUAT_AGQO.md)
+- [Notebook chạy Qwen3 trên Modal](notebooks/AGQO_Qwen3_Modal.ipynb)
 
-Cửa sổ mô tả riêng gồm 252 phiên từ 14/10/2025 đến 19/10/2026; không nhầm với kỳ kiểm tra danh mục. Trong cửa sổ này, VN30 giảm 8,60%, VN-Index giảm 4,26%, còn danh mục đều 30 mã giảm 6,74%, trước phí. Lợi suất giá thô dao động mạnh giữa các mã: VIC tăng 101,56%, DGC giảm 56,67%. Tương quan cặp trung bình 0,305; 14/30 mã thuộc nhóm ngân hàng. Các kết quả này là mô tả dữ liệu, chưa điều chỉnh sự kiện doanh nghiệp.
+Môi trường dùng Python 3.12, pandas, NumPy, scikit-learn, SciPy/COBYLA, Matplotlib, Transformers, bitsandbytes và Modal. Bộ mô phỏng QAOA véc-tơ trạng thái dùng NumPy trên CPU; Qiskit/Aer và IBM Quantum là tùy chọn, không tạo kết quả trong báo cáo.
 
-### Biểu đồ khám phá dữ liệu
-
-**Độ phủ:** VPL chỉ có lịch sử từ 13/05/2025; các ô trống là giai đoạn không có quan sát cho mã đó.
-
-![Độ phủ dữ liệu theo thời gian](results/figures/vn30/01_coverage.png)
-
-**Chỉ số:** chuẩn hóa VN30 và VN-Index về cùng mốc 100, đồng thời theo dõi sụt giảm từ đỉnh.
-
-![Diễn biến VN30 và VN-Index](results/figures/vn30/02_indices.png)
-
-**Lợi suất và rủi ro:** lợi suất cao đi cùng biến động và sụt giảm riêng biệt; kích thước điểm là giá trị giao dịch ước tính.
-
-![Lợi suất, rủi ro và thanh khoản theo mã](results/figures/vn30/03_risk_return.png)
-
-**Phân tán mã:** VIC tăng mạnh trong khi DGC, VRE và một số mã khác giảm sâu trên giá thô.
-
-![Xếp hạng lợi suất 30 mã](results/figures/vn30/04_returns_rank.png)
-
-**Tương quan:** các cặp ngân hàng và dầu khí có biến động đồng hướng rõ rệt; chọn mã riêng lẻ không đủ để kiểm soát rủi ro danh mục.
-
-![Ma trận tương quan cổ phiếu](results/figures/vn30/05_correlations.png)
-
-**Thanh khoản:** giá đóng cửa nhân khối lượng chỉ là đại diện thô, không phải giá trị khớp lệnh do sở giao dịch xác nhận.
-
-![Giá trị giao dịch ước tính theo mã](results/figures/vn30/06_liquidity.png)
-
-**Chế độ rủi ro:** biến động trượt của hai chỉ số thay đổi đáng kể theo thời gian; đây là động lực để thử bộ điều khiển rủi ro AI.
-
-![Biến động trượt của VN30 và VN-Index](results/figures/vn30/07_risk_regimes.png)
-
-Các chỉ số, danh mục từng kỳ, cấu hình QAOA, chi phí và khoảng tin cậy được trình bày trong [báo cáo kết quả đầy đủ](results/BAO_CAO_AI_QAOA_WALK_FORWARD.md).
-
-## Công nghệ và mã nguồn
-
-| Thành phần | Công nghệ/chức năng |
-|---|---|
-| Ngôn ngữ | Python 3.12 |
-| Bảng dữ liệu và ma trận | pandas, NumPy |
-| Mô hình AI | scikit-learn: StandardScaler, LogisticRegression |
-| Tối ưu góc | SciPy COBYLA |
-| Bộ giải danh mục | Duyệt chính xác cổ điển theo ma trận tổ hợp được lưu đệm |
-| Mô phỏng QAOA | NumPy, mô phỏng véc-tơ trạng thái, bộ trộn X và XY |
-| Mạch lượng tử tùy chọn | Qiskit và Aer; không tạo số liệu báo cáo này |
-| Thiết bị lượng tử | IBM Quantum Runtime tùy chọn; chưa gửi công việc |
-| Biểu đồ | Matplotlib, 7 hình kiểm định và 7 hình khám phá dữ liệu |
-| Bộ hướng dẫn QAOA | Qwen3-4B qua Transformers trong hàm Modal hoặc Modal Notebook; không cần API OpenAI; chưa được gọi trong kết quả đã lưu |
-
-### Đường đi của một tín hiệu
-
-1. Nạp OHLCV và danh sách mã, kiểm tra dữ liệu và căn chỉnh lịch chỉ số.
-2. Tính đặc trưng VN30 đến ngày tín hiệu; mô hình logistic dự báo xác suất biến động cao trong 21 phiên.
-3. Tính insight về lợi suất, biến động, tương quan, độ phân tán, độ rộng thị trường, ngành và thanh khoản.
-4. Khi bật AGQO, gửi insight cùng kết quả tài chính đã khép của các chính sách đến LLM; LLM chọn mã chính sách trong danh mục có sẵn.
-5. Chính sách quy định λ, α, bộ trộn, độ sâu p và số mẫu; QAOA chạy cấu hình được chọn trên 12 mã thanh khoản cao.
-6. Chạy đồng thời 12 đối chứng chính sách cố định, nghiệm chính xác và các chiến lược nền; không đưa lợi nhuận kỳ chưa khép vào quyết định.
-7. Mô phỏng giao dịch tại phiên kế tiếp, tính phí, sức chứa, lợi nhuận và rủi ro; so với VN30 và VN-Index.
-8. Xuất quyết định LLM, dữ liệu đầu vào, danh mục, chỉ số tài chính, chất lượng nghiệm, báo cáo và biểu đồ.
-
-## AGQO đầy đủ: mô hình ngôn ngữ hướng dẫn QAOA
-
-Phần triển khai nằm tại [guide.py](agqo/guide.py), [notebook Qwen3 trên Modal](notebooks/AGQO_Qwen3_Modal.ipynb) và [lệnh chạy walk-forward](scripts/run_ai_qaoa_walkforward.py). **Lựa chọn khuyến nghị là Qwen3-4B**, tải từ Hugging Face và suy luận trực tiếp bằng Transformers trong nhân Modal Notebook. Không cần khóa OpenAI và không gọi API OpenAI. Qwen3 là bộ điều khiển tham số: nó không tự giải bài toán danh mục, không viết mã lượng tử và không được quyền đặt λ hay độ sâu tùy ý.
-
-Tại mỗi tín hiệu, LLM nhận xác suất biến động từ mô hình logistic, biến động và xu hướng VN30, tương quan cổ phiếu, độ phân tán lợi suất, độ rộng mã tăng, cơ cấu ngành, thanh khoản ứng viên và kết quả tài chính ròng của các kỳ đã khép cho từng chính sách cố định. Mỗi chính sách xác định mức ngại rủi ro λ, mức co rút α, bộ trộn X/XY, độ sâu p và số mẫu. QAOA của AGQO tối ưu mục tiêu có thêm phí đổi danh mục dự kiến từ tỷ trọng mục tiêu kỳ trước; sổ mô phỏng vẫn tính phí và sức chứa thực tế sau đó. LLM trả mã chính sách, insight được viện dẫn, lý do, ghi chú rủi ro và mức tin cậy tự khai. Mã kiểm tra lại đầu ra với danh mục cho phép trước khi chạy QAOA.
-
-Kết quả mỗi tín hiệu được lưu vào tệp lưu đệm và JSON kiểm định; khóa lưu đệm tính từ nội dung tín hiệu, mô hình và phiên bản lời nhắc. Chạy lại cùng đầu vào không cần sinh lại quyết định. Lời nhắc chỉ chứa thống kê tổng hợp, không chứa nến OHLCV thô hay mã cổ phiếu. Đầu ra được kiểm tra bằng lược đồ cục bộ; nếu sai định dạng, Qwen3 được yêu cầu sửa một lần. Chỉ mã chính sách có trong danh sách cho phép mới được áp dụng. Notebook lưu CSV, trọng số mô hình và đầu ra trên Modal Volume; người dùng tải ZIP kết quả về máy từ bảng tệp Modal.
-
-### Chạy QAOA cục bộ và gọi Qwen3 trên Modal
-
-Đây là luồng khuyến nghị nếu muốn dữ liệu và mô phỏng QAOA ở máy cá nhân, còn Qwen3 chạy trên Modal. Máy cá nhân chỉ gửi insight tổng hợp và nhận lại mã chính sách cùng lời giải thích; OHLCV thô không được tải lên. Gói SDK Modal đã cài trong môi trường `.venv` của dự án.
-
-~~~bash
+```bash
 source .venv/bin/activate
-python -m pip install -e '.[llm-modal]'
-modal setup
-cp config/modal-qwen3.env.example config/modal-qwen3.env
 set -a
 source config/modal-qwen3.env
 set +a
 modal deploy modal_qwen3_agqo.py
 python scripts/check_modal_qwen3.py
 python scripts/run_ai_qaoa_walkforward.py --llm-guide modal-qwen3
-~~~
+```
 
-`modal setup` mở trình duyệt để đăng nhập Modal và lưu thông tin vào hồ sơ cá nhân; không gửi mã bí mật vào cuộc trò chuyện hoặc thêm vào Git. Tệp `config/modal-qwen3.env` chỉ chứa tên ứng dụng, tên hàm, mô hình và bản trọng số đã ghim. Thay các giá trị nếu bạn đặt tên khác trên Modal. Lệnh kiểm tra gửi đúng một payload giả lập để xác nhận kết nối; chỉ sau đó mới chạy walk-forward trên CSV cục bộ. QAOA và các đối chứng tiếp tục chạy bằng CPU trên máy bạn. Lần gọi đầu tiên tải Qwen3 vào Volume Modal, các lần sau dùng bộ nhớ đệm trọng số.
+Kết quả chính được ghi ở `results/final/`. Modal chỉ nhận insight đã tổng hợp; OHLCV và mô phỏng QAOA ở máy cục bộ. Không cần khóa API OpenAI.
 
-Hàm suy luận dùng GPU L4 để có thêm bộ nhớ cho ngữ cảnh AGQO so với T4. Biến `AGQO_QWEN3_GPU` trong tệp cấu hình cho phép đổi loại GPU; Modal tính phí theo thời gian dùng GPU và tài nguyên CPU/bộ nhớ.
+## Giới hạn kết luận
 
-Nếu Modal yêu cầu chọn môi trường làm việc, đặt `MODAL_ENVIRONMENT` trong `config/modal-qwen3.env` theo tên hiển thị trong tài khoản. Với tài khoản cá nhân chỉ có một môi trường, thường không cần điền mục này.
-
-### Chạy toàn bộ trên Modal Notebook
-
-1. Mở [Modal Notebooks](https://modal.com/notebooks), tải lên `notebooks/AGQO_Qwen3_Modal.ipynb` và tạo Volume `agqo-data`, gắn vào `/mnt/agqo`.
-2. Chọn GPU T4 hoặc L4. Tải `modal_upload.zip` hoặc hai tệp `ohlcv_daily.csv` và `members.csv` từ thư mục dữ liệu cục bộ lên `/mnt/agqo/input/`; có thể tải thêm `manifest.json`.
-3. Chạy lần lượt các ô. Notebook lấy mã dự án, cài thư viện, tải Qwen3-4B, chạy kiểm định AGQO và QAOA, tạo báo cáo/biểu đồ, rồi đóng gói kết quả tại `/mnt/agqo/results/agqo_qwen3_results.zip`.
-4. Tải ZIP và báo cáo về từ bảng Files trong Modal. Tắt nhân sau khi xong.
-
-Qwen3 và mã mô hình được cung cấp theo giấy phép Apache 2.0; Modal vẫn tính phí tài nguyên GPU/CPU theo mức sử dụng và gói tài khoản. Có thể đổi sang `Qwen/Qwen3-0.6B` cùng `REQUIRE_GPU = False` để chạy thử trên CPU, nhưng tốc độ và chất lượng hướng dẫn có thể thấp hơn. Báo cáo và dữ liệu đo của lượt chạy Qwen3-4B qua Modal đã được lưu trong `results/qwen3_modal_local/`. Mỗi tín hiệu chạy bóng 12 chính sách QAOA đối chứng; thời gian và chi phí Modal phụ thuộc số lần suy luận và loại GPU.
-
-#### Bộ OpenAI cũ (tùy chọn)
-
-`modal_agqo.py` và tùy chọn `--llm-guide modal` vẫn được giữ để đối chiếu, nhưng cần khóa API OpenAI và không cần thiết khi dùng Qwen3. Nếu máy cục bộ có CUDA, có thể cài `.[qwen3]` và chọn `--llm-guide qwen3` để chạy mô hình ngay trên GPU cục bộ thay vì Modal.
-
-### Tiêu chí so sánh
-
-Tài chính được báo cáo riêng cho mỗi chính sách: CAGR ròng, Sharpe, Sortino, sụt giảm tối đa, VaR/CVaR tháng, hệ số lợi nhuận, tỷ lệ tháng dương, phí, doanh số, sức chứa ADTV và lợi nhuận vượt VN30 với khoảng tin cậy lấy mẫu khối. Chất lượng lượng tử được chấm bằng sai lệch so với nghiệm chính xác trên cùng hàm mục tiêu, tỷ lệ mẫu khả thi, xác suất khả thi và thời gian mô phỏng. Không gộp hai nhóm thành một điểm số tùy tiện.
-
-LLM dùng lợi nhuận của các kỳ kiểm tra đã đóng để chọn cấu hình cho kỳ sau. Đây là kiểm định cuốn chiếu thích nghi, không phải một tập cuối cùng hoàn toàn chưa đụng đến; cần thêm giai đoạn khóa riêng trước khi kết luận AGQO tổng quát tốt hơn. Mức tin cậy do LLM tự khai không phải chỉ số dự báo đã hiệu chỉnh. Đã có kết quả Qwen3-4B chạy trên Modal và được lưu tại `results/qwen3_modal_local/`; kết quả hiện chưa cho thấy AGQO vượt VN30 hoặc cấu hình cố định tốt nhất. Cần thêm giai đoạn kiểm tra cuối đã khóa trước khi kết luận khả năng khái quát.
-
-Tệp kỹ thuật giải thích từng hàm, biến số, công thức, giới hạn mạch và cách tái lập: [TAI_LIEU_KY_THUAT_AGQO.md](TAI_LIEU_KY_THUAT_AGQO.md).
-
-## Tệp đầu ra và cách tái lập
-
-- Báo cáo kết quả đầy đủ: [BAO_CAO_AI_QAOA_WALK_FORWARD.md](results/BAO_CAO_AI_QAOA_WALK_FORWARD.md)
-- Mọi dự báo, danh mục theo tháng, phí, lợi nhuận, chỉ số và từng lượt QAOA: [vn30_ai_qaoa_walkforward.json](results/vn30_ai_qaoa_walkforward.json)
-- Mã xử lý chính: [walkforward.py](agqo/walkforward.py)
-- Mã vẽ biểu đồ: [walkforward_plots.py](agqo/walkforward_plots.py)
-- Mã dựng báo cáo: [walkforward_report.py](agqo/walkforward_report.py)
-- Lệnh chạy: [run_ai_qaoa_walkforward.py](scripts/run_ai_qaoa_walkforward.py)
-
-Khi đã có tệp OHLCV cục bộ:
-
-~~~bash
-python3.12 -m venv .venv
-source .venv/bin/activate
-python -m pip install -r requirements-lock.txt
-python -m pip install -e . --no-deps
-python scripts/run_ai_qaoa_walkforward.py
-~~~
-
-Nếu thiếu CSV cục bộ, cài thêm phụ thuộc tải dữ liệu trong requirements-data.txt rồi chạy:
-
-~~~bash
-python -m pip install -r requirements-data.txt
-python scripts/download_vn30_dataset.py
-~~~
-
-## Rủi ro kết luận và việc cần làm trước vòng chung kết
-
-1. Lấy giá đã điều chỉnh cổ tức, chia tách và quyền mua; xác minh cách xử lý hành động doanh nghiệp.
-2. Lấy thành phần VN30 theo ngày hiệu lực để bỏ thiên lệch sống sót.
-3. Mở rộng kiểm tra cuốn chiếu qua nhiều chu kỳ thị trường độc lập và giữ tập kiểm tra cuối cùng chưa đụng đến.
-4. Cải thiện AI chỉ khi thắng tỷ lệ nền ở các giai đoạn ngoài mẫu; nếu không, bỏ AI khỏi tuyên bố tạo giá trị.
-5. Đăng ký trước ngưỡng thắng: log-loss/Brier cho AI; sai lệch mục tiêu, độ khả thi, thời gian và mức cổng cho QAOA; lợi nhuận ròng, mức giảm vốn, turnover và giới hạn sức chứa cho tài chính.
-6. Chỉ tuyên bố lợi thế lượng tử sau khi chạy phần cứng hoặc so sánh quy mô công bằng với các bộ giải cổ điển hiện đại.
-
-Mã nguồn tải dữ liệu, xử lý, tối ưu và biểu đồ có thể tái lập từ các tệp trong kho. Bản OHLCV thô hiện chỉ có ở máy cục bộ; kiểm tra điều khoản nguồn trước khi chia sẻ hoặc phân phối.
+- Chỉ có 16 kỳ danh mục; các phiên bản trước cũng đã xem giai đoạn này nên kết quả có nguy cơ thiên lệch lựa chọn.
+- Dùng thành phần VN30 hiện tại áp ngược lịch sử, giá thô và chi phí mô phỏng; chưa có lịch thành phần point-in-time, giá total-return, thuế, trượt giá hay sổ lệnh.
+- Bộ phân loại biến động có kỹ năng Brier âm trong mẫu.
+- AGQO chưa vượt VN30, bộ chọn quy tắc hoặc các nghiệm cổ điển mạnh nhất.
+- QAOA chạy bằng mô phỏng cổ điển; chưa chạy QPU và chưa có bằng chứng ưu thế lượng tử.
+- Cần khóa dữ liệu và giai đoạn tương lai mới trước khi kết luận khả năng tổng quát hoặc tuyên bố lợi thế kinh tế.

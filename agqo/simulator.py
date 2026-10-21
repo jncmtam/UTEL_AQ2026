@@ -14,6 +14,7 @@ from .problem import PortfolioProblem, Qubo, build_qubo
 @dataclass(frozen=True)
 class QaoaResult:
     mixer: str
+    mixer_layout: str
     depth: int
     seed: int
     n: int
@@ -28,6 +29,9 @@ class QaoaResult:
     sampled_feasible_probability: float
     ideal_feasible_probability: float
     shots_per_evaluation: int
+    mixer_edge_count: int
+    logical_cost_two_qubit_gate_count: int
+    logical_mixer_two_qubit_gate_count: int
     best_bits: tuple[int, ...] | None
     angles: tuple[float, ...]
     elapsed_seconds: float
@@ -60,12 +64,44 @@ def _mix_x(state: np.ndarray, n: int, beta: float) -> None:
         state[left], state[right] = cosine * a + sine * b, sine * a + cosine * b
 
 
-def _mix_xy_ring(state: np.ndarray, n: int, beta: float) -> None:
-    """Tích Trotter bậc nhất trên vòng; mỗi cặp giữ số bit 1 và trộn 01 với 10."""
+def mixer_edges_for_problem(
+    covariance: np.ndarray, layout: str
+) -> tuple[tuple[int, int], ...]:
+    """Tạo đồ thị bộ trộn XY; đồ thị tương quan luôn liên thông để phủ tập khả thi."""
+    n = covariance.shape[0]
+    layout = layout.lower()
+    if layout == "single":
+        return ()
+    if layout == "ring":
+        return tuple((i, (i + 1) % n) for i in range(n))
+    if layout == "linear":
+        return tuple((i, i + 1) for i in range(n - 1))
+    if layout == "complete":
+        return tuple((i, j) for i in range(n) for j in range(i + 1, n))
+    if layout != "correlation":
+        raise ValueError("Bố trí bộ trộn hợp lệ: single, ring, linear, complete hoặc correlation.")
+    scale = np.sqrt(np.maximum(np.diag(covariance), 1e-18))
+    correlation = covariance / np.outer(scale, scale)
+    edges = {tuple(sorted((i, (i + 1) % n))) for i in range(n)}
+    # Mỗi mã nối thêm với hai mã đồng biến mạnh nhất; vòng bảo đảm tính liên thông.
+    for i in range(n):
+        order = np.argsort(-np.abs(correlation[i]))
+        added = 0
+        for j in order:
+            if i == j:
+                continue
+            edges.add(tuple(sorted((i, int(j)))))
+            added += 1
+            if added == 2:
+                break
+    return tuple(sorted(edges))
+
+
+def _mix_xy(state: np.ndarray, n: int, beta: float, edges: tuple[tuple[int, int], ...]) -> None:
+    """Tích Trotter bậc nhất trên đồ thị; mỗi cạnh bảo toàn số bit 1."""
     indexes = np.arange(state.size, dtype=np.uint64)
     cosine, sine = np.cos(2 * beta), -1j * np.sin(2 * beta)
-    for i in range(n):
-        j = (i + 1) % n
+    for i, j in edges:
         mi, mj = 1 << i, 1 << j
         swap = mi | mj
         active = (((indexes & mi) == 0) & ((indexes & mj) != 0))
@@ -81,6 +117,8 @@ def statevector(
     depth: int,
     initial_index: int,
     energies: np.ndarray | None = None,
+    mixer_layout: str = "ring",
+    mixer_edges: tuple[tuple[int, int], ...] | None = None,
 ) -> np.ndarray:
     """Tạo trạng thái QAOA p lớp theo đúng thứ tự cost rồi mixer của proposal."""
     n, size = qubo.n, 1 << qubo.n
@@ -88,6 +126,12 @@ def statevector(
     if mixer == "X":
         state = np.full(size, 1 / np.sqrt(size), dtype=np.complex128)
     else:
+        if mixer_edges is not None:
+            edges = mixer_edges
+        elif mixer_layout == "correlation":
+            edges = mixer_edges_for_problem(np.eye(n), "ring")
+        else:
+            edges = mixer_edges_for_problem(np.eye(n), mixer_layout)
         state = np.zeros(size, dtype=np.complex128)
         state[initial_index] = 1.0
     for layer in range(depth):
@@ -96,7 +140,7 @@ def statevector(
         if mixer == "X":
             _mix_x(state, n, beta)
         else:
-            _mix_xy_ring(state, n, beta)
+            _mix_xy(state, n, beta, edges)
     return state
 
 
@@ -107,11 +151,17 @@ def optimize_qaoa(
     seed: int = 11,
     max_evaluations: int = 50,
     shots: int = 512,
+    mixer_layout: str = "ring",
+    analytic_objective: bool = False,
 ) -> QaoaResult:
     """Tối ưu góc bằng COBYLA; số lần gọi mục tiêu không vượt ngân sách đã khóa."""
     mixer = mixer.upper()
     if mixer not in {"X", "XY"} or depth < 1 or max_evaluations < 1 or shots < 1:
         raise ValueError("Cần mixer X/XY, p>=1, số lần đánh giá và số shot dương.")
+    if mixer == "X" and mixer_layout != "single":
+        mixer_layout = "single"
+    if mixer == "XY" and mixer_layout not in {"ring", "linear", "complete", "correlation"}:
+        raise ValueError("XY cần một bố trí ring, linear, complete hoặc correlation.")
     if problem.n > 20:
         raise ValueError("Máy mô phỏng véc-tơ trạng thái này dành cho N<=20.")
     if mixer == "XY" and problem.n < 3:
@@ -129,6 +179,8 @@ def optimize_qaoa(
             previous_weights=problem.previous_weights[asset_order],
             transaction_costs=problem.transaction_costs[asset_order],
             rebalances_per_year=problem.rebalances_per_year,
+            outside_previous_weight=problem.outside_previous_weight,
+            outside_transaction_cost_rate=problem.outside_transaction_cost_rate,
         )
         initial_index = (1 << problem.k) - 1
     else:
@@ -137,15 +189,22 @@ def optimize_qaoa(
         initial_index = 0
     qubo = build_qubo(ordered_problem, mixer=mixer)
     energies = _basis_energies(qubo)
+    edges = mixer_edges_for_problem(ordered_problem.covariance, mixer_layout)
     start = perf_counter()
     calls = 0
 
     def objective(angles: np.ndarray) -> float:
         nonlocal calls
         calls += 1
-        state = statevector(qubo, mixer, angles, depth, initial_index, energies)
-        # Lấy mẫu hữu hạn ở mỗi lần gọi, để COBYLA nhìn thấy sai số đo như trong cấu hình QPU.
-        samples = rng.choice(len(state), size=shots, p=np.abs(state) ** 2)
+        state = statevector(
+            qubo, mixer, angles, depth, initial_index, energies,
+            mixer_layout=mixer_layout, mixer_edges=edges,
+        )
+        probabilities = np.abs(state) ** 2
+        if analytic_objective:
+            return float(probabilities @ energies)
+        # Lấy mẫu hữu hạn mô phỏng sai số đo khi tối ưu góc.
+        samples = rng.choice(len(state), size=shots, p=probabilities)
         return float(np.mean(energies[samples]))
 
     initial_angles = rng.uniform(-np.pi, np.pi, size=2 * depth)
@@ -155,7 +214,10 @@ def optimize_qaoa(
         method="COBYLA",
         options={"maxiter": max_evaluations, "rhobeg": 0.5, "tol": 1e-3},
     )
-    final_state = statevector(qubo, mixer, result.x, depth, initial_index, energies)
+    final_state = statevector(
+        qubo, mixer, result.x, depth, initial_index, energies,
+        mixer_layout=mixer_layout, mixer_edges=edges,
+    )
     probabilities = np.abs(final_state) ** 2
     samples = rng.choice(len(probabilities), size=shots, p=probabilities)
     ideal_feasible_probability = float(
@@ -172,6 +234,7 @@ def optimize_qaoa(
             best_bits, best_score = original_bits, score
     return QaoaResult(
         mixer=mixer,
+        mixer_layout=mixer_layout,
         depth=depth,
         seed=seed,
         n=problem.n,
@@ -186,6 +249,13 @@ def optimize_qaoa(
         sampled_feasible_probability=float(len(feasible) / shots),
         ideal_feasible_probability=ideal_feasible_probability,
         shots_per_evaluation=shots,
+        mixer_edge_count=len(edges),
+        logical_cost_two_qubit_gate_count=int(
+            depth * np.count_nonzero(np.triu(np.abs(qubo.quadratic) > 1e-14, k=1))
+        ),
+        logical_mixer_two_qubit_gate_count=(
+            int(depth * 2 * len(edges)) if mixer == "XY" else 0
+        ),
         best_bits=None if best_bits is None else tuple(int(x) for x in best_bits),
         angles=tuple(float(x) for x in result.x),
         elapsed_seconds=perf_counter() - start,

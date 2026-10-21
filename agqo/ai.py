@@ -127,7 +127,7 @@ def fit_regime_model(
     x_train, x_val = scaler.transform(raw_train), scaler.transform(raw_val)
     scored = []
     for c in sorted(c_values):
-        model = LogisticRegression(C=c, solver="lbfgs", max_iter=2_000)
+        model = LogisticRegression(C=c, solver="lbfgs", max_iter=3_000, tol=1e-5)
         model.fit(x_train, y_train)
         scored.append((log_loss(y_val, model.predict_proba(x_val)[:, 1]), c))
     chosen_c = min(scored)[1]
@@ -139,7 +139,7 @@ def fit_regime_model(
     final_x = combined.loc[final_mask]
     final_y = (combined_target.loc[final_x.index] > threshold).astype(int).to_numpy()
     final_scaler = StandardScaler().fit(final_x)
-    final_model = LogisticRegression(C=chosen_c, solver="lbfgs", max_iter=2_000)
+    final_model = LogisticRegression(C=chosen_c, solver="lbfgs", max_iter=3_000, tol=1e-5)
     final_model.fit(final_scaler.transform(final_x), final_y)
     return RegimeModel(
         final_scaler,
@@ -189,7 +189,7 @@ def fit_regime_model_as_of(
     if np.unique(labels).size < 2:
         raise ValueError("Tại ngày tín hiệu, dữ liệu huấn luyện chỉ có một lớp.")
     scaler = StandardScaler().fit(raw)
-    classifier = LogisticRegression(C=float(chosen_c), solver="lbfgs", max_iter=2_000)
+    classifier = LogisticRegression(C=float(chosen_c), solver="lbfgs", max_iter=3_000, tol=1e-5)
     classifier.fit(scaler.transform(raw), labels)
     return RegimeModel(
         scaler=scaler,

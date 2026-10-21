@@ -13,6 +13,7 @@ from agqo.guide import (
     policy_catalog,
     validate_guidance,
 )
+from agqo.insights import insight_code_rules
 
 
 def main() -> int:
@@ -23,10 +24,29 @@ def main() -> int:
     model_name = os.environ.get("AGQO_QWEN3_MODEL", QWEN3_MODEL_NAME)
     revision = os.environ.get("AGQO_QWEN3_REVISION", QWEN3_MODEL_REVISION)
     guide = ModalQwen3Guide(app_name, function_name, model_name, revision)
+    catalog = policy_catalog()
+    policy_evidence = [
+        {
+            "id": item["policy_id"],
+            "n": item["n_qubits"],
+            "k": 6,
+            "mixer": item["mixer"],
+            "layout": item["mixer_layout"],
+            "p": item["depth"],
+            "lambda": item["risk_aversion"],
+            "shrinkage": item["shrinkage"],
+            "shots": item["shots"],
+            "closed_periods": 0,
+        }
+        for item in catalog
+    ]
+    evidence_ids = ["MKT:VOLATILITY", "MKT:TREND", "MKT:CROSS_SECTION", "MKT:LIQUIDITY"]
+    evidence_ids.extend(f"POLICY:{row['id']}" for row in policy_evidence)
     payload = {
+        "prompt_version": "agqo-prompt-v9-en-rag-submodel-allowlisted-structured",
         "as_of_date": "2026-08-31",
-        "information_cutoff": "Payload tổng hợp giả lập chỉ để kiểm tra dịch vụ.",
-        "market_insights": {
+        "information_cutoff": "Synthetic aggregate payload for endpoint verification only.",
+        "market": {
             "ai_high_volatility_probability": 0.75,
             "vn30_annualized_volatility_20d": 0.32,
             "vn30_annualized_volatility_60d": 0.27,
@@ -39,33 +59,63 @@ def main() -> int:
             "cross_sectional_20d_return_dispersion": 0.06,
             "fraction_stocks_positive_20d": 0.33,
             "bank_fraction_of_eligible_stocks": 0.30,
-            "candidate_group_fraction": {"Ngân hàng": 0.33, "Khác": 0.67},
+            "candidate_group_fraction": {"Banks": 0.33, "Other": 0.67},
             "candidate_median_daily_traded_value_proxy_vnd": 1_000_000_000,
             "candidate_min_daily_traded_value_proxy_vnd": 300_000_000,
             "candidate_max_daily_traded_value_proxy_vnd": 2_000_000_000,
         },
-        "past_completed_strategy_metrics": {},
-        "past_completed_policy_benchmarks": {},
+        "comparators": {},
+        "submodels": {
+            "regime_classifier": {
+                "model": "scikit-learn LogisticRegression with StandardScaler",
+                "target": "Whether forward 21-session VN30 realized volatility exceeds the training-only 70th percentile.",
+                "output": "High-volatility probability only; not a return forecast.",
+                "reliability_to_date": {
+                    "matured_monthly_signals": 0,
+                    "brier_score": None,
+                    "expanding_training_prevalence_brier": None,
+                    "brier_skill_vs_training_prevalence": None,
+                    "interpretation": "No matured forecasts exist; treat this probability as unverified.",
+                },
+            }
+        },
+        "policy_candidates": policy_evidence,
+        "eligible_policy_ids": ["n12_balanced_xy_ring_p1"],
+        "insight_code_rules": insight_code_rules(333_333_333.33),
+        "evidence_ids": evidence_ids,
+        "evidence": {
+            "MKT:VOLATILITY": {"p_high_volatility": 0.75, "vol_20d": 0.32, "ratio_20d_120d": 1.45},
+            "MKT:TREND": {"return_20d": -0.04, "return_60d": -0.02},
+            "MKT:CROSS_SECTION": {"mean_correlation": 0.58, "positive_fraction_20d": 0.33},
+            "MKT:LIQUIDITY": {"eligible_n": 29, "candidate_pool_n": 16, "median_daily_value_vnd": 1_000_000_000},
+            **{f"POLICY:{row['id']}": {"closed_periods": 0} for row in policy_evidence},
+        },
         "qaoa_objective_specification": {
-            "formula": "λ(xᵀΣαx)/K² − (μᵀx)/K + chi phí đổi danh mục",
+            "formula": "minimize lambda * (x^T Sigma_alpha x) / K^2 - (mu^T x) / K + annualized modeled transaction cost",
             "transaction_fee_bps_per_side": 25.0,
             "rebalances_per_year": 12,
-            "previous_weight_source": "Payload kiểm tra; không phải dữ liệu kiểm định.",
+            "previous_weight_source": "Verification payload; not backtest evidence.",
         },
-        "policy_catalog": policy_catalog(),
-        "selection_objective": (
-            "Chỉ kiểm tra khả năng trả về một cấu hình thuộc danh mục; "
-            "không dùng payload này làm bằng chứng hiệu quả tài chính."
+        "decision_rule": (
+            "Verify that the response selects one catalog policy; do not treat this payload as evidence of financial performance."
         ),
     }
     envelope = guide(payload)
-    decision = validate_guidance(envelope.get("decision", {}))
+    from agqo.guide import enrich_guide_payload
+    enriched = enrich_guide_payload(payload)
+    decision = validate_guidance(
+        envelope.get("decision", {}),
+        set(evidence_ids),
+        set(enriched["eligible_policy_ids"]),
+        set(enriched["allowed_insight_codes"]),
+    )
     print(
         json.dumps(
             {
                 "status": "ok",
                 "model": envelope.get("model"),
                 "model_revision": envelope.get("model_revision"),
+                "quantization": envelope.get("quantization"),
                 "decision": decision,
                 "usage": envelope.get("usage"),
             },
