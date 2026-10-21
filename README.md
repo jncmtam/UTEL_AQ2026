@@ -226,6 +226,7 @@ Dữ liệu được lấy qua thư viện vnstock-data và DNSE chart API. Ản
 - [16 quyết định Qwen đã xác thực](results/final/qwen3_decisions.json)
 - [Kê khai dữ liệu](data/vn30_snapshot_20261002/manifest.json) · [danh sách mã](data/vn30_snapshot_20261002/members.csv)
 - [Tài liệu kỹ thuật AGQO](TAI_LIEU_KY_THUAT_AGQO.md) · [Notebook Qwen3 trên Modal](notebooks/AGQO_Qwen3_Modal.ipynb)
+- [Master prompt lập kế hoạch nghiên cứu vòng tiếp theo](AGQO_NEXT_ROUND_MASTER_PROMPT.md) — prompt tiếng Anh bao quát dữ liệu, tin tức, kiểm định AI–QAOA, đối chứng tài chính và tiêu chuẩn biểu đồ.
 
 Môi trường dùng Python 3.12, pandas, NumPy, scikit-learn, SciPy/COBYLA, Matplotlib, Transformers, bitsandbytes và Modal. Mô phỏng véc-tơ trạng thái QAOA dùng NumPy trên CPU; Qiskit/Aer và IBM Quantum là tùy chọn, không sinh kết quả trong báo cáo này. Không cần khóa API OpenAI; chạy mô hình trên Modal vẫn có thể phát sinh chi phí GPU.
 
