@@ -70,6 +70,36 @@ Các phương pháp được so trên cùng 16 kỳ danh mục theo cấu hình 
 
 **Kết luận tài chính nên nói trước ban giám khảo:** đây chưa phải một chiến lược đầu tư đã chứng minh có alpha. Thành tựu là đã đưa chi phí, rủi ro, chỉ số chuẩn, bộ chọn quy tắc và phương pháp cổ điển vào cùng một phép đánh giá; kết quả bất lợi vẫn được giữ nguyên và giải thích.
 
+### Kiểm định đuôi mới: một quyết định Qwen và 12 phiên ngoài danh mục cũ
+
+Ngày quyết định là **30/09/2026**, vào lệnh ở giá mở cửa **01/10**, định giá tại giá mở cửa **19/10**. Qwen3-8B chạy mới trên Modal, không đọc bộ nhớ đệm; mô hình đề xuất XY vòng p=2, sau giám sát vẫn được thực thi. Phép thử này chưa nằm trong bảng 16 kỳ cũ, nhưng dữ liệu thị trường đã có trong các phân tích của dự án nên không được gọi là tập mù.
+
+Tại ngày quyết định, xác suất biến động cao của mô hình phụ là **20,6%**, VN30 giảm **3,8%** trong 20 phiên và độ phân tán chéo lợi suất là **4,4%**; Qwen trả về insight `high_dispersion`. Lượt này không nạp tin tức bên ngoài, vì vậy không gán biến động cho một sự kiện cụ thể.
+
+| Phương án | Lợi nhuận ròng đoạn cuối |
+|---|---:|
+| AGQO: Qwen → giám sát → QAOA | -2,65% |
+| Đối chứng quy tắc → QAOA | -1,07% |
+| Nghiệm chính xác cổ điển, cùng hàm mục tiêu | -1,24% |
+| Bình quân sáu mã thanh khoản cao | -2,78% |
+| VN30 / VN-Index | -2,01% / -2,53% |
+
+AGQO hơn bình quân sáu mã thanh khoản cao **0,13 điểm phần trăm** và giảm khoảng **199.714 đồng** phí mô phỏng; nhưng thấp hơn VN30 **0,63 điểm** và đối chứng quy tắc **1,58 điểm**. Đây là một kết quả nhỏ so với đối chứng đơn giản, không phải bằng chứng alpha. Nghiệm cổ điển vét cạn và tham lam cùng đạt -1,24%, cao hơn QAOA được LLM chọn ở mức -2,65%; QAOA có hối tiếc mục tiêu 10,64% trên chính cấu hình đó.
+
+![So sánh lợi nhuận trên đoạn kiểm định cuối](results/final/figures/tail_probe_20261019/tail_net_returns.png)
+
+**Hình 24. Lợi nhuận ròng trên đoạn kiểm định cuối.** AGQO chỉ nhỉnh hơn bình quân sáu mã thanh khoản cao; quy tắc, nghiệm cổ điển và VN30 đều giảm ít hơn. Các danh mục cổ phiếu gồm phí và giới hạn khớp 5% giá trị giao dịch bình quân; chỉ số chưa trừ phí đầu tư. Nguồn: `agqo_tail_probe_20261019.json`. Kỳ: 01–19/10/2026. Đơn vị: lợi nhuận phần trăm sau mô phỏng phí. Lưu ý: 12 phiên, một quyết định, không đủ kết luận alpha.
+
+![Đường vốn trên đoạn kiểm định cuối](results/final/figures/tail_probe_20261019/tail_equity_paths.png)
+
+**Hình 25. Đường vốn hằng ngày.** QAOA AGQO, đối chứng quy tắc, nghiệm cổ điển, tham lam và hai chỉ số được đặt trên cùng mốc vào lệnh; đường danh mục dùng lượng khớp thực tế theo giả định thanh khoản và tiền mặt còn lại. Nguồn: `agqo_tail_probe_20261019.json`. Kỳ: 01–19/10/2026. Đơn vị: lợi nhuận tích lũy phần trăm. Lưu ý: Sharpe năm hóa trên 12 phiên chỉ mang tính mô tả.
+
+![Đổi đánh đổi giữa số cổng và hối tiếc QAOA](results/final/figures/tail_probe_20261019/tail_circuit_regret.png)
+
+**Hình 26. Chi phí mạch và hối tiếc QAOA.** So sánh 8, 12 và 16 qubit cùng mixer X/XY, bố trí vòng/đường thẳng và p=1/2 cho thấy nhiều qubit hoặc lớp sâu hơn không tự động tìm nghiệm tốt hơn. Nguồn: `qaoa_architecture_test` trong JSON. Kỳ: tín hiệu 30/09/2026. Đơn vị: cổng hai qubit logic, hối tiếc phần trăm. Lưu ý: chi phí mạch mô phỏng, chưa phải số đo phần cứng.
+
+Ở khía cạnh kỹ thuật, XY vòng p=2 cho mẫu khả thi tốt nhất 100% so với 25,10% của X p=1, nhưng dùng 180 cổng hai qubit logic và có hối tiếc 10,64%; X p=1 đạt đúng nghiệm vét cạn trên hàm mục tiêu nhưng chỉ có 25,10% mẫu tốt nhất khả thi. Đây là đánh đổi tính khả thi–chất lượng nghiệm, không phải lợi thế lợi nhuận hay ưu thế lượng tử. Toàn bộ prompt, phản hồi Qwen, chính sách, các seed QAOA, danh mục, phí và giới hạn dữ liệu nằm trong [báo cáo đuôi đầy đủ](results/final/AGQO_KIEM_DINH_DUOI_20261019.md) và [tệp kết quả](results/final/agqo_tail_probe_20261019.json); mã chạy ở [scripts/run_tail_probe.py](scripts/run_tail_probe.py).
+
 ---
 
 ## 2. Insight thị trường và câu chuyện dữ liệu
