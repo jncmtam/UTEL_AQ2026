@@ -1,0 +1,165 @@
+{
+  "source": "separate_synthetic_sensitivity_not_test_tuning",
+  "rows": [
+    {
+      "cost_weight": 0.0,
+      "problem_hash": "64e6170b0ae64fe0105459b7116470d47ed553b94d356f1f24db2fcc8b85241a",
+      "result": {
+        "method": "exact",
+        "status": "optimal",
+        "bits": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          1
+        ],
+        "feasible": true,
+        "violations": {},
+        "tracking_mse": 1.3423900231590918e-06,
+        "tracking_rmse": 0.0011586155631438289,
+        "tracking_error_per_period": 0.0011607770388975453,
+        "two_way_turnover": 2.0,
+        "transaction_cost": 0.005,
+        "objective": 1.3423900231590918e-06,
+        "number_of_trades": 8,
+        "problem_hash": "64e6170b0ae64fe0105459b7116470d47ed553b94d356f1f24db2fcc8b85241a",
+        "elapsed_seconds": 0.0014742919884156436,
+        "fallback_used": false,
+        "evaluations": 70,
+        "lower_bound": 1.3423900231590918e-06
+      }
+    },
+    {
+      "cost_weight": 0.001,
+      "problem_hash": "3d579a558f9a5667d65b4197704b0ffe6d742f84d1bf5e4f7ff4b309e4cc5a1f",
+      "result": {
+        "method": "exact",
+        "status": "optimal",
+        "bits": [
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        "feasible": true,
+        "violations": {},
+        "tracking_mse": 2.47153350571016e-06,
+        "tracking_rmse": 0.001572111162008005,
+        "tracking_error_per_period": 0.001578877885579408,
+        "two_way_turnover": 1.0,
+        "transaction_cost": 0.0025000000000000005,
+        "objective": 4.9715335057101605e-06,
+        "number_of_trades": 6,
+        "problem_hash": "3d579a558f9a5667d65b4197704b0ffe6d742f84d1bf5e4f7ff4b309e4cc5a1f",
+        "elapsed_seconds": 0.0013889170077163726,
+        "fallback_used": false,
+        "evaluations": 70,
+        "lower_bound": 4.9715335057101605e-06
+      }
+    },
+    {
+      "cost_weight": 0.01,
+      "problem_hash": "e3cadfc28ce2121a4b511b9a79a4efa3412de81f3fd412cf6e6fe598772f32d7",
+      "result": {
+        "method": "exact",
+        "status": "optimal",
+        "bits": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        "feasible": true,
+        "violations": {},
+        "tracking_mse": 4.491026592319838e-06,
+        "tracking_rmse": 0.002119204235631818,
+        "tracking_error_per_period": 0.0021237894893782402,
+        "two_way_turnover": 0.5055604569033733,
+        "transaction_cost": 0.0012639011422584331,
+        "objective": 1.713003801490417e-05,
+        "number_of_trades": 5,
+        "problem_hash": "e3cadfc28ce2121a4b511b9a79a4efa3412de81f3fd412cf6e6fe598772f32d7",
+        "elapsed_seconds": 0.0013759159774053842,
+        "fallback_used": false,
+        "evaluations": 70,
+        "lower_bound": 1.713003801490417e-05
+      }
+    },
+    {
+      "cost_weight": 0.1,
+      "problem_hash": "35023edd4672ea637fbb45f50316acc333b010f4d7ff2425af7137de0ffe7c5a",
+      "result": {
+        "method": "exact",
+        "status": "optimal",
+        "bits": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        "feasible": true,
+        "violations": {},
+        "tracking_mse": 4.491026592319838e-06,
+        "tracking_rmse": 0.002119204235631818,
+        "tracking_error_per_period": 0.0021237894893782402,
+        "two_way_turnover": 0.5055604569033733,
+        "transaction_cost": 0.0012639011422584331,
+        "objective": 0.00013088114081816316,
+        "number_of_trades": 5,
+        "problem_hash": "35023edd4672ea637fbb45f50316acc333b010f4d7ff2425af7137de0ffe7c5a",
+        "elapsed_seconds": 0.0013701660209335387,
+        "fallback_used": false,
+        "evaluations": 70,
+        "lower_bound": 0.00013088114081816316
+      }
+    },
+    {
+      "cost_weight": 1.0,
+      "problem_hash": "20bf36705822811a62bf624bc867f03c020d60cd45bff74ba6605cc7375c4b1b",
+      "result": {
+        "method": "exact",
+        "status": "optimal",
+        "bits": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        "feasible": true,
+        "violations": {},
+        "tracking_mse": 4.491026592319838e-06,
+        "tracking_rmse": 0.002119204235631818,
+        "tracking_error_per_period": 0.0021237894893782402,
+        "two_way_turnover": 0.5055604569033733,
+        "transaction_cost": 0.0012639011422584331,
+        "objective": 0.001268392168850753,
+        "number_of_trades": 5,
+        "problem_hash": "20bf36705822811a62bf624bc867f03c020d60cd45bff74ba6605cc7375c4b1b",
+        "elapsed_seconds": 0.0015916249831207097,
+        "fallback_used": false,
+        "evaluations": 70,
+        "lower_bound": 0.001268392168850753
+      }
+    }
+  ]
+}

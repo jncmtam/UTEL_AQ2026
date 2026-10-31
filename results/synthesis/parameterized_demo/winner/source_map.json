@@ -1,0 +1,168 @@
+[
+  {
+    "instruction": 0,
+    "source": "gate_ir_initial_bits",
+    "qubit": 0
+  },
+  {
+    "instruction": 1,
+    "source": "gate_ir_initial_bits",
+    "qubit": 1
+  },
+  {
+    "instruction": 2,
+    "source": "gate_ir",
+    "stage": "initialization",
+    "gate_index": 0
+  },
+  {
+    "instruction": 3,
+    "source": "gate_ir",
+    "stage": "initialization",
+    "gate_index": 1
+  },
+  {
+    "instruction": 4,
+    "source": "gate_ir",
+    "stage": "initialization",
+    "gate_index": 2
+  },
+  {
+    "instruction": 5,
+    "source": "gate_ir",
+    "stage": "initialization",
+    "gate_index": 3
+  },
+  {
+    "instruction": 6,
+    "source": "gate_ir",
+    "stage": "initialization",
+    "gate_index": 4
+  },
+  {
+    "instruction": 7,
+    "source": "gate_ir",
+    "stage": "initialization",
+    "gate_index": 5
+  },
+  {
+    "instruction": 8,
+    "source": "gate_ir",
+    "stage": "initialization",
+    "gate_index": 6
+  },
+  {
+    "instruction": 9,
+    "source": "gate_ir",
+    "stage": "initialization",
+    "gate_index": 7
+  },
+  {
+    "instruction": 10,
+    "source": "canonical_compiler_cost",
+    "layer": 0,
+    "hamiltonian_hash": "55e27630794910848b012cdf508496e5e82d76f3182c4bab497b0733b4e6764d"
+  },
+  {
+    "instruction": 11,
+    "source": "gate_ir",
+    "stage": "layer_0_mixer",
+    "gate_index": 0
+  },
+  {
+    "instruction": 12,
+    "source": "gate_ir",
+    "stage": "layer_0_mixer",
+    "gate_index": 1
+  },
+  {
+    "instruction": 13,
+    "source": "gate_ir",
+    "stage": "layer_0_mixer",
+    "gate_index": 2
+  },
+  {
+    "instruction": 14,
+    "source": "gate_ir",
+    "stage": "layer_0_mixer",
+    "gate_index": 3
+  },
+  {
+    "instruction": 15,
+    "source": "gate_ir",
+    "stage": "layer_0_mixer",
+    "gate_index": 4
+  },
+  {
+    "instruction": 16,
+    "source": "gate_ir",
+    "stage": "layer_0_mixer",
+    "gate_index": 5
+  },
+  {
+    "instruction": 17,
+    "source": "gate_ir",
+    "stage": "layer_0_mixer",
+    "gate_index": 6
+  },
+  {
+    "instruction": 18,
+    "source": "gate_ir",
+    "stage": "layer_0_mixer",
+    "gate_index": 7
+  },
+  {
+    "instruction": 19,
+    "source": "canonical_compiler_cost",
+    "layer": 1,
+    "hamiltonian_hash": "55e27630794910848b012cdf508496e5e82d76f3182c4bab497b0733b4e6764d"
+  },
+  {
+    "instruction": 20,
+    "source": "gate_ir",
+    "stage": "layer_1_mixer",
+    "gate_index": 0
+  },
+  {
+    "instruction": 21,
+    "source": "gate_ir",
+    "stage": "layer_1_mixer",
+    "gate_index": 1
+  },
+  {
+    "instruction": 22,
+    "source": "gate_ir",
+    "stage": "layer_1_mixer",
+    "gate_index": 2
+  },
+  {
+    "instruction": 23,
+    "source": "gate_ir",
+    "stage": "layer_1_mixer",
+    "gate_index": 3
+  },
+  {
+    "instruction": 24,
+    "source": "gate_ir",
+    "stage": "layer_1_mixer",
+    "gate_index": 4
+  },
+  {
+    "instruction": 25,
+    "source": "gate_ir",
+    "stage": "layer_1_mixer",
+    "gate_index": 5
+  },
+  {
+    "instruction": 26,
+    "source": "gate_ir",
+    "stage": "layer_1_mixer",
+    "gate_index": 6
+  },
+  {
+    "instruction": 27,
+    "source": "gate_ir",
+    "stage": "layer_1_mixer",
+    "gate_index": 7
+  }
+]

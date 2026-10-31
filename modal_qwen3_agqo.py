@@ -94,7 +94,7 @@ def _load_model():
     return _TOKENIZER, _MODEL, _MODEL_REVISION, _TORCH
 
 
-def _generate(tokenizer, model, torch, messages: list[dict[str, str]]):
+def _generate(tokenizer, model, torch, messages: list[dict[str, str]], max_new_tokens: int | None = None):
     encoded = tokenizer.apply_chat_template(
         messages,
         tokenize=True,
@@ -109,7 +109,7 @@ def _generate(tokenizer, model, torch, messages: list[dict[str, str]]):
     with torch.inference_mode():
         output = model.generate(
             **encoded,
-            max_new_tokens=MAX_NEW_TOKENS,
+            max_new_tokens=MAX_NEW_TOKENS if max_new_tokens is None else max_new_tokens,
             do_sample=False,
             use_cache=True,
         )
@@ -210,6 +210,23 @@ def guide_qaoa_policy(request: dict[str, Any]) -> dict[str, Any]:
             "total_tokens": input_tokens + output_tokens,
         },
     }
+
+
+@app.function(name="repair_json", image=image, volumes={MODEL_CACHE_PATH: model_cache},
+              gpu=GPU_TYPES[0] if len(GPU_TYPES) == 1 else GPU_TYPES,
+              timeout=900, retries=0, scaledown_window=60)
+def repair_json(request: dict[str, Any]) -> dict[str, Any]:
+    """Separate repair contract; legacy policy endpoint remains unchanged."""
+    if not isinstance(request, dict) or request.get("task") not in {"normalize_mandate", "propose_circuit"}:
+        raise ValueError("Unsupported repair task.")
+    tokenizer, model, revision, torch = _load_model()
+    messages = [{"role": "system", "content": request["system"]},
+                {"role": "user", "content": json.dumps({k: v for k, v in request.items() if k != "system"}, ensure_ascii=False)}]
+    raw, input_tokens, output_tokens = _generate(tokenizer, model, torch, messages, max_new_tokens=1200)
+    return {"response": TransformersJsonReader.read(raw), "raw_text": raw,
+            "model": MODEL_NAME, "model_revision": revision,
+            "usage": {"input_tokens": input_tokens, "output_tokens": output_tokens,
+                      "total_tokens": input_tokens + output_tokens}}
 
 
 class TransformersJsonReader:

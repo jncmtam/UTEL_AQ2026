@@ -1,0 +1,129 @@
+{
+  "version": "financial-ir-v1",
+  "problem_hash": "cb53403e490373669e2c809b027864e399f5397ae5638e955999510eddac1c50",
+  "cutoff": "period:79",
+  "tickers": [
+    "S00",
+    "S01",
+    "S02",
+    "S03",
+    "S04",
+    "S05"
+  ],
+  "sectors": [
+    "Banks",
+    "Industry",
+    "Services",
+    "Banks",
+    "Industry",
+    "Services"
+  ],
+  "n": 6,
+  "k": 3,
+  "previous_weights": [
+    0.3322390048448002,
+    0.33731481806252295,
+    0.33044617709267693,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "cost_rates": [
+    0.0025,
+    0.0025,
+    0.0025,
+    0.0025,
+    0.0025,
+    0.0025
+  ],
+  "cost_weight": 0.01,
+  "mandate": {
+    "source_text": "Hold 3 assets",
+    "k": 3,
+    "include": [],
+    "exclude": [],
+    "sector_caps": {},
+    "turnover_cap": null,
+    "cost_weight": null,
+    "evidence": [
+      {
+        "kind": "cardinality",
+        "target": null,
+        "value": 3,
+        "start": 0,
+        "end": 13,
+        "quote": "Hold 3 assets"
+      }
+    ],
+    "issues": [],
+    "status": "ready",
+    "origin": "rules"
+  },
+  "objective": "mean((returns @ (x/K) - benchmark)**2) + cost_weight * cost_rates @ abs(x/K - previous_weights)",
+  "objective_coefficients": {
+    "linear": [
+      -2.8014538823497918e-05,
+      -2.8579228094220034e-05,
+      -3.052412934162935e-05,
+      -9.432317308240512e-06,
+      -1.3256791600506698e-05,
+      -1.1129842678244585e-05
+    ],
+    "upper_quadratic": [
+      [
+        0.0,
+        -3.725636634932671e-06,
+        2.65394664213791e-05,
+        -5.1451358928614955e-06,
+        2.5550975573612614e-05,
+        -3.7478256380150585e-06
+      ],
+      [
+        0.0,
+        0.0,
+        -2.612717579992349e-06,
+        2.5315954493114742e-05,
+        -2.8863854933436724e-06,
+        2.4400574736927355e-05
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        -4.093171432298553e-06,
+        2.737579249486403e-05,
+        -2.539062263294542e-06
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -4.109571889898997e-06,
+        2.3563226005092e-05
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -2.7505608175539062e-06
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    ],
+    "offset": 7.504989239022227e-05
+  },
+  "units": {
+    "returns": "fraction_per_observation",
+    "turnover": "two_way_fraction_NAV",
+    "fees": "fraction_per_side"
+  }
+}

@@ -1,0 +1,230 @@
+{
+  "version": "data-profile-v1",
+  "problem_hash": "b670b2d02809dba8b56b7d9a4ff512fb95aa3066953889ee472477ed77c0bfaf",
+  "cutoff": "period:79",
+  "feature_ids": [
+    "CORRELATION",
+    "CLUSTERS",
+    "SPECTRUM",
+    "OBJECTIVE_TERMS",
+    "INCUMBENT",
+    "STABILITY"
+  ],
+  "correlation": [
+    [
+      1.0,
+      0.045520780873499665,
+      0.968996148370649,
+      0.027057871427258243
+    ],
+    [
+      0.045520780873499665,
+      1.0,
+      0.0008501839936268143,
+      0.9661275182344904
+    ],
+    [
+      0.968996148370649,
+      0.0008501839936268143,
+      1.0,
+      -0.022353152170248754
+    ],
+    [
+      0.027057871427258243,
+      0.9661275182344904,
+      -0.022353152170248754,
+      1.0
+    ]
+  ],
+  "covariance": [
+    [
+      0.000142360026767461,
+      6.285091134254327e-06,
+      0.00013903235597153532,
+      3.6629918777695447e-06
+    ],
+    [
+      6.285091134254327e-06,
+      0.00013391082660887184,
+      1.1830975924077134e-07,
+      0.00012685003580374776
+    ],
+    [
+      0.00013903235597153532,
+      1.1830975924077134e-07,
+      0.00014461042475413737,
+      -3.0499089322980036e-06
+    ],
+    [
+      3.6629918777695447e-06,
+      0.00012685003580374776,
+      -3.0499089322980036e-06,
+      0.0001287349867907323
+    ]
+  ],
+  "zero_variance_assets": [],
+  "clusters": [
+    [
+      0,
+      2
+    ],
+    [
+      1,
+      3
+    ]
+  ],
+  "cluster_rule": "connected_components_abs_correlation_ge_0.65",
+  "eigenvalues": [
+    4.017927817660508e-06,
+    4.6835074372552e-06,
+    0.0002578641658897945,
+    0.0002830506637764922
+  ],
+  "numerical_rank": 4,
+  "condition_number": 70.4469260329575,
+  "condition_policy": "null if rank deficient; eigenvalue cutoff=max_eigenvalue*1e-10",
+  "correlation_dispersion": 0.45058528537209847,
+  "strong_pairs": [
+    {
+      "assets": [
+        0,
+        2
+      ],
+      "correlation": 0.968996148370649
+    },
+    {
+      "assets": [
+        1,
+        3
+      ],
+      "correlation": 0.9661275182344904
+    },
+    {
+      "assets": [
+        0,
+        1
+      ],
+      "correlation": 0.045520780873499665
+    },
+    {
+      "assets": [
+        0,
+        3
+      ],
+      "correlation": 0.027057871427258243
+    },
+    {
+      "assets": [
+        2,
+        3
+      ],
+      "correlation": -0.022353152170248754
+    },
+    {
+      "assets": [
+        1,
+        2
+      ],
+      "correlation": 0.0008501839936268143
+    }
+  ],
+  "objective_coefficients": [
+    {
+      "id": "h_0",
+      "qubits": [
+        0
+      ],
+      "value": -4.8778279427121455e-05
+    },
+    {
+      "id": "h_1",
+      "qubits": [
+        1
+      ],
+      "value": -4.5886966527831966e-05
+    },
+    {
+      "id": "h_2",
+      "qubits": [
+        2
+      ],
+      "value": -2.055201783769656e-05
+    },
+    {
+      "id": "h_3",
+      "qubits": [
+        3
+      ],
+      "value": -1.9568161810983652e-05
+    },
+    {
+      "id": "J_0_1",
+      "qubits": [
+        0,
+        1
+      ],
+      "value": 2.9254967106085914e-06
+    },
+    {
+      "id": "J_0_2",
+      "qubits": [
+        0,
+        2
+      ],
+      "value": 6.869462941986751e-05
+    },
+    {
+      "id": "J_0_3",
+      "qubits": [
+        0,
+        3
+      ],
+      "value": 1.6778779679104205e-06
+    },
+    {
+      "id": "J_1_2",
+      "qubits": [
+        1,
+        2
+      ],
+      "value": -6.003015267379614e-07
+    },
+    {
+      "id": "J_1_3",
+      "qubits": [
+        1,
+        3
+      ],
+      "value": 6.44487378717933e-05
+    },
+    {
+      "id": "J_2_3",
+      "qubits": [
+        2,
+        3
+      ],
+      "value": -1.9902922177364323e-06
+    }
+  ],
+  "interaction_density": 1.0,
+  "coefficient_abs_quantiles": [
+    6.003015267379614e-07,
+    2.0060089824340106e-05,
+    6.487332702660072e-05,
+    6.869462941986751e-05
+  ],
+  "previous_weights": [
+    0.4925855475585643,
+    0.5074144524414358,
+    0.0,
+    0.0
+  ],
+  "current_violations": {},
+  "correlation_window_sensitivity_frobenius": 0.18446780954682235,
+  "formulas": {
+    "covariance": "centered.T@centered/(T-1)",
+    "correlation": "cov_ij/(std_i*std_j), zero variance -> offdiag 0",
+    "stability": "norm(corr(last_half)-corr(full),fro)"
+  },
+  "interpretation": "Design descriptors only. Correlation does not establish causal or quantum performance benefits."
+}

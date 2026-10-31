@@ -1,0 +1,103 @@
+{
+  "definition": {
+    "version": "gate-search-v1",
+    "problem_hash": "6c1ac22171425a255a59db087fca941b0bc7631e2f1aeae0321e3fec5b0970cf",
+    "hamiltonian_hash": "cb90d384ede55fa3bfa382fa1fc638f39caf17bdd8a72edc7ff1c15ff41d934c",
+    "config": {
+      "initial_proposals": 4,
+      "repair_rounds": 0,
+      "proposals_per_repair": 2,
+      "screen_evaluations": 8,
+      "screen_shots": 64,
+      "final_evaluations": 24,
+      "final_shots": 128,
+      "finalists": 2,
+      "seed": 11,
+      "max_tokens": 4096
+    },
+    "ablation": "full",
+    "feedback_level": "full",
+    "origin": "disabled",
+    "data_profile_hash": "ba1f4710450eed58a5efaa0520529bf7928ed2280ffbdf899efeca9099a63180"
+  },
+  "round": 0,
+  "candidates": [
+    {
+      "id": "r0_c0",
+      "round": 0,
+      "inference": {
+        "status": "not_run",
+        "reason": "No live LLM invocation; no fabricated gate output.",
+        "request_hash": "695a551b8d11595e06b4e50c030c589d9681f54d62d945b7847a1c81366ac1ad"
+      },
+      "origin": "not_run",
+      "verification": {
+        "valid": false,
+        "errors": [
+          {
+            "code": "not_run",
+            "message": "No live LLM invocation; no fabricated gate output."
+          }
+        ]
+      }
+    },
+    {
+      "id": "r0_c1",
+      "round": 0,
+      "inference": {
+        "status": "not_run",
+        "reason": "No live LLM invocation; no fabricated gate output.",
+        "request_hash": "b76503075c44964ca18105f02cd4105dcab9c8d3aa5a8eae729abe59a99ce968"
+      },
+      "origin": "not_run",
+      "verification": {
+        "valid": false,
+        "errors": [
+          {
+            "code": "not_run",
+            "message": "No live LLM invocation; no fabricated gate output."
+          }
+        ]
+      }
+    },
+    {
+      "id": "r0_c2",
+      "round": 0,
+      "inference": {
+        "status": "not_run",
+        "reason": "No live LLM invocation; no fabricated gate output.",
+        "request_hash": "692160037d4462bd74495702b3f6dee7f7e5f54092775772a2dd70c330a2b7ae"
+      },
+      "origin": "not_run",
+      "verification": {
+        "valid": false,
+        "errors": [
+          {
+            "code": "not_run",
+            "message": "No live LLM invocation; no fabricated gate output."
+          }
+        ]
+      }
+    },
+    {
+      "id": "r0_c3",
+      "round": 0,
+      "inference": {
+        "status": "not_run",
+        "reason": "No live LLM invocation; no fabricated gate output.",
+        "request_hash": "1e7f74292c7b55df62c075987b0632f94a05cd8aff13d326d09066cd8be969a5"
+      },
+      "origin": "not_run",
+      "verification": {
+        "valid": false,
+        "errors": [
+          {
+            "code": "not_run",
+            "message": "No live LLM invocation; no fabricated gate output."
+          }
+        ]
+      }
+    }
+  ],
+  "total_shots": 0
+}

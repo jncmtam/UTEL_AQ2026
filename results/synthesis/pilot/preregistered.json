@@ -1,0 +1,41 @@
+{
+  "version": "pilot-v1",
+  "targets": {
+    "version": "synthesis-targets-v1",
+    "first_valid_rate": 0.8,
+    "repaired_instance_rate": 0.9,
+    "state_fidelity_min": 0.999999999,
+    "cardinality_leak_max": 1e-09,
+    "feasible_probability_median": 0.9,
+    "normalized_gap_median_max": 0.05,
+    "relative_gap_improvement": 0.2,
+    "relative_cx_reduction": 0.2,
+    "minimum_independent_instances": 10
+  },
+  "cases": [
+    {
+      "n": 4,
+      "k": 2,
+      "problem_hash": "1b163d741aaba71a7450181c9241bca48b25dd97d972a901cb3c4bcfd0a0dd9d",
+      "request_hash": "fbe4fa2408db4592500fe5a99071dbcee35771a98f9d4fc2cd027d0c3f69bfb0"
+    },
+    {
+      "n": 6,
+      "k": 3,
+      "problem_hash": "c7ed0738007c259f37e83aee376ed3063a3dad4edd41392456796c06d52f2810",
+      "request_hash": "018792f3b0471a85f551357c27727b4cf29c7a8ac74102ca54c1ab787eda428a"
+    },
+    {
+      "n": 8,
+      "k": 4,
+      "problem_hash": "1fa26334f93f7a81b4ee28e6a3f29add74d9d36841c2270c3f67a2585b8bc2e4",
+      "request_hash": "c67abc4ffcdd8e3eb891fb6d0fb34b7f736c4ec3c3eaa245f62d59643a8c195a"
+    }
+  ],
+  "purpose": "diagnostic_pilot_not_holdout",
+  "model_order": [
+    "next80",
+    "coder30"
+  ],
+  "sources": "docs/SYNTHESIS_THRESHOLDS.md"
+}

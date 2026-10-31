@@ -1,0 +1,2486 @@
+{
+  "fbe4fa2408db4592500fe5a99071dbcee35771a98f9d4fc2cd027d0c3f69bfb0": {
+    "request_hash": "fbe4fa2408db4592500fe5a99071dbcee35771a98f9d4fc2cd027d0c3f69bfb0",
+    "status": "ok",
+    "response": {
+      "version": "gate-ir-v1",
+      "problem_hash": "1b163d741aaba71a7450181c9241bca48b25dd97d972a901cb3c4bcfd0a0dd9d",
+      "hamiltonian_hash": "833f7c12b467ae64e8718e21057a59f93a458ec4bb8666f6560d261da369b037",
+      "qubit_to_asset": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "mode": "preserve_cardinality",
+      "initial_bits": [
+        1,
+        1,
+        0,
+        0
+      ],
+      "parameters": [
+        {
+          "id": "beta_0",
+          "kind": "mixer",
+          "initial": 0.1
+        },
+        {
+          "id": "gamma_0",
+          "kind": "cost",
+          "initial": 0.1
+        },
+        {
+          "id": "beta_1",
+          "kind": "mixer",
+          "initial": 0.1
+        },
+        {
+          "id": "gamma_1",
+          "kind": "cost",
+          "initial": 0.1
+        }
+      ],
+      "initialization": [
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            1
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            2,
+            3
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            0,
+            1
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            2,
+            3
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        }
+      ],
+      "layers": [
+        {
+          "cost": {
+            "op": "COST",
+            "parameter": "gamma_0",
+            "hamiltonian_hash": "833f7c12b467ae64e8718e21057a59f93a458ec4bb8666f6560d261da369b037"
+          },
+          "mixer": [
+            {
+              "op": "RXX",
+              "qubits": [
+                0,
+                3
+              ],
+              "angle": {
+                "parameter": "beta_0",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RYY",
+              "qubits": [
+                0,
+                3
+              ],
+              "angle": {
+                "parameter": "beta_0",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RXX",
+              "qubits": [
+                1,
+                2
+              ],
+              "angle": {
+                "parameter": "beta_0",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RYY",
+              "qubits": [
+                1,
+                2
+              ],
+              "angle": {
+                "parameter": "beta_0",
+                "scale": 2,
+                "offset": 0
+              }
+            }
+          ]
+        },
+        {
+          "cost": {
+            "op": "COST",
+            "parameter": "gamma_1",
+            "hamiltonian_hash": "833f7c12b467ae64e8718e21057a59f93a458ec4bb8666f6560d261da369b037"
+          },
+          "mixer": [
+            {
+              "op": "RXX",
+              "qubits": [
+                0,
+                1
+              ],
+              "angle": {
+                "parameter": "beta_1",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RYY",
+              "qubits": [
+                0,
+                1
+              ],
+              "angle": {
+                "parameter": "beta_1",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RXX",
+              "qubits": [
+                2,
+                3
+              ],
+              "angle": {
+                "parameter": "beta_1",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RYY",
+              "qubits": [
+                2,
+                3
+              ],
+              "angle": {
+                "parameter": "beta_1",
+                "scale": 2,
+                "offset": 0
+              }
+            }
+          ]
+        }
+      ],
+      "rationale": [
+        {
+          "feature_ids": [
+            "CORRELATION"
+          ],
+          "decision": "Strongest pair (0,3) used first in mixer to reflect high correlation"
+        },
+        {
+          "feature_ids": [
+            "CLUSTERS"
+          ],
+          "decision": "Single cluster includes all assets; schedule connects all via sparse edges"
+        },
+        {
+          "feature_ids": [
+            "OBJECTIVE_TERMS"
+          ],
+          "decision": "All quadratic terms preserved via full connectivity in two layers"
+        },
+        {
+          "feature_ids": [
+            "INCUMBENT"
+          ],
+          "decision": "Initial state [1,1,0,0] matches top two weights in previous_weights"
+        }
+      ]
+    },
+    "raw_text": "{\n  \"version\": \"gate-ir-v1\",\n  \"problem_hash\": \"1b163d741aaba71a7450181c9241bca48b25dd97d972a901cb3c4bcfd0a0dd9d\",\n  \"hamiltonian_hash\": \"833f7c12b467ae64e8718e21057a59f93a458ec4bb8666f6560d261da369b037\",\n  \"qubit_to_asset\": [0, 1, 2, 3],\n  \"mode\": \"preserve_cardinality\",\n  \"initial_bits\": [1, 1, 0, 0],\n  \"parameters\": [\n    {\"id\": \"beta_0\", \"kind\": \"mixer\", \"initial\": 0.1},\n    {\"id\": \"gamma_0\", \"kind\": \"cost\", \"initial\": 0.1},\n    {\"id\": \"beta_1\", \"kind\": \"mixer\", \"initial\": 0.1},\n    {\"id\": \"gamma_1\", \"kind\": \"cost\", \"initial\": 0.1}\n  ],\n  \"initialization\": [\n    {\"op\": \"RXX\", \"qubits\": [0, 1], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [2, 3], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RYY\", \"qubits\": [0, 1], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RYY\", \"qubits\": [2, 3], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}}\n  ],\n  \"layers\": [\n    {\n      \"cost\": {\n        \"op\": \"COST\",\n        \"parameter\": \"gamma_0\",\n        \"hamiltonian_hash\": \"833f7c12b467ae64e8718e21057a59f93a458ec4bb8666f6560d261da369b037\"\n      },\n      \"mixer\": [\n        {\"op\": \"RXX\", \"qubits\": [0, 3], \"angle\": {\"parameter\": \"beta_0\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RYY\", \"qubits\": [0, 3], \"angle\": {\"parameter\": \"beta_0\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RXX\", \"qubits\": [1, 2], \"angle\": {\"parameter\": \"beta_0\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RYY\", \"qubits\": [1, 2], \"angle\": {\"parameter\": \"beta_0\", \"scale\": 2, \"offset\": 0}}\n      ]\n    },\n    {\n      \"cost\": {\n        \"op\": \"COST\",\n        \"parameter\": \"gamma_1\",\n        \"hamiltonian_hash\": \"833f7c12b467ae64e8718e21057a59f93a458ec4bb8666f6560d261da369b037\"\n      },\n      \"mixer\": [\n        {\"op\": \"RXX\", \"qubits\": [0, 1], \"angle\": {\"parameter\": \"beta_1\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RYY\", \"qubits\": [0, 1], \"angle\": {\"parameter\": \"beta_1\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RXX\", \"qubits\": [2, 3], \"angle\": {\"parameter\": \"beta_1\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RYY\", \"qubits\": [2, 3], \"angle\": {\"parameter\": \"beta_1\", \"scale\": 2, \"offset\": 0}}\n      ]\n    }\n  ]\n  \n  , \"rationale\": [\n    {\"feature_ids\": [\"CORRELATION\"], \"decision\": \"Strongest pair (0,3) used first in mixer to reflect high correlation\"},\n    {\"feature_ids\": [\"CLUSTERS\"], \"decision\": \"Single cluster includes all assets; schedule connects all via sparse edges\"},\n    {\"feature_ids\": [\"OBJECTIVE_TERMS\"], \"decision\": \"All quadratic terms preserved via full connectivity in two layers\"},\n    {\"feature_ids\": [\"INCUMBENT\"], \"decision\": \"Initial state [1,1,0,0] matches top two weights in previous_weights\"}\n  ]\n}",
+    "finish_reason": "stop",
+    "usage": {
+      "input_tokens": 3476,
+      "output_tokens": 1136
+    },
+    "model": "Qwen/Qwen3-Coder-Next-FP8",
+    "revision": "da6e2ed27304dd39abadd9c82ef50e8de67bdd4c",
+    "execution": "live_modal_vllm",
+    "batch_elapsed_seconds": 394.2419715419819,
+    "amortized_inference_seconds": 131.41399051399398,
+    "reserved_usd": 1.02,
+    "job_id": "b69bac5144f94b7794a84e5c3199bc9d"
+  },
+  "018792f3b0471a85f551357c27727b4cf29c7a8ac74102ca54c1ab787eda428a": {
+    "request_hash": "018792f3b0471a85f551357c27727b4cf29c7a8ac74102ca54c1ab787eda428a",
+    "status": "ok",
+    "response": {
+      "version": "gate-ir-v1",
+      "problem_hash": "c7ed0738007c259f37e83aee376ed3063a3dad4edd41392456796c06d52f2810",
+      "hamiltonian_hash": "1fd1beb2d863c2cd71fc8d721d7e3cac19025028b3ba5821c9861271149dce3a",
+      "qubit_to_asset": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "mode": "preserve_cardinality",
+      "initial_bits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "parameters": [
+        {
+          "id": "gamma_0",
+          "kind": "cost",
+          "initial": 0.1
+        },
+        {
+          "id": "beta_0",
+          "kind": "mixer",
+          "initial": 0.1
+        },
+        {
+          "id": "beta_1",
+          "kind": "mixer",
+          "initial": 0.1
+        },
+        {
+          "id": "beta_2",
+          "kind": "mixer",
+          "initial": 0.1
+        }
+      ],
+      "initialization": [
+        {
+          "op": "RXX",
+          "qubits": [
+            2,
+            5
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            3
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            1,
+            4
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            3,
+            5
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            4,
+            5
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            3,
+            4
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            4
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            2,
+            3
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            5
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            1,
+            5
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            1
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            2,
+            4
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            1,
+            3
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            2
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            1,
+            2
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        }
+      ],
+      "layers": [
+        {
+          "cost": {
+            "op": "COST",
+            "parameter": "gamma_0",
+            "hamiltonian_hash": "1fd1beb2d863c2cd71fc8d721d7e3cac19025028b3ba5821c9861271149dce3a"
+          },
+          "mixer": [
+            {
+              "op": "RXX",
+              "qubits": [
+                1,
+                2
+              ],
+              "angle": {
+                "parameter": "beta_0",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RXX",
+              "qubits": [
+                3,
+                4
+              ],
+              "angle": {
+                "parameter": "beta_1",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RXX",
+              "qubits": [
+                4,
+                5
+              ],
+              "angle": {
+                "parameter": "beta_2",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RXX",
+              "qubits": [
+                2,
+                5
+              ],
+              "angle": {
+                "parameter": "beta_0",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RXX",
+              "qubits": [
+                0,
+                3
+              ],
+              "angle": {
+                "parameter": "beta_1",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RXX",
+              "qubits": [
+                1,
+                4
+              ],
+              "angle": {
+                "parameter": "beta_2",
+                "scale": 2,
+                "offset": 0
+              }
+            }
+          ]
+        }
+      ],
+      "rationale": [
+        {
+          "feature_ids": [
+            "CORRELATION"
+          ],
+          "decision": "Use strong_pairs to guide sparse connected mixer edges"
+        },
+        {
+          "feature_ids": [
+            "INCUMBENT"
+          ],
+          "decision": "Exclude S00 via hard barrier encoding (bit 0 fixed to 0)"
+        },
+        {
+          "feature_ids": [
+            "CLUSTERS"
+          ],
+          "decision": "Single cluster → full connectivity allowed; but sparse schedule reduces depth"
+        },
+        {
+          "feature_ids": [
+            "OBJECTIVE_TERMS"
+          ],
+          "decision": "All quadratic terms retained in COST; no truncation"
+        }
+      ]
+    },
+    "raw_text": "{\n  \"version\": \"gate-ir-v1\",\n  \"problem_hash\": \"c7ed0738007c259f37e83aee376ed3063a3dad4edd41392456796c06d52f2810\",\n  \"hamiltonian_hash\": \"1fd1beb2d863c2cd71fc8d721d7e3cac19025028b3ba5821c9861271149dce3a\",\n  \"qubit_to_asset\": [0, 1, 2, 3, 4, 5],\n  \"mode\": \"preserve_cardinality\",\n  \"initial_bits\": [0, 0, 0, 0, 0, 0],\n  \"parameters\": [\n    {\"id\": \"gamma_0\", \"kind\": \"cost\", \"initial\": 0.1},\n    {\"id\": \"beta_0\", \"kind\": \"mixer\", \"initial\": 0.1},\n    {\"id\": \"beta_1\", \"kind\": \"mixer\", \"initial\": 0.1},\n    {\"id\": \"beta_2\", \"kind\": \"mixer\", \"initial\": 0.1}\n  ],\n  \"initialization\": [\n    {\"op\": \"RXX\", \"qubits\": [2, 5], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [0, 3], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [1, 4], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [3, 5], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [4, 5], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [3, 4], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [0, 4], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [2, 3], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [0, 5], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [1, 5], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [0, 1], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [2, 4], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [1, 3], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [0, 2], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [1, 2], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}}\n  ],\n  \"layers\": [\n    {\n      \"cost\": {\n        \"op\": \"COST\",\n        \"parameter\": \"gamma_0\",\n        \"hamiltonian_hash\": \"1fd1beb2d863c2cd71fc8d721d7e3cac19025028b3ba5821c9861271149dce3a\"\n      },\n      \"mixer\": [\n        {\"op\": \"RXX\", \"qubits\": [1, 2], \"angle\": {\"parameter\": \"beta_0\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RXX\", \"qubits\": [3, 4], \"angle\": {\"parameter\": \"beta_1\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RXX\", \"qubits\": [4, 5], \"angle\": {\"parameter\": \"beta_2\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RXX\", \"qubits\": [2, 5], \"angle\": {\"parameter\": \"beta_0\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RXX\", \"qubits\": [0, 3], \"angle\": {\"parameter\": \"beta_1\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RXX\", \"qubits\": [1, 4], \"angle\": {\"parameter\": \"beta_2\", \"scale\": 2, \"offset\": 0}}\n      ]\n    }\n  ]\n  \n  ,\n  \"rationale\": [\n    {\"feature_ids\": [\"CORRELATION\"], \"decision\": \"Use strong_pairs to guide sparse connected mixer edges\"},\n    {\"feature_ids\": [\"INCUMBENT\"], \"decision\": \"Exclude S00 via hard barrier encoding (bit 0 fixed to 0)\"},\n    {\"feature_ids\": [\"CLUSTERS\"], \"decision\": \"Single cluster → full connectivity allowed; but sparse schedule reduces depth\"},\n    {\"feature_ids\": [\"OBJECTIVE_TERMS\"], \"decision\": \"All quadratic terms retained in COST; no truncation\"}\n  ]\n}",
+    "finish_reason": "stop",
+    "usage": {
+      "input_tokens": 5627,
+      "output_tokens": 1385
+    },
+    "model": "Qwen/Qwen3-Coder-Next-FP8",
+    "revision": "da6e2ed27304dd39abadd9c82ef50e8de67bdd4c",
+    "execution": "live_modal_vllm",
+    "batch_elapsed_seconds": 394.2419715419819,
+    "amortized_inference_seconds": 131.41399051399398,
+    "reserved_usd": 1.02,
+    "job_id": "b69bac5144f94b7794a84e5c3199bc9d"
+  },
+  "c67abc4ffcdd8e3eb891fb6d0fb34b7f736c4ec3c3eaa245f62d59643a8c195a": {
+    "request_hash": "c67abc4ffcdd8e3eb891fb6d0fb34b7f736c4ec3c3eaa245f62d59643a8c195a",
+    "status": "ok",
+    "response": {
+      "version": "gate-ir-v1",
+      "problem_hash": "1fa26334f93f7a81b4ee28e6a3f29add74d9d36841c2270c3f67a2585b8bc2e4",
+      "hamiltonian_hash": "1de1ae712a8cdc1cec76a6ced185a08eff295c35291861c5b3e8004c96c1f35b",
+      "qubit_to_asset": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "mode": "preserve_cardinality",
+      "initial_bits": [
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "parameters": [
+        {
+          "id": "gamma_0",
+          "kind": "cost",
+          "initial": 0.1
+        },
+        {
+          "id": "beta_0",
+          "kind": "mixer",
+          "initial": 0.1
+        },
+        {
+          "id": "beta_1",
+          "kind": "mixer",
+          "initial": 0.1
+        },
+        {
+          "id": "beta_2",
+          "kind": "mixer",
+          "initial": 0.1
+        }
+      ],
+      "initialization": [
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            1
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            1,
+            2
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            2,
+            3
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            4,
+            5
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            5,
+            6
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            6,
+            7
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        }
+      ],
+      "layers": [
+        {
+          "cost": {
+            "op": "COST",
+            "parameter": "gamma_0",
+            "hamiltonian_hash": "1de1ae712a8cdc1cec76a6ced185a08eff295c35291861c5b3e8004c96c1f35b"
+          },
+          "mixer": [
+            {
+              "op": "RXX",
+              "qubits": [
+                1,
+                2
+              ],
+              "angle": {
+                "parameter": "beta_0",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RXX",
+              "qubits": [
+                2,
+                3
+              ],
+              "angle": {
+                "parameter": "beta_0",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RXX",
+              "qubits": [
+                4,
+                5
+              ],
+              "angle": {
+                "parameter": "beta_1",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RXX",
+              "qubits": [
+                5,
+                6
+              ],
+              "angle": {
+                "parameter": "beta_1",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RXX",
+              "qubits": [
+                6,
+                7
+              ],
+              "angle": {
+                "parameter": "beta_2",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RXX",
+              "qubits": [
+                1,
+                4
+              ],
+              "angle": {
+                "parameter": "beta_2",
+                "scale": 2,
+                "offset": 0
+              }
+            }
+          ]
+        }
+      ],
+      "rationale": [
+        {
+          "feature_ids": [
+            "CORRELATION",
+            "INCUMBENT"
+          ],
+          "decision": "Sparse connected mixer edges based on strong_pairs and incumbent holdings to preserve cardinality while respecting exclude:S00 via fixed initialization"
+        },
+        {
+          "feature_ids": [
+            "OBJECTIVE_TERMS"
+          ],
+          "decision": "Single cost layer with gamma_0 to encode quadratic/linear terms; cost_weight=0.01 already embedded in Hamiltonian"
+        },
+        {
+          "feature_ids": [
+            "CLUSTERS"
+          ],
+          "decision": "One cluster covering all assets; no cluster-based partitioning needed"
+        },
+        {
+          "feature_ids": [
+            "STABILITY"
+          ],
+          "decision": "Short fixed exchange preparation (0.3 rad) ensures gamma_0 is not pure global phase"
+        }
+      ]
+    },
+    "raw_text": "{\n  \"version\": \"gate-ir-v1\",\n  \"problem_hash\": \"1fa26334f93f7a81b4ee28e6a3f29add74d9d36841c2270c3f67a2585b8bc2e4\",\n  \"hamiltonian_hash\": \"1de1ae712a8cdc1cec76a6ced185a08eff295c35291861c5b3e8004c96c1f35b\",\n  \"qubit_to_asset\": [0, 1, 2, 3, 4, 5, 6, 7],\n  \"mode\": \"preserve_cardinality\",\n  \"initial_bits\": [0, 1, 1, 1, 0, 0, 0, 0],\n  \"parameters\": [\n    {\"id\": \"gamma_0\", \"kind\": \"cost\", \"initial\": 0.1},\n    {\"id\": \"beta_0\", \"kind\": \"mixer\", \"initial\": 0.1},\n    {\"id\": \"beta_1\", \"kind\": \"mixer\", \"initial\": 0.1},\n    {\"id\": \"beta_2\", \"kind\": \"mixer\", \"initial\": 0.1}\n  ],\n  \"initialization\": [\n    {\"op\": \"RXX\", \"qubits\": [0, 1], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [1, 2], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [2, 3], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [4, 5], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [5, 6], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [6, 7], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}}\n  ],\n  \"layers\": [\n    {\n      \"cost\": {\n        \"op\": \"COST\",\n        \"parameter\": \"gamma_0\",\n        \"hamiltonian_hash\": \"1de1ae712a8cdc1cec76a6ced185a08eff295c35291861c5b3e8004c96c1f35b\"\n      },\n      \"mixer\": [\n        {\"op\": \"RXX\", \"qubits\": [1, 2], \"angle\": {\"parameter\": \"beta_0\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RXX\", \"qubits\": [2, 3], \"angle\": {\"parameter\": \"beta_0\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RXX\", \"qubits\": [4, 5], \"angle\": {\"parameter\": \"beta_1\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RXX\", \"qubits\": [5, 6], \"angle\": {\"parameter\": \"beta_1\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RXX\", \"qubits\": [6, 7], \"angle\": {\"parameter\": \"beta_2\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RXX\", \"qubits\": [1, 4], \"angle\": {\"parameter\": \"beta_2\", \"scale\": 2, \"offset\": 0}}\n      ]\n    }\n  ]\n  \n  ,\n  \"rationale\": [\n    {\"feature_ids\": [\"CORRELATION\", \"INCUMBENT\"], \"decision\": \"Sparse connected mixer edges based on strong_pairs and incumbent holdings to preserve cardinality while respecting exclude:S00 via fixed initialization\"},\n    {\"feature_ids\": [\"OBJECTIVE_TERMS\"], \"decision\": \"Single cost layer with gamma_0 to encode quadratic/linear terms; cost_weight=0.01 already embedded in Hamiltonian\"},\n    {\"feature_ids\": [\"CLUSTERS\"], \"decision\": \"One cluster covering all assets; no cluster-based partitioning needed\"},\n    {\"feature_ids\": [\"STABILITY\"], \"decision\": \"Short fixed exchange preparation (0.3 rad) ensures gamma_0 is not pure global phase\"}\n  ]\n}",
+    "finish_reason": "stop",
+    "usage": {
+      "input_tokens": 8081,
+      "output_tokens": 1075
+    },
+    "model": "Qwen/Qwen3-Coder-Next-FP8",
+    "revision": "da6e2ed27304dd39abadd9c82ef50e8de67bdd4c",
+    "execution": "live_modal_vllm",
+    "batch_elapsed_seconds": 394.2419715419819,
+    "amortized_inference_seconds": 131.41399051399398,
+    "reserved_usd": 1.02,
+    "job_id": "b69bac5144f94b7794a84e5c3199bc9d"
+  },
+  "0248f275d0ac9c4bc27791cf59f5acf7cc38355bacc54a7dfa4929b86e714781": {
+    "request_hash": "0248f275d0ac9c4bc27791cf59f5acf7cc38355bacc54a7dfa4929b86e714781",
+    "status": "ok",
+    "response": {
+      "version": "gate-ir-v1",
+      "problem_hash": "c7ed0738007c259f37e83aee376ed3063a3dad4edd41392456796c06d52f2810",
+      "hamiltonian_hash": "1fd1beb2d863c2cd71fc8d721d7e3cac19025028b3ba5821c9861271149dce3a",
+      "qubit_to_asset": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "mode": "preserve_cardinality",
+      "initial_bits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "parameters": [
+        {
+          "id": "gamma_0",
+          "kind": "cost",
+          "initial": 0.1
+        },
+        {
+          "id": "beta_0",
+          "kind": "mixer",
+          "initial": 0.1
+        },
+        {
+          "id": "beta_1",
+          "kind": "mixer",
+          "initial": 0.1
+        },
+        {
+          "id": "beta_2",
+          "kind": "mixer",
+          "initial": 0.1
+        }
+      ],
+      "initialization": [
+        {
+          "op": "RXX",
+          "qubits": [
+            2,
+            5
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            3
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            1,
+            4
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            3,
+            5
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            4,
+            5
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            3,
+            4
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            4
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            2,
+            3
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            5
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            1,
+            5
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            1
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            2,
+            4
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            1,
+            3
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            2
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            1,
+            2
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        }
+      ],
+      "layers": [
+        {
+          "cost": {
+            "op": "COST",
+            "parameter": "gamma_0",
+            "hamiltonian_hash": "1fd1beb2d863c2cd71fc8d721d7e3cac19025028b3ba5821c9861271149dce3a"
+          },
+          "mixer": [
+            {
+              "op": "RXX",
+              "qubits": [
+                1,
+                2
+              ],
+              "angle": {
+                "parameter": "beta_0",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RYY",
+              "qubits": [
+                1,
+                2
+              ],
+              "angle": {
+                "parameter": "beta_0",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RXX",
+              "qubits": [
+                3,
+                4
+              ],
+              "angle": {
+                "parameter": "beta_1",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RYY",
+              "qubits": [
+                3,
+                4
+              ],
+              "angle": {
+                "parameter": "beta_1",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RXX",
+              "qubits": [
+                4,
+                5
+              ],
+              "angle": {
+                "parameter": "beta_2",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RYY",
+              "qubits": [
+                4,
+                5
+              ],
+              "angle": {
+                "parameter": "beta_2",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RXX",
+              "qubits": [
+                2,
+                5
+              ],
+              "angle": {
+                "parameter": "beta_0",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RYY",
+              "qubits": [
+                2,
+                5
+              ],
+              "angle": {
+                "parameter": "beta_0",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RXX",
+              "qubits": [
+                0,
+                3
+              ],
+              "angle": {
+                "parameter": "beta_1",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RYY",
+              "qubits": [
+                0,
+                3
+              ],
+              "angle": {
+                "parameter": "beta_1",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RXX",
+              "qubits": [
+                1,
+                4
+              ],
+              "angle": {
+                "parameter": "beta_2",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RYY",
+              "qubits": [
+                1,
+                4
+              ],
+              "angle": {
+                "parameter": "beta_2",
+                "scale": 2,
+                "offset": 0
+              }
+            }
+          ]
+        }
+      ],
+      "rationale": [
+        {
+          "feature_ids": [
+            "CORRELATION"
+          ],
+          "decision": "Use strong_pairs to guide sparse connected mixer edges"
+        },
+        {
+          "feature_ids": [
+            "INCUMBENT"
+          ],
+          "decision": "Exclude S00 via hard barrier encoding (bit 0 fixed to 0)"
+        },
+        {
+          "feature_ids": [
+            "CLUSTERS"
+          ],
+          "decision": "Single cluster → full connectivity allowed; but sparse schedule reduces depth"
+        },
+        {
+          "feature_ids": [
+            "OBJECTIVE_TERMS"
+          ],
+          "decision": "All quadratic terms retained in COST; no truncation"
+        },
+        {
+          "feature_ids": [
+            "STABILITY"
+          ],
+          "decision": "Add RYY companion to each RXX to guarantee exact cardinality conservation per layer"
+        }
+      ]
+    },
+    "raw_text": "{\n  \"version\": \"gate-ir-v1\",\n  \"problem_hash\": \"c7ed0738007c259f37e83aee376ed3063a3dad4edd41392456796c06d52f2810\",\n  \"hamiltonian_hash\": \"1fd1beb2d863c2cd71fc8d721d7e3cac19025028b3ba5821c9861271149dce3a\",\n  \"qubit_to_asset\": [0, 1, 2, 3, 4, 5],\n  \"mode\": \"preserve_cardinality\",\n  \"initial_bits\": [0, 0, 0, 0, 0, 0],\n  \"parameters\": [\n    {\"id\": \"gamma_0\", \"kind\": \"cost\", \"initial\": 0.1},\n    {\"id\": \"beta_0\", \"kind\": \"mixer\", \"initial\": 0.1},\n    {\"id\": \"beta_1\", \"kind\": \"mixer\", \"initial\": 0.1},\n    {\"id\": \"beta_2\", \"kind\": \"mixer\", \"initial\": 0.1}\n  ],\n  \"initialization\": [\n    {\"op\": \"RXX\", \"qubits\": [2, 5], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [0, 3], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [1, 4], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [3, 5], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [4, 5], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [3, 4], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [0, 4], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [2, 3], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [0, 5], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [1, 5], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [0, 1], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [2, 4], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [1, 3], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [0, 2], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [1, 2], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}}\n  ],\n  \"layers\": [\n    {\n      \"cost\": {\n        \"op\": \"COST\",\n        \"parameter\": \"gamma_0\",\n        \"hamiltonian_hash\": \"1fd1beb2d863c2cd71fc8d721d7e3cac19025028b3ba5821c9861271149dce3a\"\n      },\n      \"mixer\": [\n        {\"op\": \"RXX\", \"qubits\": [1, 2], \"angle\": {\"parameter\": \"beta_0\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RYY\", \"qubits\": [1, 2], \"angle\": {\"parameter\": \"beta_0\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RXX\", \"qubits\": [3, 4], \"angle\": {\"parameter\": \"beta_1\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RYY\", \"qubits\": [3, 4], \"angle\": {\"parameter\": \"beta_1\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RXX\", \"qubits\": [4, 5], \"angle\": {\"parameter\": \"beta_2\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RYY\", \"qubits\": [4, 5], \"angle\": {\"parameter\": \"beta_2\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RXX\", \"qubits\": [2, 5], \"angle\": {\"parameter\": \"beta_0\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RYY\", \"qubits\": [2, 5], \"angle\": {\"parameter\": \"beta_0\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RXX\", \"qubits\": [0, 3], \"angle\": {\"parameter\": \"beta_1\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RYY\", \"qubits\": [0, 3], \"angle\": {\"parameter\": \"beta_1\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RXX\", \"qubits\": [1, 4], \"angle\": {\"parameter\": \"beta_2\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RYY\", \"qubits\": [1, 4], \"angle\": {\"parameter\": \"beta_2\", \"scale\": 2, \"offset\": 0}}\n      ]\n    }\n  ],\n  \"rationale\": [\n    {\"feature_ids\": [\"CORRELATION\"], \"decision\": \"Use strong_pairs to guide sparse connected mixer edges\"},\n    {\"feature_ids\": [\"INCUMBENT\"], \"decision\": \"Exclude S00 via hard barrier encoding (bit 0 fixed to 0)\"},\n    {\"feature_ids\": [\"CLUSTERS\"], \"decision\": \"Single cluster → full connectivity allowed; but sparse schedule reduces depth\"},\n    {\"feature_ids\": [\"OBJECTIVE_TERMS\"], \"decision\": \"All quadratic terms retained in COST; no truncation\"},\n    {\"feature_ids\": [\"STABILITY\"], \"decision\": \"Add RYY companion to each RXX to guarantee exact cardinality conservation per layer\"}\n  ]\n}",
+    "finish_reason": "stop",
+    "usage": {
+      "input_tokens": 7001,
+      "output_tokens": 1654
+    },
+    "model": "Qwen/Qwen3-Coder-Next-FP8",
+    "revision": "da6e2ed27304dd39abadd9c82ef50e8de67bdd4c",
+    "execution": "live_modal_vllm",
+    "batch_elapsed_seconds": 373.2719066670106,
+    "amortized_inference_seconds": 186.6359533335053,
+    "reserved_usd": 1.53,
+    "job_id": "e2771eb654ab4363abf5776f22eb030c"
+  },
+  "58391458588d4c65fbbbb7d6f80d74b08bababdcc998768d7216bff4bb14eb21": {
+    "request_hash": "58391458588d4c65fbbbb7d6f80d74b08bababdcc998768d7216bff4bb14eb21",
+    "status": "ok",
+    "response": {
+      "version": "gate-ir-v1",
+      "problem_hash": "1fa26334f93f7a81b4ee28e6a3f29add74d9d36841c2270c3f67a2585b8bc2e4",
+      "hamiltonian_hash": "1de1ae712a8cdc1cec76a6ced185a08eff295c35291861c5b3e8004c96c1f35b",
+      "qubit_to_asset": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "mode": "preserve_cardinality",
+      "initial_bits": [
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "parameters": [
+        {
+          "id": "gamma_0",
+          "kind": "cost",
+          "initial": 0.1
+        },
+        {
+          "id": "beta_0",
+          "kind": "mixer",
+          "initial": 0.1
+        },
+        {
+          "id": "beta_1",
+          "kind": "mixer",
+          "initial": 0.1
+        },
+        {
+          "id": "beta_2",
+          "kind": "mixer",
+          "initial": 0.1
+        }
+      ],
+      "initialization": [
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            1
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            0,
+            1
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            1,
+            2
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            1,
+            2
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            2,
+            3
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            2,
+            3
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            4,
+            5
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            4,
+            5
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            5,
+            6
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            5,
+            6
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            6,
+            7
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            6,
+            7
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        }
+      ],
+      "layers": [
+        {
+          "cost": {
+            "op": "COST",
+            "parameter": "gamma_0",
+            "hamiltonian_hash": "1de1ae712a8cdc1cec76a6ced185a08eff295c35291861c5b3e8004c96c1f35b"
+          },
+          "mixer": [
+            {
+              "op": "RXX",
+              "qubits": [
+                1,
+                2
+              ],
+              "angle": {
+                "parameter": "beta_0",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RYY",
+              "qubits": [
+                1,
+                2
+              ],
+              "angle": {
+                "parameter": "beta_0",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RXX",
+              "qubits": [
+                2,
+                3
+              ],
+              "angle": {
+                "parameter": "beta_0",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RYY",
+              "qubits": [
+                2,
+                3
+              ],
+              "angle": {
+                "parameter": "beta_0",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RXX",
+              "qubits": [
+                4,
+                5
+              ],
+              "angle": {
+                "parameter": "beta_1",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RYY",
+              "qubits": [
+                4,
+                5
+              ],
+              "angle": {
+                "parameter": "beta_1",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RXX",
+              "qubits": [
+                5,
+                6
+              ],
+              "angle": {
+                "parameter": "beta_1",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RYY",
+              "qubits": [
+                5,
+                6
+              ],
+              "angle": {
+                "parameter": "beta_1",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RXX",
+              "qubits": [
+                6,
+                7
+              ],
+              "angle": {
+                "parameter": "beta_2",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RYY",
+              "qubits": [
+                6,
+                7
+              ],
+              "angle": {
+                "parameter": "beta_2",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RXX",
+              "qubits": [
+                1,
+                4
+              ],
+              "angle": {
+                "parameter": "beta_2",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RYY",
+              "qubits": [
+                1,
+                4
+              ],
+              "angle": {
+                "parameter": "beta_2",
+                "scale": 2,
+                "offset": 0
+              }
+            }
+          ]
+        }
+      ],
+      "rationale": [
+        {
+          "feature_ids": [
+            "CORRELATION",
+            "INCUMBENT"
+          ],
+          "decision": "Adjacent RXX/RYY pairs on strong_pairs edges (1-2,2-3,4-5,5-6,6-7,1-4) preserve cardinality; excludes S00 via fixed initialization"
+        },
+        {
+          "feature_ids": [
+            "OBJECTIVE_TERMS"
+          ],
+          "decision": "Single COST layer with gamma_0 encodes all linear/quadratic terms; cost_weight embedded in Hamiltonian"
+        },
+        {
+          "feature_ids": [
+            "CLUSTERS"
+          ],
+          "decision": "One cluster covers all assets; no partitioning needed"
+        },
+        {
+          "feature_ids": [
+            "STABILITY"
+          ],
+          "decision": "Fixed preparation with RXX/RYY pairs ensures gamma_0 contributes nontrivial dynamics"
+        }
+      ]
+    },
+    "raw_text": "{\n  \"version\": \"gate-ir-v1\",\n  \"problem_hash\": \"1fa26334f93f7a81b4ee28e6a3f29add74d9d36841c2270c3f67a2585b8bc2e4\",\n  \"hamiltonian_hash\": \"1de1ae712a8cdc1cec76a6ced185a08eff295c35291861c5b3e8004c96c1f35b\",\n  \"qubit_to_asset\": [0, 1, 2, 3, 4, 5, 6, 7],\n  \"mode\": \"preserve_cardinality\",\n  \"initial_bits\": [0, 1, 1, 1, 0, 0, 0, 0],\n  \"parameters\": [\n    {\"id\": \"gamma_0\", \"kind\": \"cost\", \"initial\": 0.1},\n    {\"id\": \"beta_0\", \"kind\": \"mixer\", \"initial\": 0.1},\n    {\"id\": \"beta_1\", \"kind\": \"mixer\", \"initial\": 0.1},\n    {\"id\": \"beta_2\", \"kind\": \"mixer\", \"initial\": 0.1}\n  ],\n  \"initialization\": [\n    {\"op\": \"RXX\", \"qubits\": [0, 1], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RYY\", \"qubits\": [0, 1], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [1, 2], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RYY\", \"qubits\": [1, 2], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [2, 3], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RYY\", \"qubits\": [2, 3], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [4, 5], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RYY\", \"qubits\": [4, 5], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [5, 6], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RYY\", \"qubits\": [5, 6], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [6, 7], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RYY\", \"qubits\": [6, 7], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}}\n  ],\n  \"layers\": [\n    {\n      \"cost\": {\n        \"op\": \"COST\",\n        \"parameter\": \"gamma_0\",\n        \"hamiltonian_hash\": \"1de1ae712a8cdc1cec76a6ced185a08eff295c35291861c5b3e8004c96c1f35b\"\n      },\n      \"mixer\": [\n        {\"op\": \"RXX\", \"qubits\": [1, 2], \"angle\": {\"parameter\": \"beta_0\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RYY\", \"qubits\": [1, 2], \"angle\": {\"parameter\": \"beta_0\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RXX\", \"qubits\": [2, 3], \"angle\": {\"parameter\": \"beta_0\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RYY\", \"qubits\": [2, 3], \"angle\": {\"parameter\": \"beta_0\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RXX\", \"qubits\": [4, 5], \"angle\": {\"parameter\": \"beta_1\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RYY\", \"qubits\": [4, 5], \"angle\": {\"parameter\": \"beta_1\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RXX\", \"qubits\": [5, 6], \"angle\": {\"parameter\": \"beta_1\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RYY\", \"qubits\": [5, 6], \"angle\": {\"parameter\": \"beta_1\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RXX\", \"qubits\": [6, 7], \"angle\": {\"parameter\": \"beta_2\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RYY\", \"qubits\": [6, 7], \"angle\": {\"parameter\": \"beta_2\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RXX\", \"qubits\": [1, 4], \"angle\": {\"parameter\": \"beta_2\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RYY\", \"qubits\": [1, 4], \"angle\": {\"parameter\": \"beta_2\", \"scale\": 2, \"offset\": 0}}\n      ]\n    }\n  ],\n  \"rationale\": [\n    {\"feature_ids\": [\"CORRELATION\", \"INCUMBENT\"], \"decision\": \"Adjacent RXX/RYY pairs on strong_pairs edges (1-2,2-3,4-5,5-6,6-7,1-4) preserve cardinality; excludes S00 via fixed initialization\"},\n    {\"feature_ids\": [\"OBJECTIVE_TERMS\"], \"decision\": \"Single COST layer with gamma_0 encodes all linear/quadratic terms; cost_weight embedded in Hamiltonian\"},\n    {\"feature_ids\": [\"CLUSTERS\"], \"decision\": \"One cluster covers all assets; no partitioning needed\"},\n    {\"feature_ids\": [\"STABILITY\"], \"decision\": \"Fixed preparation with RXX/RYY pairs ensures gamma_0 contributes nontrivial dynamics\"}\n  ]\n}",
+    "finish_reason": "stop",
+    "usage": {
+      "input_tokens": 9153,
+      "output_tokens": 1567
+    },
+    "model": "Qwen/Qwen3-Coder-Next-FP8",
+    "revision": "da6e2ed27304dd39abadd9c82ef50e8de67bdd4c",
+    "execution": "live_modal_vllm",
+    "batch_elapsed_seconds": 373.2719066670106,
+    "amortized_inference_seconds": 186.6359533335053,
+    "reserved_usd": 1.53,
+    "job_id": "e2771eb654ab4363abf5776f22eb030c"
+  },
+  "0c7ab0a91e4b26cd34babd828a738388e0b6977006d36f77bed11e380b01338a": {
+    "request_hash": "0c7ab0a91e4b26cd34babd828a738388e0b6977006d36f77bed11e380b01338a",
+    "status": "ok",
+    "response": {
+      "version": "gate-ir-v1",
+      "problem_hash": "c7ed0738007c259f37e83aee376ed3063a3dad4edd41392456796c06d52f2810",
+      "hamiltonian_hash": "1fd1beb2d863c2cd71fc8d721d7e3cac19025028b3ba5821c9861271149dce3a",
+      "qubit_to_asset": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "mode": "preserve_cardinality",
+      "initial_bits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "parameters": [
+        {
+          "id": "gamma_0",
+          "kind": "cost",
+          "initial": 0.1
+        },
+        {
+          "id": "beta_0",
+          "kind": "mixer",
+          "initial": 0.1
+        },
+        {
+          "id": "beta_1",
+          "kind": "mixer",
+          "initial": 0.1
+        },
+        {
+          "id": "beta_2",
+          "kind": "mixer",
+          "initial": 0.1
+        }
+      ],
+      "initialization": [
+        {
+          "op": "RXX",
+          "qubits": [
+            2,
+            5
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            3
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            1,
+            4
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            3,
+            5
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            4,
+            5
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            3,
+            4
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            4
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            2,
+            3
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            5
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            1,
+            5
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            1
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            2,
+            4
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            1,
+            3
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            2
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            1,
+            2
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        }
+      ],
+      "layers": [
+        {
+          "cost": {
+            "op": "COST",
+            "parameter": "gamma_0",
+            "hamiltonian_hash": "1fd1beb2d863c2cd71fc8d721d7e3cac19025028b3ba5821c9861271149dce3a"
+          },
+          "mixer": [
+            {
+              "op": "RXX",
+              "qubits": [
+                1,
+                2
+              ],
+              "angle": {
+                "parameter": "beta_0",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RYY",
+              "qubits": [
+                1,
+                2
+              ],
+              "angle": {
+                "parameter": "beta_0",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RXX",
+              "qubits": [
+                3,
+                4
+              ],
+              "angle": {
+                "parameter": "beta_1",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RYY",
+              "qubits": [
+                3,
+                4
+              ],
+              "angle": {
+                "parameter": "beta_1",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RXX",
+              "qubits": [
+                4,
+                5
+              ],
+              "angle": {
+                "parameter": "beta_2",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RYY",
+              "qubits": [
+                4,
+                5
+              ],
+              "angle": {
+                "parameter": "beta_2",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RXX",
+              "qubits": [
+                2,
+                5
+              ],
+              "angle": {
+                "parameter": "beta_0",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RYY",
+              "qubits": [
+                2,
+                5
+              ],
+              "angle": {
+                "parameter": "beta_0",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RXX",
+              "qubits": [
+                0,
+                3
+              ],
+              "angle": {
+                "parameter": "beta_1",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RYY",
+              "qubits": [
+                0,
+                3
+              ],
+              "angle": {
+                "parameter": "beta_1",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RXX",
+              "qubits": [
+                1,
+                4
+              ],
+              "angle": {
+                "parameter": "beta_2",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RYY",
+              "qubits": [
+                1,
+                4
+              ],
+              "angle": {
+                "parameter": "beta_2",
+                "scale": 2,
+                "offset": 0
+              }
+            }
+          ]
+        }
+      ],
+      "rationale": [
+        {
+          "feature_ids": [
+            "CORRELATION"
+          ],
+          "decision": "Use strong_pairs to guide sparse connected mixer edges"
+        },
+        {
+          "feature_ids": [
+            "INCUMBENT"
+          ],
+          "decision": "Exclude S00 via hard barrier encoding (bit 0 fixed to 0)"
+        },
+        {
+          "feature_ids": [
+            "CLUSTERS"
+          ],
+          "decision": "Single cluster → full connectivity allowed; but sparse schedule reduces depth"
+        },
+        {
+          "feature_ids": [
+            "OBJECTIVE_TERMS"
+          ],
+          "decision": "All quadratic terms retained in COST; no truncation"
+        },
+        {
+          "feature_ids": [
+            "STABILITY"
+          ],
+          "decision": "Add RYY companion to each RXX to guarantee exact cardinality conservation per layer"
+        },
+        {
+          "feature_ids": [
+            "INCUMBENT"
+          ],
+          "decision": "Fix bit 0 to 0 in initialization to enforce exclusion of S00"
+        }
+      ]
+    },
+    "raw_text": "{\n  \"version\": \"gate-ir-v1\",\n  \"problem_hash\": \"c7ed0738007c259f37e83aee376ed3063a3dad4edd41392456796c06d52f2810\",\n  \"hamiltonian_hash\": \"1fd1beb2d863c2cd71fc8d721d7e3cac19025028b3ba5821c9861271149dce3a\",\n  \"qubit_to_asset\": [0, 1, 2, 3, 4, 5],\n  \"mode\": \"preserve_cardinality\",\n  \"initial_bits\": [0, 0, 0, 0, 0, 0],\n  \"parameters\": [\n    {\"id\": \"gamma_0\", \"kind\": \"cost\", \"initial\": 0.1},\n    {\"id\": \"beta_0\", \"kind\": \"mixer\", \"initial\": 0.1},\n    {\"id\": \"beta_1\", \"kind\": \"mixer\", \"initial\": 0.1},\n    {\"id\": \"beta_2\", \"kind\": \"mixer\", \"initial\": 0.1}\n  ],\n  \"initialization\": [\n    {\"op\": \"RXX\", \"qubits\": [2, 5], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [0, 3], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [1, 4], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [3, 5], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [4, 5], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [3, 4], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [0, 4], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [2, 3], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [0, 5], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [1, 5], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [0, 1], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [2, 4], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [1, 3], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [0, 2], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [1, 2], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}}\n  ],\n  \"layers\": [\n    {\n      \"cost\": {\n        \"op\": \"COST\",\n        \"parameter\": \"gamma_0\",\n        \"hamiltonian_hash\": \"1fd1beb2d863c2cd71fc8d721d7e3cac19025028b3ba5821c9861271149dce3a\"\n      },\n      \"mixer\": [\n        {\"op\": \"RXX\", \"qubits\": [1, 2], \"angle\": {\"parameter\": \"beta_0\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RYY\", \"qubits\": [1, 2], \"angle\": {\"parameter\": \"beta_0\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RXX\", \"qubits\": [3, 4], \"angle\": {\"parameter\": \"beta_1\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RYY\", \"qubits\": [3, 4], \"angle\": {\"parameter\": \"beta_1\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RXX\", \"qubits\": [4, 5], \"angle\": {\"parameter\": \"beta_2\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RYY\", \"qubits\": [4, 5], \"angle\": {\"parameter\": \"beta_2\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RXX\", \"qubits\": [2, 5], \"angle\": {\"parameter\": \"beta_0\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RYY\", \"qubits\": [2, 5], \"angle\": {\"parameter\": \"beta_0\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RXX\", \"qubits\": [0, 3], \"angle\": {\"parameter\": \"beta_1\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RYY\", \"qubits\": [0, 3], \"angle\": {\"parameter\": \"beta_1\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RXX\", \"qubits\": [1, 4], \"angle\": {\"parameter\": \"beta_2\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RYY\", \"qubits\": [1, 4], \"angle\": {\"parameter\": \"beta_2\", \"scale\": 2, \"offset\": 0}}\n      ]\n    }\n  ],\n  \"rationale\": [\n    {\"feature_ids\": [\"CORRELATION\"], \"decision\": \"Use strong_pairs to guide sparse connected mixer edges\"},\n    {\"feature_ids\": [\"INCUMBENT\"], \"decision\": \"Exclude S00 via hard barrier encoding (bit 0 fixed to 0)\"},\n    {\"feature_ids\": [\"CLUSTERS\"], \"decision\": \"Single cluster → full connectivity allowed; but sparse schedule reduces depth\"},\n    {\"feature_ids\": [\"OBJECTIVE_TERMS\"], \"decision\": \"All quadratic terms retained in COST; no truncation\"},\n    {\"feature_ids\": [\"STABILITY\"], \"decision\": \"Add RYY companion to each RXX to guarantee exact cardinality conservation per layer\"},\n    {\"feature_ids\": [\"INCUMBENT\"], \"decision\": \"Fix bit 0 to 0 in initialization to enforce exclusion of S00\"}\n  ]\n}",
+    "finish_reason": "stop",
+    "usage": {
+      "input_tokens": 7274,
+      "output_tokens": 1685
+    },
+    "model": "Qwen/Qwen3-Coder-Next-FP8",
+    "revision": "da6e2ed27304dd39abadd9c82ef50e8de67bdd4c",
+    "execution": "live_modal_vllm",
+    "batch_elapsed_seconds": 325.7649332919973,
+    "amortized_inference_seconds": 162.88246664599865,
+    "reserved_usd": 1.53,
+    "job_id": "64bc9af5b35741fca09da981f98c4f22"
+  },
+  "c3c1e6e6294861f408fb18bdf44bced844ac715b3ffd84cad8ace9249c79c78f": {
+    "request_hash": "c3c1e6e6294861f408fb18bdf44bced844ac715b3ffd84cad8ace9249c79c78f",
+    "status": "ok",
+    "response": {
+      "version": "gate-ir-v1",
+      "problem_hash": "1fa26334f93f7a81b4ee28e6a3f29add74d9d36841c2270c3f67a2585b8bc2e4",
+      "hamiltonian_hash": "1de1ae712a8cdc1cec76a6ced185a08eff295c35291861c5b3e8004c96c1f35b",
+      "qubit_to_asset": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "mode": "preserve_cardinality",
+      "initial_bits": [
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "parameters": [
+        {
+          "id": "gamma_0",
+          "kind": "cost",
+          "initial": 0.1
+        },
+        {
+          "id": "beta_0",
+          "kind": "mixer",
+          "initial": 0.1
+        },
+        {
+          "id": "beta_1",
+          "kind": "mixer",
+          "initial": 0.1
+        },
+        {
+          "id": "beta_2",
+          "kind": "mixer",
+          "initial": 0.1
+        }
+      ],
+      "initialization": [
+        {
+          "op": "RXX",
+          "qubits": [
+            1,
+            2
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            1,
+            2
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            2,
+            3
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            2,
+            3
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            4,
+            5
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            4,
+            5
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            5,
+            6
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            5,
+            6
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            6,
+            7
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            6,
+            7
+          ],
+          "angle": {
+            "parameter": null,
+            "scale": 0,
+            "offset": 0.3
+          }
+        }
+      ],
+      "layers": [
+        {
+          "cost": {
+            "op": "COST",
+            "parameter": "gamma_0",
+            "hamiltonian_hash": "1de1ae712a8cdc1cec76a6ced185a08eff295c35291861c5b3e8004c96c1f35b"
+          },
+          "mixer": [
+            {
+              "op": "RXX",
+              "qubits": [
+                1,
+                2
+              ],
+              "angle": {
+                "parameter": "beta_0",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RYY",
+              "qubits": [
+                1,
+                2
+              ],
+              "angle": {
+                "parameter": "beta_0",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RXX",
+              "qubits": [
+                2,
+                3
+              ],
+              "angle": {
+                "parameter": "beta_0",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RYY",
+              "qubits": [
+                2,
+                3
+              ],
+              "angle": {
+                "parameter": "beta_0",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RXX",
+              "qubits": [
+                4,
+                5
+              ],
+              "angle": {
+                "parameter": "beta_1",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RYY",
+              "qubits": [
+                4,
+                5
+              ],
+              "angle": {
+                "parameter": "beta_1",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RXX",
+              "qubits": [
+                5,
+                6
+              ],
+              "angle": {
+                "parameter": "beta_1",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RYY",
+              "qubits": [
+                5,
+                6
+              ],
+              "angle": {
+                "parameter": "beta_1",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RXX",
+              "qubits": [
+                6,
+                7
+              ],
+              "angle": {
+                "parameter": "beta_2",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RYY",
+              "qubits": [
+                6,
+                7
+              ],
+              "angle": {
+                "parameter": "beta_2",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RXX",
+              "qubits": [
+                1,
+                4
+              ],
+              "angle": {
+                "parameter": "beta_2",
+                "scale": 2,
+                "offset": 0
+              }
+            },
+            {
+              "op": "RYY",
+              "qubits": [
+                1,
+                4
+              ],
+              "angle": {
+                "parameter": "beta_2",
+                "scale": 2,
+                "offset": 0
+              }
+            }
+          ]
+        }
+      ],
+      "rationale": [
+        {
+          "feature_ids": [
+            "CORRELATION",
+            "INCUMBENT"
+          ],
+          "decision": "Adjacent RXX/RYY pairs on strong_pairs edges (1-2,2-3,4-5,5-6,6-7,1-4) preserve cardinality; excludes S00 via fixed initialization"
+        },
+        {
+          "feature_ids": [
+            "OBJECTIVE_TERMS"
+          ],
+          "decision": "Single COST layer with gamma_0 encodes all linear/quadratic terms; cost_weight embedded in Hamiltonian"
+        },
+        {
+          "feature_ids": [
+            "CLUSTERS"
+          ],
+          "decision": "One cluster covers all assets; no partitioning needed"
+        },
+        {
+          "feature_ids": [
+            "STABILITY"
+          ],
+          "decision": "Fixed preparation with RXX/RYY pairs ensures gamma_0 contributes nontrivial dynamics"
+        },
+        {
+          "feature_ids": [
+            "SPECTRUM"
+          ],
+          "decision": "Sparse connected schedule avoids high-degree nodes and respects numerical rank"
+        }
+      ]
+    },
+    "raw_text": "{\n  \"version\": \"gate-ir-v1\",\n  \"problem_hash\": \"1fa26334f93f7a81b4ee28e6a3f29add74d9d36841c2270c3f67a2585b8bc2e4\",\n  \"hamiltonian_hash\": \"1de1ae712a8cdc1cec76a6ced185a08eff295c35291861c5b3e8004c96c1f35b\",\n  \"qubit_to_asset\": [0, 1, 2, 3, 4, 5, 6, 7],\n  \"mode\": \"preserve_cardinality\",\n  \"initial_bits\": [0, 1, 1, 1, 0, 0, 0, 0],\n  \"parameters\": [\n    {\"id\": \"gamma_0\", \"kind\": \"cost\", \"initial\": 0.1},\n    {\"id\": \"beta_0\", \"kind\": \"mixer\", \"initial\": 0.1},\n    {\"id\": \"beta_1\", \"kind\": \"mixer\", \"initial\": 0.1},\n    {\"id\": \"beta_2\", \"kind\": \"mixer\", \"initial\": 0.1}\n  ],\n  \"initialization\": [\n    {\"op\": \"RXX\", \"qubits\": [1, 2], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RYY\", \"qubits\": [1, 2], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [2, 3], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RYY\", \"qubits\": [2, 3], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [4, 5], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RYY\", \"qubits\": [4, 5], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [5, 6], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RYY\", \"qubits\": [5, 6], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RXX\", \"qubits\": [6, 7], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}},\n    {\"op\": \"RYY\", \"qubits\": [6, 7], \"angle\": {\"parameter\": null, \"scale\": 0, \"offset\": 0.3}}\n  ],\n  \"layers\": [\n    {\n      \"cost\": {\n        \"op\": \"COST\",\n        \"parameter\": \"gamma_0\",\n        \"hamiltonian_hash\": \"1de1ae712a8cdc1cec76a6ced185a08eff295c35291861c5b3e8004c96c1f35b\"\n      },\n      \"mixer\": [\n        {\"op\": \"RXX\", \"qubits\": [1, 2], \"angle\": {\"parameter\": \"beta_0\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RYY\", \"qubits\": [1, 2], \"angle\": {\"parameter\": \"beta_0\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RXX\", \"qubits\": [2, 3], \"angle\": {\"parameter\": \"beta_0\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RYY\", \"qubits\": [2, 3], \"angle\": {\"parameter\": \"beta_0\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RXX\", \"qubits\": [4, 5], \"angle\": {\"parameter\": \"beta_1\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RYY\", \"qubits\": [4, 5], \"angle\": {\"parameter\": \"beta_1\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RXX\", \"qubits\": [5, 6], \"angle\": {\"parameter\": \"beta_1\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RYY\", \"qubits\": [5, 6], \"angle\": {\"parameter\": \"beta_1\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RXX\", \"qubits\": [6, 7], \"angle\": {\"parameter\": \"beta_2\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RYY\", \"qubits\": [6, 7], \"angle\": {\"parameter\": \"beta_2\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RXX\", \"qubits\": [1, 4], \"angle\": {\"parameter\": \"beta_2\", \"scale\": 2, \"offset\": 0}},\n        {\"op\": \"RYY\", \"qubits\": [1, 4], \"angle\": {\"parameter\": \"beta_2\", \"scale\": 2, \"offset\": 0}}\n      ]\n    }\n  ],\n  \"rationale\": [\n    {\"feature_ids\": [\"CORRELATION\", \"INCUMBENT\"], \"decision\": \"Adjacent RXX/RYY pairs on strong_pairs edges (1-2,2-3,4-5,5-6,6-7,1-4) preserve cardinality; excludes S00 via fixed initialization\"},\n    {\"feature_ids\": [\"OBJECTIVE_TERMS\"], \"decision\": \"Single COST layer with gamma_0 encodes all linear/quadratic terms; cost_weight embedded in Hamiltonian\"},\n    {\"feature_ids\": [\"CLUSTERS\"], \"decision\": \"One cluster covers all assets; no partitioning needed\"},\n    {\"feature_ids\": [\"STABILITY\"], \"decision\": \"Fixed preparation with RXX/RYY pairs ensures gamma_0 contributes nontrivial dynamics\"},\n    {\"feature_ids\": [\"SPECTRUM\"], \"decision\": \"Sparse connected schedule avoids high-degree nodes and respects numerical rank\"}\n  ]\n}",
+    "finish_reason": "stop",
+    "usage": {
+      "input_tokens": 9651,
+      "output_tokens": 1514
+    },
+    "model": "Qwen/Qwen3-Coder-Next-FP8",
+    "revision": "da6e2ed27304dd39abadd9c82ef50e8de67bdd4c",
+    "execution": "live_modal_vllm",
+    "batch_elapsed_seconds": 325.7649332919973,
+    "amortized_inference_seconds": 162.88246664599865,
+    "reserved_usd": 1.53,
+    "job_id": "64bc9af5b35741fca09da981f98c4f22"
+  }
+}

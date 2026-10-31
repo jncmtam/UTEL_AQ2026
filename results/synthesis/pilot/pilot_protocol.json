@@ -1,0 +1,47 @@
+{
+  "version": "paired-pilot-v1",
+  "targets": {
+    "version": "synthesis-targets-v1",
+    "first_valid_rate": 0.8,
+    "repaired_instance_rate": 0.9,
+    "state_fidelity_min": 0.999999999,
+    "cardinality_leak_max": 1e-09,
+    "feasible_probability_median": 0.9,
+    "normalized_gap_median_max": 0.05,
+    "relative_gap_improvement": 0.2,
+    "relative_cx_reduction": 0.2,
+    "minimum_independent_instances": 10
+  },
+  "prompt_version": "data-conditioned-gate-ir-v1",
+  "cases": [
+    {
+      "case_id": "n4",
+      "n": 4,
+      "problem_hash": "1b163d741aaba71a7450181c9241bca48b25dd97d972a901cb3c4bcfd0a0dd9d"
+    },
+    {
+      "case_id": "n6",
+      "n": 6,
+      "problem_hash": "c7ed0738007c259f37e83aee376ed3063a3dad4edd41392456796c06d52f2810"
+    },
+    {
+      "case_id": "n8",
+      "n": 8,
+      "problem_hash": "1fa26334f93f7a81b4ee28e6a3f29add74d9d36841c2270c3f67a2585b8bc2e4"
+    }
+  ],
+  "models": [
+    "next80",
+    "coder30"
+  ],
+  "evaluation_seeds": [
+    11,
+    23,
+    47
+  ],
+  "evaluations": 16,
+  "shots": 128,
+  "max_repair_rounds": 2,
+  "purpose": "development_diagnostic_not_holdout",
+  "sources": "docs/SYNTHESIS_THRESHOLDS.md"
+}

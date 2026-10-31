@@ -1,0 +1,3360 @@
+{
+  "protocol": {
+    "version": "paired-pilot-v1",
+    "targets": {
+      "version": "synthesis-targets-v1",
+      "first_valid_rate": 0.8,
+      "repaired_instance_rate": 0.9,
+      "state_fidelity_min": 0.999999999,
+      "cardinality_leak_max": 1e-09,
+      "feasible_probability_median": 0.9,
+      "normalized_gap_median_max": 0.05,
+      "relative_gap_improvement": 0.2,
+      "relative_cx_reduction": 0.2,
+      "minimum_independent_instances": 10
+    },
+    "prompt_version": "data-conditioned-gate-ir-v1",
+    "cases": [
+      {
+        "case_id": "n4",
+        "n": 4,
+        "problem_hash": "1b163d741aaba71a7450181c9241bca48b25dd97d972a901cb3c4bcfd0a0dd9d"
+      },
+      {
+        "case_id": "n6",
+        "n": 6,
+        "problem_hash": "c7ed0738007c259f37e83aee376ed3063a3dad4edd41392456796c06d52f2810"
+      },
+      {
+        "case_id": "n8",
+        "n": 8,
+        "problem_hash": "1fa26334f93f7a81b4ee28e6a3f29add74d9d36841c2270c3f67a2585b8bc2e4"
+      }
+    ],
+    "models": [
+      "next80",
+      "coder30"
+    ],
+    "evaluation_seeds": [
+      11,
+      23,
+      47
+    ],
+    "evaluations": 16,
+    "shots": 128,
+    "max_repair_rounds": 2,
+    "purpose": "development_diagnostic_not_holdout",
+    "sources": "docs/SYNTHESIS_THRESHOLDS.md"
+  },
+  "records": [
+    {
+      "case_id": "n4",
+      "round": 0,
+      "inference": {
+        "request_hash": "fbe4fa2408db4592500fe5a99071dbcee35771a98f9d4fc2cd027d0c3f69bfb0",
+        "status": "ok",
+        "response": {
+          "version": "gate-ir-v1",
+          "problem_hash": "1b163d741aaba71a7450181c9241bca48b25dd97d972a901cb3c4bcfd0a0dd9d",
+          "hamiltonian_hash": "833f7c12b467ae64e8718e21057a59f93a458ec4bb8666f6560d261da369b037",
+          "qubit_to_asset": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "mode": "preserve_cardinality",
+          "initial_bits": [
+            1,
+            1,
+            0,
+            0
+          ],
+          "parameters": [
+            {
+              "id": "gamma_0",
+              "kind": "cost",
+              "initial": 0.3
+            },
+            {
+              "id": "beta_0",
+              "kind": "mixer",
+              "initial": null
+            },
+            {
+              "id": "beta_1",
+              "kind": "mixer",
+              "initial": null
+            },
+            {
+              "id": "beta_2",
+              "kind": "mixer",
+              "initial": null
+            }
+          ],
+          "initialization": [
+            {
+              "op": "H",
+              "qubits": [
+                0,
+                1
+              ],
+              "angle": {
+                "parameter": null,
+                "scale": 0,
+                "offset": 0.3
+              }
+            },
+            {
+              "op": "H",
+              "qubits": [
+                2,
+                3
+              ],
+              "angle": {
+                "parameter": null,
+                "scale": 0,
+                "offset": 0.3
+              }
+            }
+          ],
+          "layers": [
+            {
+              "cost": {
+                "op": "COST",
+                "parameter": "gamma_0",
+                "hamiltonian_hash": "833f7c12b467ae64e8718e21057a59f93a458ec4bb8666f6560d261da369b037"
+              },
+              "mixer": [
+                {
+                  "op": "RXX",
+                  "qubits": [
+                    0,
+                    1
+                  ],
+                  "angle": {
+                    "parameter": "beta_0",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RYY",
+                  "qubits": [
+                    0,
+                    1
+                  ],
+                  "angle": {
+                    "parameter": "beta_0",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RXX",
+                  "qubits": [
+                    2,
+                    3
+                  ],
+                  "angle": {
+                    "parameter": "beta_1",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RYY",
+                  "qubits": [
+                    2,
+                    3
+                  ],
+                  "angle": {
+                    "parameter": "beta_1",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RXX",
+                  "qubits": [
+                    0,
+                    2
+                  ],
+                  "angle": {
+                    "parameter": "beta_2",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RYY",
+                  "qubits": [
+                    0,
+                    2
+                  ],
+                  "angle": {
+                    "parameter": "beta_2",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                }
+              ]
+            }
+          ],
+          "rationale": [
+            {
+              "feature_ids": [
+                "CORRELATION",
+                "OBJECTIVE_TERMS"
+              ],
+              "decision": "Use adjacent RXX/RYY pairs to preserve cardinality while respecting correlations and objective terms."
+            }
+          ]
+        },
+        "raw_text": "{\n  \"version\": \"gate-ir-v1\",\n  \"problem_hash\": \"1b163d741aaba71a7450181c9241bca48b25dd97d972a901cb3c4bcfd0a0dd9d\",\n  \"hamiltonian_hash\": \"833f7c12b467ae64e8718e21057a59f93a458ec4bb8666f6560d261da369b037\",\n  \"qubit_to_asset\": [0, 1, 2, 3],\n  \"mode\": \"preserve_cardinality\",\n  \"initial_bits\": [1, 1, 0, 0],\n  \"parameters\": [\n    {\n      \"id\": \"gamma_0\",\n      \"kind\": \"cost\",\n      \"initial\": 0.3\n    },\n    {\n      \"id\": \"beta_0\",\n      \"kind\": \"mixer\",\n      \"initial\": null\n    },\n    {\n      \"id\": \"beta_1\",\n      \"kind\": \"mixer\",\n      \"initial\": null\n    },\n    {\n      \"id\": \"beta_2\",\n      \"kind\": \"mixer\",\n      \"initial\": null\n    }\n  ],\n  \"initialization\": [\n    {\n      \"op\": \"H\",\n      \"qubits\": [0, 1]\n   ,\n    \"angle\": {\n      \"parameter\": null,\n      \"scale\": 0,\n      \"offset\": 0.3\n    }\n  },\n  {\n    \"op\": \"H\",\n    \"qubits\": [2, 3],\n    \"angle\": {\n      \"parameter\": null,\n      \"scale\": 0,\n      \"offset\": 0.3\n    }\n  }\n],\n  \"layers\": [\n    {\n      \"cost\": {\n        \"op\": \"COST\",\n        \"parameter\": \"gamma_0\",\n        \"hamiltonian_hash\": \"833f7c12b467ae64e8718e21057a59f93a458ec4bb8666f6560d261da369b037\"\n      },\n      \"mixer\": [\n        {\n          \"op\": \"RXX\",\n          \"qubits\": [0, 1],\n          \"angle\": {\n            \"parameter\": \"beta_0\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RYY\",\n          \"qubits\": [0, 1],\n          \"angle\": {\n            \"parameter\": \"beta_0\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RXX\",\n          \"qubits\": [2, 3],\n          \"angle\": {\n            \"parameter\": \"beta_1\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RYY\",\n          \"qubits\": [2, 3],\n          \"angle\": {\n            \"parameter\": \"beta_1\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RXX\",\n          \"qubits\": [0, 2],\n          \"angle\": {\n            \"parameter\": \"beta_2\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RYY\",\n          \"qubits\": [0, 2],\n          \"angle\": {\n            \"parameter\": \"beta_2\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        }\n      ]\n    }\n  ]\n  ,\n  \"rationale\": [\n    {\n      \"feature_ids\": [\"CORRELATION\", \"OBJECTIVE_TERMS\"],\n      \"decision\": \"Use adjacent RXX/RYY pairs to preserve cardinality while respecting correlations and objective terms.\"\n    }\n  ]\n}",
+        "finish_reason": "stop",
+        "usage": {
+          "input_tokens": 3476,
+          "output_tokens": 903
+        },
+        "model": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+        "revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+        "execution": "replay",
+        "batch_elapsed_seconds": 222.73263837498962,
+        "amortized_inference_seconds": 74.2442127916632,
+        "reserved_usd": 0.6133333333333334,
+        "job_id": "51aa6fad0056437fa02c7dfb5228bf4c"
+      },
+      "request_hash": "fbe4fa2408db4592500fe5a99071dbcee35771a98f9d4fc2cd027d0c3f69bfb0",
+      "gate_ir": {
+        "version": "gate-ir-v1",
+        "problem_hash": "1b163d741aaba71a7450181c9241bca48b25dd97d972a901cb3c4bcfd0a0dd9d",
+        "hamiltonian_hash": "833f7c12b467ae64e8718e21057a59f93a458ec4bb8666f6560d261da369b037",
+        "qubit_to_asset": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "mode": "preserve_cardinality",
+        "initial_bits": [
+          1,
+          1,
+          0,
+          0
+        ],
+        "parameters": [
+          {
+            "id": "gamma_0",
+            "kind": "cost",
+            "initial": 0.3
+          },
+          {
+            "id": "beta_0",
+            "kind": "mixer",
+            "initial": null
+          },
+          {
+            "id": "beta_1",
+            "kind": "mixer",
+            "initial": null
+          },
+          {
+            "id": "beta_2",
+            "kind": "mixer",
+            "initial": null
+          }
+        ],
+        "initialization": [
+          {
+            "op": "H",
+            "qubits": [
+              0,
+              1
+            ],
+            "angle": {
+              "parameter": null,
+              "scale": 0,
+              "offset": 0.3
+            }
+          },
+          {
+            "op": "H",
+            "qubits": [
+              2,
+              3
+            ],
+            "angle": {
+              "parameter": null,
+              "scale": 0,
+              "offset": 0.3
+            }
+          }
+        ],
+        "layers": [
+          {
+            "cost": {
+              "op": "COST",
+              "parameter": "gamma_0",
+              "hamiltonian_hash": "833f7c12b467ae64e8718e21057a59f93a458ec4bb8666f6560d261da369b037"
+            },
+            "mixer": [
+              {
+                "op": "RXX",
+                "qubits": [
+                  0,
+                  1
+                ],
+                "angle": {
+                  "parameter": "beta_0",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RYY",
+                "qubits": [
+                  0,
+                  1
+                ],
+                "angle": {
+                  "parameter": "beta_0",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RXX",
+                "qubits": [
+                  2,
+                  3
+                ],
+                "angle": {
+                  "parameter": "beta_1",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RYY",
+                "qubits": [
+                  2,
+                  3
+                ],
+                "angle": {
+                  "parameter": "beta_1",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RXX",
+                "qubits": [
+                  0,
+                  2
+                ],
+                "angle": {
+                  "parameter": "beta_2",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RYY",
+                "qubits": [
+                  0,
+                  2
+                ],
+                "angle": {
+                  "parameter": "beta_2",
+                  "scale": 2,
+                  "offset": 0
+                }
+              }
+            ]
+          }
+        ],
+        "rationale": [
+          {
+            "feature_ids": [
+              "CORRELATION",
+              "OBJECTIVE_TERMS"
+            ],
+            "decision": "Use adjacent RXX/RYY pairs to preserve cardinality while respecting correlations and objective terms."
+          }
+        ]
+      },
+      "verification": {
+        "valid": false,
+        "errors": [
+          {
+            "code": "gate_target",
+            "path": "initialization/0",
+            "message": "Wrong arity or qubit outside register."
+          },
+          {
+            "code": "gate_angle",
+            "path": "initialization/0",
+            "message": "Nonrotation gate must have angle=null."
+          },
+          {
+            "code": "gate_target",
+            "path": "initialization/1",
+            "message": "Wrong arity or qubit outside register."
+          },
+          {
+            "code": "gate_angle",
+            "path": "initialization/1",
+            "message": "Nonrotation gate must have angle=null."
+          }
+        ],
+        "warnings": [],
+        "conservation_certificate": null,
+        "synthesis_gate_count": 8,
+        "declared_parameters": 4,
+        "ir_hash": "87c40ee2e36c205ce030f993ce2736047eee402fa027c55ce0a7d21b50fdbcf6",
+        "limits": {
+          "max_qubits": 12,
+          "max_layers": 4,
+          "max_parameters": 16,
+          "max_synthesis_gates": 512,
+          "max_two_qubit_gates": 40000,
+          "max_transpiled_depth": 80000
+        },
+        "elapsed_seconds": 0.0007784579938743263
+      }
+    },
+    {
+      "case_id": "n6",
+      "round": 0,
+      "inference": {
+        "request_hash": "018792f3b0471a85f551357c27727b4cf29c7a8ac74102ca54c1ab787eda428a",
+        "status": "ok",
+        "response": {
+          "version": "gate-ir-v1",
+          "problem_hash": "c7ed0738007c259f37e83aee376ed3063a3dad4edd41392456796c06d52f2810",
+          "hamiltonian_hash": "1fd1beb2d863c2cd71fc8d721d7e3cac19025028b3ba5821c9861271149dce3a",
+          "qubit_to_asset": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "mode": "preserve_cardinality",
+          "initial_bits": [
+            1,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "parameters": [
+            {
+              "id": "gamma_0",
+              "kind": "cost",
+              "initial": 0.3
+            },
+            {
+              "id": "beta_0",
+              "kind": "mixer",
+              "initial": null
+            },
+            {
+              "id": "beta_1",
+              "kind": "mixer",
+              "initial": null
+            },
+            {
+              "id": "beta_2",
+              "kind": "mixer",
+              "initial": null
+            }
+          ],
+          "initialization": [
+            {
+              "op": "H",
+              "qubits": [
+                0,
+                1
+              ],
+              "angle": null
+            }
+          ],
+          "layers": [
+            {
+              "cost": {
+                "op": "COST",
+                "parameter": "gamma_0",
+                "hamiltonian_hash": "1fd1beb2d863c2cd71fc8d721d7e3cac19025028b3ba5821c9861271149dce3a"
+              },
+              "mixer": [
+                {
+                  "op": "RXX",
+                  "qubits": [
+                    0,
+                    1
+                  ],
+                  "angle": {
+                    "parameter": "beta_0",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RYY",
+                  "qubits": [
+                    0,
+                    1
+                  ],
+                  "angle": {
+                    "parameter": "beta_0",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RXX",
+                  "qubits": [
+                    2,
+                    3
+                  ],
+                  "angle": {
+                    "parameter": "beta_1",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RYY",
+                  "qubits": [
+                    2,
+                    3
+                  ],
+                  "angle": {
+                    "parameter": "beta_1",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RXX",
+                  "qubits": [
+                    4,
+                    5
+                  ],
+                  "angle": {
+                    "parameter": "beta_2",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RYY",
+                  "qubits": [
+                    4,
+                    5
+                  ],
+                  "angle": {
+                    "parameter": "beta_2",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                }
+              ]
+            }
+          ],
+          "rationale": [
+            {
+              "feature_ids": [
+                "CORRELATION",
+                "CLUSTERS"
+              ],
+              "decision": "Use RXX/RYY pairs for mixer to preserve cardinality while respecting correlations and cluster structure."
+            }
+          ]
+        },
+        "raw_text": "{\n  \"version\": \"gate-ir-v1\",\n  \"problem_hash\": \"c7ed0738007c259f37e83aee376ed3063a3dad4edd41392456796c06d52f2810\",\n  \"hamiltonian_hash\": \"1fd1beb2d863c2cd71fc8d721d7e3cac19025028b3ba5821c9861271149dce3a\",\n  \"qubit_to_asset\": [0, 1, 2, 3, 4, 5],\n  \"mode\": \"preserve_cardinality\",\n  \"initial_bits\": [1, 1, 1, 0, 0, 0],\n  \"parameters\": [\n    {\n      \"id\": \"gamma_0\",\n      \"kind\": \"cost\",\n      \"initial\": 0.3\n    },\n    {\n      \"id\": \"beta_0\",\n      \"kind\": \"mixer\",\n      \"initial\": null\n    },\n    {\n      \"id\": \"beta_1\",\n      \"kind\": \"mixer\",\n      \"initial\": null\n    },\n    {\n      \"id\": \"beta_2\",\n      \"kind\": \"mixer\",\n      \"initial\": null\n    }\n  ],\n  \"initialization\": [\n    {\n      \"op\": \"H\",\n      \"qubits\": [0, 1]\n   \n  ,\n    \"angle\": null\n    }\n  ],\n  \"layers\": [\n    {\n      \"cost\": {\n        \"op\": \"COST\",\n        \"parameter\": \"gamma_0\",\n        \"hamiltonian_hash\": \"1fd1beb2d863c2cd71fc8d721d7e3cac19025028b3ba5821c9861271149dce3a\"\n      },\n      \"mixer\": [\n        {\n          \"op\": \"RXX\",\n          \"qubits\": [0, 1],\n          \"angle\": {\n            \"parameter\": \"beta_0\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RYY\",\n          \"qubits\": [0, 1],\n          \"angle\": {\n            \"parameter\": \"beta_0\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RXX\",\n          \"qubits\": [2, 3],\n          \"angle\": {\n            \"parameter\": \"beta_1\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RYY\",\n          \"qubits\": [2, 3],\n          \"angle\": {\n            \"parameter\": \"beta_1\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RXX\",\n          \"qubits\": [4, 5],\n          \"angle\": {\n            \"parameter\": \"beta_2\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RYY\",\n          \"qubits\": [4, 5],\n          \"angle\": {\n            \"parameter\": \"beta_2\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        }\n      ]\n    }\n  ]\n  \n,\n  \"rationale\": [\n    {\n      \"feature_ids\": [\n        \"CORRELATION\",\n        \"CLUSTERS\"\n      ],\n      \"decision\": \"Use RXX/RYY pairs for mixer to preserve cardinality while respecting correlations and cluster structure.\"\n    }\n  ]\n}",
+        "finish_reason": "stop",
+        "usage": {
+          "input_tokens": 5627,
+          "output_tokens": 840
+        },
+        "model": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+        "revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+        "execution": "replay",
+        "batch_elapsed_seconds": 222.73263837498962,
+        "amortized_inference_seconds": 74.2442127916632,
+        "reserved_usd": 0.6133333333333334,
+        "job_id": "51aa6fad0056437fa02c7dfb5228bf4c"
+      },
+      "request_hash": "018792f3b0471a85f551357c27727b4cf29c7a8ac74102ca54c1ab787eda428a",
+      "gate_ir": {
+        "version": "gate-ir-v1",
+        "problem_hash": "c7ed0738007c259f37e83aee376ed3063a3dad4edd41392456796c06d52f2810",
+        "hamiltonian_hash": "1fd1beb2d863c2cd71fc8d721d7e3cac19025028b3ba5821c9861271149dce3a",
+        "qubit_to_asset": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "mode": "preserve_cardinality",
+        "initial_bits": [
+          1,
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        "parameters": [
+          {
+            "id": "gamma_0",
+            "kind": "cost",
+            "initial": 0.3
+          },
+          {
+            "id": "beta_0",
+            "kind": "mixer",
+            "initial": null
+          },
+          {
+            "id": "beta_1",
+            "kind": "mixer",
+            "initial": null
+          },
+          {
+            "id": "beta_2",
+            "kind": "mixer",
+            "initial": null
+          }
+        ],
+        "initialization": [
+          {
+            "op": "H",
+            "qubits": [
+              0,
+              1
+            ],
+            "angle": null
+          }
+        ],
+        "layers": [
+          {
+            "cost": {
+              "op": "COST",
+              "parameter": "gamma_0",
+              "hamiltonian_hash": "1fd1beb2d863c2cd71fc8d721d7e3cac19025028b3ba5821c9861271149dce3a"
+            },
+            "mixer": [
+              {
+                "op": "RXX",
+                "qubits": [
+                  0,
+                  1
+                ],
+                "angle": {
+                  "parameter": "beta_0",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RYY",
+                "qubits": [
+                  0,
+                  1
+                ],
+                "angle": {
+                  "parameter": "beta_0",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RXX",
+                "qubits": [
+                  2,
+                  3
+                ],
+                "angle": {
+                  "parameter": "beta_1",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RYY",
+                "qubits": [
+                  2,
+                  3
+                ],
+                "angle": {
+                  "parameter": "beta_1",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RXX",
+                "qubits": [
+                  4,
+                  5
+                ],
+                "angle": {
+                  "parameter": "beta_2",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RYY",
+                "qubits": [
+                  4,
+                  5
+                ],
+                "angle": {
+                  "parameter": "beta_2",
+                  "scale": 2,
+                  "offset": 0
+                }
+              }
+            ]
+          }
+        ],
+        "rationale": [
+          {
+            "feature_ids": [
+              "CORRELATION",
+              "CLUSTERS"
+            ],
+            "decision": "Use RXX/RYY pairs for mixer to preserve cardinality while respecting correlations and cluster structure."
+          }
+        ]
+      },
+      "verification": {
+        "valid": false,
+        "errors": [
+          {
+            "code": "gate_target",
+            "path": "initialization/0",
+            "message": "Wrong arity or qubit outside register."
+          }
+        ],
+        "warnings": [],
+        "conservation_certificate": null,
+        "synthesis_gate_count": 7,
+        "declared_parameters": 4,
+        "ir_hash": "f2750091598f56dfaacc2aa86455cfe8a6751b9d1e8b761aae10a85842d508ed",
+        "limits": {
+          "max_qubits": 12,
+          "max_layers": 4,
+          "max_parameters": 16,
+          "max_synthesis_gates": 512,
+          "max_two_qubit_gates": 40000,
+          "max_transpiled_depth": 80000
+        },
+        "elapsed_seconds": 0.0007035000016912818
+      }
+    },
+    {
+      "case_id": "n8",
+      "round": 0,
+      "inference": {
+        "request_hash": "c67abc4ffcdd8e3eb891fb6d0fb34b7f736c4ec3c3eaa245f62d59643a8c195a",
+        "status": "ok",
+        "response": {
+          "version": "gate-ir-v1",
+          "problem_hash": "1fa26334f93f7a81b4ee28e6a3f29add74d9d36841c2270c3f67a2585b8bc2e4",
+          "hamiltonian_hash": "1de1ae712a8cdc1cec76a6ced185a08eff295c35291861c5b3e8004c96c1f35b",
+          "qubit_to_asset": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "mode": "preserve_cardinality",
+          "initial_bits": [
+            1,
+            1,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          "parameters": [
+            {
+              "id": "gamma",
+              "kind": "cost",
+              "initial": 0.3
+            },
+            {
+              "id": "beta_0",
+              "kind": "mixer",
+              "initial": null
+            },
+            {
+              "id": "beta_1",
+              "kind": "mixer",
+              "initial": null
+            },
+            {
+              "id": "beta_2",
+              "kind": "mixer",
+              "initial": null
+            }
+          ],
+          "initialization": [
+            {
+              "op": "H",
+              "qubits": [
+                0,
+                1
+              ],
+              "angle": {
+                "parameter": null,
+                "scale": 0,
+                "offset": 0.3
+              }
+            }
+          ],
+          "layers": [
+            {
+              "cost": {
+                "op": "COST",
+                "parameter": "gamma",
+                "hamiltonian_hash": "1de1ae712a8cdc1cec76a6ced185a08eff295c35291861c5b3e8004c96c1f35b"
+              },
+              "mixer": [
+                {
+                  "op": "RXX",
+                  "qubits": [
+                    0,
+                    1
+                  ],
+                  "angle": {
+                    "parameter": "beta_0",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RYY",
+                  "qubits": [
+                    0,
+                    1
+                  ],
+                  "angle": {
+                    "parameter": "beta_0",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RXX",
+                  "qubits": [
+                    2,
+                    3
+                  ],
+                  "angle": {
+                    "parameter": "beta_1",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RYY",
+                  "qubits": [
+                    2,
+                    3
+                  ],
+                  "angle": {
+                    "parameter": "beta_1",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RXX",
+                  "qubits": [
+                    4,
+                    5
+                  ],
+                  "angle": {
+                    "parameter": "beta_2",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RYY",
+                  "qubits": [
+                    4,
+                    5
+                  ],
+                  "angle": {
+                    "parameter": "beta_2",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                }
+              ]
+            }
+          ],
+          "rationale": [
+            {
+              "feature_ids": [
+                "CORRELATION",
+                "OBJECTIVE_TERMS"
+              ],
+              "decision": "Use sparse mixer with adjacent qubit pairs to respect correlation structure and preserve cardinality"
+            }
+          ]
+        },
+        "raw_text": "{\n  \"version\": \"gate-ir-v1\",\n  \"problem_hash\": \"1fa26334f93f7a81b4ee28e6a3f29add74d9d36841c2270c3f67a2585b8bc2e4\",\n  \"hamiltonian_hash\": \"1de1ae712a8cdc1cec76a6ced185a08eff295c35291861c5b3e8004c96c1f35b\",\n  \"qubit_to_asset\": [0, 1, 2, 3, 4, 5, 6, 7],\n  \"mode\": \"preserve_cardinality\",\n  \"initial_bits\": [1, 1, 1, 1, 0, 0, 0, 0],\n  \"parameters\": [\n    {\n      \"id\": \"gamma\",\n      \"kind\": \"cost\",\n      \"initial\": 0.3\n    },\n    {\n      \"id\": \"beta_0\",\n      \"kind\": \"mixer\",\n      \"initial\": null\n    },\n    {\n      \"id\": \"beta_1\",\n      \"kind\": \"mixer\",\n      \"initial\": null\n    },\n    {\n      \"id\": \"beta_2\",\n      \"kind\": \"mixer\",\n      \"initial\": null\n    }\n  ],\n  \"initialization\": [\n    {\n      \"op\": \"H\",\n      \"qubits\": [0, 1]\n   ,\n    \"angle\": {\n      \"parameter\": null,\n      \"scale\": 0,\n      \"offset\": 0.3\n    }\n  }\n  ],\n  \"layers\": [\n    {\n      \"cost\": {\n        \"op\": \"COST\",\n        \"parameter\": \"gamma\",\n        \"hamiltonian_hash\": \"1de1ae712a8cdc1cec76a6ced185a08eff295c35291861c5b3e8004c96c1f35b\"\n      },\n      \"mixer\": [\n        {\n          \"op\": \"RXX\",\n          \"qubits\": [0, 1],\n          \"angle\": {\n            \"parameter\": \"beta_0\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RYY\",\n          \"qubits\": [0, 1],\n          \"angle\": {\n            \"parameter\": \"beta_0\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RXX\",\n          \"qubits\": [2, 3],\n          \"angle\": {\n            \"parameter\": \"beta_1\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RYY\",\n          \"qubits\": [2, 3],\n          \"angle\": {\n            \"parameter\": \"beta_1\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RXX\",\n          \"qubits\": [4, 5],\n          \"angle\": {\n            \"parameter\": \"beta_2\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RYY\",\n          \"qubits\": [4, 5],\n          \"angle\": {\n            \"parameter\": \"beta_2\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        }\n      ]\n    }\n  ]\n  ,\n  \"rationale\": [\n    {\n      \"feature_ids\": [\"CORRELATION\", \"OBJECTIVE_TERMS\"],\n      \"decision\": \"Use sparse mixer with adjacent qubit pairs to respect correlation structure and preserve cardinality\"\n    }\n  ]\n}",
+        "finish_reason": "stop",
+        "usage": {
+          "input_tokens": 8081,
+          "output_tokens": 863
+        },
+        "model": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+        "revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+        "execution": "replay",
+        "batch_elapsed_seconds": 222.73263837498962,
+        "amortized_inference_seconds": 74.2442127916632,
+        "reserved_usd": 0.6133333333333334,
+        "job_id": "51aa6fad0056437fa02c7dfb5228bf4c"
+      },
+      "request_hash": "c67abc4ffcdd8e3eb891fb6d0fb34b7f736c4ec3c3eaa245f62d59643a8c195a",
+      "gate_ir": {
+        "version": "gate-ir-v1",
+        "problem_hash": "1fa26334f93f7a81b4ee28e6a3f29add74d9d36841c2270c3f67a2585b8bc2e4",
+        "hamiltonian_hash": "1de1ae712a8cdc1cec76a6ced185a08eff295c35291861c5b3e8004c96c1f35b",
+        "qubit_to_asset": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "mode": "preserve_cardinality",
+        "initial_bits": [
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "parameters": [
+          {
+            "id": "gamma",
+            "kind": "cost",
+            "initial": 0.3
+          },
+          {
+            "id": "beta_0",
+            "kind": "mixer",
+            "initial": null
+          },
+          {
+            "id": "beta_1",
+            "kind": "mixer",
+            "initial": null
+          },
+          {
+            "id": "beta_2",
+            "kind": "mixer",
+            "initial": null
+          }
+        ],
+        "initialization": [
+          {
+            "op": "H",
+            "qubits": [
+              0,
+              1
+            ],
+            "angle": {
+              "parameter": null,
+              "scale": 0,
+              "offset": 0.3
+            }
+          }
+        ],
+        "layers": [
+          {
+            "cost": {
+              "op": "COST",
+              "parameter": "gamma",
+              "hamiltonian_hash": "1de1ae712a8cdc1cec76a6ced185a08eff295c35291861c5b3e8004c96c1f35b"
+            },
+            "mixer": [
+              {
+                "op": "RXX",
+                "qubits": [
+                  0,
+                  1
+                ],
+                "angle": {
+                  "parameter": "beta_0",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RYY",
+                "qubits": [
+                  0,
+                  1
+                ],
+                "angle": {
+                  "parameter": "beta_0",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RXX",
+                "qubits": [
+                  2,
+                  3
+                ],
+                "angle": {
+                  "parameter": "beta_1",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RYY",
+                "qubits": [
+                  2,
+                  3
+                ],
+                "angle": {
+                  "parameter": "beta_1",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RXX",
+                "qubits": [
+                  4,
+                  5
+                ],
+                "angle": {
+                  "parameter": "beta_2",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RYY",
+                "qubits": [
+                  4,
+                  5
+                ],
+                "angle": {
+                  "parameter": "beta_2",
+                  "scale": 2,
+                  "offset": 0
+                }
+              }
+            ]
+          }
+        ],
+        "rationale": [
+          {
+            "feature_ids": [
+              "CORRELATION",
+              "OBJECTIVE_TERMS"
+            ],
+            "decision": "Use sparse mixer with adjacent qubit pairs to respect correlation structure and preserve cardinality"
+          }
+        ]
+      },
+      "verification": {
+        "valid": false,
+        "errors": [
+          {
+            "code": "gate_target",
+            "path": "initialization/0",
+            "message": "Wrong arity or qubit outside register."
+          },
+          {
+            "code": "gate_angle",
+            "path": "initialization/0",
+            "message": "Nonrotation gate must have angle=null."
+          }
+        ],
+        "warnings": [],
+        "conservation_certificate": null,
+        "synthesis_gate_count": 7,
+        "declared_parameters": 4,
+        "ir_hash": "8ed0a698e61a77253925831f7b2ef639f9ea419af00bbc29a5d022662db6c9e7",
+        "limits": {
+          "max_qubits": 12,
+          "max_layers": 4,
+          "max_parameters": 16,
+          "max_synthesis_gates": 512,
+          "max_two_qubit_gates": 40000,
+          "max_transpiled_depth": 80000
+        },
+        "elapsed_seconds": 0.0007535839977208525
+      }
+    },
+    {
+      "case_id": "n4",
+      "round": 1,
+      "inference": {
+        "request_hash": "b5e0ea52def49b047895f5aef9a3cbc390f36c7b4e5c76bfe645fb013c4e7c4c",
+        "status": "ok",
+        "response": {
+          "version": "gate-ir-v1",
+          "problem_hash": "1b163d741aaba71a7450181c9241bca48b25dd97d972a901cb3c4bcfd0a0dd9d",
+          "hamiltonian_hash": "833f7c12b467ae64e8718e21057a59f93a458ec4bb8666f6560d261da369b037",
+          "qubit_to_asset": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "mode": "preserve_cardinality",
+          "initial_bits": [
+            1,
+            1,
+            0,
+            0
+          ],
+          "parameters": [
+            {
+              "id": "gamma_0",
+              "kind": "cost",
+              "initial": 0.3
+            },
+            {
+              "id": "beta_0",
+              "kind": "mixer",
+              "initial": 0.5
+            },
+            {
+              "id": "beta_1",
+              "kind": "mixer",
+              "initial": 0.5
+            },
+            {
+              "id": "beta_2",
+              "kind": "mixer",
+              "initial": 0.5
+            }
+          ],
+          "initialization": [
+            {
+              "op": "H",
+              "qubits": [
+                0,
+                1
+              ],
+              "angle": {
+                "parameter": null,
+                "scale": 0,
+                "offset": 0.3
+              }
+            },
+            {
+              "op": "H",
+              "qubits": [
+                2,
+                3
+              ],
+              "angle": {
+                "parameter": null,
+                "scale": 0,
+                "offset": 0.3
+              }
+            }
+          ],
+          "layers": [
+            {
+              "cost": {
+                "op": "COST",
+                "parameter": "gamma_0",
+                "hamiltonian_hash": "833f7c12b467ae64e8718e21057a59f93a458ec4bb8666f6560d261da369b037"
+              },
+              "mixer": [
+                {
+                  "op": "RXX",
+                  "qubits": [
+                    0,
+                    1
+                  ],
+                  "angle": {
+                    "parameter": "beta_0",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RYY",
+                  "qubits": [
+                    0,
+                    1
+                  ],
+                  "angle": {
+                    "parameter": "beta_0",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RXX",
+                  "qubits": [
+                    2,
+                    3
+                  ],
+                  "angle": {
+                    "parameter": "beta_1",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RYY",
+                  "qubits": [
+                    2,
+                    3
+                  ],
+                  "angle": {
+                    "parameter": "beta_1",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RXX",
+                  "qubits": [
+                    0,
+                    2
+                  ],
+                  "angle": {
+                    "parameter": "beta_2",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RYY",
+                  "qubits": [
+                    0,
+                    2
+                  ],
+                  "angle": {
+                    "parameter": "beta_2",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                }
+              ]
+            }
+          ],
+          "rationale": [
+            {
+              "feature_ids": [
+                "CORRELATION",
+                "OBJECTIVE_TERMS"
+              ],
+              "decision": "Use adjacent RXX/RYY pairs to preserve cardinality while respecting correlations and objective terms."
+            }
+          ]
+        },
+        "raw_text": "{\n  \"version\": \"gate-ir-v1\",\n  \"problem_hash\": \"1b163d741aaba71a7450181c9241bca48b25dd97d972a901cb3c4bcfd0a0dd9d\",\n  \"hamiltonian_hash\": \"833f7c12b467ae64e8718e21057a59f93a458ec4bb8666f6560d261da369b037\",\n  \"qubit_to_asset\": [0, 1, 2, 3],\n  \"mode\": \"preserve_cardinality\",\n  \"initial_bits\": [1, 1, 0, 0],\n  \"parameters\": [\n    {\n      \"id\": \"gamma_0\",\n      \"kind\": \"cost\",\n      \"initial\": 0.3\n    },\n    {\n      \"id\": \"beta_0\",\n      \"kind\": \"mixer\",\n      \"initial\": 0.5\n    },\n    {\n      \"id\": \"beta_1\",\n      \"kind\": \"mixer\",\n      \"initial\": 0.5\n    },\n    {\n      \"id\": \"beta_2\",\n      \"kind\": \"mixer\",\n      \"initial\": 0.5\n    }\n  ],\n  \"initialization\": [\n    {\n      \"op\": \"H\",\n      \"qubits\": [0, 1],\n      \"angle\": {\n        \"parameter\": null,\n        \"scale\": 0,\n        \"offset\": 0.3\n      }\n    },\n    {\n      \"op\": \"H\",\n      \"qubits\": [2, 3],\n      \"angle\": {\n        \"parameter\": null,\n        \"scale\": 0,\n        \"offset\": 0.3\n      }\n    }\n  ],\n  \"layers\": [\n    {\n      \"cost\": {\n        \"op\": \"COST\",\n        \"parameter\": \"gamma_0\",\n        \"hamiltonian_hash\": \"833f7c12b467ae64e8718e21057a59f93a458ec4bb8666f6560d261da369b037\"\n      },\n      \"mixer\": [\n        {\n          \"op\": \"RXX\",\n          \"qubits\": [0, 1],\n          \"angle\": {\n            \"parameter\": \"beta_0\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RYY\",\n          \"qubits\": [0, 1],\n          \"angle\": {\n            \"parameter\": \"beta_0\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RXX\",\n          \"qubits\": [2, 3],\n          \"angle\": {\n            \"parameter\": \"beta_1\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RYY\",\n          \"qubits\": [2, 3],\n          \"angle\": {\n            \"parameter\": \"beta_1\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RXX\",\n          \"qubits\": [0, 2],\n          \"angle\": {\n            \"parameter\": \"beta_2\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RYY\",\n          \"qubits\": [0, 2],\n          \"angle\": {\n            \"parameter\": \"beta_2\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        }\n      ]\n    }\n  ],\n  \"rationale\": [\n    {\n      \"feature_ids\": [\n        \"CORRELATION\",\n        \"OBJECTIVE_TERMS\"\n      ],\n      \"decision\": \"Use adjacent RXX/RYY pairs to preserve cardinality while respecting correlations and objective terms.\"\n    }\n  ]\n}",
+        "finish_reason": "stop",
+        "usage": {
+          "input_tokens": 4328,
+          "output_tokens": 913
+        },
+        "model": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+        "revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+        "execution": "replay",
+        "batch_elapsed_seconds": 156.04671954197693,
+        "amortized_inference_seconds": 52.015573180658976,
+        "reserved_usd": 0.6133333333333334,
+        "job_id": "e112d0ebfcb94050960feb82e7c35a2f"
+      },
+      "request_hash": "b5e0ea52def49b047895f5aef9a3cbc390f36c7b4e5c76bfe645fb013c4e7c4c",
+      "gate_ir": {
+        "version": "gate-ir-v1",
+        "problem_hash": "1b163d741aaba71a7450181c9241bca48b25dd97d972a901cb3c4bcfd0a0dd9d",
+        "hamiltonian_hash": "833f7c12b467ae64e8718e21057a59f93a458ec4bb8666f6560d261da369b037",
+        "qubit_to_asset": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "mode": "preserve_cardinality",
+        "initial_bits": [
+          1,
+          1,
+          0,
+          0
+        ],
+        "parameters": [
+          {
+            "id": "gamma_0",
+            "kind": "cost",
+            "initial": 0.3
+          },
+          {
+            "id": "beta_0",
+            "kind": "mixer",
+            "initial": 0.5
+          },
+          {
+            "id": "beta_1",
+            "kind": "mixer",
+            "initial": 0.5
+          },
+          {
+            "id": "beta_2",
+            "kind": "mixer",
+            "initial": 0.5
+          }
+        ],
+        "initialization": [
+          {
+            "op": "H",
+            "qubits": [
+              0,
+              1
+            ],
+            "angle": {
+              "parameter": null,
+              "scale": 0,
+              "offset": 0.3
+            }
+          },
+          {
+            "op": "H",
+            "qubits": [
+              2,
+              3
+            ],
+            "angle": {
+              "parameter": null,
+              "scale": 0,
+              "offset": 0.3
+            }
+          }
+        ],
+        "layers": [
+          {
+            "cost": {
+              "op": "COST",
+              "parameter": "gamma_0",
+              "hamiltonian_hash": "833f7c12b467ae64e8718e21057a59f93a458ec4bb8666f6560d261da369b037"
+            },
+            "mixer": [
+              {
+                "op": "RXX",
+                "qubits": [
+                  0,
+                  1
+                ],
+                "angle": {
+                  "parameter": "beta_0",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RYY",
+                "qubits": [
+                  0,
+                  1
+                ],
+                "angle": {
+                  "parameter": "beta_0",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RXX",
+                "qubits": [
+                  2,
+                  3
+                ],
+                "angle": {
+                  "parameter": "beta_1",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RYY",
+                "qubits": [
+                  2,
+                  3
+                ],
+                "angle": {
+                  "parameter": "beta_1",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RXX",
+                "qubits": [
+                  0,
+                  2
+                ],
+                "angle": {
+                  "parameter": "beta_2",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RYY",
+                "qubits": [
+                  0,
+                  2
+                ],
+                "angle": {
+                  "parameter": "beta_2",
+                  "scale": 2,
+                  "offset": 0
+                }
+              }
+            ]
+          }
+        ],
+        "rationale": [
+          {
+            "feature_ids": [
+              "CORRELATION",
+              "OBJECTIVE_TERMS"
+            ],
+            "decision": "Use adjacent RXX/RYY pairs to preserve cardinality while respecting correlations and objective terms."
+          }
+        ]
+      },
+      "verification": {
+        "valid": false,
+        "errors": [
+          {
+            "code": "gate_target",
+            "path": "initialization/0",
+            "message": "Wrong arity or qubit outside register."
+          },
+          {
+            "code": "gate_angle",
+            "path": "initialization/0",
+            "message": "Nonrotation gate must have angle=null."
+          },
+          {
+            "code": "gate_target",
+            "path": "initialization/1",
+            "message": "Wrong arity or qubit outside register."
+          },
+          {
+            "code": "gate_angle",
+            "path": "initialization/1",
+            "message": "Nonrotation gate must have angle=null."
+          }
+        ],
+        "warnings": [],
+        "conservation_certificate": null,
+        "synthesis_gate_count": 8,
+        "declared_parameters": 4,
+        "ir_hash": "2041dfb1a9a8d8c54539bad15bb7abba152550769b7ee228370ff9759641ccab",
+        "limits": {
+          "max_qubits": 12,
+          "max_layers": 4,
+          "max_parameters": 16,
+          "max_synthesis_gates": 512,
+          "max_two_qubit_gates": 40000,
+          "max_transpiled_depth": 80000
+        },
+        "elapsed_seconds": 0.0007926250109449029
+      }
+    },
+    {
+      "case_id": "n6",
+      "round": 1,
+      "inference": {
+        "request_hash": "1762263afed9732eeaa80d916c59f21895a21a610717bb4bf1dd74f8ef57cbe8",
+        "status": "ok",
+        "response": {
+          "version": "gate-ir-v1",
+          "problem_hash": "c7ed0738007c259f37e83aee376ed3063a3dad4edd41392456796c06d52f2810",
+          "hamiltonian_hash": "1fd1beb2d863c2cd71fc8d721d7e3cac19025028b3ba5821c9861271149dce3a",
+          "qubit_to_asset": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "mode": "preserve_cardinality",
+          "initial_bits": [
+            1,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "parameters": [
+            {
+              "id": "gamma_0",
+              "kind": "cost",
+              "initial": 0.3
+            },
+            {
+              "id": "beta_0",
+              "kind": "mixer",
+              "initial": null
+            },
+            {
+              "id": "beta_1",
+              "kind": "mixer",
+              "initial": null
+            },
+            {
+              "id": "beta_2",
+              "kind": "mixer",
+              "initial": null
+            }
+          ],
+          "initialization": [
+            {
+              "op": "H",
+              "qubits": [
+                0,
+                1
+              ],
+              "angle": null
+            }
+          ],
+          "layers": [
+            {
+              "cost": {
+                "op": "COST",
+                "parameter": "gamma_0",
+                "hamiltonian_hash": "1fd1beb2d863c2cd71fc8d721d7e3cac19025028b3ba5821c9861271149dce3a"
+              },
+              "mixer": [
+                {
+                  "op": "RXX",
+                  "qubits": [
+                    0,
+                    1
+                  ],
+                  "angle": {
+                    "parameter": "beta_0",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RYY",
+                  "qubits": [
+                    0,
+                    1
+                  ],
+                  "angle": {
+                    "parameter": "beta_0",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RXX",
+                  "qubits": [
+                    2,
+                    3
+                  ],
+                  "angle": {
+                    "parameter": "beta_1",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RYY",
+                  "qubits": [
+                    2,
+                    3
+                  ],
+                  "angle": {
+                    "parameter": "beta_1",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RXX",
+                  "qubits": [
+                    4,
+                    5
+                  ],
+                  "angle": {
+                    "parameter": "beta_2",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RYY",
+                  "qubits": [
+                    4,
+                    5
+                  ],
+                  "angle": {
+                    "parameter": "beta_2",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                }
+              ]
+            }
+          ],
+          "rationale": [
+            {
+              "feature_ids": [
+                "CORRELATION",
+                "CLUSTERS"
+              ],
+              "decision": "Use RXX/RYY pairs for mixer to preserve cardinality while respecting correlations and cluster structure."
+            }
+          ]
+        },
+        "raw_text": "{\n  \"version\": \"gate-ir-v1\",\n  \"problem_hash\": \"c7ed0738007c259f37e83aee376ed3063a3dad4edd41392456796c06d52f2810\",\n  \"hamiltonian_hash\": \"1fd1beb2d863c2cd71fc8d721d7e3cac19025028b3ba5821c9861271149dce3a\",\n  \"qubit_to_asset\": [0, 1, 2, 3, 4, 5],\n  \"mode\": \"preserve_cardinality\",\n  \"initial_bits\": [1, 1, 1, 0, 0, 0],\n  \"parameters\": [\n    {\n      \"id\": \"gamma_0\",\n      \"kind\": \"cost\",\n      \"initial\": 0.3\n    },\n    {\n      \"id\": \"beta_0\",\n      \"kind\": \"mixer\",\n      \"initial\": null\n    },\n    {\n      \"id\": \"beta_1\",\n      \"kind\": \"mixer\",\n      \"initial\": null\n    },\n    {\n      \"id\": \"beta_2\",\n      \"kind\": \"mixer\",\n      \"initial\": null\n    }\n  ],\n  \"initialization\": [\n    {\n      \"op\": \"H\",\n      \"qubits\": [0, 1],\n      \"angle\": null\n    }\n  ],\n  \"layers\": [\n    {\n      \"cost\": {\n        \"op\": \"COST\",\n        \"parameter\": \"gamma_0\",\n        \"hamiltonian_hash\": \"1fd1beb2d863c2cd71fc8d721d7e3cac19025028b3ba5821c9861271149dce3a\"\n      },\n      \"mixer\": [\n        {\n          \"op\": \"RXX\",\n          \"qubits\": [0, 1],\n          \"angle\": {\n            \"parameter\": \"beta_0\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RYY\",\n          \"qubits\": [0, 1],\n          \"angle\": {\n            \"parameter\": \"beta_0\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RXX\",\n          \"qubits\": [2, 3],\n          \"angle\": {\n            \"parameter\": \"beta_1\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RYY\",\n          \"qubits\": [2, 3],\n          \"angle\": {\n            \"parameter\": \"beta_1\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RXX\",\n          \"qubits\": [4, 5],\n          \"angle\": {\n            \"parameter\": \"beta_2\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RYY\",\n          \"qubits\": [4, 5],\n          \"angle\": {\n            \"parameter\": \"beta_2\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        }\n      ]\n    }\n  ],\n  \"rationale\": [\n    {\n      \"feature_ids\": [\n        \"CORRELATION\",\n        \"CLUSTERS\"\n      ],\n      \"decision\": \"Use RXX/RYY pairs for mixer to preserve cardinality while respecting correlations and cluster structure.\"\n    }\n  ]\n}",
+        "finish_reason": "stop",
+        "usage": {
+          "input_tokens": 6339,
+          "output_tokens": 833
+        },
+        "model": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+        "revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+        "execution": "replay",
+        "batch_elapsed_seconds": 156.04671954197693,
+        "amortized_inference_seconds": 52.015573180658976,
+        "reserved_usd": 0.6133333333333334,
+        "job_id": "e112d0ebfcb94050960feb82e7c35a2f"
+      },
+      "request_hash": "1762263afed9732eeaa80d916c59f21895a21a610717bb4bf1dd74f8ef57cbe8",
+      "gate_ir": {
+        "version": "gate-ir-v1",
+        "problem_hash": "c7ed0738007c259f37e83aee376ed3063a3dad4edd41392456796c06d52f2810",
+        "hamiltonian_hash": "1fd1beb2d863c2cd71fc8d721d7e3cac19025028b3ba5821c9861271149dce3a",
+        "qubit_to_asset": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "mode": "preserve_cardinality",
+        "initial_bits": [
+          1,
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        "parameters": [
+          {
+            "id": "gamma_0",
+            "kind": "cost",
+            "initial": 0.3
+          },
+          {
+            "id": "beta_0",
+            "kind": "mixer",
+            "initial": null
+          },
+          {
+            "id": "beta_1",
+            "kind": "mixer",
+            "initial": null
+          },
+          {
+            "id": "beta_2",
+            "kind": "mixer",
+            "initial": null
+          }
+        ],
+        "initialization": [
+          {
+            "op": "H",
+            "qubits": [
+              0,
+              1
+            ],
+            "angle": null
+          }
+        ],
+        "layers": [
+          {
+            "cost": {
+              "op": "COST",
+              "parameter": "gamma_0",
+              "hamiltonian_hash": "1fd1beb2d863c2cd71fc8d721d7e3cac19025028b3ba5821c9861271149dce3a"
+            },
+            "mixer": [
+              {
+                "op": "RXX",
+                "qubits": [
+                  0,
+                  1
+                ],
+                "angle": {
+                  "parameter": "beta_0",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RYY",
+                "qubits": [
+                  0,
+                  1
+                ],
+                "angle": {
+                  "parameter": "beta_0",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RXX",
+                "qubits": [
+                  2,
+                  3
+                ],
+                "angle": {
+                  "parameter": "beta_1",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RYY",
+                "qubits": [
+                  2,
+                  3
+                ],
+                "angle": {
+                  "parameter": "beta_1",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RXX",
+                "qubits": [
+                  4,
+                  5
+                ],
+                "angle": {
+                  "parameter": "beta_2",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RYY",
+                "qubits": [
+                  4,
+                  5
+                ],
+                "angle": {
+                  "parameter": "beta_2",
+                  "scale": 2,
+                  "offset": 0
+                }
+              }
+            ]
+          }
+        ],
+        "rationale": [
+          {
+            "feature_ids": [
+              "CORRELATION",
+              "CLUSTERS"
+            ],
+            "decision": "Use RXX/RYY pairs for mixer to preserve cardinality while respecting correlations and cluster structure."
+          }
+        ]
+      },
+      "verification": {
+        "valid": false,
+        "errors": [
+          {
+            "code": "gate_target",
+            "path": "initialization/0",
+            "message": "Wrong arity or qubit outside register."
+          }
+        ],
+        "warnings": [],
+        "conservation_certificate": null,
+        "synthesis_gate_count": 7,
+        "declared_parameters": 4,
+        "ir_hash": "f2750091598f56dfaacc2aa86455cfe8a6751b9d1e8b761aae10a85842d508ed",
+        "limits": {
+          "max_qubits": 12,
+          "max_layers": 4,
+          "max_parameters": 16,
+          "max_synthesis_gates": 512,
+          "max_two_qubit_gates": 40000,
+          "max_transpiled_depth": 80000
+        },
+        "elapsed_seconds": 0.0006701250094920397
+      }
+    },
+    {
+      "case_id": "n8",
+      "round": 1,
+      "inference": {
+        "request_hash": "043f65d2b3d7ddb1b927e097b3122b78fdcc978d6b35d4ec221bcc439bdecdbf",
+        "status": "ok",
+        "response": {
+          "version": "gate-ir-v1",
+          "problem_hash": "1fa26334f93f7a81b4ee28e6a3f29add74d9d36841c2270c3f67a2585b8bc2e4",
+          "hamiltonian_hash": "1de1ae712a8cdc1cec76a6ced185a08eff295c35291861c5b3e8004c96c1f35b",
+          "qubit_to_asset": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "mode": "preserve_cardinality",
+          "initial_bits": [
+            1,
+            1,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          "parameters": [
+            {
+              "id": "gamma",
+              "kind": "cost",
+              "initial": 0.3
+            },
+            {
+              "id": "beta_0",
+              "kind": "mixer",
+              "initial": 0.0
+            },
+            {
+              "id": "beta_1",
+              "kind": "mixer",
+              "initial": 0.0
+            },
+            {
+              "id": "beta_2",
+              "kind": "mixer",
+              "initial": 0.0
+            }
+          ],
+          "initialization": [
+            {
+              "op": "H",
+              "qubits": [
+                0,
+                1
+              ],
+              "angle": {
+                "parameter": null,
+                "scale": 0,
+                "offset": 0.3
+              }
+            }
+          ],
+          "layers": [
+            {
+              "cost": {
+                "op": "COST",
+                "parameter": "gamma",
+                "hamiltonian_hash": "1de1ae712a8cdc1cec76a6ced185a08eff295c35291861c5b3e8004c96c1f35b"
+              },
+              "mixer": [
+                {
+                  "op": "RXX",
+                  "qubits": [
+                    0,
+                    1
+                  ],
+                  "angle": {
+                    "parameter": "beta_0",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RYY",
+                  "qubits": [
+                    0,
+                    1
+                  ],
+                  "angle": {
+                    "parameter": "beta_0",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RXX",
+                  "qubits": [
+                    2,
+                    3
+                  ],
+                  "angle": {
+                    "parameter": "beta_1",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RYY",
+                  "qubits": [
+                    2,
+                    3
+                  ],
+                  "angle": {
+                    "parameter": "beta_1",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RXX",
+                  "qubits": [
+                    4,
+                    5
+                  ],
+                  "angle": {
+                    "parameter": "beta_2",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RYY",
+                  "qubits": [
+                    4,
+                    5
+                  ],
+                  "angle": {
+                    "parameter": "beta_2",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                }
+              ]
+            }
+          ],
+          "rationale": [
+            {
+              "feature_ids": [
+                "CORRELATION",
+                "OBJECTIVE_TERMS"
+              ],
+              "decision": "Use sparse mixer with adjacent qubit pairs to respect correlation structure and preserve cardinality"
+            }
+          ]
+        },
+        "raw_text": "{\n  \"version\": \"gate-ir-v1\",\n  \"problem_hash\": \"1fa26334f93f7a81b4ee28e6a3f29add74d9d36841c2270c3f67a2585b8bc2e4\",\n  \"hamiltonian_hash\": \"1de1ae712a8cdc1cec76a6ced185a08eff295c35291861c5b3e8004c96c1f35b\",\n  \"qubit_to_asset\": [0, 1, 2, 3, 4, 5, 6, 7],\n  \"mode\": \"preserve_cardinality\",\n  \"initial_bits\": [1, 1, 1, 1, 0, 0, 0, 0],\n  \"parameters\": [\n    {\n      \"id\": \"gamma\",\n      \"kind\": \"cost\",\n      \"initial\": 0.3\n    },\n    {\n      \"id\": \"beta_0\",\n      \"kind\": \"mixer\",\n      \"initial\": 0.0\n    },\n    {\n      \"id\": \"beta_1\",\n      \"kind\": \"mixer\",\n      \"initial\": 0.0\n    },\n    {\n      \"id\": \"beta_2\",\n      \"kind\": \"mixer\",\n      \"initial\": 0.0\n    }\n  ],\n  \"initialization\": [\n    {\n      \"op\": \"H\",\n      \"qubits\": [0, 1],\n      \"angle\": {\n        \"parameter\": null,\n        \"scale\": 0,\n        \"offset\": 0.3\n      }\n    }\n  ],\n  \"layers\": [\n    {\n      \"cost\": {\n        \"op\": \"COST\",\n        \"parameter\": \"gamma\",\n        \"hamiltonian_hash\": \"1de1ae712a8cdc1cec76a6ced185a08eff295c35291861c5b3e8004c96c1f35b\"\n      },\n      \"mixer\": [\n        {\n          \"op\": \"RXX\",\n          \"qubits\": [0, 1],\n          \"angle\": {\n            \"parameter\": \"beta_0\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RYY\",\n          \"qubits\": [0, 1],\n          \"angle\": {\n            \"parameter\": \"beta_0\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RXX\",\n          \"qubits\": [2, 3],\n          \"angle\": {\n            \"parameter\": \"beta_1\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RYY\",\n          \"qubits\": [2, 3],\n          \"angle\": {\n            \"parameter\": \"beta_1\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RXX\",\n          \"qubits\": [4, 5],\n          \"angle\": {\n            \"parameter\": \"beta_2\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RYY\",\n          \"qubits\": [4, 5],\n          \"angle\": {\n            \"parameter\": \"beta_2\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        }\n      ]\n    }\n  ],\n  \"rationale\": [\n    {\n      \"feature_ids\": [\n        \"CORRELATION\",\n        \"OBJECTIVE_TERMS\"\n      ],\n      \"decision\": \"Use sparse mixer with adjacent qubit pairs to respect correlation structure and preserve cardinality\"\n    }\n  ]\n}",
+        "finish_reason": "stop",
+        "usage": {
+          "input_tokens": 8846,
+          "output_tokens": 872
+        },
+        "model": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+        "revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+        "execution": "replay",
+        "batch_elapsed_seconds": 156.04671954197693,
+        "amortized_inference_seconds": 52.015573180658976,
+        "reserved_usd": 0.6133333333333334,
+        "job_id": "e112d0ebfcb94050960feb82e7c35a2f"
+      },
+      "request_hash": "043f65d2b3d7ddb1b927e097b3122b78fdcc978d6b35d4ec221bcc439bdecdbf",
+      "gate_ir": {
+        "version": "gate-ir-v1",
+        "problem_hash": "1fa26334f93f7a81b4ee28e6a3f29add74d9d36841c2270c3f67a2585b8bc2e4",
+        "hamiltonian_hash": "1de1ae712a8cdc1cec76a6ced185a08eff295c35291861c5b3e8004c96c1f35b",
+        "qubit_to_asset": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "mode": "preserve_cardinality",
+        "initial_bits": [
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "parameters": [
+          {
+            "id": "gamma",
+            "kind": "cost",
+            "initial": 0.3
+          },
+          {
+            "id": "beta_0",
+            "kind": "mixer",
+            "initial": 0.0
+          },
+          {
+            "id": "beta_1",
+            "kind": "mixer",
+            "initial": 0.0
+          },
+          {
+            "id": "beta_2",
+            "kind": "mixer",
+            "initial": 0.0
+          }
+        ],
+        "initialization": [
+          {
+            "op": "H",
+            "qubits": [
+              0,
+              1
+            ],
+            "angle": {
+              "parameter": null,
+              "scale": 0,
+              "offset": 0.3
+            }
+          }
+        ],
+        "layers": [
+          {
+            "cost": {
+              "op": "COST",
+              "parameter": "gamma",
+              "hamiltonian_hash": "1de1ae712a8cdc1cec76a6ced185a08eff295c35291861c5b3e8004c96c1f35b"
+            },
+            "mixer": [
+              {
+                "op": "RXX",
+                "qubits": [
+                  0,
+                  1
+                ],
+                "angle": {
+                  "parameter": "beta_0",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RYY",
+                "qubits": [
+                  0,
+                  1
+                ],
+                "angle": {
+                  "parameter": "beta_0",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RXX",
+                "qubits": [
+                  2,
+                  3
+                ],
+                "angle": {
+                  "parameter": "beta_1",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RYY",
+                "qubits": [
+                  2,
+                  3
+                ],
+                "angle": {
+                  "parameter": "beta_1",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RXX",
+                "qubits": [
+                  4,
+                  5
+                ],
+                "angle": {
+                  "parameter": "beta_2",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RYY",
+                "qubits": [
+                  4,
+                  5
+                ],
+                "angle": {
+                  "parameter": "beta_2",
+                  "scale": 2,
+                  "offset": 0
+                }
+              }
+            ]
+          }
+        ],
+        "rationale": [
+          {
+            "feature_ids": [
+              "CORRELATION",
+              "OBJECTIVE_TERMS"
+            ],
+            "decision": "Use sparse mixer with adjacent qubit pairs to respect correlation structure and preserve cardinality"
+          }
+        ]
+      },
+      "verification": {
+        "valid": false,
+        "errors": [
+          {
+            "code": "gate_target",
+            "path": "initialization/0",
+            "message": "Wrong arity or qubit outside register."
+          },
+          {
+            "code": "gate_angle",
+            "path": "initialization/0",
+            "message": "Nonrotation gate must have angle=null."
+          }
+        ],
+        "warnings": [],
+        "conservation_certificate": null,
+        "synthesis_gate_count": 7,
+        "declared_parameters": 4,
+        "ir_hash": "e148e8d5ded4c12a425ed3e63e7a878ef5de8a3167331bc0e5f2a7458403e181",
+        "limits": {
+          "max_qubits": 12,
+          "max_layers": 4,
+          "max_parameters": 16,
+          "max_synthesis_gates": 512,
+          "max_two_qubit_gates": 40000,
+          "max_transpiled_depth": 80000
+        },
+        "elapsed_seconds": 0.0006897090061102062
+      }
+    },
+    {
+      "case_id": "n4",
+      "round": 2,
+      "inference": {
+        "request_hash": "c52a397277fd09142b9e8558b3861a8afec69ec0f73f165e02469342fd4366f3",
+        "status": "ok",
+        "response": {
+          "version": "gate-ir-v1",
+          "problem_hash": "1b163d741aaba71a7450181c9241bca48b25dd97d972a901cb3c4bcfd0a0dd9d",
+          "hamiltonian_hash": "833f7c12b467ae64e8718e21057a59f93a458ec4bb8666f6560d261da369b037",
+          "qubit_to_asset": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "mode": "preserve_cardinality",
+          "initial_bits": [
+            1,
+            1,
+            0,
+            0
+          ],
+          "parameters": [
+            {
+              "id": "gamma_0",
+              "kind": "cost",
+              "initial": 0.3
+            },
+            {
+              "id": "beta_0",
+              "kind": "mixer",
+              "initial": 0.5
+            },
+            {
+              "id": "beta_1",
+              "kind": "mixer",
+              "initial": 0.5
+            },
+            {
+              "id": "beta_2",
+              "kind": "mixer",
+              "initial": 0.5
+            }
+          ],
+          "initialization": [
+            {
+              "op": "H",
+              "qubits": [
+                0
+              ],
+              "angle": {
+                "parameter": null,
+                "scale": 0,
+                "offset": 0.3
+              }
+            },
+            {
+              "op": "H",
+              "qubits": [
+                1
+              ],
+              "angle": {
+                "parameter": null,
+                "scale": 0,
+                "offset": 0.3
+              }
+            },
+            {
+              "op": "H",
+              "qubits": [
+                2
+              ],
+              "angle": {
+                "parameter": null,
+                "scale": 0,
+                "offset": 0.3
+              }
+            },
+            {
+              "op": "H",
+              "qubits": [
+                3
+              ],
+              "angle": {
+                "parameter": null,
+                "scale": 0,
+                "offset": 0.3
+              }
+            }
+          ],
+          "layers": [
+            {
+              "cost": {
+                "op": "COST",
+                "parameter": "gamma_0",
+                "hamiltonian_hash": "833f7c12b467ae64e8718e21057a59f93a458ec4bb8666f6560d261da369b037"
+              },
+              "mixer": [
+                {
+                  "op": "RXX",
+                  "qubits": [
+                    0,
+                    1
+                  ],
+                  "angle": {
+                    "parameter": "beta_0",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RYY",
+                  "qubits": [
+                    0,
+                    1
+                  ],
+                  "angle": {
+                    "parameter": "beta_0",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RXX",
+                  "qubits": [
+                    2,
+                    3
+                  ],
+                  "angle": {
+                    "parameter": "beta_1",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RYY",
+                  "qubits": [
+                    2,
+                    3
+                  ],
+                  "angle": {
+                    "parameter": "beta_1",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RXX",
+                  "qubits": [
+                    0,
+                    2
+                  ],
+                  "angle": {
+                    "parameter": "beta_2",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RYY",
+                  "qubits": [
+                    0,
+                    2
+                  ],
+                  "angle": {
+                    "parameter": "beta_2",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                }
+              ]
+            }
+          ],
+          "rationale": [
+            {
+              "feature_ids": [
+                "CORRELATION",
+                "OBJECTIVE_TERMS"
+              ],
+              "decision": "Use adjacent RXX/RYY pairs to preserve cardinality while respecting correlations and objective terms."
+            }
+          ]
+        },
+        "raw_text": "{\n  \"version\": \"gate-ir-v1\",\n  \"problem_hash\": \"1b163d741aaba71a7450181c9241bca48b25dd97d972a901cb3c4bcfd0a0dd9d\",\n  \"hamiltonian_hash\": \"833f7c12b467ae64e8718e21057a59f93a458ec4bb8666f6560d261da369b037\",\n  \"qubit_to_asset\": [0, 1, 2, 3],\n  \"mode\": \"preserve_cardinality\",\n  \"initial_bits\": [1, 1, 0, 0],\n  \"parameters\": [\n    {\n      \"id\": \"gamma_0\",\n      \"kind\": \"cost\",\n      \"initial\": 0.3\n    },\n    {\n      \"id\": \"beta_0\",\n      \"kind\": \"mixer\",\n      \"initial\": 0.5\n    },\n    {\n      \"id\": \"beta_1\",\n      \"kind\": \"mixer\",\n      \"initial\": 0.5\n    },\n    {\n      \"id\": \"beta_2\",\n      \"kind\": \"mixer\",\n      \"initial\": 0.5\n    }\n  ],\n  \"initialization\": [\n    {\n      \"op\": \"H\",\n      \"qubits\": [0],\n      \"angle\": {\n        \"parameter\": null,\n        \"scale\": 0,\n        \"offset\": 0.3\n      }\n    },\n    {\n      \"op\": \"H\",\n      \"qubits\": [1],\n      \"angle\": {\n        \"parameter\": null,\n        \"scale\": 0,\n        \"offset\": 0.3\n      }\n    },\n    {\n      \"op\": \"H\",\n      \"qubits\": [2],\n      \"angle\": {\n        \"parameter\": null,\n        \"scale\": 0,\n        \"offset\": 0.3\n      }\n    },\n    {\n      \"op\": \"H\",\n      \"qubits\": [3],\n      \"angle\": {\n        \"parameter\": null,\n        \"scale\": 0,\n        \"offset\": 0.3\n      }\n    }\n  ],\n  \"layers\": [\n    {\n      \"cost\": {\n        \"op\": \"COST\",\n        \"parameter\": \"gamma_0\",\n        \"hamiltonian_hash\": \"833f7c12b467ae64e8718e21057a59f93a458ec4bb8666f6560d261da369b037\"\n      },\n      \"mixer\": [\n        {\n          \"op\": \"RXX\",\n          \"qubits\": [0, 1],\n          \"angle\": {\n            \"parameter\": \"beta_0\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RYY\",\n          \"qubits\": [0, 1],\n          \"angle\": {\n            \"parameter\": \"beta_0\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RXX\",\n          \"qubits\": [2, 3],\n          \"angle\": {\n            \"parameter\": \"beta_1\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RYY\",\n          \"qubits\": [2, 3],\n          \"angle\": {\n            \"parameter\": \"beta_1\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RXX\",\n          \"qubits\": [0, 2],\n          \"angle\": {\n            \"parameter\": \"beta_2\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RYY\",\n          \"qubits\": [0, 2],\n          \"angle\": {\n            \"parameter\": \"beta_2\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        }\n      ]\n    }\n  ],\n  \"rationale\": [\n    {\n      \"feature_ids\": [\n        \"CORRELATION\",\n        \"OBJECTIVE_TERMS\"\n      ],\n      \"decision\": \"Use adjacent RXX/RYY pairs to preserve cardinality while respecting correlations and objective terms.\"\n    }\n  ]\n}",
+        "finish_reason": "stop",
+        "usage": {
+          "input_tokens": 4337,
+          "output_tokens": 1003
+        },
+        "model": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+        "revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+        "execution": "replay",
+        "batch_elapsed_seconds": 161.18476620901492,
+        "amortized_inference_seconds": 53.72825540300497,
+        "reserved_usd": 0.6133333333333334,
+        "job_id": "2e3ef1166c544471aa9bd1afbddcee9a"
+      },
+      "request_hash": "c52a397277fd09142b9e8558b3861a8afec69ec0f73f165e02469342fd4366f3",
+      "gate_ir": {
+        "version": "gate-ir-v1",
+        "problem_hash": "1b163d741aaba71a7450181c9241bca48b25dd97d972a901cb3c4bcfd0a0dd9d",
+        "hamiltonian_hash": "833f7c12b467ae64e8718e21057a59f93a458ec4bb8666f6560d261da369b037",
+        "qubit_to_asset": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "mode": "preserve_cardinality",
+        "initial_bits": [
+          1,
+          1,
+          0,
+          0
+        ],
+        "parameters": [
+          {
+            "id": "gamma_0",
+            "kind": "cost",
+            "initial": 0.3
+          },
+          {
+            "id": "beta_0",
+            "kind": "mixer",
+            "initial": 0.5
+          },
+          {
+            "id": "beta_1",
+            "kind": "mixer",
+            "initial": 0.5
+          },
+          {
+            "id": "beta_2",
+            "kind": "mixer",
+            "initial": 0.5
+          }
+        ],
+        "initialization": [
+          {
+            "op": "H",
+            "qubits": [
+              0
+            ],
+            "angle": {
+              "parameter": null,
+              "scale": 0,
+              "offset": 0.3
+            }
+          },
+          {
+            "op": "H",
+            "qubits": [
+              1
+            ],
+            "angle": {
+              "parameter": null,
+              "scale": 0,
+              "offset": 0.3
+            }
+          },
+          {
+            "op": "H",
+            "qubits": [
+              2
+            ],
+            "angle": {
+              "parameter": null,
+              "scale": 0,
+              "offset": 0.3
+            }
+          },
+          {
+            "op": "H",
+            "qubits": [
+              3
+            ],
+            "angle": {
+              "parameter": null,
+              "scale": 0,
+              "offset": 0.3
+            }
+          }
+        ],
+        "layers": [
+          {
+            "cost": {
+              "op": "COST",
+              "parameter": "gamma_0",
+              "hamiltonian_hash": "833f7c12b467ae64e8718e21057a59f93a458ec4bb8666f6560d261da369b037"
+            },
+            "mixer": [
+              {
+                "op": "RXX",
+                "qubits": [
+                  0,
+                  1
+                ],
+                "angle": {
+                  "parameter": "beta_0",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RYY",
+                "qubits": [
+                  0,
+                  1
+                ],
+                "angle": {
+                  "parameter": "beta_0",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RXX",
+                "qubits": [
+                  2,
+                  3
+                ],
+                "angle": {
+                  "parameter": "beta_1",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RYY",
+                "qubits": [
+                  2,
+                  3
+                ],
+                "angle": {
+                  "parameter": "beta_1",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RXX",
+                "qubits": [
+                  0,
+                  2
+                ],
+                "angle": {
+                  "parameter": "beta_2",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RYY",
+                "qubits": [
+                  0,
+                  2
+                ],
+                "angle": {
+                  "parameter": "beta_2",
+                  "scale": 2,
+                  "offset": 0
+                }
+              }
+            ]
+          }
+        ],
+        "rationale": [
+          {
+            "feature_ids": [
+              "CORRELATION",
+              "OBJECTIVE_TERMS"
+            ],
+            "decision": "Use adjacent RXX/RYY pairs to preserve cardinality while respecting correlations and objective terms."
+          }
+        ]
+      },
+      "verification": {
+        "valid": false,
+        "errors": [
+          {
+            "code": "gate_angle",
+            "path": "initialization/0",
+            "message": "Nonrotation gate must have angle=null."
+          },
+          {
+            "code": "gate_angle",
+            "path": "initialization/1",
+            "message": "Nonrotation gate must have angle=null."
+          },
+          {
+            "code": "gate_angle",
+            "path": "initialization/2",
+            "message": "Nonrotation gate must have angle=null."
+          },
+          {
+            "code": "gate_angle",
+            "path": "initialization/3",
+            "message": "Nonrotation gate must have angle=null."
+          }
+        ],
+        "warnings": [],
+        "conservation_certificate": null,
+        "synthesis_gate_count": 10,
+        "declared_parameters": 4,
+        "ir_hash": "87842ae158a48aaa72d8d27ba9be0233d802eba469a43c22eeff4105adaf491f",
+        "limits": {
+          "max_qubits": 12,
+          "max_layers": 4,
+          "max_parameters": 16,
+          "max_synthesis_gates": 512,
+          "max_two_qubit_gates": 40000,
+          "max_transpiled_depth": 80000
+        },
+        "elapsed_seconds": 0.0008002500107977539
+      }
+    },
+    {
+      "case_id": "n6",
+      "round": 2,
+      "inference": {
+        "request_hash": "88a643f9e8c7a4d2a4dabc941c09d3da10b6b6c3830553a22e7787e5a44d1801",
+        "status": "ok",
+        "response": {
+          "version": "gate-ir-v1",
+          "problem_hash": "c7ed0738007c259f37e83aee376ed3063a3dad4edd41392456796c06d52f2810",
+          "hamiltonian_hash": "1fd1beb2d863c2cd71fc8d721d7e3cac19025028b3ba5821c9861271149dce3a",
+          "qubit_to_asset": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "mode": "preserve_cardinality",
+          "initial_bits": [
+            1,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "parameters": [
+            {
+              "id": "gamma_0",
+              "kind": "cost",
+              "initial": 0.3
+            },
+            {
+              "id": "beta_0",
+              "kind": "mixer",
+              "initial": 0.3
+            },
+            {
+              "id": "beta_1",
+              "kind": "mixer",
+              "initial": 0.3
+            },
+            {
+              "id": "beta_2",
+              "kind": "mixer",
+              "initial": 0.3
+            }
+          ],
+          "initialization": [
+            {
+              "op": "H",
+              "qubits": [
+                0,
+                1
+              ],
+              "angle": null
+            },
+            {
+              "op": "H",
+              "qubits": [
+                2,
+                3
+              ],
+              "angle": null
+            },
+            {
+              "op": "H",
+              "qubits": [
+                4,
+                5
+              ],
+              "angle": null
+            }
+          ],
+          "layers": [
+            {
+              "cost": {
+                "op": "COST",
+                "parameter": "gamma_0",
+                "hamiltonian_hash": "1fd1beb2d863c2cd71fc8d721d7e3cac19025028b3ba5821c9861271149dce3a"
+              },
+              "mixer": [
+                {
+                  "op": "RXX",
+                  "qubits": [
+                    0,
+                    1
+                  ],
+                  "angle": {
+                    "parameter": "beta_0",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RYY",
+                  "qubits": [
+                    0,
+                    1
+                  ],
+                  "angle": {
+                    "parameter": "beta_0",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RXX",
+                  "qubits": [
+                    2,
+                    3
+                  ],
+                  "angle": {
+                    "parameter": "beta_1",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RYY",
+                  "qubits": [
+                    2,
+                    3
+                  ],
+                  "angle": {
+                    "parameter": "beta_1",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RXX",
+                  "qubits": [
+                    4,
+                    5
+                  ],
+                  "angle": {
+                    "parameter": "beta_2",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RYY",
+                  "qubits": [
+                    4,
+                    5
+                  ],
+                  "angle": {
+                    "parameter": "beta_2",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                }
+              ]
+            }
+          ],
+          "rationale": [
+            {
+              "feature_ids": [
+                "CORRELATION",
+                "CLUSTERS"
+              ],
+              "decision": "Use RXX/RYY pairs for mixer to preserve cardinality while respecting correlations and cluster structure."
+            }
+          ]
+        },
+        "raw_text": "{\n  \"version\": \"gate-ir-v1\",\n  \"problem_hash\": \"c7ed0738007c259f37e83aee376ed3063a3dad4edd41392456796c06d52f2810\",\n  \"hamiltonian_hash\": \"1fd1beb2d863c2cd71fc8d721d7e3cac19025028b3ba5821c9861271149dce3a\",\n  \"qubit_to_asset\": [0, 1, 2, 3, 4, 5],\n  \"mode\": \"preserve_cardinality\",\n  \"initial_bits\": [1, 1, 1, 0, 0, 0],\n  \"parameters\": [\n    {\n      \"id\": \"gamma_0\",\n      \"kind\": \"cost\",\n      \"initial\": 0.3\n    },\n    {\n      \"id\": \"beta_0\",\n      \"kind\": \"mixer\",\n      \"initial\": 0.3\n    },\n    {\n      \"id\": \"beta_1\",\n      \"kind\": \"mixer\",\n      \"initial\": 0.3\n    },\n    {\n      \"id\": \"beta_2\",\n      \"kind\": \"mixer\",\n      \"initial\": 0.3\n    }\n  ],\n  \"initialization\": [\n    {\n      \"op\": \"H\",\n      \"qubits\": [0, 1],\n      \"angle\": null\n    },\n    {\n      \"op\": \"H\",\n      \"qubits\": [2, 3],\n      \"angle\": null\n    },\n    {\n      \"op\": \"H\",\n      \"qubits\": [4, 5],\n      \"angle\": null\n    }\n  ],\n  \"layers\": [\n    {\n      \"cost\": {\n        \"op\": \"COST\",\n        \"parameter\": \"gamma_0\",\n        \"hamiltonian_hash\": \"1fd1beb2d863c2cd71fc8d721d7e3cac19025028b3ba5821c9861271149dce3a\"\n      },\n      \"mixer\": [\n        {\n          \"op\": \"RXX\",\n          \"qubits\": [0, 1],\n          \"angle\": {\n            \"parameter\": \"beta_0\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RYY\",\n          \"qubits\": [0, 1],\n          \"angle\": {\n            \"parameter\": \"beta_0\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RXX\",\n          \"qubits\": [2, 3],\n          \"angle\": {\n            \"parameter\": \"beta_1\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RYY\",\n          \"qubits\": [2, 3],\n          \"angle\": {\n            \"parameter\": \"beta_1\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RXX\",\n          \"qubits\": [4, 5],\n          \"angle\": {\n            \"parameter\": \"beta_2\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RYY\",\n          \"qubits\": [4, 5],\n          \"angle\": {\n            \"parameter\": \"beta_2\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        }\n      ]\n    }\n  ],\n  \"rationale\": [\n    {\n      \"feature_ids\": [\n        \"CORRELATION\",\n        \"CLUSTERS\"\n      ],\n      \"decision\": \"Use RXX/RYY pairs for mixer to preserve cardinality while respecting correlations and cluster structure.\"\n    }\n  ]\n}",
+        "finish_reason": "stop",
+        "usage": {
+          "input_tokens": 6339,
+          "output_tokens": 898
+        },
+        "model": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+        "revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+        "execution": "replay",
+        "batch_elapsed_seconds": 161.18476620901492,
+        "amortized_inference_seconds": 53.72825540300497,
+        "reserved_usd": 0.6133333333333334,
+        "job_id": "2e3ef1166c544471aa9bd1afbddcee9a"
+      },
+      "request_hash": "88a643f9e8c7a4d2a4dabc941c09d3da10b6b6c3830553a22e7787e5a44d1801",
+      "gate_ir": {
+        "version": "gate-ir-v1",
+        "problem_hash": "c7ed0738007c259f37e83aee376ed3063a3dad4edd41392456796c06d52f2810",
+        "hamiltonian_hash": "1fd1beb2d863c2cd71fc8d721d7e3cac19025028b3ba5821c9861271149dce3a",
+        "qubit_to_asset": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "mode": "preserve_cardinality",
+        "initial_bits": [
+          1,
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        "parameters": [
+          {
+            "id": "gamma_0",
+            "kind": "cost",
+            "initial": 0.3
+          },
+          {
+            "id": "beta_0",
+            "kind": "mixer",
+            "initial": 0.3
+          },
+          {
+            "id": "beta_1",
+            "kind": "mixer",
+            "initial": 0.3
+          },
+          {
+            "id": "beta_2",
+            "kind": "mixer",
+            "initial": 0.3
+          }
+        ],
+        "initialization": [
+          {
+            "op": "H",
+            "qubits": [
+              0,
+              1
+            ],
+            "angle": null
+          },
+          {
+            "op": "H",
+            "qubits": [
+              2,
+              3
+            ],
+            "angle": null
+          },
+          {
+            "op": "H",
+            "qubits": [
+              4,
+              5
+            ],
+            "angle": null
+          }
+        ],
+        "layers": [
+          {
+            "cost": {
+              "op": "COST",
+              "parameter": "gamma_0",
+              "hamiltonian_hash": "1fd1beb2d863c2cd71fc8d721d7e3cac19025028b3ba5821c9861271149dce3a"
+            },
+            "mixer": [
+              {
+                "op": "RXX",
+                "qubits": [
+                  0,
+                  1
+                ],
+                "angle": {
+                  "parameter": "beta_0",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RYY",
+                "qubits": [
+                  0,
+                  1
+                ],
+                "angle": {
+                  "parameter": "beta_0",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RXX",
+                "qubits": [
+                  2,
+                  3
+                ],
+                "angle": {
+                  "parameter": "beta_1",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RYY",
+                "qubits": [
+                  2,
+                  3
+                ],
+                "angle": {
+                  "parameter": "beta_1",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RXX",
+                "qubits": [
+                  4,
+                  5
+                ],
+                "angle": {
+                  "parameter": "beta_2",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RYY",
+                "qubits": [
+                  4,
+                  5
+                ],
+                "angle": {
+                  "parameter": "beta_2",
+                  "scale": 2,
+                  "offset": 0
+                }
+              }
+            ]
+          }
+        ],
+        "rationale": [
+          {
+            "feature_ids": [
+              "CORRELATION",
+              "CLUSTERS"
+            ],
+            "decision": "Use RXX/RYY pairs for mixer to preserve cardinality while respecting correlations and cluster structure."
+          }
+        ]
+      },
+      "verification": {
+        "valid": false,
+        "errors": [
+          {
+            "code": "gate_target",
+            "path": "initialization/0",
+            "message": "Wrong arity or qubit outside register."
+          },
+          {
+            "code": "gate_target",
+            "path": "initialization/1",
+            "message": "Wrong arity or qubit outside register."
+          },
+          {
+            "code": "gate_target",
+            "path": "initialization/2",
+            "message": "Wrong arity or qubit outside register."
+          }
+        ],
+        "warnings": [],
+        "conservation_certificate": null,
+        "synthesis_gate_count": 9,
+        "declared_parameters": 4,
+        "ir_hash": "f4e989d2fcde14e4129d2c78b4c7163e0e44d3db4c9db78438ab8a6f52ba7391",
+        "limits": {
+          "max_qubits": 12,
+          "max_layers": 4,
+          "max_parameters": 16,
+          "max_synthesis_gates": 512,
+          "max_two_qubit_gates": 40000,
+          "max_transpiled_depth": 80000
+        },
+        "elapsed_seconds": 0.0008020829991437495
+      }
+    },
+    {
+      "case_id": "n8",
+      "round": 2,
+      "inference": {
+        "request_hash": "24c2cdee442bfe543a5ebda3ea6cf7441a353021b6ea242388cc39c7b64832ca",
+        "status": "ok",
+        "response": {
+          "version": "gate-ir-v1",
+          "problem_hash": "1fa26334f93f7a81b4ee28e6a3f29add74d9d36841c2270c3f67a2585b8bc2e4",
+          "hamiltonian_hash": "1de1ae712a8cdc1cec76a6ced185a08eff295c35291861c5b3e8004c96c1f35b",
+          "qubit_to_asset": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "mode": "preserve_cardinality",
+          "initial_bits": [
+            1,
+            1,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          "parameters": [
+            {
+              "id": "gamma",
+              "kind": "cost",
+              "initial": 0.3
+            },
+            {
+              "id": "beta_0",
+              "kind": "mixer",
+              "initial": 0.0
+            },
+            {
+              "id": "beta_1",
+              "kind": "mixer",
+              "initial": 0.0
+            },
+            {
+              "id": "beta_2",
+              "kind": "mixer",
+              "initial": 0.0
+            }
+          ],
+          "initialization": [
+            {
+              "op": "H",
+              "qubits": [
+                0,
+                1
+              ],
+              "angle": {
+                "parameter": null,
+                "scale": 0,
+                "offset": 0.3
+              }
+            }
+          ],
+          "layers": [
+            {
+              "cost": {
+                "op": "COST",
+                "parameter": "gamma",
+                "hamiltonian_hash": "1de1ae712a8cdc1cec76a6ced185a08eff295c35291861c5b3e8004c96c1f35b"
+              },
+              "mixer": [
+                {
+                  "op": "RXX",
+                  "qubits": [
+                    0,
+                    1
+                  ],
+                  "angle": {
+                    "parameter": "beta_0",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RYY",
+                  "qubits": [
+                    0,
+                    1
+                  ],
+                  "angle": {
+                    "parameter": "beta_0",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RXX",
+                  "qubits": [
+                    2,
+                    3
+                  ],
+                  "angle": {
+                    "parameter": "beta_1",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RYY",
+                  "qubits": [
+                    2,
+                    3
+                  ],
+                  "angle": {
+                    "parameter": "beta_1",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RXX",
+                  "qubits": [
+                    4,
+                    5
+                  ],
+                  "angle": {
+                    "parameter": "beta_2",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                },
+                {
+                  "op": "RYY",
+                  "qubits": [
+                    4,
+                    5
+                  ],
+                  "angle": {
+                    "parameter": "beta_2",
+                    "scale": 2,
+                    "offset": 0
+                  }
+                }
+              ]
+            }
+          ],
+          "rationale": [
+            {
+              "feature_ids": [
+                "CORRELATION",
+                "OBJECTIVE_TERMS"
+              ],
+              "decision": "Use sparse mixer with adjacent qubit pairs to respect correlation structure and preserve cardinality"
+            }
+          ]
+        },
+        "raw_text": "{\n  \"version\": \"gate-ir-v1\",\n  \"problem_hash\": \"1fa26334f93f7a81b4ee28e6a3f29add74d9d36841c2270c3f67a2585b8bc2e4\",\n  \"hamiltonian_hash\": \"1de1ae712a8cdc1cec76a6ced185a08eff295c35291861c5b3e8004c96c1f35b\",\n  \"qubit_to_asset\": [0, 1, 2, 3, 4, 5, 6, 7],\n  \"mode\": \"preserve_cardinality\",\n  \"initial_bits\": [1, 1, 1, 1, 0, 0, 0, 0],\n  \"parameters\": [\n    {\n      \"id\": \"gamma\",\n      \"kind\": \"cost\",\n      \"initial\": 0.3\n    },\n    {\n      \"id\": \"beta_0\",\n      \"kind\": \"mixer\",\n      \"initial\": 0.0\n    },\n    {\n      \"id\": \"beta_1\",\n      \"kind\": \"mixer\",\n      \"initial\": 0.0\n    },\n    {\n      \"id\": \"beta_2\",\n      \"kind\": \"mixer\",\n      \"initial\": 0.0\n    }\n  ],\n  \"initialization\": [\n    {\n      \"op\": \"H\",\n      \"qubits\": [0, 1],\n      \"angle\": {\n        \"parameter\": null,\n        \"scale\": 0,\n        \"offset\": 0.3\n      }\n    }\n  ],\n  \"layers\": [\n    {\n      \"cost\": {\n        \"op\": \"COST\",\n        \"parameter\": \"gamma\",\n        \"hamiltonian_hash\": \"1de1ae712a8cdc1cec76a6ced185a08eff295c35291861c5b3e8004c96c1f35b\"\n      },\n      \"mixer\": [\n        {\n          \"op\": \"RXX\",\n          \"qubits\": [0, 1],\n          \"angle\": {\n            \"parameter\": \"beta_0\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RYY\",\n          \"qubits\": [0, 1],\n          \"angle\": {\n            \"parameter\": \"beta_0\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RXX\",\n          \"qubits\": [2, 3],\n          \"angle\": {\n            \"parameter\": \"beta_1\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RYY\",\n          \"qubits\": [2, 3],\n          \"angle\": {\n            \"parameter\": \"beta_1\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RXX\",\n          \"qubits\": [4, 5],\n          \"angle\": {\n            \"parameter\": \"beta_2\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        },\n        {\n          \"op\": \"RYY\",\n          \"qubits\": [4, 5],\n          \"angle\": {\n            \"parameter\": \"beta_2\",\n            \"scale\": 2,\n            \"offset\": 0\n          }\n        }\n      ]\n    }\n  ],\n  \"rationale\": [\n    {\n      \"feature_ids\": [\n        \"CORRELATION\",\n        \"OBJECTIVE_TERMS\"\n      ],\n      \"decision\": \"Use sparse mixer with adjacent qubit pairs to respect correlation structure and preserve cardinality\"\n    }\n  ]\n}",
+        "finish_reason": "stop",
+        "usage": {
+          "input_tokens": 8855,
+          "output_tokens": 872
+        },
+        "model": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+        "revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+        "execution": "replay",
+        "batch_elapsed_seconds": 161.18476620901492,
+        "amortized_inference_seconds": 53.72825540300497,
+        "reserved_usd": 0.6133333333333334,
+        "job_id": "2e3ef1166c544471aa9bd1afbddcee9a"
+      },
+      "request_hash": "24c2cdee442bfe543a5ebda3ea6cf7441a353021b6ea242388cc39c7b64832ca",
+      "gate_ir": {
+        "version": "gate-ir-v1",
+        "problem_hash": "1fa26334f93f7a81b4ee28e6a3f29add74d9d36841c2270c3f67a2585b8bc2e4",
+        "hamiltonian_hash": "1de1ae712a8cdc1cec76a6ced185a08eff295c35291861c5b3e8004c96c1f35b",
+        "qubit_to_asset": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "mode": "preserve_cardinality",
+        "initial_bits": [
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "parameters": [
+          {
+            "id": "gamma",
+            "kind": "cost",
+            "initial": 0.3
+          },
+          {
+            "id": "beta_0",
+            "kind": "mixer",
+            "initial": 0.0
+          },
+          {
+            "id": "beta_1",
+            "kind": "mixer",
+            "initial": 0.0
+          },
+          {
+            "id": "beta_2",
+            "kind": "mixer",
+            "initial": 0.0
+          }
+        ],
+        "initialization": [
+          {
+            "op": "H",
+            "qubits": [
+              0,
+              1
+            ],
+            "angle": {
+              "parameter": null,
+              "scale": 0,
+              "offset": 0.3
+            }
+          }
+        ],
+        "layers": [
+          {
+            "cost": {
+              "op": "COST",
+              "parameter": "gamma",
+              "hamiltonian_hash": "1de1ae712a8cdc1cec76a6ced185a08eff295c35291861c5b3e8004c96c1f35b"
+            },
+            "mixer": [
+              {
+                "op": "RXX",
+                "qubits": [
+                  0,
+                  1
+                ],
+                "angle": {
+                  "parameter": "beta_0",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RYY",
+                "qubits": [
+                  0,
+                  1
+                ],
+                "angle": {
+                  "parameter": "beta_0",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RXX",
+                "qubits": [
+                  2,
+                  3
+                ],
+                "angle": {
+                  "parameter": "beta_1",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RYY",
+                "qubits": [
+                  2,
+                  3
+                ],
+                "angle": {
+                  "parameter": "beta_1",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RXX",
+                "qubits": [
+                  4,
+                  5
+                ],
+                "angle": {
+                  "parameter": "beta_2",
+                  "scale": 2,
+                  "offset": 0
+                }
+              },
+              {
+                "op": "RYY",
+                "qubits": [
+                  4,
+                  5
+                ],
+                "angle": {
+                  "parameter": "beta_2",
+                  "scale": 2,
+                  "offset": 0
+                }
+              }
+            ]
+          }
+        ],
+        "rationale": [
+          {
+            "feature_ids": [
+              "CORRELATION",
+              "OBJECTIVE_TERMS"
+            ],
+            "decision": "Use sparse mixer with adjacent qubit pairs to respect correlation structure and preserve cardinality"
+          }
+        ]
+      },
+      "verification": {
+        "valid": false,
+        "errors": [
+          {
+            "code": "gate_target",
+            "path": "initialization/0",
+            "message": "Wrong arity or qubit outside register."
+          },
+          {
+            "code": "gate_angle",
+            "path": "initialization/0",
+            "message": "Nonrotation gate must have angle=null."
+          }
+        ],
+        "warnings": [],
+        "conservation_certificate": null,
+        "synthesis_gate_count": 7,
+        "declared_parameters": 4,
+        "ir_hash": "e148e8d5ded4c12a425ed3e63e7a878ef5de8a3167331bc0e5f2a7458403e181",
+        "limits": {
+          "max_qubits": 12,
+          "max_layers": 4,
+          "max_parameters": 16,
+          "max_synthesis_gates": 512,
+          "max_two_qubit_gates": 40000,
+          "max_transpiled_depth": 80000
+        },
+        "elapsed_seconds": 0.0007017920142970979
+      }
+    }
+  ],
+  "pending": [
+    "n4",
+    "n6",
+    "n8"
+  ]
+}

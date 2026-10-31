@@ -1,0 +1,650 @@
+[
+  {
+    "model": "coder30",
+    "case_id": "n4",
+    "stage": "preparation",
+    "edge": "e0_3",
+    "assets": [
+      "S00",
+      "S03"
+    ],
+    "correlation": 0.7618569253098842,
+    "coefficient_id": "J_0_3",
+    "quadratic_coefficient": 3.315400464685907e-05,
+    "basis_bits": [
+      1,
+      0
+    ],
+    "interpretation": "Deterministic lookup; association only, not proof of causal use by LLM."
+  },
+  {
+    "model": "coder30",
+    "case_id": "n4",
+    "stage": "mixer",
+    "edge": "e0_1",
+    "assets": [
+      "S00",
+      "S01"
+    ],
+    "correlation": 0.6152815405652945,
+    "coefficient_id": "J_0_1",
+    "quadratic_coefficient": 2.295739201717769e-05,
+    "basis_bits": [
+      1,
+      1
+    ],
+    "interpretation": "Deterministic lookup; association only, not proof of causal use by LLM."
+  },
+  {
+    "model": "coder30",
+    "case_id": "n4",
+    "stage": "mixer",
+    "edge": "e1_2",
+    "assets": [
+      "S01",
+      "S02"
+    ],
+    "correlation": 0.591625927602154,
+    "coefficient_id": "J_1_2",
+    "quadratic_coefficient": 2.8429680396767222e-05,
+    "basis_bits": [
+      1,
+      0
+    ],
+    "interpretation": "Deterministic lookup; association only, not proof of causal use by LLM."
+  },
+  {
+    "model": "coder30",
+    "case_id": "n4",
+    "stage": "mixer",
+    "edge": "e2_3",
+    "assets": [
+      "S02",
+      "S03"
+    ],
+    "correlation": 0.6867422829963895,
+    "coefficient_id": "J_2_3",
+    "quadratic_coefficient": 3.8610604896876076e-05,
+    "basis_bits": [
+      0,
+      0
+    ],
+    "interpretation": "Deterministic lookup; association only, not proof of causal use by LLM."
+  },
+  {
+    "model": "coder30",
+    "case_id": "n6",
+    "stage": "preparation",
+    "edge": "e1_4",
+    "assets": [
+      "S01",
+      "S04"
+    ],
+    "correlation": 0.7631809862615835,
+    "coefficient_id": "J_1_4",
+    "quadratic_coefficient": 1.6115192055063954e-05,
+    "basis_bits": [
+      1,
+      0
+    ],
+    "interpretation": "Deterministic lookup; association only, not proof of causal use by LLM."
+  },
+  {
+    "model": "coder30",
+    "case_id": "n6",
+    "stage": "mixer",
+    "edge": "e1_2",
+    "assets": [
+      "S01",
+      "S02"
+    ],
+    "correlation": 0.4710570972581571,
+    "coefficient_id": "J_1_2",
+    "quadratic_coefficient": 8.656997141403884e-06,
+    "basis_bits": [
+      1,
+      1
+    ],
+    "interpretation": "Deterministic lookup; association only, not proof of causal use by LLM."
+  },
+  {
+    "model": "coder30",
+    "case_id": "n6",
+    "stage": "mixer",
+    "edge": "e1_3",
+    "assets": [
+      "S01",
+      "S03"
+    ],
+    "correlation": 0.5610422246450811,
+    "coefficient_id": "J_1_3",
+    "quadratic_coefficient": 1.106924475862324e-05,
+    "basis_bits": [
+      1,
+      1
+    ],
+    "interpretation": "Deterministic lookup; association only, not proof of causal use by LLM."
+  },
+  {
+    "model": "coder30",
+    "case_id": "n6",
+    "stage": "mixer",
+    "edge": "e2_3",
+    "assets": [
+      "S02",
+      "S03"
+    ],
+    "correlation": 0.6409924899543921,
+    "coefficient_id": "J_2_3",
+    "quadratic_coefficient": 1.4834670842656367e-05,
+    "basis_bits": [
+      1,
+      1
+    ],
+    "interpretation": "Deterministic lookup; association only, not proof of causal use by LLM."
+  },
+  {
+    "model": "coder30",
+    "case_id": "n6",
+    "stage": "mixer",
+    "edge": "e2_4",
+    "assets": [
+      "S02",
+      "S04"
+    ],
+    "correlation": 0.5933246144428416,
+    "coefficient_id": "J_2_4",
+    "quadratic_coefficient": 1.4683471727082736e-05,
+    "basis_bits": [
+      1,
+      0
+    ],
+    "interpretation": "Deterministic lookup; association only, not proof of causal use by LLM."
+  },
+  {
+    "model": "coder30",
+    "case_id": "n6",
+    "stage": "mixer",
+    "edge": "e2_5",
+    "assets": [
+      "S02",
+      "S05"
+    ],
+    "correlation": 0.805427694915237,
+    "coefficient_id": "J_2_5",
+    "quadratic_coefficient": 2.1850501066431e-05,
+    "basis_bits": [
+      1,
+      0
+    ],
+    "interpretation": "Deterministic lookup; association only, not proof of causal use by LLM."
+  },
+  {
+    "model": "coder30",
+    "case_id": "n8",
+    "stage": "preparation",
+    "edge": "e1_5",
+    "assets": [
+      "S01",
+      "S05"
+    ],
+    "correlation": 0.6402035507070818,
+    "coefficient_id": "J_1_5",
+    "quadratic_coefficient": 7.905472048320317e-06,
+    "basis_bits": [
+      1,
+      0
+    ],
+    "interpretation": "Deterministic lookup; association only, not proof of causal use by LLM."
+  },
+  {
+    "model": "coder30",
+    "case_id": "n8",
+    "stage": "mixer",
+    "edge": "e2_3",
+    "assets": [
+      "S02",
+      "S03"
+    ],
+    "correlation": 0.4052042808242366,
+    "coefficient_id": "J_2_3",
+    "quadratic_coefficient": 3.459321823845961e-06,
+    "basis_bits": [
+      1,
+      1
+    ],
+    "interpretation": "Deterministic lookup; association only, not proof of causal use by LLM."
+  },
+  {
+    "model": "coder30",
+    "case_id": "n8",
+    "stage": "mixer",
+    "edge": "e2_4",
+    "assets": [
+      "S02",
+      "S04"
+    ],
+    "correlation": 0.44470876563857825,
+    "coefficient_id": "J_2_4",
+    "quadratic_coefficient": 4.289598912209859e-06,
+    "basis_bits": [
+      1,
+      1
+    ],
+    "interpretation": "Deterministic lookup; association only, not proof of causal use by LLM."
+  },
+  {
+    "model": "coder30",
+    "case_id": "n8",
+    "stage": "mixer",
+    "edge": "e2_5",
+    "assets": [
+      "S02",
+      "S05"
+    ],
+    "correlation": 0.7312322470742777,
+    "coefficient_id": "J_2_5",
+    "quadratic_coefficient": 7.953497586684523e-06,
+    "basis_bits": [
+      1,
+      0
+    ],
+    "interpretation": "Deterministic lookup; association only, not proof of causal use by LLM."
+  },
+  {
+    "model": "coder30",
+    "case_id": "n8",
+    "stage": "mixer",
+    "edge": "e2_6",
+    "assets": [
+      "S02",
+      "S06"
+    ],
+    "correlation": 0.606003317532892,
+    "coefficient_id": "J_2_6",
+    "quadratic_coefficient": 6.4528868503215735e-06,
+    "basis_bits": [
+      1,
+      0
+    ],
+    "interpretation": "Deterministic lookup; association only, not proof of causal use by LLM."
+  },
+  {
+    "model": "coder30",
+    "case_id": "n8",
+    "stage": "mixer",
+    "edge": "e2_7",
+    "assets": [
+      "S02",
+      "S07"
+    ],
+    "correlation": 0.5735582288494983,
+    "coefficient_id": "J_2_7",
+    "quadratic_coefficient": 6.6089055521300096e-06,
+    "basis_bits": [
+      1,
+      0
+    ],
+    "interpretation": "Deterministic lookup; association only, not proof of causal use by LLM."
+  },
+  {
+    "model": "coder30",
+    "case_id": "n8",
+    "stage": "mixer",
+    "edge": "e3_4",
+    "assets": [
+      "S03",
+      "S04"
+    ],
+    "correlation": 0.5682804235449126,
+    "coefficient_id": "J_3_4",
+    "quadratic_coefficient": 5.969071005888733e-06,
+    "basis_bits": [
+      1,
+      1
+    ],
+    "interpretation": "Deterministic lookup; association only, not proof of causal use by LLM."
+  },
+  {
+    "model": "coder30",
+    "case_id": "n8",
+    "stage": "mixer",
+    "edge": "e3_5",
+    "assets": [
+      "S03",
+      "S05"
+    ],
+    "correlation": 0.5468999148034387,
+    "coefficient_id": "J_3_5",
+    "quadratic_coefficient": 6.5354608671496775e-06,
+    "basis_bits": [
+      1,
+      0
+    ],
+    "interpretation": "Deterministic lookup; association only, not proof of causal use by LLM."
+  },
+  {
+    "model": "next80",
+    "case_id": "n4",
+    "stage": "preparation",
+    "edge": "e1_3",
+    "assets": [
+      "S01",
+      "S03"
+    ],
+    "correlation": 0.6648386984290505,
+    "coefficient_id": "J_1_3",
+    "quadratic_coefficient": 3.0592484674455275e-05,
+    "basis_bits": [
+      1,
+      0
+    ],
+    "interpretation": "Deterministic lookup; association only, not proof of causal use by LLM."
+  },
+  {
+    "model": "next80",
+    "case_id": "n4",
+    "stage": "mixer",
+    "edge": "e0_1",
+    "assets": [
+      "S00",
+      "S01"
+    ],
+    "correlation": 0.6152815405652945,
+    "coefficient_id": "J_0_1",
+    "quadratic_coefficient": 2.295739201717769e-05,
+    "basis_bits": [
+      1,
+      1
+    ],
+    "interpretation": "Deterministic lookup; association only, not proof of causal use by LLM."
+  },
+  {
+    "model": "next80",
+    "case_id": "n4",
+    "stage": "mixer",
+    "edge": "e2_3",
+    "assets": [
+      "S02",
+      "S03"
+    ],
+    "correlation": 0.6867422829963895,
+    "coefficient_id": "J_2_3",
+    "quadratic_coefficient": 3.8610604896876076e-05,
+    "basis_bits": [
+      0,
+      0
+    ],
+    "interpretation": "Deterministic lookup; association only, not proof of causal use by LLM."
+  },
+  {
+    "model": "next80",
+    "case_id": "n4",
+    "stage": "mixer",
+    "edge": "e0_2",
+    "assets": [
+      "S00",
+      "S02"
+    ],
+    "correlation": 0.5479154819720286,
+    "coefficient_id": "J_0_2",
+    "quadratic_coefficient": 2.5094990157283605e-05,
+    "basis_bits": [
+      1,
+      0
+    ],
+    "interpretation": "Deterministic lookup; association only, not proof of causal use by LLM."
+  },
+  {
+    "model": "next80",
+    "case_id": "n4",
+    "stage": "mixer",
+    "edge": "e1_3",
+    "assets": [
+      "S01",
+      "S03"
+    ],
+    "correlation": 0.6648386984290505,
+    "coefficient_id": "J_1_3",
+    "quadratic_coefficient": 3.0592484674455275e-05,
+    "basis_bits": [
+      1,
+      0
+    ],
+    "interpretation": "Deterministic lookup; association only, not proof of causal use by LLM."
+  },
+  {
+    "model": "next80",
+    "case_id": "n6",
+    "stage": "preparation",
+    "edge": "e3_5",
+    "assets": [
+      "S03",
+      "S05"
+    ],
+    "correlation": 0.7325417556634449,
+    "coefficient_id": "J_3_5",
+    "quadratic_coefficient": 2.067215164408118e-05,
+    "basis_bits": [
+      1,
+      0
+    ],
+    "interpretation": "Deterministic lookup; association only, not proof of causal use by LLM."
+  },
+  {
+    "model": "next80",
+    "case_id": "n6",
+    "stage": "mixer",
+    "edge": "e1_2",
+    "assets": [
+      "S01",
+      "S02"
+    ],
+    "correlation": 0.4710570972581571,
+    "coefficient_id": "J_1_2",
+    "quadratic_coefficient": 8.656997141403884e-06,
+    "basis_bits": [
+      1,
+      1
+    ],
+    "interpretation": "Deterministic lookup; association only, not proof of causal use by LLM."
+  },
+  {
+    "model": "next80",
+    "case_id": "n6",
+    "stage": "mixer",
+    "edge": "e2_3",
+    "assets": [
+      "S02",
+      "S03"
+    ],
+    "correlation": 0.6409924899543921,
+    "coefficient_id": "J_2_3",
+    "quadratic_coefficient": 1.4834670842656367e-05,
+    "basis_bits": [
+      1,
+      1
+    ],
+    "interpretation": "Deterministic lookup; association only, not proof of causal use by LLM."
+  },
+  {
+    "model": "next80",
+    "case_id": "n6",
+    "stage": "mixer",
+    "edge": "e4_5",
+    "assets": [
+      "S04",
+      "S05"
+    ],
+    "correlation": 0.6962901146033807,
+    "coefficient_id": "J_4_5",
+    "quadratic_coefficient": 2.1017104397348316e-05,
+    "basis_bits": [
+      0,
+      0
+    ],
+    "interpretation": "Deterministic lookup; association only, not proof of causal use by LLM."
+  },
+  {
+    "model": "next80",
+    "case_id": "n6",
+    "stage": "mixer",
+    "edge": "e1_3",
+    "assets": [
+      "S01",
+      "S03"
+    ],
+    "correlation": 0.5610422246450811,
+    "coefficient_id": "J_1_3",
+    "quadratic_coefficient": 1.106924475862324e-05,
+    "basis_bits": [
+      1,
+      1
+    ],
+    "interpretation": "Deterministic lookup; association only, not proof of causal use by LLM."
+  },
+  {
+    "model": "next80",
+    "case_id": "n6",
+    "stage": "mixer",
+    "edge": "e2_4",
+    "assets": [
+      "S02",
+      "S04"
+    ],
+    "correlation": 0.5933246144428416,
+    "coefficient_id": "J_2_4",
+    "quadratic_coefficient": 1.4683471727082736e-05,
+    "basis_bits": [
+      1,
+      0
+    ],
+    "interpretation": "Deterministic lookup; association only, not proof of causal use by LLM."
+  },
+  {
+    "model": "next80",
+    "case_id": "n8",
+    "stage": "preparation",
+    "edge": "e1_5",
+    "assets": [
+      "S01",
+      "S05"
+    ],
+    "correlation": 0.6402035507070818,
+    "coefficient_id": "J_1_5",
+    "quadratic_coefficient": 7.905472048320317e-06,
+    "basis_bits": [
+      1,
+      0
+    ],
+    "interpretation": "Deterministic lookup; association only, not proof of causal use by LLM."
+  },
+  {
+    "model": "next80",
+    "case_id": "n8",
+    "stage": "mixer",
+    "edge": "e2_3",
+    "assets": [
+      "S02",
+      "S03"
+    ],
+    "correlation": 0.4052042808242366,
+    "coefficient_id": "J_2_3",
+    "quadratic_coefficient": 3.459321823845961e-06,
+    "basis_bits": [
+      1,
+      1
+    ],
+    "interpretation": "Deterministic lookup; association only, not proof of causal use by LLM."
+  },
+  {
+    "model": "next80",
+    "case_id": "n8",
+    "stage": "mixer",
+    "edge": "e3_4",
+    "assets": [
+      "S03",
+      "S04"
+    ],
+    "correlation": 0.5682804235449126,
+    "coefficient_id": "J_3_4",
+    "quadratic_coefficient": 5.969071005888733e-06,
+    "basis_bits": [
+      1,
+      1
+    ],
+    "interpretation": "Deterministic lookup; association only, not proof of causal use by LLM."
+  },
+  {
+    "model": "next80",
+    "case_id": "n8",
+    "stage": "mixer",
+    "edge": "e4_5",
+    "assets": [
+      "S04",
+      "S05"
+    ],
+    "correlation": 0.621890744360854,
+    "coefficient_id": "J_4_5",
+    "quadratic_coefficient": 8.327027321716114e-06,
+    "basis_bits": [
+      1,
+      0
+    ],
+    "interpretation": "Deterministic lookup; association only, not proof of causal use by LLM."
+  },
+  {
+    "model": "next80",
+    "case_id": "n8",
+    "stage": "mixer",
+    "edge": "e5_6",
+    "assets": [
+      "S05",
+      "S06"
+    ],
+    "correlation": 0.7019695435551978,
+    "coefficient_id": "J_5_6",
+    "quadratic_coefficient": 1.0449773838758544e-05,
+    "basis_bits": [
+      0,
+      0
+    ],
+    "interpretation": "Deterministic lookup; association only, not proof of causal use by LLM."
+  },
+  {
+    "model": "next80",
+    "case_id": "n8",
+    "stage": "mixer",
+    "edge": "e6_7",
+    "assets": [
+      "S06",
+      "S07"
+    ],
+    "correlation": 0.7205820583402254,
+    "coefficient_id": "J_6_7",
+    "quadratic_coefficient": 1.1299547215516027e-05,
+    "basis_bits": [
+      0,
+      0
+    ],
+    "interpretation": "Deterministic lookup; association only, not proof of causal use by LLM."
+  },
+  {
+    "model": "next80",
+    "case_id": "n8",
+    "stage": "mixer",
+    "edge": "e2_7",
+    "assets": [
+      "S02",
+      "S07"
+    ],
+    "correlation": 0.5735582288494983,
+    "coefficient_id": "J_2_7",
+    "quadratic_coefficient": 6.6089055521300096e-06,
+    "basis_bits": [
+      1,
+      0
+    ],
+    "interpretation": "Deterministic lookup; association only, not proof of causal use by LLM."
+  }
+]

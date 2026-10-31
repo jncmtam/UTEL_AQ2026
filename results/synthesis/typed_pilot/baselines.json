@@ -1,0 +1,2906 @@
+{
+  "protocol": {
+    "version": "typed-exchange-v2",
+    "purpose": "opened_development_followup_not_holdout",
+    "prior_evidence": "results/synthesis/pilot/*_pilot.json",
+    "hypothesis": "Typed exchanges prevent the gate-arity, pairing and basis-cardinality errors seen in v1.",
+    "cases": [
+      {
+        "case_id": "n4",
+        "problem_hash": "1b163d741aaba71a7450181c9241bca48b25dd97d972a901cb3c4bcfd0a0dd9d"
+      },
+      {
+        "case_id": "n6",
+        "problem_hash": "c7ed0738007c259f37e83aee376ed3063a3dad4edd41392456796c06d52f2810"
+      },
+      {
+        "case_id": "n8",
+        "problem_hash": "1fa26334f93f7a81b4ee28e6a3f29add74d9d36841c2270c3f67a2585b8bc2e4"
+      }
+    ],
+    "models": {
+      "next80": {
+        "model": "Qwen/Qwen3-Coder-Next-FP8",
+        "revision": "da6e2ed27304dd39abadd9c82ef50e8de67bdd4c",
+        "gpu": "H200",
+        "rate_key": "gpu_hour_cost_h200",
+        "dtype": "auto",
+        "ram_gib": 128,
+        "cpu": 4
+      },
+      "coder30": {
+        "model": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+        "revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+        "gpu": "A100-80GB",
+        "rate_key": "gpu_hour_cost_a100_80gb",
+        "dtype": "bfloat16",
+        "ram_gib": 96,
+        "cpu": 4
+      }
+    },
+    "request_hashes": [
+      "dcef1ef4fc5964e6225b005a155838d53f50e188a6387b16b2a7d1efea67ba67",
+      "08a93bca093a379fdfc3e488d94b661cac8fd19fafa35fd0aaad42e42c82e133",
+      "aae388bb21f94255568608af8016914a71f021c6162a049cedf13a3b1f4babd9"
+    ],
+    "seeds": [
+      11,
+      23,
+      47
+    ],
+    "evaluations": 16,
+    "shots": 128,
+    "proposals_per_case": 1,
+    "repair_rounds": 0,
+    "targets": {
+      "version": "synthesis-targets-v1",
+      "first_valid_rate": 0.8,
+      "repaired_instance_rate": 0.9,
+      "state_fidelity_min": 0.999999999,
+      "cardinality_leak_max": 1e-09,
+      "feasible_probability_median": 0.9,
+      "normalized_gap_median_max": 0.05,
+      "relative_gap_improvement": 0.2,
+      "relative_cx_reduction": 0.2,
+      "minimum_independent_instances": 10
+    },
+    "max_additional_gpu_reservation_usd": 4.9,
+    "baseline_methods": [
+      "fixed_path",
+      "correlation_path",
+      "random_path"
+    ],
+    "baseline_contract": "Identical typed domain, fixed preparation angle, one layer, one architecture per method; same optimizer calls and seeds.",
+    "stop_rule": "One batch per model; no automatic paid retries or new credit assumption."
+  },
+  "records": [
+    {
+      "case_id": "n4",
+      "method": "fixed_path",
+      "program": {
+        "version": "typed-exchange-v2",
+        "preparation_edge": "e0_2",
+        "mixer": [
+          {
+            "edge": "e0_1",
+            "group": 0
+          },
+          {
+            "edge": "e1_2",
+            "group": 0
+          },
+          {
+            "edge": "e2_3",
+            "group": 0
+          }
+        ],
+        "rationale": [
+          {
+            "feature_ids": [],
+            "decision": "Explicit non-LLM path baseline in the identical typed grammar."
+          }
+        ]
+      },
+      "verification": {
+        "valid": true,
+        "errors": [],
+        "warnings": [],
+        "conservation_certificate": "trusted_diagonal_and_paired_exchange",
+        "synthesis_gate_count": 8,
+        "declared_parameters": 2,
+        "ir_hash": "8d5519405f8fc3c42000561e2f8b70fe140c7e2b037393defc7275c393416b66",
+        "limits": {
+          "max_qubits": 12,
+          "max_layers": 4,
+          "max_parameters": 16,
+          "max_synthesis_gates": 512,
+          "max_two_qubit_gates": 40000,
+          "max_transpiled_depth": 80000
+        },
+        "active_parameters": 2,
+        "inactive_parameters": [],
+        "maximum_cardinality_leak": 8.192725427491015e-34,
+        "crosscheck_state_fidelities": [
+          0.9999999999999991,
+          0.9999999999999998,
+          0.9999999999999984
+        ],
+        "resources": {
+          "transpiled_cx": 30,
+          "transpiled_depth": 64,
+          "target": "generic_rz_sx_x_cx_not_qpu",
+          "includes_lowered_cost": true
+        },
+        "source_map": [
+          {
+            "instruction": 0,
+            "source": "gate_ir_initial_bits",
+            "qubit": 0
+          },
+          {
+            "instruction": 1,
+            "source": "gate_ir_initial_bits",
+            "qubit": 1
+          },
+          {
+            "instruction": 2,
+            "source": "gate_ir",
+            "stage": "initialization",
+            "gate_index": 0
+          },
+          {
+            "instruction": 3,
+            "source": "gate_ir",
+            "stage": "initialization",
+            "gate_index": 1
+          },
+          {
+            "instruction": 4,
+            "source": "canonical_compiler_cost",
+            "layer": 0,
+            "hamiltonian_hash": "833f7c12b467ae64e8718e21057a59f93a458ec4bb8666f6560d261da369b037"
+          },
+          {
+            "instruction": 5,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 0
+          },
+          {
+            "instruction": 6,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 1
+          },
+          {
+            "instruction": 7,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 2
+          },
+          {
+            "instruction": 8,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 3
+          },
+          {
+            "instruction": 9,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 4
+          },
+          {
+            "instruction": 10,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 5
+          }
+        ],
+        "elapsed_seconds": 0.5326254169922322,
+        "business_check": "All measured assets are decoded and checked against the original mandate; XY alone certifies only cardinality."
+      },
+      "seed_runs": [
+        {
+          "method": "gate_ir_qaoa",
+          "status": "feasible",
+          "bits": [
+            1,
+            1,
+            0,
+            0
+          ],
+          "feasible": true,
+          "violations": {},
+          "tracking_mse": 1.7031693022301885e-05,
+          "tracking_rmse": 0.004126947179490172,
+          "tracking_error_per_period": 0.0041512303477727235,
+          "two_way_turnover": 0.005380437237873348,
+          "transaction_cost": 1.345109309468337e-05,
+          "objective": 1.716620395324872e-05,
+          "number_of_trades": 2,
+          "problem_hash": "1b163d741aaba71a7450181c9241bca48b25dd97d972a901cb3c4bcfd0a0dd9d",
+          "elapsed_seconds": 0.01196175001678057,
+          "fallback_used": false,
+          "seed": 11,
+          "evaluations": 16,
+          "total_shots": 2176,
+          "shots_per_evaluation": 128,
+          "sampled_feasible_probability": 1.0,
+          "ideal_feasible_probability": 1.0000000000000004,
+          "encoded_energy_expectation": 0.027216887565407473,
+          "probability_optimal": 0.8689002411849559,
+          "probability_near_optimal_5pct": 0.8689002411849559,
+          "conditional_feasible_objective_expectation": 1.9465041148549477e-05,
+          "angles": [
+            -2.2884776349456764,
+            0.008421292867765646
+          ],
+          "angle_initialization": "seeded_standard"
+        },
+        {
+          "method": "gate_ir_qaoa",
+          "status": "feasible",
+          "bits": [
+            1,
+            1,
+            0,
+            0
+          ],
+          "feasible": true,
+          "violations": {},
+          "tracking_mse": 1.7031693022301885e-05,
+          "tracking_rmse": 0.004126947179490172,
+          "tracking_error_per_period": 0.0041512303477727235,
+          "two_way_turnover": 0.005380437237873348,
+          "transaction_cost": 1.345109309468337e-05,
+          "objective": 1.716620395324872e-05,
+          "number_of_trades": 2,
+          "problem_hash": "1b163d741aaba71a7450181c9241bca48b25dd97d972a901cb3c4bcfd0a0dd9d",
+          "elapsed_seconds": 0.005567291984334588,
+          "fallback_used": false,
+          "seed": 23,
+          "evaluations": 16,
+          "total_shots": 2176,
+          "shots_per_evaluation": 128,
+          "sampled_feasible_probability": 1.0,
+          "ideal_feasible_probability": 1.0,
+          "encoded_energy_expectation": 0.054945281026424556,
+          "probability_optimal": 0.7256069723389912,
+          "probability_near_optimal_5pct": 0.7256069723389912,
+          "conditional_feasible_objective_expectation": 2.1807081989954746e-05,
+          "angles": [
+            1.0617723681859301,
+            1.3750518367709725
+          ],
+          "angle_initialization": "seeded_standard"
+        },
+        {
+          "method": "gate_ir_qaoa",
+          "status": "feasible",
+          "bits": [
+            1,
+            1,
+            0,
+            0
+          ],
+          "feasible": true,
+          "violations": {},
+          "tracking_mse": 1.7031693022301885e-05,
+          "tracking_rmse": 0.004126947179490172,
+          "tracking_error_per_period": 0.0041512303477727235,
+          "two_way_turnover": 0.005380437237873348,
+          "transaction_cost": 1.345109309468337e-05,
+          "objective": 1.716620395324872e-05,
+          "number_of_trades": 2,
+          "problem_hash": "1b163d741aaba71a7450181c9241bca48b25dd97d972a901cb3c4bcfd0a0dd9d",
+          "elapsed_seconds": 0.005413875012891367,
+          "fallback_used": false,
+          "seed": 47,
+          "evaluations": 16,
+          "total_shots": 2176,
+          "shots_per_evaluation": 128,
+          "sampled_feasible_probability": 1.0,
+          "ideal_feasible_probability": 1.0,
+          "encoded_energy_expectation": 0.02761009469073668,
+          "probability_optimal": 0.866806088403345,
+          "probability_near_optimal_5pct": 0.866806088403345,
+          "conditional_feasible_objective_expectation": 1.9498252850768987e-05,
+          "angles": [
+            2.019286739984854,
+            1.5938481846155457
+          ],
+          "angle_initialization": "seeded_standard"
+        }
+      ],
+      "seed_quality": [
+        {
+          "reference_status": "optimal",
+          "reference_objective": 1.7166203953248758e-05,
+          "feasible_objective_span": 3.693022967248462e-05,
+          "normalized_gap": 0.0,
+          "target_available": true
+        },
+        {
+          "reference_status": "optimal",
+          "reference_objective": 1.7166203953248758e-05,
+          "feasible_objective_span": 3.693022967248462e-05,
+          "normalized_gap": 0.0,
+          "target_available": true
+        },
+        {
+          "reference_status": "optimal",
+          "reference_objective": 1.7166203953248758e-05,
+          "feasible_objective_span": 3.693022967248462e-05,
+          "normalized_gap": 0.0,
+          "target_available": true
+        }
+      ]
+    },
+    {
+      "case_id": "n4",
+      "method": "correlation_path",
+      "program": {
+        "version": "typed-exchange-v2",
+        "preparation_edge": "e0_2",
+        "mixer": [
+          {
+            "edge": "e0_3",
+            "group": 0
+          },
+          {
+            "edge": "e2_3",
+            "group": 0
+          },
+          {
+            "edge": "e1_2",
+            "group": 0
+          }
+        ],
+        "rationale": [
+          {
+            "feature_ids": [],
+            "decision": "Explicit non-LLM path baseline in the identical typed grammar."
+          }
+        ]
+      },
+      "verification": {
+        "valid": true,
+        "errors": [],
+        "warnings": [],
+        "conservation_certificate": "trusted_diagonal_and_paired_exchange",
+        "synthesis_gate_count": 8,
+        "declared_parameters": 2,
+        "ir_hash": "6d29ca91b31812ee809420e1b44ac64177d0c61605c6fdd8d5a1cc900c90fd54",
+        "limits": {
+          "max_qubits": 12,
+          "max_layers": 4,
+          "max_parameters": 16,
+          "max_synthesis_gates": 512,
+          "max_two_qubit_gates": 40000,
+          "max_transpiled_depth": 80000
+        },
+        "active_parameters": 2,
+        "inactive_parameters": [],
+        "maximum_cardinality_leak": 1.925929944387236e-34,
+        "crosscheck_state_fidelities": [
+          0.9999999999999984,
+          0.9999999999999991,
+          0.9999999999999987
+        ],
+        "resources": {
+          "transpiled_cx": 30,
+          "transpiled_depth": 67,
+          "target": "generic_rz_sx_x_cx_not_qpu",
+          "includes_lowered_cost": true
+        },
+        "source_map": [
+          {
+            "instruction": 0,
+            "source": "gate_ir_initial_bits",
+            "qubit": 0
+          },
+          {
+            "instruction": 1,
+            "source": "gate_ir_initial_bits",
+            "qubit": 1
+          },
+          {
+            "instruction": 2,
+            "source": "gate_ir",
+            "stage": "initialization",
+            "gate_index": 0
+          },
+          {
+            "instruction": 3,
+            "source": "gate_ir",
+            "stage": "initialization",
+            "gate_index": 1
+          },
+          {
+            "instruction": 4,
+            "source": "canonical_compiler_cost",
+            "layer": 0,
+            "hamiltonian_hash": "833f7c12b467ae64e8718e21057a59f93a458ec4bb8666f6560d261da369b037"
+          },
+          {
+            "instruction": 5,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 0
+          },
+          {
+            "instruction": 6,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 1
+          },
+          {
+            "instruction": 7,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 2
+          },
+          {
+            "instruction": 8,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 3
+          },
+          {
+            "instruction": 9,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 4
+          },
+          {
+            "instruction": 10,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 5
+          }
+        ],
+        "elapsed_seconds": 0.006881875015096739,
+        "business_check": "All measured assets are decoded and checked against the original mandate; XY alone certifies only cardinality."
+      },
+      "seed_runs": [
+        {
+          "method": "gate_ir_qaoa",
+          "status": "feasible",
+          "bits": [
+            1,
+            1,
+            0,
+            0
+          ],
+          "feasible": true,
+          "violations": {},
+          "tracking_mse": 1.7031693022301885e-05,
+          "tracking_rmse": 0.004126947179490172,
+          "tracking_error_per_period": 0.0041512303477727235,
+          "two_way_turnover": 0.005380437237873348,
+          "transaction_cost": 1.345109309468337e-05,
+          "objective": 1.716620395324872e-05,
+          "number_of_trades": 2,
+          "problem_hash": "1b163d741aaba71a7450181c9241bca48b25dd97d972a901cb3c4bcfd0a0dd9d",
+          "elapsed_seconds": 0.005821792001370341,
+          "fallback_used": false,
+          "seed": 11,
+          "evaluations": 16,
+          "total_shots": 2176,
+          "shots_per_evaluation": 128,
+          "sampled_feasible_probability": 1.0,
+          "ideal_feasible_probability": 1.0000000000000007,
+          "encoded_energy_expectation": 0.027461658870060336,
+          "probability_optimal": 0.8674832433071689,
+          "probability_near_optimal_5pct": 0.8674832433071689,
+          "conditional_feasible_objective_expectation": 1.948571542212782e-05,
+          "angles": [
+            -2.2918569079878686,
+            0.01587510254359606
+          ],
+          "angle_initialization": "seeded_standard"
+        },
+        {
+          "method": "gate_ir_qaoa",
+          "status": "feasible",
+          "bits": [
+            1,
+            1,
+            0,
+            0
+          ],
+          "feasible": true,
+          "violations": {},
+          "tracking_mse": 1.7031693022301885e-05,
+          "tracking_rmse": 0.004126947179490172,
+          "tracking_error_per_period": 0.0041512303477727235,
+          "two_way_turnover": 0.005380437237873348,
+          "transaction_cost": 1.345109309468337e-05,
+          "objective": 1.716620395324872e-05,
+          "number_of_trades": 2,
+          "problem_hash": "1b163d741aaba71a7450181c9241bca48b25dd97d972a901cb3c4bcfd0a0dd9d",
+          "elapsed_seconds": 0.005238124984316528,
+          "fallback_used": false,
+          "seed": 23,
+          "evaluations": 16,
+          "total_shots": 2176,
+          "shots_per_evaluation": 128,
+          "sampled_feasible_probability": 1.0,
+          "ideal_feasible_probability": 0.9999999999999999,
+          "encoded_energy_expectation": 0.03108688202150093,
+          "probability_optimal": 0.8474379682679336,
+          "probability_near_optimal_5pct": 0.8474379682679336,
+          "conditional_feasible_objective_expectation": 1.979191493894507e-05,
+          "angles": [
+            1.223341150337082,
+            1.5145142850201572
+          ],
+          "angle_initialization": "seeded_standard"
+        },
+        {
+          "method": "gate_ir_qaoa",
+          "status": "feasible",
+          "bits": [
+            1,
+            1,
+            0,
+            0
+          ],
+          "feasible": true,
+          "violations": {},
+          "tracking_mse": 1.7031693022301885e-05,
+          "tracking_rmse": 0.004126947179490172,
+          "tracking_error_per_period": 0.0041512303477727235,
+          "two_way_turnover": 0.005380437237873348,
+          "transaction_cost": 1.345109309468337e-05,
+          "objective": 1.716620395324872e-05,
+          "number_of_trades": 2,
+          "problem_hash": "1b163d741aaba71a7450181c9241bca48b25dd97d972a901cb3c4bcfd0a0dd9d",
+          "elapsed_seconds": 0.005432083999039605,
+          "fallback_used": false,
+          "seed": 47,
+          "evaluations": 16,
+          "total_shots": 2176,
+          "shots_per_evaluation": 128,
+          "sampled_feasible_probability": 1.0,
+          "ideal_feasible_probability": 0.9999999999999998,
+          "encoded_energy_expectation": 0.027805190253175918,
+          "probability_optimal": 0.8655456119997774,
+          "probability_near_optimal_5pct": 0.8655456119997774,
+          "conditional_feasible_objective_expectation": 1.9514731330701547e-05,
+          "angles": [
+            2.019286739984854,
+            1.5938481846155457
+          ],
+          "angle_initialization": "seeded_standard"
+        }
+      ],
+      "seed_quality": [
+        {
+          "reference_status": "optimal",
+          "reference_objective": 1.7166203953248758e-05,
+          "feasible_objective_span": 3.693022967248462e-05,
+          "normalized_gap": 0.0,
+          "target_available": true
+        },
+        {
+          "reference_status": "optimal",
+          "reference_objective": 1.7166203953248758e-05,
+          "feasible_objective_span": 3.693022967248462e-05,
+          "normalized_gap": 0.0,
+          "target_available": true
+        },
+        {
+          "reference_status": "optimal",
+          "reference_objective": 1.7166203953248758e-05,
+          "feasible_objective_span": 3.693022967248462e-05,
+          "normalized_gap": 0.0,
+          "target_available": true
+        }
+      ]
+    },
+    {
+      "case_id": "n4",
+      "method": "random_path",
+      "program": {
+        "version": "typed-exchange-v2",
+        "preparation_edge": "e0_2",
+        "mixer": [
+          {
+            "edge": "e0_1",
+            "group": 0
+          },
+          {
+            "edge": "e1_3",
+            "group": 0
+          },
+          {
+            "edge": "e2_3",
+            "group": 0
+          }
+        ],
+        "rationale": [
+          {
+            "feature_ids": [],
+            "decision": "Explicit non-LLM path baseline in the identical typed grammar."
+          }
+        ]
+      },
+      "verification": {
+        "valid": true,
+        "errors": [],
+        "warnings": [],
+        "conservation_certificate": "trusted_diagonal_and_paired_exchange",
+        "synthesis_gate_count": 8,
+        "declared_parameters": 2,
+        "ir_hash": "9d0da4cf147c594d1a3cb23b9078bfc50dc66c1e523b57b57f19ac7f5f960421",
+        "limits": {
+          "max_qubits": 12,
+          "max_layers": 4,
+          "max_parameters": 16,
+          "max_synthesis_gates": 512,
+          "max_two_qubit_gates": 40000,
+          "max_transpiled_depth": 80000
+        },
+        "active_parameters": 2,
+        "inactive_parameters": [],
+        "maximum_cardinality_leak": 7.711242941394206e-34,
+        "crosscheck_state_fidelities": [
+          0.9999999999999987,
+          0.9999999999999993,
+          0.9999999999999982
+        ],
+        "resources": {
+          "transpiled_cx": 30,
+          "transpiled_depth": 64,
+          "target": "generic_rz_sx_x_cx_not_qpu",
+          "includes_lowered_cost": true
+        },
+        "source_map": [
+          {
+            "instruction": 0,
+            "source": "gate_ir_initial_bits",
+            "qubit": 0
+          },
+          {
+            "instruction": 1,
+            "source": "gate_ir_initial_bits",
+            "qubit": 1
+          },
+          {
+            "instruction": 2,
+            "source": "gate_ir",
+            "stage": "initialization",
+            "gate_index": 0
+          },
+          {
+            "instruction": 3,
+            "source": "gate_ir",
+            "stage": "initialization",
+            "gate_index": 1
+          },
+          {
+            "instruction": 4,
+            "source": "canonical_compiler_cost",
+            "layer": 0,
+            "hamiltonian_hash": "833f7c12b467ae64e8718e21057a59f93a458ec4bb8666f6560d261da369b037"
+          },
+          {
+            "instruction": 5,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 0
+          },
+          {
+            "instruction": 6,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 1
+          },
+          {
+            "instruction": 7,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 2
+          },
+          {
+            "instruction": 8,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 3
+          },
+          {
+            "instruction": 9,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 4
+          },
+          {
+            "instruction": 10,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 5
+          }
+        ],
+        "elapsed_seconds": 0.006456834002165124,
+        "business_check": "All measured assets are decoded and checked against the original mandate; XY alone certifies only cardinality."
+      },
+      "seed_runs": [
+        {
+          "method": "gate_ir_qaoa",
+          "status": "feasible",
+          "bits": [
+            1,
+            1,
+            0,
+            0
+          ],
+          "feasible": true,
+          "violations": {},
+          "tracking_mse": 1.7031693022301885e-05,
+          "tracking_rmse": 0.004126947179490172,
+          "tracking_error_per_period": 0.0041512303477727235,
+          "two_way_turnover": 0.005380437237873348,
+          "transaction_cost": 1.345109309468337e-05,
+          "objective": 1.716620395324872e-05,
+          "number_of_trades": 2,
+          "problem_hash": "1b163d741aaba71a7450181c9241bca48b25dd97d972a901cb3c4bcfd0a0dd9d",
+          "elapsed_seconds": 0.005590874992776662,
+          "fallback_used": false,
+          "seed": 11,
+          "evaluations": 16,
+          "total_shots": 2176,
+          "shots_per_evaluation": 128,
+          "sampled_feasible_probability": 1.0,
+          "ideal_feasible_probability": 1.0000000000000004,
+          "encoded_energy_expectation": 0.02723611094143852,
+          "probability_optimal": 0.868914842375998,
+          "probability_near_optimal_5pct": 0.868914842375998,
+          "conditional_feasible_objective_expectation": 1.946666482472234e-05,
+          "angles": [
+            -2.286403522895753,
+            0.00958563277277463
+          ],
+          "angle_initialization": "seeded_standard"
+        },
+        {
+          "method": "gate_ir_qaoa",
+          "status": "feasible",
+          "bits": [
+            1,
+            1,
+            0,
+            0
+          ],
+          "feasible": true,
+          "violations": {},
+          "tracking_mse": 1.7031693022301885e-05,
+          "tracking_rmse": 0.004126947179490172,
+          "tracking_error_per_period": 0.0041512303477727235,
+          "two_way_turnover": 0.005380437237873348,
+          "transaction_cost": 1.345109309468337e-05,
+          "objective": 1.716620395324872e-05,
+          "number_of_trades": 2,
+          "problem_hash": "1b163d741aaba71a7450181c9241bca48b25dd97d972a901cb3c4bcfd0a0dd9d",
+          "elapsed_seconds": 0.005098499997984618,
+          "fallback_used": false,
+          "seed": 23,
+          "evaluations": 16,
+          "total_shots": 2176,
+          "shots_per_evaluation": 128,
+          "sampled_feasible_probability": 1.0,
+          "ideal_feasible_probability": 1.0000000000000002,
+          "encoded_energy_expectation": 0.03001199570193802,
+          "probability_optimal": 0.8582210472986822,
+          "probability_near_optimal_5pct": 0.8582210472986822,
+          "conditional_feasible_objective_expectation": 1.9701126135626066e-05,
+          "angles": [
+            1.2288845720569095,
+            1.5143961642458157
+          ],
+          "angle_initialization": "seeded_standard"
+        },
+        {
+          "method": "gate_ir_qaoa",
+          "status": "feasible",
+          "bits": [
+            1,
+            1,
+            0,
+            0
+          ],
+          "feasible": true,
+          "violations": {},
+          "tracking_mse": 1.7031693022301885e-05,
+          "tracking_rmse": 0.004126947179490172,
+          "tracking_error_per_period": 0.0041512303477727235,
+          "two_way_turnover": 0.005380437237873348,
+          "transaction_cost": 1.345109309468337e-05,
+          "objective": 1.716620395324872e-05,
+          "number_of_trades": 2,
+          "problem_hash": "1b163d741aaba71a7450181c9241bca48b25dd97d972a901cb3c4bcfd0a0dd9d",
+          "elapsed_seconds": 0.005182458000490442,
+          "fallback_used": false,
+          "seed": 47,
+          "evaluations": 16,
+          "total_shots": 2176,
+          "shots_per_evaluation": 128,
+          "sampled_feasible_probability": 1.0,
+          "ideal_feasible_probability": 0.9999999999999998,
+          "encoded_energy_expectation": 0.02762644062968922,
+          "probability_optimal": 0.8673879848741196,
+          "probability_near_optimal_5pct": 0.8673879848741196,
+          "conditional_feasible_objective_expectation": 1.9499633488153252e-05,
+          "angles": [
+            2.019286739984854,
+            1.5938481846155457
+          ],
+          "angle_initialization": "seeded_standard"
+        }
+      ],
+      "seed_quality": [
+        {
+          "reference_status": "optimal",
+          "reference_objective": 1.7166203953248758e-05,
+          "feasible_objective_span": 3.693022967248462e-05,
+          "normalized_gap": 0.0,
+          "target_available": true
+        },
+        {
+          "reference_status": "optimal",
+          "reference_objective": 1.7166203953248758e-05,
+          "feasible_objective_span": 3.693022967248462e-05,
+          "normalized_gap": 0.0,
+          "target_available": true
+        },
+        {
+          "reference_status": "optimal",
+          "reference_objective": 1.7166203953248758e-05,
+          "feasible_objective_span": 3.693022967248462e-05,
+          "normalized_gap": 0.0,
+          "target_available": true
+        }
+      ]
+    },
+    {
+      "case_id": "n6",
+      "method": "fixed_path",
+      "program": {
+        "version": "typed-exchange-v2",
+        "preparation_edge": "e1_4",
+        "mixer": [
+          {
+            "edge": "e1_2",
+            "group": 0
+          },
+          {
+            "edge": "e2_3",
+            "group": 0
+          },
+          {
+            "edge": "e3_4",
+            "group": 0
+          },
+          {
+            "edge": "e4_5",
+            "group": 0
+          }
+        ],
+        "rationale": [
+          {
+            "feature_ids": [],
+            "decision": "Explicit non-LLM path baseline in the identical typed grammar."
+          }
+        ]
+      },
+      "verification": {
+        "valid": true,
+        "errors": [],
+        "warnings": [],
+        "conservation_certificate": "trusted_diagonal_and_paired_exchange",
+        "synthesis_gate_count": 10,
+        "declared_parameters": 2,
+        "ir_hash": "d38b7ed3af2d7ad94730798e18b9fb0ad39ee883549b4c0780a0be1aef7f4205",
+        "limits": {
+          "max_qubits": 12,
+          "max_layers": 4,
+          "max_parameters": 16,
+          "max_synthesis_gates": 512,
+          "max_two_qubit_gates": 40000,
+          "max_transpiled_depth": 80000
+        },
+        "active_parameters": 2,
+        "inactive_parameters": [],
+        "maximum_cardinality_leak": 7.783204047135633e-34,
+        "crosscheck_state_fidelities": [
+          0.9999999999999984,
+          1.0000000000000022,
+          0.9999999999999998
+        ],
+        "resources": {
+          "transpiled_cx": 82,
+          "transpiled_depth": 164,
+          "target": "generic_rz_sx_x_cx_not_qpu",
+          "includes_lowered_cost": true
+        },
+        "source_map": [
+          {
+            "instruction": 0,
+            "source": "gate_ir_initial_bits",
+            "qubit": 1
+          },
+          {
+            "instruction": 1,
+            "source": "gate_ir_initial_bits",
+            "qubit": 2
+          },
+          {
+            "instruction": 2,
+            "source": "gate_ir_initial_bits",
+            "qubit": 3
+          },
+          {
+            "instruction": 3,
+            "source": "gate_ir",
+            "stage": "initialization",
+            "gate_index": 0
+          },
+          {
+            "instruction": 4,
+            "source": "gate_ir",
+            "stage": "initialization",
+            "gate_index": 1
+          },
+          {
+            "instruction": 5,
+            "source": "canonical_compiler_cost",
+            "layer": 0,
+            "hamiltonian_hash": "1fd1beb2d863c2cd71fc8d721d7e3cac19025028b3ba5821c9861271149dce3a"
+          },
+          {
+            "instruction": 6,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 0
+          },
+          {
+            "instruction": 7,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 1
+          },
+          {
+            "instruction": 8,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 2
+          },
+          {
+            "instruction": 9,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 3
+          },
+          {
+            "instruction": 10,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 4
+          },
+          {
+            "instruction": 11,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 5
+          },
+          {
+            "instruction": 12,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 6
+          },
+          {
+            "instruction": 13,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 7
+          }
+        ],
+        "elapsed_seconds": 0.012762875005137175,
+        "business_check": "All measured assets are decoded and checked against the original mandate; XY alone certifies only cardinality."
+      },
+      "seed_runs": [
+        {
+          "method": "gate_ir_qaoa",
+          "status": "feasible",
+          "bits": [
+            0,
+            1,
+            1,
+            0,
+            0,
+            1
+          ],
+          "feasible": true,
+          "violations": {},
+          "tracking_mse": 6.677921947545882e-06,
+          "tracking_rmse": 0.0025841675540773054,
+          "tracking_error_per_period": 0.002566146692135792,
+          "two_way_turnover": 0.6788665538443139,
+          "transaction_cost": 0.0016971663846107848,
+          "objective": 2.364958579365373e-05,
+          "number_of_trades": 4,
+          "problem_hash": "c7ed0738007c259f37e83aee376ed3063a3dad4edd41392456796c06d52f2810",
+          "elapsed_seconds": 0.006912250013556331,
+          "fallback_used": false,
+          "seed": 11,
+          "evaluations": 16,
+          "total_shots": 2176,
+          "shots_per_evaluation": 128,
+          "sampled_feasible_probability": 1.0,
+          "ideal_feasible_probability": 0.9999999999999996,
+          "encoded_energy_expectation": 0.11006815435562148,
+          "probability_optimal": 0.9185173165856768,
+          "probability_near_optimal_5pct": 0.9847183043073776,
+          "conditional_feasible_objective_expectation": 2.374140430803016e-05,
+          "angles": [
+            -2.514954917523767,
+            0.8421733277668909
+          ],
+          "angle_initialization": "seeded_standard"
+        },
+        {
+          "method": "gate_ir_qaoa",
+          "status": "feasible",
+          "bits": [
+            0,
+            1,
+            1,
+            0,
+            0,
+            1
+          ],
+          "feasible": true,
+          "violations": {},
+          "tracking_mse": 6.677921947545882e-06,
+          "tracking_rmse": 0.0025841675540773054,
+          "tracking_error_per_period": 0.002566146692135792,
+          "two_way_turnover": 0.6788665538443139,
+          "transaction_cost": 0.0016971663846107848,
+          "objective": 2.364958579365373e-05,
+          "number_of_trades": 4,
+          "problem_hash": "c7ed0738007c259f37e83aee376ed3063a3dad4edd41392456796c06d52f2810",
+          "elapsed_seconds": 0.0063175839895848185,
+          "fallback_used": false,
+          "seed": 23,
+          "evaluations": 16,
+          "total_shots": 2176,
+          "shots_per_evaluation": 128,
+          "sampled_feasible_probability": 1.0,
+          "ideal_feasible_probability": 1.0,
+          "encoded_energy_expectation": 0.10969270114683771,
+          "probability_optimal": 0.9079994453298398,
+          "probability_near_optimal_5pct": 0.9936781809428303,
+          "conditional_feasible_objective_expectation": 2.37041183978526e-05,
+          "angles": [
+            1.806035838939149,
+            0.8221259745938236
+          ],
+          "angle_initialization": "seeded_standard"
+        },
+        {
+          "method": "gate_ir_qaoa",
+          "status": "feasible",
+          "bits": [
+            0,
+            1,
+            1,
+            0,
+            0,
+            1
+          ],
+          "feasible": true,
+          "violations": {},
+          "tracking_mse": 6.677921947545882e-06,
+          "tracking_rmse": 0.0025841675540773054,
+          "tracking_error_per_period": 0.002566146692135792,
+          "two_way_turnover": 0.6788665538443139,
+          "transaction_cost": 0.0016971663846107848,
+          "objective": 2.364958579365373e-05,
+          "number_of_trades": 4,
+          "problem_hash": "c7ed0738007c259f37e83aee376ed3063a3dad4edd41392456796c06d52f2810",
+          "elapsed_seconds": 0.006286582996835932,
+          "fallback_used": false,
+          "seed": 47,
+          "evaluations": 16,
+          "total_shots": 2176,
+          "shots_per_evaluation": 128,
+          "sampled_feasible_probability": 1.0,
+          "ideal_feasible_probability": 1.0000000000000002,
+          "encoded_energy_expectation": 0.10953340912299357,
+          "probability_optimal": 0.8922188536923089,
+          "probability_near_optimal_5pct": 0.9981215282073703,
+          "conditional_feasible_objective_expectation": 2.368829925460358e-05,
+          "angles": [
+            2.492165538344485,
+            2.376364254366802
+          ],
+          "angle_initialization": "seeded_standard"
+        }
+      ],
+      "seed_quality": [
+        {
+          "reference_status": "optimal",
+          "reference_objective": 2.364958579365372e-05,
+          "feasible_objective_span": 2.851547011775618e-05,
+          "normalized_gap": 3.564519653744856e-16,
+          "target_available": true
+        },
+        {
+          "reference_status": "optimal",
+          "reference_objective": 2.364958579365372e-05,
+          "feasible_objective_span": 2.851547011775618e-05,
+          "normalized_gap": 3.564519653744856e-16,
+          "target_available": true
+        },
+        {
+          "reference_status": "optimal",
+          "reference_objective": 2.364958579365372e-05,
+          "feasible_objective_span": 2.851547011775618e-05,
+          "normalized_gap": 3.564519653744856e-16,
+          "target_available": true
+        }
+      ]
+    },
+    {
+      "case_id": "n6",
+      "method": "correlation_path",
+      "program": {
+        "version": "typed-exchange-v2",
+        "preparation_edge": "e1_4",
+        "mixer": [
+          {
+            "edge": "e1_4",
+            "group": 0
+          },
+          {
+            "edge": "e4_5",
+            "group": 0
+          },
+          {
+            "edge": "e2_5",
+            "group": 0
+          },
+          {
+            "edge": "e2_3",
+            "group": 0
+          }
+        ],
+        "rationale": [
+          {
+            "feature_ids": [],
+            "decision": "Explicit non-LLM path baseline in the identical typed grammar."
+          }
+        ]
+      },
+      "verification": {
+        "valid": true,
+        "errors": [],
+        "warnings": [],
+        "conservation_certificate": "trusted_diagonal_and_paired_exchange",
+        "synthesis_gate_count": 10,
+        "declared_parameters": 2,
+        "ir_hash": "83c25154cef62cea79a8165b0ae0abc84f5444cead5b5888795a8f6ba6c27717",
+        "limits": {
+          "max_qubits": 12,
+          "max_layers": 4,
+          "max_parameters": 16,
+          "max_synthesis_gates": 512,
+          "max_two_qubit_gates": 40000,
+          "max_transpiled_depth": 80000
+        },
+        "active_parameters": 2,
+        "inactive_parameters": [],
+        "maximum_cardinality_leak": 1.5409320346059196e-33,
+        "crosscheck_state_fidelities": [
+          0.9999999999999984,
+          1.0000000000000018,
+          0.9999999999999993
+        ],
+        "resources": {
+          "transpiled_cx": 82,
+          "transpiled_depth": 173,
+          "target": "generic_rz_sx_x_cx_not_qpu",
+          "includes_lowered_cost": true
+        },
+        "source_map": [
+          {
+            "instruction": 0,
+            "source": "gate_ir_initial_bits",
+            "qubit": 1
+          },
+          {
+            "instruction": 1,
+            "source": "gate_ir_initial_bits",
+            "qubit": 2
+          },
+          {
+            "instruction": 2,
+            "source": "gate_ir_initial_bits",
+            "qubit": 3
+          },
+          {
+            "instruction": 3,
+            "source": "gate_ir",
+            "stage": "initialization",
+            "gate_index": 0
+          },
+          {
+            "instruction": 4,
+            "source": "gate_ir",
+            "stage": "initialization",
+            "gate_index": 1
+          },
+          {
+            "instruction": 5,
+            "source": "canonical_compiler_cost",
+            "layer": 0,
+            "hamiltonian_hash": "1fd1beb2d863c2cd71fc8d721d7e3cac19025028b3ba5821c9861271149dce3a"
+          },
+          {
+            "instruction": 6,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 0
+          },
+          {
+            "instruction": 7,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 1
+          },
+          {
+            "instruction": 8,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 2
+          },
+          {
+            "instruction": 9,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 3
+          },
+          {
+            "instruction": 10,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 4
+          },
+          {
+            "instruction": 11,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 5
+          },
+          {
+            "instruction": 12,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 6
+          },
+          {
+            "instruction": 13,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 7
+          }
+        ],
+        "elapsed_seconds": 0.012647291005123407,
+        "business_check": "All measured assets are decoded and checked against the original mandate; XY alone certifies only cardinality."
+      },
+      "seed_runs": [
+        {
+          "method": "gate_ir_qaoa",
+          "status": "feasible",
+          "bits": [
+            0,
+            1,
+            1,
+            0,
+            0,
+            1
+          ],
+          "feasible": true,
+          "violations": {},
+          "tracking_mse": 6.677921947545882e-06,
+          "tracking_rmse": 0.0025841675540773054,
+          "tracking_error_per_period": 0.002566146692135792,
+          "two_way_turnover": 0.6788665538443139,
+          "transaction_cost": 0.0016971663846107848,
+          "objective": 2.364958579365373e-05,
+          "number_of_trades": 4,
+          "problem_hash": "c7ed0738007c259f37e83aee376ed3063a3dad4edd41392456796c06d52f2810",
+          "elapsed_seconds": 0.005636166984913871,
+          "fallback_used": false,
+          "seed": 11,
+          "evaluations": 16,
+          "total_shots": 2176,
+          "shots_per_evaluation": 128,
+          "sampled_feasible_probability": 1.0,
+          "ideal_feasible_probability": 0.9999999999999998,
+          "encoded_energy_expectation": 0.12305956431970931,
+          "probability_optimal": 0.004219738182088094,
+          "probability_near_optimal_5pct": 0.9196267462806766,
+          "conditional_feasible_objective_expectation": 2.5031569190546195e-05,
+          "angles": [
+            -2.334546015745566,
+            -0.12953486689310414
+          ],
+          "angle_initialization": "seeded_standard"
+        },
+        {
+          "method": "gate_ir_qaoa",
+          "status": "feasible",
+          "bits": [
+            0,
+            1,
+            1,
+            1,
+            0,
+            0
+          ],
+          "feasible": true,
+          "violations": {},
+          "tracking_mse": 6.956519418966096e-06,
+          "tracking_rmse": 0.0026375214537451815,
+          "tracking_error_per_period": 0.0026460932322145488,
+          "two_way_turnover": 0.6788665538443139,
+          "transaction_cost": 0.0016971663846107848,
+          "objective": 2.3928183265073946e-05,
+          "number_of_trades": 4,
+          "problem_hash": "c7ed0738007c259f37e83aee376ed3063a3dad4edd41392456796c06d52f2810",
+          "elapsed_seconds": 0.005673083011060953,
+          "fallback_used": false,
+          "seed": 23,
+          "evaluations": 16,
+          "total_shots": 2176,
+          "shots_per_evaluation": 128,
+          "sampled_feasible_probability": 1.0,
+          "ideal_feasible_probability": 0.9999999999999999,
+          "encoded_energy_expectation": 0.12249473967139721,
+          "probability_optimal": 0.00017115290545844134,
+          "probability_near_optimal_5pct": 0.9224431437030806,
+          "conditional_feasible_objective_expectation": 2.4975476978226966e-05,
+          "angles": [
+            1.7934618724330327,
+            1.5125046550782755
+          ],
+          "angle_initialization": "seeded_standard"
+        },
+        {
+          "method": "gate_ir_qaoa",
+          "status": "feasible",
+          "bits": [
+            0,
+            1,
+            1,
+            1,
+            0,
+            0
+          ],
+          "feasible": true,
+          "violations": {},
+          "tracking_mse": 6.956519418966096e-06,
+          "tracking_rmse": 0.0026375214537451815,
+          "tracking_error_per_period": 0.0026460932322145488,
+          "two_way_turnover": 0.6788665538443139,
+          "transaction_cost": 0.0016971663846107848,
+          "objective": 2.3928183265073946e-05,
+          "number_of_trades": 4,
+          "problem_hash": "c7ed0738007c259f37e83aee376ed3063a3dad4edd41392456796c06d52f2810",
+          "elapsed_seconds": 0.00554162499611266,
+          "fallback_used": false,
+          "seed": 47,
+          "evaluations": 16,
+          "total_shots": 2176,
+          "shots_per_evaluation": 128,
+          "sampled_feasible_probability": 1.0,
+          "ideal_feasible_probability": 0.9999999999999992,
+          "encoded_energy_expectation": 0.1217481531715298,
+          "probability_optimal": 0.000497895216719013,
+          "probability_near_optimal_5pct": 0.9285592399343956,
+          "conditional_feasible_objective_expectation": 2.4901334164894768e-05,
+          "angles": [
+            1.942971545064227,
+            1.4948482299477444
+          ],
+          "angle_initialization": "seeded_standard"
+        }
+      ],
+      "seed_quality": [
+        {
+          "reference_status": "optimal",
+          "reference_objective": 2.364958579365372e-05,
+          "feasible_objective_span": 2.851547011775618e-05,
+          "normalized_gap": 3.564519653744856e-16,
+          "target_available": true
+        },
+        {
+          "reference_status": "optimal",
+          "reference_objective": 2.364958579365372e-05,
+          "feasible_objective_span": 2.851547011775618e-05,
+          "normalized_gap": 0.009770046584178396,
+          "target_available": true
+        },
+        {
+          "reference_status": "optimal",
+          "reference_objective": 2.364958579365372e-05,
+          "feasible_objective_span": 2.851547011775618e-05,
+          "normalized_gap": 0.009770046584178396,
+          "target_available": true
+        }
+      ]
+    },
+    {
+      "case_id": "n6",
+      "method": "random_path",
+      "program": {
+        "version": "typed-exchange-v2",
+        "preparation_edge": "e1_4",
+        "mixer": [
+          {
+            "edge": "e1_2",
+            "group": 0
+          },
+          {
+            "edge": "e1_4",
+            "group": 0
+          },
+          {
+            "edge": "e4_5",
+            "group": 0
+          },
+          {
+            "edge": "e3_5",
+            "group": 0
+          }
+        ],
+        "rationale": [
+          {
+            "feature_ids": [],
+            "decision": "Explicit non-LLM path baseline in the identical typed grammar."
+          }
+        ]
+      },
+      "verification": {
+        "valid": true,
+        "errors": [],
+        "warnings": [],
+        "conservation_certificate": "trusted_diagonal_and_paired_exchange",
+        "synthesis_gate_count": 10,
+        "declared_parameters": 2,
+        "ir_hash": "73597e248e25a951e22cce255035635b035f556b1b06ab4cc5bed6c94d85f3ab",
+        "limits": {
+          "max_qubits": 12,
+          "max_layers": 4,
+          "max_parameters": 16,
+          "max_synthesis_gates": 512,
+          "max_two_qubit_gates": 40000,
+          "max_transpiled_depth": 80000
+        },
+        "active_parameters": 2,
+        "inactive_parameters": [],
+        "maximum_cardinality_leak": 7.743216387736574e-34,
+        "crosscheck_state_fidelities": [
+          0.9999999999999982,
+          1.0000000000000022,
+          0.9999999999999991
+        ],
+        "resources": {
+          "transpiled_cx": 82,
+          "transpiled_depth": 164,
+          "target": "generic_rz_sx_x_cx_not_qpu",
+          "includes_lowered_cost": true
+        },
+        "source_map": [
+          {
+            "instruction": 0,
+            "source": "gate_ir_initial_bits",
+            "qubit": 1
+          },
+          {
+            "instruction": 1,
+            "source": "gate_ir_initial_bits",
+            "qubit": 2
+          },
+          {
+            "instruction": 2,
+            "source": "gate_ir_initial_bits",
+            "qubit": 3
+          },
+          {
+            "instruction": 3,
+            "source": "gate_ir",
+            "stage": "initialization",
+            "gate_index": 0
+          },
+          {
+            "instruction": 4,
+            "source": "gate_ir",
+            "stage": "initialization",
+            "gate_index": 1
+          },
+          {
+            "instruction": 5,
+            "source": "canonical_compiler_cost",
+            "layer": 0,
+            "hamiltonian_hash": "1fd1beb2d863c2cd71fc8d721d7e3cac19025028b3ba5821c9861271149dce3a"
+          },
+          {
+            "instruction": 6,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 0
+          },
+          {
+            "instruction": 7,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 1
+          },
+          {
+            "instruction": 8,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 2
+          },
+          {
+            "instruction": 9,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 3
+          },
+          {
+            "instruction": 10,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 4
+          },
+          {
+            "instruction": 11,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 5
+          },
+          {
+            "instruction": 12,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 6
+          },
+          {
+            "instruction": 13,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 7
+          }
+        ],
+        "elapsed_seconds": 0.012629167002160102,
+        "business_check": "All measured assets are decoded and checked against the original mandate; XY alone certifies only cardinality."
+      },
+      "seed_runs": [
+        {
+          "method": "gate_ir_qaoa",
+          "status": "feasible",
+          "bits": [
+            0,
+            1,
+            1,
+            0,
+            0,
+            1
+          ],
+          "feasible": true,
+          "violations": {},
+          "tracking_mse": 6.677921947545882e-06,
+          "tracking_rmse": 0.0025841675540773054,
+          "tracking_error_per_period": 0.002566146692135792,
+          "two_way_turnover": 0.6788665538443139,
+          "transaction_cost": 0.0016971663846107848,
+          "objective": 2.364958579365373e-05,
+          "number_of_trades": 4,
+          "problem_hash": "c7ed0738007c259f37e83aee376ed3063a3dad4edd41392456796c06d52f2810",
+          "elapsed_seconds": 0.005970166006591171,
+          "fallback_used": false,
+          "seed": 11,
+          "evaluations": 16,
+          "total_shots": 2176,
+          "shots_per_evaluation": 128,
+          "sampled_feasible_probability": 1.0,
+          "ideal_feasible_probability": 1.0000000000000009,
+          "encoded_energy_expectation": 0.11573656370518996,
+          "probability_optimal": 0.0681979291604443,
+          "probability_near_optimal_5pct": 0.9746492375976737,
+          "conditional_feasible_objective_expectation": 2.4304328786801478e-05,
+          "angles": [
+            -2.359156090910198,
+            -0.13385399733527237
+          ],
+          "angle_initialization": "seeded_standard"
+        },
+        {
+          "method": "gate_ir_qaoa",
+          "status": "feasible",
+          "bits": [
+            0,
+            1,
+            1,
+            0,
+            0,
+            1
+          ],
+          "feasible": true,
+          "violations": {},
+          "tracking_mse": 6.677921947545882e-06,
+          "tracking_rmse": 0.0025841675540773054,
+          "tracking_error_per_period": 0.002566146692135792,
+          "two_way_turnover": 0.6788665538443139,
+          "transaction_cost": 0.0016971663846107848,
+          "objective": 2.364958579365373e-05,
+          "number_of_trades": 4,
+          "problem_hash": "c7ed0738007c259f37e83aee376ed3063a3dad4edd41392456796c06d52f2810",
+          "elapsed_seconds": 0.006038708990672603,
+          "fallback_used": false,
+          "seed": 23,
+          "evaluations": 16,
+          "total_shots": 2176,
+          "shots_per_evaluation": 128,
+          "sampled_feasible_probability": 1.0,
+          "ideal_feasible_probability": 0.9999999999999996,
+          "encoded_energy_expectation": 0.11465309547705964,
+          "probability_optimal": 0.09676236009466369,
+          "probability_near_optimal_5pct": 0.9833891727300763,
+          "conditional_feasible_objective_expectation": 2.4196730561272488e-05,
+          "angles": [
+            1.2424774417790285,
+            1.730330814123718
+          ],
+          "angle_initialization": "seeded_standard"
+        },
+        {
+          "method": "gate_ir_qaoa",
+          "status": "feasible",
+          "bits": [
+            0,
+            1,
+            1,
+            1,
+            0,
+            0
+          ],
+          "feasible": true,
+          "violations": {},
+          "tracking_mse": 6.956519418966096e-06,
+          "tracking_rmse": 0.0026375214537451815,
+          "tracking_error_per_period": 0.0026460932322145488,
+          "two_way_turnover": 0.6788665538443139,
+          "transaction_cost": 0.0016971663846107848,
+          "objective": 2.3928183265073946e-05,
+          "number_of_trades": 4,
+          "problem_hash": "c7ed0738007c259f37e83aee376ed3063a3dad4edd41392456796c06d52f2810",
+          "elapsed_seconds": 0.005631834006635472,
+          "fallback_used": false,
+          "seed": 47,
+          "evaluations": 16,
+          "total_shots": 2176,
+          "shots_per_evaluation": 128,
+          "sampled_feasible_probability": 1.0,
+          "ideal_feasible_probability": 0.9999999999999998,
+          "encoded_energy_expectation": 0.12564349502075126,
+          "probability_optimal": 0.0019064506846616454,
+          "probability_near_optimal_5pct": 0.8975557774758179,
+          "conditional_feasible_objective_expectation": 2.528817695356458e-05,
+          "angles": [
+            2.019286739984854,
+            1.5938481846155457
+          ],
+          "angle_initialization": "seeded_standard"
+        }
+      ],
+      "seed_quality": [
+        {
+          "reference_status": "optimal",
+          "reference_objective": 2.364958579365372e-05,
+          "feasible_objective_span": 2.851547011775618e-05,
+          "normalized_gap": 3.564519653744856e-16,
+          "target_available": true
+        },
+        {
+          "reference_status": "optimal",
+          "reference_objective": 2.364958579365372e-05,
+          "feasible_objective_span": 2.851547011775618e-05,
+          "normalized_gap": 3.564519653744856e-16,
+          "target_available": true
+        },
+        {
+          "reference_status": "optimal",
+          "reference_objective": 2.364958579365372e-05,
+          "feasible_objective_span": 2.851547011775618e-05,
+          "normalized_gap": 0.009770046584178396,
+          "target_available": true
+        }
+      ]
+    },
+    {
+      "case_id": "n8",
+      "method": "fixed_path",
+      "program": {
+        "version": "typed-exchange-v2",
+        "preparation_edge": "e1_5",
+        "mixer": [
+          {
+            "edge": "e1_2",
+            "group": 0
+          },
+          {
+            "edge": "e2_3",
+            "group": 0
+          },
+          {
+            "edge": "e3_4",
+            "group": 0
+          },
+          {
+            "edge": "e4_5",
+            "group": 0
+          },
+          {
+            "edge": "e5_6",
+            "group": 0
+          },
+          {
+            "edge": "e6_7",
+            "group": 0
+          }
+        ],
+        "rationale": [
+          {
+            "feature_ids": [],
+            "decision": "Explicit non-LLM path baseline in the identical typed grammar."
+          }
+        ]
+      },
+      "verification": {
+        "valid": true,
+        "errors": [],
+        "warnings": [],
+        "conservation_certificate": "trusted_diagonal_and_paired_exchange",
+        "synthesis_gate_count": 14,
+        "declared_parameters": 2,
+        "ir_hash": "a79f04a9ec1b2e8e03c176821e3407bd8c6d85b9c70a41ddc63d8ebd0878cbbf",
+        "limits": {
+          "max_qubits": 12,
+          "max_layers": 4,
+          "max_parameters": 16,
+          "max_synthesis_gates": 512,
+          "max_two_qubit_gates": 40000,
+          "max_transpiled_depth": 80000
+        },
+        "active_parameters": 2,
+        "inactive_parameters": [],
+        "maximum_cardinality_leak": 8.422060166258889e-33,
+        "crosscheck_state_fidelities": [
+          0.9999999999999829,
+          1.0000000000000018,
+          0.9999999999999929
+        ],
+        "resources": {
+          "transpiled_cx": 282,
+          "transpiled_depth": 544,
+          "target": "generic_rz_sx_x_cx_not_qpu",
+          "includes_lowered_cost": true
+        },
+        "source_map": [
+          {
+            "instruction": 0,
+            "source": "gate_ir_initial_bits",
+            "qubit": 1
+          },
+          {
+            "instruction": 1,
+            "source": "gate_ir_initial_bits",
+            "qubit": 2
+          },
+          {
+            "instruction": 2,
+            "source": "gate_ir_initial_bits",
+            "qubit": 3
+          },
+          {
+            "instruction": 3,
+            "source": "gate_ir_initial_bits",
+            "qubit": 4
+          },
+          {
+            "instruction": 4,
+            "source": "gate_ir",
+            "stage": "initialization",
+            "gate_index": 0
+          },
+          {
+            "instruction": 5,
+            "source": "gate_ir",
+            "stage": "initialization",
+            "gate_index": 1
+          },
+          {
+            "instruction": 6,
+            "source": "canonical_compiler_cost",
+            "layer": 0,
+            "hamiltonian_hash": "1de1ae712a8cdc1cec76a6ced185a08eff295c35291861c5b3e8004c96c1f35b"
+          },
+          {
+            "instruction": 7,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 0
+          },
+          {
+            "instruction": 8,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 1
+          },
+          {
+            "instruction": 9,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 2
+          },
+          {
+            "instruction": 10,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 3
+          },
+          {
+            "instruction": 11,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 4
+          },
+          {
+            "instruction": 12,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 5
+          },
+          {
+            "instruction": 13,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 6
+          },
+          {
+            "instruction": 14,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 7
+          },
+          {
+            "instruction": 15,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 8
+          },
+          {
+            "instruction": 16,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 9
+          },
+          {
+            "instruction": 17,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 10
+          },
+          {
+            "instruction": 18,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 11
+          }
+        ],
+        "elapsed_seconds": 0.034793625003658235,
+        "business_check": "All measured assets are decoded and checked against the original mandate; XY alone certifies only cardinality."
+      },
+      "seed_runs": [
+        {
+          "method": "gate_ir_qaoa",
+          "status": "feasible",
+          "bits": [
+            0,
+            1,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "feasible": true,
+          "violations": {},
+          "tracking_mse": 5.340662270040923e-06,
+          "tracking_rmse": 0.0023109872933534106,
+          "tracking_error_per_period": 0.002308650742968267,
+          "two_way_turnover": 0.509112648378342,
+          "transaction_cost": 0.0012727816209458552,
+          "objective": 1.8068478479499474e-05,
+          "number_of_trades": 5,
+          "problem_hash": "1fa26334f93f7a81b4ee28e6a3f29add74d9d36841c2270c3f67a2585b8bc2e4",
+          "elapsed_seconds": 0.00754966598469764,
+          "fallback_used": false,
+          "seed": 11,
+          "evaluations": 16,
+          "total_shots": 2176,
+          "shots_per_evaluation": 128,
+          "sampled_feasible_probability": 1.0,
+          "ideal_feasible_probability": 0.9999999999999996,
+          "encoded_energy_expectation": 0.06372289556870052,
+          "probability_optimal": 0.8739256242704648,
+          "probability_near_optimal_5pct": 0.8755634826563529,
+          "conditional_feasible_objective_expectation": 1.8390757191998963e-05,
+          "angles": [
+            -2.8112876141284886,
+            0.8070303217083188
+          ],
+          "angle_initialization": "seeded_standard"
+        },
+        {
+          "method": "gate_ir_qaoa",
+          "status": "feasible",
+          "bits": [
+            0,
+            1,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "feasible": true,
+          "violations": {},
+          "tracking_mse": 5.340662270040923e-06,
+          "tracking_rmse": 0.0023109872933534106,
+          "tracking_error_per_period": 0.002308650742968267,
+          "two_way_turnover": 0.509112648378342,
+          "transaction_cost": 0.0012727816209458552,
+          "objective": 1.8068478479499474e-05,
+          "number_of_trades": 5,
+          "problem_hash": "1fa26334f93f7a81b4ee28e6a3f29add74d9d36841c2270c3f67a2585b8bc2e4",
+          "elapsed_seconds": 0.00711362500442192,
+          "fallback_used": false,
+          "seed": 23,
+          "evaluations": 16,
+          "total_shots": 2176,
+          "shots_per_evaluation": 128,
+          "sampled_feasible_probability": 1.0,
+          "ideal_feasible_probability": 1.0000000000000004,
+          "encoded_energy_expectation": 0.0637540359235082,
+          "probability_optimal": 0.8711026463223714,
+          "probability_near_optimal_5pct": 0.8716111442444567,
+          "conditional_feasible_objective_expectation": 1.8393463394207543e-05,
+          "angles": [
+            1.76115708840686,
+            0.7733201517148109
+          ],
+          "angle_initialization": "seeded_standard"
+        },
+        {
+          "method": "gate_ir_qaoa",
+          "status": "feasible",
+          "bits": [
+            0,
+            1,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "feasible": true,
+          "violations": {},
+          "tracking_mse": 5.340662270040923e-06,
+          "tracking_rmse": 0.0023109872933534106,
+          "tracking_error_per_period": 0.002308650742968267,
+          "two_way_turnover": 0.509112648378342,
+          "transaction_cost": 0.0012727816209458552,
+          "objective": 1.8068478479499474e-05,
+          "number_of_trades": 5,
+          "problem_hash": "1fa26334f93f7a81b4ee28e6a3f29add74d9d36841c2270c3f67a2585b8bc2e4",
+          "elapsed_seconds": 0.006676416989648715,
+          "fallback_used": false,
+          "seed": 47,
+          "evaluations": 16,
+          "total_shots": 2176,
+          "shots_per_evaluation": 128,
+          "sampled_feasible_probability": 1.0,
+          "ideal_feasible_probability": 0.9999999999999991,
+          "encoded_energy_expectation": 0.06794357460698776,
+          "probability_optimal": 0.788661490520851,
+          "probability_near_optimal_5pct": 0.8295138429922442,
+          "conditional_feasible_objective_expectation": 1.875754848277394e-05,
+          "angles": [
+            2.609783740782419,
+            2.4680861268202188
+          ],
+          "angle_initialization": "seeded_standard"
+        }
+      ],
+      "seed_quality": [
+        {
+          "reference_status": "optimal",
+          "reference_objective": 1.806847847949946e-05,
+          "feasible_objective_span": 3.3783118195850024e-05,
+          "normalized_gap": 4.01162707287737e-16,
+          "target_available": true
+        },
+        {
+          "reference_status": "optimal",
+          "reference_objective": 1.806847847949946e-05,
+          "feasible_objective_span": 3.3783118195850024e-05,
+          "normalized_gap": 4.01162707287737e-16,
+          "target_available": true
+        },
+        {
+          "reference_status": "optimal",
+          "reference_objective": 1.806847847949946e-05,
+          "feasible_objective_span": 3.3783118195850024e-05,
+          "normalized_gap": 4.01162707287737e-16,
+          "target_available": true
+        }
+      ]
+    },
+    {
+      "case_id": "n8",
+      "method": "correlation_path",
+      "program": {
+        "version": "typed-exchange-v2",
+        "preparation_edge": "e1_5",
+        "mixer": [
+          {
+            "edge": "e1_7",
+            "group": 0
+          },
+          {
+            "edge": "e4_7",
+            "group": 0
+          },
+          {
+            "edge": "e4_6",
+            "group": 0
+          },
+          {
+            "edge": "e5_6",
+            "group": 0
+          },
+          {
+            "edge": "e2_5",
+            "group": 0
+          },
+          {
+            "edge": "e2_3",
+            "group": 0
+          }
+        ],
+        "rationale": [
+          {
+            "feature_ids": [],
+            "decision": "Explicit non-LLM path baseline in the identical typed grammar."
+          }
+        ]
+      },
+      "verification": {
+        "valid": true,
+        "errors": [],
+        "warnings": [],
+        "conservation_certificate": "trusted_diagonal_and_paired_exchange",
+        "synthesis_gate_count": 14,
+        "declared_parameters": 2,
+        "ir_hash": "d6660e21e0b5eff74ff62ba4b3b82a005fcdc6f8155c77bf54fddd9de2388274",
+        "limits": {
+          "max_qubits": 12,
+          "max_layers": 4,
+          "max_parameters": 16,
+          "max_synthesis_gates": 512,
+          "max_two_qubit_gates": 40000,
+          "max_transpiled_depth": 80000
+        },
+        "active_parameters": 2,
+        "inactive_parameters": [],
+        "maximum_cardinality_leak": 1.5896445205039955e-33,
+        "crosscheck_state_fidelities": [
+          0.9999999999999836,
+          1.0000000000000022,
+          0.9999999999999925
+        ],
+        "resources": {
+          "transpiled_cx": 282,
+          "transpiled_depth": 575,
+          "target": "generic_rz_sx_x_cx_not_qpu",
+          "includes_lowered_cost": true
+        },
+        "source_map": [
+          {
+            "instruction": 0,
+            "source": "gate_ir_initial_bits",
+            "qubit": 1
+          },
+          {
+            "instruction": 1,
+            "source": "gate_ir_initial_bits",
+            "qubit": 2
+          },
+          {
+            "instruction": 2,
+            "source": "gate_ir_initial_bits",
+            "qubit": 3
+          },
+          {
+            "instruction": 3,
+            "source": "gate_ir_initial_bits",
+            "qubit": 4
+          },
+          {
+            "instruction": 4,
+            "source": "gate_ir",
+            "stage": "initialization",
+            "gate_index": 0
+          },
+          {
+            "instruction": 5,
+            "source": "gate_ir",
+            "stage": "initialization",
+            "gate_index": 1
+          },
+          {
+            "instruction": 6,
+            "source": "canonical_compiler_cost",
+            "layer": 0,
+            "hamiltonian_hash": "1de1ae712a8cdc1cec76a6ced185a08eff295c35291861c5b3e8004c96c1f35b"
+          },
+          {
+            "instruction": 7,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 0
+          },
+          {
+            "instruction": 8,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 1
+          },
+          {
+            "instruction": 9,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 2
+          },
+          {
+            "instruction": 10,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 3
+          },
+          {
+            "instruction": 11,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 4
+          },
+          {
+            "instruction": 12,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 5
+          },
+          {
+            "instruction": 13,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 6
+          },
+          {
+            "instruction": 14,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 7
+          },
+          {
+            "instruction": 15,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 8
+          },
+          {
+            "instruction": 16,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 9
+          },
+          {
+            "instruction": 17,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 10
+          },
+          {
+            "instruction": 18,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 11
+          }
+        ],
+        "elapsed_seconds": 0.037127292016521096,
+        "business_check": "All measured assets are decoded and checked against the original mandate; XY alone certifies only cardinality."
+      },
+      "seed_runs": [
+        {
+          "method": "gate_ir_qaoa",
+          "status": "feasible",
+          "bits": [
+            0,
+            1,
+            1,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "feasible": true,
+          "violations": {},
+          "tracking_mse": 7.846520810614428e-06,
+          "tracking_rmse": 0.002801164188442803,
+          "tracking_error_per_period": 0.002799456653340747,
+          "two_way_turnover": 0.509112648378342,
+          "transaction_cost": 0.0012727816209458552,
+          "objective": 2.0574337020072982e-05,
+          "number_of_trades": 5,
+          "problem_hash": "1fa26334f93f7a81b4ee28e6a3f29add74d9d36841c2270c3f67a2585b8bc2e4",
+          "elapsed_seconds": 0.0071678750100545585,
+          "fallback_used": false,
+          "seed": 11,
+          "evaluations": 16,
+          "total_shots": 2176,
+          "shots_per_evaluation": 128,
+          "sampled_feasible_probability": 1.0,
+          "ideal_feasible_probability": 0.9999999999999998,
+          "encoded_energy_expectation": 0.10434253849769817,
+          "probability_optimal": 0.0014409503272346295,
+          "probability_near_optimal_5pct": 0.0028771113137438476,
+          "conditional_feasible_objective_expectation": 2.1920741615261674e-05,
+          "angles": [
+            -2.2912428672959404,
+            0.02039715015885922
+          ],
+          "angle_initialization": "seeded_standard"
+        },
+        {
+          "method": "gate_ir_qaoa",
+          "status": "feasible",
+          "bits": [
+            0,
+            1,
+            1,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "feasible": true,
+          "violations": {},
+          "tracking_mse": 7.846520810614428e-06,
+          "tracking_rmse": 0.002801164188442803,
+          "tracking_error_per_period": 0.002799456653340747,
+          "two_way_turnover": 0.509112648378342,
+          "transaction_cost": 0.0012727816209458552,
+          "objective": 2.0574337020072982e-05,
+          "number_of_trades": 5,
+          "problem_hash": "1fa26334f93f7a81b4ee28e6a3f29add74d9d36841c2270c3f67a2585b8bc2e4",
+          "elapsed_seconds": 0.007281250000232831,
+          "fallback_used": false,
+          "seed": 23,
+          "evaluations": 16,
+          "total_shots": 2176,
+          "shots_per_evaluation": 128,
+          "sampled_feasible_probability": 1.0,
+          "ideal_feasible_probability": 1.0000000000000007,
+          "encoded_energy_expectation": 0.10424472690140632,
+          "probability_optimal": 0.0008746069715741797,
+          "probability_near_optimal_5pct": 0.0017474512521004864,
+          "conditional_feasible_objective_expectation": 2.191224145655943e-05,
+          "angles": [
+            0.9015897454504029,
+            1.586675180055473
+          ],
+          "angle_initialization": "seeded_standard"
+        },
+        {
+          "method": "gate_ir_qaoa",
+          "status": "feasible",
+          "bits": [
+            0,
+            1,
+            1,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "feasible": true,
+          "violations": {},
+          "tracking_mse": 7.846520810614428e-06,
+          "tracking_rmse": 0.002801164188442803,
+          "tracking_error_per_period": 0.002799456653340747,
+          "two_way_turnover": 0.509112648378342,
+          "transaction_cost": 0.0012727816209458552,
+          "objective": 2.0574337020072982e-05,
+          "number_of_trades": 5,
+          "problem_hash": "1fa26334f93f7a81b4ee28e6a3f29add74d9d36841c2270c3f67a2585b8bc2e4",
+          "elapsed_seconds": 0.006782500015106052,
+          "fallback_used": false,
+          "seed": 47,
+          "evaluations": 16,
+          "total_shots": 2176,
+          "shots_per_evaluation": 128,
+          "sampled_feasible_probability": 1.0,
+          "ideal_feasible_probability": 1.0000000000000007,
+          "encoded_energy_expectation": 0.10441139310452788,
+          "probability_optimal": 0.0018384595877077028,
+          "probability_near_optimal_5pct": 0.0036691175205059443,
+          "conditional_feasible_objective_expectation": 2.1926725313592142e-05,
+          "angles": [
+            2.019286739984854,
+            1.5938481846155457
+          ],
+          "angle_initialization": "seeded_standard"
+        }
+      ],
+      "seed_quality": [
+        {
+          "reference_status": "optimal",
+          "reference_objective": 1.806847847949946e-05,
+          "feasible_objective_span": 3.3783118195850024e-05,
+          "normalized_gap": 0.0741748741500524,
+          "target_available": true
+        },
+        {
+          "reference_status": "optimal",
+          "reference_objective": 1.806847847949946e-05,
+          "feasible_objective_span": 3.3783118195850024e-05,
+          "normalized_gap": 0.0741748741500524,
+          "target_available": true
+        },
+        {
+          "reference_status": "optimal",
+          "reference_objective": 1.806847847949946e-05,
+          "feasible_objective_span": 3.3783118195850024e-05,
+          "normalized_gap": 0.0741748741500524,
+          "target_available": true
+        }
+      ]
+    },
+    {
+      "case_id": "n8",
+      "method": "random_path",
+      "program": {
+        "version": "typed-exchange-v2",
+        "preparation_edge": "e1_5",
+        "mixer": [
+          {
+            "edge": "e2_6",
+            "group": 0
+          },
+          {
+            "edge": "e1_2",
+            "group": 0
+          },
+          {
+            "edge": "e1_5",
+            "group": 0
+          },
+          {
+            "edge": "e5_7",
+            "group": 0
+          },
+          {
+            "edge": "e4_7",
+            "group": 0
+          },
+          {
+            "edge": "e3_4",
+            "group": 0
+          }
+        ],
+        "rationale": [
+          {
+            "feature_ids": [],
+            "decision": "Explicit non-LLM path baseline in the identical typed grammar."
+          }
+        ]
+      },
+      "verification": {
+        "valid": true,
+        "errors": [],
+        "warnings": [],
+        "conservation_certificate": "trusted_diagonal_and_paired_exchange",
+        "synthesis_gate_count": 14,
+        "declared_parameters": 2,
+        "ir_hash": "bd9974e0df910d0b312ce89726311567f7b392126c1da621ef37d65d5db0b73b",
+        "limits": {
+          "max_qubits": 12,
+          "max_layers": 4,
+          "max_parameters": 16,
+          "max_synthesis_gates": 512,
+          "max_two_qubit_gates": 40000,
+          "max_transpiled_depth": 80000
+        },
+        "active_parameters": 2,
+        "inactive_parameters": [],
+        "maximum_cardinality_leak": 1.0135611877888862e-33,
+        "crosscheck_state_fidelities": [
+          0.9999999999999829,
+          1.0000000000000022,
+          0.9999999999999929
+        ],
+        "resources": {
+          "transpiled_cx": 282,
+          "transpiled_depth": 575,
+          "target": "generic_rz_sx_x_cx_not_qpu",
+          "includes_lowered_cost": true
+        },
+        "source_map": [
+          {
+            "instruction": 0,
+            "source": "gate_ir_initial_bits",
+            "qubit": 1
+          },
+          {
+            "instruction": 1,
+            "source": "gate_ir_initial_bits",
+            "qubit": 2
+          },
+          {
+            "instruction": 2,
+            "source": "gate_ir_initial_bits",
+            "qubit": 3
+          },
+          {
+            "instruction": 3,
+            "source": "gate_ir_initial_bits",
+            "qubit": 4
+          },
+          {
+            "instruction": 4,
+            "source": "gate_ir",
+            "stage": "initialization",
+            "gate_index": 0
+          },
+          {
+            "instruction": 5,
+            "source": "gate_ir",
+            "stage": "initialization",
+            "gate_index": 1
+          },
+          {
+            "instruction": 6,
+            "source": "canonical_compiler_cost",
+            "layer": 0,
+            "hamiltonian_hash": "1de1ae712a8cdc1cec76a6ced185a08eff295c35291861c5b3e8004c96c1f35b"
+          },
+          {
+            "instruction": 7,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 0
+          },
+          {
+            "instruction": 8,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 1
+          },
+          {
+            "instruction": 9,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 2
+          },
+          {
+            "instruction": 10,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 3
+          },
+          {
+            "instruction": 11,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 4
+          },
+          {
+            "instruction": 12,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 5
+          },
+          {
+            "instruction": 13,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 6
+          },
+          {
+            "instruction": 14,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 7
+          },
+          {
+            "instruction": 15,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 8
+          },
+          {
+            "instruction": 16,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 9
+          },
+          {
+            "instruction": 17,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 10
+          },
+          {
+            "instruction": 18,
+            "source": "gate_ir",
+            "stage": "layer_0_mixer",
+            "gate_index": 11
+          }
+        ],
+        "elapsed_seconds": 0.03550475000520237,
+        "business_check": "All measured assets are decoded and checked against the original mandate; XY alone certifies only cardinality."
+      },
+      "seed_runs": [
+        {
+          "method": "gate_ir_qaoa",
+          "status": "feasible",
+          "bits": [
+            0,
+            1,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "feasible": true,
+          "violations": {},
+          "tracking_mse": 5.340662270040923e-06,
+          "tracking_rmse": 0.0023109872933534106,
+          "tracking_error_per_period": 0.002308650742968267,
+          "two_way_turnover": 0.509112648378342,
+          "transaction_cost": 0.0012727816209458552,
+          "objective": 1.8068478479499474e-05,
+          "number_of_trades": 5,
+          "problem_hash": "1fa26334f93f7a81b4ee28e6a3f29add74d9d36841c2270c3f67a2585b8bc2e4",
+          "elapsed_seconds": 0.007986625016201288,
+          "fallback_used": false,
+          "seed": 11,
+          "evaluations": 16,
+          "total_shots": 2176,
+          "shots_per_evaluation": 128,
+          "sampled_feasible_probability": 1.0,
+          "ideal_feasible_probability": 1.0000000000000004,
+          "encoded_energy_expectation": 0.0990199848035515,
+          "probability_optimal": 0.05961880001395032,
+          "probability_near_optimal_5pct": 0.05961880001395032,
+          "conditional_feasible_objective_expectation": 2.145819368826095e-05,
+          "angles": [
+            -2.334437555124943,
+            -0.1345333928584338
+          ],
+          "angle_initialization": "seeded_standard"
+        },
+        {
+          "method": "gate_ir_qaoa",
+          "status": "feasible",
+          "bits": [
+            0,
+            1,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1
+          ],
+          "feasible": true,
+          "violations": {},
+          "tracking_mse": 5.340662270040923e-06,
+          "tracking_rmse": 0.0023109872933534106,
+          "tracking_error_per_period": 0.002308650742968267,
+          "two_way_turnover": 0.509112648378342,
+          "transaction_cost": 0.0012727816209458552,
+          "objective": 1.8068478479499474e-05,
+          "number_of_trades": 5,
+          "problem_hash": "1fa26334f93f7a81b4ee28e6a3f29add74d9d36841c2270c3f67a2585b8bc2e4",
+          "elapsed_seconds": 0.007681624992983416,
+          "fallback_used": false,
+          "seed": 23,
+          "evaluations": 16,
+          "total_shots": 2176,
+          "shots_per_evaluation": 128,
+          "sampled_feasible_probability": 1.0,
+          "ideal_feasible_probability": 0.9999999999999988,
+          "encoded_energy_expectation": 0.09909246514015514,
+          "probability_optimal": 0.06499245997528319,
+          "probability_near_optimal_5pct": 0.06499245997528319,
+          "conditional_feasible_objective_expectation": 2.14644924747779e-05,
+          "angles": [
+            0.9712168494375895,
+            1.7120426256240773
+          ],
+          "angle_initialization": "seeded_standard"
+        },
+        {
+          "method": "gate_ir_qaoa",
+          "status": "feasible",
+          "bits": [
+            0,
+            1,
+            1,
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "feasible": true,
+          "violations": {},
+          "tracking_mse": 7.846520810614428e-06,
+          "tracking_rmse": 0.002801164188442803,
+          "tracking_error_per_period": 0.002799456653340747,
+          "two_way_turnover": 0.509112648378342,
+          "transaction_cost": 0.0012727816209458552,
+          "objective": 2.0574337020072982e-05,
+          "number_of_trades": 5,
+          "problem_hash": "1fa26334f93f7a81b4ee28e6a3f29add74d9d36841c2270c3f67a2585b8bc2e4",
+          "elapsed_seconds": 0.007547708984930068,
+          "fallback_used": false,
+          "seed": 47,
+          "evaluations": 16,
+          "total_shots": 2176,
+          "shots_per_evaluation": 128,
+          "sampled_feasible_probability": 1.0,
+          "ideal_feasible_probability": 1.0000000000000004,
+          "encoded_energy_expectation": 0.10096221966523508,
+          "probability_optimal": 0.0018989193286663062,
+          "probability_near_optimal_5pct": 0.0018989193286663062,
+          "conditional_feasible_objective_expectation": 2.1626980470066128e-05,
+          "angles": [
+            2.019286739984854,
+            1.5938481846155457
+          ],
+          "angle_initialization": "seeded_standard"
+        }
+      ],
+      "seed_quality": [
+        {
+          "reference_status": "optimal",
+          "reference_objective": 1.806847847949946e-05,
+          "feasible_objective_span": 3.3783118195850024e-05,
+          "normalized_gap": 4.01162707287737e-16,
+          "target_available": true
+        },
+        {
+          "reference_status": "optimal",
+          "reference_objective": 1.806847847949946e-05,
+          "feasible_objective_span": 3.3783118195850024e-05,
+          "normalized_gap": 4.01162707287737e-16,
+          "target_available": true
+        },
+        {
+          "reference_status": "optimal",
+          "reference_objective": 1.806847847949946e-05,
+          "feasible_objective_span": 3.3783118195850024e-05,
+          "normalized_gap": 0.0741748741500524,
+          "target_available": true
+        }
+      ]
+    }
+  ],
+  "references": {
+    "n4": {
+      "exact": {
+        "method": "exact",
+        "status": "optimal",
+        "bits": [
+          1,
+          1,
+          0,
+          0
+        ],
+        "feasible": true,
+        "violations": {},
+        "tracking_mse": 1.7031693022301885e-05,
+        "tracking_rmse": 0.004126947179490172,
+        "tracking_error_per_period": 0.0041512303477727235,
+        "two_way_turnover": 0.005380437237873348,
+        "transaction_cost": 1.345109309468337e-05,
+        "objective": 1.716620395324872e-05,
+        "number_of_trades": 2,
+        "problem_hash": "1b163d741aaba71a7450181c9241bca48b25dd97d972a901cb3c4bcfd0a0dd9d",
+        "elapsed_seconds": 0.00039587501669302583,
+        "fallback_used": false,
+        "evaluations": 6,
+        "lower_bound": 1.716620395324872e-05
+      },
+      "milp": {
+        "method": "milp_highs",
+        "status": "optimal",
+        "bits": [
+          1,
+          1,
+          0,
+          0
+        ],
+        "feasible": true,
+        "violations": {},
+        "tracking_mse": 1.7031693022301885e-05,
+        "tracking_rmse": 0.004126947179490172,
+        "tracking_error_per_period": 0.0041512303477727235,
+        "two_way_turnover": 0.005380437237873348,
+        "transaction_cost": 1.345109309468337e-05,
+        "objective": 1.716620395324872e-05,
+        "number_of_trades": 2,
+        "problem_hash": "1b163d741aaba71a7450181c9241bca48b25dd97d972a901cb3c4bcfd0a0dd9d",
+        "elapsed_seconds": 0.010200874996371567,
+        "fallback_used": false,
+        "lower_bound": 1.7166203953248744e-05,
+        "mip_gap": 0.0,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "formulation": "exact_binary_pair_linearization"
+      }
+    },
+    "n6": {
+      "exact": {
+        "method": "exact",
+        "status": "optimal",
+        "bits": [
+          0,
+          1,
+          1,
+          0,
+          0,
+          1
+        ],
+        "feasible": true,
+        "violations": {},
+        "tracking_mse": 6.677921947545882e-06,
+        "tracking_rmse": 0.0025841675540773054,
+        "tracking_error_per_period": 0.002566146692135792,
+        "two_way_turnover": 0.6788665538443139,
+        "transaction_cost": 0.0016971663846107848,
+        "objective": 2.364958579365373e-05,
+        "number_of_trades": 4,
+        "problem_hash": "c7ed0738007c259f37e83aee376ed3063a3dad4edd41392456796c06d52f2810",
+        "elapsed_seconds": 0.0005685409996658564,
+        "fallback_used": false,
+        "evaluations": 20,
+        "lower_bound": 2.364958579365373e-05
+      },
+      "milp": {
+        "method": "milp_highs",
+        "status": "optimal",
+        "bits": [
+          0,
+          1,
+          1,
+          0,
+          0,
+          1
+        ],
+        "feasible": true,
+        "violations": {},
+        "tracking_mse": 6.677921947545882e-06,
+        "tracking_rmse": 0.0025841675540773054,
+        "tracking_error_per_period": 0.002566146692135792,
+        "two_way_turnover": 0.6788665538443139,
+        "transaction_cost": 0.0016971663846107848,
+        "objective": 2.364958579365373e-05,
+        "number_of_trades": 4,
+        "problem_hash": "c7ed0738007c259f37e83aee376ed3063a3dad4edd41392456796c06d52f2810",
+        "elapsed_seconds": 0.007939583010738716,
+        "fallback_used": false,
+        "lower_bound": 2.364958579365374e-05,
+        "mip_gap": 0.0,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "formulation": "exact_binary_pair_linearization"
+      }
+    },
+    "n8": {
+      "exact": {
+        "method": "exact",
+        "status": "optimal",
+        "bits": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        "feasible": true,
+        "violations": {},
+        "tracking_mse": 5.340662270040923e-06,
+        "tracking_rmse": 0.0023109872933534106,
+        "tracking_error_per_period": 0.002308650742968267,
+        "two_way_turnover": 0.509112648378342,
+        "transaction_cost": 0.0012727816209458552,
+        "objective": 1.8068478479499474e-05,
+        "number_of_trades": 5,
+        "problem_hash": "1fa26334f93f7a81b4ee28e6a3f29add74d9d36841c2270c3f67a2585b8bc2e4",
+        "elapsed_seconds": 0.0013607919972855598,
+        "fallback_used": false,
+        "evaluations": 70,
+        "lower_bound": 1.8068478479499474e-05
+      },
+      "milp": {
+        "method": "milp_highs",
+        "status": "optimal",
+        "bits": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        "feasible": true,
+        "violations": {},
+        "tracking_mse": 5.340662270040923e-06,
+        "tracking_rmse": 0.0023109872933534106,
+        "tracking_error_per_period": 0.002308650742968267,
+        "two_way_turnover": 0.509112648378342,
+        "transaction_cost": 0.0012727816209458552,
+        "objective": 1.8068478479499474e-05,
+        "number_of_trades": 5,
+        "problem_hash": "1fa26334f93f7a81b4ee28e6a3f29add74d9d36841c2270c3f67a2585b8bc2e4",
+        "elapsed_seconds": 0.011166458018124104,
+        "fallback_used": false,
+        "lower_bound": 1.8068478479499447e-05,
+        "mip_gap": 0.0,
+        "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "formulation": "exact_binary_pair_linearization"
+      }
+    }
+  }
+}

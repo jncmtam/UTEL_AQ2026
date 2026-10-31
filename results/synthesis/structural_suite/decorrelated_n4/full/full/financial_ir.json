@@ -1,0 +1,95 @@
+{
+  "version": "financial-ir-v1",
+  "problem_hash": "edca8d0a00669ebc126726161ca05558ed339b3075bbb0b71aae290c681cd489",
+  "cutoff": "period:79",
+  "tickers": [
+    "S00",
+    "S01",
+    "S02",
+    "S03"
+  ],
+  "sectors": [
+    "Banks",
+    "Industry",
+    "Services",
+    "Banks"
+  ],
+  "n": 4,
+  "k": 2,
+  "previous_weights": [
+    0.49970047835242754,
+    0.5002995216475725,
+    0.0,
+    0.0
+  ],
+  "cost_rates": [
+    0.0025,
+    0.0025,
+    0.0025,
+    0.0025
+  ],
+  "cost_weight": 0.01,
+  "mandate": {
+    "source_text": "Hold 2 assets",
+    "k": 2,
+    "include": [],
+    "exclude": [],
+    "sector_caps": {},
+    "turnover_cap": null,
+    "cost_weight": null,
+    "evidence": [
+      {
+        "kind": "cardinality",
+        "target": null,
+        "value": 2,
+        "start": 0,
+        "end": 13,
+        "quote": "Hold 2 assets"
+      }
+    ],
+    "issues": [],
+    "status": "ready",
+    "origin": "rules"
+  },
+  "objective": "mean((returns @ (x/K) - benchmark)**2) + cost_weight * cost_rates @ abs(x/K - previous_weights)",
+  "objective_coefficients": {
+    "linear": [
+      -1.526296826278527e-05,
+      -2.045128053063435e-05,
+      7.012321384409574e-07,
+      8.277496630480952e-06
+    ],
+    "upper_quadratic": [
+      [
+        0.0,
+        -3.3577770266535174e-06,
+        9.320196586405243e-06,
+        -4.065308694239525e-07
+      ],
+      [
+        0.0,
+        0.0,
+        1.2343069808086498e-05,
+        6.917268279835688e-06
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.9342693286263474e-06
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    ],
+    "offset": 5.611766312999775e-05
+  },
+  "units": {
+    "returns": "fraction_per_observation",
+    "turnover": "two_way_fraction_NAV",
+    "fees": "fraction_per_side"
+  }
+}

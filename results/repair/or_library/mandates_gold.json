@@ -1,0 +1,234 @@
+[
+  {
+    "id": "canonical_en",
+    "text": "Hold 4 assets; Exclude OR01",
+    "gold": {
+      "source_text": "Hold 4 assets; Exclude OR01",
+      "k": 4,
+      "include": [],
+      "exclude": [
+        "OR01"
+      ],
+      "sector_caps": {},
+      "turnover_cap": null,
+      "cost_weight": null,
+      "evidence": [],
+      "issues": [],
+      "status": "ready",
+      "origin": "authored_gold"
+    },
+    "label_provenance": "authored_synthetic_mandate_not_real_client_instruction"
+  },
+  {
+    "id": "canonical_vi",
+    "text": "Giữ 4 mã; Loại mã OR01",
+    "gold": {
+      "source_text": "Giữ 4 mã; Loại mã OR01",
+      "k": 4,
+      "include": [],
+      "exclude": [
+        "OR01"
+      ],
+      "sector_caps": {},
+      "turnover_cap": null,
+      "cost_weight": null,
+      "evidence": [],
+      "issues": [],
+      "status": "ready",
+      "origin": "authored_gold"
+    },
+    "label_provenance": "authored_synthetic_mandate_not_real_client_instruction"
+  },
+  {
+    "id": "paraphrase",
+    "text": "Please select exactly 4 stocks; Exclude OR01",
+    "gold": {
+      "source_text": "Please select exactly 4 stocks; Exclude OR01",
+      "k": 4,
+      "include": [],
+      "exclude": [
+        "OR01"
+      ],
+      "sector_caps": {},
+      "turnover_cap": null,
+      "cost_weight": null,
+      "evidence": [],
+      "issues": [],
+      "status": "ready",
+      "origin": "authored_gold"
+    },
+    "label_provenance": "authored_synthetic_mandate_not_real_client_instruction"
+  },
+  {
+    "id": "include",
+    "text": "Hold 4 assets; Must hold OR08",
+    "gold": {
+      "source_text": "Hold 4 assets; Must hold OR08",
+      "k": 4,
+      "include": [
+        "OR08"
+      ],
+      "exclude": [],
+      "sector_caps": {},
+      "turnover_cap": null,
+      "cost_weight": null,
+      "evidence": [],
+      "issues": [],
+      "status": "ready",
+      "origin": "authored_gold"
+    },
+    "label_provenance": "authored_synthetic_mandate_not_real_client_instruction"
+  },
+  {
+    "id": "sector",
+    "text": "Hold 4 assets; Sector Unclassified at most 25%",
+    "gold": {
+      "source_text": "Hold 4 assets; Sector Unclassified at most 25%",
+      "k": 4,
+      "include": [],
+      "exclude": [],
+      "sector_caps": {
+        "Unclassified": 0.25
+      },
+      "turnover_cap": null,
+      "cost_weight": null,
+      "evidence": [],
+      "issues": [],
+      "status": "ready",
+      "origin": "authored_gold"
+    },
+    "label_provenance": "authored_synthetic_mandate_not_real_client_instruction"
+  },
+  {
+    "id": "turnover",
+    "text": "Hold 4 assets; Turnover at most 12.5%",
+    "gold": {
+      "source_text": "Hold 4 assets; Turnover at most 12.5%",
+      "k": 4,
+      "include": [],
+      "exclude": [],
+      "sector_caps": {},
+      "turnover_cap": 0.125,
+      "cost_weight": null,
+      "evidence": [],
+      "issues": [],
+      "status": "ready",
+      "origin": "authored_gold"
+    },
+    "label_provenance": "authored_synthetic_mandate_not_real_client_instruction"
+  },
+  {
+    "id": "decimal",
+    "text": "Hold 4 assets; Cost weight 0.01",
+    "gold": {
+      "source_text": "Hold 4 assets; Cost weight 0.01",
+      "k": 4,
+      "include": [],
+      "exclude": [],
+      "sector_caps": {},
+      "turnover_cap": null,
+      "cost_weight": 0.01,
+      "evidence": [],
+      "issues": [],
+      "status": "ready",
+      "origin": "authored_gold"
+    },
+    "label_provenance": "authored_synthetic_mandate_not_real_client_instruction"
+  },
+  {
+    "id": "conflict",
+    "text": "Hold 4 assets; Must hold OR01; Exclude OR01",
+    "gold": {
+      "source_text": "Hold 4 assets; Must hold OR01; Exclude OR01",
+      "k": 4,
+      "include": [
+        "OR01"
+      ],
+      "exclude": [
+        "OR01"
+      ],
+      "sector_caps": {},
+      "turnover_cap": null,
+      "cost_weight": null,
+      "evidence": [],
+      "issues": [],
+      "status": "conflict",
+      "origin": "authored_gold"
+    },
+    "label_provenance": "authored_synthetic_mandate_not_real_client_instruction"
+  },
+  {
+    "id": "missing_k",
+    "text": "Exclude OR01",
+    "gold": {
+      "source_text": "Exclude OR01",
+      "k": null,
+      "include": [],
+      "exclude": [
+        "OR01"
+      ],
+      "sector_caps": {},
+      "turnover_cap": null,
+      "cost_weight": null,
+      "evidence": [],
+      "issues": [],
+      "status": "needs_clarification",
+      "origin": "authored_gold"
+    },
+    "label_provenance": "authored_synthetic_mandate_not_real_client_instruction"
+  },
+  {
+    "id": "unsupported",
+    "text": "Hold 4 assets; Avoid risky companies",
+    "gold": {
+      "source_text": "Hold 4 assets; Avoid risky companies",
+      "k": 4,
+      "include": [],
+      "exclude": [],
+      "sector_caps": {},
+      "turnover_cap": null,
+      "cost_weight": null,
+      "evidence": [],
+      "issues": [],
+      "status": "needs_clarification",
+      "origin": "authored_gold"
+    },
+    "label_provenance": "authored_synthetic_mandate_not_real_client_instruction"
+  },
+  {
+    "id": "negation",
+    "text": "Hold 4 assets; Do not exclude OR01",
+    "gold": {
+      "source_text": "Hold 4 assets; Do not exclude OR01",
+      "k": 4,
+      "include": [],
+      "exclude": [],
+      "sector_caps": {},
+      "turnover_cap": null,
+      "cost_weight": null,
+      "evidence": [],
+      "issues": [],
+      "status": "needs_clarification",
+      "origin": "authored_gold"
+    },
+    "label_provenance": "authored_synthetic_mandate_not_real_client_instruction"
+  },
+  {
+    "id": "inequality",
+    "text": "Hold at most 4 assets",
+    "gold": {
+      "source_text": "Hold at most 4 assets",
+      "k": null,
+      "include": [],
+      "exclude": [],
+      "sector_caps": {},
+      "turnover_cap": null,
+      "cost_weight": null,
+      "evidence": [],
+      "issues": [],
+      "status": "needs_clarification",
+      "origin": "authored_gold"
+    },
+    "label_provenance": "authored_synthetic_mandate_not_real_client_instruction"
+  }
+]

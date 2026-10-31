@@ -1,0 +1,19 @@
+{
+  "checked_utc": "2026-10-31T15:53:44.105814+00:00",
+  "metered_cost": 5.25599439,
+  "billed_cost": 0.0,
+  "adjustments": {
+    "Network Egress Allowance": "-0.20864738",
+    "Credits": "-4.32000000",
+    "Reservation Adjustment": "-0E-8",
+    "Free Storage": "-0.72734701",
+    "Plan Cost": "0E-8"
+  },
+  "rates": {
+    "gpu_hour_cost_a100_80gb": 2.5,
+    "mem_gib_hour_cost": 0.008,
+    "cpu_hour_cost": 0.0473,
+    "gpu_hour_cost_h200": 4.54
+  },
+  "allowance_basis": "User-confirmed Starter USD30 monthly allowance; API exposes metered/billed costs, not a standalone available-credit balance."
+}

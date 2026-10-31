@@ -1,0 +1,36 @@
+{
+  "pytest_passed": 50,
+  "runs": [
+    {
+      "folder": "results/repair",
+      "test_solver_records": 230,
+      "development_solver_records": 32,
+      "figures": 7,
+      "source_hash_verified": true,
+      "original_objective_and_constraints_verified": true,
+      "shot_budget_verified": true,
+      "screening_audit_cases": 0
+    },
+    {
+      "folder": "results/repair/or_library",
+      "test_solver_records": 184,
+      "development_solver_records": 32,
+      "figures": 7,
+      "source_hash_verified": true,
+      "original_objective_and_constraints_verified": true,
+      "shot_budget_verified": true,
+      "screening_audit_cases": 8
+    },
+    {
+      "folder": "results/repair/live",
+      "test_solver_records": 230,
+      "development_solver_records": 32,
+      "figures": 7,
+      "source_hash_verified": true,
+      "original_objective_and_constraints_verified": true,
+      "shot_budget_verified": true,
+      "screening_audit_cases": 0
+    }
+  ],
+  "source_sha256": "201840e6183ace9051529041ba9663953e2c521d0529cdc4a25474d8b473d71d"
+}

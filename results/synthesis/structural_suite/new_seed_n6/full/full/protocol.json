@@ -1,0 +1,21 @@
+{
+  "version": "gate-search-v1",
+  "problem_hash": "067b7740fafc91704e30c6d81def98ea77e7b1d30ad60b4333b205eacec94d4c",
+  "hamiltonian_hash": "cf90fa4b9b4ac4634c317ab2baf2cfbb8c26584c162e63b260b240f016d3126f",
+  "config": {
+    "initial_proposals": 4,
+    "repair_rounds": 0,
+    "proposals_per_repair": 2,
+    "screen_evaluations": 8,
+    "screen_shots": 64,
+    "final_evaluations": 24,
+    "final_shots": 128,
+    "finalists": 2,
+    "seed": 11,
+    "max_tokens": 4096
+  },
+  "ablation": "full",
+  "feedback_level": "full",
+  "origin": "disabled",
+  "data_profile_hash": "06015ecb95fb14c33a8ea13b82db2a1aa28953dfd1dd4130d7883fe25f051559"
+}

@@ -1,0 +1,26 @@
+{
+  "version": "typed-exchange-v2",
+  "preparation_edge": "e0_3",
+  "mixer": [
+    {
+      "edge": "e0_1",
+      "group": 0
+    },
+    {
+      "edge": "e1_2",
+      "group": 1
+    },
+    {
+      "edge": "e2_3",
+      "group": 0
+    }
+  ],
+  "rationale": [
+    {
+      "feature_ids": [
+        "CORRELATION"
+      ],
+      "decision": "Selected edges e0_1, e1_2, e2_3 based on high correlation values (0.615, 0.592, 0.687) to capture strong pairwise interactions. These edges form a sparse but connected graph that reflects dominant correlation structures, supporting effective mixing in the QAOA."
+    }
+  ]
+}

@@ -1,0 +1,232 @@
+{
+  "version": "gate-ir-v1",
+  "problem_hash": "1b163d741aaba71a7450181c9241bca48b25dd97d972a901cb3c4bcfd0a0dd9d",
+  "hamiltonian_hash": "833f7c12b467ae64e8718e21057a59f93a458ec4bb8666f6560d261da369b037",
+  "qubit_to_asset": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "mode": "preserve_cardinality",
+  "initial_bits": [
+    1,
+    1,
+    0,
+    0
+  ],
+  "parameters": [
+    {
+      "id": "beta_0",
+      "kind": "mixer",
+      "initial": 0.1
+    },
+    {
+      "id": "gamma_0",
+      "kind": "cost",
+      "initial": 0.1
+    },
+    {
+      "id": "beta_1",
+      "kind": "mixer",
+      "initial": 0.1
+    },
+    {
+      "id": "gamma_1",
+      "kind": "cost",
+      "initial": 0.1
+    }
+  ],
+  "initialization": [
+    {
+      "op": "RXX",
+      "qubits": [
+        0,
+        1
+      ],
+      "angle": {
+        "parameter": null,
+        "scale": 0,
+        "offset": 0.3
+      }
+    },
+    {
+      "op": "RXX",
+      "qubits": [
+        2,
+        3
+      ],
+      "angle": {
+        "parameter": null,
+        "scale": 0,
+        "offset": 0.3
+      }
+    },
+    {
+      "op": "RYY",
+      "qubits": [
+        0,
+        1
+      ],
+      "angle": {
+        "parameter": null,
+        "scale": 0,
+        "offset": 0.3
+      }
+    },
+    {
+      "op": "RYY",
+      "qubits": [
+        2,
+        3
+      ],
+      "angle": {
+        "parameter": null,
+        "scale": 0,
+        "offset": 0.3
+      }
+    }
+  ],
+  "layers": [
+    {
+      "cost": {
+        "op": "COST",
+        "parameter": "gamma_0",
+        "hamiltonian_hash": "833f7c12b467ae64e8718e21057a59f93a458ec4bb8666f6560d261da369b037"
+      },
+      "mixer": [
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            3
+          ],
+          "angle": {
+            "parameter": "beta_0",
+            "scale": 2,
+            "offset": 0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            0,
+            3
+          ],
+          "angle": {
+            "parameter": "beta_0",
+            "scale": 2,
+            "offset": 0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            1,
+            2
+          ],
+          "angle": {
+            "parameter": "beta_0",
+            "scale": 2,
+            "offset": 0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            1,
+            2
+          ],
+          "angle": {
+            "parameter": "beta_0",
+            "scale": 2,
+            "offset": 0
+          }
+        }
+      ]
+    },
+    {
+      "cost": {
+        "op": "COST",
+        "parameter": "gamma_1",
+        "hamiltonian_hash": "833f7c12b467ae64e8718e21057a59f93a458ec4bb8666f6560d261da369b037"
+      },
+      "mixer": [
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            1
+          ],
+          "angle": {
+            "parameter": "beta_1",
+            "scale": 2,
+            "offset": 0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            0,
+            1
+          ],
+          "angle": {
+            "parameter": "beta_1",
+            "scale": 2,
+            "offset": 0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            2,
+            3
+          ],
+          "angle": {
+            "parameter": "beta_1",
+            "scale": 2,
+            "offset": 0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            2,
+            3
+          ],
+          "angle": {
+            "parameter": "beta_1",
+            "scale": 2,
+            "offset": 0
+          }
+        }
+      ]
+    }
+  ],
+  "rationale": [
+    {
+      "feature_ids": [
+        "CORRELATION"
+      ],
+      "decision": "Strongest pair (0,3) used first in mixer to reflect high correlation"
+    },
+    {
+      "feature_ids": [
+        "CLUSTERS"
+      ],
+      "decision": "Single cluster includes all assets; schedule connects all via sparse edges"
+    },
+    {
+      "feature_ids": [
+        "OBJECTIVE_TERMS"
+      ],
+      "decision": "All quadratic terms preserved via full connectivity in two layers"
+    },
+    {
+      "feature_ids": [
+        "INCUMBENT"
+      ],
+      "decision": "Initial state [1,1,0,0] matches top two weights in previous_weights"
+    }
+  ]
+}

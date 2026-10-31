@@ -1,0 +1,598 @@
+{
+  "methods": [
+    {
+      "method": "exact",
+      "records": 10,
+      "executed": 10,
+      "failures": 0,
+      "feasible": 8,
+      "feasible_rate": 0.8,
+      "mean_elapsed_attempted": 0.001472020905930549,
+      "total_shots_attempted": 0,
+      "tracking_rmse": 0.0023422759921115192,
+      "heldout_tracking_rmse": 0.0025911845802698177,
+      "transaction_cost": 0.0009477040048229768,
+      "two_way_turnover": 0.3790816019291907,
+      "objective_gap_absolute": 0.0,
+      "elapsed_seconds": 0.0016024480100895744,
+      "total_shots": null
+    },
+    {
+      "method": "milp_highs",
+      "records": 10,
+      "executed": 10,
+      "failures": 0,
+      "feasible": 8,
+      "feasible_rate": 0.8,
+      "mean_elapsed_attempted": 0.01153022919606883,
+      "total_shots_attempted": 0,
+      "tracking_rmse": 0.0023422759921115192,
+      "heldout_tracking_rmse": 0.0025911845802698177,
+      "transaction_cost": 0.0009477040048229768,
+      "two_way_turnover": 0.3790816019291907,
+      "objective_gap_absolute": 0.0,
+      "elapsed_seconds": 0.014106494749285048,
+      "total_shots": null
+    },
+    {
+      "method": "hold",
+      "records": 10,
+      "executed": 10,
+      "failures": 0,
+      "feasible": 2,
+      "feasible_rate": 0.2,
+      "mean_elapsed_attempted": 0.00021547490323428064,
+      "total_shots_attempted": 0,
+      "tracking_rmse": 0.003148300989043855,
+      "heldout_tracking_rmse": 0.0034275372142249156,
+      "transaction_cost": 0.0,
+      "two_way_turnover": 0.0,
+      "objective_gap_absolute": null,
+      "elapsed_seconds": 0.00021593700512312353,
+      "total_shots": null
+    },
+    {
+      "method": "threshold_rebalance",
+      "records": 10,
+      "executed": 10,
+      "failures": 0,
+      "feasible": 8,
+      "feasible_rate": 0.8,
+      "mean_elapsed_attempted": 0.0010994124051649124,
+      "total_shots_attempted": 0,
+      "tracking_rmse": 0.002343249137888182,
+      "heldout_tracking_rmse": 0.002592059829906721,
+      "transaction_cost": 0.0009433692562435345,
+      "two_way_turnover": 0.3773477024974138,
+      "objective_gap_absolute": 0.0,
+      "elapsed_seconds": 0.0011366873841325287,
+      "total_shots": null
+    },
+    {
+      "method": "periodic_rebuild",
+      "records": 10,
+      "executed": 10,
+      "failures": 0,
+      "feasible": 6,
+      "feasible_rate": 0.6,
+      "mean_elapsed_attempted": 0.0016716711019398645,
+      "total_shots_attempted": 0,
+      "tracking_rmse": 0.001322692672122842,
+      "heldout_tracking_rmse": 0.0019785561954339145,
+      "transaction_cost": 0.005,
+      "two_way_turnover": 2.0,
+      "objective_gap_absolute": 3.714035479354536e-05,
+      "elapsed_seconds": 0.0018033821737238516,
+      "total_shots": null
+    },
+    {
+      "method": "swap_annealing",
+      "records": 20,
+      "executed": 20,
+      "failures": 4,
+      "feasible": 16,
+      "feasible_rate": 0.8,
+      "mean_elapsed_attempted": 0.048233787550998386,
+      "total_shots_attempted": 0,
+      "tracking_rmse": 0.002342275992111519,
+      "heldout_tracking_rmse": 0.0025911845802698173,
+      "transaction_cost": 0.0009477040048229768,
+      "two_way_turnover": 0.3790816019291907,
+      "objective_gap_absolute": 0.0,
+      "elapsed_seconds": 0.05166117450244201,
+      "total_shots": null
+    },
+    {
+      "method": "qaoa_fixed",
+      "records": 20,
+      "executed": 20,
+      "failures": 4,
+      "feasible": 16,
+      "feasible_rate": 0.8,
+      "mean_elapsed_attempted": 0.013976814701163676,
+      "total_shots_attempted": 64000,
+      "tracking_rmse": 0.002342275992111519,
+      "heldout_tracking_rmse": 0.0025911845802698173,
+      "transaction_cost": 0.0009477040048229768,
+      "two_way_turnover": 0.3790816019291907,
+      "objective_gap_absolute": 0.0,
+      "elapsed_seconds": 0.014051075624593068,
+      "total_shots": 3200.0
+    },
+    {
+      "method": "qaoa_rule",
+      "records": 20,
+      "executed": 20,
+      "failures": 4,
+      "feasible": 16,
+      "feasible_rate": 0.8,
+      "mean_elapsed_attempted": 0.012297114649845753,
+      "total_shots_attempted": 60928,
+      "tracking_rmse": 0.002342275992111519,
+      "heldout_tracking_rmse": 0.0025911845802698173,
+      "transaction_cost": 0.0009477040048229768,
+      "two_way_turnover": 0.3790816019291907,
+      "objective_gap_absolute": 0.0,
+      "elapsed_seconds": 0.011984966185991652,
+      "total_shots": 3008.0
+    },
+    {
+      "method": "qaoa_random",
+      "records": 20,
+      "executed": 20,
+      "failures": 4,
+      "feasible": 16,
+      "feasible_rate": 0.8,
+      "mean_elapsed_attempted": 0.01072788125165971,
+      "total_shots_attempted": 58240,
+      "tracking_rmse": 0.002342275992111519,
+      "heldout_tracking_rmse": 0.0025911845802698173,
+      "transaction_cost": 0.0009477040048229768,
+      "two_way_turnover": 0.3790816019291907,
+      "objective_gap_absolute": 0.0,
+      "elapsed_seconds": 0.010907781188507215,
+      "total_shots": 3008.0
+    },
+    {
+      "method": "qaoa_warm_start",
+      "records": 20,
+      "executed": 20,
+      "failures": 4,
+      "feasible": 16,
+      "feasible_rate": 0.8,
+      "mean_elapsed_attempted": 0.010708235402125866,
+      "total_shots_attempted": 58240,
+      "tracking_rmse": 0.002342275992111519,
+      "heldout_tracking_rmse": 0.0025911845802698173,
+      "transaction_cost": 0.0009477040048229768,
+      "two_way_turnover": 0.3790816019291907,
+      "objective_gap_absolute": 0.0,
+      "elapsed_seconds": 0.010883291690333863,
+      "total_shots": 3008.0
+    },
+    {
+      "method": "qaoa_random_init",
+      "records": 20,
+      "executed": 20,
+      "failures": 4,
+      "feasible": 16,
+      "feasible_rate": 0.8,
+      "mean_elapsed_attempted": 0.011564231151714921,
+      "total_shots_attempted": 62080,
+      "tracking_rmse": 0.002206480264333712,
+      "heldout_tracking_rmse": 0.002413039168502881,
+      "transaction_cost": 0.0020375593960964443,
+      "two_way_turnover": 0.8150237584385776,
+      "objective_gap_absolute": 1.0183785433745678e-05,
+      "elapsed_seconds": 0.011605812376728863,
+      "total_shots": 3112.0
+    },
+    {
+      "method": "classical_circuit_search",
+      "records": 20,
+      "executed": 20,
+      "failures": 4,
+      "feasible": 16,
+      "feasible_rate": 0.8,
+      "mean_elapsed_attempted": 0.019964595850615295,
+      "total_shots_attempted": 61440,
+      "tracking_rmse": 0.002342275992111519,
+      "heldout_tracking_rmse": 0.0025911845802698173,
+      "transaction_cost": 0.0009477040048229768,
+      "two_way_turnover": 0.3790816019291907,
+      "objective_gap_absolute": 0.0,
+      "elapsed_seconds": 0.019861953187501058,
+      "total_shots": 3072.0
+    },
+    {
+      "method": "qwen_circuit",
+      "records": 20,
+      "executed": 0,
+      "failures": 0,
+      "feasible": 0,
+      "feasible_rate": null,
+      "mean_elapsed_attempted": null,
+      "total_shots_attempted": 0,
+      "tracking_rmse": null,
+      "heldout_tracking_rmse": null,
+      "transaction_cost": null,
+      "two_way_turnover": null,
+      "objective_gap_absolute": null,
+      "elapsed_seconds": null,
+      "total_shots": null
+    },
+    {
+      "method": "qwen_mandate_classical",
+      "records": 10,
+      "executed": 0,
+      "failures": 0,
+      "feasible": 0,
+      "feasible_rate": null,
+      "mean_elapsed_attempted": null,
+      "total_shots_attempted": 0,
+      "tracking_rmse": null,
+      "heldout_tracking_rmse": null,
+      "transaction_cost": null,
+      "two_way_turnover": null,
+      "objective_gap_absolute": null,
+      "elapsed_seconds": null,
+      "total_shots": null
+    },
+    {
+      "method": "qwen_full_pipeline",
+      "records": 10,
+      "executed": 0,
+      "failures": 0,
+      "feasible": 0,
+      "feasible_rate": null,
+      "mean_elapsed_attempted": null,
+      "total_shots_attempted": 0,
+      "tracking_rmse": null,
+      "heldout_tracking_rmse": null,
+      "transaction_cost": null,
+      "two_way_turnover": null,
+      "objective_gap_absolute": null,
+      "elapsed_seconds": null,
+      "total_shots": null
+    }
+  ],
+  "paired_case_differences": [
+    {
+      "start": 100,
+      "family": "unchanged_mandate",
+      "method": "swap_annealing",
+      "mean_objective_difference_vs_fixed": 0.0,
+      "paired_seeds": 2
+    },
+    {
+      "start": 100,
+      "family": "unchanged_mandate",
+      "method": "qaoa_rule",
+      "mean_objective_difference_vs_fixed": 0.0,
+      "paired_seeds": 2
+    },
+    {
+      "start": 100,
+      "family": "unchanged_mandate",
+      "method": "qaoa_random",
+      "mean_objective_difference_vs_fixed": 0.0,
+      "paired_seeds": 2
+    },
+    {
+      "start": 100,
+      "family": "unchanged_mandate",
+      "method": "qaoa_warm_start",
+      "mean_objective_difference_vs_fixed": 0.0,
+      "paired_seeds": 2
+    },
+    {
+      "start": 100,
+      "family": "unchanged_mandate",
+      "method": "qaoa_random_init",
+      "mean_objective_difference_vs_fixed": 1.5834949294139693e-05,
+      "paired_seeds": 2
+    },
+    {
+      "start": 100,
+      "family": "unchanged_mandate",
+      "method": "classical_circuit_search",
+      "mean_objective_difference_vs_fixed": 0.0,
+      "paired_seeds": 2
+    },
+    {
+      "start": 100,
+      "family": "new_exclusion",
+      "method": "swap_annealing",
+      "mean_objective_difference_vs_fixed": 0.0,
+      "paired_seeds": 2
+    },
+    {
+      "start": 100,
+      "family": "new_exclusion",
+      "method": "qaoa_rule",
+      "mean_objective_difference_vs_fixed": 0.0,
+      "paired_seeds": 2
+    },
+    {
+      "start": 100,
+      "family": "new_exclusion",
+      "method": "qaoa_random",
+      "mean_objective_difference_vs_fixed": 0.0,
+      "paired_seeds": 2
+    },
+    {
+      "start": 100,
+      "family": "new_exclusion",
+      "method": "qaoa_warm_start",
+      "mean_objective_difference_vs_fixed": 0.0,
+      "paired_seeds": 2
+    },
+    {
+      "start": 100,
+      "family": "new_exclusion",
+      "method": "qaoa_random_init",
+      "mean_objective_difference_vs_fixed": 6.314292147839534e-06,
+      "paired_seeds": 2
+    },
+    {
+      "start": 100,
+      "family": "new_exclusion",
+      "method": "classical_circuit_search",
+      "mean_objective_difference_vs_fixed": 0.0,
+      "paired_seeds": 2
+    },
+    {
+      "start": 100,
+      "family": "unseen_combination",
+      "method": "swap_annealing",
+      "mean_objective_difference_vs_fixed": 0.0,
+      "paired_seeds": 2
+    },
+    {
+      "start": 100,
+      "family": "unseen_combination",
+      "method": "qaoa_rule",
+      "mean_objective_difference_vs_fixed": 0.0,
+      "paired_seeds": 2
+    },
+    {
+      "start": 100,
+      "family": "unseen_combination",
+      "method": "qaoa_random",
+      "mean_objective_difference_vs_fixed": 0.0,
+      "paired_seeds": 2
+    },
+    {
+      "start": 100,
+      "family": "unseen_combination",
+      "method": "qaoa_warm_start",
+      "mean_objective_difference_vs_fixed": 0.0,
+      "paired_seeds": 2
+    },
+    {
+      "start": 100,
+      "family": "unseen_combination",
+      "method": "qaoa_random_init",
+      "mean_objective_difference_vs_fixed": 1.124934617573666e-05,
+      "paired_seeds": 2
+    },
+    {
+      "start": 100,
+      "family": "unseen_combination",
+      "method": "classical_circuit_search",
+      "mean_objective_difference_vs_fixed": 0.0,
+      "paired_seeds": 2
+    },
+    {
+      "start": 100,
+      "family": "unseen_sector_combination",
+      "method": "swap_annealing",
+      "mean_objective_difference_vs_fixed": 0.0,
+      "paired_seeds": 2
+    },
+    {
+      "start": 100,
+      "family": "unseen_sector_combination",
+      "method": "qaoa_rule",
+      "mean_objective_difference_vs_fixed": 0.0,
+      "paired_seeds": 2
+    },
+    {
+      "start": 100,
+      "family": "unseen_sector_combination",
+      "method": "qaoa_random",
+      "mean_objective_difference_vs_fixed": 0.0,
+      "paired_seeds": 2
+    },
+    {
+      "start": 100,
+      "family": "unseen_sector_combination",
+      "method": "qaoa_warm_start",
+      "mean_objective_difference_vs_fixed": 0.0,
+      "paired_seeds": 2
+    },
+    {
+      "start": 100,
+      "family": "unseen_sector_combination",
+      "method": "qaoa_random_init",
+      "mean_objective_difference_vs_fixed": 5.657424107668054e-06,
+      "paired_seeds": 2
+    },
+    {
+      "start": 100,
+      "family": "unseen_sector_combination",
+      "method": "classical_circuit_search",
+      "mean_objective_difference_vs_fixed": 0.0,
+      "paired_seeds": 2
+    },
+    {
+      "start": 120,
+      "family": "unchanged_mandate",
+      "method": "swap_annealing",
+      "mean_objective_difference_vs_fixed": 0.0,
+      "paired_seeds": 2
+    },
+    {
+      "start": 120,
+      "family": "unchanged_mandate",
+      "method": "qaoa_rule",
+      "mean_objective_difference_vs_fixed": 0.0,
+      "paired_seeds": 2
+    },
+    {
+      "start": 120,
+      "family": "unchanged_mandate",
+      "method": "qaoa_random",
+      "mean_objective_difference_vs_fixed": 0.0,
+      "paired_seeds": 2
+    },
+    {
+      "start": 120,
+      "family": "unchanged_mandate",
+      "method": "qaoa_warm_start",
+      "mean_objective_difference_vs_fixed": 0.0,
+      "paired_seeds": 2
+    },
+    {
+      "start": 120,
+      "family": "unchanged_mandate",
+      "method": "qaoa_random_init",
+      "mean_objective_difference_vs_fixed": 1.5286837237127658e-05,
+      "paired_seeds": 2
+    },
+    {
+      "start": 120,
+      "family": "unchanged_mandate",
+      "method": "classical_circuit_search",
+      "mean_objective_difference_vs_fixed": 0.0,
+      "paired_seeds": 2
+    },
+    {
+      "start": 120,
+      "family": "new_exclusion",
+      "method": "swap_annealing",
+      "mean_objective_difference_vs_fixed": 0.0,
+      "paired_seeds": 2
+    },
+    {
+      "start": 120,
+      "family": "new_exclusion",
+      "method": "qaoa_rule",
+      "mean_objective_difference_vs_fixed": 0.0,
+      "paired_seeds": 2
+    },
+    {
+      "start": 120,
+      "family": "new_exclusion",
+      "method": "qaoa_random",
+      "mean_objective_difference_vs_fixed": 0.0,
+      "paired_seeds": 2
+    },
+    {
+      "start": 120,
+      "family": "new_exclusion",
+      "method": "qaoa_warm_start",
+      "mean_objective_difference_vs_fixed": 0.0,
+      "paired_seeds": 2
+    },
+    {
+      "start": 120,
+      "family": "new_exclusion",
+      "method": "qaoa_random_init",
+      "mean_objective_difference_vs_fixed": 5.943164845854422e-06,
+      "paired_seeds": 2
+    },
+    {
+      "start": 120,
+      "family": "new_exclusion",
+      "method": "classical_circuit_search",
+      "mean_objective_difference_vs_fixed": 0.0,
+      "paired_seeds": 2
+    },
+    {
+      "start": 120,
+      "family": "unseen_combination",
+      "method": "swap_annealing",
+      "mean_objective_difference_vs_fixed": 0.0,
+      "paired_seeds": 2
+    },
+    {
+      "start": 120,
+      "family": "unseen_combination",
+      "method": "qaoa_rule",
+      "mean_objective_difference_vs_fixed": 0.0,
+      "paired_seeds": 2
+    },
+    {
+      "start": 120,
+      "family": "unseen_combination",
+      "method": "qaoa_random",
+      "mean_objective_difference_vs_fixed": 0.0,
+      "paired_seeds": 2
+    },
+    {
+      "start": 120,
+      "family": "unseen_combination",
+      "method": "qaoa_warm_start",
+      "mean_objective_difference_vs_fixed": 0.0,
+      "paired_seeds": 2
+    },
+    {
+      "start": 120,
+      "family": "unseen_combination",
+      "method": "qaoa_random_init",
+      "mean_objective_difference_vs_fixed": 1.3205970434914843e-05,
+      "paired_seeds": 2
+    },
+    {
+      "start": 120,
+      "family": "unseen_combination",
+      "method": "classical_circuit_search",
+      "mean_objective_difference_vs_fixed": 0.0,
+      "paired_seeds": 2
+    },
+    {
+      "start": 120,
+      "family": "unseen_sector_combination",
+      "method": "swap_annealing",
+      "mean_objective_difference_vs_fixed": 0.0,
+      "paired_seeds": 2
+    },
+    {
+      "start": 120,
+      "family": "unseen_sector_combination",
+      "method": "qaoa_rule",
+      "mean_objective_difference_vs_fixed": 0.0,
+      "paired_seeds": 2
+    },
+    {
+      "start": 120,
+      "family": "unseen_sector_combination",
+      "method": "qaoa_random",
+      "mean_objective_difference_vs_fixed": 0.0,
+      "paired_seeds": 2
+    },
+    {
+      "start": 120,
+      "family": "unseen_sector_combination",
+      "method": "qaoa_warm_start",
+      "mean_objective_difference_vs_fixed": 0.0,
+      "paired_seeds": 2
+    },
+    {
+      "start": 120,
+      "family": "unseen_sector_combination",
+      "method": "qaoa_random_init",
+      "mean_objective_difference_vs_fixed": 7.978299226684567e-06,
+      "paired_seeds": 2
+    },
+    {
+      "start": 120,
+      "family": "unseen_sector_combination",
+      "method": "classical_circuit_search",
+      "mean_objective_difference_vs_fixed": 0.0,
+      "paired_seeds": 2
+    }
+  ],
+  "interpretation": "Descriptive benchmark. Conditional means exclude failed solutions; feasibility/failures shown separately. Cases share market windows and are dependent. Seeds are repetitions, not independent financial samples. No significance or live-savings claim."
+}

@@ -1,0 +1,137 @@
+{
+  "protocol_hash": "14453cf00571d959b7e844a9a724bcdac06e1bd3dc37199970810d96baf9ad95",
+  "records": [
+    {
+      "case_id": "new_seed_n4",
+      "family": "new_seed",
+      "variant": "full",
+      "feedback": "full",
+      "status": "no_verified_candidate",
+      "total_shots": 0,
+      "path": "results/synthesis/structural_suite/new_seed_n4/full/full/search.json",
+      "origin": "disabled",
+      "winner": null
+    },
+    {
+      "case_id": "decorrelated_n4",
+      "family": "decorrelated",
+      "variant": "full",
+      "feedback": "full",
+      "status": "no_verified_candidate",
+      "total_shots": 0,
+      "path": "results/synthesis/structural_suite/decorrelated_n4/full/full/search.json",
+      "origin": "disabled",
+      "winner": null
+    },
+    {
+      "case_id": "cluster_shift_n4",
+      "family": "cluster_shift",
+      "variant": "full",
+      "feedback": "full",
+      "status": "no_verified_candidate",
+      "total_shots": 0,
+      "path": "results/synthesis/structural_suite/cluster_shift_n4/full/full/search.json",
+      "origin": "disabled",
+      "winner": null
+    },
+    {
+      "case_id": "unseen_constraints_n4",
+      "family": "unseen_constraints",
+      "variant": "full",
+      "feedback": "full",
+      "status": "no_verified_candidate",
+      "total_shots": 0,
+      "path": "results/synthesis/structural_suite/unseen_constraints_n4/full/full/search.json",
+      "origin": "disabled",
+      "winner": null
+    },
+    {
+      "case_id": "new_seed_n6",
+      "family": "new_seed",
+      "variant": "full",
+      "feedback": "full",
+      "status": "no_verified_candidate",
+      "total_shots": 0,
+      "path": "results/synthesis/structural_suite/new_seed_n6/full/full/search.json",
+      "origin": "disabled",
+      "winner": null
+    },
+    {
+      "case_id": "decorrelated_n6",
+      "family": "decorrelated",
+      "variant": "full",
+      "feedback": "full",
+      "status": "no_verified_candidate",
+      "total_shots": 0,
+      "path": "results/synthesis/structural_suite/decorrelated_n6/full/full/search.json",
+      "origin": "disabled",
+      "winner": null
+    },
+    {
+      "case_id": "cluster_shift_n6",
+      "family": "cluster_shift",
+      "variant": "full",
+      "feedback": "full",
+      "status": "no_verified_candidate",
+      "total_shots": 0,
+      "path": "results/synthesis/structural_suite/cluster_shift_n6/full/full/search.json",
+      "origin": "disabled",
+      "winner": null
+    },
+    {
+      "case_id": "unseen_constraints_n6",
+      "family": "unseen_constraints",
+      "variant": "full",
+      "feedback": "full",
+      "status": "no_verified_candidate",
+      "total_shots": 0,
+      "path": "results/synthesis/structural_suite/unseen_constraints_n6/full/full/search.json",
+      "origin": "disabled",
+      "winner": null
+    },
+    {
+      "case_id": "new_seed_n8",
+      "family": "new_seed",
+      "variant": "full",
+      "feedback": "full",
+      "status": "no_verified_candidate",
+      "total_shots": 0,
+      "path": "results/synthesis/structural_suite/new_seed_n8/full/full/search.json",
+      "origin": "disabled",
+      "winner": null
+    },
+    {
+      "case_id": "decorrelated_n8",
+      "family": "decorrelated",
+      "variant": "full",
+      "feedback": "full",
+      "status": "no_verified_candidate",
+      "total_shots": 0,
+      "path": "results/synthesis/structural_suite/decorrelated_n8/full/full/search.json",
+      "origin": "disabled",
+      "winner": null
+    },
+    {
+      "case_id": "cluster_shift_n8",
+      "family": "cluster_shift",
+      "variant": "full",
+      "feedback": "full",
+      "status": "no_verified_candidate",
+      "total_shots": 0,
+      "path": "results/synthesis/structural_suite/cluster_shift_n8/full/full/search.json",
+      "origin": "disabled",
+      "winner": null
+    },
+    {
+      "case_id": "unseen_constraints_n8",
+      "family": "unseen_constraints",
+      "variant": "full",
+      "feedback": "full",
+      "status": "no_verified_candidate",
+      "total_shots": 0,
+      "path": "results/synthesis/structural_suite/unseen_constraints_n8/full/full/search.json",
+      "origin": "disabled",
+      "winner": null
+    }
+  ]
+}

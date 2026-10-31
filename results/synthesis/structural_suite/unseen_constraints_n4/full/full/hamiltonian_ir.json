@@ -1,0 +1,31 @@
+{
+  "version": "hamiltonian-ir-v1",
+  "problem_hash": "6c1ac22171425a255a59db087fca941b0bc7631e2f1aeae0321e3fec5b0970cf",
+  "encoding": "explicit_diagonal_hard_barrier_not_qubo",
+  "energies": [
+    3.0,
+    2.3706914247796407,
+    2.4049153651991113,
+    2.0,
+    2.4899482184459285,
+    2.1640021052758813,
+    2.2444054430528317,
+    2.1428525399040326,
+    2.4097514452221684,
+    2.2427416829597826,
+    0.14879732319401373,
+    2.206180770952876,
+    2.34812871830676,
+    2.4844814180946866,
+    2.436716455686397,
+    2.797462365495572
+  ],
+  "objective_scale": 0.00010758984364357393,
+  "bit_order": "asset_i_is_bit_i_little_endian",
+  "phase": "exp(-i*gamma*energy)",
+  "hard_barrier": 2.0,
+  "hamiltonian_hash": "cb90d384ede55fa3bfa382fa1fc638f39caf17bdd8a72edc7ff1c15ff41d934c",
+  "construction_seconds": 0.00019691599300131202,
+  "classical_states": 16,
+  "limitation": "Exponential classical table construction; no speedup or scalable hardware claim."
+}

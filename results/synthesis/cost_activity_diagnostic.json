@@ -1,0 +1,53 @@
+{
+  "purpose": "mechanism_diagnostic_not_financial_advantage",
+  "rows": [
+    {
+      "case_id": "n4",
+      "basis_initialization": true,
+      "active_parameters": 1,
+      "inactive_parameters": [
+        "gamma_0"
+      ],
+      "tv_when_only_gamma_changes": 0.0
+    },
+    {
+      "case_id": "n4",
+      "basis_initialization": false,
+      "active_parameters": 2,
+      "inactive_parameters": [],
+      "tv_when_only_gamma_changes": 0.013749791450718609
+    },
+    {
+      "case_id": "n6",
+      "basis_initialization": true,
+      "active_parameters": 1,
+      "inactive_parameters": [
+        "gamma_0"
+      ],
+      "tv_when_only_gamma_changes": 2.862768073812194e-16
+    },
+    {
+      "case_id": "n6",
+      "basis_initialization": false,
+      "active_parameters": 2,
+      "inactive_parameters": [],
+      "tv_when_only_gamma_changes": 0.4794284106053397
+    },
+    {
+      "case_id": "n8",
+      "basis_initialization": true,
+      "active_parameters": 1,
+      "inactive_parameters": [
+        "gamma_0"
+      ],
+      "tv_when_only_gamma_changes": 3.331719394730065e-16
+    },
+    {
+      "case_id": "n8",
+      "basis_initialization": false,
+      "active_parameters": 2,
+      "inactive_parameters": [],
+      "tv_when_only_gamma_changes": 0.18652835023320652
+    }
+  ]
+}

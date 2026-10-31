@@ -1,0 +1,358 @@
+{
+  "version": "live-evidence-v2",
+  "model_summary": [
+    {
+      "model": "coder30",
+      "first_valid_rate": 0.6666666666666666,
+      "valid_instance_rate": 0.6666666666666666,
+      "first_valid_wilson95": [
+        0.2076596008020477,
+        0.9385080552796037
+      ],
+      "valid_instance_wilson95": [
+        0.2076596008020477,
+        0.9385080552796037
+      ],
+      "median_feasible_probability": 1.0,
+      "median_normalized_gap": 0.009770046584178396,
+      "gates": {
+        "G1_first_valid": false,
+        "G1_repaired_instances": false,
+        "G2_feasibility": true,
+        "G2_quality": true
+      },
+      "sample_sufficient_for_qualification": false,
+      "qualified": false,
+      "interpretation": "Project targets, not paper-reported thresholds. Small pilot is diagnostic only; Wilson intervals assume Bernoulli cases and are descriptive for these heterogeneous tasks.",
+      "input_tokens": 17722,
+      "output_tokens": 851,
+      "inference_batch_seconds": 121.55773616599618
+    },
+    {
+      "model": "next80",
+      "first_valid_rate": 0.6666666666666666,
+      "valid_instance_rate": 0.6666666666666666,
+      "first_valid_wilson95": [
+        0.2076596008020477,
+        0.9385080552796037
+      ],
+      "valid_instance_wilson95": [
+        0.2076596008020477,
+        0.9385080552796037
+      ],
+      "median_feasible_probability": 1.0,
+      "median_normalized_gap": 0.009770046584178396,
+      "gates": {
+        "G1_first_valid": false,
+        "G1_repaired_instances": false,
+        "G2_feasibility": true,
+        "G2_quality": true
+      },
+      "sample_sufficient_for_qualification": false,
+      "qualified": false,
+      "interpretation": "Project targets, not paper-reported thresholds. Small pilot is diagnostic only; Wilson intervals assume Bernoulli cases and are descriptive for these heterogeneous tasks.",
+      "input_tokens": 17722,
+      "output_tokens": 826,
+      "inference_batch_seconds": 210.77195533298072
+    }
+  ],
+  "rows": [
+    {
+      "method": "coder30",
+      "case_id": "n4",
+      "valid": true,
+      "feasibility": 1.0,
+      "normalized_gap": 0.0,
+      "probability_optimal": 0.8225054896726606,
+      "probability_near_optimal_5pct": 0.8225054896726606,
+      "encoded_energy_expectation": 0.034381832050792795,
+      "cx": 30,
+      "active_parameters": 3,
+      "declared_parameters": 3,
+      "errors": []
+    },
+    {
+      "method": "coder30",
+      "case_id": "n6",
+      "valid": true,
+      "feasibility": 1.0,
+      "normalized_gap": 0.009770046584178396,
+      "probability_optimal": 0.0,
+      "probability_near_optimal_5pct": 0.8703154613496976,
+      "encoded_energy_expectation": 0.13485460093272075,
+      "cx": 86,
+      "active_parameters": 3,
+      "declared_parameters": 3,
+      "errors": []
+    },
+    {
+      "method": "coder30",
+      "case_id": "n8",
+      "valid": false,
+      "feasibility": 0.0,
+      "normalized_gap": null,
+      "probability_optimal": null,
+      "probability_near_optimal_5pct": null,
+      "encoded_energy_expectation": null,
+      "cx": null,
+      "active_parameters": null,
+      "declared_parameters": null,
+      "errors": [
+        {
+          "code": "typed_program",
+          "message": "Mixer graph is disconnected on free qubits."
+        }
+      ]
+    },
+    {
+      "method": "next80",
+      "case_id": "n4",
+      "valid": true,
+      "feasibility": 1.0,
+      "normalized_gap": 0.0,
+      "probability_optimal": 0.804238660140189,
+      "probability_near_optimal_5pct": 0.804238660140189,
+      "encoded_energy_expectation": 0.04098392183727201,
+      "cx": 34,
+      "active_parameters": 3,
+      "declared_parameters": 3,
+      "errors": []
+    },
+    {
+      "method": "next80",
+      "case_id": "n6",
+      "valid": true,
+      "feasibility": 1.0,
+      "normalized_gap": 0.009770046584178396,
+      "probability_optimal": 5.02046804292498e-05,
+      "probability_near_optimal_5pct": 0.868499237912941,
+      "encoded_energy_expectation": 0.130015862135001,
+      "cx": 86,
+      "active_parameters": 3,
+      "declared_parameters": 3,
+      "errors": []
+    },
+    {
+      "method": "next80",
+      "case_id": "n8",
+      "valid": false,
+      "feasibility": 0.0,
+      "normalized_gap": null,
+      "probability_optimal": null,
+      "probability_near_optimal_5pct": null,
+      "encoded_energy_expectation": null,
+      "cx": null,
+      "active_parameters": null,
+      "declared_parameters": null,
+      "errors": [
+        {
+          "code": "typed_program",
+          "message": "Mixer graph is disconnected on free qubits."
+        }
+      ]
+    },
+    {
+      "method": "fixed_path",
+      "case_id": "n4",
+      "valid": true,
+      "feasibility": 1.0,
+      "normalized_gap": 0.0,
+      "probability_optimal": 0.866806088403345,
+      "probability_near_optimal_5pct": 0.866806088403345,
+      "encoded_energy_expectation": 0.02761009469073668,
+      "cx": 30,
+      "active_parameters": 2,
+      "declared_parameters": 2
+    },
+    {
+      "method": "correlation_path",
+      "case_id": "n4",
+      "valid": true,
+      "feasibility": 1.0,
+      "normalized_gap": 0.0,
+      "probability_optimal": 0.8655456119997774,
+      "probability_near_optimal_5pct": 0.8655456119997774,
+      "encoded_energy_expectation": 0.027805190253175918,
+      "cx": 30,
+      "active_parameters": 2,
+      "declared_parameters": 2
+    },
+    {
+      "method": "random_path",
+      "case_id": "n4",
+      "valid": true,
+      "feasibility": 1.0,
+      "normalized_gap": 0.0,
+      "probability_optimal": 0.8673879848741196,
+      "probability_near_optimal_5pct": 0.8673879848741196,
+      "encoded_energy_expectation": 0.02762644062968922,
+      "cx": 30,
+      "active_parameters": 2,
+      "declared_parameters": 2
+    },
+    {
+      "method": "fixed_path",
+      "case_id": "n6",
+      "valid": true,
+      "feasibility": 1.0,
+      "normalized_gap": 3.564519653744856e-16,
+      "probability_optimal": 0.9079994453298398,
+      "probability_near_optimal_5pct": 0.9936781809428303,
+      "encoded_energy_expectation": 0.10969270114683771,
+      "cx": 82,
+      "active_parameters": 2,
+      "declared_parameters": 2
+    },
+    {
+      "method": "correlation_path",
+      "case_id": "n6",
+      "valid": true,
+      "feasibility": 1.0,
+      "normalized_gap": 0.009770046584178396,
+      "probability_optimal": 0.000497895216719013,
+      "probability_near_optimal_5pct": 0.9224431437030806,
+      "encoded_energy_expectation": 0.12249473967139721,
+      "cx": 82,
+      "active_parameters": 2,
+      "declared_parameters": 2
+    },
+    {
+      "method": "random_path",
+      "case_id": "n6",
+      "valid": true,
+      "feasibility": 1.0,
+      "normalized_gap": 3.564519653744856e-16,
+      "probability_optimal": 0.0681979291604443,
+      "probability_near_optimal_5pct": 0.9746492375976737,
+      "encoded_energy_expectation": 0.11573656370518996,
+      "cx": 82,
+      "active_parameters": 2,
+      "declared_parameters": 2
+    },
+    {
+      "method": "fixed_path",
+      "case_id": "n8",
+      "valid": true,
+      "feasibility": 1.0,
+      "normalized_gap": 4.01162707287737e-16,
+      "probability_optimal": 0.8711026463223714,
+      "probability_near_optimal_5pct": 0.8716111442444567,
+      "encoded_energy_expectation": 0.0637540359235082,
+      "cx": 282,
+      "active_parameters": 2,
+      "declared_parameters": 2
+    },
+    {
+      "method": "correlation_path",
+      "case_id": "n8",
+      "valid": true,
+      "feasibility": 1.0,
+      "normalized_gap": 0.0741748741500524,
+      "probability_optimal": 0.0014409503272346295,
+      "probability_near_optimal_5pct": 0.0028771113137438476,
+      "encoded_energy_expectation": 0.10434253849769817,
+      "cx": 282,
+      "active_parameters": 2,
+      "declared_parameters": 2
+    },
+    {
+      "method": "random_path",
+      "case_id": "n8",
+      "valid": true,
+      "feasibility": 1.0,
+      "normalized_gap": 4.01162707287737e-16,
+      "probability_optimal": 0.05961880001395032,
+      "probability_near_optimal_5pct": 0.05961880001395032,
+      "encoded_energy_expectation": 0.09909246514015514,
+      "cx": 282,
+      "active_parameters": 2,
+      "declared_parameters": 2
+    }
+  ],
+  "uniform_diagnostic": [
+    {
+      "case_id": "n4",
+      "feasible_states": 6,
+      "probability_optimal": 0.16666666666666666,
+      "best_of_128_hits_optimum_probability": 0.9999999999267511,
+      "normalized_expected_gap": 0.47353191859011534,
+      "role": "enumerated_uniform_feasible_distribution_diagnostic_not_paid_search"
+    },
+    {
+      "case_id": "n6",
+      "feasible_states": 10,
+      "probability_optimal": 0.1,
+      "best_of_128_hits_optimum_probability": 0.9999986099154762,
+      "normalized_expected_gap": 0.4371358442174375,
+      "role": "enumerated_uniform_feasible_distribution_diagnostic_not_paid_search"
+    },
+    {
+      "case_id": "n8",
+      "feasible_states": 35,
+      "probability_optimal": 0.02857142857142857,
+      "best_of_128_hits_optimum_probability": 0.9755323812616746,
+      "normalized_expected_gap": 0.45307886677669984,
+      "role": "enumerated_uniform_feasible_distribution_diagnostic_not_paid_search"
+    }
+  ],
+  "paired_comparisons": [
+    {
+      "model": "coder30",
+      "case_id": "n4",
+      "reference": "fixed_path",
+      "relative_cx_reduction": 0.0,
+      "relative_gap_improvement": null,
+      "G3_case_met": false,
+      "selection_rule": "strongest pilot baseline by feasibility, best gap, CX; not a claim against ADAPT or exhaustive search"
+    },
+    {
+      "model": "coder30",
+      "case_id": "n6",
+      "reference": "fixed_path",
+      "relative_cx_reduction": -0.04878048780487805,
+      "relative_gap_improvement": null,
+      "G3_case_met": false,
+      "selection_rule": "strongest pilot baseline by feasibility, best gap, CX; not a claim against ADAPT or exhaustive search"
+    },
+    {
+      "model": "coder30",
+      "case_id": "n8",
+      "reference": "fixed_path",
+      "relative_cx_reduction": null,
+      "relative_gap_improvement": null,
+      "G3_case_met": false,
+      "selection_rule": "strongest pilot baseline by feasibility, best gap, CX; not a claim against ADAPT or exhaustive search"
+    },
+    {
+      "model": "next80",
+      "case_id": "n4",
+      "reference": "fixed_path",
+      "relative_cx_reduction": -0.13333333333333333,
+      "relative_gap_improvement": null,
+      "G3_case_met": false,
+      "selection_rule": "strongest pilot baseline by feasibility, best gap, CX; not a claim against ADAPT or exhaustive search"
+    },
+    {
+      "model": "next80",
+      "case_id": "n6",
+      "reference": "fixed_path",
+      "relative_cx_reduction": -0.04878048780487805,
+      "relative_gap_improvement": null,
+      "G3_case_met": false,
+      "selection_rule": "strongest pilot baseline by feasibility, best gap, CX; not a claim against ADAPT or exhaustive search"
+    },
+    {
+      "model": "next80",
+      "case_id": "n8",
+      "reference": "fixed_path",
+      "relative_cx_reduction": null,
+      "relative_gap_improvement": null,
+      "G3_case_met": false,
+      "selection_rule": "strongest pilot baseline by feasibility, best gap, CX; not a claim against ADAPT or exhaustive search"
+    }
+  ],
+  "reserved_usd_total": 23.91,
+  "qualified": false,
+  "holdout": false,
+  "quantum_advantage": false
+}

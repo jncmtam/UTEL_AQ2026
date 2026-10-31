@@ -1,0 +1,45 @@
+{
+  "version": "typed-exchange-v2",
+  "preparation_edge": "e3_5",
+  "mixer": [
+    {
+      "edge": "e1_2",
+      "group": 0
+    },
+    {
+      "edge": "e2_3",
+      "group": 0
+    },
+    {
+      "edge": "e4_5",
+      "group": 1
+    },
+    {
+      "edge": "e1_3",
+      "group": 0
+    },
+    {
+      "edge": "e2_4",
+      "group": 1
+    }
+  ],
+  "rationale": [
+    {
+      "feature_ids": [
+        "CORRELATION",
+        "CLUSTERS",
+        "OBJECTIVE_TERMS",
+        "INCUMBENT"
+      ],
+      "decision": "Edge e3_5 selected for preparation because assets 3 and 5 have high correlation (0.7325) and strong positive J_3_5 coefficient (2.067e-05), aligning with incumbent weights (nonzero for 3, zero for 5) to reduce turnover-induced cost bias. Mixer edges e1_2, e2_3, e1_3 form a connected subgraph over {1"
+    },
+    {
+      "feature_ids": [
+        "CORRELATION",
+        "SPECTRUM",
+        "STABILITY"
+      ],
+      "decision": "Edges e4_5 and e2_4 connect high-correlation pairs (4-5: 0.6963, 2-4: 0.5933) while preserving sparsity and enabling two beta groups to modulate mixing strength across spectral regimes (eigenvalue spread suggests two dominant modes)."
+    }
+  ]
+}

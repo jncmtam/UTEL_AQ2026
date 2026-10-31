@@ -1,0 +1,11 @@
+{
+  "job_id": "cbe95515753c43fa8e2d95c407e8c084",
+  "model": "next80",
+  "function_call_id": "fc-01M68AX6C861XWS69021CFPHBY",
+  "request_hashes": [
+    "fbe4fa2408db4592500fe5a99071dbcee35771a98f9d4fc2cd027d0c3f69bfb0",
+    "018792f3b0471a85f551357c27727b4cf29c7a8ac74102ca54c1ab787eda428a",
+    "c67abc4ffcdd8e3eb891fb6d0fb34b7f736c4ec3c3eaa245f62d59643a8c195a"
+  ],
+  "reserved_usd": 3.06
+}

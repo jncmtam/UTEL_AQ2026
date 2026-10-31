@@ -1,0 +1,169 @@
+{
+  "version": "gate-search-v1",
+  "definition": {
+    "version": "gate-search-v1",
+    "problem_hash": "067b7740fafc91704e30c6d81def98ea77e7b1d30ad60b4333b205eacec94d4c",
+    "hamiltonian_hash": "cf90fa4b9b4ac4634c317ab2baf2cfbb8c26584c162e63b260b240f016d3126f",
+    "config": {
+      "initial_proposals": 4,
+      "repair_rounds": 0,
+      "proposals_per_repair": 2,
+      "screen_evaluations": 8,
+      "screen_shots": 64,
+      "final_evaluations": 24,
+      "final_shots": 128,
+      "finalists": 2,
+      "seed": 11,
+      "max_tokens": 4096
+    },
+    "ablation": "full",
+    "feedback_level": "full",
+    "origin": "disabled",
+    "data_profile_hash": "06015ecb95fb14c33a8ea13b82db2a1aa28953dfd1dd4130d7883fe25f051559"
+  },
+  "status": "no_verified_candidate",
+  "winner_id": null,
+  "candidates": [
+    {
+      "id": "r0_c0",
+      "round": 0,
+      "inference": {
+        "status": "not_run",
+        "reason": "No live LLM invocation; no fabricated gate output.",
+        "request_hash": "3f5331aa83107baea7e24f4b188c4bfc47c019f10cc70b40e882acb22aa9c0be"
+      },
+      "origin": "not_run",
+      "verification": {
+        "valid": false,
+        "errors": [
+          {
+            "code": "not_run",
+            "message": "No live LLM invocation; no fabricated gate output."
+          }
+        ]
+      }
+    },
+    {
+      "id": "r0_c1",
+      "round": 0,
+      "inference": {
+        "status": "not_run",
+        "reason": "No live LLM invocation; no fabricated gate output.",
+        "request_hash": "0714f42277cf7a5b8b0d34a28e5820410fb016c092a22dec1cd7d67c891f7a64"
+      },
+      "origin": "not_run",
+      "verification": {
+        "valid": false,
+        "errors": [
+          {
+            "code": "not_run",
+            "message": "No live LLM invocation; no fabricated gate output."
+          }
+        ]
+      }
+    },
+    {
+      "id": "r0_c2",
+      "round": 0,
+      "inference": {
+        "status": "not_run",
+        "reason": "No live LLM invocation; no fabricated gate output.",
+        "request_hash": "2441b9efa0dd478584a256ec53900d60ee91b98a473182c1052bc034188b0920"
+      },
+      "origin": "not_run",
+      "verification": {
+        "valid": false,
+        "errors": [
+          {
+            "code": "not_run",
+            "message": "No live LLM invocation; no fabricated gate output."
+          }
+        ]
+      }
+    },
+    {
+      "id": "r0_c3",
+      "round": 0,
+      "inference": {
+        "status": "not_run",
+        "reason": "No live LLM invocation; no fabricated gate output.",
+        "request_hash": "efc0df1b19a3b3c952fe615f7a459b82c747a1de276192249ef5034e50675669"
+      },
+      "origin": "not_run",
+      "verification": {
+        "valid": false,
+        "errors": [
+          {
+            "code": "not_run",
+            "message": "No live LLM invocation; no fabricated gate output."
+          }
+        ]
+      }
+    }
+  ],
+  "exact_reference": {
+    "method": "exact",
+    "status": "optimal",
+    "bits": [
+      1,
+      1,
+      1,
+      0,
+      0,
+      0
+    ],
+    "feasible": true,
+    "violations": {},
+    "tracking_mse": 1.2737935004318021e-05,
+    "tracking_rmse": 0.0035690243770977554,
+    "tracking_error_per_period": 0.0034404367932743163,
+    "two_way_turnover": 0.0057805259571163115,
+    "transaction_cost": 1.4451314892790778e-05,
+    "objective": 1.288244815324593e-05,
+    "number_of_trades": 3,
+    "problem_hash": "067b7740fafc91704e30c6d81def98ea77e7b1d30ad60b4333b205eacec94d4c",
+    "elapsed_seconds": 0.0007994589977897704,
+    "fallback_used": false,
+    "evaluations": 20,
+    "lower_bound": 1.288244815324593e-05
+  },
+  "milp_reference": {
+    "method": "milp_highs",
+    "status": "optimal",
+    "bits": [
+      1,
+      1,
+      1,
+      0,
+      0,
+      0
+    ],
+    "feasible": true,
+    "violations": {},
+    "tracking_mse": 1.2737935004318021e-05,
+    "tracking_rmse": 0.0035690243770977554,
+    "tracking_error_per_period": 0.0034404367932743163,
+    "two_way_turnover": 0.0057805259571163115,
+    "transaction_cost": 1.4451314892790778e-05,
+    "objective": 1.288244815324593e-05,
+    "number_of_trades": 3,
+    "problem_hash": "067b7740fafc91704e30c6d81def98ea77e7b1d30ad60b4333b205eacec94d4c",
+    "elapsed_seconds": 0.008843000017805025,
+    "fallback_used": false,
+    "lower_bound": 1.2882448153245907e-05,
+    "mip_gap": 0.0,
+    "solver_message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+    "formulation": "exact_binary_pair_linearization"
+  },
+  "total_shots": 0,
+  "shot_budget_cap": 8704,
+  "oracle_classical_states": 64,
+  "oracle_construction_seconds": 0.0005427910073194653,
+  "elapsed_seconds": 0.015326708991779014,
+  "charged_recorded_inference_seconds": 0,
+  "claims": {
+    "model_qualified": false,
+    "quantum_advantage": "not_established",
+    "note": "One search is not model qualification; oracle construction remains exponential."
+  }
+}

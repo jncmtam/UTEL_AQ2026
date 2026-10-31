@@ -1,0 +1,12 @@
+{
+  "parameters": [
+    "beta_0",
+    "gamma_0",
+    "beta_1",
+    "gamma_1"
+  ],
+  "cx": 60,
+  "depth": 80,
+  "cost_lowering": "exact_commuting_Z_strings_from_Walsh_transform",
+  "note": "Symbolic decomposition may be larger than optimized bound DiagonalGate; both counts are explicit."
+}
