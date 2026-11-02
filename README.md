@@ -1,3 +1,5 @@
+> **Current research-first review (2026-11-02):** Start with [the research worklog](docs/research/WORKLOG.md), [published evidence](docs/research/EVIDENCE_REVIEW.md), [dataset suitability](docs/research/DATA_SUITABILITY.md), and [technical decisions](docs/research/TECHNICAL_DECISIONS.md). Model selection and financial claims remain open. The content below includes legacy project history.
+
 # AGQO — Hướng dẫn đọc dự án từ bài toán đến kết quả
 
 > **Nghiên cứu và tiến độ mới nhất:** [paper LLM sinh mạch + portfolio](docs/LLM_QUANTUM_FINANCE_LITERATURE.md), [tiến độ thực tế](docs/PROJECT_STATUS.md), [đặc tả kết quả](docs/RESULTS_SPEC.md). QGAS đã nghiên cứu giao điểm này từ 2023; QUASAR là đối chứng quantum specialist cần bổ sung. Các worker 480B/397B mới được deploy, chưa có kết quả inference để chọn winner.
