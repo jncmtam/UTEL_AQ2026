@@ -1,0 +1,28 @@
+{
+  "source_indices": [
+    33,
+    77,
+    103,
+    187,
+    194,
+    219,
+    232,
+    261,
+    264,
+    373
+  ],
+  "source_labels": [
+    "APA UN Equity",
+    "CLX UN Equity",
+    "DE UN Equity",
+    "INTC UW Equity",
+    "IVZ UN Equity",
+    "LOW UN Equity",
+    "MJN UN Equity",
+    "OI UN Equity",
+    "OXY UN Equity",
+    "WU UN Equity"
+  ],
+  "problem_hash": "9fc0d9d043184b80e861660591ad019e3783d4e21ff7b318de398905ec9a598f",
+  "all_cardinality_supports": 120
+}

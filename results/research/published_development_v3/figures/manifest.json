@@ -1,0 +1,14 @@
+{
+  "scope": "Derived opened-development figures, no new inference or scoring.",
+  "source_hashes": {
+    "protocol.json": "b309cf78a75ab121645ee9cb12bb4efbb1d6ae9806cd8743c7032c5d075b781a",
+    "decisions.jsonl": "fc99f43e745d97f23f7e79b79060faaf77816f9b174e165959bbf5c7dcb6c4d1",
+    "postrun_analysis/analysis.json": "afe7e8dddc1880ad004d5efa835b9a313285670f0c8b951ffefcc1b7ee20e3f8"
+  },
+  "script_sha256": "b2cf24a2eb9560950611066e0cae899be142bf8343d367d5c0589436ab5d1c4e",
+  "figures": [
+    "allocated-objective.png",
+    "support-coverage.png",
+    "proxy-faithfulness.png"
+  ]
+}

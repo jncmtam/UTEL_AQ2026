@@ -36,7 +36,9 @@ for the next action. Update this file and the worklog after meaningful changes.
   zero tasks after the bounded probe. Do not relaunch a completed probe by default.
 
 ## Verified current evidence — do not repeat unnecessarily
-- All 112 tests passed; static F checks passed; English UI/API integration checked.
+- All 120 tests passed; static F checks passed; English UI/API and Chrome
+  desktop/mobile visual checks completed. Final evidence: ui_qa_v4 (stale synthetic
+  evidence is cleared after a blocked market request).
 - delivery_pipeline_v1 completed software stages with explicit market data blockers;
   contains full JSON/CSV/circuit/Markdown artifact contract and diagnostic figures.
 - delivery_structural_v1: 15 accepted controls (12 circuits + 3 classical uniform
@@ -53,12 +55,26 @@ for the next action. Update this file and the worklog after meaningful changes.
   128 uniform feasible draws on the old N=8 case already find optimum ~97.6%.
 - The older interrupted 80B batch was cancelled by user steering; it is NOT model
   incapability evidence. The earlier 30B v3 batch remains exploratory only.
+- published_development_v3 is the canonical conditional US study: pinned author's
+  2010 corpus, 386 securities ×252 dated returns. Full-year membership selection
+  means algorithm scope only, not unbiased investment evidence. Raw stays local.
+  All 18 rows feasible; N30/K6 represents all 593,775 supports with no LLM filtering.
+- That N30 case: fixed/rules/random meaningful-probability supports 21/273/1,446;
+  all three worse than uniform on allocated training objective. Exact proxy-optimum
+  allocation is ~13.92% worse than the 15-second SCIP incumbent. SCIP gap ~32.18%;
+  global optimum unknown. Do not start a larger model sweep to hide these defects.
+- quasar_native_diagnostics_v1: normalization-only unitary diagnostics still fail,
+  Bell fidelity .4956 and cost .5163. Frozen probe score remains 1/3. No new GPU job.
 
 ## Implemented modules (read only the relevant one)
 - finance.py: immutable FinancialSpec; CLARABEL allocator; SCIP full reference;
   proxy distortion; mandate diagnosis; self-financing Account.
 - quantum.py: direct Ising+slack; certified zero-penalty omission; independent
   NumPy/Qiskit verifier; finite-shot fitting; QASM/QPY/source-map export.
+- symmetry.py: exact fixed-cardinality/slack executor, crosschecked on small cases.
+  sources.py archives source bytes/package versions for new published experiments.
+- published.py/published_study.py: pinned source decoding and bounded CPU study;
+  CLI published-fetch/published-study. Install optional .[published-data].
 - design.py: connected tree exchange grammar, LLM requests, rules/random/mutation.
 - baselines.py: full/subspace encoding, dense Dicke reference, gradient adaptation.
 - runner.py: frozen structural comparison, feedback/profile ablations, common
@@ -80,8 +96,14 @@ for the next action. Update this file and the worklog after meaningful changes.
 - Basis+p=1 can make gamma inactive. Do not claim cost learning in that case.
 - Dicke baseline is dense small synthesis, not the O(kn) cited construction.
 - Gradient baseline is ADAPT-inspired, not a full paper replication; count gradients.
-- Cost compilation is polynomial; simulator still exponential and capped at 16
-  total qubits, GateIR at 12 asset qubits. Compilation is not N=30 execution.
+- Cost compilation is polynomial. Full statevector remains capped at 16 total
+  qubits; GateIR v1 remains max12 assets. V2 allows max40 assets with a <=2m-state
+  conserved simulator, including slack. This was executed at N30/K6, but remains
+  exponential classical simulation. Large verification uses an analytic certificate
+  and the small-crosschecked executor; no full Qiskit N30 statevector check claimed.
+- Heuristic/QAOA decision status is feasible; conditional allocation_status may
+  be optimal. Only a joint certificate supports global optimality. Trajectory v2
+  applies the same 32-query sample allocator as structural/published experiments.
 - True hold never trades to yesterday's weights. Mandate changes persist.
 - Corporate actions must not be counted twice in adjusted-total-return mode.
 - Blocked/failed/interrupted/unknown are distinct; no silent classical fallback.
@@ -96,6 +118,14 @@ for the next action. Update this file and the worklog after meaningful changes.
   covariance participation ratio ~5.200. No hardship/speedup inference from that.
 - After data admission: financial proxy-faithfulness and classical difficulty,
   then independently powered frozen model/circuit/financial studies.
+- Current source/proxy/coverage findings and next gates are consolidated in
+  docs/research/COMPLETION_REPORT.md. Read that before another model experiment.
+- COMPLETION_PROTOCOL.md preregistered this continuation. DATA_RECONCILIATION.md
+  explains DIA October-2013 anchors and the UTX/RTX mapping limit. SEC direct access
+  returned403; no full source download hash or exact acceptance time invented.
+- Source snapshots in published_development_v3 preserve the actual run code;
+  v1/v2 intermediate results remain exploratory. Current UI/status fixes postdate
+  that snapshot. Source-snapshot overlay supports exact scientific reruns.
 - Read docs/research/WORKLOG.md for chronological facts; EVIDENCE_REVIEW.md for 13
   sources/revisions; DATA_SUITABILITY.md for data interpretation; TECHNICAL_DECISIONS.md
   and IMPLEMENTATION_PROTOCOL.md for the rationale. Active guide: docs/USER_GUIDE.md.

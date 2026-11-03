@@ -15,6 +15,87 @@ from agqo.research.design import baseline, lower
 from agqo.research.data import candidate, audit
 
 
+def test_large_designer_projection_retains_compiler_objective_and_ablation():
+    from agqo.research.design import request
+
+    p = fixture(30)
+    h = compile_cost(p, constrained_subspace=True)
+    before = json.dumps(h, sort_keys=True)
+    payload = request(p, h)["payload"]
+    assert "correlation" not in payload["data_profile"]
+    assert "strong_pairs" in payload["data_profile"]
+    assert payload["data_profile"]["projection"][
+        "all_coefficients_retained_by_compiler"
+    ]
+    assert len(payload["hamiltonian"]["largest_quadratic_zz"]) == 24
+    assert payload["hamiltonian"]["hamiltonian_hash"] == h["hamiltonian_hash"]
+    assert json.dumps(h, sort_keys=True) == before
+    ablated = request(p, h, ablation="constraints_only")["payload"]
+    assert "largest_objective_terms" not in ablated["data_profile"]
+    assert "largest_quadratic_zz" not in ablated["hamiltonian"]
+
+
+def test_conditional_path_executes_after_first_return_and_never_resets():
+    from agqo.research.published_study import conditional_path
+
+    p = replace(fixture(), cost_rate=0)
+    target = np.array([0, 0, 0, 0.5, 0.5, 0])
+    test_returns = np.zeros((3, 6))
+    test_returns[0, :3] = 0.1  # Existing holdings earn this before the order.
+    test_returns[1:, 3] = 0.1
+    result = conditional_path(p, target, test_returns, np.zeros(3))
+    assert result["net_return"] == pytest.approx(1.1 * (0.5 * 1.1**2 + 0.5) - 1)
+    assert result["final_weights"][3] == pytest.approx(1.1**2 / (1.1**2 + 1))
+    assert result["fees_paid_dollars"] == 0
+    with_costs = conditional_path(
+        replace(p, cost_rate=0.0005), target, test_returns, np.zeros(3)
+    )
+    assert with_costs["fees_paid_dollars"] > 0
+    assert with_costs["net_return"] < result["net_return"]
+
+
+def test_published_family_does_not_depend_on_return_values():
+    from agqo.research.published import family_indices
+
+    labels = [f"SECURITY{i}" for i in range(386)]
+    first = family_indices(labels, 10)
+    assert set(first) <= set(family_indices(labels, 30))
+    reverse = list(reversed(labels))
+    assert {labels[i] for i in first} == {
+        reverse[i] for i in family_indices(reverse, 10)
+    }
+    with pytest.raises(ValueError):
+        family_indices(labels, 400)
+
+
+def test_native_diagnostic_never_admits_mid_circuit_measurement():
+    from agqo.research.probe import diagnose_native
+
+    prefix = '<think>\n</think>\nOPENQASM 3.0;\ninclude "stdgates.inc";\nbit[2] c;\nqubit[2] q;\n'
+    terminal = diagnose_native(
+        prefix + "h q[0];\ncx q[0], q[1];\nc[0] = measure q[0];", "bell"
+    )
+    assert terminal["unitary_diagnostic"]["valid"]
+    assert terminal["original_score_unchanged"]
+    middle = diagnose_native(
+        prefix + "h q[0];\nc[0] = measure q[0];\ncx q[0], q[1];", "bell"
+    )
+    assert not middle["unitary_diagnostic"]["valid"]
+
+
+def test_repair_seed_exits_excluded_stock_and_does_not_claim_global_optimality():
+    from agqo.research.workflow import swap_allocate, solve_decision
+
+    p = replace(fixture(), exclude=("S0",))
+    repaired = swap_allocate(p, budget=4)
+    assert repaired["feasible"] and repaired["support"][0] == 0
+    assert repaired["status"] == "feasible"
+    qaoa = solve_decision(p, "qaoa_fixed", evaluations=4, shots=32)
+    assert qaoa["feasible"] and qaoa["status"] == "feasible"
+    assert qaoa["allocation_status"] == "optimal"
+    assert 0 < qaoa["allocation_queries"] <= 32
+
+
 def fixture(n=6):
     rng = np.random.default_rng(12)
     r = rng.normal(0, 0.01, (80, n))
@@ -333,3 +414,50 @@ def test_modal_prefetch_budget_failure_is_recorded_without_dispatch(
     assert records[0]["status"] == "blocked"
     assert records[0]["execution"] == "not_dispatched"
     assert (tmp_path / "preflight_failures.jsonl").exists()
+
+
+def test_conserved_executor_matches_full_register_including_slack_and_frozen():
+    from agqo.research.symmetry import ConservedBasis
+    from agqo.research.quantum import execute
+
+    p = replace(fixture(), include=("S0",), exclude=("S5",))
+    h = compile_cost(p, True)
+    ir = lower(baseline(p), p, h)
+    basis = ConservedBasis(p, h)
+    for seed in (2, 7, 19):
+        angles = np.random.default_rng(seed).normal(size=len(ir["parameters"]))
+        compressed = basis.execute(ir, h, angles)
+        full = execute(ir, h, angles)
+        embedded = np.zeros_like(full)
+        embedded[basis.indices] = compressed
+        assert abs(np.vdot(full, embedded)) ** 2 == pytest.approx(1, abs=1e-10)
+    broken = json.loads(json.dumps(ir))
+    broken["layers"][0]["mixer"].pop(1)
+    with pytest.raises(ValueError):
+        basis.execute(broken, h, angles)
+
+
+def test_full_thirty_asset_register_uses_all_cardinality_supports():
+    from math import comb
+
+    p = replace(fixture(30), sector_count_caps={}, sector_weight_caps={})
+    h = compile_cost(p, True)
+    ir = lower(baseline(p), p, h)
+    assert ir["version"] == "gate-ir-v2"
+    verification = verify(ir, p, h)
+    assert verification["valid"], verification
+    assert verification["simulation_states"] == comb(30, 3)
+    from agqo.research.quantum import evaluate
+
+    result = evaluate(ir, p, h, evaluations=4, shots=32)
+    assert result["diagnostic_supports_scored"] == comb(30, 3)
+    assert result["simulation_states"] == comb(30, 3)
+    assert result["execution"] == "ideal_cpu_conserved_subspace"
+
+
+def test_conserved_memory_cap_applies_before_allocating_state():
+    from agqo.research.symmetry import ConservedBasis
+
+    p = replace(fixture(30), k=15, sector_count_caps={})
+    with pytest.raises(ValueError, match="cap="):
+        ConservedBasis(p, compile_cost(p, True), max_states=1000)

@@ -19,3 +19,5 @@ data/vn30_snapshot_20261002/download_failures.json
 data/us_equities/raw/
 data/us_equities/sec/
 results/research/**/budget.lock
+data/published_us/raw/
+data/published_us/processed/

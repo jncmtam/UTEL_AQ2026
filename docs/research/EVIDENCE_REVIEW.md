@@ -79,6 +79,24 @@ APIs or evidence that those exact endpoints are available in this environment.
 No more GPU model comparison is justified until the decision gates in
 [TECHNICAL_DECISIONS.md](TECHNICAL_DECISIONS.md) are satisfied.
 
+## Follow-up source review (2026-11-03)
+
+The [author's sparseIndexTracking package](https://github.com/dppalomar/sparseIndexTracking)
+and [CRAN record](https://stat.ethz.ch/CRAN/web/packages/sparseIndexTracking/index.html)
+link to Benidis, Feng and Palomar, IEEE TSP 66(1), 155–170,
+[DOI 10.1109/TSP.2017.2762286](https://doi.org/10.1109/TSP.2017.2762286).
+Joint stock selection and weighting motivates our proxy audit. Its pinned
+INDEX_2010 corpus supplies a conditional US algorithm comparison; the author's
+full-year membership filter rules out treating it as unbiased investment evidence.
+Package performance is not an AGQO measurement.
+
+[Wang et al., XY mixers](https://arxiv.org/abs/1904.09314) study fixed-cardinality
+mixing and the effect of initial states. This motivates symmetry-preserving
+simulation and preparation controls. It does not guarantee broad exploration by a
+single ordered exchange sweep, nor better financial outcomes on our corpus.
+The measured contrary evidence and next gate are in
+[COMPLETION_REPORT.md](COMPLETION_REPORT.md).
+
 ### Artifact identity check (no weights loaded)
 
 Hugging Face's public model metadata API was queried on 2026-11-02:

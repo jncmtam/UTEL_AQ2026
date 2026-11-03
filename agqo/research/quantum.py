@@ -10,7 +10,8 @@ import json
 import numpy as np
 from agqo.synthesis.profile import digest
 from agqo.synthesis.compiler import apply_gate, angle_value, parameter_values
-from agqo.synthesis.ir import check_ir
+from agqo.synthesis.ir import check_ir, SCHEMA, Limits
+from copy import deepcopy
 
 
 def compile_cost(spec, constrained_subspace=False):
@@ -251,7 +252,17 @@ def verify(ir, spec, h, max_qubits=16):
 
     start = perf_counter()
     core = {k: v for k, v in ir.items() if k != "preparation"}
-    report = check_ir(core, spec, h)
+    schema = SCHEMA
+    limits = Limits()
+    if ir.get("version") == "gate-ir-v2":
+        schema = deepcopy(SCHEMA)
+        schema["properties"]["version"]["const"] = "gate-ir-v2"
+        for key in ("qubit_to_asset", "initial_bits"):
+            schema["properties"][key]["maxItems"] = 40
+        limits = Limits(max_qubits=40)
+    report = check_ir(core, spec, h, limits=limits, schema=schema)
+    if not report["valid"]:
+        return report
     if "preparation" in ir:
         prep = ir["preparation"]
         if prep != {
@@ -272,7 +283,7 @@ def verify(ir, spec, h, max_qubits=16):
                     }
                 ],
             }
-    if h.get("certified_subspace"):
+    if h.get("certified_subspace") or h["qubits"] > max_qubits:
         from agqo.synthesis.ir import _preserves
 
         frozen = {spec.tickers.index(t) for t in spec.include + spec.exclude}
@@ -327,16 +338,70 @@ def verify(ir, spec, h, max_qubits=16):
             ],
         }
     if h["qubits"] > max_qubits:
-        return {
-            "valid": False,
-            "status": "unsupported",
-            "errors": [
-                {
-                    "code": "simulation_cap",
-                    "message": "Verification exceeds simulator budget.",
-                }
-            ],
-        }
+        try:
+            from .symmetry import ConservedBasis
+
+            basis = ConservedBasis(spec, h)
+            energy = cost_values(h, basis.indices)
+            test = np.random.default_rng(1701).uniform(
+                -1, 1, (2, len(ir["parameters"]))
+            )
+            inactive = []
+            for j, param in enumerate(ir["parameters"]):
+                distances = []
+                for angles in test:
+                    changed = angles.copy()
+                    changed[j] += 0.17
+                    first = basis.execute(ir, h, angles, energy)
+                    second = basis.execute(ir, h, changed, energy)
+                    if abs(np.linalg.norm(first) - 1) > 1e-9:
+                        raise ValueError("Conserved state is not normalized.")
+                    distances.append(1 - abs(np.vdot(first, second)))
+                if max(distances) < 1e-10:
+                    inactive.append(param["id"])
+            if any(
+                p["id"] in inactive for p in ir["parameters"] if p["kind"] == "cost"
+            ):
+                raise ValueError("Inactive cost parameter.")
+            qc, _ = circuit(ir, h)
+            lowered = transpile(
+                qc,
+                basis_gates=["rz", "sx", "x", "cx"],
+                optimization_level=1,
+                seed_transpiler=11,
+            )
+            cx = int(lowered.count_ops().get("cx", 0))
+            depth = lowered.depth()
+            if cx > limits.max_two_qubit_gates or depth > limits.max_transpiled_depth:
+                raise ValueError("Resource budget exceeded.")
+            report.update(
+                resources={
+                    "qubits": h["qubits"],
+                    "asset_qubits": spec.n,
+                    "slack_qubits": len(h["slack"]),
+                    "transpiled_cx": cx,
+                    "transpiled_depth": depth,
+                    "includes_cost_and_initialization": True,
+                },
+                active_parameters=len(ir["parameters"]) - len(inactive),
+                inactive_parameters=inactive,
+                simulation_states=len(basis.indices),
+                verification_access="analytic_certificate_and_conserved_simulation",
+                crosscheck_state_fidelities=[],
+                maximum_cardinality_leak=0.0,
+                leakage_basis_enforced=True,
+            )
+        except ValueError as exc:
+            report["valid"] = False
+            report["status"] = "unsupported"
+            report["errors"].append(
+                {"code": "conserved_verification", "message": str(exc)}
+            )
+        report["elapsed_seconds"] = perf_counter() - start
+        report["reachability_scope"] = (
+            "All cardinality/include/exclude supports retained; no certificate for the inequality-feasible transition graph."
+        )
+        return report
     indices = np.arange(1 << h["qubits"])
     asset_bits = (indices[:, None] >> np.arange(spec.n)) & 1
     cardinal = asset_bits.sum(axis=1) == spec.k
@@ -430,7 +495,21 @@ def evaluate(
         raise ValueError("Positive evaluation and shot budgets required.")
     start = perf_counter()
     rng = np.random.default_rng(seed)
-    energy = cost_values(h, np.arange(1 << h["qubits"]))
+    basis = None
+    if h["qubits"] > 16:
+        from .symmetry import ConservedBasis
+
+        basis = ConservedBasis(spec, h)
+    basis_indices = np.arange(1 << h["qubits"]) if basis is None else basis.indices
+    energy = cost_values(h, basis_indices)
+
+    def run_state(angles):
+        return (
+            execute(ir, h, angles)
+            if basis is None
+            else basis.execute(ir, h, angles, energy)
+        )
+
     initial = (
         rng.uniform(-np.pi, np.pi, len(ir["parameters"]))
         if initial_angles is None
@@ -448,7 +527,7 @@ def evaluate(
         if calls >= evaluations:
             raise Exhausted
         calls += 1
-        p = abs(execute(ir, h, angles)) ** 2
+        p = abs(run_state(angles)) ** 2
         p /= p.sum()
         sampled = rng.choice(len(p), size=shots, p=p)
         score = (
@@ -468,14 +547,33 @@ def evaluate(
         )
     except Exhausted:
         pass
-    p = abs(execute(ir, h, best)) ** 2
+    p = abs(run_state(best)) ** 2
     p /= p.sum()
-    asset_p = np.bincount(
-        np.arange(len(p)) & ((1 << spec.n) - 1), weights=p, minlength=1 << spec.n
+    asset_indices, inverse = np.unique(
+        basis_indices & ((1 << spec.n) - 1), return_inverse=True
     )
-    bits = (np.arange(1 << spec.n)[:, None] >> np.arange(spec.n)) & 1
-    feasible = np.array([spec.feasible(x) for x in bits])
-    scores = np.array([spec.score(x) for x in bits])
+    asset_p = np.bincount(inverse, weights=p, minlength=len(asset_indices))
+    bits = ((asset_indices[:, None] >> np.arange(spec.n)) & 1).astype(np.uint8)
+    feasible = bits.sum(axis=1) == spec.k
+    for name in spec.include:
+        feasible &= bits[:, spec.tickers.index(name)] == 1
+    for name in spec.exclude:
+        feasible &= bits[:, spec.tickers.index(name)] == 0
+    for sector, cap in spec.sector_count_caps.items():
+        feasible &= (
+            bits[:, [i for i, v in enumerate(spec.sectors) if v == sector]].sum(axis=1)
+            <= cap
+        )
+    if spec.max_replacements is not None:
+        feasible &= (
+            bits[:, spec.previous_weights <= 1e-10].sum(axis=1) <= spec.max_replacements
+        )
+    q = spec.objective_qubo()
+    scores = q.offset + bits @ q.linear
+    for i in range(spec.n):
+        for j in range(i + 1, spec.n):
+            if q.quadratic[i, j]:
+                scores += q.quadratic[i, j] * bits[:, i] * bits[:, j]
     samples = rng.choice(len(asset_p), size=shots, p=asset_p)
     valid = samples[feasible[samples]]
     index = int(valid[np.argmin(scores[valid])]) if len(valid) else None
@@ -492,12 +590,17 @@ def evaluate(
         "bits": bits[index].tolist() if index is not None else None,
         "angles": best.tolist(),
         "seed": seed,
-        "sampled_support_indices": samples.tolist(),
+        "sampled_support_indices": asset_indices[samples].tolist(),
+        "simulation_states": len(basis_indices),
+        "diagnostic_supports_scored": len(asset_indices),
+        "nonnegligible_probability_supports": int(np.sum(asset_p > 1e-12)),
+        "probability_support_threshold": 1e-12,
         "selection_proxy_objective": float(scores[index])
         if index is not None
         else None,
         "selection_feasible_probability": probability,
         "conditional_proxy_expectation": expected,
+        "diagnostic_proxy_optimum": minimum,
         "expected_proxy_regret": expected - minimum
         if expected is not None and minimum is not None
         else None,
@@ -510,7 +613,9 @@ def evaluate(
         if exact_expectation
         else "finite_shots",
         "elapsed_seconds": perf_counter() - start,
-        "execution": "ideal_cpu_statevector_with_finite_shot_optimization",
+        "execution": "ideal_cpu_conserved_subspace"
+        if basis is not None
+        else "ideal_cpu_statevector_with_finite_shot_optimization",
         "fallback_used": False,
     }
 

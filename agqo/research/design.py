@@ -101,6 +101,36 @@ def request(
         "schema_contract": schema(spec),
         "no_future_or_optimum": True,
     }
+    if spec.n > 12:
+        # Descriptor projection affects only the designer's context. The compiler
+        # receives the complete immutable Hamiltonian, including weak terms.
+        omitted = ("correlation", "covariance", "objective_coefficients")
+        compact = {k: v for k, v in profile.items() if k not in omitted}
+        coefficients = profile.get("objective_coefficients", [])
+        if coefficients:
+            compact["largest_objective_terms"] = sorted(
+                coefficients, key=lambda term: -abs(term["value"])
+            )[:24]
+        compact["projection"] = {
+            "version": "designer-context-v1",
+            "full_profile_hash": digest(profile),
+            "omitted_fields": [key for key in omitted if key in profile],
+            "all_coefficients_retained_by_compiler": True,
+        }
+        payload["data_profile"] = compact
+        projected_h = {k: v for k, v in h.items() if k != "quadratic_zz"}
+        projected_h["largest_quadratic_zz"] = sorted(
+            h["quadratic_zz"], key=lambda term: -abs(term["coefficient"])
+        )[:24]
+        projected_h["quadratic_term_count"] = len(h["quadratic_zz"])
+        projected_h["context_projection_only"] = True
+        payload["hamiltonian"] = projected_h
+        d = domain(spec)
+        payload["domain"] = {k: v for k, v in d.items() if k != "edges"}
+        payload["domain"]["edge_id_rule"] = "e{i}_{j} maps to asset qubits [i,j], i<j."
+        payload["schema_contract"] = (
+            "The response schema is supplied through structured decoding; never change compiler-owned coefficients."
+        )
     if ablation == "constraints_only":
         payload["hamiltonian"] = {
             k: v
@@ -153,7 +183,7 @@ def lower(program, spec, h):
             }
         )
     return {
-        "version": "gate-ir-v1",
+        "version": "gate-ir-v2" if spec.n > 12 else "gate-ir-v1",
         "problem_hash": spec.fingerprint(),
         "hamiltonian_hash": h["hamiltonian_hash"],
         "qubit_to_asset": list(range(spec.n)),

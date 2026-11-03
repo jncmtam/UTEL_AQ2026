@@ -60,6 +60,92 @@ def check_native(text, task):
     }
 
 
+def diagnose_native(text, task):
+    """Additional unitary diagnostic; never overwrite the frozen contract score.
+
+    Remove only an empty leading reasoning tag, unused bit declarations and a
+    terminal block of measurements. Any mid-circuit measurement remains blocked.
+    """
+    source = text.strip()
+    changes = []
+    source, count = re.subn(r"^<think>\s*</think>\s*", "", source)
+    if count:
+        changes.append("Removed empty leading reasoning tag.")
+    lines = source.splitlines()
+    measurements = 0
+    while lines and re.fullmatch(
+        r"\s*\w+\[\d+\]\s*=\s*measure\s+\w+\[\d+\];\s*", lines[-1]
+    ):
+        lines.pop()
+        measurements += 1
+    if measurements:
+        changes.append(
+            f"Removed {measurements} terminal measurements for a unitary-only diagnostic."
+        )
+    kept = []
+    for line in lines:
+        if re.fullmatch(r"\s*bit\[\d+\]\s+\w+;\s*", line):
+            changes.append(
+                "Removed classical bit declaration; remaining classical use is still rejected."
+            )
+        else:
+            kept.append(line)
+    normalized = "\n".join(kept)
+    result = {
+        "scope": "posthoc_unitary_diagnostic_not_original_contract_success",
+        "source_hash": digest(text),
+        "changes": changes,
+        "original_score_unchanged": True,
+    }
+    try:
+        result["unitary_diagnostic"] = check_native(normalized, task)
+    except Exception as exc:
+        result["unitary_diagnostic"] = {"valid": False, "error": str(exc)}
+    return result
+
+
+def diagnose_saved_probe(source_directory, output_directory):
+    source = Path(source_directory)
+    path = Path(output_directory)
+    if path.exists():
+        raise ValueError("Diagnostic output must be a new directory.")
+    records = json.loads((source / "records.json").read_text())
+    results = []
+    for row in records:
+        if row["task"] in ("native_bell", "native_cost"):
+            results.append(
+                {
+                    "task": row["task"],
+                    "original_valid": row["valid"],
+                    **diagnose_native(
+                        row["inference"]["response"],
+                        row["task"].removeprefix("native_"),
+                    ),
+                }
+            )
+    write_json(
+        path / "diagnostics.json",
+        {"source": str(source), "new_inference_calls": 0, "rows": results},
+    )
+    text = [
+        "# Native interface failure analysis",
+        "",
+        "Frozen probe scores are unchanged. Empty reasoning tags and terminal measurements are removed only for an additional unitary diagnostic; no gate or angle is repaired.",
+        "",
+    ]
+    for row in results:
+        check = row["unitary_diagnostic"]
+        text.append(
+            f"- {row['task']}: original accepted={row['original_valid']}; diagnostic fidelity={check.get('fidelity', 'unavailable')}; semantic threshold met={check['valid']}."
+        )
+    text += [
+        "",
+        "This distinguishes formatting/contract defects from incorrect quantum behavior on two primitives. It is not model qualification or a reproduction of the paper benchmark. No further GPU call was made.",
+    ]
+    (path / "RESULTS.md").write_text("\n".join(text) + "\n")
+    return {"status": "completed", "new_inference_calls": 0, "output": str(path)}
+
+
 def run_probe(directory, mode="modal", model="quasar4"):
     from .runner import cases, evaluate_design
     from .quantum import compile_cost

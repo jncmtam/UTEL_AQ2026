@@ -67,9 +67,9 @@ def _preserves(gates):
     return True, None
 
 
-def check_ir(ir, problem, hamiltonian, limits=Limits()):
+def check_ir(ir, problem, hamiltonian, limits=Limits(), schema=None):
     errors, warnings = [], []
-    for error in Draft202012Validator(SCHEMA).iter_errors(ir):
+    for error in Draft202012Validator(SCHEMA if schema is None else schema).iter_errors(ir):
         errors.append({"code": "schema", "path": "/".join(map(str, error.path)), "message": error.message[:400]})
     if errors:
         return {"valid": False, "errors": errors[:16], "warnings": []}

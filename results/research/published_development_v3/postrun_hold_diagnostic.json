@@ -1,0 +1,23 @@
+{
+  "scope": "Opened post-run training counterfactual; no investment qualification.",
+  "formula": "mean((X_train[:,family_indices]@incumbent_equal_weights-b_train)**2)",
+  "train_rows": 126,
+  "raw_source_sha256": "16db76dccbec4dc12a5128f02a95e860e1cd498b97f4682b694b2e538daceaa7",
+  "rows": [
+    {
+      "n": 10,
+      "k": 3,
+      "training_hold_mse": 3.458801652075116e-05,
+      "hold_cost": 0,
+      "excluded_incumbent_scenario_hold_feasible": false
+    },
+    {
+      "n": 30,
+      "k": 6,
+      "training_hold_mse": 4.361847545107319e-05,
+      "hold_cost": 0,
+      "excluded_incumbent_scenario_hold_feasible": false
+    }
+  ],
+  "new_inference_calls": 0
+}

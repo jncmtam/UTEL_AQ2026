@@ -1,6 +1,9 @@
 # Project status
 
-Updated: 2026-11-02. Scope: maintained US-equity research application.
+Updated: 2026-11-03. Scope: maintained US-equity research application.
+
+Read [the completion review](research/COMPLETION_REPORT.md) for the current measured
+gaps and their ordered resolution. The root PROGRESS.md provides a short entry point.
 
 ## Implemented
 
@@ -20,6 +23,12 @@ Updated: 2026-11-02. Scope: maintained US-equity research application.
 - Complete artifact contracts for successful and blocked trajectories/pipelines,
   native specialist probes, model-transfer tests, profile ablation switches and
   descriptive paired statistics.
+- Pinned 386-asset US academic corpus with explicitly conditional admission; exact
+  source-date decoding and a 30-asset/6-holding development comparison.
+- GateIR v2 conserved simulation up to 40 assets under a 2m-state cap, with all
+  small-state equivalence checks and 593,775 supports executed at N=30/K=6.
+- Correct global/conditional optimality labels, exclusion seed, common sample
+  allocator and stale-evidence clearing in the visually inspected mobile/desktop UI.
 
 ## Measured evidence
 
@@ -29,6 +38,12 @@ Updated: 2026-11-02. Scope: maintained US-equity research application.
 - Continuous trajectories and interactive decision comparisons run on synthetic
   data; these validate integration and do not establish investment performance.
 - Earlier 80B interruption remains user-interrupted evidence, not model failure.
+- All 120 tests pass. Published development v3 has 18/18 feasible rows, with source
+  snapshots and post-run proxy diagnostics. Shallow circuit utility and proxy
+  faithfulness remain insufficient for qualification; uniform sampling is stronger
+  than all three N30 circuit controls on allocated training objective.
+- Saved native primitive diagnostics remain semantically wrong after normalization;
+  no new inference was used to obtain those findings.
 
 ## Open scientific dependencies
 

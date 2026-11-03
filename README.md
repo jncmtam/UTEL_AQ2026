@@ -7,14 +7,17 @@ a canonical compiler owns the cost Hamiltonian. QAOA proposes asset combinations
 and a common classical allocator assigns weights.
 
 **Current evidence:** the software pipeline and structural controls run locally.
-The historical US dataset remains blocked pending identity/corporate-action review.
+An exact conserved-cardinality backend now executes a 30-asset/6-holding case
+(593,775 supports). A published 386-asset US corpus is admitted for conditional
+algorithm comparisons. The historical investment dataset remains blocked pending
+identity/corporate-action review.
 No production model, investment outperformance or quantum advantage is established.
 
 ## Start here
 
 ```bash
 python3.12 -m venv .venv
-.venv/bin/python -m pip install -e '.[dev,simulator,llm-modal]'
+.venv/bin/python -m pip install -e '.[dev,simulator,llm-modal,published-data]'
 .venv/bin/python -m pytest -q
 .venv/bin/python -m agqo.research trajectory --source synthetic --output results/research/my_demo
 .venv/bin/python -m agqo.research serve --output results/research/my_demo --port 8765
@@ -32,6 +35,7 @@ launches an unbounded GPU request.
 - [Technical choices and stop rules](docs/research/TECHNICAL_DECISIONS.md).
 - [Implementation protocol](docs/research/IMPLEMENTATION_PROTOCOL.md).
 - [Worklog](docs/research/WORKLOG.md), updated as measurements and decisions change.
+- [Completion review and measured remaining gaps](docs/research/COMPLETION_REPORT.md).
 - [Agent handoff](AGENTS.md), read this first when resuming work.
 
 ## Reproducible workflow
@@ -45,6 +49,10 @@ launches an unbounded GPU request.
 
 # Non-LLM initialization/encoding/adaptive controls.
 .venv/bin/python -m agqo.research baseline --output results/research/my_baselines
+
+# Pinned published US returns; conditional algorithm scope, not an unbiased backtest.
+.venv/bin/python -m agqo.research published-fetch
+.venv/bin/python -m agqo.research published-study --output results/research/my_published
 
 # Complete software workflow; market blockers remain explicit (exit code 2).
 .venv/bin/python -m agqo.research pipeline --output results/research/my_pipeline
@@ -80,8 +88,12 @@ new live model result. See [the user guide](docs/USER_GUIDE.md) for the data con
 | Application | English mandate editor, decision comparison, trades and verification, read-only experiment replay |
 | Reporting | JSON/CSV/QASM/QPY plus English Markdown results, progress and uncertainty/claim limits |
 
-The simulator is capped at 16 total qubits and GateIR at 12 asset qubits. Compiling
-a larger Hamiltonian does not mean it was simulated or executed on hardware.
+The full statevector is capped at 16 total qubits. GateIR v2 supports up to 40 asset
+qubits with certified fixed-cardinality execution, capped at 2,000,000 represented
+states including explicit slack. V1's 12-asset schema stays unchanged. The larger
+backend uses an analytic gate certificate and small-instance crosschecks; it does
+not claim an independent full Qiskit statevector check at 30 qubits. Both backends
+are classical simulation. Compilation alone does not imply hardware execution.
 Dicke synthesis in the baseline study is an explicit small reference, whose cost
 is reported; it is not the efficient preparation algorithm from the cited paper.
 The gradient baseline is ADAPT-inspired, with its extra classical evaluations

@@ -31,6 +31,20 @@ and all cost lowering. The Dicke reference uses dense synthesis and is labeled
 accordingly. Gradient selection reports every extra classical energy evaluation.
 All architecture candidates, invalid requests and allocation queries count.
 Reservations are conservative bounds and never reported as actual invoices.
+Current transpilation uses a logical all-to-all basis without hardware routing,
+SWAP overhead or noise. CX/depth figures are not device execution estimates.
+
+`optimal` in the decision interface requires a joint support/weight solver
+certificate (subject to solver tolerances). A heuristic or sampled decision is
+`feasible`; its conditional convex solution status is `allocation_status`.
+Historical raw results retain their earlier labels and must be interpreted using
+their original allocation scope. Trajectory v2 fixes this distinction and applies
+the common 32-query sample allocator.
+
+GateIR v2 widens the register while preserving v1. Large ideal simulations use
+every fixed-cardinality support (plus slack), an analytic conservation certificate
+and the independently crosschecked block executor. Report non-negligible support
+coverage separately from basis size. No large-register full-Qiskit check is claimed.
 
 ## Reproduction and provenance
 

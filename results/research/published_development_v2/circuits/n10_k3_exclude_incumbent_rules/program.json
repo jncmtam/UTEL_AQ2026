@@ -1,0 +1,45 @@
+{
+  "version": "connected-exchange-v3",
+  "parents": {
+    "p1": 0,
+    "p2": 1,
+    "p3": 2,
+    "p4": 2,
+    "p5": 3,
+    "p6": 2,
+    "p7": 1,
+    "p8": 6
+  },
+  "schedule": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "groups": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "preparation": [
+    "e1_4",
+    "e1_5",
+    "e1_6"
+  ],
+  "depth": 1,
+  "rationale": [
+    {
+      "feature_ids": [],
+      "decision": "Explicit rules classical design baseline."
+    }
+  ]
+}

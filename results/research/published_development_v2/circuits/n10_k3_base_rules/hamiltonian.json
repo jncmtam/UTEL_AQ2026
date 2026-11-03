@@ -1,0 +1,356 @@
+{
+  "version": "hamiltonian-ir-v3-subspace",
+  "problem_hash": "9fc0d9d043184b80e861660591ad019e3783d4e21ff7b318de398905ec9a598f",
+  "asset_qubits": 10,
+  "qubits": 10,
+  "linear_z": [
+    -0.02494734991673265,
+    -0.007277885614058575,
+    -0.027286991004586418,
+    -0.02116745051546106,
+    -0.03487106829728727,
+    -0.019054895242392924,
+    -0.018802938565438933,
+    -0.03169580303948684,
+    -0.02172712069430981,
+    -0.02091153055626121
+  ],
+  "quadratic_zz": [
+    {
+      "qubits": [
+        0,
+        1
+      ],
+      "coefficient": 0.0016799281112424788
+    },
+    {
+      "qubits": [
+        0,
+        2
+      ],
+      "coefficient": 0.005794480276533611
+    },
+    {
+      "qubits": [
+        0,
+        3
+      ],
+      "coefficient": 0.0046346771361049895
+    },
+    {
+      "qubits": [
+        0,
+        4
+      ],
+      "coefficient": 0.006521793221979275
+    },
+    {
+      "qubits": [
+        0,
+        5
+      ],
+      "coefficient": 0.0038049259280561764
+    },
+    {
+      "qubits": [
+        0,
+        6
+      ],
+      "coefficient": 0.0036232805695797705
+    },
+    {
+      "qubits": [
+        0,
+        7
+      ],
+      "coefficient": 0.006614079963054622
+    },
+    {
+      "qubits": [
+        0,
+        8
+      ],
+      "coefficient": 0.005060938820863633
+    },
+    {
+      "qubits": [
+        0,
+        9
+      ],
+      "coefficient": 0.00390336901685906
+    },
+    {
+      "qubits": [
+        1,
+        2
+      ],
+      "coefficient": 0.0016908780802568656
+    },
+    {
+      "qubits": [
+        1,
+        3
+      ],
+      "coefficient": 0.001653079730215517
+    },
+    {
+      "qubits": [
+        1,
+        4
+      ],
+      "coefficient": 0.0021671074956346142
+    },
+    {
+      "qubits": [
+        1,
+        5
+      ],
+      "coefficient": 0.001069174507012139
+    },
+    {
+      "qubits": [
+        1,
+        6
+      ],
+      "coefficient": 0.0014201073819401827
+    },
+    {
+      "qubits": [
+        1,
+        7
+      ],
+      "coefficient": 0.0021536729989482576
+    },
+    {
+      "qubits": [
+        1,
+        8
+      ],
+      "coefficient": 0.0013489399186139264
+    },
+    {
+      "qubits": [
+        1,
+        9
+      ],
+      "coefficient": 0.0010684103167521249
+    },
+    {
+      "qubits": [
+        2,
+        3
+      ],
+      "coefficient": 0.005478042562886979
+    },
+    {
+      "qubits": [
+        2,
+        4
+      ],
+      "coefficient": 0.00775075709245928
+    },
+    {
+      "qubits": [
+        2,
+        5
+      ],
+      "coefficient": 0.004226160248091518
+    },
+    {
+      "qubits": [
+        2,
+        6
+      ],
+      "coefficient": 0.004004536419482312
+    },
+    {
+      "qubits": [
+        2,
+        7
+      ],
+      "coefficient": 0.0062616061233988825
+    },
+    {
+      "qubits": [
+        2,
+        8
+      ],
+      "coefficient": 0.005068736410484973
+    },
+    {
+      "qubits": [
+        2,
+        9
+      ],
+      "coefficient": 0.0040839410531484
+    },
+    {
+      "qubits": [
+        3,
+        4
+      ],
+      "coefficient": 0.0062444389145044155
+    },
+    {
+      "qubits": [
+        3,
+        5
+      ],
+      "coefficient": 0.003479508491529809
+    },
+    {
+      "qubits": [
+        3,
+        6
+      ],
+      "coefficient": 0.00301317108531666
+    },
+    {
+      "qubits": [
+        3,
+        7
+      ],
+      "coefficient": 0.005374220279354488
+    },
+    {
+      "qubits": [
+        3,
+        8
+      ],
+      "coefficient": 0.0038435568953128258
+    },
+    {
+      "qubits": [
+        3,
+        9
+      ],
+      "coefficient": 0.003110074973790051
+    },
+    {
+      "qubits": [
+        4,
+        5
+      ],
+      "coefficient": 0.005331572239723447
+    },
+    {
+      "qubits": [
+        4,
+        6
+      ],
+      "coefficient": 0.005156509755659599
+    },
+    {
+      "qubits": [
+        4,
+        7
+      ],
+      "coefficient": 0.007611079584649702
+    },
+    {
+      "qubits": [
+        4,
+        8
+      ],
+      "coefficient": 0.005662717105805862
+    },
+    {
+      "qubits": [
+        4,
+        9
+      ],
+      "coefficient": 0.005485973541080282
+    },
+    {
+      "qubits": [
+        5,
+        6
+      ],
+      "coefficient": 0.002875625902263693
+    },
+    {
+      "qubits": [
+        5,
+        7
+      ],
+      "coefficient": 0.004605199477011643
+    },
+    {
+      "qubits": [
+        5,
+        8
+      ],
+      "coefficient": 0.0031981755075907977
+    },
+    {
+      "qubits": [
+        5,
+        9
+      ],
+      "coefficient": 0.0029512272310866293
+    },
+    {
+      "qubits": [
+        6,
+        7
+      ],
+      "coefficient": 0.004442453490707261
+    },
+    {
+      "qubits": [
+        6,
+        8
+      ],
+      "coefficient": 0.0028975744199403034
+    },
+    {
+      "qubits": [
+        6,
+        9
+      ],
+      "coefficient": 0.002112207587767757
+    },
+    {
+      "qubits": [
+        7,
+        8
+      ],
+      "coefficient": 0.005453503080630063
+    },
+    {
+      "qubits": [
+        7,
+        9
+      ],
+      "coefficient": 0.004995960169283135
+    },
+    {
+      "qubits": [
+        8,
+        9
+      ],
+      "coefficient": 0.0030083852448959053
+    }
+  ],
+  "constant": 0.10224453196834539,
+  "objective_scale": 0.0029747922130366113,
+  "penalty": 2.0,
+  "penalty_proof": "Integer residual squared >=1; penalty 2 exceeds normalized objective range bound 1.",
+  "equalities": [],
+  "slack": [],
+  "bit_order": "asset_i_is_bit_i_little_endian_then_slack",
+  "phase": "exp(-i*gamma*H)",
+  "post_allocation_constraints": [
+    "sector_weight_caps",
+    "position_bounds",
+    "one_way_turnover"
+  ],
+  "construction": "direct_quadratic_coefficients_no_truth_table",
+  "certified_subspace": true,
+  "omitted_zero_terms": [
+    "cardinality",
+    "include",
+    "exclude"
+  ],
+  "hamiltonian_hash": "376826ba39e9fa8f4f44eabce302716354ed06f847bb4c16fdd584637397dd78"
+}

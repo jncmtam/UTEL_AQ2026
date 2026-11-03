@@ -1,0 +1,57 @@
+{
+  "version": "conditional-published-development-v2",
+  "previous_run": "published_development_v1 retains the excluded-seed search failure. V2 fixes the classical seed and distinguishes support search status from continuous allocation optimality.",
+  "scope": "Algorithm quality on this exact published US corpus under declared scenario constraints; not investable historical strategy performance.",
+  "investment_universe_approved": false,
+  "training_observations": 126,
+  "test_observations": 126,
+  "cutoff": "2010-07-02",
+  "seed": 11,
+  "cases": [
+    [
+      10,
+      3,
+      "base"
+    ],
+    [
+      10,
+      3,
+      "exclude_incumbent"
+    ],
+    [
+      30,
+      6,
+      "base"
+    ]
+  ],
+  "methods": [
+    "fixed",
+    "rules",
+    "random",
+    "uniform",
+    "allocation_swap",
+    "joint_scip"
+  ],
+  "evaluations": 4,
+  "shots_per_evaluation": 64,
+  "final_shots": 64,
+  "common_allocation_queries": 32,
+  "scip_time_limit_seconds": 15,
+  "simulator_cap_states": 2000000,
+  "family_rule": "SHA256(AGQO-published-family-v1:+source_label), take N, restore source order",
+  "no_llm_stock_filtering": true,
+  "new_inference_calls": 0,
+  "scenario_buckets": "Synthetic policy categories, not historical sectors.",
+  "acceptance": "Source/date/hash checks, small-state equivalence, complete costs/exports; no superiority claim from this development study.",
+  "reference_protocol": "docs/research/COMPLETION_PROTOCOL.md",
+  "code_hashes": {
+    "published_study.py": "4382c9dafc74297874d77d4be9df0940d0af8e33d0998a24a7b2445a66069cbf",
+    "published.py": "baab270d307295f0695cbf6426b83b1a1c1f5c7c9e2b848863869d46db4bfedd",
+    "symmetry.py": "2a5b2ad89e4463c6ab71412198eac8cec2f4bc700f886b3a37f6b0c14d81e5c1",
+    "quantum.py": "1dff4b569b58d623c30d5964c9c9bac6924169cb5888dfdf3cd99724e37e3f9b",
+    "design.py": "0292aceb7fcd5802162daea5c90293796b94a3893b43f0d13e7b87b8f0dd9593",
+    "finance.py": "a8d5906b919c7af41498064ab2e12f67286448360c385ae28a589cd52a6f7168",
+    "workflow.py": "54a0598c189843e80fceb8d9c05e989979a8a1cbfdcc1ea100ebc6220db13418",
+    "runner.py": "56b2f6774d7aedcb6b39944c96e0c42950417df19fb28f7cdb0455bd6615c854"
+  }
+}

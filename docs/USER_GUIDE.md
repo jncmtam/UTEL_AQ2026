@@ -52,6 +52,31 @@ they do not replace a sufficiently powered held-out market study. Cost includes
 CPU prefetch, inference, invalid proposals and angle/allocator work. Specialist
 runtime support for Mistral 24B is implemented but not qualified by a live run.
 
+## Published US algorithm benchmark
+
+Install `.[published-data]`, then run `agqo-research published-fetch` and
+`agqo-research published-study --output NEW_DIRECTORY`. The pinned source has
+252 observations and 386 identifiers. No R installation is needed. The decoder
+preserves source dates, matrices and checksums; raw data stays local.
+
+The command is CPU-only and rejects `--mode modal`. It compares three circuit
+controls with uniform samples, allocation-aware swaps and SCIP, including a
+30-asset/6-holding case. Families are chosen by a predeclared hash of source labels,
+not by an LLM or future performance. The universe is conditioned on full-year
+membership: the study cannot establish unbiased historical investment performance.
+
+`published_development_v3` is the canonical current development bundle. It includes
+the actual source snapshot and package versions. To reproduce those exact source
+bytes, overlay `source_snapshot/agqo` on a checkout or set `PYTHONPATH` to the
+snapshot while running from a checkout with the pinned local data. Keep any rerun
+in a new output directory. Earlier v1/v2 intermediate runs are preserved.
+
+`scripts/analyze_published_study.py NEW_DIRECTORY` audits proxy faithfulness and
+covariance after the run; `scripts/plot_published_study.py NEW_DIRECTORY` creates
+figures from those records. These are labeled post-run diagnostics, not a fresh
+held-out experiment. The saved native specialist diagnostic is under
+`results/research/quasar_native_diagnostics_v1`; no original probe score is changed.
+
 ## Reading results
 
 Compare the original financial objective after common allocation. Inspect both

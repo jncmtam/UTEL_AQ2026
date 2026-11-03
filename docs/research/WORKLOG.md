@@ -212,3 +212,104 @@ The raw provider data is excluded from Git; its manifest/audit remain versioned.
 **Status:** software integration is implemented. The market-data research gate is
 still blocked, and no production LLM or quantum advantage is qualified. Both Modal
 apps had zero tasks at the final check. Existing local server listens on port 8765.
+
+## Entry 12 — Completion audit and stronger data evidence (2026-11-03)
+
+**Question:** which previous delivery gaps can be closed without weakening the
+research/data gates?
+
+**Protocol:** COMPLETION_PROTOCOL.md written before new experiments.
+
+**Source finding:** DIA's October 2013 N-30D filing contains all 30 positions and
+an independent valuation anchor. A factual extract and anchor comparison are saved
+under data/us_equities/review and results/data_assessment. This is stronger than
+the earlier three-replacement announcement, but it does not verify every later
+corporate action or prove the original Sept 23 composition by itself. Publication
+time remains unresolved. Direct SEC API/source downloads returned HTTP403; indexed
+filing access was available. No fabricated full-document checksum is recorded.
+
+**Diagnostic:** several vendor closes differ from the filing by later split or
+spin-off factors; smaller differences also occur for Nasdaq stocks. These are
+reconciliation questions, not evidence that every vendor return is wrong.
+
+**Additional published source:** sparseIndexTracking's author-maintained INDEX_2010
+contains actual US S&P500 constituent and index returns. Its source explicitly
+includes only securities present for the whole year. It can support a disclosed
+selection-conditioned algorithm benchmark, not an unbiased investment universe.
+It will not silently replace or pass the historical cohort's original audit.
+
+**Technical action:** implement exact conserved-cardinality simulation with a new
+larger-register GateIR version; retain every asset support and explicit slack.
+Small-instance full-state equivalence and memory-cap tests precede any large run.
+
+## Entry 13 — Conserved simulation and conditional US study
+
+**Implemented:** GateIR v2 extends asset registers while preserving v1. The executor
+represents every fixed-cardinality support, frozen inclusion/exclusion and explicit
+slack; trusted XX/YY pairs execute as blocks. It rejects state counts above 2m before
+allocation. Independent small full-state checks pass. N30/K6 executed 593,775 states.
+Large verification is analytic plus the small-crosschecked executor, not a full
+Qiskit N30 statevector comparison. Canonical coefficients remain unchanged when
+the designer's context uses a documented, hashed descriptor projection.
+
+**Source:** pinned author corpus INDEX_2010 decodes 386 source labels ×252 dated
+returns; SHA256 16db76dccbec4dc12a5128f02a95e860e1cd498b97f4682b694b2e538daceaa7.
+Dates come from R attributes. Full-year membership conditioning remains a disclosed
+bias. It receives algorithm-only admission and does not pass the original market gate.
+
+**Observed:** published_development_v1 exposed a classical seed wasting its budget
+on an excluded asset; fixed before v2. Reports distinguish global support status from
+conditional allocation. V3 archives actual source bytes/package versions to remove
+uncommitted-source ambiguity. Earlier intermediate runs remain preserved; v3 is the
+canonical study. All 18 v3 rows are feasible. No new model inference or GPU job.
+
+**Negative findings:** N30 fixed/rules/random have only 21/273/1,446 meaningful-
+probability supports (>1e-12) despite representing all 593,775. They trail uniform
+sampling on the allocated training objective. Exact proxy optimum allocates to
+1.67205e-5, ~13.92% worse than SCIP's 1.46777e-5 incumbent. SCIP's 15-second run
+does not prove optimality (bound gap ~32.18%). Small proxy rank correlations
+0.934/0.922 do not eliminate economically material regret. These are opened
+development findings, with four optimization calls and one seed, not qualification.
+
+**Post-run data analysis:** full source training covariance rank 125 from 126 rows;
+raw condition number undefined; shrinkage condition ~4060.5; participation ratio
+~3.41. These describe sample structure, not evidence of combinatorial hardness.
+Exact proxy diagnostics and full support allocation on small cases are additional
+classical work, explicitly recorded. No change to raw returns or later-label metadata.
+
+**Decision:** resolve proxy faithfulness and broad-support preparation before a new
+model sweep. Increasing parameter count does not address the identified weaknesses.
+
+## Entry 14 — Native failure diagnosis, decision semantics and final UI QA
+
+**Model:** normalization-only diagnostics remove empty reasoning tags, unused bit
+declarations and terminal measurements. No gate/angle repair. Bell fidelity .4956;
+cost fidelity .5163. Both remain semantically wrong. Frozen QUASAR probe remains 1/3.
+No paid retry. Mid-circuit measurements remain rejected.
+
+**Decision correction:** all heuristic/QAOA decisions now report feasible rather than
+globally optimal; allocation_status records the convex subproblem. Trajectory v2
+and interactive decisions use the common 32-query sample allocator. Raw older
+results retain their original conditional labels. New tests check excluded-seed
+repair and the global/conditional distinction.
+
+**UI:** Chrome checks passed at 1440px/390px. Screenshots inspected. A blocked market
+request initially left prior synthetic holdings/decisions visible; this was found,
+fixed and checked in ui_qa_v4 with a specific stale-evidence assertion. No uncaught
+browser exceptions or page overflow. Mobile metric table scrolls horizontally.
+
+**Reproducibility:** canonical source snapshot, 8-artifact contract, plots and source
+hashes saved. Markdown table spacing is corrected in the canonical derived report;
+the original report remains RESULTS.original.md. Raw metrics/decisions are unchanged.
+All 120 tests pass and static F checks pass. Modal profile data1 remains connected;
+both deployed apps reported zero tasks. Historical source reconciliation, production
+model selection, financial benefit and quantum advantage remain unqualified.
+
+**Current entry point:** COMPLETION_REPORT.md consolidates actual findings and next
+dependencies. AGENTS.md/agent.md and root PROGRESS.md carry the compact handoff.
+
+Repeated interactive requests now retain separate UUID/source-identified records;
+an integration check verifies neither measurement overwrites the other. The final
+API metadata change does not alter the visually inspected layout. Logical gate
+resources exclude hardware routing/noise. A post-run hold diagnostic records base
+training MSE 3.45880e-5 /4.36185e-5 at N10/N30; the exclusion case disallows hold.

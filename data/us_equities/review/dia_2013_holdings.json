@@ -1,0 +1,192 @@
+{
+  "version": "source-holdings-extract-v1",
+  "source": "https://www.sec.gov/Archives/edgar/data/1041130/000119312513486376/d643100dn30d.htm",
+  "accession": "0001193125-13-486376",
+  "observation_date": "2013-10-31",
+  "publication_timestamp": null,
+  "reviewed_on": "2026-11-03",
+  "access": "Indexed SEC filing inspected; direct SEC HTTP downloads returned 403. No full-document download checksum claimed.",
+  "holdings": [
+    {
+      "ticker_at_inception": "MMM",
+      "shares": 4694247,
+      "value_usd": 590770985,
+      "implied_close": 125.85000001065134
+    },
+    {
+      "ticker_at_inception": "AXP",
+      "shares": 4694247,
+      "value_usd": 383989405,
+      "implied_close": 81.80000008521068
+    },
+    {
+      "ticker_at_inception": "T",
+      "shares": 4694247,
+      "value_usd": 169931741,
+      "implied_close": 36.199999914789316
+    },
+    {
+      "ticker_at_inception": "CAT",
+      "shares": 4694247,
+      "value_usd": 391312430,
+      "implied_close": 83.36000001704214
+    },
+    {
+      "ticker_at_inception": "CVX",
+      "shares": 4694247,
+      "value_usd": 563121870,
+      "implied_close": 119.9599999744368
+    },
+    {
+      "ticker_at_inception": "CSCO",
+      "shares": 4694247,
+      "value_usd": 105620558,
+      "implied_close": 22.500000106513355
+    },
+    {
+      "ticker_at_inception": "DD",
+      "shares": 4694247,
+      "value_usd": 287287916,
+      "implied_close": 61.199999914789316
+    },
+    {
+      "ticker_at_inception": "XOM",
+      "shares": 4694247,
+      "value_usd": 420698416,
+      "implied_close": 89.61999997017627
+    },
+    {
+      "ticker_at_inception": "GE",
+      "shares": 4694247,
+      "value_usd": 122707617,
+      "implied_close": 26.14000008947122
+    },
+    {
+      "ticker_at_inception": "INTC",
+      "shares": 4694247,
+      "value_usd": 114680454,
+      "implied_close": 24.42999995526439
+    },
+    {
+      "ticker_at_inception": "IBM",
+      "shares": 4694247,
+      "value_usd": 841256005,
+      "implied_close": 179.21000002769347
+    },
+    {
+      "ticker_at_inception": "JNJ",
+      "shares": 4694247,
+      "value_usd": 434734215,
+      "implied_close": 92.61000007029881
+    },
+    {
+      "ticker_at_inception": "JPM",
+      "shares": 4694247,
+      "value_usd": 241941490,
+      "implied_close": 51.53999991904985
+    },
+    {
+      "ticker_at_inception": "MCD",
+      "shares": 4694247,
+      "value_usd": 453088720,
+      "implied_close": 96.51999990626825
+    },
+    {
+      "ticker_at_inception": "MRK",
+      "shares": 4694247,
+      "value_usd": 211663597,
+      "implied_close": 45.089999951003854
+    },
+    {
+      "ticker_at_inception": "MSFT",
+      "shares": 4694247,
+      "value_usd": 165941631,
+      "implied_close": 35.34999990413798
+    },
+    {
+      "ticker_at_inception": "NKE",
+      "shares": 4694247,
+      "value_usd": 355636153,
+      "implied_close": 75.76000005964748
+    },
+    {
+      "ticker_at_inception": "PFE",
+      "shares": 4694247,
+      "value_usd": 144019498,
+      "implied_close": 30.68000000852107
+    },
+    {
+      "ticker_at_inception": "BA",
+      "shares": 4694247,
+      "value_usd": 612599234,
+      "implied_close": 130.50000010651337
+    },
+    {
+      "ticker_at_inception": "KO",
+      "shares": 4694247,
+      "value_usd": 185751354,
+      "implied_close": 39.57000004473561
+    },
+    {
+      "ticker_at_inception": "GS",
+      "shares": 4694247,
+      "value_usd": 755116572,
+      "implied_close": 160.85999991052878
+    },
+    {
+      "ticker_at_inception": "HD",
+      "shares": 4694247,
+      "value_usd": 365634899,
+      "implied_close": 77.89000003621454
+    },
+    {
+      "ticker_at_inception": "PG",
+      "shares": 4694247,
+      "value_usd": 379060445,
+      "implied_close": 80.74999994674332
+    },
+    {
+      "ticker_at_inception": "TRV",
+      "shares": 4694247,
+      "value_usd": 405113516,
+      "implied_close": 86.29999997869733
+    },
+    {
+      "ticker_at_inception": "DIS",
+      "shares": 4694247,
+      "value_usd": 321978402,
+      "implied_close": 68.59000005751722
+    },
+    {
+      "ticker_at_inception": "UTX",
+      "shares": 4694247,
+      "value_usd": 498763744,
+      "implied_close": 106.25000005325668
+    },
+    {
+      "ticker_at_inception": "UNH",
+      "shares": 4694247,
+      "value_usd": 320429300,
+      "implied_close": 68.25999995313413
+    },
+    {
+      "ticker_at_inception": "VZ",
+      "shares": 4694247,
+      "value_usd": 237106416,
+      "implied_close": 50.510000006390804
+    },
+    {
+      "ticker_at_inception": "V",
+      "shares": 4694247,
+      "value_usd": 923217558,
+      "implied_close": 196.67000010864362
+    },
+    {
+      "ticker_at_inception": "WMT",
+      "shares": 4694247,
+      "value_usd": 360283457,
+      "implied_close": 76.74999994674332
+    }
+  ],
+  "scope": "Confirms names/positions in an October 2013 snapshot after explicit ticker mapping. Does not independently prove Sept 23 membership, later lineage, or adjusted returns."
+}

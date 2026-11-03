@@ -1,0 +1,23 @@
+{
+  "n10_k3_base": {
+    "status": "optimal",
+    "objective": 7.096367067252634e-06,
+    "assets": 386,
+    "elapsed_seconds": 0.14294145803432912,
+    "scope": "Numerical convex relaxation reference, not a certified integer optimum or measured universe-restriction loss."
+  },
+  "n10_k3_exclude_incumbent": {
+    "status": "optimal",
+    "objective": 7.096367067252634e-06,
+    "assets": 386,
+    "elapsed_seconds": 0.1251273329835385,
+    "scope": "Numerical convex relaxation reference, not a certified integer optimum or measured universe-restriction loss."
+  },
+  "n30_k6_base": {
+    "status": "optimal",
+    "objective": 7.413720540834594e-06,
+    "assets": 386,
+    "elapsed_seconds": 0.1653706249780953,
+    "scope": "Numerical convex relaxation reference, not a certified integer optimum or measured universe-restriction loss."
+  }
+}

@@ -1,0 +1,153 @@
+{
+  "new_inference_calls": 0,
+  "gpu_seconds": 0,
+  "execution": "classical CPU ideal simulation",
+  "elapsed_seconds": 28.021380999998655,
+  "rows": [
+    {
+      "case": "n10_k3_base",
+      "method": "fixed",
+      "elapsed_seconds": 0.38806054199812934,
+      "optimization_shots": 320,
+      "diagnostic_supports_scored": 1024,
+      "verification_seconds": 0.2503096670261584
+    },
+    {
+      "case": "n10_k3_base",
+      "method": "rules",
+      "elapsed_seconds": 0.04908279201481491,
+      "optimization_shots": 320,
+      "diagnostic_supports_scored": 1024,
+      "verification_seconds": 0.018479167018085718
+    },
+    {
+      "case": "n10_k3_base",
+      "method": "random",
+      "elapsed_seconds": 0.12206345802405849,
+      "optimization_shots": 320,
+      "diagnostic_supports_scored": 1024,
+      "verification_seconds": 0.02123145799851045
+    },
+    {
+      "case": "n10_k3_base",
+      "method": "uniform",
+      "elapsed_seconds": 0.09022708400152624,
+      "optimization_shots": 0,
+      "diagnostic_supports_scored": 0,
+      "verification_seconds": 0
+    },
+    {
+      "case": "n10_k3_base",
+      "method": "allocation_swap",
+      "elapsed_seconds": 0.060665625031106174,
+      "optimization_shots": 0,
+      "diagnostic_supports_scored": 0,
+      "verification_seconds": 0
+    },
+    {
+      "case": "n10_k3_base",
+      "method": "joint_scip",
+      "elapsed_seconds": 0.22556195803917944,
+      "optimization_shots": 0,
+      "diagnostic_supports_scored": 0,
+      "verification_seconds": 0
+    },
+    {
+      "case": "n10_k3_exclude_incumbent",
+      "method": "fixed",
+      "elapsed_seconds": 0.0479663330479525,
+      "optimization_shots": 320,
+      "diagnostic_supports_scored": 1024,
+      "verification_seconds": 0.01826654199976474
+    },
+    {
+      "case": "n10_k3_exclude_incumbent",
+      "method": "rules",
+      "elapsed_seconds": 0.047114500019233674,
+      "optimization_shots": 320,
+      "diagnostic_supports_scored": 1024,
+      "verification_seconds": 0.018074334017001092
+    },
+    {
+      "case": "n10_k3_exclude_incumbent",
+      "method": "random",
+      "elapsed_seconds": 0.05740316701121628,
+      "optimization_shots": 320,
+      "diagnostic_supports_scored": 1024,
+      "verification_seconds": 0.020341083989478648
+    },
+    {
+      "case": "n10_k3_exclude_incumbent",
+      "method": "uniform",
+      "elapsed_seconds": 0.08839254197664559,
+      "optimization_shots": 0,
+      "diagnostic_supports_scored": 0,
+      "verification_seconds": 0
+    },
+    {
+      "case": "n10_k3_exclude_incumbent",
+      "method": "allocation_swap",
+      "elapsed_seconds": 0.07302574999630451,
+      "optimization_shots": 0,
+      "diagnostic_supports_scored": 0,
+      "verification_seconds": 0
+    },
+    {
+      "case": "n10_k3_exclude_incumbent",
+      "method": "joint_scip",
+      "elapsed_seconds": 0.18440945900510997,
+      "optimization_shots": 0,
+      "diagnostic_supports_scored": 0,
+      "verification_seconds": 0
+    },
+    {
+      "case": "n30_k6_base",
+      "method": "fixed",
+      "elapsed_seconds": 3.4739326250273734,
+      "optimization_shots": 320,
+      "diagnostic_supports_scored": 593775,
+      "verification_seconds": 1.535631291975733
+    },
+    {
+      "case": "n30_k6_base",
+      "method": "rules",
+      "elapsed_seconds": 3.657161833019927,
+      "optimization_shots": 320,
+      "diagnostic_supports_scored": 593775,
+      "verification_seconds": 1.6211185419815592
+    },
+    {
+      "case": "n30_k6_base",
+      "method": "random",
+      "elapsed_seconds": 3.720944166998379,
+      "optimization_shots": 320,
+      "diagnostic_supports_scored": 593775,
+      "verification_seconds": 1.7241762499907054
+    },
+    {
+      "case": "n30_k6_base",
+      "method": "uniform",
+      "elapsed_seconds": 0.10392550000688061,
+      "optimization_shots": 0,
+      "diagnostic_supports_scored": 0,
+      "verification_seconds": 0
+    },
+    {
+      "case": "n30_k6_base",
+      "method": "allocation_swap",
+      "elapsed_seconds": 0.1002873329562135,
+      "optimization_shots": 0,
+      "diagnostic_supports_scored": 0,
+      "verification_seconds": 0
+    },
+    {
+      "case": "n30_k6_base",
+      "method": "joint_scip",
+      "elapsed_seconds": 15.033283916010987,
+      "optimization_shots": 0,
+      "diagnostic_supports_scored": 0,
+      "verification_seconds": 0
+    }
+  ],
+  "accounting_note": "Classical full-support energy scoring, activity tests and allocation queries are diagnostics; not hardware access or a quantum runtime comparison."
+}

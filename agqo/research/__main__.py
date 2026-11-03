@@ -23,6 +23,8 @@ def main():
             "pipeline",
             "replay",
             "serve",
+            "published-fetch",
+            "published-study",
         ],
     )
     parser.add_argument("--data", default="data/us_equities")
@@ -55,7 +57,24 @@ def main():
     args = parser.parse_args()
     if args.evaluations < 1 or args.shots < 1 or args.periods < 1:
         parser.error("Budgets and periods must be positive.")
-    if args.command == "candidate":
+    if args.command == "published-fetch":
+        from .published import fetch
+
+        result = fetch(
+            "data/published_us" if args.data == "data/us_equities" else args.data
+        )
+    elif args.command == "published-study":
+        from .published_study import run as published_run
+
+        if args.mode != "offline":
+            parser.error(
+                "The frozen published development study is CPU-only; no Modal inference is dispatched."
+            )
+        result = published_run(
+            args.output,
+            "data/published_us" if args.data == "data/us_equities" else args.data,
+        )
+    elif args.command == "candidate":
         result = candidate(args.data)
     elif args.command == "fetch":
         result = fetch_prices(args.data)

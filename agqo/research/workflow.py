@@ -32,7 +32,17 @@ def swap_allocate(spec, budget=32):
     best = None
     seen = set()
     seed = np.zeros(spec.n, int)
-    seed[np.argsort(-spec.previous_weights, kind="stable")[: spec.k]] = 1
+    mandatory = [spec.tickers.index(t) for t in spec.include]
+    prohibited = {spec.tickers.index(t) for t in spec.exclude}
+    seed[mandatory] = 1
+    ordered = [
+        i
+        for i in np.argsort(-spec.previous_weights, kind="stable")
+        if i not in prohibited and i not in mandatory
+    ]
+    remaining = spec.k - len(mandatory)
+    if remaining >= 0:
+        seed[ordered[:remaining]] = 1
 
     def score(x):
         nonlocal count, best
@@ -51,8 +61,9 @@ def swap_allocate(spec, budget=32):
 
     score(seed)
     if best is None:
-        for chosen in combinations(range(spec.n), spec.k):
+        for chosen in combinations(ordered, remaining) if remaining >= 0 else ():
             x = np.zeros(spec.n, int)
+            x[mandatory] = 1
             x[list(chosen)] = 1
             score(x)
             if best is not None or count >= budget:
@@ -74,6 +85,9 @@ def swap_allocate(spec, budget=32):
             break
     return {
         **(best or {"status": "unknown", "feasible": False}),
+        "status": "feasible" if best is not None else "unknown",
+        "allocation_status": best["status"] if best is not None else "unknown",
+        "optimality_scope": "Continuous weights conditional on a tested support; no global support certificate.",
         "method": "allocation_swap",
         "support_evaluations": count,
         "elapsed_seconds": perf_counter() - start,
@@ -158,13 +172,14 @@ def solve_decision(
     result = evaluate(ir, spec, h, seed, evaluations, shots)
     if circuit_directory:
         export(ir, h, result["angles"], verification, circuit_directory)
-    allocation = (
-        allocate(spec, result["bits"])
-        if result["bits"] is not None
-        else {"status": "unknown", "feasible": False}
-    )
+    from .runner import postprocess_samples
+
+    allocation = postprocess_samples(spec, result["sampled_support_indices"], 32)
     return {
         **allocation,
+        "status": "feasible" if allocation["feasible"] else allocation["status"],
+        "allocation_status": allocation["status"],
+        "optimality_scope": "Continuous weights conditional on sampled supports; no global support certificate.",
         "method": method,
         "selection": result,
         "verification": verification,
@@ -250,7 +265,8 @@ def run_trajectory(
 
     path = Path(directory)
     protocol = {
-        "version": "trajectory-v1",
+        "version": "trajectory-v2",
+        "decision_semantics": "Common 32-query sample allocation; heuristic success is feasible, never a global optimality certificate.",
         "source": source,
         "methods": list(methods),
         "periods": periods,

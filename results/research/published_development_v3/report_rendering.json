@@ -1,0 +1,6 @@
+{
+  "operation": "Remove blank lines between Markdown table rows only; original report preserved.",
+  "original_sha256": "9c606c7652561db9c5bc38a29be506a79b5fd1322d40a6b83ec420b907b016c1",
+  "formatted_sha256": "cdd7b935a6a412216356971b92ea6b353febd6c00b7a2218206482e8c637e410",
+  "raw_results_changed": false
+}

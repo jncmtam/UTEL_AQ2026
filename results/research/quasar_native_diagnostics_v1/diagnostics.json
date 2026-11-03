@@ -1,0 +1,44 @@
+{
+  "source": "results/research/quasar_interface_v1",
+  "new_inference_calls": 0,
+  "rows": [
+    {
+      "task": "native_bell",
+      "original_valid": false,
+      "scope": "posthoc_unitary_diagnostic_not_original_contract_success",
+      "source_hash": "939e38637713835b770e01d66c1869a39a9a9d545f831ae79aff789256f7a10c",
+      "changes": [
+        "Removed empty leading reasoning tag.",
+        "Removed 2 terminal measurements for a unitary-only diagnostic.",
+        "Removed classical bit declaration; remaining classical use is still rejected."
+      ],
+      "original_score_unchanged": true,
+      "unitary_diagnostic": {
+        "valid": false,
+        "fidelity": 0.4956150202982229,
+        "cx": 2,
+        "depth": 11,
+        "source": "OPENQASM 3.0;\ninclude \"stdgates.inc\";\nqubit[2] q;\nh q[0];\nh q[1];\ncx q[1], q[0];\nrz(0.0402) q[0];\ncx q[1], q[0];\nrz(-0.0804) q[1];\nrz(-0.0402) q[0];\nh q[0];\nrz(-0.0644) q[0];\nh q[0];\nh q[1];\nrz(-0.0644) q[1];\nh q[1];"
+      }
+    },
+    {
+      "task": "native_cost",
+      "original_valid": false,
+      "scope": "posthoc_unitary_diagnostic_not_original_contract_success",
+      "source_hash": "99b61cc8ee335e17af7138a5fda7278df3315f11480dfb8f31772ecd06533042",
+      "changes": [
+        "Removed empty leading reasoning tag.",
+        "Removed 2 terminal measurements for a unitary-only diagnostic.",
+        "Removed classical bit declaration; remaining classical use is still rejected."
+      ],
+      "original_score_unchanged": true,
+      "unitary_diagnostic": {
+        "valid": false,
+        "fidelity": 0.5162881341499375,
+        "cx": 8,
+        "depth": 17,
+        "source": "OPENQASM 3.0;\ninclude \"stdgates.inc\";\nqubit[2] q;\nh q[0];\nh q[1];\ncx q[1], q[0];\ncx q[0], q[1];\nrz(0.225) q[1];\nrz(-0.375) q[0];\ncx q[1], q[0];\nrz(-0.125) q[1];\nrz(-0.25) q[0];\ncx q[1], q[0];\nrz(-0.125) q[1];\nrz(-0.25) q[0];\ncx q[1], q[0];\nrz(-0.125) q[1];\nrz(-0.25) q[0];\ncx q[1], q[0];\nrz(-0.125) q[1];\nrz(-0.25) q[0];\ncx q[1], q[0];\nrz(-0.125) q[1];\nrz(-0.25) q[0];\ncx q[1], q[0];"
+      }
+    }
+  ]
+}
