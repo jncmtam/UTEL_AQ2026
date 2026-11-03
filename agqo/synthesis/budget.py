@@ -35,7 +35,20 @@ LARGE_MODELS = {
                 'rate_key':'gpu_hour_cost_h200','dtype':'auto','ram_gib':384,'cpu':16,
                 'timeout':1800,'startup_timeout':900,'vllm_version':'0.17.1'},
 }
-MODEL_CATALOG = {**MODELS, **LARGE_MODELS}
+SPECIALIST_MODELS = {
+    'quasar4': {'model':'Benyucong/rl_quantum_4b',
+               'revision':'b9581279345436e2b7eadcdf80e4f1417748eb8b',
+               'gpu':'A100-80GB','rate_key':'gpu_hour_cost_a100_80gb',
+               'dtype':'bfloat16','ram_gib':64,'cpu':4,
+               'timeout':600,'startup_timeout':600,'native_format':'qasm'},
+    'mistral24q': {'model':'Qiskit/mistral-small-3.2-24b-qiskit',
+               'revision':'0c541958022de04bd7c200b14a4b7a58977ae751',
+               'gpu':'A100-80GB','rate_key':'gpu_hour_cost_a100_80gb',
+               'dtype':'bfloat16','ram_gib':96,'cpu':4,
+               'timeout':900,'startup_timeout':600,'native_format':'qiskit',
+               'engine_kwargs':{'tokenizer_mode':'mistral','config_format':'mistral','load_format':'mistral'}},
+}
+MODEL_CATALOG = {**MODELS, **LARGE_MODELS, **SPECIALIST_MODELS}
 
 
 def billing_snapshot():
@@ -46,7 +59,7 @@ def billing_snapshot():
     return {"checked_utc": datetime.now(timezone.utc).isoformat(), "metered_cost": float(summary.metered_cost),
             "billed_cost": float(summary.billed_cost), "adjustments": {k: str(v) for k, v in summary.adjustments.items()},
             "rates": {k: float(v) for k, v in rates.items() if k in {"gpu_hour_cost_h200", "gpu_hour_cost_a100_80gb", "cpu_hour_cost", "mem_gib_hour_cost"}},
-            "allowance_basis": "User-confirmed Starter USD30 monthly allowance; API exposes metered/billed costs, not a standalone available-credit balance."}
+            "allowance_basis": "API exposes metered/billed costs, not a standalone available-credit balance. Enforce the selected authorization policy separately."}
 
 
 def job_reservation(model, snapshot, timeout=None, startup_timeout=None):
@@ -110,3 +123,12 @@ class BudgetLedger:
     def state(self):
         with self.locked() as data:
             return json.loads(json.dumps(data))
+
+
+def configured_budget(policy='config/synthesis-expanded-budget.json', ledger_path=None):
+    """Load the explicitly authorized policy; do not infer a credit balance."""
+    value=json.loads(Path(policy).read_text())
+    return BudgetLedger(ledger_path or value['ledger_path'],
+                        limit=value['per_experiment_reservation_limit_usd'],
+                        monthly_allowance=value['monthly_allowance_usd'],
+                        authorization=value['authorization'])

@@ -1,0 +1,382 @@
+[
+  {
+    "instruction": 0,
+    "source": "compiler_basis"
+  },
+  {
+    "instruction": 1,
+    "source": "compiler_basis"
+  },
+  {
+    "instruction": 2,
+    "source": "compiler_basis"
+  },
+  {
+    "instruction": 3,
+    "source": "llm_or_baseline_gate_program"
+  },
+  {
+    "instruction": 4,
+    "source": "llm_or_baseline_gate_program"
+  },
+  {
+    "instruction": 5,
+    "source": "llm_or_baseline_gate_program"
+  },
+  {
+    "instruction": 6,
+    "source": "llm_or_baseline_gate_program"
+  },
+  {
+    "instruction": 7,
+    "source": "llm_or_baseline_gate_program"
+  },
+  {
+    "instruction": 8,
+    "source": "llm_or_baseline_gate_program"
+  },
+  {
+    "instruction": 9,
+    "source": "compiler_slack_initialization"
+  },
+  {
+    "instruction": 10,
+    "source": "compiler_slack_initialization"
+  },
+  {
+    "instruction": 11,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 12,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 13,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 14,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 15,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 16,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 17,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 18,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 19,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 20,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 21,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 22,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 23,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 24,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 25,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 26,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 27,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 28,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 29,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 30,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 31,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 32,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 33,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 34,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 35,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 36,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 37,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 38,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 39,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 40,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 41,
+    "source": "llm_or_baseline_gate_program"
+  },
+  {
+    "instruction": 42,
+    "source": "llm_or_baseline_gate_program"
+  },
+  {
+    "instruction": 43,
+    "source": "llm_or_baseline_gate_program"
+  },
+  {
+    "instruction": 44,
+    "source": "llm_or_baseline_gate_program"
+  },
+  {
+    "instruction": 45,
+    "source": "llm_or_baseline_gate_program"
+  },
+  {
+    "instruction": 46,
+    "source": "llm_or_baseline_gate_program"
+  },
+  {
+    "instruction": 47,
+    "source": "llm_or_baseline_gate_program"
+  },
+  {
+    "instruction": 48,
+    "source": "llm_or_baseline_gate_program"
+  },
+  {
+    "instruction": 49,
+    "source": "llm_or_baseline_gate_program"
+  },
+  {
+    "instruction": 50,
+    "source": "llm_or_baseline_gate_program"
+  },
+  {
+    "instruction": 51,
+    "source": "compiler_slack_mixer"
+  },
+  {
+    "instruction": 52,
+    "source": "compiler_slack_mixer"
+  },
+  {
+    "instruction": 53,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 54,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 55,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 56,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 57,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 58,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 59,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 60,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 61,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 62,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 63,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 64,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 65,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 66,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 67,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 68,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 69,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 70,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 71,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 72,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 73,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 74,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 75,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 76,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 77,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 78,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 79,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 80,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 81,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 82,
+    "source": "compiler_cost"
+  },
+  {
+    "instruction": 83,
+    "source": "llm_or_baseline_gate_program"
+  },
+  {
+    "instruction": 84,
+    "source": "llm_or_baseline_gate_program"
+  },
+  {
+    "instruction": 85,
+    "source": "llm_or_baseline_gate_program"
+  },
+  {
+    "instruction": 86,
+    "source": "llm_or_baseline_gate_program"
+  },
+  {
+    "instruction": 87,
+    "source": "llm_or_baseline_gate_program"
+  },
+  {
+    "instruction": 88,
+    "source": "llm_or_baseline_gate_program"
+  },
+  {
+    "instruction": 89,
+    "source": "llm_or_baseline_gate_program"
+  },
+  {
+    "instruction": 90,
+    "source": "llm_or_baseline_gate_program"
+  },
+  {
+    "instruction": 91,
+    "source": "llm_or_baseline_gate_program"
+  },
+  {
+    "instruction": 92,
+    "source": "llm_or_baseline_gate_program"
+  },
+  {
+    "instruction": 93,
+    "source": "compiler_slack_mixer"
+  },
+  {
+    "instruction": 94,
+    "source": "compiler_slack_mixer"
+  }
+]

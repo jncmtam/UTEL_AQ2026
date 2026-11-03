@@ -1,0 +1,239 @@
+{
+  "model": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+  "revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+  "model_key": "coder30",
+  "answers": [
+    {
+      "request_hash": "992c19247cd51fd8ab251a89e77d71df40e50c16e0fced9fc572327fa922791d",
+      "status": "ok",
+      "response": {
+        "version": "connected-exchange-v3",
+        "parents": {
+          "p1": 0,
+          "p2": 1,
+          "p3": 2,
+          "p4": 3,
+          "p5": 4
+        },
+        "schedule": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "groups": [
+          0,
+          1,
+          0,
+          1,
+          0
+        ],
+        "preparation": [
+          "e0_3",
+          "e0_4",
+          "e0_5"
+        ],
+        "depth": 2,
+        "rationale": [
+          {
+            "feature_ids": [
+              "CORRELATION",
+              "CLUSTERS"
+            ],
+            "decision": "Select parent structure based on strong asset correlations and cluster connectivity to guide exchange operations."
+          },
+          {
+            "feature_ids": [
+              "OBJECTIVE_TERMS"
+            ],
+            "decision": "Group gates by interaction strength to align with objective term coefficients and reduce circuit depth."
+          },
+          {
+            "feature_ids": [
+              "SPECTRUM"
+            ],
+            "decision": "Use eigenvalue distribution to inform layer grouping and parameter sharing for efficient QAOA execution."
+          },
+          {
+            "feature_ids": [
+              "INCUMBENT"
+            ],
+            "decision": "Prioritize preparation edges that connect high-weight assets to maintain solution quality during exchange."
+          }
+        ]
+      },
+      "raw_text": "{\n  \"version\": \"connected-exchange-v3\",\n  \"parents\": {\n    \"p1\": 0,\n    \"p2\": 1,\n    \"p3\": 2,\n    \"p4\": 3,\n    \"p5\": 4\n  },\n  \"schedule\": [0, 1, 2, 3, 4],\n  \"groups\": [0, 1, 0, 1, 0],\n  \"preparation\": [\"e0_3\", \"e0_4\", \"e0_5\"],\n  \"depth\": 2,\n  \"rationale\": [\n    {\n      \"feature_ids\": [\"CORRELATION\", \"CLUSTERS\"],\n      \"decision\": \"Select parent structure based on strong asset correlations and cluster connectivity to guide exchange operations.\"\n    },\n    {\n      \"feature_ids\": [\"OBJECTIVE_TERMS\"],\n      \"decision\": \"Group gates by interaction strength to align with objective term coefficients and reduce circuit depth.\"\n    },\n    {\n      \"feature_ids\": [\"SPECTRUM\"],\n      \"decision\": \"Use eigenvalue distribution to inform layer grouping and parameter sharing for efficient QAOA execution.\"\n    },\n    {\n      \"feature_ids\": [\"INCUMBENT\"],\n      \"decision\": \"Prioritize preparation edges that connect high-weight assets to maintain solution quality during exchange.\"\n    }\n  ]\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "input_tokens": 6289,
+        "output_tokens": 286
+      }
+    },
+    {
+      "request_hash": "007c6fdc826f41aca8743a808d8ac49137cec389cf2628248aa90e8f9c32819e",
+      "status": "ok",
+      "response": {
+        "version": "connected-exchange-v3",
+        "parents": {
+          "p1": 0,
+          "p2": 1,
+          "p3": 2,
+          "p4": 3,
+          "p5": 4,
+          "p6": 5,
+          "p7": 6
+        },
+        "schedule": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "groups": [
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          0
+        ],
+        "preparation": [
+          "e0_4",
+          "e0_5",
+          "e0_6"
+        ],
+        "depth": 2,
+        "rationale": [
+          {
+            "feature_ids": [
+              "CORRELATION",
+              "CLUSTERS"
+            ],
+            "decision": "Select parent structure based on strong correlation clusters and asset connectivity to optimize exchange efficiency."
+          },
+          {
+            "feature_ids": [
+              "SPECTRUM",
+              "OBJECTIVE_TERMS"
+            ],
+            "decision": "Group gates by spectral proximity and objective term coefficients to minimize circuit depth and maximize convergence."
+          },
+          {
+            "feature_ids": [
+              "INCUMBENT",
+              "STABILITY"
+            ],
+            "decision": "Prioritize preparation edges that stabilize incumbent weights and reduce turnover in high-correlation regions."
+          },
+          {
+            "feature_ids": [
+              "CORRELATION",
+              "SPECTRUM"
+            ],
+            "decision": "Use depth-2 scheduling to allow sufficient mixing while respecting correlation-based gate ordering."
+          }
+        ]
+      },
+      "raw_text": "{\n  \"version\": \"connected-exchange-v3\",\n  \"parents\": {\n    \"p1\": 0,\n    \"p2\": 1,\n    \"p3\": 2,\n    \"p4\": 3,\n    \"p5\": 4,\n    \"p6\": 5,\n    \"p7\": 6\n  },\n  \"schedule\": [0, 1, 2, 3, 4, 5, 6],\n  \"groups\": [0, 1, 0, 1, 0, 1, 0],\n  \"preparation\": [\"e0_4\", \"e0_5\", \"e0_6\"],\n  \"depth\": 2,\n  \"rationale\": [\n    {\n      \"feature_ids\": [\"CORRELATION\", \"CLUSTERS\"],\n      \"decision\": \"Select parent structure based on strong correlation clusters and asset connectivity to optimize exchange efficiency.\"\n    },\n    {\n      \"feature_ids\": [\"SPECTRUM\", \"OBJECTIVE_TERMS\"],\n      \"decision\": \"Group gates by spectral proximity and objective term coefficients to minimize circuit depth and maximize convergence.\"\n    },\n    {\n      \"feature_ids\": [\"INCUMBENT\", \"STABILITY\"],\n      \"decision\": \"Prioritize preparation edges that stabilize incumbent weights and reduce turnover in high-correlation regions.\"\n    },\n    {\n      \"feature_ids\": [\"CORRELATION\", \"SPECTRUM\"],\n      \"decision\": \"Use depth-2 scheduling to allow sufficient mixing while respecting correlation-based gate ordering.\"\n    }\n  ]\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "input_tokens": 9078,
+        "output_tokens": 329
+      }
+    },
+    {
+      "request_hash": "4417dc563b45cbb6c0dd68afa39a613d83a4f81a0c71febaf4c69c516bc52772",
+      "status": "ok",
+      "response": {
+        "version": "connected-exchange-v3",
+        "parents": {
+          "p1": 0,
+          "p2": 1,
+          "p3": 2,
+          "p4": 3,
+          "p5": 4,
+          "p6": 5,
+          "p7": 6,
+          "p8": 7,
+          "p9": 8
+        },
+        "schedule": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "groups": [
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          0
+        ],
+        "preparation": [
+          "e0_4",
+          "e0_5",
+          "e0_6"
+        ],
+        "depth": 2,
+        "rationale": [
+          {
+            "feature_ids": [
+              "CORRELATION",
+              "CLUSTERS"
+            ],
+            "decision": "Select parent indices based on strong correlation clusters to ensure exchange connectivity within correlated groups."
+          },
+          {
+            "feature_ids": [
+              "OBJECTIVE_TERMS"
+            ],
+            "decision": "Group edges by parameter sharing to reduce circuit depth while preserving objective fidelity."
+          },
+          {
+            "feature_ids": [
+              "SPECTRUM"
+            ],
+            "decision": "Depth chosen to balance expressiveness with resource constraints, leveraging eigenvalue spread for effective mixing."
+          },
+          {
+            "feature_ids": [
+              "STABILITY"
+            ],
+            "decision": "Preparation edges selected to stabilize initial state and reduce variance in early layers."
+          }
+        ]
+      },
+      "raw_text": "{\n    \"version\": \"connected-exchange-v3\",\n    \"parents\": {\n        \"p1\": 0,\n        \"p2\": 1,\n        \"p3\": 2,\n        \"p4\": 3,\n        \"p5\": 4,\n        \"p6\": 5,\n        \"p7\": 6,\n        \"p8\": 7,\n        \"p9\": 8\n    },\n    \"schedule\": [0, 1, 2, 3, 4, 5, 6, 7, 8],\n    \"groups\": [0, 1, 0, 1, 0, 1, 0, 1, 0],\n    \"preparation\": [\"e0_4\", \"e0_5\", \"e0_6\"],\n    \"depth\": 2,\n    \"rationale\": [\n        {\n            \"feature_ids\": [\"CORRELATION\", \"CLUSTERS\"],\n            \"decision\": \"Select parent indices based on strong correlation clusters to ensure exchange connectivity within correlated groups.\"\n        },\n        {\n            \"feature_ids\": [\"OBJECTIVE_TERMS\"],\n            \"decision\": \"Group edges by parameter sharing to reduce circuit depth while preserving objective fidelity.\"\n        },\n        {\n            \"feature_ids\": [\"SPECTRUM\"],\n            \"decision\": \"Depth chosen to balance expressiveness with resource constraints, leveraging eigenvalue spread for effective mixing.\"\n        },\n        {\n            \"feature_ids\": [\"STABILITY\"],\n            \"decision\": \"Preparation edges selected to stabilize initial state and reduce variance in early layers.\"\n        }\n    ]\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "input_tokens": 12618,
+        "output_tokens": 338
+      }
+    }
+  ],
+  "execution": "live_modal_vllm",
+  "vllm_version": "0.15.0",
+  "elapsed_seconds": 91.030337712,
+  "runtime_adapter": "uniqueItems_checked_by_independent_validator_v1",
+  "gpu": "NVIDIA A100 80GB PCIe",
+  "parent_process_cuda_peak_bytes_not_model_vram": 0,
+  "gpu_memory_measurement": "device_free_snapshot_not_engine_peak",
+  "gpu_memory_total_bytes": 85118156800,
+  "gpu_memory_free_bytes": 7380533248,
+  "batch_size": 3
+}

@@ -1,0 +1,415 @@
+{
+  "version": "gate-ir-v1",
+  "problem_hash": "e9a8464ee7375d49bd83556f24efe03b6372136d5025fe0039f6c61a0b7d2e16",
+  "hamiltonian_hash": "deeaf9c666568037e1f6e4822e508de6b626b5b45c66c6acba2dd01b45b7d29b",
+  "qubit_to_asset": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "mode": "preserve_cardinality",
+  "initial_bits": [
+    1,
+    1,
+    1,
+    0,
+    0,
+    0
+  ],
+  "parameters": [
+    {
+      "id": "gamma_0",
+      "kind": "cost",
+      "initial": null
+    },
+    {
+      "id": "beta_0_0",
+      "kind": "mixer",
+      "initial": null
+    },
+    {
+      "id": "beta_0_1",
+      "kind": "mixer",
+      "initial": null
+    },
+    {
+      "id": "gamma_1",
+      "kind": "cost",
+      "initial": null
+    },
+    {
+      "id": "beta_1_0",
+      "kind": "mixer",
+      "initial": null
+    },
+    {
+      "id": "beta_1_1",
+      "kind": "mixer",
+      "initial": null
+    }
+  ],
+  "initialization": [
+    {
+      "op": "RXX",
+      "qubits": [
+        0,
+        3
+      ],
+      "angle": {
+        "parameter": null,
+        "scale": 2.0,
+        "offset": 0.37
+      }
+    },
+    {
+      "op": "RYY",
+      "qubits": [
+        0,
+        3
+      ],
+      "angle": {
+        "parameter": null,
+        "scale": 2.0,
+        "offset": 0.37
+      }
+    },
+    {
+      "op": "RXX",
+      "qubits": [
+        0,
+        4
+      ],
+      "angle": {
+        "parameter": null,
+        "scale": 2.0,
+        "offset": 0.37
+      }
+    },
+    {
+      "op": "RYY",
+      "qubits": [
+        0,
+        4
+      ],
+      "angle": {
+        "parameter": null,
+        "scale": 2.0,
+        "offset": 0.37
+      }
+    },
+    {
+      "op": "RXX",
+      "qubits": [
+        0,
+        5
+      ],
+      "angle": {
+        "parameter": null,
+        "scale": 2.0,
+        "offset": 0.37
+      }
+    },
+    {
+      "op": "RYY",
+      "qubits": [
+        0,
+        5
+      ],
+      "angle": {
+        "parameter": null,
+        "scale": 2.0,
+        "offset": 0.37
+      }
+    }
+  ],
+  "layers": [
+    {
+      "cost": {
+        "op": "COST",
+        "parameter": "gamma_0",
+        "hamiltonian_hash": "deeaf9c666568037e1f6e4822e508de6b626b5b45c66c6acba2dd01b45b7d29b"
+      },
+      "mixer": [
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            1
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            0,
+            1
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            1,
+            2
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            1,
+            2
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            2,
+            3
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            2,
+            3
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            3,
+            4
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            3,
+            4
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            4,
+            5
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            4,
+            5
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "cost": {
+        "op": "COST",
+        "parameter": "gamma_1",
+        "hamiltonian_hash": "deeaf9c666568037e1f6e4822e508de6b626b5b45c66c6acba2dd01b45b7d29b"
+      },
+      "mixer": [
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            1
+          ],
+          "angle": {
+            "parameter": "beta_1_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            0,
+            1
+          ],
+          "angle": {
+            "parameter": "beta_1_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            1,
+            2
+          ],
+          "angle": {
+            "parameter": "beta_1_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            1,
+            2
+          ],
+          "angle": {
+            "parameter": "beta_1_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            2,
+            3
+          ],
+          "angle": {
+            "parameter": "beta_1_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            2,
+            3
+          ],
+          "angle": {
+            "parameter": "beta_1_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            3,
+            4
+          ],
+          "angle": {
+            "parameter": "beta_1_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            3,
+            4
+          ],
+          "angle": {
+            "parameter": "beta_1_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            4,
+            5
+          ],
+          "angle": {
+            "parameter": "beta_1_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            4,
+            5
+          ],
+          "angle": {
+            "parameter": "beta_1_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        }
+      ]
+    }
+  ],
+  "rationale": [
+    {
+      "feature_ids": [
+        "CORRELATION",
+        "CLUSTERS"
+      ],
+      "decision": "Select parent structure based on strong asset correlations and cluster connectivity to guide exchange operations."
+    },
+    {
+      "feature_ids": [
+        "OBJECTIVE_TERMS"
+      ],
+      "decision": "Group gates by interaction strength to align with objective term coefficients and reduce circuit depth."
+    },
+    {
+      "feature_ids": [
+        "SPECTRUM"
+      ],
+      "decision": "Use eigenvalue distribution to inform layer grouping and parameter sharing for efficient QAOA execution."
+    },
+    {
+      "feature_ids": [
+        "INCUMBENT"
+      ],
+      "decision": "Prioritize preparation edges that connect high-weight assets to maintain solution quality during exchange."
+    }
+  ]
+}

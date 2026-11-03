@@ -1,44 +1,47 @@
-# Tiến độ AGQO và trạng thái bằng chứng
+# Project status
 
-Cập nhật: 31/10/2026. Trạng thái theo đầu ra thực tế, không dùng phần trăm hoàn thành ước lượng.
+Updated: 2026-11-02. Scope: maintained US-equity research application.
 
-| Hạng mục | Trạng thái | Bằng chứng / việc còn lại |
-|---|---|---|
-| Mô hình sửa danh mục tracking–cost theo mandate | Đã triển khai | `agqo/repair/`; objective dùng chung, drift và transaction cost; exact/MILP/annealing/QAOA |
-| Mandate có cấu trúc và kiểm tra | Đã triển khai | Rules + LLM endpoint, bằng chứng văn bản và validator; còn mở rộng corpus diễn đạt tự nhiên |
-| DataProfile/Hamiltonian/GateIR/compiler | Đã triển khai và kiểm thử | `agqo/synthesis/`; hash bất biến, angle AST, NumPy/Qiskit, conservation và source map |
-| Pilot live 80B/30B, GateIR v1 | Đã chạy, chưa đạt | 80B: 1/3; 30B: 0/3 sau sửa. Xem `results/synthesis/pilot/REPORT.md` |
-| Pilot live typed exchange v2 | Đã chạy, chưa qualification | Mỗi model 2/3; chưa hơn fixed path. Xem `results/synthesis/typed_pilot/REPORT.md` |
-| Benchmark structural 12 bài | Chuẩn bị, chưa chạy live | Record disabled/not_run không tính là kết quả LLM |
-| Rà paper LLM–quantum–finance | Đã cập nhật | `LLM_QUANTUM_FINANCE_LITERATURE.md`: QGAS, QUASAR, QuanBench+, evaluator-guided discovery và các đối chứng portfolio |
-| Mở rộng Modal theo quyền user | Đã cấu hình | Policy riêng trần 150 USD reservation; ledger USD25 trước đó giữ nguyên |
-| Coder480 / Qwen397 | Đã thêm worker và deploy, chưa inference | Revision pin, TP=4 H200; Qwen397 dùng image vLLM 0.17.1 riêng. Chưa xác nhận VRAM/quality bằng GPU smoke test |
-| Specialist QUASAR/Vista 4B | Đã xác minh artifact, chưa chạy AGQO | Cần thử native QASM và kiểm soát chuyển định dạng GateIR; không coi cùng checkpoint là hai model độc lập |
-| Chọn model chính thức | Chưa đủ bằng chứng | 30B chỉ là lựa chọn phát triển tạm thời; 480B/397B là ứng viên, không phải winner |
-| Kiểm tra ngoài mẫu tài chính | Chưa hoàn tất | Cần dữ liệu phù hợp và benchmark thay đổi mandate; synthetic pilot không chứng minh lợi ích đầu tư thực |
-| Quantum advantage / alpha vượt thị trường | Chưa chứng minh | Không phải kết luận được suy từ gap=0 trên N≤8 |
+## Implemented
 
-## Kết quả đã đạt và ý nghĩa
+- English CLI and decision application, mandate editing, comparison and saved replay.
+- US candidate acquisition, source checksums, descriptive development EDA and
+  fail-closed admission with explicit identity/action/sector review requirements.
+- Immutable financial specification, convex allocation, joint SCIP reference,
+  support-proxy audit and allocation-aware swaps.
+- Dollar holdings/cash, fees paid from NAV, drift, persistent mandates,
+  next-session execution and true hold behavior.
+- Direct QUBO/Ising compilation with slack, certified subspace option, verified
+  gate programs and QASM/QPY/source-map exports.
+- Non-LLM controls: fixed/rules/random/mutation, a dense Dicke reference and
+  gradient-adaptive exchanges with explicit classical evaluation counts.
+- Modal specialist workers, frozen revisions, bounded requests, CPU prefetch,
+  sequential GPU budget policy, caches, dispatch records and cost receipts.
+- Complete artifact contracts for successful and blocked trajectories/pipelines,
+  native specialist probes, model-transfer tests, profile ablation switches and
+  descriptive paired statistics.
 
-V2 tăng tỷ lệ đáp ứng protocol so v1, nhưng task hẹp hơn và compiler đảm bảo nhiều thuộc tính. Không gán toàn bộ cải thiện đó cho LLM. Mixer N=8 bị từ chối do yêu cầu liên thông đã khóa; đây không phải bằng chứng mạch không unitary.
+## Measured evidence
 
-Trên N=6, fixed-path đạt median xác suất optimum khoảng 90,8%, cao hơn hai mạch LLM trong pilot. Ngay cả khi LLM đạt best gap khoảng 1%, chất lượng phân phối vẫn chưa đạt đối chứng. Điều này quyết định chưa mở rộng expensive benchmark chỉ để lấy thêm mẫu giống cũ.
+- Non-LLM study: 12/12 circuits accepted by independent verification.
+- QUASAR interface probe: 1/3 accepted (GateIR transfer); two native QASM outputs
+  violated the requested contract. No paid repair or automatic escalation.
+- Continuous trajectories and interactive decision comparisons run on synthetic
+  data; these validate integration and do not establish investment performance.
+- Earlier 80B interruption remains user-interrupted evidence, not model failure.
 
-Ở N=8, uniform feasible sampling có khoảng 97,6% khả năng gặp optimum trong 128 mẫu. Benchmark tiếp theo phải tránh chỉ đánh giá best-of-shots trên không gian quá nhỏ.
+## Open scientific dependencies
 
-## Việc tiếp theo theo thứ tự phụ thuộc
+Market evaluation is blocked: UTX history, all permanent identities, dated sector
+records, corporate-action reconciliation and aligned audited prices are incomplete.
+No production model is qualified. Mistral 24B runtime support is implemented but
+has not been live-qualified. Main held-out evaluation and economic superiority
+remain unestablished. Original broad English migration does not rewrite historical
+raw logs or the compatibility prototypes; active docs/app/research modules are English.
 
-1. Soát interface native QASM của quantum specialist; freeze protocol mới khi đổi grammar.
-2. Xây biểu diễn đảm bảo liên thông và tách ablation initialization/architecture/angle initialization.
-3. Smoke test model lớn trước, rồi so cùng instance, verifier và tổng ngân sách. Không chọn bằng số tham số.
-4. Khóa prompt/compiler/model, mở tập độc lập N=10,12 và tổ hợp mandate; đo full/no-correlation/shuffled profile, không thay Hamiltonian giữa ablation.
-5. Bổ sung classical structure selection/ADAPT-inspired comparator có đo chi phí, rồi mới xét đóng góp LLM/QAOA.
-6. Đánh giá ngoài mẫu tracking–turnover–cost và giao diện quyết định từ kết quả đã kiểm chứng.
+## Read and reproduce
 
-## Chi phí và phiên bản
-
-Pilot cũ: reservation 23,91/25 USD, gồm lượt lỗi hạ tầng. Billing snapshot sau pilot: metered cả tháng 6,036 USD, billed 0 USD; không phải số dư credit.
-
-User đã mở rộng quyền sử dụng Modal ở lượt sau. `config/synthesis-expanded-budget.json` ghi điều kiện mới; 150 USD là trần vận hành cho đợt tiếp theo, không phải mức chi dự kiến hoặc xác nhận balance. Việc deploy worker không được tính thành một inference thành công.
-
-Nguồn kết quả và quy tắc ghi nhận: [RESULTS_SPEC](RESULTS_SPEC.md). Nguồn nghiên cứu: [literature review](LLM_QUANTUM_FINANCE_LITERATURE.md).
+See [README](../README.md), [USER_GUIDE](USER_GUIDE.md),
+[worklog](research/WORKLOG.md), and [agent handoff](../AGENTS.md).
+Each result directory contains its frozen protocol and limitations. A `completed`
+software status does not imply a supported financial hypothesis.

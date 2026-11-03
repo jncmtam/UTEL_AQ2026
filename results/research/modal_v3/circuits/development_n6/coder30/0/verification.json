@@ -1,0 +1,35 @@
+{
+  "valid": true,
+  "errors": [],
+  "warnings": [],
+  "conservation_certificate": "trusted_diagonal_and_paired_exchange",
+  "synthesis_gate_count": 26,
+  "declared_parameters": 6,
+  "ir_hash": "bc509c22cc75a8197eecf79557fd802c84afc06a696e3c630b2f71133ba9fc35",
+  "limits": {
+    "max_qubits": 12,
+    "max_layers": 4,
+    "max_parameters": 16,
+    "max_synthesis_gates": 512,
+    "max_two_qubit_gates": 40000,
+    "max_transpiled_depth": 80000
+  },
+  "resources": {
+    "qubits": 8,
+    "asset_qubits": 6,
+    "slack_qubits": 2,
+    "transpiled_cx": 140,
+    "transpiled_depth": 187,
+    "includes_cost_and_initialization": true
+  },
+  "inactive_parameters": [],
+  "active_parameters": 6,
+  "crosscheck_state_fidelities": [
+    1.0000000000000013,
+    0.9999999999999996,
+    0.9999999999999996
+  ],
+  "maximum_cardinality_leak": 1.1708702752414944e-32,
+  "elapsed_seconds": 0.042116208001971245,
+  "reachability_scope": "Asset exchange connectivity certifies cardinality-domain connectivity only; no certificate for all inequality-feasible portfolios."
+}

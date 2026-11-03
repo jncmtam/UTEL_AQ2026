@@ -6,7 +6,7 @@ from pathlib import Path
 from time import perf_counter
 import json
 
-from .budget import BudgetLedger, MODEL_CATALOG, billing_snapshot, job_reservation
+from .budget import BudgetLedger, MODEL_CATALOG, billing_snapshot, job_reservation, configured_budget
 from .ir import Limits, SCHEMA
 from .profile import ablate_profile, data_profile, digest, financial_ir
 
@@ -39,12 +39,13 @@ def request_for(problem, hamiltonian, seed=11, feedback=None, ablation="full", d
 
 
 class SynthesisClient:
-    def __init__(self, model="next80", mode="disabled", directory="results/synthesis", ledger=None, replay=None):
+    def __init__(self, model="next80", mode="disabled", directory="results/synthesis", ledger=None, replay=None, prefetch=False):
         if model not in MODEL_CATALOG or mode not in {"disabled", "modal", "replay"}:
             raise ValueError("Unknown model/mode.")
         self.model, self.mode, self.directory = model, mode, Path(directory)
+        self.prefetch = prefetch
         self.directory.mkdir(parents=True, exist_ok=True)
-        self.ledger = ledger or BudgetLedger("results/synthesis/budget.json")
+        self.ledger = ledger or configured_budget()
         self.cache = json.loads(Path(replay).read_text()) if replay else {}
         self.cache_path = self.directory / (model + "_cache.json")
         if self.cache_path.exists():
@@ -73,9 +74,23 @@ class SynthesisClient:
                 answers[request["request_hash"]] = {"status": "not_run", "reason": "No live LLM invocation; no fabricated gate output.", "request_hash": request["request_hash"]}
         elif missing:
             import modal
-            snapshot = billing_snapshot()
-            reservation = job_reservation(self.model, snapshot)
-            job = self.ledger.reserve(reservation, self.model, snapshot)
+            try:
+                if self.prefetch:
+                    self.prefetch_weights()
+                snapshot = billing_snapshot()
+                reservation = job_reservation(self.model, snapshot)
+                job = self.ledger.reserve(reservation, self.model, snapshot)
+            except Exception as exc:
+                for request in missing:
+                    answers[request['request_hash']] = {
+                        'status': 'blocked', 'execution': 'not_dispatched',
+                        'request_hash': request['request_hash'],
+                        'reason': f'Inference preflight failed: {type(exc).__name__}: {exc}',
+                    }
+                with (self.directory / 'preflight_failures.jsonl').open('a') as handle:
+                    for request in missing:
+                        handle.write(json.dumps({'request': request, 'response': answers[request['request_hash']]}) + '\n')
+                return [answers[r['request_hash']] for r in requests]
             start = perf_counter()
             call = None
             try:
@@ -118,3 +133,27 @@ class SynthesisClient:
                 for request in missing:
                     handle.write(json.dumps({"request": request, "response": answers[request["request_hash"]]}, ensure_ascii=False) + "\n")
         return [answers[r["request_hash"]] for r in requests]
+
+
+    def prefetch_weights(self):
+        """CPU-only download before a new paid model batch; receipts are cached."""
+        import modal
+        config=MODEL_CATALOG[self.model];target=self.directory/(self.model+'_prefetch.json')
+        if target.exists():
+            value=json.loads(target.read_text())
+            if value.get('model')==config['model'] and value.get('revision')==config['revision']:return value
+        snapshot=billing_snapshot();rates=snapshot['rates']
+        # CPU=4, RAM=16GiB, 2400s timeout + 180s startup + margin.
+        reservation=(4*rates['cpu_hour_cost']+16*rates['mem_gib_hour_cost'])*2700/3600*1.25
+        job=self.ledger.reserve(reservation,'prefetch:'+self.model,snapshot,resource='cpu');call=None
+        try:
+            call=modal.Function.from_name('agqo-gate-synthesis','prefetch_model').spawn(self.model)
+            (self.directory/(job+'_prefetch_dispatch.json')).write_text(json.dumps({'call_id':call.object_id,'model':self.model,'job_id':job},indent=2))
+            value=call.get(timeout=2610)
+            if value.get('model')!=config['model'] or value.get('revision')!=config['revision']:raise ValueError('Prefetch identity mismatch.')
+            target.write_text(json.dumps(value,indent=2));self.ledger.finish(job,'completed',value);return value
+        except Exception as exc:
+            if call is not None:
+                try:call.cancel(terminate_containers=True)
+                except Exception:pass
+            self.ledger.finish(job,'failed_reservation_charged',{'reason':str(exc)});raise

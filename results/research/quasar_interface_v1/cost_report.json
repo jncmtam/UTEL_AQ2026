@@ -1,0 +1,42 @@
+{
+  "billing_before": {
+    "checked_utc": "2026-11-02T11:57:34.629769+00:00",
+    "metered_cost": 0.52000162,
+    "billed_cost": 0.0,
+    "adjustments": {
+      "Credits": "-0.52000000",
+      "Network Egress Allowance": "-0.00000162",
+      "Plan Cost": "0E-8",
+      "Free Storage": "-0E-8",
+      "Reservation Adjustment": "-0E-8"
+    },
+    "rates": {
+      "gpu_hour_cost_h200": 4.54,
+      "mem_gib_hour_cost": 0.008,
+      "gpu_hour_cost_a100_80gb": 2.5,
+      "cpu_hour_cost": 0.0473
+    },
+    "allowance_basis": "API exposes metered/billed costs, not a standalone available-credit balance. Enforce the selected authorization policy separately."
+  },
+  "billing_after": {
+    "checked_utc": "2026-11-02T12:02:36.196735+00:00",
+    "metered_cost": 0.73650592,
+    "billed_cost": 0.0,
+    "adjustments": {
+      "Credits": "-0.72000000",
+      "Network Egress Allowance": "-0.01650592",
+      "Plan Cost": "0E-8",
+      "Free Storage": "-0E-8",
+      "Reservation Adjustment": "-0E-8"
+    },
+    "rates": {
+      "gpu_hour_cost_h200": 4.54,
+      "mem_gib_hour_cost": 0.008,
+      "gpu_hour_cost_a100_80gb": 2.5,
+      "cpu_hour_cost": 0.0473
+    },
+    "allowance_basis": "API exposes metered/billed costs, not a standalone available-credit balance. Enforce the selected authorization policy separately."
+  },
+  "reservation_is_not_invoice": true,
+  "failed_proposals_included": true
+}

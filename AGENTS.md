@@ -1,110 +1,103 @@
 # AGQO agent handoff
 
-Updated: 2026-11-02 (Asia/Ho_Chi_Minh).
-Read this file first. Read only the modules needed for the next task. Update this
-handoff after each meaningful implementation or experiment. Never infer success
-from the existence of a result directory.
+Updated: 2026-11-03, Asia/Ho_Chi_Minh. Read this first; inspect only modules needed
+for the next action. Update this file and the worklog after meaningful changes.
 
-## Active research-first steering (takes priority over the old execution order)
-- Read docs/research/WORKLOG.md and TECHNICAL_DECISIONS.md before choosing any model, benchmark or new technical experiment.
-- Every new step requires a published-evidence/data-suitability rationale and a Markdown log entry. Do not run speculative GPU sweeps or escalate model size.
-- The active 80B Modal call was cancelled on user steering. Both apps subsequently showed zero tasks. The completed 30B batch is exploratory only; cancelled 80B is not model-quality evidence.
-- Next: source historical security/action identities and specify a non-LLM baseline comparison, then freeze a protocol before any dependent inference.
+## User contract and workflow
+- Implement the English US-equity LLM/QAOA research application; preserve honest
+  negative results and commit/push to the existing GitHub branch.
+- Before choosing a model/benchmark/experiment, record published evidence, data
+  suitability, alternative, budget, acceptance criteria and stop rule in Markdown.
+- LLM designs circuits, never preselects stock winners. Numerical code owns
+  financial coefficients; compiler locks cost. QAOA samples supports; common
+  allocator assigns weights. Primary task is mandate-aware tracking/cost repair.
+- US data is free-source only. Do not replace missing securities or certify
+  historical identity/actions from current ticker names. Market gate stays closed
+  until source review is complete. Synthetic data validates software only.
+- Modal usage is authorized under config/synthesis-expanded-budget.json (USD150
+  reservation ceiling per experiment, not an account balance). Sequential bounded
+  GPU jobs; no speculative escalation to 397B/480B. No new paid job is scheduled.
+- Active code/docs/UI/reports are English. Raw historical evidence and archived
+  compatibility material are preserved. Chat with the user may be Vietnamese.
 
-## User contract
-- Implement the approved English-language AGQO pipeline, run bounded Modal tests,
-  preserve honest negative results, commit/push to the existing GitHub branch.
-- US equities only; free data; historical cohort with auditable identities and
-  corporate actions. LLM designs quantum circuits, never preselects stock winners.
-- Primary finance task: mandate-aware tracking/cost repair. Risk/return is separate.
-- No promise of superior returns, classical speedup, or quantum advantage.
-- User authorizes Modal spending. Existing expanded policy uses a USD150 reservation
-  ceiling per experiment, sequential workers, at most four H200s. It is not a balance.
-- Project code, maintained docs, UI and reports must be English. Raw historical
-  evidence is immutable. User-facing chat may remain Vietnamese.
-
-## Repository and commands
+## Location and commands
 - Root: /Users/jant/Documents/ChatGPT/AI-Quantum Challenge 2026
 - Branch: codex/verified-large-model-synthesis
 - Remote: https://github.com/jncmtam/UTEL_AQ2026.git
-- Python: .venv/bin/python (Python 3.12); dependencies include CVXPY 1.9.3,
-  PySCIPOpt 6.3.0, Qiskit, SciPy and Modal.
-- Test: .venv/bin/python -m pytest -q
-- Focused new tests: .venv/bin/python -m pytest tests/test_research.py -q
-- Modal inventory: .venv/bin/modal app list --json
-- Existing CLI: python -m agqo.synthesis (legacy), python -m agqo.repair.
-- New production entry point: python -m agqo.research (see runner status below).
+- Python: .venv/bin/python, Python 3.12. Editable package installed; lock file
+  includes CVXPY 1.9.3, PySCIPOpt 6.3.0, Qiskit, SciPy and Modal.
+- Tests: .venv/bin/python -m pytest -q
+- Lint: .venv/bin/ruff check agqo/research tests/test_research.py --select F
+- CLI: .venv/bin/agqo-research --help (or python -m agqo.research).
+- Demo: python -m agqo.research serve --output results/research/delivery_pipeline_v1
+  --port 8765. Local server was running on 127.0.0.1:8765 at last check.
+- Data EDA: python scripts/assess_us_dataset.py. Raw provider files stay gitignored.
+- Modal inventory: .venv/bin/modal app list --json. Profile data1; both apps had
+  zero tasks after the bounded probe. Do not relaunch a completed probe by default.
 
-## Established evidence (do not rerun without reason)
-- Baseline suite before new research code: 92 tests passed.
-- Legacy free GateIR pilot: 80B valid 1/3, 30B 0/3; no qualified winner.
-- Typed v2 pilot: each model valid 2/3; fixed path better on N=6 (Popt ~90.8%).
-- Uniform feasible sampling N=8 already finds optimum with ~97.6% probability in
-  128 samples. Best-of-shots alone is not a useful achievement.
-- Existing Modal apps: agqo-gate-synthesis, agqo-qwen3-guide; profile data1.
-  Authentication verified previously; v3 30B batch completed before steering; 80B cancelled. No model qualified.
-- 397B/480B workers were deployed previously but have no successful inference
-  evidence. Do not choose models by parameter count.
+## Verified current evidence — do not repeat unnecessarily
+- All 112 tests passed; static F checks passed; English UI/API integration checked.
+- delivery_pipeline_v1 completed software stages with explicit market data blockers;
+  contains full JSON/CSV/circuit/Markdown artifact contract and diagnostic figures.
+- delivery_structural_v1: 15 accepted controls (12 circuits + 3 classical uniform
+  feasible controls), structural diagnostics only, not model qualification.
+- baseline_evidence_v1: 12/12 independent circuit verifications. Dense Dicke can
+  improve feasibility with more CX. Gradient baseline uses extra exact classical
+  evaluations; do not advertise a same-budget win.
+- quasar_interface_v1: one bounded live batch, 1/3 accepted: GateIR transfer passed;
+  two native QASM tasks violated the contract. Raw outputs/receipts preserved.
+  No repair or model-size escalation. No production model is qualified.
+- Probe reservation USD1.37 is not an invoice. Monthly metered snapshots increased
+  from ~0.5200 to ~0.7365 USD during the run; not an isolated final job bill.
+- Older v1: 80B 1/3 valid, 30B 0/3. Typed v2: both 2/3; fixed better on N=6.
+  128 uniform feasible draws on the old N=8 case already find optimum ~97.6%.
+- The older interrupted 80B batch was cancelled by user steering; it is NOT model
+  incapability evidence. The earlier 30B v3 batch remains exploratory only.
 
-## New code currently under development
-- agqo/research/finance.py: FinancialSpec v3; independent support constraints vs
-  allocation constraints; CLARABEL convex allocator; small support/proxy audit;
-  full support+weight SCIP reference; conflicting mandate diagnosis; Account
-  with self-financing fee accounting, drift and audited action maps.
-- agqo/research/quantum.py: direct polynomial QUBO/Ising compilation; integer
-  slack penalties; NumPy executor independently checked against Qiskit; gate
-  resources; finite-shot optimization; QASM/QPY/source-map exports. Compilation
-  supports larger registers, simulator capped at 16 qubits. No speedup claim.
-- agqo/research/design.py: connected-by-construction tree grammar v3; LLM owns
-  parent choices, scheduling, sharing, preparation and depth. Rule/random/mutation
-  and reuse baselines. Canonical cost remains compiler-owned.
-- agqo/research/data.py: historical DJIA 2013-09-23 cohort candidate + DIA;
-  local-only Yahoo raw downloads; SEC submissions adapter; fail-closed audit.
-- tests/test_research.py: financial/quantum/accounting/data integration tests.
-- Raw downloads: data/us_equities/raw (gitignored). Manifest/audit are tracked.
-  Full historical identities, corporate actions, sector vintages and aligned
-  total-return prices are NOT verified. Financial market evaluation must block.
-  Ticker DD/UTX lineage cannot be guessed from today's ticker history.
+## Implemented modules (read only the relevant one)
+- finance.py: immutable FinancialSpec; CLARABEL allocator; SCIP full reference;
+  proxy distortion; mandate diagnosis; self-financing Account.
+- quantum.py: direct Ising+slack; certified zero-penalty omission; independent
+  NumPy/Qiskit verifier; finite-shot fitting; QASM/QPY/source-map export.
+- design.py: connected tree exchange grammar, LLM requests, rules/random/mutation.
+- baselines.py: full/subspace encoding, dense Dicke reference, gradient adaptation.
+- runner.py: frozen structural comparison, feedback/profile ablations, common
+  allocation postprocessing (32-query cap), uniform feasible reference.
+- workflow.py/walkforward.py: common-state decisions vs continuous accounts;
+  persistent mandates, true hold, next-session execution; full blocked artifacts.
+- data.py: candidate acquisition and fail-closed source-backed market gate.
+- probe.py: native QASM+IR probes; generated Python is never executed.
+- pipeline.py: checkpointed integration stages. server.py: English interactive
+  local comparison and replay; no unbounded inference from UI.
+- synthesis/client.py and budget.py: model registry, CPU prefetch, reservations,
+  cache/identity validation, dispatch receipts, recorded preflight failures.
 
-## Semantics and correctness traps
-- v3 turnover = half L1 including cash. Legacy uses two-way risky-weight L1;
-  do not silently reinterpret historical records.
-- Selection uses equal-weight proxy B(S). Allocator solves F(S). Report proxy
-  regret and allocation failures; do not claim optimizing B solves F.
-- QAOA preserves cardinality/include/exclude via asset exchanges; inequalities
-  use explicit slack penalties. Weight caps/turnover are allocator constraints.
-- Connected asset graph does not certify connectivity of every fully feasible
-  portfolio under extra constraints.
-- First cost layer after a basis state has only global phase. Verifier must flag
-  inactive cost parameters; use preparation before cost.
-- Corporate actions in adjusted total returns must not be applied a second time.
-- An old DiagonalGate/Walsh cost oracle is exponential and retained only as legacy
-  reference. New production compiler must not build a 2^N truth table.
-- Generated/downloaded files are not experimental success. Report failure,
-  unsupported and inconclusive explicitly; no silent classical fallback.
+## Scientific correctness traps
+- B(S) proxy optimum is not F(S) allocation optimum; report distortion/failures.
+- v3 turnover is half L1 including cash; legacy records retain two-way semantics.
+- XY preserves cardinality; weight caps/turnover need allocation checks. Connected
+  asset trees do not prove every inequality-feasible portfolio is reachable.
+- Basis+p=1 can make gamma inactive. Do not claim cost learning in that case.
+- Dicke baseline is dense small synthesis, not the O(kn) cited construction.
+- Gradient baseline is ADAPT-inspired, not a full paper replication; count gradients.
+- Cost compilation is polynomial; simulator still exponential and capped at 16
+  total qubits, GateIR at 12 asset qubits. Compilation is not N=30 execution.
+- True hold never trades to yesterday's weights. Mandate changes persist.
+- Corporate actions must not be counted twice in adjusted-total-return mode.
+- Blocked/failed/interrupted/unknown are distinct; no silent classical fallback.
+- Software success, model correctness, financial value and quantum advantage are
+  separate claims. Current hardware advantage and market outperformance unproven.
 
-## Current verified status and next work
-- All 101 tests passed after the v3 additions. Offline structural smoke: 12/12
-  baseline designs valid. Neither result establishes financial performance.
-- Runner/CLI and artifact contract now exist in agqo/research/runner.py and
-  __main__.py; English read-only viewer in server.py; continuous-account routine
-  in walkforward.py. Integration and full English migration remain incomplete.
-- Development-only data EDA: 29 stocks + DIA; UTX missing; 1,257 complete returns
-  in 2014–2018, median pair correlation ~0.375, covariance participation ratio
-  ~5.200. No security identity verified; financial evaluation remains blocked.
-- Read docs/research/EVIDENCE_REVIEW.md for 13 empirical/theoretical sources and
-  source-specific limits; DATA_SUITABILITY.md for interpretation; WORKLOG.md for
-  actions already taken. Do not reread all legacy source files.
-- Reproduce data assessment: .venv/bin/python scripts/assess_us_dataset.py
-- Resume order: historical lineage audit → model-faithfulness and classical
-  references → non-LLM ansatz/encoding study → pinned native specialist probes →
-  preregistered held-out evaluation. No automatic paid continuation.
-- Model shortlist is provisional: QUASAR 4B, Mistral Qiskit 24B, existing Qwen 30B
-  control. 80B conditional; 397B/480B deferred. See evidence review for revisions.
-
-## Where to inspect only when needed
-- Modal budget/client: agqo/synthesis/budget.py and client.py;
-  config/synthesis-expanded-budget.json; modal_gate_synthesis.py.
-- Legacy paper evidence: docs/LLM_QUANTUM_FINANCE_LITERATURE.md.
-- Legacy pilot: results/synthesis/typed_pilot/REPORT.md.
-- Current detailed implementation status: docs/IMPLEMENTATION_PROGRESS.md.
+## Next dependencies and documentation
+- Main open dependency: historical membership/security/action/sector reconciliation
+  and audited aligned US prices. Current candidate has 29/30 stocks, missing UTX,
+  zero verified permanent identities; DD/GE lineage also needs reconstruction.
+- Development-only EDA: 1,257 returns (2014–2018), pair correlation median ~0.375,
+  covariance participation ratio ~5.200. No hardship/speedup inference from that.
+- After data admission: financial proxy-faithfulness and classical difficulty,
+  then independently powered frozen model/circuit/financial studies.
+- Read docs/research/WORKLOG.md for chronological facts; EVIDENCE_REVIEW.md for 13
+  sources/revisions; DATA_SUITABILITY.md for data interpretation; TECHNICAL_DECISIONS.md
+  and IMPLEMENTATION_PROTOCOL.md for the rationale. Active guide: docs/USER_GUIDE.md.
+- Historical Vietnamese documentation is under docs/legacy/. Do not re-read it
+  unless reproducing a historical protocol.

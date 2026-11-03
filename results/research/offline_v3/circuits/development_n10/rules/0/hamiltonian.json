@@ -1,0 +1,470 @@
+{
+  "version": "hamiltonian-ir-v3",
+  "problem_hash": "740927bd3409dc77d48a4e5bb4ec1ace6a87884d45d299000c000eb4aaecb7bc",
+  "asset_qubits": 10,
+  "qubits": 12,
+  "linear_z": [
+    -3.999784120434806,
+    -3.9992553764463774,
+    -3.9993215214325484,
+    -3.9988179683859917,
+    -4.003510661564099,
+    -2.001956396460847,
+    -2.0019556689859868,
+    -2.0018640622074866,
+    -2.001291504234682,
+    -2.001518603317185,
+    -2.0,
+    -4.0
+  ],
+  "quadratic_zz": [
+    {
+      "qubits": [
+        0,
+        1
+      ],
+      "coefficient": 2.0044279161710765
+    },
+    {
+      "qubits": [
+        0,
+        2
+      ],
+      "coefficient": 1.9960909897242354
+    },
+    {
+      "qubits": [
+        0,
+        3
+      ],
+      "coefficient": 2.003659009563279
+    },
+    {
+      "qubits": [
+        0,
+        4
+      ],
+      "coefficient": 2.0133141651335005
+    },
+    {
+      "qubits": [
+        0,
+        5
+      ],
+      "coefficient": 0.9982114002760136
+    },
+    {
+      "qubits": [
+        0,
+        6
+      ],
+      "coefficient": 0.9920513568631968
+    },
+    {
+      "qubits": [
+        0,
+        7
+      ],
+      "coefficient": 0.9924873549812517
+    },
+    {
+      "qubits": [
+        0,
+        8
+      ],
+      "coefficient": 0.9973578974274804
+    },
+    {
+      "qubits": [
+        0,
+        9
+      ],
+      "coefficient": 0.9998453884966607
+    },
+    {
+      "qubits": [
+        0,
+        10
+      ],
+      "coefficient": 1.0
+    },
+    {
+      "qubits": [
+        0,
+        11
+      ],
+      "coefficient": 2.0
+    },
+    {
+      "qubits": [
+        1,
+        2
+      ],
+      "coefficient": 1.9959981889881102
+    },
+    {
+      "qubits": [
+        1,
+        3
+      ],
+      "coefficient": 2.00367239274496
+    },
+    {
+      "qubits": [
+        1,
+        4
+      ],
+      "coefficient": 2.0091189705972456
+    },
+    {
+      "qubits": [
+        1,
+        5
+      ],
+      "coefficient": 0.9982827925680284
+    },
+    {
+      "qubits": [
+        1,
+        6
+      ],
+      "coefficient": 0.993141022750643
+    },
+    {
+      "qubits": [
+        1,
+        7
+      ],
+      "coefficient": 0.9935978091554583
+    },
+    {
+      "qubits": [
+        1,
+        8
+      ],
+      "coefficient": 0.9989907297781466
+    },
+    {
+      "qubits": [
+        1,
+        9
+      ],
+      "coefficient": 1.0001179792486223
+    },
+    {
+      "qubits": [
+        1,
+        10
+      ],
+      "coefficient": 1.0
+    },
+    {
+      "qubits": [
+        1,
+        11
+      ],
+      "coefficient": 2.0
+    },
+    {
+      "qubits": [
+        2,
+        3
+      ],
+      "coefficient": 1.9945201805586614
+    },
+    {
+      "qubits": [
+        2,
+        4
+      ],
+      "coefficient": 1.992341018532997
+    },
+    {
+      "qubits": [
+        2,
+        5
+      ],
+      "coefficient": 1.0021778595089772
+    },
+    {
+      "qubits": [
+        2,
+        6
+      ],
+      "coefficient": 1.0084999701779511
+    },
+    {
+      "qubits": [
+        2,
+        7
+      ],
+      "coefficient": 1.0076277174029864
+    },
+    {
+      "qubits": [
+        2,
+        8
+      ],
+      "coefficient": 0.9995692575613642
+    },
+    {
+      "qubits": [
+        2,
+        9
+      ],
+      "coefficient": 0.998481315187107
+    },
+    {
+      "qubits": [
+        2,
+        10
+      ],
+      "coefficient": 1.0
+    },
+    {
+      "qubits": [
+        2,
+        11
+      ],
+      "coefficient": 2.0
+    },
+    {
+      "qubits": [
+        3,
+        4
+      ],
+      "coefficient": 2.0067274271479154
+    },
+    {
+      "qubits": [
+        3,
+        5
+      ],
+      "coefficient": 0.9977521185851487
+    },
+    {
+      "qubits": [
+        3,
+        6
+      ],
+      "coefficient": 0.9920548264701458
+    },
+    {
+      "qubits": [
+        3,
+        7
+      ],
+      "coefficient": 0.9931246254913808
+    },
+    {
+      "qubits": [
+        3,
+        8
+      ],
+      "coefficient": 1.0009476455105646
+    },
+    {
+      "qubits": [
+        3,
+        9
+      ],
+      "coefficient": 1.0014430464047812
+    },
+    {
+      "qubits": [
+        3,
+        10
+      ],
+      "coefficient": 1.0
+    },
+    {
+      "qubits": [
+        3,
+        11
+      ],
+      "coefficient": 2.0
+    },
+    {
+      "qubits": [
+        4,
+        5
+      ],
+      "coefficient": 0.9969815726539483
+    },
+    {
+      "qubits": [
+        4,
+        6
+      ],
+      "coefficient": 0.9835201690554825
+    },
+    {
+      "qubits": [
+        4,
+        7
+      ],
+      "coefficient": 0.9840742002868601
+    },
+    {
+      "qubits": [
+        4,
+        8
+      ],
+      "coefficient": 0.9931649901861551
+    },
+    {
+      "qubits": [
+        4,
+        9
+      ],
+      "coefficient": 0.9985899560539008
+    },
+    {
+      "qubits": [
+        4,
+        10
+      ],
+      "coefficient": 1.0
+    },
+    {
+      "qubits": [
+        4,
+        11
+      ],
+      "coefficient": 2.0
+    },
+    {
+      "qubits": [
+        5,
+        6
+      ],
+      "coefficient": 1.0035028286146925
+    },
+    {
+      "qubits": [
+        5,
+        7
+      ],
+      "coefficient": 1.0028962252616849
+    },
+    {
+      "qubits": [
+        5,
+        8
+      ],
+      "coefficient": 0.9999020183974094
+    },
+    {
+      "qubits": [
+        5,
+        9
+      ],
+      "coefficient": 0.9994820249279244
+    },
+    {
+      "qubits": [
+        6,
+        7
+      ],
+      "coefficient": 1.0131510949425702
+    },
+    {
+      "qubits": [
+        6,
+        8
+      ],
+      "coefficient": 1.0010436586398226
+    },
+    {
+      "qubits": [
+        6,
+        9
+      ],
+      "coefficient": 0.998632843465534
+    },
+    {
+      "qubits": [
+        7,
+        8
+      ],
+      "coefficient": 1.00156000868651
+    },
+    {
+      "qubits": [
+        7,
+        9
+      ],
+      "coefficient": 0.9990729224442572
+    },
+    {
+      "qubits": [
+        8,
+        9
+      ],
+      "coefficient": 1.0013939150720224
+    },
+    {
+      "qubits": [
+        10,
+        11
+      ],
+      "coefficient": 2.0
+    }
+  ],
+  "constant": 14.068418421433872,
+  "objective_scale": 0.0004346612746685645,
+  "penalty": 2.0,
+  "penalty_proof": "Integer residual squared >=1; penalty 2 exceeds normalized objective range bound 1.",
+  "equalities": [
+    {
+      "label": "cardinality",
+      "coefficients": {
+        "0": 1,
+        "1": 1,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1,
+        "6": 1,
+        "7": 1,
+        "8": 1,
+        "9": 1
+      },
+      "target": 4
+    },
+    {
+      "label": "sector_count:Sector_A",
+      "coefficients": {
+        "0": 1,
+        "1": 1,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "10": 1,
+        "11": 2
+      },
+      "target": 3
+    }
+  ],
+  "slack": [
+    {
+      "qubit": 10,
+      "weight": 1,
+      "constraint": "sector_count:Sector_A"
+    },
+    {
+      "qubit": 11,
+      "weight": 2,
+      "constraint": "sector_count:Sector_A"
+    }
+  ],
+  "bit_order": "asset_i_is_bit_i_little_endian_then_slack",
+  "phase": "exp(-i*gamma*H)",
+  "post_allocation_constraints": [
+    "sector_weight_caps",
+    "position_bounds",
+    "one_way_turnover"
+  ],
+  "construction": "direct_quadratic_coefficients_no_truth_table",
+  "hamiltonian_hash": "da11ada62703578b4b1b6a9250e5a48f4f1af9d356a491dea442e6da307d2e4d"
+}

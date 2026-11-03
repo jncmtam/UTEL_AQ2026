@@ -1,0 +1,808 @@
+{
+  "version": "continuous-account-v3",
+  "provenance": "synthetic",
+  "execution_lag_sessions": 1,
+  "decisions": [
+    {
+      "signal_date": "2015-12-22T00:00:00",
+      "cutoff": "2015-12-22T00:00:00",
+      "previous_weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "problem_hash": "9083a1956321048cdfd876c5cfa7eab6a0aa7a8dccb445587f67bb44d839dbed",
+      "diagnosis": {
+        "status": "not_proven_infeasible",
+        "reasons": [],
+        "mandatory_exit_turnover_lower_bound": 0.0
+      },
+      "execution_status": "no_order",
+      "allocation": {
+        "method": "hold",
+        "status": "violates_mandate",
+        "feasible": false,
+        "weights": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "violations": {
+          "cardinality": 3.0,
+          "budget": 1.0
+        },
+        "objective": 1.5569761025274387e-05,
+        "tracking_mse": 1.5569761025274387e-05,
+        "tracking_rmse": 0.003945853649753674,
+        "tracking_error_per_period": 0.0039468825381892255,
+        "one_way_turnover": 0.0,
+        "two_way_turnover": 0.0,
+        "transaction_cost": 0.0,
+        "number_of_trades": 0,
+        "fallback_used": false
+      }
+    },
+    {
+      "signal_date": "2016-01-20T00:00:00",
+      "cutoff": "2016-01-20T00:00:00",
+      "previous_weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "problem_hash": "7b9f51cba9f3f5715790056dfc5e12ea6b86d8271cfaec2c6457bcb2baab6756",
+      "diagnosis": {
+        "status": "not_proven_infeasible",
+        "reasons": [],
+        "mandatory_exit_turnover_lower_bound": 0.0
+      },
+      "execution_status": "no_order",
+      "allocation": {
+        "method": "hold",
+        "status": "violates_mandate",
+        "feasible": false,
+        "weights": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "violations": {
+          "cardinality": 3.0,
+          "budget": 1.0
+        },
+        "objective": 1.502527453826132e-05,
+        "tracking_mse": 1.502527453826132e-05,
+        "tracking_rmse": 0.0038762449017394813,
+        "tracking_error_per_period": 0.0038794233660869267,
+        "one_way_turnover": 0.0,
+        "two_way_turnover": 0.0,
+        "transaction_cost": 0.0,
+        "number_of_trades": 0,
+        "fallback_used": false
+      }
+    },
+    {
+      "signal_date": "2016-02-18T00:00:00",
+      "cutoff": "2016-02-18T00:00:00",
+      "previous_weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "problem_hash": "0637603ec02c27dca2edd3e3515a6b25c56de28f566cbdaf535fd96fac92d01f",
+      "diagnosis": {
+        "status": "not_proven_infeasible",
+        "reasons": [],
+        "mandatory_exit_turnover_lower_bound": 0.0
+      },
+      "execution_status": "no_order",
+      "allocation": {
+        "method": "hold",
+        "status": "violates_mandate",
+        "feasible": false,
+        "weights": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "violations": {
+          "cardinality": 3.0,
+          "budget": 1.0
+        },
+        "objective": 1.399234631811881e-05,
+        "tracking_mse": 1.399234631811881e-05,
+        "tracking_rmse": 0.0037406344806889123,
+        "tracking_error_per_period": 0.003737792436020901,
+        "one_way_turnover": 0.0,
+        "two_way_turnover": 0.0,
+        "transaction_cost": 0.0,
+        "number_of_trades": 0,
+        "fallback_used": false
+      }
+    }
+  ],
+  "daily": [
+    {
+      "date": "2015-12-22T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": 0.007876689493946777,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2015-12-23T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": -0.0004652858350391494,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2015-12-24T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": -0.0038403877874310078,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2015-12-25T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": 0.002566494849205342,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2015-12-28T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": 0.003908205749366325,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2015-12-29T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": 0.0074503594289278136,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2015-12-30T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": -0.0011544418277674346,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2015-12-31T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": -0.0018543593034445627,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2016-01-01T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": 0.0006498069651645358,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2016-01-04T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": -0.0012329096572721045,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2016-01-05T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": 0.001460484837864864,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2016-01-06T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": -0.0018689286271704093,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2016-01-07T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": -0.004622631176193079,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2016-01-08T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": -0.0062492564722446626,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2016-01-11T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": -0.0020379339134223677,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2016-01-12T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": -0.003049647630372758,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2016-01-13T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": 0.0040472909193786525,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2016-01-14T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": -0.005643488042653235,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2016-01-15T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": -0.0014767090365689454,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2016-01-18T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": -0.0007723779565971964,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2016-01-19T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": 0.000574125423415027,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2016-01-20T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": 0.0012297348873172248,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2016-01-21T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": 0.0046410074986774665,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2016-01-22T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": 0.0014041869888729095,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2016-01-25T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": 0.00010781303447841117,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2016-01-26T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": 0.00542921292088763,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2016-01-27T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": 0.00022771266909986203,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2016-01-28T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": 0.0025895153497911996,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2016-01-29T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": -0.0012806604478489336,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2016-02-01T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": -0.0028782261051572065,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2016-02-02T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": 0.004989429399536089,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2016-02-03T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": -0.007961633002352978,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2016-02-04T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": -0.005682191563781182,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2016-02-05T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": 0.003482894113909558,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2016-02-08T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": -0.0008932212975328596,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2016-02-09T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": 0.0025928319698492815,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2016-02-10T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": -0.00032566485669471666,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2016-02-11T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": 0.0034148150993433476,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2016-02-12T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": 0.004604801874334941,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2016-02-15T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": 0.005867330641108767,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2016-02-16T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": 0.0046966035992276655,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2016-02-17T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": 0.0007227579449528102,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2016-02-18T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": -0.00011606088100929388,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    },
+    {
+      "date": "2016-02-19T00:00:00",
+      "nav": 100000.0,
+      "net_return": 0.0,
+      "benchmark_return": -0.0084406040182572,
+      "weights": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "cash": 100000.0
+    }
+  ],
+  "final_nav": 100000.0,
+  "initial_nav": 100000.0,
+  "account_reset_count": 0,
+  "fallback_used": false
+}

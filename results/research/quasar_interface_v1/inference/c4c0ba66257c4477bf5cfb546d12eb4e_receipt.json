@@ -1,0 +1,80 @@
+{
+  "model": "Benyucong/rl_quantum_4b",
+  "revision": "b9581279345436e2b7eadcdf80e4f1417748eb8b",
+  "model_key": "quasar4",
+  "answers": [
+    {
+      "request_hash": "8a6c323984244c7e65392eb83b61bf184477fe3a1f7c7b315367c0fc0339afe7",
+      "status": "ok",
+      "response": "<think>\n\n</think>\n\nOPENQASM 3.0;\ninclude \"stdgates.inc\";\nbit[2] c;\nqubit[2] q;\nh q[0];\nh q[1];\ncx q[1], q[0];\nrz(0.0402) q[0];\ncx q[1], q[0];\nrz(-0.0804) q[1];\nrz(-0.0402) q[0];\nh q[0];\nrz(-0.0644) q[0];\nh q[0];\nh q[1];\nrz(-0.0644) q[1];\nh q[1];\nc[0] = measure q[0];\nc[1] = measure q[1];",
+      "raw_text": "<think>\n\n</think>\n\nOPENQASM 3.0;\ninclude \"stdgates.inc\";\nbit[2] c;\nqubit[2] q;\nh q[0];\nh q[1];\ncx q[1], q[0];\nrz(0.0402) q[0];\ncx q[1], q[0];\nrz(-0.0804) q[1];\nrz(-0.0402) q[0];\nh q[0];\nrz(-0.0644) q[0];\nh q[0];\nh q[1];\nrz(-0.0644) q[1];\nh q[1];\nc[0] = measure q[0];\nc[1] = measure q[1];",
+      "finish_reason": "stop",
+      "usage": {
+        "input_tokens": 87,
+        "output_tokens": 166
+      }
+    },
+    {
+      "request_hash": "c43bfca4e0337a25cccffabdb37cf8371c7f3c89918c2d039288ef04b9837d41",
+      "status": "ok",
+      "response": "<think>\n\n</think>\n\nOPENQASM 3.0;\ninclude \"stdgates.inc\";\nbit[2] c;\nqubit[2] q;\nh q[0];\nh q[1];\ncx q[1], q[0];\ncx q[0], q[1];\nrz(0.225) q[1];\nrz(-0.375) q[0];\ncx q[1], q[0];\nrz(-0.125) q[1];\nrz(-0.25) q[0];\ncx q[1], q[0];\nrz(-0.125) q[1];\nrz(-0.25) q[0];\ncx q[1], q[0];\nrz(-0.125) q[1];\nrz(-0.25) q[0];\ncx q[1], q[0];\nrz(-0.125) q[1];\nrz(-0.25) q[0];\ncx q[1], q[0];\nrz(-0.125) q[1];\nrz(-0.25) q[0];\ncx q[1], q[0];\nc[0] = measure q[0];\nc[1] = measure q[1];",
+      "raw_text": "<think>\n\n</think>\n\nOPENQASM 3.0;\ninclude \"stdgates.inc\";\nbit[2] c;\nqubit[2] q;\nh q[0];\nh q[1];\ncx q[1], q[0];\ncx q[0], q[1];\nrz(0.225) q[1];\nrz(-0.375) q[0];\ncx q[1], q[0];\nrz(-0.125) q[1];\nrz(-0.25) q[0];\ncx q[1], q[0];\nrz(-0.125) q[1];\nrz(-0.25) q[0];\ncx q[1], q[0];\nrz(-0.125) q[1];\nrz(-0.25) q[0];\ncx q[1], q[0];\nrz(-0.125) q[1];\nrz(-0.25) q[0];\ncx q[1], q[0];\nrz(-0.125) q[1];\nrz(-0.25) q[0];\ncx q[1], q[0];\nc[0] = measure q[0];\nc[1] = measure q[1];",
+      "finish_reason": "stop",
+      "usage": {
+        "input_tokens": 113,
+        "output_tokens": 274
+      }
+    },
+    {
+      "request_hash": "16e0cee1d233f7a8dfc13ea19d9cbab327ddaeac76f03434688d754740500b4a",
+      "status": "ok",
+      "response": {
+        "version": "connected-exchange-v3",
+        "parents": {
+          "p1": 0,
+          "p2": 0,
+          "p3": 0,
+          "p4": 0,
+          "p5": 0
+        },
+        "schedule": [
+          1,
+          2,
+          3,
+          4,
+          0
+        ],
+        "groups": [
+          0,
+          1,
+          1,
+          1,
+          0
+        ],
+        "preparation": [
+          "e0_3",
+          "e0_4",
+          "e0_5"
+        ],
+        "depth": 1,
+        "rationale": []
+      },
+      "raw_text": "{\"version\": \"connected-exchange-v3\", \"parents\": {\"p1\": 0, \"p2\": 0, \"p3\": 0, \"p4\": 0, \"p5\": 0}, \"schedule\": [1,2,3,4,0], \"groups\": [0,1, 1, 1, 0], \"preparation\": [ \"e0_3\", \"e0_4\", \"e0_5\"], \"depth\": 1,   \"rationale\": [  ]}",
+      "finish_reason": "stop",
+      "usage": {
+        "input_tokens": 6286,
+        "output_tokens": 127
+      }
+    }
+  ],
+  "execution": "live_modal_vllm",
+  "vllm_version": "0.15.0",
+  "elapsed_seconds": 208.52911708200003,
+  "runtime_adapter": "uniqueItems_checked_by_independent_validator_v1",
+  "gpu": "NVIDIA A100-SXM4-80GB",
+  "parent_process_cuda_peak_bytes_not_model_vram": 0,
+  "gpu_memory_measurement": "device_free_snapshot_not_engine_peak",
+  "gpu_memory_total_bytes": 85118156800,
+  "gpu_memory_free_bytes": 9148432384,
+  "batch_size": 3
+}

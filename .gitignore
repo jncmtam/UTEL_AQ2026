@@ -16,3 +16,6 @@ data/repair/*.txt
 data/vn30_snapshot_20261002/ohlcv_daily.csv
 data/vn30_snapshot_20261002/modal_upload.zip
 data/vn30_snapshot_20261002/download_failures.json
+data/us_equities/raw/
+data/us_equities/sec/
+results/research/**/budget.lock

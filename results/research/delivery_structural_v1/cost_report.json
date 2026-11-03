@@ -1,0 +1,9 @@
+{
+  "mode": "offline",
+  "elapsed_seconds": 8.307363416010048,
+  "total_optimizer_shots": 74880,
+  "billing_before": null,
+  "billing_after": null,
+  "reservation_is_not_invoice": true,
+  "failed_trials_included": true
+}

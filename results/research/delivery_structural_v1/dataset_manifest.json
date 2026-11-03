@@ -1,0 +1,20 @@
+{
+  "version": "synthetic-v3",
+  "dataset_kind": "synthetic_structural_diagnostic",
+  "financial_evaluation_allowed": false,
+  "reason": "Software and method smoke only; historical US cohort audit is separate.",
+  "cases": [
+    {
+      "id": "development_n6",
+      "hash": "e9a8464ee7375d49bd83556f24efe03b6372136d5025fe0039f6c61a0b7d2e16"
+    },
+    {
+      "id": "development_n8",
+      "hash": "3e887d9a486e947613617dc96c4e6f534f068cbb44f9f760e8511a9f9fca3725"
+    },
+    {
+      "id": "development_n10",
+      "hash": "740927bd3409dc77d48a4e5bb4ec1ace6a87884d45d299000c000eb4aaecb7bc"
+    }
+  ]
+}

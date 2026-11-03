@@ -1,0 +1,11 @@
+{
+  "version": "specialist-probe-data-v1",
+  "dataset_kind": "analytic_quantum_and_synthetic_finance",
+  "financial_claims_allowed": false,
+  "protocol_hash": "9449443cbeb550edb286c40d3fe0cc059a067a671c0872b7eb5fd69003eb7c28",
+  "tasks": [
+    "native_bell",
+    "native_cost",
+    "gate_ir_transfer_n6"
+  ]
+}

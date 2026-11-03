@@ -1,0 +1,11 @@
+{
+  "checks": [
+    "English page",
+    "data audit blocked",
+    "synthetic decision methods",
+    "mandatory exit conflict",
+    "market rejection"
+  ],
+  "passed": true,
+  "visual_screenshot_taken": false
+}

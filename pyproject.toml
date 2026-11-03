@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "agqo-research"
 version = "0.1.0"
-description = "Bộ thử nghiệm AGQO: AI điều chỉnh rủi ro và QAOA chọn danh mục cổ phiếu."
+description = "Verified LLM-designed QAOA for constrained US-equity portfolio repair."
 readme = "README.md"
 requires-python = ">=3.12,<3.14"
 dependencies = [
@@ -15,11 +15,14 @@ dependencies = [
   "scikit-learn>=1.6,<2",
   "matplotlib>=3.11,<4",
   "jsonschema>=4.23,<5",
+  "cvxpy>=1.9,<2",
+  "pyscipopt>=6.3,<7",
+  "requests>=2.32,<3",
 ]
 
 [project.optional-dependencies]
 qpu = ["qiskit>=2.3,<3", "qiskit-ibm-runtime>=0.47,<1"]
-simulator = ["qiskit>=2.3,<3", "qiskit-aer>=0.17,<1"]
+simulator = ["qiskit>=2.3,<3", "qiskit-aer>=0.17,<1", "qiskit-qasm3-import>=0.6,<1"]
 dev = ["pytest>=8.3,<10"]
 llm-modal = ["modal>=1.6.2,<2"]
 qwen3 = ["torch>=2.6,<3", "transformers>=4.51,<5", "accelerate>=1.6", "bitsandbytes>=0.46,<1"]
@@ -28,6 +31,7 @@ qwen3 = ["torch>=2.6,<3", "transformers>=4.51,<5", "accelerate>=1.6", "bitsandby
 agqo = "agqo.cli:main"
 agqo-repair = "agqo.repair.__main__:main"
 agqo-synthesize = "agqo.synthesis.__main__:main"
+agqo-research = "agqo.research.__main__:main"
 
 [tool.setuptools.package-data]
 "agqo.repair" = ["web/*.html", "web/*.css", "web/*.js"]

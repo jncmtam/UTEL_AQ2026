@@ -143,3 +143,72 @@ adjustment-factor diagnostics to development data. No paid test was launched.
 This checkpoint documents the research correction and data evidence. Earlier
 prototype implementation changes remain under review in the working tree; it is
 not a delivery claim for the complete approved application.
+
+## Entry 08 — Implement evidence-derived controls and integration
+
+**Authorization:** user requested complete implementation after the review.
+**Protocol:** IMPLEMENTATION_PROTOCOL.md was written before these experiments.
+
+**Implemented:** direct compiler supports optional omission of certified zero
+asset constraints; verifier requires an analytic certificate and checks frozen
+qubits. Added exact small Dicke preparation reference and a finite-difference,
+ADAPT-inspired exchange selector with explicit gradient/angle evaluation counts.
+The dense Dicke reference is not the efficient paper algorithm.
+
+**Observed:** all 12 configurations in baseline_evidence_v1 passed independent
+verification. For N=10, the Dicke reference uses 1,161 CX versus 160 for fixed
+exchange. Gradient selection uses extra exact classical energy evaluations; its
+quality cannot be advertised as a same-budget win. Full and certified encodings
+produce matching sampled results here and equal transpiled CX counts: omitting
+zero penalties is not claimed as a gate reduction on these cases.
+
+**Decision:** retain these controls and complete the native specialist interface
+probe. No architecture or production model is qualified by this small study.
+
+## Entry 09 — Specialist probe outcome and operational correction
+
+**Observed:** the single QUASAR batch returned three outputs. GateIR transfer
+passed verification; native Bell and cost programs violated the requested
+no-measurement/register contract. Raw outputs also contain different gate patterns
+from the requested primitives. Native failures are not a reproduction of the
+paper benchmark, and the one transfer success does not qualify a model.
+
+**Action:** retained all outputs, token/runtime receipts and the full reservation.
+No paid retry or larger-model job followed. Added common artifact derivation from
+the saved probe without rescoring or inference. The first probe loaded weights on
+GPU; this startup cost is retained. New research clients now perform checkpointed
+CPU prefetch before GPU dispatch to avoid repeating that operational overhead.
+
+## Entry 10 — Continuous decisions, English application and explicit blocking
+
+**Implemented:** complete artifact bundles, CLI stage/checkpoint execution,
+allocation-aware local search, sample-to-allocation postprocessing with a shared
+32-query ceiling, profile ablation/feedback switches, and offline replay.
+The English application compares local decisions and revalidates the saved LLM
+design; a failed replay is visible and never silently replaced.
+
+**Accounting correction:** continuous repair runs now begin from the same existing
+three-asset account. The exclusion introduced at the second decision persists.
+Hold means no order, rather than rebalancing back to yesterday's weights. A new
+trajectory output is used after this protocol change; previous raw runs remain.
+
+**Boundary:** the market path writes a blocked artifact contract and nonzero gate
+exit code while historical identity/action evidence is incomplete. No historical
+investment result is manufactured to make the pipeline appear successful.
+
+## Entry 11 — Delivery validation (2026-11-03)
+
+**Measured:** all 112 tests passed, including a blocked Modal prefetch test proving
+that an exhausted/failed preflight records the failure without GPU dispatch.
+Static F checks passed. HTTP validation passed for the English app, synthetic
+comparison, exclusion/turnover conflict and market rejection. No visual screenshot
+was taken, so this is API/page-content validation rather than a screenshot claim.
+
+**Artifacts:** delivery_pipeline_v1, delivery_structural_v1 and quasar_interface_v1
+contain protocols, records, financial/circuit evidence and English reports. The
+delivery pipeline includes source-checksummed resource and tracking/cost figures.
+The raw provider data is excluded from Git; its manifest/audit remain versioned.
+
+**Status:** software integration is implemented. The market-data research gate is
+still blocked, and no production LLM or quantum advantage is qualified. Both Modal
+apps had zero tasks at the final check. Existing local server listens on port 8765.

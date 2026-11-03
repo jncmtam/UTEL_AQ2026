@@ -1,0 +1,250 @@
+{
+  "version": "gate-ir-v1",
+  "problem_hash": "e9a8464ee7375d49bd83556f24efe03b6372136d5025fe0039f6c61a0b7d2e16",
+  "hamiltonian_hash": "deeaf9c666568037e1f6e4822e508de6b626b5b45c66c6acba2dd01b45b7d29b",
+  "qubit_to_asset": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "mode": "preserve_cardinality",
+  "initial_bits": [
+    1,
+    1,
+    1,
+    0,
+    0,
+    0
+  ],
+  "parameters": [
+    {
+      "id": "gamma_0",
+      "kind": "cost",
+      "initial": null
+    },
+    {
+      "id": "beta_0_0",
+      "kind": "mixer",
+      "initial": null
+    },
+    {
+      "id": "beta_0_1",
+      "kind": "mixer",
+      "initial": null
+    }
+  ],
+  "initialization": [
+    {
+      "op": "RXX",
+      "qubits": [
+        0,
+        3
+      ],
+      "angle": {
+        "parameter": null,
+        "scale": 2.0,
+        "offset": 0.37
+      }
+    },
+    {
+      "op": "RYY",
+      "qubits": [
+        0,
+        3
+      ],
+      "angle": {
+        "parameter": null,
+        "scale": 2.0,
+        "offset": 0.37
+      }
+    },
+    {
+      "op": "RXX",
+      "qubits": [
+        0,
+        4
+      ],
+      "angle": {
+        "parameter": null,
+        "scale": 2.0,
+        "offset": 0.37
+      }
+    },
+    {
+      "op": "RYY",
+      "qubits": [
+        0,
+        4
+      ],
+      "angle": {
+        "parameter": null,
+        "scale": 2.0,
+        "offset": 0.37
+      }
+    },
+    {
+      "op": "RXX",
+      "qubits": [
+        0,
+        5
+      ],
+      "angle": {
+        "parameter": null,
+        "scale": 2.0,
+        "offset": 0.37
+      }
+    },
+    {
+      "op": "RYY",
+      "qubits": [
+        0,
+        5
+      ],
+      "angle": {
+        "parameter": null,
+        "scale": 2.0,
+        "offset": 0.37
+      }
+    }
+  ],
+  "layers": [
+    {
+      "cost": {
+        "op": "COST",
+        "parameter": "gamma_0",
+        "hamiltonian_hash": "deeaf9c666568037e1f6e4822e508de6b626b5b45c66c6acba2dd01b45b7d29b"
+      },
+      "mixer": [
+        {
+          "op": "RXX",
+          "qubits": [
+            3,
+            4
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            3,
+            4
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            2
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            0,
+            2
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            1
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            0,
+            1
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            3
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            0,
+            3
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            2,
+            5
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            2,
+            5
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        }
+      ]
+    }
+  ],
+  "rationale": [
+    {
+      "feature_ids": [],
+      "decision": "Explicit random classical design baseline."
+    }
+  ]
+}

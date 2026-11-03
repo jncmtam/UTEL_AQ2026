@@ -1,0 +1,28 @@
+# AGQO evaluation results
+
+Status: **completed_with_data_blockers**.
+
+Software stages executed; market conclusions remain blocked until data admission passes. Native probes do not qualify a model.
+
+## Hypotheses
+
+- Financial contribution: **inconclusive** until admitted market evidence and paired comparisons are available.
+- LLM contribution: **inconclusive** unless the frozen design comparison establishes it.
+- Quantum advantage: **unsupported** by CPU simulation.
+
+## Measurements
+
+| Method | Status | Net return | Tracking RMSE | Turnover |
+|---|---|---:|---:|---:|
+| hold | completed | 0.0 | 0.003886384170899854 | 0.0 |
+| joint_scip | completed | -0.02039112700295942 | 0.0036010042517874144 | 1.0305901236420405 |
+| allocation_swap | completed | 0.031633891185065766 | 0.0035954335561855016 | 1.0191654875399947 |
+| qaoa_fixed | completed | 0.031633891185065766 | 0.0035954335561855016 | 1.0191654875399947 |
+| qaoa_rules | completed | 0.031633891185065766 | 0.0035954335561855016 | 1.0191654875399947 |
+
+## Stage outputs
+
+- non_llm_baseline: {'output': 'results/research/implemented_pipeline_v1/baseline_study', 'valid': 12, 'total': 12}
+- synthetic_trajectory: {'status': 'completed', 'output': 'results/research/implemented_pipeline_v1/synthetic_trajectory', 'artifacts': ['protocol.json', 'dataset_manifest.json', 'decisions.jsonl', 'circuits', 'metrics.csv', 'cost_report.json', 'RESULTS.md', 'PROGRESS.md'], 'reason': 'Synthetic integration run; these measurements do not establish investment performance.'}
+- market_admission: {'status': 'blocked', 'output': 'results/research/implemented_pipeline_v1/market_trajectory', 'artifacts': ['protocol.json', 'dataset_manifest.json', 'decisions.jsonl', 'circuits', 'metrics.csv', 'cost_report.json', 'RESULTS.md', 'PROGRESS.md'], 'reason': 'Market data audit: membership_verified has not been verified.; corporate_actions_verified has not been verified.; sector_history_verified has not been verified.; Missing explicit source-backed dataset review record.; Incomplete point-in-time identity: DJIA20130923:AXP.; Missing dated sector evidence: DJIA20130923:AXP.; Incomplete point-in-time identity: DJIA20130923:BA.; Missing dated sector evidence: DJIA20130923:BA.; Incomplete point-in-time identity: DJIA20130923:CAT.; Missing dated sector evidence: DJIA20130923:CAT.; Incomplete point-in-time identity: DJIA20130923:CSCO.; Missing dated sector evidence: DJIA20130923:CSCO.; Incomplete point-in-time identity: DJIA20130923:CVX.; Missing dated sector evidence: DJIA20130923:CVX.; Incomplete point-in-time identity: DJIA20130923:DD.; Missing dated sector evidence: DJIA20130923:DD.; Incomplete point-in-time identity: DJIA20130923:DIS.; Missing dated sector evidence: DJIA20130923:DIS.; Incomplete point-in-time identity: DJIA20130923:GE.; Missing dated sector evidence: DJIA20130923:GE.; Incomplete point-in-time identity: DJIA20130923:GS.; Missing dated sector evidence: DJIA20130923:GS.; Incomplete point-in-time identity: DJIA20130923:HD.; Missing dated sector evidence: DJIA20130923:HD.; Incomplete point-in-time identity: DJIA20130923:IBM.; Missing dated sector evidence: DJIA20130923:IBM.; Incomplete point-in-time identity: DJIA20130923:INTC.; Missing dated sector evidence: DJIA20130923:INTC.; Incomplete point-in-time identity: DJIA20130923:JNJ.; Missing dated sector evidence: DJIA20130923:JNJ.; Incomplete point-in-time identity: DJIA20130923:JPM.; Missing dated sector evidence: DJIA20130923:JPM.; Incomplete point-in-time identity: DJIA20130923:KO.; Missing dated sector evidence: DJIA20130923:KO.; Incomplete point-in-time identity: DJIA20130923:MCD.; Missing dated sector evidence: DJIA20130923:MCD.; Incomplete point-in-time identity: DJIA20130923:MMM.; Missing dated sector evidence: DJIA20130923:MMM.; Incomplete point-in-time identity: DJIA20130923:MRK.; Missing dated sector evidence: DJIA20130923:MRK.; Incomplete point-in-time identity: DJIA20130923:MSFT.; Missing dated sector evidence: DJIA20130923:MSFT.; Incomplete point-in-time identity: DJIA20130923:NKE.; Missing dated sector evidence: DJIA20130923:NKE.; Incomplete point-in-time identity: DJIA20130923:PFE.; Missing dated sector evidence: DJIA20130923:PFE.; Incomplete point-in-time identity: DJIA20130923:PG.; Missing dated sector evidence: DJIA20130923:PG.; Incomplete point-in-time identity: DJIA20130923:T.; Missing dated sector evidence: DJIA20130923:T.; Incomplete point-in-time identity: DJIA20130923:TRV.; Missing dated sector evidence: DJIA20130923:TRV.; Incomplete point-in-time identity: DJIA20130923:UNH.; Missing dated sector evidence: DJIA20130923:UNH.; Incomplete point-in-time identity: DJIA20130923:UTX.; Missing dated sector evidence: DJIA20130923:UTX.; Incomplete point-in-time identity: DJIA20130923:V.; Missing dated sector evidence: DJIA20130923:V.; Incomplete point-in-time identity: DJIA20130923:VZ.; Missing dated sector evidence: DJIA20130923:VZ.; Incomplete point-in-time identity: DJIA20130923:WMT.; Missing dated sector evidence: DJIA20130923:WMT.; Incomplete point-in-time identity: DJIA20130923:XOM.; Missing dated sector evidence: DJIA20130923:XOM.; No audited aligned total-return prices; raw downloads cannot be used directly.'}
+- specialist_interface: {'status': 'not_run', 'reason': 'Offline mode makes no model calls.'}

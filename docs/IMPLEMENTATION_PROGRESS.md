@@ -1,32 +1,26 @@
 # Implementation progress
 
-Updated: 2026-11-02.
+Updated: 2026-11-03. The maintained English software pipeline is implemented and
+validated. Its research conclusions remain subject to the evidence gates.
 
-## Implemented, awaiting integrated qualification
+## Completed and measured
 
-- FinancialSpec v3, support/weight separation, convex allocation, SCIP reference.
-- Direct QUBO/Ising compilation, slack penalties, circuit verification and export.
-- Connected exchange design grammar with explicit design ownership.
-- Self-financing portfolio accounting and corporate-action value maps.
-- Free US data acquisition and fail-closed audit.
+- 112 tests passed; static checks passed for research modules.
+- English application/API validation passed for comparisons, mandate conflicts,
+  saved evidence and blocked market data.
+- Full delivery pipeline and structural controls generated reproducible artifacts.
+- Live QUASAR native/IR batch completed with all outputs and costs preserved;
+  1/3 probes accepted, no automatic retry. No production model selected.
+- Modal workers deployed; no GPU tasks running at final inventory check.
 
-## Data gate
+## Remaining scientific work
 
-Historical DJIA cohort remains a candidate. Raw provider downloads are local-only.
-Identity lineage, historical sectors, corporate actions and aligned prices require
-review before any market investment-performance claims.
+The historical US cohort cannot yet support investment claims: permanent identity,
+corporate-action and sector evidence, UTX history and audited aligned prices remain
+incomplete. Main model qualification, economic non-inferiority margins and held-out
+market evaluation require those gates. This is not hidden behind synthetic results.
 
-## Research-first correction
+## Resume efficiently
 
-The user redirected execution to literature and data suitability before further
-model/benchmark choices. Read [research/WORKLOG.md](research/WORKLOG.md),
-[research/EVIDENCE_REVIEW.md](research/EVIDENCE_REVIEW.md), and
-[research/TECHNICAL_DECISIONS.md](research/TECHNICAL_DECISIONS.md).
-The active 80B call was cancelled; no paid continuation is scheduled.
-All 101 software tests passed; this is not model or investment qualification.
-
-## Superseded execution order (do not resume automatically)
-
-Run focused tests, complete experiment runner and artifact contract, wire Modal
-budget/model registry, run bounded live smoke, finish English migration and UI,
-then perform full validation and commit/push. Consult AGENTS.md first.
+Read [AGENTS.md](../AGENTS.md) first, then [the worklog](research/WORKLOG.md).
+See [project status](PROJECT_STATUS.md) and [user guide](USER_GUIDE.md).

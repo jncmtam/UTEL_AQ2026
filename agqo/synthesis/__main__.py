@@ -5,7 +5,7 @@ from pathlib import Path
 import json
 
 from agqo.repair.data import synthetic_data,make_window
-from .budget import BudgetLedger,billing_snapshot
+from .budget import BudgetLedger,billing_snapshot,MODEL_CATALOG,configured_budget
 from .client import SynthesisClient
 from .pilot import evaluate_model, freeze, report_pilot
 from .search import run_search,SearchConfig
@@ -15,7 +15,7 @@ def main():
     parser=argparse.ArgumentParser(description='Verified data-conditioned GateIR QAOA synthesis')
     parser.add_argument('command',choices=['search','pilot','benchmark','billing','report'])
     parser.add_argument('--mode',choices=['disabled','modal','replay','rules'],default='disabled')
-    parser.add_argument('--model',choices=['next80','coder30','both'],default='next80')
+    parser.add_argument('--model',choices=[*MODEL_CATALOG,'both'],default='next80')
     parser.add_argument('--output',default='results/synthesis/pilot')
     parser.add_argument('--n',type=int,default=4)
     parser.add_argument('--repair-rounds',type=int,choices=[0,1,2],default=2)
@@ -28,6 +28,8 @@ def main():
     if args.command=='report':
         report_pilot(args.output);print(str(Path(args.output)/'REPORT.md'));return 0
     if args.command=='pilot':
+        if args.model not in {'next80','coder30','both'}:
+            parser.error('The frozen legacy pilot supports only next80/coder30. Use agqo-research probe or smoke for new model protocols.')
         freeze(args.output)
         for model in ['next80','coder30'] if args.model=='both' else [args.model]:
             evaluate_model(model,args.output,args.mode if args.mode!='rules' else 'disabled',args.repair_rounds)
@@ -42,7 +44,7 @@ def main():
         print(json.dumps({'records':len(records),'output':args.output}));return 0
     if args.model=='both':parser.error('search accepts one model')
     p,*_=make_window(synthetic_data(n=args.n),n=args.n,k=args.n//2,text=f'Hold {args.n//2} assets')
-    client=None if args.mode=='rules' else SynthesisClient(args.model,args.mode,args.output,ledger=BudgetLedger('results/synthesis/budget.json'))
+    client=None if args.mode=='rules' else SynthesisClient(args.model,args.mode,args.output,ledger=configured_budget())
     donor=None
     if args.ablation=='shuffled':
         from .profile import data_profile

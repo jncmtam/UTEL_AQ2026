@@ -33,29 +33,29 @@ def generate(model_key, requests):
                  tensor_parallel_size=config.get('tensor_parallel_size',1), max_model_len=16384,
                  gpu_memory_utilization=0.90 if model_key in {'coder480','qwen397'} else 0.88,
                  max_num_seqs=2, enforce_eager=True, enable_prefix_caching=False,
-                 trust_remote_code=False)
+                 trust_remote_code=False, **config.get("engine_kwargs",{}))
     print(json.dumps({"stage": "engine_ready", "seconds": time.monotonic() - start}), flush=True)
     tokenizer = engine.get_tokenizer()
     messages, params, prompt_lengths = [], [], []
     for request in requests:
         chat = [{"role": "system", "content": request["system"]},
                 {"role": "user", "content": json.dumps(request["payload"], ensure_ascii=False)}]
-        chat_kwargs={'enable_thinking':False} if model_key=='qwen397' else {}
+        chat_kwargs={'enable_thinking':False} if model_key in {'qwen397','quasar4'} else {}
         count = len(tokenizer.apply_chat_template(chat, add_generation_prompt=True, tokenize=True,**chat_kwargs))
         if count + request["max_tokens"] > 16384:
             raise ValueError(f"Prompt length {count} plus output budget exceeds 16K; no silent data truncation.")
         messages.append(chat); prompt_lengths.append(count)
         params.append(SamplingParams(temperature=request.get("temperature", 0.4), top_p=0.9,
                                      seed=request["seed"], max_tokens=request["max_tokens"],
-                                     structured_outputs=StructuredOutputsParams(json=decoder_schema(request["schema"]))))
+                                     **({"structured_outputs":StructuredOutputsParams(json=decoder_schema(request["schema"]))} if request.get("schema") else {})))
     print(json.dumps({"stage": "generating", "prompt_tokens": prompt_lengths}), flush=True)
     outputs = engine.chat(messages, sampling_params=params, use_tqdm=False,
-                          **({'chat_template_kwargs':{'enable_thinking':False}} if model_key=='qwen397' else {}))
+                          **({'chat_template_kwargs':{'enable_thinking':False}} if model_key in {'qwen397','quasar4'} else {}))
     answers = []
     for request, output, count in zip(requests, outputs, prompt_lengths, strict=True):
         completion = output.outputs[0]
         try:
-            value = json.loads(completion.text)
+            value = json.loads(completion.text) if request.get("schema") else completion.text
             status = "ok" if completion.finish_reason == "stop" else "truncated"
         except json.JSONDecodeError:
             value, status = None, "invalid_json"
@@ -121,3 +121,17 @@ def prefetch_model(model_key):
     return {'model':config['model'],'revision':config['revision'],'seconds':time.monotonic()-start,
             'weight_bytes':sum(p.stat().st_size for p in Path(location).rglob('*.safetensors')),
             'execution':'cpu_prefetch_not_inference'}
+
+
+@app.function(image=image, gpu="A100-80GB", cpu=4, memory=65536, timeout=600,
+              startup_timeout=600, retries=0, max_containers=1, scaledown_window=2,
+              volumes={"/model-cache": cache})
+def quasar4_batch(requests):
+    return generate("quasar4", requests)
+
+
+@app.function(image=modern_image, gpu="A100-80GB", cpu=4, memory=98304, timeout=900,
+              startup_timeout=600, retries=0, max_containers=1, scaledown_window=2,
+              volumes={"/model-cache": cache})
+def mistral24q_batch(requests):
+    return generate("mistral24q", requests)

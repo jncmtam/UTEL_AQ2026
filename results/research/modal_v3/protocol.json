@@ -1,0 +1,59 @@
+{
+  "version": "research-v3.1",
+  "mode": "modal",
+  "split": "development",
+  "models": {
+    "coder30": {
+      "model": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+      "revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+      "gpu": "A100-80GB",
+      "rate_key": "gpu_hour_cost_a100_80gb",
+      "dtype": "bfloat16",
+      "ram_gib": 96,
+      "cpu": 4
+    },
+    "next80": {
+      "model": "Qwen/Qwen3-Coder-Next-FP8",
+      "revision": "da6e2ed27304dd39abadd9c82ef50e8de67bdd4c",
+      "gpu": "H200",
+      "rate_key": "gpu_hour_cost_h200",
+      "dtype": "auto",
+      "ram_gib": 128,
+      "cpu": 4
+    }
+  },
+  "cases": [
+    {
+      "id": "development_n6",
+      "hash": "e9a8464ee7375d49bd83556f24efe03b6372136d5025fe0039f6c61a0b7d2e16"
+    },
+    {
+      "id": "development_n8",
+      "hash": "3e887d9a486e947613617dc96c4e6f534f068cbb44f9f760e8511a9f9fca3725"
+    },
+    {
+      "id": "development_n10",
+      "hash": "740927bd3409dc77d48a4e5bb4ec1ace6a87884d45d299000c000eb4aaecb7bc"
+    }
+  ],
+  "seeds": [
+    11,
+    23,
+    47
+  ],
+  "evaluations_per_candidate_seed": 8,
+  "shots": 64,
+  "proposals_per_method": 1,
+  "targets": {
+    "first_pass_validity": 0.95,
+    "relative_gap_or_resource_improvement": 0.2,
+    "fidelity": 0.999999999,
+    "cardinality_leakage": 1e-09
+  },
+  "purpose": "structural_smoke_not_model_qualification",
+  "finance_claims_allowed": false,
+  "selection_rule": "validity_then_selection_feasibility_then_conditional_proxy_regret_then_cx",
+  "feedback_schedule": "Four initial proposals, then two rounds of two when budget=8; all trials charged.",
+  "baseline_scope": "Same grammar, angle budgets and proposal counts; LLM inference adds measured overhead.",
+  "source_hash": "2372429effd8fae381f407f5dc5007fddb8b54d836f3f7803eaf2bc9db6f517f"
+}
