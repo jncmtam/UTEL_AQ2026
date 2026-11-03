@@ -29,6 +29,8 @@ issues. No new GPU sweep is scheduled.
 
 ## Read next
 
+- [Remediation plan](docs/research/REMEDIATION_PLAN.md): concrete next work, alternatives,
+  acceptance gates and stop rules; proposed, not an executed experiment.
 - [README](README.md): what was built, roles, figures and reproduction commands.
 - [Qualification status](docs/research/QUALIFICATION_STATUS.md): findings and repair queue.
 - [Visual gallery](results/research/evidence_gallery_v1/GALLERY.md): all eight charts.

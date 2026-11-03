@@ -2,6 +2,10 @@
 
 Updated: 2026-11-04, Asia/Ho_Chi_Minh.
 
+For concrete next actions, alternatives and stop rules, read the
+[remediation plan](REMEDIATION_PLAN.md). It proposes a study without changing
+existing objectives, raw results or financial admission.
+
 **The available-source audit and qualification infrastructure are implemented.
 Historical investability, a production LLM and independent financial value are
 not qualified. A larger model cannot resolve missing economic entitlements or

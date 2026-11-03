@@ -451,3 +451,22 @@ reviewable commit on the same branch.
   AGENTS.md now distinguish software delivery from unqualified models/financial value.
   Financial data and continuous B/F fidelity remain the next substantive gates;
   increasing parameter count is not treated as their remedy.
+
+## 2026-11-04 — concrete remediation recommendation
+
+- Rechecked the actual continuous allocator/proxy and reviewed primary sparse-
+  tracking, mixed-binary ADMM, warm-start QAOA, portfolio benchmark v3 and Qiskit
+  model-card sources before recommending next work.
+- Added REMEDIATION_PLAN.md: source-backed investable records and a bounded scope
+  alternative; allocation-aware sampled F feedback versus decomposition, discrete
+  weights and explicit equal weights; matched non-LLM CPU controls before models;
+  subsequent two-model pilot, correctness confirmation and independent financial test.
+- Clarified that sampled F feedback does not compile a coherent F Hamiltonian,
+  eliminate trainability limits or establish advantage. Decomposition may yield
+  trivial binary subproblems; validate that before assigning them to QAOA.
+- Documentation only. No dataset, objective, frozen score or source artifact changed;
+  no inference, financial test or new optimizer run. Existing146-test checkpoint
+  remains the software baseline. Live experiments require their own frozen protocol.
+- Documentation checks for this memo passed:77-file maintained-language scan,
+  updated local links, README image/caption validation and whitespace checks.
+  No executable code changed, so the full software suite was not rerun.

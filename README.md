@@ -12,6 +12,7 @@ A larger model is a conditional next experiment, not a solution to missing data 
 an unfaithful objective.
 
 [Current findings](docs/research/QUALIFICATION_STATUS.md) ·
+[How to resolve the blockers](docs/research/REMEDIATION_PLAN.md) ·
 [Visual evidence](results/research/evidence_gallery_v1/GALLERY.md) ·
 [User guide](docs/USER_GUIDE.md) · [Progress](PROGRESS.md) · [Agent handoff](AGENTS.md)
 

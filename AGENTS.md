@@ -157,6 +157,9 @@ for the next action. Update this file and the worklog after meaningful changes.
   separate claims. Current hardware advantage and market outperformance unproven.
 
 ## Next dependencies and documentation
+- Recommended next study: docs/research/REMEDIATION_PLAN.md. Parallel dependencies
+  are source reconstruction and a preregistered allocation-aware non-LLM CPU pilot.
+  This is a proposal, not an executed protocol or a change to existing B/F semantics.
 - Main open dependency: historical membership/security/action/sector reconciliation
   and audited aligned US prices. Current candidate has 29/30 stocks, missing UTX,
   zero verified permanent identities; DD/GE lineage also needs reconstruction.
