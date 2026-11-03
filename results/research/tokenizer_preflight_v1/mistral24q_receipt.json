@@ -1,0 +1,19 @@
+{
+  "key": "mistral24q",
+  "model": "Qiskit/mistral-small-3.2-24b-qiskit",
+  "revision": "0c541958022de04bd7c200b14a4b7a58977ae751",
+  "status": "tokenizer_ready_only",
+  "tokenizer_class": "LlamaTokenizerFast",
+  "prompt_tokens": 23,
+  "rendered_prompt": "<s>[SYSTEM_PROMPT]Return only valid English JSON.[/SYSTEM_PROMPT][INST]Describe a two-qubit Bell circuit as gate data.[/INST]",
+  "elapsed_seconds": 5.9639249979999995,
+  "execution": "modal_cpu_no_model_inference",
+  "gpu_requested": false,
+  "model_weights_requested": false,
+  "engine_kwargs": {
+    "tokenizer_mode": "hf",
+    "config_format": "hf",
+    "load_format": "safetensors"
+  },
+  "reserved_usd": 0.026374999999999996
+}

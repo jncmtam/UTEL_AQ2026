@@ -15,6 +15,13 @@ never silently replaces missing US securities or substitutes synthetic returns.
 
 ## Data admission contract
 
+For the detailed available-source hygiene audit, install `.[data-audit]` and run
+`agqo-research history-audit --output NEW_DIRECTORY`. It checks manifest hashes,
+XNYS sessions, OHLC/volume, coverage and provider action/adjustment consistency,
+then snapshots the actual code and package versions. A blocked result returns
+exit code 2. This audit never substitutes for independent share-class, entitlement
+and sector review. See [current findings](research/QUALIFICATION_STATUS.md).
+
 `data/us_equities/dataset_manifest.json` identifies the proposed historical cohort,
 raw-source checksums and acquisition failures. To admit a market dataset, supply:
 
@@ -40,6 +47,12 @@ blocked. Raw provider data stays local; metadata and checksums are versioned.
 
 ## Model experiments
 
+The recorded CPU tokenizer preflight passed for all three shortlisted checkpoints.
+It did not load model weights or test circuit generation. Read its saved results;
+do not relaunch it merely to view them. The current [qualification protocol](research/QUALIFICATION_PROTOCOL.md)
+requires a separately frozen model comparison, independent correctness confirmation
+and financial admission before opening final financial outcomes.
+
 The evidence-based shortlist and checkpoint revisions are in the evidence review.
 `probe --mode modal --models quasar4 --output NEW_DIRECTORY` tests native code and
 GateIR transfer separately. The output contract is frozen before inference and
@@ -50,7 +63,8 @@ qualification or reproduction of the original paper's full benchmark.
 and none/verifier/quality feedback. The three structural sizes are diagnostic;
 they do not replace a sufficiently powered held-out market study. Cost includes
 CPU prefetch, inference, invalid proposals and angle/allocator work. Specialist
-runtime support for Mistral 24B is implemented but not qualified by a live run.
+runtime support for Mistral 24B has passed CPU tokenization only; full GPU weight
+loading and gate generation remain unqualified.
 
 ## Published US algorithm benchmark
 
@@ -110,3 +124,19 @@ defaults are unchanged. All three commands are CPU-only and reject Modal mode.
 Read `results/research/control_summary_v1/FINDINGS.md` before a new model run. The
 current three-seed comparisons are descriptive, source-snapshotted development
 evidence. They cannot qualify model superiority or an unbiased investment strategy.
+
+## Visual evidence and English presentation
+
+Read [the visual gallery](../results/research/evidence_gallery_v1/GALLERY.md), or
+serve its directory with `python -m http.server 8766 --bind 127.0.0.1 --directory
+results/research/evidence_gallery_v1` and open http://127.0.0.1:8766/. Filter by Data,
+Models, Finance or Quantum. Each chart has a caption and a vector original.
+
+`python scripts/build_evidence_gallery.py --output NEW_DIRECTORY` regenerates the
+eight figures from checked-in records without inference, optimization or new test
+outcomes. The generator and source hashes accompany the figures. The reliability
+curve is a protocol illustration; the other charts describe recorded measurements.
+
+Maintained interfaces, errors, reports and entry-point guides use English.
+Original historical evidence and bilingual parser fixtures remain unchanged;
+see [language and archives](LANGUAGE_AND_ARCHIVES.md).

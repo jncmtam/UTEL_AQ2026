@@ -1,0 +1,18 @@
+{
+  "version": "cpu-tokenizer-preflight-v1",
+  "evidence": "docs/research/QUALIFICATION_PROTOCOL.md#cpu-only-runtime-preflight-addendum",
+  "models": [
+    "coder30",
+    "mistral24q",
+    "quasar4"
+  ],
+  "gpu": false,
+  "model_weights": false,
+  "cpu": 2,
+  "ram_gib": 4,
+  "timeout_seconds": 300,
+  "startup_timeout_seconds": 180,
+  "max_reservation_per_job_usd": 1,
+  "max_total_reservation_usd": 3,
+  "runtime_scope": "Shared modern vLLM0.17.1 image; not complete GPU-worker/weight equivalence."
+}

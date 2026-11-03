@@ -1,0 +1,36 @@
+{
+  "source_files_present": 30,
+  "cohort_stocks_present": 29,
+  "missing_tickers": [
+    "UTX"
+  ],
+  "provider_dividends": 1726,
+  "provider_split_labels": 17,
+  "unclassified_split_labels": 11,
+  "cash_checks": 1725,
+  "cash_residual_flags": 0,
+  "tokenizer_passes": 3,
+  "cpu_preflight_reservation_usd_not_invoice": 0.07912499999999999,
+  "confirmation_illustration_only": {
+    "planned_cases": 72,
+    "received_records": 72,
+    "attempted": 72,
+    "successes": 72,
+    "not_executed": 0,
+    "missing_records": 0,
+    "observed_first_pass_rate": 1.0,
+    "exact_binomial_interval": [
+      0.9500559162941453,
+      1.0
+    ],
+    "confidence": 0.95,
+    "required_lower_bound": 0.95,
+    "status": "qualified_for_declared_task_distribution",
+    "financial_value_established": false,
+    "assumption": "Independent draws from the frozen confirmation task distribution; different seeds alone do not justify independence."
+  },
+  "final_test_status": "blocked",
+  "new_model_inference_calls": 0,
+  "new_optimization_calls": 0,
+  "new_strategy_outcomes_opened": false
+}

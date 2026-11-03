@@ -20,8 +20,8 @@ def test_validator_rejects_missing_caption_and_asset(tmp_path):
     doc = tmp_path / "sample.md"
     doc.write_text("![Chart](missing.png)\n", encoding="utf-8")
     errors = validate_markdown_images(doc, tmp_path)
-    assert any("ảnh không tồn tại" in error for error in errors)
-    assert any("thiếu tên hình" in error for error in errors)
+    assert any("image does not exist" in error for error in errors)
+    assert any("missing figure title" in error for error in errors)
 
 
 def test_caption_updater_replaces_stale_caption_and_uses_relative_asset_path(tmp_path):
@@ -41,6 +41,6 @@ def test_caption_updater_replaces_stale_caption_and_uses_relative_asset_path(tmp
     }]
     update_markdown_captions(doc, tmp_path, catalog)
     result = doc.read_text(encoding="utf-8")
-    assert "**Hình 2. Current chart.**" in result
+    assert "**Figure 2. Current chart.**" in result
     assert "stale text" not in result
     assert validate_markdown_images(doc, tmp_path) == []

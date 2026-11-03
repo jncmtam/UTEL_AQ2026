@@ -1,0 +1,198 @@
+{
+  "scope": "Non-exhaustive primary-source event candidates. Not an accepted corporate-action ledger. No full-document checksum is claimed for indexed access.",
+  "coverage_complete": false,
+  "events": [
+    {
+      "asset": "DD",
+      "event": "DuPont to DowDuPont merger",
+      "distribution_date": "2017-08-31",
+      "first_trade_date": "2017-09-01",
+      "economic_entitlement": {
+        "DWDP_shares_per_old_DD": 1.282
+      },
+      "source": "https://www.sec.gov/Archives/edgar/data/1666700/000166670018000009/R25.htm",
+      "source_role": "Issuer SEC filing",
+      "review_status": "primary_event_identified_return_reconstruction_incomplete",
+      "publication_timestamp_utc": null,
+      "missing_terms": [
+        "complete share-class lineage",
+        "cash-in-lieu and valuation convention",
+        "precise public availability",
+        "independent descendant price series",
+        "reinvestment/tradability policy"
+      ]
+    },
+    {
+      "asset": "GE",
+      "event": "Wabtec distribution",
+      "distribution_date": "2019-02-25",
+      "economic_entitlement": {
+        "WAB_shares_per_GE": 0.005371
+      },
+      "source": "https://www.ge.com/news/press-releases/ge-announces-completion-ge-transportation-and-wabtec-merger",
+      "source_role": "Issuer completion release",
+      "review_status": "primary_event_identified_return_reconstruction_incomplete",
+      "publication_timestamp_utc": null,
+      "missing_terms": [
+        "complete share-class lineage",
+        "cash-in-lieu and valuation convention",
+        "precise public availability",
+        "independent descendant price series",
+        "reinvestment/tradability policy"
+      ]
+    },
+    {
+      "asset": "GE",
+      "event": "GE HealthCare distribution",
+      "distribution_date": "2023-01-03",
+      "economic_entitlement": {
+        "GEHC_shares_per_GE": 0.3333333333333333
+      },
+      "source": "https://www.ge.com/sites/default/files/ge-healthcare-distribution-ratio-faqs.pdf",
+      "source_role": "Issuer shareholder FAQ",
+      "review_status": "primary_event_identified_return_reconstruction_incomplete",
+      "publication_timestamp_utc": null,
+      "missing_terms": [
+        "complete share-class lineage",
+        "cash-in-lieu and valuation convention",
+        "precise public availability",
+        "independent descendant price series",
+        "reinvestment/tradability policy"
+      ]
+    },
+    {
+      "asset": "GE",
+      "event": "GE Vernova distribution",
+      "distribution_date": "2024-04-02",
+      "economic_entitlement": {
+        "GEV_shares_per_GE": 0.25
+      },
+      "source": "https://www.ge.com/news/press-releases/ge-board-of-directors-approves-spin-off-of-ge-vernova-ge-vernova-and-ge-aerospace-to",
+      "source_role": "Issuer board announcement; completion date requires separate confirmation",
+      "review_status": "primary_event_identified_return_reconstruction_incomplete",
+      "publication_timestamp_utc": null,
+      "missing_terms": [
+        "complete share-class lineage",
+        "cash-in-lieu and valuation convention",
+        "precise public availability",
+        "independent descendant price series",
+        "reinvestment/tradability policy"
+      ]
+    },
+    {
+      "asset": "IBM",
+      "event": "Kyndryl distribution",
+      "distribution_date": "2021-11-03",
+      "first_trade_date": "2021-11-04",
+      "economic_entitlement": {
+        "KD_shares_per_IBM": 0.2
+      },
+      "source": "https://newsroom.ibm.com/2021-11-03-IBM-Completes-the-Separation-of-Kyndryl?lnk=ithpv18nf",
+      "source_role": "Issuer completion release",
+      "review_status": "primary_event_identified_return_reconstruction_incomplete",
+      "publication_timestamp_utc": null,
+      "missing_terms": [
+        "complete share-class lineage",
+        "cash-in-lieu and valuation convention",
+        "precise public availability",
+        "independent descendant price series",
+        "reinvestment/tradability policy"
+      ]
+    },
+    {
+      "asset": "MMM",
+      "event": "Solventum distribution",
+      "distribution_date": "2024-04-01",
+      "economic_entitlement": {
+        "SOLV_shares_per_MMM": 0.25
+      },
+      "source": "https://news.3m.com/2024-04-01-3M-Completes-Spin-off-of-Solventum",
+      "source_role": "Issuer completion release",
+      "review_status": "primary_event_identified_return_reconstruction_incomplete",
+      "publication_timestamp_utc": null,
+      "missing_terms": [
+        "complete share-class lineage",
+        "cash-in-lieu and valuation convention",
+        "precise public availability",
+        "independent descendant price series",
+        "reinvestment/tradability policy"
+      ]
+    },
+    {
+      "asset": "MRK",
+      "event": "Organon distribution",
+      "distribution_date": "2021-06-02",
+      "economic_entitlement": {
+        "OGN_shares_per_MRK": 0.1
+      },
+      "source": "https://www.sec.gov/Archives/edgar/data/310158/000031015821000028/R9.htm",
+      "source_role": "Issuer SEC filing",
+      "review_status": "primary_event_identified_return_reconstruction_incomplete",
+      "publication_timestamp_utc": null,
+      "missing_terms": [
+        "complete share-class lineage",
+        "cash-in-lieu and valuation convention",
+        "precise public availability",
+        "independent descendant price series",
+        "reinvestment/tradability policy"
+      ]
+    },
+    {
+      "asset": "PFE",
+      "event": "Upjohn/Viatris distribution",
+      "distribution_date": "2020-11-16",
+      "first_trade_date": "2020-11-17",
+      "economic_entitlement": {
+        "VTRS_shares_per_PFE_approx": 0.124079
+      },
+      "source": "https://www.pfizer.com/news/press-release/press-release-detail/pfizer-completes-transaction-combine-its-upjohn-business",
+      "source_role": "Issuer completion release",
+      "review_status": "primary_event_identified_return_reconstruction_incomplete",
+      "publication_timestamp_utc": null,
+      "missing_terms": [
+        "complete share-class lineage",
+        "cash-in-lieu and valuation convention",
+        "precise public availability",
+        "independent descendant price series",
+        "reinvestment/tradability policy"
+      ]
+    },
+    {
+      "asset": "T",
+      "event": "WarnerMedia/WBD distribution",
+      "distribution_date": "2022-04-08",
+      "first_trade_date": "2022-04-11",
+      "economic_entitlement": {
+        "WBD_shares_per_T_approx": 0.241917
+      },
+      "source": "https://investors.att.com/stockholder-services/cost-basis-guide/worksheet/atandt-inc-wbd",
+      "source_role": "Issuer shareholder cost-basis guide",
+      "review_status": "primary_event_identified_return_reconstruction_incomplete",
+      "publication_timestamp_utc": null,
+      "missing_terms": [
+        "complete share-class lineage",
+        "cash-in-lieu and valuation convention",
+        "precise public availability",
+        "independent descendant price series",
+        "reinvestment/tradability policy"
+      ]
+    },
+    {
+      "asset": "UTX",
+      "event": "Carrier/Otis distributions and RTX succession",
+      "distribution_date": "2020-04-03",
+      "economic_entitlement": null,
+      "source": "https://investors.rtx.com/static-files/1d0010bd-9a41-4be8-b797-0048967463ae",
+      "source_role": "Issuer completion release; parent succession evidence, complete child terms pending",
+      "review_status": "primary_event_identified_return_reconstruction_incomplete",
+      "publication_timestamp_utc": null,
+      "missing_terms": [
+        "complete share-class lineage",
+        "cash-in-lieu and valuation convention",
+        "precise public availability",
+        "independent descendant price series",
+        "reinvestment/tradability policy"
+      ]
+    }
+  ]
+}

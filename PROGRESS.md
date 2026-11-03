@@ -1,21 +1,37 @@
 # AGQO progress
 
-Updated 2026-11-03. Read [the completion review](docs/research/COMPLETION_REPORT.md)
-for measured results, acceptance gaps and the ordered next actions.
+Updated: 2026-11-04, Asia/Ho_Chi_Minh.
 
-- Implemented and tested the 30-asset conserved simulator and conditional US corpus.
-- Canonical initial study:18/18 feasible rows. Follow-up:18 preparation rows,
-  408 formulation queries and36 conditioning rows; **135 tests pass**.
-- Corrected exclusion repair, common allocation, optimality labels and stale UI evidence.
-- Recorded negative circuit/proxy/native-model findings without changing raw scores.
-- No new Modal inference; no production LLM or investment advantage qualified.
-- Original historical investment-data gate remains blocked by source reconciliation.
-- Verified counter-Dicke removes sparse exploration at measured qubit/depth cost;
-  matched-draw classical sampling remains stronger. Paper RMS conditioning and
-  equal-weight identity are explicit controls, not silent primary-task changes.
+## Delivered
 
-Read [the controlled follow-up findings](results/research/control_summary_v1/FINDINGS.md)
-for why proxy improvement still does not establish financial value.
+- Available-source historical audit v3 with source snapshots: 29/30 cohort stocks
+  plus DIA, 3,520 observations per available file, zero missing internal sessions
+  or invalid numerical price/volume rows. Eleven provider split labels need review.
+- Ten primary-source corporate-action candidates recorded as a partial ledger.
+- Three pinned Modal CPU tokenizer checks passed; corrected Mistral weight-loading
+  settings. No model weights, GPU or new circuit inference; reservation USD0.079125,
+  not an invoice. Both deployed apps were idle at the recorded check.
+- Exact independent correctness qualification and immutable final-test integrity
+  prerequisites. Actual readiness is blocked; no final strategy outcomes opened.
+- English README, maintained root guides, compatibility repair UI/report/errors,
+  language scan, eight source-backed PNG/SVG charts and a filterable offline gallery.
+- **146 tests pass**, targeted static checks pass, compatibility JavaScript parses.
+  Browser checks verified gallery filters, responsive overflow and English mandate/
+  conflict diagnosis; original raw evidence and prior negative results are preserved.
 
-Resume using [AGENTS.md](AGENTS.md); detailed history is in
-[WORKLOG.md](docs/research/WORKLOG.md).
+## What is not resolved
+
+Historical data admission still needs UTX, dated identities/sectors, merger/spin-off
+entitlements, descendant prices and explicit investable trading/reinvestment semantics.
+Continuous allocation retains B/F proxy distortion. No production LLM or independent
+financial benefit is qualified. Larger models are not justified as a fix for these
+issues. No new GPU sweep is scheduled.
+
+## Read next
+
+- [README](README.md): what was built, roles, figures and reproduction commands.
+- [Qualification status](docs/research/QUALIFICATION_STATUS.md): findings and repair queue.
+- [Visual gallery](results/research/evidence_gallery_v1/GALLERY.md): all eight charts.
+- [Control findings](results/research/control_summary_v1/FINDINGS.md): formulation and
+  circuit controls, including the stronger classical reference.
+- [AGENTS.md](AGENTS.md): concise resumption; [WORKLOG](docs/research/WORKLOG.md): history.

@@ -16,6 +16,7 @@ def main():
             "candidate",
             "fetch",
             "audit",
+            "history-audit",
             "smoke",
             "baseline",
             "probe",
@@ -96,6 +97,14 @@ def main():
     elif args.command == "audit":
         result = audit(candidate(args.data), args.data)
         write_json(Path(args.data) / "data_audit.json", result)
+    elif args.command == "history-audit":
+        from .history_audit import run as history_run
+
+        if args.mode != "offline":
+            parser.error(
+                "Historical hygiene auditing is CPU-only and never dispatches inference."
+            )
+        result = history_run(args.output, args.data)
     elif args.command == "baseline":
         from .baselines import study
 

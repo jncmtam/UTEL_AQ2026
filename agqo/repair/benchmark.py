@@ -38,15 +38,15 @@ class Protocol:
 
     def __post_init__(self):
         if not 3 <= self.n <= 12 or not 1 <= self.k <= self.n or self.evaluations < 8 or self.shots < 1 or not self.seeds:
-            raise ValueError("Protocol dimensions/budget không hợp lệ.")
+            raise ValueError("Invalid protocol dimensions or budget.")
         # Held-out outcomes may not overlap development outcomes or one another.
         def intervals(starts):
             return [set(range(s + self.train, s + self.train + self.horizon)) for s in starts]
         dev, test = intervals(self.development_starts), intervals(self.test_starts)
         if any(a & b for a in dev for b in test) or any(a & b for i, a in enumerate(test) for b in test[i + 1:]):
-            raise ValueError("Development/test outcomes bị chồng lấn.")
+            raise ValueError("Development and test outcomes overlap.")
         if min(self.test_starts, default=0) + self.train <= max((s + self.train + self.horizon - 1 for s in self.development_starts), default=-1):
-            raise ValueError("Test phải diễn ra sau development.")
+            raise ValueError("Test must follow development.")
 
 
 def semantic_key(m):

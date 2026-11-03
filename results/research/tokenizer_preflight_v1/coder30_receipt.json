@@ -1,0 +1,15 @@
+{
+  "key": "coder30",
+  "model": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+  "revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+  "status": "tokenizer_ready_only",
+  "tokenizer_class": "Qwen2TokenizerFast",
+  "prompt_tokens": 30,
+  "rendered_prompt": "<|im_start|>system\nReturn only valid English JSON.<|im_end|>\n<|im_start|>user\nDescribe a two-qubit Bell circuit as gate data.<|im_end|>\n<|im_start|>assistant\n",
+  "elapsed_seconds": 0.790452822999999,
+  "execution": "modal_cpu_no_model_inference",
+  "gpu_requested": false,
+  "model_weights_requested": false,
+  "engine_kwargs": {},
+  "reserved_usd": 0.026374999999999996
+}

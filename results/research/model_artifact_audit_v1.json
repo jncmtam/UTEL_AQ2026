@@ -1,0 +1,124 @@
+{
+  "scope": "Public metadata only; no weights downloaded or GPU run.",
+  "models": [
+    {
+      "key": "coder30",
+      "model": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+      "revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+      "config.json": {
+        "model_type": "qwen3_moe",
+        "architectures": [
+          "Qwen3MoeForCausalLM"
+        ]
+      },
+      "tokenizer_config.json": {
+        "tokenizer_class": "Qwen2Tokenizer"
+      },
+      "files": [
+        ".gitattributes",
+        "LICENSE",
+        "README.md",
+        "chat_template.jinja",
+        "config.json",
+        "generation_config.json",
+        "merges.txt",
+        "model-00001-of-00016.safetensors",
+        "model-00002-of-00016.safetensors",
+        "model-00003-of-00016.safetensors",
+        "model-00004-of-00016.safetensors",
+        "model-00005-of-00016.safetensors",
+        "model-00006-of-00016.safetensors",
+        "model-00007-of-00016.safetensors",
+        "model-00008-of-00016.safetensors",
+        "model-00009-of-00016.safetensors",
+        "model-00010-of-00016.safetensors",
+        "model-00011-of-00016.safetensors",
+        "model-00012-of-00016.safetensors",
+        "model-00013-of-00016.safetensors",
+        "model-00014-of-00016.safetensors",
+        "model-00015-of-00016.safetensors",
+        "model-00016-of-00016.safetensors",
+        "model.safetensors.index.json",
+        "qwen3coder_tool_parser.py",
+        "tokenizer.json",
+        "tokenizer_config.json",
+        "vocab.json"
+      ],
+      "current_pinned_sha_matches": true
+    },
+    {
+      "key": "mistral24q",
+      "model": "Qiskit/mistral-small-3.2-24b-qiskit",
+      "revision": "0c541958022de04bd7c200b14a4b7a58977ae751",
+      "config.json": {
+        "model_type": "mistral3",
+        "architectures": [
+          "Mistral3ForConditionalGeneration"
+        ]
+      },
+      "tokenizer_config.json": {
+        "tokenizer_class": "LlamaTokenizerFast",
+        "processor_class": "PixtralProcessor"
+      },
+      "files": [
+        ".gitattributes",
+        "README.md",
+        "chat_template.jinja",
+        "config.json",
+        "generation_config.json",
+        "model-00001-of-00010.safetensors",
+        "model-00002-of-00010.safetensors",
+        "model-00003-of-00010.safetensors",
+        "model-00004-of-00010.safetensors",
+        "model-00005-of-00010.safetensors",
+        "model-00006-of-00010.safetensors",
+        "model-00007-of-00010.safetensors",
+        "model-00008-of-00010.safetensors",
+        "model-00009-of-00010.safetensors",
+        "model-00010-of-00010.safetensors",
+        "model.safetensors.index.json",
+        "params.json",
+        "preprocessor_config.json",
+        "processor_config.json",
+        "special_tokens_map.json",
+        "tekken.json",
+        "tokenizer.json",
+        "tokenizer_config.json"
+      ],
+      "current_pinned_sha_matches": true
+    },
+    {
+      "key": "quasar4",
+      "model": "Benyucong/rl_quantum_4b",
+      "revision": "b9581279345436e2b7eadcdf80e4f1417748eb8b",
+      "config.json": {
+        "model_type": "qwen3",
+        "architectures": [
+          "Qwen3ForCausalLM"
+        ]
+      },
+      "tokenizer_config.json": {
+        "tokenizer_class": "Qwen2Tokenizer"
+      },
+      "files": [
+        ".gitattributes",
+        "README.md",
+        "added_tokens.json",
+        "chat_template.jinja",
+        "config.json",
+        "generation_config.json",
+        "merges.txt",
+        "model-00001-of-00004.safetensors",
+        "model-00002-of-00004.safetensors",
+        "model-00003-of-00004.safetensors",
+        "model-00004-of-00004.safetensors",
+        "model.safetensors.index.json",
+        "special_tokens_map.json",
+        "tokenizer.json",
+        "tokenizer_config.json",
+        "vocab.json"
+      ],
+      "current_pinned_sha_matches": true
+    }
+  ]
+}

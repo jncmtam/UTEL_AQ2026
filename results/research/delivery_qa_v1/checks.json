@@ -1,0 +1,46 @@
+{
+  "client_date": "2026-11-04",
+  "scope": "English presentation and audit/qualification delivery",
+  "tests": {
+    "command": ".venv/bin/python -m pytest -q",
+    "exit_code": 0,
+    "passed": 146
+  },
+  "static_F_checks": "passed for maintained research/repair and modified synthesis/Modal/new script modules",
+  "javascript_syntax": "node --check agqo/repair/web/app.js passed",
+  "markdown_links_and_readme_images": "passed",
+  "archived_root_documents_sha256": {
+    "docs/legacy/root_AGQO_RESEARCH_REGISTER.md": "28b1fb1f6305027a301b183403d3fd68461c80ce1a3dcf026f7a4a621db84e7c",
+    "docs/legacy/root_AGQO_NEXT_ROUND_MASTER_PROMPT.md": "081b873a7c9d38eaf936f7481c9d1fdfce798203a1c516f4fe7803812e41dede",
+    "docs/legacy/root_FRONTEND_YEU_CAU.md": "caea91b390cb5e8f7a858d236b25c591f9e543233c0e514344321e4187a5ed7f",
+    "docs/legacy/root_TAI_LIEU_KY_THUAT_AGQO.md": "c98f41a42f367180adc2cc4e9f6b0689eba2636d633e392552ab85337235b235"
+  },
+  "gallery_input_generator_and_audit_snapshot_hashes": "passed",
+  "visual_inspection": {
+    "plots": "all 8 via saved contact sheets",
+    "gallery_filters": [
+      "Models",
+      "Finance",
+      "All"
+    ],
+    "observed_gallery_dom_widths": [
+      1163,
+      354
+    ],
+    "horizontal_overflow": false,
+    "compatibility_ui": [
+      "valid English mandate",
+      "English conflict diagnosis",
+      "solve disabled for conflict",
+      "no observed console errors"
+    ]
+  },
+  "new_model_inference_calls": 0,
+  "new_financial_strategy_outcomes": false,
+  "limitations": [
+    "Numerical hygiene is not historical financial admission.",
+    "CPU tokenization is not GPU weight-loading or gate-generation qualification.",
+    "No production model, financial value or quantum advantage qualified."
+  ],
+  "dependency_check": "pip check passed: no broken requirements"
+}

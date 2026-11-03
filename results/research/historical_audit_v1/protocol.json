@@ -1,0 +1,15 @@
+{
+  "version": "historical-hygiene-audit-v1",
+  "evidence": "docs/research/QUALIFICATION_PROTOCOL.md",
+  "calendar": "XNYS",
+  "calendar_package": "exchange_calendars",
+  "calendar_version": "4.13.2",
+  "calendar_status": "Independent software reference; not a primary exchange attestation.",
+  "development_end": "2018-12-31",
+  "test_exposure": "Integrity/date/entitlement hygiene only; no strategy outcome or profile fitting.",
+  "adjustment_factor_change_threshold": 5e-06,
+  "cash_residual_threshold": 5e-05,
+  "cohort_preserved": true,
+  "raw_manifest_sha256": "83b3e92725c451f2ec698f410da991153517c58d859f1bffe7947ea4ca201e95",
+  "model_inference_calls": 0
+}

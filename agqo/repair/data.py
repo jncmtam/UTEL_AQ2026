@@ -25,7 +25,7 @@ class MarketData:
 
 def synthetic_data(seed=20261031, n=8, periods=240):
     if not 3 <= n <= 12 or periods < 100:
-        raise ValueError("Synthetic fixture cần 3<=N<=12 và ít nhất 100 kỳ.")
+        raise ValueError("Synthetic fixture requires 3<=N<=12 and at least 100 periods.")
     rng = np.random.default_rng(seed)
     market = rng.normal(0.0002, 0.008, periods)
     factors = rng.normal(0, 0.004, (periods, 3))
@@ -58,11 +58,11 @@ def parse_or_prices(text, expected_n=None):
         n, t = int(tokens[0]), int(tokens[1])
         values = np.asarray([float(x) for x in tokens[2:]], dtype=float)
     except (ValueError, IndexError) as exc:
-        raise ValueError("OR-Library header/value không hợp lệ.") from exc
+        raise ValueError("Invalid OR-Library header or value.") from exc
     if n < 1 or t < 2 or values.size != (n + 1) * (t + 1) or (expected_n is not None and n != expected_n):
-        raise ValueError("OR-Library dimensions hoặc số lượng giá không khớp.")
+        raise ValueError("OR-Library dimensions or price counts disagree.")
     if not np.isfinite(values).all() or (values <= 0).any():
-        raise ValueError("OR-Library prices phải hữu hạn và dương.")
+        raise ValueError("OR-Library prices must be finite and positive.")
     prices = values.reshape(n + 1, t + 1).T
     returns = prices[1:] / prices[:-1] - 1
     return MarketData(tuple(f"OR{i+1:02}" for i in range(n)), tuple("Unclassified" for _ in range(n)),
@@ -78,20 +78,20 @@ def import_market_csv(path, manifest_path):
     manifest = json.loads(Path(manifest_path).read_text())
     required = ("source", "price_adjustment_verified", "point_in_time_universe_verified", "benchmark_verified", "sectors")
     if any(key not in manifest for key in required) or any(manifest[key] is not True for key in required[1:4]):
-        raise ValueError("Market manifest chưa xác nhận điều chỉnh giá, universe theo thời điểm và benchmark.")
+        raise ValueError("Market manifest has not verified price adjustments, point-in-time universe and benchmark.")
     frame = pd.read_csv(path)
     if "date" not in frame or "benchmark" not in frame:
-        raise ValueError("CSV cần date, benchmark và một cột lợi suất cho mỗi tài sản.")
+        raise ValueError("CSV requires date, benchmark and one return column per asset.")
     dates = pd.to_datetime(frame.pop("date"), errors="raise")
     if dates.duplicated().any() or not dates.is_monotonic_increasing:
-        raise ValueError("Ngày phải tăng và không trùng.")
+        raise ValueError("Dates must increase without duplicates.")
     benchmark = frame.pop("benchmark").to_numpy(float)
     tickers = tuple(frame.columns)
     if set(tickers) != set(manifest["sectors"]):
-        raise ValueError("Thiếu phân loại ngành.")
+        raise ValueError("Missing sector classification.")
     returns = frame.to_numpy(float)
     if not np.isfinite(returns).all() or not np.isfinite(benchmark).all() or (returns <= -1).any() or (benchmark <= -1).any():
-        raise ValueError("Dữ liệu lợi suất không hợp lệ.")
+        raise ValueError("Invalid return data.")
     return MarketData(tickers, tuple(manifest["sectors"][x] for x in tickers), returns, benchmark,
                       {**manifest, "kind": "user_verified_market", "dates": dates.astype(str).tolist(),
                        "sha256": hashlib.sha256(Path(path).read_bytes()).hexdigest()})
@@ -99,7 +99,7 @@ def import_market_csv(path, manifest_path):
 
 def make_window(data, start=0, train=80, horizon=20, n=8, k=4, text=None, cost_weight=0.01, cost_bps=25):
     if start < 0 or train < 20 or horizon < 2 or start + train + horizon > len(data.returns) or not 1 <= k <= n <= len(data.tickers):
-        raise ValueError("Window/universe không hợp lệ.")
+        raise ValueError("Invalid window or universe.")
     # Fixed first-N window, explicitly reported; never select assets using held-out returns.
     tickers, sectors = data.tickers[:n], data.sectors[:n]
     text = text or f"Hold {k} assets"

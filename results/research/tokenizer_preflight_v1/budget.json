@@ -1,0 +1,135 @@
+{
+  "version": "budget-v1",
+  "limit_usd": 3,
+  "jobs": [
+    {
+      "id": "c8a036e57dd54e96b6cb17a0b212f5cd",
+      "label": "tokenizer:coder30",
+      "resource": "cpu",
+      "reserved_usd": 0.026374999999999996,
+      "status": "completed",
+      "billing": {
+        "checked_utc": "2026-11-03T11:58:45.136239+00:00",
+        "metered_cost": 0.74650614,
+        "billed_cost": 0.0,
+        "adjustments": {
+          "Plan Cost": "0E-8",
+          "Credits": "-0.73000000",
+          "Network Egress Allowance": "-0.01650614",
+          "Free Storage": "-0E-8",
+          "Reservation Adjustment": "-0E-8"
+        },
+        "rates": {
+          "mem_gib_hour_cost": 0.008,
+          "gpu_hour_cost_h200": 4.54,
+          "gpu_hour_cost_a100_80gb": 2.5,
+          "cpu_hour_cost": 0.0473
+        },
+        "allowance_basis": "API exposes metered/billed costs, not a standalone available-credit balance. Enforce the selected authorization policy separately."
+      },
+      "metadata": {
+        "key": "coder30",
+        "model": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+        "revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+        "status": "tokenizer_ready_only",
+        "tokenizer_class": "Qwen2TokenizerFast",
+        "prompt_tokens": 30,
+        "rendered_prompt": "<|im_start|>system\nReturn only valid English JSON.<|im_end|>\n<|im_start|>user\nDescribe a two-qubit Bell circuit as gate data.<|im_end|>\n<|im_start|>assistant\n",
+        "elapsed_seconds": 0.790452822999999,
+        "execution": "modal_cpu_no_model_inference",
+        "gpu_requested": false,
+        "model_weights_requested": false,
+        "engine_kwargs": {},
+        "reserved_usd": 0.026374999999999996
+      }
+    },
+    {
+      "id": "abe014710fac45199ef907d8be0ca5be",
+      "label": "tokenizer:mistral24q",
+      "resource": "cpu",
+      "reserved_usd": 0.026374999999999996,
+      "status": "completed",
+      "billing": {
+        "checked_utc": "2026-11-03T11:58:58.415137+00:00",
+        "metered_cost": 0.74650614,
+        "billed_cost": 0.0,
+        "adjustments": {
+          "Plan Cost": "0E-8",
+          "Credits": "-0.73000000",
+          "Network Egress Allowance": "-0.01650614",
+          "Free Storage": "-0E-8",
+          "Reservation Adjustment": "-0E-8"
+        },
+        "rates": {
+          "mem_gib_hour_cost": 0.008,
+          "gpu_hour_cost_h200": 4.54,
+          "gpu_hour_cost_a100_80gb": 2.5,
+          "cpu_hour_cost": 0.0473
+        },
+        "allowance_basis": "API exposes metered/billed costs, not a standalone available-credit balance. Enforce the selected authorization policy separately."
+      },
+      "metadata": {
+        "key": "mistral24q",
+        "model": "Qiskit/mistral-small-3.2-24b-qiskit",
+        "revision": "0c541958022de04bd7c200b14a4b7a58977ae751",
+        "status": "tokenizer_ready_only",
+        "tokenizer_class": "LlamaTokenizerFast",
+        "prompt_tokens": 23,
+        "rendered_prompt": "<s>[SYSTEM_PROMPT]Return only valid English JSON.[/SYSTEM_PROMPT][INST]Describe a two-qubit Bell circuit as gate data.[/INST]",
+        "elapsed_seconds": 5.9639249979999995,
+        "execution": "modal_cpu_no_model_inference",
+        "gpu_requested": false,
+        "model_weights_requested": false,
+        "engine_kwargs": {
+          "tokenizer_mode": "hf",
+          "config_format": "hf",
+          "load_format": "safetensors"
+        },
+        "reserved_usd": 0.026374999999999996
+      }
+    },
+    {
+      "id": "4c8ae3aeb25248be9aa3bee87ffd57e9",
+      "label": "tokenizer:quasar4",
+      "resource": "cpu",
+      "reserved_usd": 0.026374999999999996,
+      "status": "completed",
+      "billing": {
+        "checked_utc": "2026-11-03T11:59:06.015673+00:00",
+        "metered_cost": 0.74650614,
+        "billed_cost": 0.0,
+        "adjustments": {
+          "Plan Cost": "0E-8",
+          "Credits": "-0.73000000",
+          "Network Egress Allowance": "-0.01650614",
+          "Free Storage": "-0E-8",
+          "Reservation Adjustment": "-0E-8"
+        },
+        "rates": {
+          "mem_gib_hour_cost": 0.008,
+          "gpu_hour_cost_h200": 4.54,
+          "gpu_hour_cost_a100_80gb": 2.5,
+          "cpu_hour_cost": 0.0473
+        },
+        "allowance_basis": "API exposes metered/billed costs, not a standalone available-credit balance. Enforce the selected authorization policy separately."
+      },
+      "metadata": {
+        "key": "quasar4",
+        "model": "Benyucong/rl_quantum_4b",
+        "revision": "b9581279345436e2b7eadcdf80e4f1417748eb8b",
+        "status": "tokenizer_ready_only",
+        "tokenizer_class": "Qwen2TokenizerFast",
+        "prompt_tokens": 30,
+        "rendered_prompt": "<|im_start|>system\nReturn only valid English JSON.<|im_end|>\n<|im_start|>user\nDescribe a two-qubit Bell circuit as gate data.<|im_end|>\n<|im_start|>assistant\n",
+        "elapsed_seconds": 0.6702458470000003,
+        "execution": "modal_cpu_no_model_inference",
+        "gpu_requested": false,
+        "model_weights_requested": false,
+        "engine_kwargs": {},
+        "reserved_usd": 0.026374999999999996
+      }
+    }
+  ],
+  "authorization": "User-authorized bounded Modal CPU tokenizer preflight, no weights or inference.",
+  "monthly_allowance": null
+}

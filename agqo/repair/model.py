@@ -26,31 +26,31 @@ class ProblemInstance:
     def __post_init__(self):
         n = len(self.tickers)
         if self.mandate.status != "ready":
-            raise ValueError("Mandate chưa sẵn sàng: " + "; ".join(self.mandate.issues))
+            raise ValueError("Mandate is not ready: " + "; ".join(self.mandate.issues))
         if len(set(self.tickers)) != n or len(self.sectors) != n or type(self.k) is not int or not 1 <= self.k <= n:
-            raise ValueError("Universe/ngành/K không hợp lệ.")
+            raise ValueError("Invalid universe, sectors or K.")
         for name in ("returns", "benchmark", "previous_weights", "cost_rates"):
             a = np.array(getattr(self, name), dtype=float, copy=True)
             if not np.isfinite(a).all():
-                raise ValueError(name + " phải hữu hạn.")
+                raise ValueError(name + " must be finite.")
             a.setflags(write=False)
             object.__setattr__(self, name, a)
         if self.returns.ndim != 2 or self.returns.shape[1] != n or self.returns.shape[0] < 2 or self.benchmark.shape != (self.returns.shape[0],):
-            raise ValueError("Kích thước chuỗi lợi suất không khớp.")
+            raise ValueError("Return-series dimensions disagree.")
         if (self.returns <= -1).any() or (self.benchmark <= -1).any():
-            raise ValueError("Lợi suất phải lớn hơn -100%.")
+            raise ValueError("Returns must exceed -100%.")
         if self.previous_weights.shape != (n,) or (self.previous_weights < 0).any() or not np.isclose(self.previous_weights.sum(), 1):
-            raise ValueError("Tỷ trọng trước giao dịch phải không âm và tổng bằng 1.")
+            raise ValueError("Pre-trade weights must be nonnegative and sum to one.")
         if self.cost_rates.shape != (n,) or (self.cost_rates < 0).any() or (self.cost_rates >= 1).any():
-            raise ValueError("Chi phí mỗi chiều phải trong [0,1).")
+            raise ValueError("One-way cost rate must be in [0,1).")
         if isinstance(self.cost_weight, bool) or not np.isfinite(self.cost_weight) or self.cost_weight < 0:
-            raise ValueError("Hệ số chi phí không hợp lệ.")
+            raise ValueError("Invalid cost multiplier.")
         if not set(self.mandate.include + self.mandate.exclude) <= set(self.tickers) or not set(self.mandate.sector_caps) <= set(self.sectors):
-            raise ValueError("Mandate có tài sản/ngành ngoài universe.")
+            raise ValueError("Mandate contains assets or sectors outside the universe.")
         if any(not np.isfinite(v) or not 0 <= v <= 1 for v in self.mandate.sector_caps.values()) or (self.mandate.turnover_cap is not None and (not np.isfinite(self.mandate.turnover_cap) or not 0 <= self.mandate.turnover_cap <= 2)):
-            raise ValueError("Giới hạn ngành/turnover không hợp lệ.")
+            raise ValueError("Invalid sector or turnover limit.")
         if self.mandate.cost_weight is not None and (not np.isfinite(self.mandate.cost_weight) or self.mandate.cost_weight < 0):
-            raise ValueError("Ưu tiên chi phí không hợp lệ.")
+            raise ValueError("Invalid cost preference.")
 
     @property
     def n(self):
@@ -67,7 +67,7 @@ class ProblemInstance:
     def bits(self, bits):
         x = np.asarray(bits, dtype=float)
         if x.shape != (self.n,) or not np.isin(x, (0, 1)).all():
-            raise ValueError("Nghiệm phải có đúng N bit.")
+            raise ValueError("A solution must contain exactly N bits.")
         return x
 
     def weights(self, bits):
@@ -138,7 +138,7 @@ def heldout_metrics(problem: ProblemInstance, weights, returns, benchmark):
     """Buy-and-hold within a period, with drift; transaction fee deducted once at entry."""
     r, b = np.asarray(returns), np.asarray(benchmark)
     if r.ndim != 2 or r.shape[1] != problem.n or b.shape != (len(r),) or len(r) < 2 or not np.isfinite(r).all() or not np.isfinite(b).all() or (r <= -1).any() or (b <= -1).any():
-        raise ValueError("Dữ liệu ngoài mẫu không hợp lệ.")
+        raise ValueError("Invalid held-out data.")
     w = np.asarray(weights, dtype=float).copy()
     fee = problem.metrics_weights(w)["transaction_cost"]
     path = []

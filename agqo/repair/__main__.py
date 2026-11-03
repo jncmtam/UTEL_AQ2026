@@ -45,7 +45,7 @@ def main():
         data = parse_or_prices(Path(args.or_file).read_text(), expected_n=31)
     elif args.source == "market":
         if not args.market_csv or not args.market_manifest:
-            parser.error("market cần --market-csv và --market-manifest")
+            parser.error("market requires --market-csv and --market-manifest")
         data = import_market_csv(args.market_csv, args.market_manifest)
     else:
         data = synthetic_data()

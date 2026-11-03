@@ -1,8 +1,27 @@
 # Completion review and measured remaining gaps
 
-Updated 2026-11-03. This file is the current reading entry point; historical raw
+Updated 2026-11-04. Historical raw
 results are preserved. The project is implemented as a research application,
 but financial usefulness and a production LLM are not yet qualified.
+
+## Latest audit and English visual delivery
+
+Read [QUALIFICATION_STATUS.md](QUALIFICATION_STATUS.md) for the current dependency
+review and [the gallery](../../results/research/evidence_gallery_v1/GALLERY.md)
+for eight measured/planning figures. The available-source audit now covers source
+hashes, independent XNYS session alignment, prices, volume and action-adjustment
+consistency; UTX and full economic lineage/sector review remain missing. Eleven
+non-integer provider split labels require independent classification.
+
+Three bounded Modal CPU tokenizer checks passed, without model weights, GPU or
+new inference. Corrected Mistral's checkpoint-compatible HF loading settings after
+the full inventory caught an incorrect metadata-absence assumption. No candidate
+is qualified. Reliability and final-test integrity checks are implemented, while
+the actual final-test readiness artifact remains blocked. The current suite passes
+146 tests. Maintained guides, compatibility UI/report/errors and new visuals are
+English; original documents and raw scientific evidence remain archived unchanged.
+
+The sections below retain the earlier control checkpoint and its measured limits.
 
 ## Latest controlled follow-up
 

@@ -23,7 +23,7 @@ def decide(data, text, client=None, normalizer="rules", n=8, k=4, evaluations=32
     elif normalizer == "rules":
         mandate, trace = normalize_rules(text, tickers, sectors), {"status": "baseline_rules_not_llm"}
     else:
-        raise ValueError("Normalizer phải là rules hoặc qwen.")
+        raise ValueError("Normalizer must be rules or qwen.")
     if mandate is None or mandate.status != "ready":
         return {"status": "needs_clarification", "mandate": None if mandate is None else mandate.to_dict(), "llm_trace": trace, "results": []}
     p = replace(base, mandate=mandate)

@@ -32,10 +32,10 @@ class MandateSpec:
 
 def _number(value, name: str, upper: float | None = None) -> float:
     if isinstance(value, bool) or not isinstance(value, (int, float)):
-        raise ValueError(f"{name}: cần số, không chấp nhận boolean/chuỗi.")
+        raise ValueError(f"{name}: expected a number, not a boolean or string.")
     value = float(value)
     if not math.isfinite(value) or value < 0 or (upper is not None and value > upper):
-        raise ValueError(f"{name}: giá trị ngoài miền cho phép.")
+        raise ValueError(f"{name}: value is outside the permitted range.")
     return value
 
 
@@ -50,32 +50,32 @@ def validate_mandate(payload: dict, text: str, tickers: tuple[str, ...], sectors
         raise ValueError("Mandate response must contain only constraints and issues.")
     constraints, issues = payload.get("constraints"), payload.get("issues", [])
     if not isinstance(constraints, list) or not isinstance(issues, list) or not all(isinstance(v, str) for v in issues):
-        raise ValueError("constraints/issues phải là danh sách hợp lệ.")
+        raise ValueError("constraints/issues must be valid lists.")
     issues = list(issues)
     values: dict = {"include": [], "exclude": [], "sector_caps": {}}
     evidence, covered = [], set()
     singleton = set()
     for item in constraints:
         if not isinstance(item, dict) or set(item) != {"kind", "target", "value", "start", "end", "quote"}:
-            raise ValueError("Mỗi điều kiện cần kind,target,value,start,end,quote.")
+            raise ValueError("Each constraint requires kind, target, value, start, end and quote.")
         kind, target, value = item["kind"], item["target"], item["value"]
         start, end, quote = item["start"], item["end"], item["quote"]
         if type(start) is not int or type(end) is not int or not 0 <= start < end <= len(text) or text[start:end] != quote:
-            raise ValueError("Evidence span không khớp văn bản nguồn.")
+            raise ValueError("Evidence span does not match the source text.")
         if kind not in {"cardinality", "include", "exclude", "sector_cap", "turnover_cap", "cost_weight"}:
-            raise ValueError("Loại ràng buộc chưa được hỗ trợ.")
+            raise ValueError("Unsupported constraint type.")
         fquote = folded(quote)
         if ";" in quote or "\n" in quote:
-            raise ValueError("Mỗi bằng chứng chỉ được bao phủ một mệnh đề nguồn.")
+            raise ValueError("Each evidence span may cover only one source clause.")
         # Avoid treating an exception, negated instruction or bound as a simple equality.
         if any(v in fquote for v in ("ngoai tru", "tru khi", "unless", "except", "khong loai", "do not exclude", "khong giu", "do not keep")):
-            issues.append("Điều kiện có phủ định/ngoại lệ cần xác nhận: " + quote)
+            issues.append("Negated or exceptional requirement needs clarification: " + quote)
         if kind in {"include", "exclude"}:
             if target not in tickers or value is not True or not re.search(r"\b" + re.escape(target) + r"\b", quote, re.I):
-                raise ValueError("Mã giữ/loại hoặc bằng chứng không hợp lệ.")
+                raise ValueError("Invalid include/exclude security or evidence.")
             anchors = ("loai", "exclude", "khong nam giu") if kind == "exclude" else ("bat buoc", "must hold", "include", "giu ma")
             if not any(v in fquote for v in anchors):
-                issues.append("Chưa xác minh được chiều giữ/loại: " + quote)
+                issues.append("Include/exclude direction is unverified: " + quote)
             values[kind].append(target)
         else:
             value = _number(value, kind, 1 if kind == "sector_cap" else 2 if kind == "turnover_cap" else None)
@@ -83,46 +83,46 @@ def validate_mandate(payload: dict, text: str, tickers: tuple[str, ...], sectors
             percent = "%" in quote
             candidates = [float(v.replace(",", ".")) / (100 if percent else 1) for v in numeric]
             if not any(math.isclose(value, v, abs_tol=1e-10) for v in candidates):
-                raise ValueError("Giá trị/đơn vị không được bằng chứng hỗ trợ.")
+                raise ValueError("Value or unit is unsupported by the evidence.")
             if kind == "sector_cap":
                 if target not in sectors or folded(target) not in fquote:
-                    raise ValueError("Ngành không thuộc danh mục/không xuất hiện trong bằng chứng.")
+                    raise ValueError("Sector is outside the universe or absent from the evidence.")
                 if target in values["sector_caps"] and values["sector_caps"][target] != value:
-                    issues.append("Mâu thuẫn giới hạn ngành: " + target)
+                    issues.append("Conflict in sector limits: " + target)
                 values["sector_caps"][target] = value
             else:
                 if target is not None:
-                    raise ValueError("Điều kiện toàn danh mục phải có target=null.")
+                    raise ValueError("Portfolio-wide constraints require target=null.")
                 if kind == "cardinality":
                     if percent or not value.is_integer() or not 1 <= value <= len(tickers):
-                        raise ValueError("Số mã phải là số nguyên trong [1,N].")
+                        raise ValueError("Asset count must be an integer in [1,N].")
                     if any(v in fquote for v in ("toi da", "at most", "toi thieu", "at least", "khong qua")):
-                        issues.append("Bản đầu yêu cầu cardinality đúng bằng K.")
+                        issues.append("This version requires exactly K holdings.")
                     key, value = "k", int(value)
                 else:
                     key = kind
                 if key in singleton and values[key] != value:
-                    issues.append("Mâu thuẫn điều kiện: " + key)
+                    issues.append("Conflict in constraints: " + key)
                 singleton.add(key)
                 values[key] = value
             if kind in {"sector_cap", "turnover_cap"} and not any(anchor in fquote for anchor in ("khong qua", "toi da", "at most", "maximum", "capped at", "no more than")):
-                issues.append("Chưa xác minh được chiều giới hạn trên: " + quote)
+                issues.append("Upper-bound direction is unverified: " + quote)
             if kind == "turnover_cap" and not any(anchor in fquote for anchor in ("turnover", "luan chuyen")):
-                issues.append("Chưa xác minh được chỉ tiêu turnover: " + quote)
+                issues.append("Turnover meaning is unverified: " + quote)
         evidence.append(dict(item))
         covered.update(range(start, end))
     # Every non-punctuation character must be accounted for; never silently drop a clause.
     if any(c.isalnum() and i not in covered for i, c in enumerate(text)):
-        issues.append("Còn nội dung chưa được chuẩn hóa; cần làm rõ.")
+        issues.append("Some content remains unnormalized and needs clarification.")
     values["include"] = tuple(sorted(set(values["include"])))
     values["exclude"] = tuple(sorted(set(values["exclude"])))
-    conflict = bool(set(values["include"]) & set(values["exclude"])) or any("Mâu thuẫn" in v for v in issues)
+    conflict = bool(set(values["include"]) & set(values["exclude"])) or any("Conflict" in v for v in issues)
     if conflict:
-        issues.append("Mâu thuẫn: không thể đồng thời áp dụng các yêu cầu.")
+        issues.append("Conflict: requirements cannot all be applied.")
     if "k" not in values:
-        issues.append("Thiếu số tài sản K.")
+        issues.append("Missing number of holdings K.")
     if len(values["include"]) > values.get("k", len(tickers)):
-        issues.append("Mâu thuẫn: số mã bắt buộc vượt K.")
+        issues.append("Conflict: mandatory holdings exceed K.")
         conflict = True
     status = "conflict" if conflict else "needs_clarification" if issues else "ready"
     return MandateSpec(text, **values, evidence=tuple(evidence), issues=tuple(issues), status=status, origin=origin)

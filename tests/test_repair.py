@@ -133,7 +133,7 @@ def test_future_data_never_changes_problem_or_current_decision():
     x = exact_solve(p)["bits"]
     metrics = heldout_metrics(p, np.asarray(x) / p.k, r, b)
     assert len(metrics["net_returns"]) == len(b)
-    with pytest.raises(ValueError, match="chồng lấn"):
+    with pytest.raises(ValueError, match="overlap"):
         Protocol(test_starts=(0,))
 
 

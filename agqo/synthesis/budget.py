@@ -46,7 +46,10 @@ SPECIALIST_MODELS = {
                'gpu':'A100-80GB','rate_key':'gpu_hour_cost_a100_80gb',
                'dtype':'bfloat16','ram_gib':96,'cpu':4,
                'timeout':900,'startup_timeout':600,'native_format':'qiskit',
-               'engine_kwargs':{'tokenizer_mode':'mistral','config_format':'mistral','load_format':'mistral'}},
+               # This repository has both HF and native tokenizer/config metadata,
+               # but only HF weight shards. Native load_format expects consolidated
+               # weights; use the HF path checked by the CPU tokenizer preflight.
+               'engine_kwargs':{'tokenizer_mode':'hf','config_format':'hf','load_format':'safetensors'}},
 }
 MODEL_CATALOG = {**MODELS, **LARGE_MODELS, **SPECIALIST_MODELS}
 

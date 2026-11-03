@@ -1,6 +1,26 @@
 # Project status
 
-Updated: 2026-11-03. Scope: maintained US-equity research application.
+Updated: 2026-11-04. Scope: maintained US-equity research application.
+
+## Latest delivery
+
+- Historical hygiene audit v3: 29/30 stocks plus DIA, 3,520 rows per available
+  file, no missing internal sessions or invalid numerical price/volume rows.
+  Eleven provider split labels require independent classification; complete
+  security lineages and UTX remain unresolved. Market admission is blocked.
+- Three pinned Modal CPU tokenizer checks passed; no weights, GPU or new model
+  inference. Corrected Mistral's HF weight-loader settings. Reservation USD0.079125
+  is not a bill. No production model is selected.
+- Exact correctness qualification and hash-bound final-test prerequisites are
+  implemented. Actual independent-test readiness is blocked; no final outcomes opened.
+- Eight PNG/SVG figures, a topic-filtered offline gallery and two README architecture
+  diagrams explain measured findings and planned thresholds separately.
+- Maintained root guides and the compatibility repair UI/report/errors are English;
+  original entry documents and historical evidence are archived unchanged.
+- **146 tests pass**; targeted static and JavaScript syntax checks pass.
+
+Read [qualification status](research/QUALIFICATION_STATUS.md) and
+[the visual gallery](../results/research/evidence_gallery_v1/GALLERY.md).
 
 Read [the completion review](research/COMPLETION_REPORT.md) for the current measured
 gaps and their ordered resolution. The root PROGRESS.md provides a short entry point.
@@ -38,7 +58,7 @@ gaps and their ordered resolution. The root PROGRESS.md provides a short entry p
 - Continuous trajectories and interactive decision comparisons run on synthetic
   data; these validate integration and do not establish investment performance.
 - Earlier 80B interruption remains user-interrupted evidence, not model failure.
-- All 135 tests pass. Published development v3 has 18/18 feasible rows, with source
+- The previous control checkpoint passed 135 tests. Published development v3 has 18/18 feasible rows, with source
   snapshots and post-run proxy diagnostics. Shallow circuit utility and proxy
   faithfulness remain insufficient for qualification; uniform sampling is stronger
   than all three N30 circuit controls on allocated training objective.
@@ -54,8 +74,8 @@ gaps and their ordered resolution. The root PROGRESS.md provides a short entry p
 
 Market evaluation is blocked: UTX history, all permanent identities, dated sector
 records, corporate-action reconciliation and aligned audited prices are incomplete.
-No production model is qualified. Mistral 24B runtime support is implemented but
-has not been live-qualified. Main held-out evaluation and economic superiority
+No production model is qualified. Mistral 24B passed CPU tokenization; GPU loading
+and generation have not been live-qualified. Main held-out evaluation and economic superiority
 remain unestablished. Original broad English migration does not rewrite historical
 raw logs or the compatibility prototypes; active docs/app/research modules are English.
 

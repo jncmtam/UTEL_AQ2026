@@ -18,6 +18,8 @@ def capture_sources(directory):
         root / "docs/research/PREPARATION_PROTOCOL.md",
         root / "docs/research/FORMULATION_PROTOCOL.md",
         root / "docs/research/CONDITIONING_PROTOCOL.md",
+        root / "docs/research/QUALIFICATION_PROTOCOL.md",
+        root / "docs/research/DELIVERY_VISUAL_PROTOCOL.md",
     ]
     manifest = {"python": platform.python_version(), "files": {}, "packages": {}}
     for source in files:
@@ -34,6 +36,7 @@ def capture_sources(directory):
         "pyscipopt",
         "qiskit",
         "rdata",
+        "exchange_calendars",
     ):
         try:
             manifest["packages"][package] = version(package)

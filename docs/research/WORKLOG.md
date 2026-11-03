@@ -375,3 +375,79 @@ The summary is control_summary_v1/FINDINGS.md. No new GPU inference, model switc
 market-data admission, or quantum/financial superiority claim. User-authorized
 Git checkpoint d9b48b1 is already pushed; these follow-up controls form a separate
 reviewable commit on the same branch.
+
+## 2026-11-03 / 2026-11-04 — historical audit and qualification continuation
+
+- Wrote QUALIFICATION_PROTOCOL.md before the audit/model preflight. Kept the
+  original continuous tracking/cost task, source-review blockers and unopened
+  strategy-outcome boundary. Defined exact 72-case independent correctness
+  confirmation, final-test prerequisites and a conditional scaling decision.
+- Implemented source-symbol/checksum, NY-session/calendar, OHLC/volume, coverage,
+  dividend/split and backward-cash-adjustment diagnostics. Installed/pinned
+  exchange_calendars4.13.2 and its dependencies. Initial v1 serialization failed
+  on a NumPy integer; converted the count to a Python int, then retained the
+  completed v1 output. V2 adds explicit non-integer provider-label classification.
+- Available-source findings:29 cohort stocks plus DIA; UTX missing;3520 rows/file;
+  0 missing internal sessions, bad prices, OHLC violations, bad volume or unexplained
+  adjustment changes;1726 provider dividends,17 split labels,1725 internal cash
+  checks with0 residuals above5e-5. Eleven non-integer split labels affect7 stocks.
+  These checks use vendor algebra, not independently verified economic entitlements.
+- Recorded ten primary-source action candidates, explicitly partial and unaccepted.
+  Full share-class lineage, publication timing, cash-in-lieu, descendant prices,
+  sectors and investable trading/reinvestment semantics remain missing. SEC direct
+  requests returned403; no full PDF hash or identity-table visual verification
+  claimed. Did not replace UTX with RTX, remove assets or change the universe policy.
+- Audited pinned HF artifact inventories for coder30/mistral24q/quasar4. Initially
+  inferred Mistral native metadata was absent from a partial view; the full inventory
+  regression disproved that. Correct finding: native config/tokenizer metadata exists,
+  but the pinned repo has HF weight shards and no consolidated*.safetensors required
+  by vLLM0.17.1's native weight loader. Changed its registry to HF tokenizer/config
+  and safetensors loading. Preserved the correction in the protocol/status.
+- Added/deployed a bounded CPU tokenizer preflight and ran three sequential calls
+  under reservations.3/3 passed pinned chat rendering, no weights/GPU/inference.
+  Reservation USD0.079125 is not an invoice; billing snapshots/receipts retained.
+  Shared preflight image is not every production GPU worker. No inference sweep or
+  completed specialist-probe rerun. Both deployed apps were idle at the recorded check.
+- Implemented exact-binomial reliability checks, duplicate/extension protection,
+  fail-closed final-test prerequisites and data/hash lock verification. Actual
+  independent_test_readiness_v1 is blocked: no final lock or strategy outcomes.
+  Initial targeted tests exposed a fixture list-alias bug and the erroneous
+  metadata assumption; both corrected. The7 new targeted tests then passed.
+
+## 2026-11-04 — English visual delivery and verification
+
+- Wrote DELIVERY_VISUAL_PROTOCOL.md before rendering. Added `history-audit` CLI,
+  structured malformed-source failures and audit-v3 source/environment snapshot.
+  Completed historical_audit_v3 with exit2 because financial admission remains blocked.
+  V1/v2/raw files remain unchanged. Four malformed-source regressions bring the
+  total to146 tests. The v3 snapshot records audit-time bytes before later
+  presentation translation; it is not claimed to equal the final checkout.
+- Rebuilt README in English with role ownership, data suitability, model criteria,
+  measured negative results, independent-test/scaling dependencies, artifact map,
+  reproduction commands, six embedded charts and two Mermaid diagrams.
+- Added eight PNG/SVG figures and an offline topic-filtered gallery under
+  evidence_gallery_v1. Rendered only saved results;0 new optimizations/inference
+  and no new strategy outcomes. Included generator/input hashes. The72/72 curve
+  is explicitly a planning illustration. Contact sheets were visually inspected.
+- Copied four superseded root documents byte-for-byte to docs/legacy/root_* and
+  replaced their entry points with current English guides. Translated repair
+  compatibility UI, report templates and validator/CLI errors. Preserved the
+  Vietnamese input fixture and normalization support. Figure helpers now compose
+  English captions while accepting historical caption syntax. Raw results and
+  snapshots were not translated or re-scored.
+- First full run during translation exposed a Vietnamese-only caption validator
+  and tests matching old Vietnamese error text. Updated the caption convention
+  and English assertions while preserving the original legacy caption/input checks.
+  Subsequent full suite:146 passed; targeted F lint and JS syntax checks passed.
+- Language scan passed over76 maintained source/doc files with only two declared
+  bilingual-input exceptions. Added LANGUAGE_AND_ARCHIVES.md to disclose scope;
+  older VN30 presentation catalogs/utilities remain historical compatibility code.
+- Browser verified gallery Models/Finance filters, restoration ofAll, and no
+  horizontal overflow at observed DOM widths1163/354. Inspected plot contact sheets
+  and gallery screenshots. Checked translated repair UI: valid English mandate,
+  explicit English conflict diagnosis, solve disabled for conflict, no console errors.
+  All UI actions used local rules only. Gallery left available on localhost8766.
+- QUALIFICATION_STATUS.md, PROJECT_STATUS.md, COMPLETION_REPORT.md, PROGRESS.md and
+  AGENTS.md now distinguish software delivery from unqualified models/financial value.
+  Financial data and continuous B/F fidelity remain the next substantive gates;
+  increasing parameter count is not treated as their remedy.

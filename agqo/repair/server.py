@@ -35,7 +35,7 @@ def create_server(port=8765, llm_mode="disabled", results_dir="results/repair", 
                 return synthetic_data()
             if source == "or-library":
                 return parse_or_prices(Path(or_path).read_text(), expected_n=31)
-            raise ValueError("Nguồn dữ liệu chưa được hỗ trợ.")
+            raise ValueError("Unsupported data source.")
 
         def do_GET(self):
             path = urlparse(self.path).path
@@ -70,13 +70,13 @@ def create_server(port=8765, llm_mode="disabled", results_dir="results/repair", 
                     return self.reply(413, {"error": "request_too_large"})
                 body = json.loads(self.rfile.read(length))
                 if not isinstance(body, dict) or not isinstance(body.get("text"), str) or not body["text"].strip():
-                    raise ValueError("Cần một yêu cầu đầu tư dạng văn bản.")
+                    raise ValueError("A text investment mandate is required.")
                 d = self.data(body.get("source", "synthetic"))
                 normalizer = body.get("normalizer", "rules")
                 if normalizer not in {"rules", "qwen"}:
-                    raise ValueError("Normalizer không hợp lệ.")
+                    raise ValueError("Invalid normalizer.")
                 if not lock.acquire(blocking=False):
-                    return self.reply(409, {"error": "Hệ thống đang xử lý một quyết định; thử lại sau."})
+                    return self.reply(409, {"error": "A decision is being processed; try again later."})
                 try:
                     if self.path == "/api/normalize":
                         if normalizer == "qwen":

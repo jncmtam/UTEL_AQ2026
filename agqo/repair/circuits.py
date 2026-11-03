@@ -28,12 +28,12 @@ class CircuitSpec:
     @classmethod
     def from_dict(cls, obj):
         if not isinstance(obj, dict) or set(obj) != {"mixer", "topology", "depth", "initialization"}:
-            raise ValueError("CircuitSpec không khớp schema.")
+            raise ValueError("CircuitSpec does not match its schema.")
         value = cls(**obj)
         if value.mixer not in {"X", "XY"} or type(value.depth) is not int or not 1 <= value.depth <= 2:
-            raise ValueError("Mạch chỉ hỗ trợ mixer X/XY và p=1/2.")
+            raise ValueError("Only X/XY mixers and p=1/2 are supported.")
         if value.topology not in {"single", "ring", "complete"} or value.initialization not in {"previous", "random"}:
-            raise ValueError("Topology/khởi tạo ngoài grammar.")
+            raise ValueError("Topology or initialization is outside the grammar.")
         if (value.mixer == "X") != (value.topology == "single"):
             raise ValueError("X dùng single; XY dùng ring/complete.")
         return value
@@ -50,7 +50,7 @@ def rule_spec(problem):
 def compile_diagonal(problem, max_qubits=12):
     start = perf_counter()
     if problem.n > max_qubits:
-        raise ValueError(f"Exact diagonal prototype giới hạn N<={max_qubits}; không tự thu hẹp universe.")
+        raise ValueError(f"Exact diagonal prototype is limited to N<={max_qubits}; the universe is never silently reduced.")
     indices = np.arange(1 << problem.n, dtype=np.uint64)
     bits = ((indices[:, None] >> np.arange(problem.n, dtype=np.uint64)) & 1).astype(np.int8)
     q = problem.objective_qubo()
@@ -118,7 +118,7 @@ def qiskit_circuit(problem, spec, angles, compiled, seed=11):
 def run_qaoa(problem, spec=CircuitSpec(), seed=11, evaluations=40, shots=256, export_circuit=False):
     spec = CircuitSpec.from_dict(spec.to_dict())
     if type(evaluations) is not int or evaluations < 1 or type(shots) is not int or shots < 1:
-        raise ValueError("Ngân sách evaluations/shots phải dương.")
+        raise ValueError("Evaluation and shot budgets must be positive.")
     start, rng = perf_counter(), np.random.default_rng(seed)
     compiled = compile_diagonal(problem)
     calls = 0

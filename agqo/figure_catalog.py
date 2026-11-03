@@ -200,7 +200,7 @@ def figure_record(image_path: str, number: int) -> dict[str, Any]:
     basename = Path(image_path).name
     metadata = _FIGURES.get(basename)
     if metadata is None:
-        raise ValueError(f"Thiếu metadata caption cho ảnh {image_path}.")
+        raise ValueError(f"Missing caption metadata for image {image_path}.")
     return {
         "number": number,
         "path": image_path,
@@ -220,9 +220,9 @@ def build_catalog(image_paths: list[str]) -> list[dict[str, Any]]:
 
 def markdown_caption(record: dict[str, Any]) -> str:
     return (
-        f"**Hình {record['number']}. {record['title']}.** {record['caption']} "
-        f"Nguồn: {record['source']}. Kỳ: {record['period']}. Đơn vị: {record['units']}. "
-        f"Lưu ý: {record['caveat']}"
+        f"**Figure {record['number']}. {record['title']}.** {record['caption']} "
+        f"Source: {record['source']}. Period: {record['period']}. Units: {record['units']}. "
+        f"Limitation: {record['caveat']}"
     )
 
 
@@ -245,11 +245,11 @@ def update_markdown_captions(path: str | Path, repo_root: str | Path, catalog: l
         raw_path = match.group(1).strip().strip("<>")
         record = by_name.get(Path(raw_path).name)
         if record is None:
-            raise ValueError(f"Thiếu catalog cho ảnh Markdown: {raw_path}")
+            raise ValueError(f"Missing catalog for Markdown image: {raw_path}")
         next_index = index + 1
         while next_index < len(lines) and not lines[next_index].strip():
             next_index += 1
-        if next_index < len(lines) and lines[next_index].lstrip().startswith("**Hình "):
+        if next_index < len(lines) and lines[next_index].lstrip().startswith(("**Hình ", "**Figure ")):
             result.extend(lines[index + 1:next_index])
             result.append(markdown_caption(record))
             index = next_index + 1
@@ -272,14 +272,14 @@ def validate_markdown_images(path: str | Path, repo_root: str | Path) -> list[st
             raw_path = match.group(1).strip().strip("<>")
             candidate = (markdown_path.parent / raw_path).resolve()
             if not candidate.is_file():
-                errors.append(f"{markdown_path}:{index + 1}: ảnh không tồn tại: {raw_path}")
+                errors.append(f"{markdown_path}:{index + 1}: image does not exist: {raw_path}")
             following = index + 1
             while following < len(lines) and not lines[following].strip():
                 following += 1
-            if following >= len(lines) or not re.match(r"\*\*Hình \d+\. .+\*\*", lines[following].strip()):
-                errors.append(f"{markdown_path}:{index + 1}: thiếu tên hình và chú thích ngay sau ảnh")
+            if following >= len(lines) or not re.match(r"\*\*(?:Figure|Hình) \d+\. .+\*\*", lines[following].strip()):
+                errors.append(f"{markdown_path}:{index + 1}: missing figure title and caption immediately after image")
             elif len(re.sub(r"\*", "", lines[following].strip()).split()) < 18:
-                errors.append(f"{markdown_path}:{following + 1}: chú thích quá ngắn, thiếu ý nghĩa/nguồn")
+                errors.append(f"{markdown_path}:{following + 1}: caption is too short; explain meaning and source")
     return errors
 
 

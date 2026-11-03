@@ -1,6 +1,6 @@
 # AGQO agent handoff
 
-Updated: 2026-11-03, Asia/Ho_Chi_Minh. Read this first; inspect only modules needed
+Updated: 2026-11-04, Asia/Ho_Chi_Minh. Read this first; inspect only modules needed
 for the next action. Update this file and the worklog after meaningful changes.
 
 ## User contract and workflow
@@ -36,7 +36,23 @@ for the next action. Update this file and the worklog after meaningful changes.
   zero tasks after the bounded probe. Do not relaunch a completed probe by default.
 
 ## Verified current evidence — do not repeat unnecessarily
-- All 135 tests passed; static F checks passed; English UI/API and Chrome
+- Latest continuation:146 tests pass; historical_audit_v3 snapshots its actual source.
+  Available source hygiene:29/30 stocks+DIA,3520 rows/file,0 missing internal sessions
+  or bad numeric price/volume rows.1726 dividend records,17 provider split labels,
+  1725 cash checks,0 residual flags;11 non-integer labels across7 stocks need review.
+  UTX/full identity/action/sector/tradability reconstruction remains blocked.
+- Qualification protocol/status are in docs/research/QUALIFICATION_{PROTOCOL,STATUS}.md.
+  Exact reliability/final-test integrity code is implemented.72/72 is a planned
+  confirmation threshold, never an observed model result. Actual test readiness blocked.
+- tokenizer_preflight_v1:3/3 pinned Modal CPU tokenizer/chat passes; no weights,
+  GPU or new inference.USD0.079125 reservation is not a bill. Mistral has native+HF
+  metadata but HF-only weight shards; fixed HF backend. Earlier params-absence
+  inference was wrong. No full GPU-load/generation qualification. Both apps idle.
+- English README/root guides and repair UI/report/errors; eight PNG/SVG figures and
+  filterable evidence_gallery_v1. Generator uses saved evidence only. Language audit:
+  scripts/audit_english_surface.py; preserve original evidence and bilingual inputs.
+  Root originals archived byte-for-byte under docs/legacy/root_*.md.
+- Previous135-test control checkpoint: static F checks passed; English UI/API and Chrome
   desktop/mobile visual checks completed. Final evidence: ui_qa_v4 (stale synthetic
   evidence is cleared after a blocked market request).
 - delivery_pipeline_v1 completed software stages with explicit market data blockers;
@@ -105,6 +121,9 @@ for the next action. Update this file and the worklog after meaningful changes.
 - probe.py: native QASM+IR probes; generated Python is never executed.
 - pipeline.py: checkpointed integration stages. server.py: English interactive
   local comparison and replay; no unbounded inference from UI.
+- history_audit.py: CPU-only source/calendar/action hygiene, malformed input failures,
+  snapshotting; CLI history-audit. qualification.py: exact binomial confirmation and
+  immutable final-test locks; no automatic source attestation or strategy execution.
 - synthesis/client.py and budget.py: model registry, CPU prefetch, reservations,
   cache/identity validation, dispatch receipts, recorded preflight failures.
 
@@ -146,7 +165,8 @@ for the next action. Update this file and the worklog after meaningful changes.
 - After data admission: financial proxy-faithfulness and classical difficulty,
   then independently powered frozen model/circuit/financial studies.
 - Current source/proxy/coverage findings and next gates are consolidated in
-  docs/research/COMPLETION_REPORT.md. Read that before another model experiment.
+  docs/research/QUALIFICATION_STATUS.md, with broader history in COMPLETION_REPORT.md.
+  Read the status before another model experiment; do not rerun completed CPU probes.
 - LLM connected-exchange-v3 still has the old bounded preparation domain. Before
   any new model comparison, freeze either a revised grammar or common verified
   preparation/conditioning across all methods. No inference sweep is scheduled.

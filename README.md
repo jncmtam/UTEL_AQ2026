@@ -1,129 +1,290 @@
 # AGQO — Verified LLM-Designed QAOA for Portfolio Repair
 
-AGQO studies whether an LLM can design useful QAOA circuits for maintaining a
-constrained US-equity portfolio. The LLM designs initialization, exchange gates,
-scheduling and parameter sharing. Numerical code computes financial coefficients;
-a canonical compiler owns the cost Hamiltonian. QAOA proposes asset combinations,
-and a common classical allocator assigns weights.
+AGQO investigates whether data-conditioned LLM circuit design can improve the repair
+of an existing constrained US-equity portfolio. The financial decision is concrete:
+**which holdings should change to restore compliance while balancing index tracking
+and trading cost?**
 
-**Current evidence:** the software pipeline and structural controls run locally.
-An exact conserved-cardinality backend now executes a 30-asset/6-holding case
-(593,775 supports). A published 386-asset US corpus is admitted for conditional
-algorithm comparisons. The historical investment dataset remains blocked pending
-identity/corporate-action review.
-No production model, investment outperformance or quantum advantage is established.
+**Status · November 4, 2026:** the research application, compiler, simulations and
+available-source audit run. Historical investment-data admission is blocked; no
+production LLM, independent financial benefit or quantum advantage is qualified.
+A larger model is a conditional next experiment, not a solution to missing data or
+an unfaithful objective.
 
-## Start here
+[Current findings](docs/research/QUALIFICATION_STATUS.md) ·
+[Visual evidence](results/research/evidence_gallery_v1/GALLERY.md) ·
+[User guide](docs/USER_GUIDE.md) · [Progress](PROGRESS.md) · [Agent handoff](AGENTS.md)
+
+## What was done
+
+| Work | Delivered | What the result establishes |
+|---|---|---|
+| Historical audit | Manifest/checksum, XNYS session, OHLC, volume and action-adjustment checks; source snapshot | 29/30 stocks plus DIA available; numerical cleanliness does not certify investability |
+| Corporate actions | Eleven non-integer provider split labels flagged; ten primary-source event candidates recorded | Concrete reconstruction queue; not a complete accepted entitlement ledger |
+| Runtime compatibility | Pinned artifact inventory, corrected Mistral weight-loader settings, three bounded Modal CPU tokenizer checks | All three tokenizer checks passed; no new model inference or full GPU-load qualification |
+| Financial formulation | Shared continuous allocator, joint SCIP reference, exhaustive small support audit | Selection proxy B and allocated objective F differ materially under continuous weights |
+| Quantum controls | Direct Ising compiler, gate verifier, conserved simulator, counter-Dicke and RMS controls | N30/K6 covers all 593,775 supports in ideal CPU simulation; stronger classical controls still matter |
+| Independent-test protection | Exact reliability intervals and hash-bound final-test lock prerequisites | Actual readiness is blocked; final strategy outcomes were not opened by this work |
+| English delivery | English maintained workflow, root guides, status, README and visual gallery | Historical originals and raw evidence are preserved, with English reading paths |
+
+The software suite currently contains **146 passing tests**. See the worklog for
+recorded checks and the [qualification status](docs/research/QUALIFICATION_STATUS.md)
+for the substantive limitations.
+
+## Where the LLM and QAOA contribute
+
+```mermaid
+flowchart TD
+    A[Audited US data and existing account] --> B[Numerical financial specification and data profile]
+    M[Verified mandate] --> B
+    B --> C[Immutable Hamiltonian: compiler owns every coefficient]
+    B --> L[LLM: initialization, exchange gates, schedules and parameter sharing]
+    C --> L
+    L --> G[Typed GateIR circuit program]
+    C --> V[Independent compiler and verifier]
+    G --> V
+    V -->|Rejected with specific evidence| L
+    V -->|Accepted within budget| Q[Angle optimization and simulated QAOA]
+    Q --> S[Sample asset combinations]
+    S --> W[Common classical allocator: weights on unchanged support]
+    W --> F[Original financial objective and compliance]
+    F --> R[Trades, tracking-cost comparison and full audit artifacts]
+    B --> K[Strong classical controls on the same problem]
+    K --> F
+```
+
+The LLM **does not preselect winning stocks** or remove weak Hamiltonian terms.
+QAOA searches support combinations; the common allocator solves the continuous
+weight problem on each support. At N=30/K=6 the complete support space contains
+593,775 combinations. That count does not establish quantum advantage: strong
+classical solvers and uniform support sampling are explicit controls.
+
+The model receives code-computed correlations, coefficient references, spectrum,
+incumbent positions, mandate structure and resource budgets. It returns typed gate
+choices and parameter sharing. The compiler implements the locked `COST`; generated
+Python is never executed. Paired exchange gates preserve cardinality where verified;
+sector, weight and turnover limits still require independent allocation checks.
+
+![Actual mixer excerpt](results/research/evidence_gallery_v1/mixer-gates.png)
+
+**Figure 1. Verified gate-design example.** This is the first mixer from an actual verified **rule-control** GateIR. It is not
+an LLM success example. Preparation, COST, slack and measurements are omitted from
+this excerpt. GateIR, QASM, QPY, parameter values, source maps and verification are
+retained together in the saved circuit bundle.
+
+## Historical data: what is suitable and what is still missing
+
+The investment-data candidate is the historical September 2013 DJIA inception cohort
+with DIA as an ETF total-return benchmark proxy. Free provider files remain local.
+A separate pinned academic US corpus supports conditional algorithm comparisons.
+
+| Dataset | Useful property | Limitation and permitted use |
+|---|---|---|
+| Historical DJIA cohort + DIA | Manageable historical universe, long calendar span, incumbent holdings and real merger/spin-off complexity | UTX missing; identities, actions, sectors and tradability unresolved. No financial test admitted. DIA is not the official index. |
+| Author-supplied 2010 index-tracking corpus | 386 identifiers × 252 dated returns; pinned revision and checksums; reproducible support experiments | Full-year membership conditioning. Algorithm comparisons only; not an unbiased investment backtest. |
+| Synthetic fixtures | Exact edge cases, infeasibility, accounting and compiler invariants | Software validation only; cannot demonstrate market value. |
+
+Thirty available files contain 3,520 sessions each. The audit found zero missing
+internal sessions, invalid price rows, OHLC envelope violations or invalid volume
+rows. It checked 1,725 internal cash adjustments with no residual above the review
+threshold. These are provider-consistency diagnostics, not independent return proof.
+
+![Data readiness](results/research/evidence_gallery_v1/data-readiness.png)
+
+**Figure 2. Historical admission readiness.** Source: historical_audit_v3. Eleven provider split labels across DD, GE, IBM, MMM, MRK, PFE and T need economic
+classification. A vendor price-adjustment factor is not a share entitlement.
+Reconstruct successor and distributed holdings, cash-in-lieu, availability and
+reinvestment/trading treatment before claiming a tradable K-stock history. Do not
+substitute current RTX for missing UTX or silently remove difficult securities.
+
+[Full audit](results/research/historical_audit_v3/AUDIT.md) ·
+[Primary event candidates](data/us_equities/review/action_evidence_candidates_v1.json) ·
+[Source-reconciliation rationale](docs/research/DATA_RECONCILIATION.md)
+
+## Model selection: evidence before size
+
+The current shortlist contains Qwen3-Coder-30B-A3B-Instruct, Qiskit Mistral Small
+3.2 24B and QUASAR 4B. Their roles are a general coding control, framework specialist
+and quantum specialist. Published results motivate a shortlist; local independent
+verification decides suitability for this particular gate grammar and financial task.
+
+![Model readiness](results/research/evidence_gallery_v1/model-readiness.png)
+
+**Figure 3. Model qualification stages.** Source: tokenizer_preflight_v1 and the earlier QUASAR probe. All three passed pinned CPU tokenizer/chat rendering on Modal. No model weights or
+GPU inference were requested. Total CPU reservation was **USD 0.079125**, not a bill.
+Mistral's registry now matches the pinned checkpoint's HF weight layout. Its full
+GPU load and gate generation remain untested. The existing QUASAR interface probe
+accepted 1/3 tasks; failures remain in the denominator. No production model is selected.
+
+The confirmation protocol requires **72 independent cases and 72 first-pass successes**
+to place a two-sided exact 95% reliability lower bound above 95%. This threshold is
+conditional on justified independent cases, not repeated seeds. No model has run it.
+The plot below is a **planning illustration**, not measured model performance.
+
+![Confirmation threshold](results/research/evidence_gallery_v1/reliability-target.png)
+
+**Figure 4. Planned confirmation threshold.** Exact binomial planning calculation from the qualification protocol; no observed model score is plotted, and independence must be justified.
+
+[Published evidence and checkpoint rationale](docs/research/EVIDENCE_REVIEW.md) ·
+[Qualification protocol](docs/research/QUALIFICATION_PROTOCOL.md) ·
+[CPU receipts](results/research/tokenizer_preflight_v1/RESULTS.md)
+
+## What the financial and quantum controls taught us
+
+The primary financial task has continuous target weights. The support-selection
+energy B(S) is a proxy for the actual post-allocation objective F(S). Exhaustive
+N10 diagnostics found **3.32% and 7.13% allocation regret at the proxy optimum**.
+A more capable circuit generator cannot make those two objective functions identical.
+Explicit equal-weight targets pass identity, but they are a different mandate.
+
+![Selection/allocation mismatch](results/research/evidence_gallery_v1/proxy-allocation-gap.png)
+
+**Figure 5. Selection versus allocation.** Source: formulation_identity_v1, exhaustive opened N10 support audit. Regret concerns the allocated training objective, not realized investment returns.
+
+Counter-Dicke preparation reaches all N30/K6 supports, at **33 physical qubits,
+1,798 logical CX and depth 2,428**, compared with 30 / 998 / 445 for the sparse
+control. This is a distinct counter construction, not a replication of the cited
+ancilla-free Dicke algorithm. Clean workspace is counted in exported resources.
+Published RMS conditioning changes optimization coordinates, not the financial
+coefficients. Neither intervention consistently improves allocated quality.
+
+![Allocated training quality](results/research/evidence_gallery_v1/allocated-quality.png)
+
+**Figure 6. Allocated training quality.** Source: conditioning_control_v1. Bars show opened-development training objectives; lower is better. Dots are three
+seeds, not independent market tests. The uniform reference uses 2,176 draws, the
+maximum optimizer-plus-final allowance; the current quantum candidate pool uses
+final samples only. Future pooling must be frozen before experiments. These
+comparisons do not establish a same-runtime win, significance or realized returns.
+
+[All control findings](results/research/control_summary_v1/FINDINGS.md) ·
+[Preparation resources](results/research/evidence_gallery_v1/preparation-cost.png) ·
+[Action-review chart](results/research/evidence_gallery_v1/action-review.png)
+
+## Independent financial test and scaling decision
+
+```mermaid
+flowchart LR
+    A[Source-backed investable history] --> B[Faithful continuous financial formulation]
+    B --> C[Common grammar, preparation, pooling and total budgets]
+    C --> D[Development and validation model selection]
+    D --> E[Independent correctness confirmation]
+    E --> F[Hash-bound final financial test]
+    F --> G{Financial effect supported and cost acceptable?}
+    G -->|Yes| H[Preregister larger-model comparison]
+    G -->|No or uncertain| I[Report result and diagnose the failing component]
+```
+
+Proposed partitions are development **2014–2018**, validation **2019–2021**, and
+final test **2022–2025**. Later rows have been inspected for hygiene and actions;
+this work did not fit profiles or rank strategies on them. Prior exposure still
+needs review, and historical holdout does not prove exclusion from LLM pretraining.
+
+The final-test lock is currently **blocked**, with no strategy outcomes opened by
+this readiness check. Admission requires reviewed data, confirmed model identity,
+continuous-formulation evidence and a complete frozen comparison protocol. The
+financial endpoint is compliance plus the out-of-sample tracking/cost frontier,
+with uncertainty and full costs. A meaningful economic margin must be specified
+before opening outcomes; the existing 20% quality/resource aspiration is not an
+established investment-benefit threshold.
+
+[Actual blockers](results/research/independent_test_readiness_v1/BLOCKED.json) ·
+[Ordered repair queue](docs/research/QUALIFICATION_STATUS.md#why-financial-value-and-model-scaling-remain-unresolved)
+
+## Run and reproduce
 
 ```bash
 python3.12 -m venv .venv
-.venv/bin/python -m pip install -e '.[dev,simulator,llm-modal,published-data]'
+.venv/bin/python -m pip install -e '.[dev,simulator,llm-modal,published-data,data-audit]'
 .venv/bin/python -m pytest -q
+
+# Local synthetic decisions; no GPU or market-performance claim.
 .venv/bin/python -m agqo.research trajectory --source synthetic --output results/research/my_demo
 .venv/bin/python -m agqo.research serve --output results/research/my_demo --port 8765
 ```
 
-Open http://127.0.0.1:8765/ for the English decision application. Compare the current
-holdings, exclusions, sector limit and turnover with hold, SCIP, local swap and
-QAOA alternatives. UI evaluation uses synthetic data and local simulation; it never
-launches an unbounded GPU request.
-
-## Evidence before experiments
-
-- [Published results and model rationale](docs/research/EVIDENCE_REVIEW.md).
-- [Measured dataset suitability](docs/research/DATA_SUITABILITY.md).
-- [Technical choices and stop rules](docs/research/TECHNICAL_DECISIONS.md).
-- [Implementation protocol](docs/research/IMPLEMENTATION_PROTOCOL.md).
-- [Worklog](docs/research/WORKLOG.md), updated as measurements and decisions change.
-- [Completion review and measured remaining gaps](docs/research/COMPLETION_REPORT.md).
-- [Agent handoff](AGENTS.md), read this first when resuming work.
-
-## Reproducible workflow
+Open http://127.0.0.1:8765/ for the English decision interface. It compares existing
+holdings, requirements, trades and verified evidence. The maintained UI does not
+launch inference. Read saved artifacts without charges using `replay`.
 
 ```bash
-# Audit free US-equity data; missing evidence returns exit code 2.
-.venv/bin/python -m agqo.research candidate
-.venv/bin/python -m agqo.research fetch
-.venv/bin/python scripts/assess_us_dataset.py
+# Historical hygiene audit, with source snapshot; blocked admission returns code 2.
+.venv/bin/python -m agqo.research history-audit --output results/research/my_history_audit
 .venv/bin/python -m agqo.research audit
 
-# Non-LLM initialization/encoding/adaptive controls.
-.venv/bin/python -m agqo.research baseline --output results/research/my_baselines
-
-# Pinned published US returns; conditional algorithm scope, not an unbiased backtest.
+# Conditional academic algorithm study; these commands use local CPU simulation.
 .venv/bin/python -m agqo.research published-fetch
 .venv/bin/python -m agqo.research published-study --output results/research/my_published
-
-# Preregistered non-LLM controls; distinct financial policies remain explicit.
 .venv/bin/python -m agqo.research preparation-study --output results/research/my_preparation
 .venv/bin/python -m agqo.research formulation-audit --output results/research/my_formulation
 .venv/bin/python -m agqo.research conditioning-study --output results/research/my_conditioning
 
-# Complete software workflow; market blockers remain explicit (exit code 2).
-.venv/bin/python -m agqo.research pipeline --output results/research/my_pipeline
+# Regenerate charts from saved evidence only; use a new directory.
+.venv/bin/python scripts/build_evidence_gallery.py --output results/research/my_gallery
+.venv/bin/python -m http.server 8766 --bind 127.0.0.1 --directory results/research/my_gallery
 
-# Bounded, preregistered specialist interface probe. Requires Modal authentication.
-.venv/bin/python -m agqo.research probe --mode modal --models quasar4 --output results/research/my_probe
-
-# A structural design study, including common allocation and failed proposals.
-.venv/bin/python -m agqo.research smoke --mode offline --output results/research/my_structural
-
-# Read an existing complete run without inference charges.
+# Read-only replay and explicit blocked market behavior.
 .venv/bin/python -m agqo.research replay --output results/research/my_demo
-
-# Admitted market data only; writes all artifacts even when blocked.
 .venv/bin/python -m agqo.research trajectory --source market --output results/research/my_market
 ```
 
-Use a new output directory when changing a frozen protocol. Original raw responses,
-interruptions and unsuccessful runs remain evidence. A cached artifact is not a
-new live model result. See [the user guide](docs/USER_GUIDE.md) for the data contract.
+The gallery is available at http://127.0.0.1:8766/ when served. It filters evidence
+by Data, Models, Finance and Quantum; clicking a chart opens the vector original.
+Figures ship as PNG/SVG with generator source and input hashes. No model, optimizer
+or trading action runs from this gallery. Source downloads require network access;
+regenerating figures only needs the checked-in result records.
 
-## What is implemented
+Use a new output directory whenever a frozen protocol changes. Do not relaunch the
+completed tokenizer preflight to read its result. Paid model experiments are separate,
+bounded Modal operations with reservations, revisions, request hashes, raw responses,
+receipts and billing snapshots. The USD150 per-experiment policy is not an account-balance claim.
 
-| Component | Behavior |
+## Implementation and artifact map
+
+| Module | Responsibility |
 |---|---|
-| Financial specification | Tracking/cost or separate risk/return; support constraints separated from weight/turnover constraints |
-| Allocation and references | CLARABEL allocation, support-proxy audit, full SCIP support/weight reference, allocation-aware swaps |
-| Accounting | Dollar holdings and cash, fees paid from NAV, drift, one-session execution lag, no account reset |
-| Quantum compiler | Direct QUBO/Ising coefficients and explicit slack; optional certified subspace encoding; no cost truth table in compilation |
-| Verification | Schema, source/hash, cost coefficients, gate semantics, invariants, NumPy/Qiskit checks, activity and resources |
-| Designs | LLM-owned gate structure, fixed/rule/random/adaptive controls, Dicke reference, reuse and mutation interfaces |
-| Modal | Pinned checkpoints, shared model registry, CPU prefetch, sequential bounded GPU work, cached requests, ledger and receipts |
-| Application | English mandate editor, decision comparison, trades and verification, read-only experiment replay |
-| Reporting | JSON/CSV/QASM/QPY plus English Markdown results, progress and uncertainty/claim limits |
+| `history_audit.py`, `data.py` | Source hygiene, provenance, reviewed market-data admission |
+| `finance.py` | Financial specification, common allocator, joint SCIP, accounting and feasibility |
+| `design.py`, `quantum.py` | Data-conditioned gate grammar, locked cost compilation and independent verification |
+| `symmetry.py`, `preparation.py`, `conditioning.py` | Conserved simulation and explicitly versioned controls |
+| `runner.py`, `workflow.py`, `walkforward.py` | Matched methods, common postprocessing and continuous accounts |
+| `qualification.py` | Exact correctness intervals and fail-closed final-test integrity |
+| `synthesis/client.py`, `budget.py`, Modal workers | Pinned requests, caching, bounded dispatch and complete accounting |
+| `server.py`, gallery generator | English decisions, replay and visual evidence |
 
-The full statevector is capped at 16 total qubits. GateIR v2 supports up to 40 asset
-qubits with certified fixed-cardinality execution, capped at 2,000,000 represented
-states including explicit slack. V1's 12-asset schema stays unchanged. The larger
-backend uses an analytic gate certificate and small-instance crosschecks; it does
-not claim an independent full Qiskit statevector check at 30 qubits. Both backends
-are classical simulation. Compilation alone does not imply hardware execution.
-The original dense Dicke reference and the new sequential counter-Dicke control
-are separate constructions. The counter avoids dense synthesis, uses counted clean
-workspace, and is independently crosschecked on small cases. Neither claims to
-replicate the cited ancilla-free algorithm. Paper RMS conditioning is an opt-in
-control; legacy defaults remain unchanged. See the [measured controls](results/research/control_summary_v1/FINDINGS.md).
-The gradient baseline is ADAPT-inspired, with its extra classical evaluations
-counted, rather than a claim of reproducing every paper setting.
+Full statevectors are capped at 16 total qubits. GateIR v2 supports up to 40 asset
+qubits under a 2,000,000 represented-state cap, including slack. V1's 12-asset
+schema remains compatible. The larger backend uses analytic certificates and
+small-instance crosschecks, not a full independent Qiskit N30/N33 statevector check.
+All results shown here are classical simulations, not hardware execution.
 
-## Artifacts and status
+```text
+results/research/<experiment>/
+  protocol.json            # frozen settings and acceptance rules
+  dataset_manifest.json    # provenance and coverage scope
+  decisions.jsonl          # holdings, trades, feasibility and metrics
+  circuits/                # GateIR, QASM, QPY and verification
+  metrics.csv              # methods, seeds, resources and failures
+  cost_report.json         # inference/execution accounting
+  RESULTS.md               # measured findings and limitations
+  PROGRESS.md              # status, blockers and next gate
+```
 
-Every trajectory/pipeline produces `protocol.json`, `dataset_manifest.json`,
-`decisions.jsonl`, `circuits/`, `metrics.csv`, `cost_report.json`, `RESULTS.md`, and
-`PROGRESS.md`. Blocked market runs still produce this contract with a reason and
-empty decision records. Specialist probes and baseline studies additionally keep
-their task-specific protocols and raw records.
+Trajectory/pipeline runs produce this complete contract even when blocked; empty
+decision records remain explicit. Source audits and specialist probes use their
+own labeled contracts. A `completed` software stage is not a supported financial hypothesis.
 
-Read [project status](docs/PROJECT_STATUS.md) and [result semantics](docs/RESULTS_SPEC.md).
-A favorable energy or sampled optimum does not establish financial utility.
-Common postprocessing is charged; allocation failures remain visible.
+## Documentation and preserved history
 
-## Historical compatibility
+The maintained US CLI, application, documentation and reports use English. English
+root guides replace superseded briefs; original Vietnamese documents are archived
+unchanged under `docs/legacy/`. Historical raw responses, source snapshots, VN30
+results and bilingual compatibility-parser examples retain their original language.
+The older `agqo`, `agqo-repair` and `agqo-synthesize` commands remain compatibility
+entry points; use `agqo-research` for the maintained US experiment semantics.
+See [the language and archive guide](docs/LANGUAGE_AND_ARCHIVES.md).
 
-Existing `agqo`, `agqo-repair` and `agqo-synthesize` entry points remain available.
-They include historical experiments and bilingual input parsing. The maintained
-US workflow is `agqo-research`. Historical VN30 results and Vietnamese explanatory
-material are preserved under `results/` and `docs/legacy/`; they are not evidence
-for this US-equity study. Raw provider payloads stay local because redistribution
-rights have not been established.
+For deeper review, read [technical decisions](docs/research/TECHNICAL_DECISIONS.md),
+[data suitability](docs/research/DATA_SUITABILITY.md),
+[result semantics](docs/RESULTS_SPEC.md), [the worklog](docs/research/WORKLOG.md)
+and [AGENTS.md](AGENTS.md). The current findings take precedence over historical
+plans; original negative results remain part of the evidence.

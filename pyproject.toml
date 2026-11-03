@@ -25,6 +25,7 @@ qpu = ["qiskit>=2.3,<3", "qiskit-ibm-runtime>=0.47,<1"]
 simulator = ["qiskit>=2.3,<3", "qiskit-aer>=0.17,<1", "qiskit-qasm3-import>=0.6,<1"]
 dev = ["pytest>=8.3,<10"]
 published-data = ["rdata==1.1.0"]
+data-audit = ["exchange-calendars==4.13.2"]
 llm-modal = ["modal>=1.6.2,<2"]
 qwen3 = ["torch>=2.6,<3", "transformers>=4.51,<5", "accelerate>=1.6", "bitsandbytes>=0.46,<1"]
 

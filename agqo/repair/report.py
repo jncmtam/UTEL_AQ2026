@@ -75,16 +75,16 @@ def create_report(output, directory):
             ax.scatter(m["two_way_turnover"] * 100, m["heldout_tracking_rmse"] * 100, s=45)
             ax.annotate(m["method"], (m["two_way_turnover"] * 100, m["heldout_tracking_rmse"] * 100), fontsize=7, xytext=(4, 3), textcoords="offset points")
     ax.set(xlabel="Two-way turnover (%)", ylabel="Held-out tracking RMSE per period (%)")
-    save(fig, "01_tracking_turnover.png", "Hình 1. Đánh đổi tracking–turnover", "Mỗi điểm là trung bình có điều kiện trên những nghiệm hợp lệ. Đọc cùng tỷ lệ khả thi ở Hình 2; đây không phải đường biên hiệu quả đã được chứng minh.", ["two_way_turnover", "heldout_tracking_rmse"])
+    save(fig, "01_tracking_turnover.png", "Figure 1. Tracking/turnover trade-off", "Each point is a conditional mean over feasible solutions. Read with Figure 2 feasibility rates; this is not a proven efficient frontier.", ["two_way_turnover", "heldout_tracking_rmse"])
     fig, ax = plt.subplots(figsize=(10, 5))
     ax.barh([m["method"] for m in valid], [100 * m["feasible_rate"] for m in valid], color="#246a65")
     ax.set(xlabel="Feasible records (%)", xlim=(0, 100))
-    save(fig, "02_feasibility.png", "Hình 2. Tỷ lệ phương án đáp ứng yêu cầu", "Tất cả giới hạn được kiểm tra bằng mô hình gốc. Case không có nghiệm vẫn xuất hiện trong mẫu; bộ giải báo infeasible không phải là lỗi.", ["feasible", "status"])
+    save(fig, "02_feasibility.png", "Figure 2. Mandate compliance rate", "All constraints use the original model. Infeasible cases remain in the sample; a proven infeasibility result is not a solver error.", ["feasible", "status"])
     fig, ax = plt.subplots(figsize=(10, 5))
     selected = [m for m in valid if m["objective_gap_absolute"] is not None]
     ax.barh([m["method"] for m in selected], [m["objective_gap_absolute"] for m in selected], color="#c66c35")
     ax.set(xlabel="Absolute objective gap to proven optimum (lower is better)")
-    save(fig, "03_objective_gap.png", "Hình 3. Khoảng cách tới nghiệm tối ưu", "Khoảng cách tuyệt đối trên đúng cùng hàm mục tiêu; không chia cho giá trị tối ưu có thể gần 0. Phương án không hợp lệ được báo riêng.", ["objective_gap_absolute"])
+    save(fig, "03_objective_gap.png", "Figure 3. Optimality gap", "Absolute gap on the same objective; do not divide by an optimum that may be near zero. Invalid alternatives are reported separately.", ["objective_gap_absolute"])
     fig, ax = plt.subplots(figsize=(9, 4))
     language = output["language"]
     for i, method in enumerate(("rules", "qwen")):
@@ -94,7 +94,7 @@ def create_report(output, directory):
         else:
             ax.text(i, 5, "not run", ha="center")
     ax.set(xticks=[0, 1], xticklabels=["rules", "Qwen"], ylim=(0, 105), ylabel="Correct semantic/status targets (%)")
-    save(fig, "04_language_ablation.png", "Hình 4. Kiểm tra chuẩn hóa yêu cầu", "Bộ yêu cầu tự biên soạn có nhãn chuẩn độc lập gồm diễn đạt lại, mâu thuẫn, phủ định và thiếu thông tin; kết quả nhỏ mang tính chẩn đoán.", ["language.correct", "language.status"])
+    save(fig, "04_language_ablation.png", "Figure 4. Mandate normalization checks", "Authored requirements have independent gold labels for paraphrases, conflicts, negation and missing information. This small evaluation is diagnostic.", ["language.correct", "language.status"])
     # Cost sensitivity uses exact optima on a fixed single instance, without test tuning.
     from dataclasses import replace
     from .data import synthetic_data, make_window
@@ -109,7 +109,7 @@ def create_report(output, directory):
     fig, ax = plt.subplots(figsize=(8, 4))
     ax.plot([r["result"]["transaction_cost"] * 10000 for r in frontier], [r["result"]["tracking_rmse"] * 100 for r in frontier], "o-", color="#246a65")
     ax.set(xlabel="Modeled trading cost (bps of NAV)", ylabel="In-sample tracking RMSE (%)")
-    save(fig, "05_cost_frontier.png", "Hình 5. Độ nhạy tracking–chi phí", "Nghiệm exact trên một fixture tổng hợp riêng, thay hệ số chi phí đã khai báo. Biểu đồ minh họa đánh đổi của mô hình, không dùng để chọn cấu hình từ tập test.", ["cost_frontier.rows"])
+    save(fig, "05_cost_frontier.png", "Figure 5. Tracking/cost sensitivity", "Exact solutions on a separate synthetic fixture vary the declared cost multiplier. This illustrates model trade-offs and does not select configurations on the test set.", ["cost_frontier.rows"])
     catalog[-1]["source"] = "separate_synthetic_fixture"
     fig, ax = plt.subplots(figsize=(9, 5))
     for m in valid:
@@ -118,7 +118,7 @@ def create_report(output, directory):
             ax.annotate(m["method"], (m["elapsed_seconds"], m["objective_gap_absolute"]), fontsize=7, xytext=(4, 3), textcoords="offset points")
     ax.set(xlabel="End-to-end seconds on feasible records (CPU + charged selector latency)", ylabel="Absolute objective gap")
     ax.set_xscale("log")
-    save(fig, "06_quality_resources.png", "Hình 6. Chất lượng và tài nguyên", "Thời gian gồm dựng oracle và tối ưu; nhánh LLM tính thêm latency chọn mạch. Điểm trung bình có điều kiện không thay thế phân tích thất bại hay chứng minh speedup.", ["elapsed_seconds", "objective_gap_absolute"])
+    save(fig, "06_quality_resources.png", "Figure 6. Quality and resources", "Time includes oracle construction and optimization; the LLM branch adds circuit-selection latency. Conditional means do not replace failure analysis or prove speedup.", ["elapsed_seconds", "objective_gap_absolute"])
     families = sorted({r["case"]["family"] for r in output["records"]})
     fig, ax = plt.subplots(figsize=(10, 5))
     for method in ("qaoa_fixed", "qaoa_rule", "qwen_circuit"):
@@ -130,26 +130,26 @@ def create_report(output, directory):
             ax.plot(range(len(families)), values, "o-", label=method)
     ax.set(xticks=range(len(families)), xticklabels=families, ylabel="Feasible rate", ylim=(-0.03, 1.03))
     ax.tick_params(axis="x", labelrotation=20); ax.legend()
-    save(fig, "07_unseen_structure.png", "Hình 7. Khả năng thích nghi theo nhóm yêu cầu", "Nhóm unseen là tổ hợp giới hạn không dùng để chọn cấu hình cố định. Nhóm không có nghiệm được giữ lại để kiểm tra phản hồi; không kỳ vọng tỷ lệ khả thi dương.", ["case.family", "feasible", "status"])
+    save(fig, "07_unseen_structure.png", "Figure 7. Adaptation by mandate family", "Unseen families combine constraints not used to select the fixed circuit. Infeasible families remain to test diagnosis; positive feasibility is not expected.", ["case.family", "feasible", "status"])
     (directory / "figure_catalog.json").write_text(json.dumps(catalog, ensure_ascii=False, indent=2))
-    lines = ["# AGQO — bằng chứng tái cân bằng theo mandate", "", "Nguồn: " + output["protocol"]["data_provenance"]["kind"],
-             "", "Protocol SHA-256: `" + output["protocol_sha256"] + "`", "", "Kết quả là benchmark nghiên cứu; chưa chứng minh lợi thế lượng tử hoặc tiết kiệm thực tế cho quỹ.",
-             "", "Các kỳ của nguồn OR-Library chưa được xác minh tần suất; chỉ báo số liệu mỗi kỳ, không năm hóa.",
-             "", "| Phương pháp | Đã chạy | Hợp lệ | RMSE ngoài mẫu (%) | Turnover hai chiều (%) |", "|---|---:|---:|---:|---:|"]
+    lines = ["# AGQO — mandate-aware repair evidence", "", "Source: " + output["protocol"]["data_provenance"]["kind"],
+             "", "Protocol SHA-256: `" + output["protocol_sha256"] + "`", "", "Research benchmark only; quantum advantage and realized fund savings are not established.",
+             "", "OR-Library period frequency is unverified; metrics are per period and not annualized.",
+             "", "| Method | Executed | Feasible | Held-out RMSE (%) | Two-way turnover (%) |", "|---|---:|---:|---:|---:|"]
     for m in summary["methods"]:
         fmt = lambda v: "—" if v is None else f"{v * 100:.3f}"
         lines.append(f"| {m['method']} | {m['executed']}/{m['records']} | {m['feasible']} | {fmt(m['heldout_tracking_rmse'])} | {fmt(m['two_way_turnover'])} |")
-    lines += ["", "Giá trị trung bình chỉ gồm nghiệm hợp lệ; tỷ lệ thất bại phải được đọc cùng. Các seed không phải các mẫu tài chính độc lập.",
-              "", "## Bằng chứng và giới hạn", "", "- Exact và MILP cùng mô hình; các nhánh QAOA không được đổi universe, K hoặc mục tiêu.",
-              "- Oracle pha chéo được dựng đầy đủ trên 2^N trạng thái; đây là chi phí cổ điển tăng theo hàm mũ và giới hạn quan trọng của prototype.",
-              "- Khởi tạo previous bảo toàn số tài sản khi dùng XY; không bảo đảm mọi giới hạn ngành/turnover.",
-              "- LLM disabled/error/invalid được ghi đúng trạng thái, không thay bằng quy tắc rồi gắn nhãn Qwen.",
-              "- Chuỗi benchmark đã được mở trong quá trình phát triển; tập test là tách theo giao thức, không phải dữ liệu tương lai mới thu.",
-              "- Gap phương pháp là giả thuyết; không khẳng định tính mới tuyệt đối từ việc tích hợp."]
+    lines += ["", "Means include feasible solutions only and must be read with failure rates. Seeds are not independent financial observations.",
+              "", "## Evidence and limitations", "", "- Exact and MILP share the model; QAOA cannot change the universe, K or objective.",
+              "- The legacy diagonal oracle constructs all 2^N states: an exponential classical cost and an important prototype limit.",
+              "- Previous initialization with XY preserves cardinality, not all sector/turnover limits.",
+              "- LLM disabled/error/invalid statuses remain explicit; rules are never relabeled as Qwen.",
+              "- Benchmark observations were opened during development; the protocol test split is not newly collected future data.",
+              "- Method novelty remains a hypothesis; integration alone does not establish novelty."]
     for item in catalog:
-        lines += ["", f"![{item['title']}]({item['file']})", "", f"**{item['title']}.** {item['caption']} Nguồn: {item['source']}."]
-    lines += ["", "## Tái lập", "", "Xem protocol.json, benchmark.json, mandates_gold.json, summary.csv và figure_catalog.json trong cùng thư mục."]
+        lines += ["", f"![{item['title']}]({item['file']})", "", f"**{item['title']}.** {item['caption']} Source: {item['source']}."]
+    lines += ["", "## Reproduction", "", "See protocol.json, benchmark.json, mandates_gold.json, summary.csv and figure_catalog.json in this directory."]
     (directory / "REPORT.md").write_text("\n".join(lines), encoding="utf-8")
     cards = "".join(f"<figure><img src='{item['file']}' alt='{html.escape(item['title'])}'><figcaption><b>{html.escape(item['title'])}.</b> {html.escape(item['caption'])}</figcaption></figure>" for item in catalog)
-    (directory / "report.html").write_text("<!doctype html><html lang='vi'><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>AGQO · Bằng chứng</title><style>body{font:16px/1.6 system-ui;max-width:1000px;margin:40px auto;padding:24px;background:#f6f4ed;color:#172d39}img{max-width:100%}figure{margin:35px 0}a{color:#246a65}</style><h1>AGQO · Bằng chứng nghiên cứu</h1><p>Benchmark có đối chứng; chưa xác lập ưu thế lượng tử hoặc tiết kiệm thực tế.</p><p><a href='summary.json'>Số liệu tổng hợp</a> · <a href='benchmark.json'>Kết quả đầy đủ</a> · <a href='protocol.json'>Giao thức</a></p>" + cards + "</html>", encoding="utf-8")
+    (directory / "report.html").write_text("<!doctype html><html lang='en'><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>AGQO · Evidence</title><style>body{font:16px/1.6 system-ui;max-width:1000px;margin:40px auto;padding:24px;background:#f6f4ed;color:#172d39}img{max-width:100%}figure{margin:35px 0}a{color:#246a65}</style><h1>AGQO · Research evidence</h1><p>Controlled benchmark; quantum advantage and realized savings are unestablished.</p><p><a href='summary.json'>Summary metrics</a> · <a href='benchmark.json'>Full results</a> · <a href='protocol.json'>Protocol</a></p>" + cards + "</html>", encoding="utf-8")
     return summary

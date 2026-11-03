@@ -135,3 +135,27 @@ def quasar4_batch(requests):
               volumes={"/model-cache": cache})
 def mistral24q_batch(requests):
     return generate("mistral24q", requests)
+
+
+@app.function(image=modern_image, cpu=2, memory=4096, timeout=300,
+              startup_timeout=180, retries=0, max_containers=1, scaledown_window=2,
+              volumes={"/model-cache":cache})
+def tokenizer_preflight(model_key):
+    """CPU-only HF tokenizer/chat check. Never instantiate or download model weights."""
+    from transformers import AutoTokenizer
+    from agqo.synthesis.budget import MODEL_CATALOG
+    if model_key not in ('coder30','mistral24q','quasar4'):
+        raise ValueError('Only the preregistered specialist/control shortlist is admitted.')
+    config=MODEL_CATALOG[model_key];start=time.monotonic()
+    tokenizer=AutoTokenizer.from_pretrained(config['model'],revision=config['revision'],trust_remote_code=False)
+    messages=[{'role':'system','content':'Return only valid English JSON.'},
+              {'role':'user','content':'Describe a two-qubit Bell circuit as gate data.'}]
+    kwargs={'enable_thinking':False} if model_key=='quasar4' else {}
+    ids=tokenizer.apply_chat_template(messages,add_generation_prompt=True,tokenize=True,**kwargs)
+    rendered=tokenizer.apply_chat_template(messages,add_generation_prompt=True,tokenize=False,**kwargs)
+    if not ids or not isinstance(rendered,str):raise ValueError('Tokenizer/chat rendering did not produce a prompt.')
+    cache.commit()
+    return {'status':'tokenizer_ready_only','model':config['model'],'revision':config['revision'],
+            'tokenizer_class':type(tokenizer).__name__,'prompt_tokens':len(ids),'rendered_prompt':rendered,
+            'elapsed_seconds':time.monotonic()-start,'execution':'modal_cpu_no_model_inference',
+            'gpu_requested':False,'model_weights_requested':False,'engine_kwargs':config.get('engine_kwargs',{})}

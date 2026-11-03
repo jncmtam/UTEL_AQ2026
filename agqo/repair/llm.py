@@ -45,7 +45,7 @@ def circuit_request(problem):
 class QwenClient:
     def __init__(self, mode="disabled", replay_path=None, audit_path=None):
         if mode not in {"disabled", "modal", "replay"}:
-            raise ValueError("LLM mode phải là disabled/modal/replay.")
+            raise ValueError("LLM mode must be disabled, modal or replay.")
         self.mode = mode
         self.replay = json.loads(Path(replay_path).read_text()) if replay_path else {}
         self.cache = {}
@@ -68,7 +68,7 @@ class QwenClient:
         try:
             if self.mode == "replay":
                 if key not in self.replay:
-                    raise ValueError("Không có bản ghi replay cho đúng request hash.")
+                    raise ValueError("No replay record matches the request hash.")
                 envelope = dict(self.replay[key])
                 envelope["execution"] = "replay_not_live"
             else:
@@ -77,7 +77,7 @@ class QwenClient:
                 envelope = function.remote(request)
                 envelope["execution"] = "live_modal"
             if not isinstance(envelope, dict) or not isinstance(envelope.get("response"), dict):
-                raise ValueError("LLM envelope thiếu response object.")
+                raise ValueError("LLM envelope is missing its response object.")
             answer = {**envelope, "status": "ok", "request_hash": key, "elapsed_seconds": perf_counter() - start,
                     "prompt_version": PROMPT_VERSION, "cost_usd": None,
                     "cost_note": "USD billing unavailable; latency and token usage recorded, not estimated."}
@@ -119,7 +119,7 @@ class QwenClient:
         try:
             spec = CircuitSpec.from_dict(envelope["response"])
             if spec not in CATALOG:
-                raise ValueError("CircuitSpec không thuộc catalog đã khóa.")
+                raise ValueError("CircuitSpec is outside the frozen catalog.")
             return spec, envelope
         except (ValueError, TypeError) as exc:
             return None, {**envelope, "status": "invalid", "reason": str(exc)}
