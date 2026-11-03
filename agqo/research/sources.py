@@ -15,6 +15,9 @@ def capture_sources(directory):
         root / "pyproject.toml",
         root / "requirements-lock.txt",
         root / "docs/research/COMPLETION_PROTOCOL.md",
+        root / "docs/research/PREPARATION_PROTOCOL.md",
+        root / "docs/research/FORMULATION_PROTOCOL.md",
+        root / "docs/research/CONDITIONING_PROTOCOL.md",
     ]
     manifest = {"python": platform.python_version(), "files": {}, "packages": {}}
     for source in files:

@@ -102,11 +102,18 @@ class ConservedBasis:
         if index >= len(self.indices) or self.indices[index] != initial:
             raise ValueError("Initial basis state is outside the declared subspace.")
         state[index] = 1
-        if ir.get("preparation"):
+        prep = ir.get("preparation", {})
+        if prep.get("kind") == "dicke_sequential_counter_v1":
+            state[:] = 0
+            # Counter workspace is clean at exit by construction. Slack=0 is the
+            # first sorted asset block; no asset support is filtered or selected.
+            state[: self.asset_count] = 1 / np.sqrt(self.asset_count)
+        elif prep:
             raise ValueError(
                 "Dense Dicke synthesis is a small full-state reference only."
             )
-        self.gates(state, ir["initialization"], values)
+        else:
+            self.gates(state, ir["initialization"], values)
         for q in range(self.n, h["qubits"]):
             left, right = self.pair(q)
             a = state[left].copy()

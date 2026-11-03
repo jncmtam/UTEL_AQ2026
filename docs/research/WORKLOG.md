@@ -313,3 +313,65 @@ an integration check verifies neither measurement overwrites the other. The fina
 API metadata change does not alter the visually inspected layout. Logical gate
 resources exclude hardware routing/noise. A post-run hold diagnostic records base
 training MSE 3.45880e-5 /4.36185e-5 at N10/N30; the exclusion case disallows hold.
+
+## Entry 15 — Broad-support control, published-method boundary
+
+**Protocol:** PREPARATION_PROTOCOL.md was written before code/run. Rechecked the
+primary Dicke paper and official Qiskit uniformly controlled rotation API. The
+new sequential binary-counter construction is explicitly not a replication of
+the cited ancilla-free O(kn) construction. The Dicke recurrence proves uniform
+amplitudes and a clean final counter, without postselection.
+
+**Verified:** exact amplitudes/cleanup across every n=1..8 and k=0..n; complete
+QAOA evolution with frozen assets/slack against independent Qiskit; malformed or
+mixed preparation metadata rejected. Workspace is counted in QASM/transpilation,
+and eliminated only from ideal simulation after the trusted construction.
+
+**Measured:** preparation_control_v1 has 18 feasible rows. At N30 all 593,775
+supports have meaningful probability. Mean allocated objective 1.72646e-5 versus
+2.07900e-5 for sparse initialization, but resources rise 30→33 qubits, 998→1798 CX,
+445→2428 depth. A clearly labeled post-run uniform 2176-draw reference reaches
+1.63856e-5 and remains stronger. Three seeds/two opened cases are descriptive.
+
+## Entry 16 — Financial formulation identity rather than model guessing
+
+**Protocol:** FORMULATION_PROTOCOL.md, before 408 support allocations. Both
+continuous and explicitly equal-weight-target mandates use the common allocator
+and identical tracking/cost/policy assumptions. No primary-task substitution.
+
+**Measured:** equal-weight target identity B=F passes within 1e-9 objective/1e-7
+weight tolerance. Continuous proxy-optimal allocation regret 3.32% (base) and 7.13%
+(exclusion) remains. Infeasible allocations are retained. Independent tests also
+verify financial/Ising/allocator asset-permutation consistency and cap rejection.
+
+**Decision:** the financial target must be fixed before choosing model quality
+metrics. Richer weights or an allocation-aware outer method need their own resource
+contract; an energy-only improvement cannot qualify continuous portfolio repair.
+
+## Entry 17 — Published weighted-QAOA conditioning, not a new algorithm
+
+**Source:** Sureshbabu et al., Quantum 8, 1231 (2024), Eq8 and portfolio Section6.2.
+CONDITIONING_PROTOCOL.md was written before the control. The paper's 7.4× iteration
+result concerns its own random mean-variance instances, not our US tracking task.
+
+**Implemented:** optional RMS gamma/loss coordinates on the immutable Hamiltonian;
+physical angles and optimizer coordinates are stored separately. Tests prove Eq8
+and uniform-rescaling unitary equivalence. No optimum/truth table is used to set
+the scale. Legacy defaults and frozen results are unchanged.
+
+**Measured:** conditioning_control_v1 has 36 feasible rows with both financial
+policies and the predeclared 2176-draw classical reference. Proxy expectation improves
+on the opened cases. At N30 mean continuous F worsens 1.72646e-5→1.82890e-5, while
+equal-weight F improves 2.25953e-5→2.15969e-5. Classical remains stronger under both.
+No significance claim or qualified model follows. Optimizer bitstrings were not
+pooled into final candidate selection; a future protocol must predeclare that rule.
+
+## Entry 18 — Follow-up validation and delivery checkpoint
+
+All 135 tests pass; static F checks and replay pass. Source snapshots/contracts
+verified for preparation/formulation/conditioning bundles (75/77/79 source files).
+Derived figures were visually inspected; generator/input hashes are retained.
+The summary is control_summary_v1/FINDINGS.md. No new GPU inference, model switch,
+market-data admission, or quantum/financial superiority claim. User-authorized
+Git checkpoint d9b48b1 is already pushed; these follow-up controls form a separate
+reviewable commit on the same branch.

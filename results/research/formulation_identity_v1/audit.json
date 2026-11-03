@@ -1,0 +1,69 @@
+{
+  "summaries": [
+    {
+      "scenario": "base",
+      "policy": "continuous",
+      "supports": 120,
+      "feasible_allocations": 116,
+      "allocation_audit_complete": true,
+      "equal_weight_identity_passed": null,
+      "max_objective_difference": 3.510796956394169e-05,
+      "max_target_weight_deviation": 0.2666666666638106,
+      "best_allocated_objective": 2.6450897307358637e-05,
+      "proxy_optimum_allocated_objective": 2.732958773353487e-05,
+      "proxy_optimum_feasible": true,
+      "problem_hash": "9fc0d9d043184b80e861660591ad019e3783d4e21ff7b318de398905ec9a598f",
+      "proxy_optimum_allocation_regret": 8.786904261762332e-07,
+      "relative_regret": 0.03321968309679164
+    },
+    {
+      "scenario": "base",
+      "policy": "equal_weight_target",
+      "supports": 120,
+      "feasible_allocations": 116,
+      "allocation_audit_complete": true,
+      "equal_weight_identity_passed": true,
+      "max_objective_difference": 2.4328683598945355e-15,
+      "max_target_weight_deviation": 1.08989484104427e-11,
+      "best_allocated_objective": 2.8719493561970276e-05,
+      "proxy_optimum_allocated_objective": 2.8719493561970276e-05,
+      "proxy_optimum_feasible": true,
+      "problem_hash": "d018b03d0ae794484382b489c06e9a2a08608f64ae30e0b8573301655047c429",
+      "proxy_optimum_allocation_regret": 0.0,
+      "relative_regret": 0.0
+    },
+    {
+      "scenario": "exclude_incumbent",
+      "policy": "continuous",
+      "supports": 84,
+      "feasible_allocations": 83,
+      "allocation_audit_complete": true,
+      "equal_weight_identity_passed": null,
+      "max_objective_difference": 3.510796956394169e-05,
+      "max_target_weight_deviation": 0.2666666666638106,
+      "best_allocated_objective": 2.914535565702423e-05,
+      "proxy_optimum_allocated_objective": 3.122468027122661e-05,
+      "proxy_optimum_feasible": true,
+      "problem_hash": "67a31796bdbd623e2248547e1943995d5aa9e0e282157a285fc6068f4f6fd797",
+      "proxy_optimum_allocation_regret": 2.0793246142023785e-06,
+      "relative_regret": 0.07134325752176049
+    },
+    {
+      "scenario": "exclude_incumbent",
+      "policy": "equal_weight_target",
+      "supports": 84,
+      "feasible_allocations": 83,
+      "allocation_audit_complete": true,
+      "equal_weight_identity_passed": true,
+      "max_objective_difference": 2.322062897866517e-15,
+      "max_target_weight_deviation": 8.864686762422025e-12,
+      "best_allocated_objective": 3.247070387027466e-05,
+      "proxy_optimum_allocated_objective": 3.247070387027466e-05,
+      "proxy_optimum_feasible": true,
+      "problem_hash": "0627e09da44b2cc21c07d0b28df760c9436912c671ff6b03d24e2c5a35bcdd7a",
+      "proxy_optimum_allocation_regret": 0.0,
+      "relative_regret": 0.0
+    }
+  ],
+  "new_inference_calls": 0
+}

@@ -54,6 +54,11 @@ launches an unbounded GPU request.
 .venv/bin/python -m agqo.research published-fetch
 .venv/bin/python -m agqo.research published-study --output results/research/my_published
 
+# Preregistered non-LLM controls; distinct financial policies remain explicit.
+.venv/bin/python -m agqo.research preparation-study --output results/research/my_preparation
+.venv/bin/python -m agqo.research formulation-audit --output results/research/my_formulation
+.venv/bin/python -m agqo.research conditioning-study --output results/research/my_conditioning
+
 # Complete software workflow; market blockers remain explicit (exit code 2).
 .venv/bin/python -m agqo.research pipeline --output results/research/my_pipeline
 
@@ -94,8 +99,11 @@ states including explicit slack. V1's 12-asset schema stays unchanged. The large
 backend uses an analytic gate certificate and small-instance crosschecks; it does
 not claim an independent full Qiskit statevector check at 30 qubits. Both backends
 are classical simulation. Compilation alone does not imply hardware execution.
-Dicke synthesis in the baseline study is an explicit small reference, whose cost
-is reported; it is not the efficient preparation algorithm from the cited paper.
+The original dense Dicke reference and the new sequential counter-Dicke control
+are separate constructions. The counter avoids dense synthesis, uses counted clean
+workspace, and is independently crosschecked on small cases. Neither claims to
+replicate the cited ancilla-free algorithm. Paper RMS conditioning is an opt-in
+control; legacy defaults remain unchanged. See the [measured controls](results/research/control_summary_v1/FINDINGS.md).
 The gradient baseline is ADAPT-inspired, with its extra classical evaluations
 counted, rather than a claim of reproducing every paper setting.
 

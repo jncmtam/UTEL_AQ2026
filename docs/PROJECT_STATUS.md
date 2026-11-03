@@ -38,12 +38,17 @@ gaps and their ordered resolution. The root PROGRESS.md provides a short entry p
 - Continuous trajectories and interactive decision comparisons run on synthetic
   data; these validate integration and do not establish investment performance.
 - Earlier 80B interruption remains user-interrupted evidence, not model failure.
-- All 120 tests pass. Published development v3 has 18/18 feasible rows, with source
+- All 135 tests pass. Published development v3 has 18/18 feasible rows, with source
   snapshots and post-run proxy diagnostics. Shallow circuit utility and proxy
   faithfulness remain insufficient for qualification; uniform sampling is stronger
   than all three N30 circuit controls on allocated training objective.
 - Saved native primitive diagnostics remain semantically wrong after normalization;
   no new inference was used to obtain those findings.
+- Follow-up controls: 18 preparation rows, 408 formulation allocations, 36 conditioning
+  rows. Counter-Dicke removes sparse coverage but adds workspace/depth; matched-draw
+  classical sampling remains stronger. Explicit equal-weight targets pass objective
+  identity, while the primary continuous task retains material proxy distortion.
+  Paper RMS conditioning is an opt-in control; older defaults/results are retained.
 
 ## Open scientific dependencies
 

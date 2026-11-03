@@ -147,7 +147,12 @@ def execute(ir, h, angles, max_qubits=16):
     values = parameter_values(ir, angles)
     state = np.zeros(1 << h["qubits"], complex)
     state[sum(b << q for q, b in enumerate(ir["initial_bits"]))] = 1
-    if ir.get("preparation", {}).get("kind") == "dicke_reference":
+    if ir.get("preparation", {}).get("kind") == "dicke_sequential_counter_v1":
+        from .preparation import reference_state
+
+        state[:] = 0
+        state[: 1 << h["asset_qubits"]] = reference_state(ir)
+    elif ir.get("preparation", {}).get("kind") == "dicke_reference":
         from .baselines import dicke_state
 
         state[:] = 0
@@ -184,7 +189,10 @@ def circuit(ir, h, angles=None):
     from qiskit import QuantumCircuit
     from qiskit.circuit import Parameter
 
-    qc = QuantumCircuit(h["qubits"])
+    from .preparation import workspace_for, counter_circuit, KIND
+
+    workspace = workspace_for(ir)
+    qc = QuantumCircuit(h["qubits"] + workspace)
     params = {p["id"]: Parameter(p["id"]) for p in ir["parameters"]}
     sources = []
 
@@ -200,7 +208,23 @@ def circuit(ir, h, angles=None):
         getattr(qc, gate["op"].lower())(*args)
         mark("llm_or_baseline_gate_program")
 
-    if ir.get("preparation", {}).get("kind") == "dicke_reference":
+    if ir.get("preparation", {}).get("kind") == KIND:
+        prep = ir["preparation"]
+        for q, b in enumerate(ir["initial_bits"]):
+            if b and q not in prep["free_qubits"]:
+                qc.x(q)
+                mark("compiler_frozen_basis")
+        before = len(qc.data)
+        qc.compose(
+            counter_circuit(len(prep["free_qubits"]), prep["ones"]),
+            qubits=[*prep["free_qubits"], *range(h["qubits"], qc.num_qubits)],
+            inplace=True,
+        )
+        sources.extend(
+            {"instruction": i, "source": "compiler_counter_dicke_preparation"}
+            for i in range(before, len(qc.data))
+        )
+    elif ir.get("preparation", {}).get("kind") == "dicke_reference":
         from .baselines import dicke_state
         from qiskit.circuit.library import StatePreparation
 
@@ -251,6 +275,8 @@ def verify(ir, spec, h, max_qubits=16):
     from qiskit.quantum_info import Statevector
 
     start = perf_counter()
+    from .preparation import KIND, workspace_for
+
     core = {k: v for k, v in ir.items() if k != "preparation"}
     schema = SCHEMA
     limits = Limits()
@@ -265,25 +291,35 @@ def verify(ir, spec, h, max_qubits=16):
         return report
     if "preparation" in ir:
         prep = ir["preparation"]
-        if prep != {
-            "kind": "dicke_reference",
-            "free_qubits": [
-                i
-                for i, t in enumerate(spec.tickers)
-                if t not in spec.include + spec.exclude
-            ],
-            "ones": spec.k - len(spec.include),
-        }:
+        if (
+            not isinstance(prep, dict)
+            or type(prep.get("ones")) is not int
+            or not isinstance(prep.get("free_qubits"), list)
+            or any(type(q) is not int for q in prep.get("free_qubits", []))
+            or prep.get("kind") not in ("dicke_reference", KIND)
+            or prep
+            != {
+                "kind": prep.get("kind"),
+                "free_qubits": [
+                    i
+                    for i, t in enumerate(spec.tickers)
+                    if t not in spec.include + spec.exclude
+                ],
+                "ones": spec.k - len(spec.include),
+            }
+            or ir["initialization"]
+        ):
             return {
                 "valid": False,
                 "errors": [
                     {
                         "code": "preparation",
-                        "message": "Unrecognized or altered Dicke domain.",
+                        "message": "Unrecognized/altered Dicke domain or mixed preparation initialization.",
                     }
                 ],
             }
-    if h.get("certified_subspace") or h["qubits"] > max_qubits:
+    physical_qubits = h["qubits"] + workspace_for(ir)
+    if h.get("certified_subspace") or physical_qubits > max_qubits:
         from agqo.synthesis.ir import _preserves
 
         frozen = {spec.tickers.index(t) for t in spec.include + spec.exclude}
@@ -337,7 +373,7 @@ def verify(ir, spec, h, max_qubits=16):
                 }
             ],
         }
-    if h["qubits"] > max_qubits:
+    if physical_qubits > max_qubits:
         try:
             from .symmetry import ConservedBasis
 
@@ -376,9 +412,13 @@ def verify(ir, spec, h, max_qubits=16):
                 raise ValueError("Resource budget exceeded.")
             report.update(
                 resources={
-                    "qubits": h["qubits"],
+                    "qubits": physical_qubits,
                     "asset_qubits": spec.n,
                     "slack_qubits": len(h["slack"]),
+                    "preparation_workspace_qubits": workspace_for(ir),
+                    "workspace_cleanup": "analytic_construction_small_case_crosschecked"
+                    if workspace_for(ir)
+                    else "not_applicable",
                     "transpiled_cx": cx,
                     "transpiled_depth": depth,
                     "includes_cost_and_initialization": True,
@@ -418,9 +458,10 @@ def verify(ir, spec, h, max_qubits=16):
         for angles in test:
             state = execute(ir, h, angles, max_qubits)
             qc, _ = circuit(ir, h, angles)
-            fidelity = float(
-                abs(np.vdot(state, Statevector.from_instruction(qc).data)) ** 2
-            )
+            actual = Statevector.from_instruction(qc).data
+            expected = np.zeros(len(actual), complex)
+            expected[: len(state)] = state
+            fidelity = float(abs(np.vdot(expected, actual)) ** 2)
             leak = float(np.sum(abs(state[~(cardinal & frozen)]) ** 2))
             fidelities.append(fidelity)
             leaks.append(leak)
@@ -453,9 +494,13 @@ def verify(ir, spec, h, max_qubits=16):
             raise ValueError("Transpiled resource budget exceeded.")
         report.update(
             resources={
-                "qubits": h["qubits"],
+                "qubits": physical_qubits,
                 "asset_qubits": spec.n,
                 "slack_qubits": len(h["slack"]),
+                "preparation_workspace_qubits": workspace_for(ir),
+                "workspace_cleanup": "independent_full_statevector"
+                if workspace_for(ir)
+                else "not_applicable",
                 "transpiled_cx": cx,
                 "transpiled_depth": depth,
                 "includes_cost_and_initialization": True,
@@ -488,6 +533,7 @@ def evaluate(
     shots=128,
     exact_expectation=False,
     initial_angles=None,
+    conditioning="none",
 ):
     from scipy.optimize import minimize
 
@@ -495,6 +541,9 @@ def evaluate(
         raise ValueError("Positive evaluation and shot budgets required.")
     start = perf_counter()
     rng = np.random.default_rng(seed)
+    from .conditioning import coordinates
+
+    angle_scales, conditioning_record = coordinates(ir, h, conditioning)
     basis = None
     if h["qubits"] > 16:
         from .symmetry import ConservedBasis
@@ -504,6 +553,7 @@ def evaluate(
     energy = cost_values(h, basis_indices)
 
     def run_state(angles):
+        angles = angles * angle_scales
         return (
             execute(ir, h, angles)
             if basis is None
@@ -513,7 +563,7 @@ def evaluate(
     initial = (
         rng.uniform(-np.pi, np.pi, len(ir["parameters"]))
         if initial_angles is None
-        else np.asarray(initial_angles, float)
+        else np.asarray(initial_angles, float) / angle_scales
     )
     calls = 0
     best = initial.copy()
@@ -530,7 +580,7 @@ def evaluate(
         p = abs(run_state(angles)) ** 2
         p /= p.sum()
         sampled = rng.choice(len(p), size=shots, p=p)
-        score = (
+        score = conditioning_record["optimizer_loss_scale"] * (
             float(p @ energy) if exact_expectation else float(energy[sampled].mean())
         )
         if score < value:
@@ -588,7 +638,9 @@ def evaluate(
         "status": "feasible" if index is not None else "unknown",
         "feasible": index is not None,
         "bits": bits[index].tolist() if index is not None else None,
-        "angles": best.tolist(),
+        "angles": (best * angle_scales).tolist(),
+        "optimizer_coordinates": best.tolist(),
+        "optimizer_conditioning": conditioning_record,
         "seed": seed,
         "sampled_support_indices": asset_indices[samples].tolist(),
         "simulation_states": len(basis_indices),

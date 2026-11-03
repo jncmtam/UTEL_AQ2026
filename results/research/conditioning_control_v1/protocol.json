@@ -1,0 +1,45 @@
+{
+  "version": "conditioning-control-v1",
+  "evidence": "docs/research/CONDITIONING_PROTOCOL.md",
+  "scope": "Opened conditional-US development; no model/financial/quantum advantage qualification.",
+  "cases": [
+    [
+      10,
+      3
+    ],
+    [
+      30,
+      6
+    ]
+  ],
+  "seeds": [
+    11,
+    23,
+    37
+  ],
+  "methods": [
+    "raw",
+    "paper_rms",
+    "uniform_total_shots"
+  ],
+  "weight_policies": [
+    "continuous",
+    "equal_weight_target"
+  ],
+  "uniform_draws": 2176,
+  "evaluations": 16,
+  "shots": 128,
+  "allocation_queries": 32,
+  "training_rows": 126,
+  "cutoff": "2010-07-02",
+  "test_rows": 126,
+  "new_inference_calls": 0,
+  "same_financial_objective_and_cost_hamiltonian": true,
+  "workspace": "Clean binary counter; counted in circuit resources, eliminated only from ideal simulation after analytic proof and small-case checks.",
+  "acceptance": {
+    "amplitude_tolerance": 1e-09,
+    "workspace_leakage_tolerance": 1e-09,
+    "max_simulation_states": 2000000
+  },
+  "source_snapshot_manifest_hash": "58baf6bbb9c596ceed164701b01fa1977406736f2d0ea4c6d1366022f1f2046a"
+}

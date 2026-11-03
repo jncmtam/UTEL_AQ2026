@@ -46,6 +46,17 @@ every fixed-cardinality support (plus slack), an analytic conservation certifica
 and the independently crosschecked block executor. Report non-negligible support
 coverage separately from basis size. No large-register full-Qiskit check is claimed.
 
+Counter-Dicke workspace is counted in physical circuit qubits and all primitive
+resources. Ideal simulation removes it only after the trusted construction's clean
+exit; independent amplitude and workspace checks cover small cases. The original
+dense preparation and this counter construction are distinct from the cited
+ancilla-free algorithm.
+
+`paper_rms_v1` records its Eq8 coefficient, loss scale, physical angle scales and
+preprocessing time. Exported angles are physical; optimizer coordinates are stored
+separately. A matched-draw classical sampler is a separate method, not a QAOA
+fallback. Equal-weight and continuous-allocation financial policies stay separate.
+
 ## Reproduction and provenance
 
 Protocols are frozen before runs. SHA256 identifies data, requests, financial

@@ -1,0 +1,28 @@
+{
+  "status": "software_and_registered_controls_completed_research_hypotheses_unqualified",
+  "tests": {
+    "passed": 135,
+    "stdout": "........................................................................ [ 53%]\n...............................................................          [100%]\n135 passed in 4.58s\n"
+  },
+  "static_F_checks": "passed",
+  "replay": "passed",
+  "new_inference_calls": 0,
+  "studies": {
+    "preparation_control_v1": {
+      "rows": 18,
+      "feasible": 18,
+      "source_files_verified": 75
+    },
+    "formulation_identity_v1": {
+      "allocation_queries": 408,
+      "equal_weight_identity_passed": true,
+      "source_files_verified": 77
+    },
+    "conditioning_control_v1": {
+      "rows": 36,
+      "feasible": 36,
+      "source_files_verified": 79
+    }
+  },
+  "interpretation": "No production model, unbiased historical financial benefit or quantum advantage qualified."
+}

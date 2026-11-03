@@ -36,7 +36,7 @@ for the next action. Update this file and the worklog after meaningful changes.
   zero tasks after the bounded probe. Do not relaunch a completed probe by default.
 
 ## Verified current evidence — do not repeat unnecessarily
-- All 120 tests passed; static F checks passed; English UI/API and Chrome
+- All 135 tests passed; static F checks passed; English UI/API and Chrome
   desktop/mobile visual checks completed. Final evidence: ui_qa_v4 (stale synthetic
   evidence is cleared after a blocked market request).
 - delivery_pipeline_v1 completed software stages with explicit market data blockers;
@@ -65,6 +65,19 @@ for the next action. Update this file and the worklog after meaningful changes.
   global optimum unknown. Do not start a larger model sweep to hide these defects.
 - quasar_native_diagnostics_v1: normalization-only unitary diagnostics still fail,
   Bell fidelity .4956 and cost .5163. Frozen probe score remains 1/3. No new GPU job.
+- preparation_control_v1: 18/18 feasible rows. Counter-Dicke gives all 593,775
+  meaningful supports at N30, but costs 33 qubits/1798 CX/depth 2428 (old sparse
+  30/998/445). Counter construction is not the cited ancilla-free algorithm.
+- formulation_identity_v1: 408 allocation queries, equal-weight-target identity
+  passes; continuous proxy allocation regret 3.32%/7.13% in N10 scenarios. Primary
+  continuous task unchanged. Do not tune models to hide this formulation mismatch.
+- conditioning_control_v1: 36/36 feasible rows, published Eq8 RMS coordinates
+  versus raw and matched 2176-draw uniform reference, both weight policies. RMS
+  improves proxy expectation but worsens mean N30 continuous allocated quality;
+  matched-draw classical is stronger. No model/quantum advantage qualified.
+- Latest consolidated control report: results/research/control_summary_v1/FINDINGS.md.
+  Pre-experiment protocols: PREPARATION_PROTOCOL.md, FORMULATION_PROTOCOL.md,
+  CONDITIONING_PROTOCOL.md. Defaults and earlier raw runs are unchanged.
 
 ## Implemented modules (read only the relevant one)
 - finance.py: immutable FinancialSpec; CLARABEL allocator; SCIP full reference;
@@ -73,6 +86,13 @@ for the next action. Update this file and the worklog after meaningful changes.
   NumPy/Qiskit verifier; finite-shot fitting; QASM/QPY/source-map export.
 - symmetry.py: exact fixed-cardinality/slack executor, crosschecked on small cases.
   sources.py archives source bytes/package versions for new published experiments.
+- preparation.py: compiler-owned sequential counter-Dicke preparation, with clean
+  counted workspace; exact amplitudes/cleanup checked for every n1..8/k0..n.
+- conditioning.py: opt-in paper_rms_v1 Eq8 coordinate/loss transform; immutable
+  H/hash retained, physical angles exported. evaluate default remains none.
+- preparation_study.py: preparation and conditioning controls. formulation_study.py:
+  support-by-support financial identity audit. CLI preparation-study,
+  conditioning-study, formulation-audit; all CPU-only.
 - published.py/published_study.py: pinned source decoding and bounded CPU study;
   CLI published-fetch/published-study. Install optional .[published-data].
 - design.py: connected tree exchange grammar, LLM requests, rules/random/mutation.
@@ -95,6 +115,13 @@ for the next action. Update this file and the worklog after meaningful changes.
   asset trees do not prove every inequality-feasible portfolio is reachable.
 - Basis+p=1 can make gamma inactive. Do not claim cost learning in that case.
 - Dicke baseline is dense small synthesis, not the O(kn) cited construction.
+- New counter-Dicke is a different explicit construction, also not that paper's
+  ancilla-free implementation. Its clean workspace is eliminated only in ideal
+  simulation and counted in exported circuits/resources. No full N33 Qiskit check.
+- Paper RMS rescaling changes optimizer geometry, not the financial objective or
+  quantum algorithm; improved proxy expectation does not establish improved F.
+- Current candidate pooling is final samples only. A next frozen study should
+  count/use all observed optimizer shots explicitly and retain matched-draw controls.
 - Gradient baseline is ADAPT-inspired, not a full paper replication; count gradients.
 - Cost compilation is polynomial. Full statevector remains capped at 16 total
   qubits; GateIR v1 remains max12 assets. V2 allows max40 assets with a <=2m-state
@@ -120,6 +147,9 @@ for the next action. Update this file and the worklog after meaningful changes.
   then independently powered frozen model/circuit/financial studies.
 - Current source/proxy/coverage findings and next gates are consolidated in
   docs/research/COMPLETION_REPORT.md. Read that before another model experiment.
+- LLM connected-exchange-v3 still has the old bounded preparation domain. Before
+  any new model comparison, freeze either a revised grammar or common verified
+  preparation/conditioning across all methods. No inference sweep is scheduled.
 - COMPLETION_PROTOCOL.md preregistered this continuation. DATA_RECONCILIATION.md
   explains DIA October-2013 anchors and the UTX/RTX mapping limit. SEC direct access
   returned403; no full source download hash or exact acceptance time invented.

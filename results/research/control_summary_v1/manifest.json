@@ -1,0 +1,10 @@
+{
+  "input_sha256": {
+    "preparation_control_v1/decisions.jsonl": "721cf7e4047be8c698d87b8d72cd7b03adbf6a2bee94d8fd60474fff0fa11f0f",
+    "preparation_control_v1/postrun_control_audit/audit.json": "52df8a6e189d11ee4271d043f4312498e55e572674c0ffeed3edeb79aba1875d",
+    "conditioning_control_v1/decisions.jsonl": "803b2196bd18eca47b674be60311abf3315675578c00c9056fed6dd4a897726b",
+    "formulation_identity_v1/audit.json": "cae7b0f899861c4f7dba7fb775ea8c229bddbdc005995cf8ee1d66e0ce038810"
+  },
+  "script_sha256": "562c8759f8c6c19ea793c5f2cb41bbbd420634b04a56dee782a19cbc1b4b22d6",
+  "new_optimization_or_inference": false
+}

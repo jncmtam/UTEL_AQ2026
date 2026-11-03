@@ -25,6 +25,9 @@ def main():
             "serve",
             "published-fetch",
             "published-study",
+            "preparation-study",
+            "formulation-audit",
+            "conditioning-study",
         ],
     )
     parser.add_argument("--data", default="data/us_equities")
@@ -63,12 +66,24 @@ def main():
         result = fetch(
             "data/published_us" if args.data == "data/us_equities" else args.data
         )
-    elif args.command == "published-study":
-        from .published_study import run as published_run
+    elif args.command in (
+        "published-study",
+        "preparation-study",
+        "formulation-audit",
+        "conditioning-study",
+    ):
+        if args.command == "conditioning-study":
+            from .preparation_study import run_conditioning as published_run
+        elif args.command == "formulation-audit":
+            from .formulation_study import run as published_run
+        elif args.command == "preparation-study":
+            from .preparation_study import run as published_run
+        else:
+            from .published_study import run as published_run
 
         if args.mode != "offline":
             parser.error(
-                "The frozen published development study is CPU-only; no Modal inference is dispatched."
+                "This frozen development command is CPU-only; no Modal inference is dispatched."
             )
         result = published_run(
             args.output,
@@ -147,7 +162,9 @@ def main():
         )
     print(json.dumps(result, indent=2, allow_nan=False))
     return (
-        2 if result.get("status") in ("blocked", "completed_with_data_blockers") else 0
+        2
+        if result.get("status") in ("blocked", "completed_with_data_blockers", "failed")
+        else 0
     )
 
 

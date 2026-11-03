@@ -1,0 +1,7 @@
+{
+  "new_inference_calls": 0,
+  "gpu_seconds": 0,
+  "allocation_queries": 408,
+  "elapsed_seconds": 1.260387249989435,
+  "execution": "classical exact support enumeration and convex allocation"
+}

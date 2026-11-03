@@ -92,3 +92,21 @@ no-trade action, even when that action becomes noncompliant.
 
 `replay` validates the artifact contract and reads a saved report without model
 calls. Use new output directories after changing a frozen protocol.
+
+## Follow-up controls
+
+`preparation-study` compares sparse exchange initialization with a compiler-owned
+sequential counter-Dicke block and classical uniform draws. Workspace is counted
+in QASM/resources even though ideal simulation removes it after proven cleanup.
+`formulation-audit` enumerates small supports for continuous and explicitly
+equal-weight target policies; it does not silently change the primary mandate.
+
+`conditioning-study` compares raw and published Eq8 RMS optimizer coordinates with
+a matched2176-draw classical reference under both financial policies. Numerical
+code retains the canonical Hamiltonian and exports physical gamma angles. Direct
+API calls may opt in using `evaluate(..., conditioning="paper_rms_v1")`; legacy
+defaults are unchanged. All three commands are CPU-only and reject Modal mode.
+
+Read `results/research/control_summary_v1/FINDINGS.md` before a new model run. The
+current three-seed comparisons are descriptive, source-snapshotted development
+evidence. They cannot qualify model superiority or an unbiased investment strategy.

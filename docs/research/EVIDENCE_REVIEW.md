@@ -97,6 +97,18 @@ single ordered exchange sweep, nor better financial outcomes on our corpus.
 The measured contrary evidence and next gate are in
 [COMPLETION_REPORT.md](COMPLETION_REPORT.md).
 
+### Weighted parameter setting
+
+[Sureshbabu et al., Quantum 8, 1231 (2024)](https://quantum-journal.org/papers/q-2024-01-18-1231/)
+provides a general-objective RMS rule in [Eq8](https://arxiv.org/html/2305.15201v3#S3.SS2).
+Its portfolio section uses 280 random instances, 7–20 qubits, Dicke/XY and a different
+mean-variance objective. The reported average 7.4× optimizer-iteration reduction
+motivates a scaling control, not an AGQO acceptance threshold or expected speedup.
+Our implementation uses equivalent optimizer coordinates while keeping canonical
+financial coefficients fixed. Conditioning cannot remove selection/allocation
+mismatch. PREPARATION_PROTOCOL.md, FORMULATION_PROTOCOL.md and
+CONDITIONING_PROTOCOL.md precede the corresponding implementations/runs.
+
 ### Artifact identity check (no weights loaded)
 
 Hugging Face's public model metadata API was queried on 2026-11-02:
