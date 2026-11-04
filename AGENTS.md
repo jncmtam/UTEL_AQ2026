@@ -16,7 +16,8 @@ for the next action. Update this file and the worklog after meaningful changes.
   until source review is complete. Synthetic data validates software only.
 - Modal usage is authorized under config/synthesis-expanded-budget.json (USD150
   reservation ceiling per experiment, not an account balance). Sequential bounded
-  GPU jobs; no speculative escalation to 397B/480B. No new paid job is scheduled.
+  GPU jobs; no speculative escalation to 397B/480B. Latest user explicitly authorized
+  the bounded integration deployment/run in MODAL_E2E_PROTOCOL.md; no model sweep.
 - Active code/docs/UI/reports are English. Raw historical evidence and archived
   compatibility material are preserved. Chat with the user may be Vietnamese.
 
@@ -36,7 +37,17 @@ for the next action. Update this file and the worklog after meaningful changes.
   zero tasks after the bounded probe. Do not relaunch a completed probe by default.
 
 ## Verified current evidence — do not repeat unnecessarily
-- Latest continuation:146 tests pass; historical_audit_v3 snapshots its actual source.
+- Connected Modal integration completed under results/research/modal_e2e_v1.
+  New app agqo-research-pipeline runs CPU preparation/verification/evaluation;
+  existing coder30 worker completed one three-request A10080GB GPU batch.150 local tests passed.
+  See docs/MODAL_RUNBOOK.md and MODAL_E2E_PROTOCOL.md. Common-counter grammar is opt-in;
+  allocation-aware F feedback pools all shots while immutable COST still represents B.
+  3/3 model designs verified,24/24 synthetic decisions feasible; all methods tied
+  the small reference objective and LLM circuits cost more CX.388 files hash-checked,
+  9 QPY/QASM exports independently crosschecked.USD2.33255 reserved, not billed cost.
+  All apps idle; completed rerun guard checked. No new GPU job scheduled.
+  Do not relaunch completed cloud stages or modify code under a prepared run hash.
+- Previous audit checkpoint:146 tests pass; historical_audit_v3 snapshots its actual source.
   Available source hygiene:29/30 stocks+DIA,3520 rows/file,0 missing internal sessions
   or bad numeric price/volume rows.1726 dividend records,17 provider split labels,
   1725 cash checks,0 residual flags;11 non-integer labels across7 stocks need review.

@@ -4,6 +4,11 @@ Updated: 2026-11-04, Asia/Ho_Chi_Minh.
 
 ## Delivered
 
+- Connected live Modal run completed:3/3 Coder30 designs passed verification,
+  24/24 synthetic decisions feasible,9 exports independently checked and388 cloud
+  files hash-verified. All methods tied the small reference objective; LLM circuits
+  used more CX.150 tests pass; all apps idle. See the [Modal results](results/research/modal_e2e_v1/RESULTS.md).
+
 - Available-source historical audit v3 with source snapshots: 29/30 cohort stocks
   plus DIA, 3,520 observations per available file, zero missing internal sessions
   or invalid numerical price/volume rows. Eleven provider split labels need review.
@@ -15,7 +20,7 @@ Updated: 2026-11-04, Asia/Ho_Chi_Minh.
   prerequisites. Actual readiness is blocked; no final strategy outcomes opened.
 - English README, maintained root guides, compatibility repair UI/report/errors,
   language scan, eight source-backed PNG/SVG charts and a filterable offline gallery.
-- **146 tests pass**, targeted static checks pass, compatibility JavaScript parses.
+- Previous audit checkpoint: **146 tests passed**, targeted static checks passed, compatibility JavaScript parsed.
   Browser checks verified gallery filters, responsive overflow and English mandate/
   conflict diagnosis; original raw evidence and prior negative results are preserved.
 

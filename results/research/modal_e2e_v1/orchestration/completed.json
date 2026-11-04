@@ -1,0 +1,19 @@
+{
+  "status": "completed_with_data_blockers",
+  "output": "/runs/modal_e2e_v1/evaluation",
+  "artifacts": [
+    "protocol.json",
+    "dataset_manifest.json",
+    "decisions.jsonl",
+    "circuits",
+    "metrics.csv",
+    "cost_report.json",
+    "RESULTS.md",
+    "PROGRESS.md"
+  ],
+  "reason": "Live model designs evaluated: 3/3. Synthetic cloud integration only; historical market admission remains blocked. COST is B; sampled optimizer feedback is allocated F. No model/financial/quantum advantage qualified.",
+  "live_model_circuits_accepted": 3,
+  "model_proposals": 3,
+  "decisions": 24,
+  "answers_hash": "b5a6785a22d1e45fb5467dc62682cf5768c340a44dc187368ba388b56584b6a2"
+}

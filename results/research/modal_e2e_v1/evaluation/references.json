@@ -1,0 +1,406 @@
+{
+  "n6_base": {
+    "exact_support_allocation": {
+      "status": "optimal",
+      "feasible": true,
+      "support": [
+        1,
+        1,
+        0,
+        1,
+        0,
+        0
+      ],
+      "weights": [
+        0.317992545807668,
+        0.2145007031239763,
+        0.0,
+        0.4675067510666269,
+        0.0,
+        0.0
+      ],
+      "violations": {},
+      "objective": 1.2129620631135465e-05,
+      "tracking_mse": 7.454553120460552e-06,
+      "tracking_rmse": 0.0027303027525277398,
+      "tracking_error_per_period": 0.002735419940860849,
+      "one_way_turnover": 0.4675067510683557,
+      "two_way_turnover": 0.9350135021367114,
+      "transaction_cost": 0.0004675067510674913,
+      "number_of_trades": 4,
+      "elapsed_seconds": 0.018629591999999917,
+      "solver": "CLARABEL",
+      "selection_proxy_objective": 2.9526234432853702e-05,
+      "support_changed": false
+    },
+    "exhaustive_queries": 20,
+    "joint_scip": {
+      "status": "optimal",
+      "solver_status": "optimal",
+      "method": "joint_scip",
+      "lower_bound": 1.2128814713619322e-05,
+      "elapsed_seconds": 0.22124608000000023,
+      "feasible": true,
+      "allocation": {
+        "status": "optimal",
+        "feasible": true,
+        "support": [
+          1,
+          1,
+          0,
+          1,
+          0,
+          0
+        ],
+        "weights": [
+          0.317992545807668,
+          0.2145007031239763,
+          0.0,
+          0.4675067510666269,
+          0.0,
+          0.0
+        ],
+        "violations": {},
+        "objective": 1.2129620631135465e-05,
+        "tracking_mse": 7.454553120460552e-06,
+        "tracking_rmse": 0.0027303027525277398,
+        "tracking_error_per_period": 0.002735419940860849,
+        "one_way_turnover": 0.4675067510683557,
+        "two_way_turnover": 0.9350135021367114,
+        "transaction_cost": 0.0004675067510674913,
+        "number_of_trades": 4,
+        "elapsed_seconds": 0.010551597999999274,
+        "solver": "CLARABEL",
+        "selection_proxy_objective": 2.9526234432853702e-05,
+        "support_changed": false
+      },
+      "bits": [
+        1,
+        1,
+        0,
+        1,
+        0,
+        0
+      ]
+    },
+    "allocation_swap": {
+      "status": "feasible",
+      "feasible": true,
+      "support": [
+        1,
+        1,
+        0,
+        1,
+        0,
+        0
+      ],
+      "weights": [
+        0.317992545807668,
+        0.2145007031239763,
+        0.0,
+        0.4675067510666269,
+        0.0,
+        0.0
+      ],
+      "violations": {},
+      "objective": 1.2129620631135465e-05,
+      "tracking_mse": 7.454553120460552e-06,
+      "tracking_rmse": 0.0027303027525277398,
+      "tracking_error_per_period": 0.002735419940860849,
+      "one_way_turnover": 0.4675067510683557,
+      "two_way_turnover": 0.9350135021367114,
+      "transaction_cost": 0.0004675067510674913,
+      "number_of_trades": 4,
+      "elapsed_seconds": 0.08679999800000004,
+      "solver": "CLARABEL",
+      "selection_proxy_objective": 2.9526234432853702e-05,
+      "support_changed": false,
+      "allocation_status": "optimal",
+      "optimality_scope": "Continuous weights conditional on a tested support; no global support certificate.",
+      "method": "allocation_swap",
+      "support_evaluations": 10,
+      "fallback_used": false
+    },
+    "infeasible_control": {
+      "status": "infeasible",
+      "reasons": [
+        "A security is both required and excluded."
+      ],
+      "mandatory_exit_turnover_lower_bound": 0.3333333333333333
+    }
+  },
+  "n6_exit": {
+    "exact_support_allocation": {
+      "status": "optimal",
+      "feasible": true,
+      "support": [
+        0,
+        0,
+        1,
+        0,
+        1,
+        1
+      ],
+      "weights": [
+        0.0,
+        0.0,
+        0.2616045537786539,
+        0.0,
+        0.2383954462685169,
+        0.49999999995292876
+      ],
+      "violations": {},
+      "objective": 1.753910985984217e-05,
+      "tracking_mse": 1.0155155397628332e-05,
+      "tracking_rmse": 0.0031867154560186782,
+      "tracking_error_per_period": 0.0031928112684637276,
+      "one_way_turnover": 0.7383954462214456,
+      "two_way_turnover": 1.4767908924428912,
+      "transaction_cost": 0.0007383954462213959,
+      "number_of_trades": 5,
+      "elapsed_seconds": 0.0093938050000002,
+      "solver": "CLARABEL",
+      "selection_proxy_objective": 3.285956776618698e-05,
+      "support_changed": false
+    },
+    "exhaustive_queries": 20,
+    "joint_scip": {
+      "status": "optimal",
+      "solver_status": "optimal",
+      "method": "joint_scip",
+      "lower_bound": 1.7538863820139795e-05,
+      "elapsed_seconds": 0.1936489880000014,
+      "feasible": true,
+      "allocation": {
+        "status": "optimal",
+        "feasible": true,
+        "support": [
+          0,
+          0,
+          1,
+          0,
+          1,
+          1
+        ],
+        "weights": [
+          0.0,
+          0.0,
+          0.2616045537786539,
+          0.0,
+          0.2383954462685169,
+          0.49999999995292876
+        ],
+        "violations": {},
+        "objective": 1.753910985984217e-05,
+        "tracking_mse": 1.0155155397628332e-05,
+        "tracking_rmse": 0.0031867154560186782,
+        "tracking_error_per_period": 0.0031928112684637276,
+        "one_way_turnover": 0.7383954462214456,
+        "two_way_turnover": 1.4767908924428912,
+        "transaction_cost": 0.0007383954462213959,
+        "number_of_trades": 5,
+        "elapsed_seconds": 0.009619509000000193,
+        "solver": "CLARABEL",
+        "selection_proxy_objective": 3.285956776618698e-05,
+        "support_changed": false
+      },
+      "bits": [
+        0,
+        0,
+        1,
+        0,
+        1,
+        1
+      ]
+    },
+    "allocation_swap": {
+      "status": "feasible",
+      "feasible": true,
+      "support": [
+        0,
+        0,
+        1,
+        0,
+        1,
+        1
+      ],
+      "weights": [
+        0.0,
+        0.0,
+        0.2616045537786539,
+        0.0,
+        0.2383954462685169,
+        0.49999999995292876
+      ],
+      "violations": {},
+      "objective": 1.753910985984217e-05,
+      "tracking_mse": 1.0155155397628332e-05,
+      "tracking_rmse": 0.0031867154560186782,
+      "tracking_error_per_period": 0.0031928112684637276,
+      "one_way_turnover": 0.7383954462214456,
+      "two_way_turnover": 1.4767908924428912,
+      "transaction_cost": 0.0007383954462213959,
+      "number_of_trades": 5,
+      "elapsed_seconds": 0.09091173300000044,
+      "solver": "CLARABEL",
+      "selection_proxy_objective": 3.285956776618698e-05,
+      "support_changed": false,
+      "allocation_status": "optimal",
+      "optimality_scope": "Continuous weights conditional on a tested support; no global support certificate.",
+      "method": "allocation_swap",
+      "support_evaluations": 17,
+      "fallback_used": false
+    },
+    "infeasible_control": {
+      "status": "infeasible",
+      "reasons": [
+        "A security is both required and excluded."
+      ],
+      "mandatory_exit_turnover_lower_bound": 0.3333333333333333
+    }
+  },
+  "n8_base": {
+    "exact_support_allocation": {
+      "status": "optimal",
+      "feasible": true,
+      "support": [
+        1,
+        1,
+        1,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "weights": [
+        0.18618861244881288,
+        0.25390218032663525,
+        0.24999999998150474,
+        0.0,
+        0.3099092072440114,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "violations": {},
+      "objective": 7.2657901348423005e-06,
+      "tracking_mse": 4.1276762591406564e-06,
+      "tracking_rmse": 0.0020316683437856327,
+      "tracking_error_per_period": 0.002035658820017146,
+      "one_way_turnover": 0.3138113875706466,
+      "two_way_turnover": 0.6276227751412932,
+      "transaction_cost": 0.00031381138757016454,
+      "number_of_trades": 4,
+      "elapsed_seconds": 0.011060024000000723,
+      "solver": "CLARABEL",
+      "selection_proxy_objective": 1.1637153819582506e-05,
+      "support_changed": false
+    },
+    "exhaustive_queries": 70,
+    "joint_scip": {
+      "status": "optimal",
+      "solver_status": "optimal",
+      "method": "joint_scip",
+      "lower_bound": 7.2651928224237815e-06,
+      "elapsed_seconds": 0.34947814699999924,
+      "feasible": true,
+      "allocation": {
+        "status": "optimal",
+        "feasible": true,
+        "support": [
+          1,
+          1,
+          1,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "weights": [
+          0.18618861244881288,
+          0.25390218032663525,
+          0.24999999998150474,
+          0.0,
+          0.3099092072440114,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "violations": {},
+        "objective": 7.2657901348423005e-06,
+        "tracking_mse": 4.1276762591406564e-06,
+        "tracking_rmse": 0.0020316683437856327,
+        "tracking_error_per_period": 0.002035658820017146,
+        "one_way_turnover": 0.3138113875706466,
+        "two_way_turnover": 0.6276227751412932,
+        "transaction_cost": 0.00031381138757016454,
+        "number_of_trades": 4,
+        "elapsed_seconds": 0.023261439999998856,
+        "solver": "CLARABEL",
+        "selection_proxy_objective": 1.1637153819582506e-05,
+        "support_changed": false
+      },
+      "bits": [
+        1,
+        1,
+        1,
+        0,
+        1,
+        0,
+        0,
+        0
+      ]
+    },
+    "allocation_swap": {
+      "status": "feasible",
+      "feasible": true,
+      "support": [
+        1,
+        1,
+        1,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "weights": [
+        0.18618861244881288,
+        0.25390218032663525,
+        0.24999999998150474,
+        0.0,
+        0.3099092072440114,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "violations": {},
+      "objective": 7.2657901348423005e-06,
+      "tracking_mse": 4.1276762591406564e-06,
+      "tracking_rmse": 0.0020316683437856327,
+      "tracking_error_per_period": 0.002035658820017146,
+      "one_way_turnover": 0.3138113875706466,
+      "two_way_turnover": 0.6276227751412932,
+      "transaction_cost": 0.00031381138757016454,
+      "number_of_trades": 4,
+      "elapsed_seconds": 0.16081823100000037,
+      "solver": "CLARABEL",
+      "selection_proxy_objective": 1.1637153819582506e-05,
+      "support_changed": false,
+      "allocation_status": "optimal",
+      "optimality_scope": "Continuous weights conditional on a tested support; no global support certificate.",
+      "method": "allocation_swap",
+      "support_evaluations": 17,
+      "fallback_used": false
+    },
+    "infeasible_control": {
+      "status": "infeasible",
+      "reasons": [
+        "A security is both required and excluded."
+      ],
+      "mandatory_exit_turnover_lower_bound": 0.25
+    }
+  }
+}

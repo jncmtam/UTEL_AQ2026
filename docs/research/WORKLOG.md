@@ -470,3 +470,52 @@ reviewable commit on the same branch.
 - Documentation checks for this memo passed:77-file maintained-language scan,
   updated local links, README image/caption validation and whitespace checks.
   No executable code changed, so the full software suite was not rerun.
+
+## 2026-11-04 — user-authorized connected Modal integration
+
+- User explicitly requested deployment and execution of the whole pipeline.
+  Wrote MODAL_E2E_PROTOCOL.md before code/live execution, distinguishing bounded
+  integration from model selection, independent financial testing and size escalation.
+- Added opt-in common-counter grammar; legacy grammar defaults remain unchanged.
+  Added finite sampled allocation-aware F fitting with all optimizer/final samples,
+  per-run allocation cache and explicit failure penalty under a physical loss bound.
+  COST remains B; classical F feedback and every allocation are separately counted.
+- Added private agqo-research-pipeline CPU Functions/results Volume and a local
+  budgeted/checkpointed dispatcher using the existing pinned coder30 GPU worker.
+  All source packages are pinned. Raw market files are not uploaded; the market
+  gate remains blocked and remote missing-file findings have manifest-only scope.
+- Four new targeted tests passed; full suite150 tests passed, F checks passed.
+  Modal deployment completed. Cloud preparation completed software stages with
+  explicit data blockers and returned three hashed synthetic requests. CPU model
+  weight prefetch began; inference/evaluation outcomes were not yet available here.
+- Budget reservations are not bills. Deployment image-build spending is not isolated;
+  retained an account-level snapshot during the build rather than inventing its cost.
+- Connected execution completed: prepare CPU, cached-weight prefetch CPU, one
+  Coder30 A10080GB GPU batch and finish CPU. GPU worker vLLM0.15.0 reported128.92s
+  including model setup;3/3 responses stopped normally and verified without repair.
+  Input21,524/output855 tokens. All workers idle at the recorded post-run check.
+- Cloud evaluation produced24/24 feasible synthetic decisions and6,144 sampled
+  observations. All four methods reached the same enumerated allocated objective
+  on each small case. LLM proposals all chose path-shaped trees/depth2; their
+  CX counts194/175/422 exceed fixed/rules130/115/320. Integration is supported;
+  model superiority, data-causal adaptation and financial advantage are not.
+- Downloaded388 files and checked every checksum. Independent post-run audit
+  recomputed24 financial objectives (max residual1.22e-19), verified fee/NAV balances
+  and compared9 exported QPY/QASM circuits with NumPy evolution and clean workspace.
+  All fidelities passed1-1e-9. Raw cloud artifacts were preserved. Derived top-level
+  RESULTS.md fixes readability of the generic raw measurement table's unused columns.
+- Reservations totalUSD2.33255, not an invoice. Monthly metered account snapshots
+  moved1.29907095→1.53908568USD; the delta is not an isolated final job charge.
+  Image-build cost is not separately allocated. Raw billing/dispatch/runtime receipts
+  and an account-level during-build snapshot are retained.
+- Completed-run replay guard returned without billing or dispatch. A status-query
+  attempt exposed the SDK's lazy FunctionCall.object_id hydration behavior; fixed
+  the local resume logger to use its saved call ID before hydration. No paid retry
+  was used. The initial status query error did not affect the running model batch.
+- Inspected both generated plots. Updated README, runbook, status and AGENTS with
+  measured outcomes and explicit synthetic/market, state-matched/trajectory and
+  proxy-Hamiltonian/allocated-feedback distinctions. No follow-up GPU job scheduled.
+- Post-run review notes the uniform integration sampler draws all K-of-N supports,
+  while the compiler fixes excluded bits. No exit-feasibility quantum benefit is
+  inferred; a future frozen study needs a uniform control conditioned on those same
+  bits. Added this caveat to the derived report without changing raw results.

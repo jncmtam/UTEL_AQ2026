@@ -1,0 +1,19 @@
+{
+  "checked_utc": "2026-11-03T18:05:07.875681+00:00",
+  "metered_cost": 1.29907095,
+  "billed_cost": 0.0,
+  "adjustments": {
+    "Reservation Adjustment": "-0E-8",
+    "Network Egress Allowance": "-0.01650851",
+    "Free Storage": "-0.55256244",
+    "Plan Cost": "0E-8",
+    "Credits": "-0.73000000"
+  },
+  "rates": {
+    "cpu_hour_cost": 0.0473,
+    "gpu_hour_cost_h200": 4.54,
+    "mem_gib_hour_cost": 0.008,
+    "gpu_hour_cost_a100_80gb": 2.5
+  },
+  "allowance_basis": "API exposes metered/billed costs, not a standalone available-credit balance. Enforce the selected authorization policy separately."
+}

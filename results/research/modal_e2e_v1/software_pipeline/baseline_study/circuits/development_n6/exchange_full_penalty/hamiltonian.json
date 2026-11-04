@@ -1,0 +1,222 @@
+{
+  "version": "hamiltonian-ir-v3",
+  "problem_hash": "f2378b73a01b586e9b03273e503ebf3cb2b1844eda0a62d52f23213710ebdd05",
+  "asset_qubits": 6,
+  "qubits": 8,
+  "linear_z": [
+    -1.9985800485155276,
+    -1.9985800485155274,
+    -1.9985800485155272,
+    -0.0014199514844724925,
+    -0.0014199514844726036,
+    -0.0014199514844719374,
+    -2.0,
+    -4.0
+  ],
+  "quadratic_zz": [
+    {
+      "qubits": [
+        0,
+        1
+      ],
+      "coefficient": 2.0061980828121975
+    },
+    {
+      "qubits": [
+        0,
+        2
+      ],
+      "coefficient": 1.9937836104038746
+    },
+    {
+      "qubits": [
+        0,
+        3
+      ],
+      "coefficient": 0.9951355104600784
+    },
+    {
+      "qubits": [
+        0,
+        4
+      ],
+      "coefficient": 1.013524326535128
+    },
+    {
+      "qubits": [
+        0,
+        5
+      ],
+      "coefficient": 1.0261770448577034
+    },
+    {
+      "qubits": [
+        0,
+        6
+      ],
+      "coefficient": 1.0
+    },
+    {
+      "qubits": [
+        0,
+        7
+      ],
+      "coefficient": 2.0
+    },
+    {
+      "qubits": [
+        1,
+        2
+      ],
+      "coefficient": 1.9727218469814987
+    },
+    {
+      "qubits": [
+        1,
+        3
+      ],
+      "coefficient": 0.9910790911783873
+    },
+    {
+      "qubits": [
+        1,
+        4
+      ],
+      "coefficient": 0.9948309023049662
+    },
+    {
+      "qubits": [
+        1,
+        5
+      ],
+      "coefficient": 1.0396949438970922
+    },
+    {
+      "qubits": [
+        1,
+        6
+      ],
+      "coefficient": 1.0
+    },
+    {
+      "qubits": [
+        1,
+        7
+      ],
+      "coefficient": 2.0
+    },
+    {
+      "qubits": [
+        2,
+        3
+      ],
+      "coefficient": 1.0030555723959154
+    },
+    {
+      "qubits": [
+        2,
+        4
+      ],
+      "coefficient": 1.0002519225642197
+    },
+    {
+      "qubits": [
+        2,
+        5
+      ],
+      "coefficient": 0.9851306725017414
+    },
+    {
+      "qubits": [
+        2,
+        6
+      ],
+      "coefficient": 1.0
+    },
+    {
+      "qubits": [
+        2,
+        7
+      ],
+      "coefficient": 2.0
+    },
+    {
+      "qubits": [
+        3,
+        4
+      ],
+      "coefficient": 0.9995351963617692
+    },
+    {
+      "qubits": [
+        3,
+        5
+      ],
+      "coefficient": 0.9937305353691908
+    },
+    {
+      "qubits": [
+        4,
+        5
+      ],
+      "coefficient": 1.0048378722440392
+    },
+    {
+      "qubits": [
+        6,
+        7
+      ],
+      "coefficient": 2.0
+    }
+  ],
+  "constant": 9.107571714811996,
+  "objective_scale": 0.0005868745111689026,
+  "penalty": 2.0,
+  "penalty_proof": "Integer residual squared >=1; penalty 2 exceeds normalized objective range bound 1.",
+  "equalities": [
+    {
+      "label": "cardinality",
+      "coefficients": {
+        "0": 1,
+        "1": 1,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "target": 3
+    },
+    {
+      "label": "sector_count:Sector_A",
+      "coefficients": {
+        "0": 1,
+        "1": 1,
+        "2": 1,
+        "6": 1,
+        "7": 2
+      },
+      "target": 2
+    }
+  ],
+  "slack": [
+    {
+      "qubit": 6,
+      "weight": 1,
+      "constraint": "sector_count:Sector_A"
+    },
+    {
+      "qubit": 7,
+      "weight": 2,
+      "constraint": "sector_count:Sector_A"
+    }
+  ],
+  "bit_order": "asset_i_is_bit_i_little_endian_then_slack",
+  "phase": "exp(-i*gamma*H)",
+  "post_allocation_constraints": [
+    "sector_weight_caps",
+    "position_bounds",
+    "one_way_turnover"
+  ],
+  "construction": "direct_quadratic_coefficients_no_truth_table",
+  "hamiltonian_hash": "095d9d7df841dcdcb2b8b3605770a8aac7386e59f6a9e265e3e10caac4b2a63b"
+}

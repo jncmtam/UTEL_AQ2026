@@ -1,0 +1,22 @@
+{
+  "version": "trajectory-v2",
+  "decision_semantics": "Common 32-query sample allocation; heuristic success is feasible, never a global optimality certificate.",
+  "source": "synthetic",
+  "methods": [
+    "hold",
+    "joint_scip",
+    "allocation_swap",
+    "qaoa_fixed",
+    "qaoa_rules"
+  ],
+  "periods": 2,
+  "lookback": 252,
+  "interval": 21,
+  "execution_lag_sessions": 1,
+  "evaluations": 12,
+  "shots": 128,
+  "k": 3,
+  "initial_account": "equal_weight_first_3",
+  "mandate_change": "exclude_first_security_from_second_decision_persistently",
+  "evidence": "docs/research/IMPLEMENTATION_PROTOCOL.md"
+}

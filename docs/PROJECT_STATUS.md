@@ -4,6 +4,12 @@ Updated: 2026-11-04. Scope: maintained US-equity research application.
 
 ## Latest delivery
 
+- Connected Modal deployment/run completed:3/3 live Coder30 proposals verified,
+  24/24 synthetic decisions feasible;9 QPY/QASM exports independently compared
+  against NumPy evolution.388 downloaded files verified. All methods tied the
+  small reference objective; LLM circuits used more CX.USD2.33255 reserved, not
+  invoiced cost; all apps idle.150 tests pass. Read the measured Modal report.
+
 - Historical hygiene audit v3: 29/30 stocks plus DIA, 3,520 rows per available
   file, no missing internal sessions or invalid numerical price/volume rows.
   Eleven provider split labels require independent classification; complete
@@ -17,7 +23,7 @@ Updated: 2026-11-04. Scope: maintained US-equity research application.
   diagrams explain measured findings and planned thresholds separately.
 - Maintained root guides and the compatibility repair UI/report/errors are English;
   original entry documents and historical evidence are archived unchanged.
-- **146 tests pass**; targeted static and JavaScript syntax checks pass.
+- **150 tests pass**; targeted static and JavaScript syntax checks pass.
 
 Read [qualification status](research/QUALIFICATION_STATUS.md) and
 [the visual gallery](../results/research/evidence_gallery_v1/GALLERY.md).

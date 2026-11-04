@@ -1,0 +1,63 @@
+{
+  "downloaded_files_verified": 388,
+  "financial_decisions_verified": 24,
+  "maximum_direct_financial_objective_residual": 1.2197274440461925e-19,
+  "exported_circuits_verified": [
+    {
+      "circuit": "evaluation/circuits/n6_base/coder30",
+      "qpy_numpy_fidelity": 0.9999999999999951,
+      "qasm_qpy_fidelity": 0.9999999999999933,
+      "workspace_leakage": 3.1086244689504383e-15
+    },
+    {
+      "circuit": "evaluation/circuits/n6_base/fixed",
+      "qpy_numpy_fidelity": 0.9999999999999976,
+      "qasm_qpy_fidelity": 0.999999999999996,
+      "workspace_leakage": 1.887379141862766e-15
+    },
+    {
+      "circuit": "evaluation/circuits/n6_base/rules",
+      "qpy_numpy_fidelity": 0.9999999999999976,
+      "qasm_qpy_fidelity": 0.9999999999999958,
+      "workspace_leakage": 2.1094237467877974e-15
+    },
+    {
+      "circuit": "evaluation/circuits/n6_exit/coder30",
+      "qpy_numpy_fidelity": 0.9999999999999982,
+      "qasm_qpy_fidelity": 0.9999999999999987,
+      "workspace_leakage": 8.881784197001252e-16
+    },
+    {
+      "circuit": "evaluation/circuits/n6_exit/fixed",
+      "qpy_numpy_fidelity": 0.9999999999999991,
+      "qasm_qpy_fidelity": 0.9999999999999987,
+      "workspace_leakage": 4.440892098500626e-16
+    },
+    {
+      "circuit": "evaluation/circuits/n6_exit/rules",
+      "qpy_numpy_fidelity": 0.9999999999999993,
+      "qasm_qpy_fidelity": 0.9999999999999991,
+      "workspace_leakage": 4.440892098500626e-16
+    },
+    {
+      "circuit": "evaluation/circuits/n8_base/coder30",
+      "qpy_numpy_fidelity": 0.999999999999992,
+      "qasm_qpy_fidelity": 0.9999999999999851,
+      "workspace_leakage": 6.661338147750939e-15
+    },
+    {
+      "circuit": "evaluation/circuits/n8_base/fixed",
+      "qpy_numpy_fidelity": 0.9999999999999933,
+      "qasm_qpy_fidelity": 0.9999999999999876,
+      "workspace_leakage": 5.329070518200751e-15
+    },
+    {
+      "circuit": "evaluation/circuits/n8_base/rules",
+      "qpy_numpy_fidelity": 0.9999999999999933,
+      "qasm_qpy_fidelity": 0.9999999999999876,
+      "workspace_leakage": 5.440092820663267e-15
+    }
+  ],
+  "raw_cloud_artifacts_preserved": true,
+  "new_inference_or_optimizer_runs": 0
+}

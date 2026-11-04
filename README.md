@@ -16,6 +16,23 @@ an unfaithful objective.
 [Visual evidence](results/research/evidence_gallery_v1/GALLERY.md) ·
 [User guide](docs/USER_GUIDE.md) · [Progress](PROGRESS.md) · [Agent handoff](AGENTS.md)
 
+## Latest live Modal run
+
+The connected cloud pipeline completed: **3/3 live Qwen Coder30 designs verified**,
+**24/24 synthetic allocation decisions feasible**, and **9 exported QPY/QASM
+circuits independently crosschecked** after download. Modal used an A100 80GB for
+LLM inference and cloud CPU for simulation, allocation and accounting. All workers
+were idle at the recorded post-run check.
+
+All four methods reached the same small-case reference objective. LLM designs used
+more CX gates, so this run establishes integration rather than an improvement in
+quality/resources. The conservative reservation was USD2.33255; it is not an invoice.
+Historical admission and production-model/financial qualification remain open.
+
+Read the [measured results and charts](results/research/modal_e2e_v1/RESULTS.md),
+[Modal runbook](docs/MODAL_RUNBOOK.md) and
+[frozen integration protocol](docs/research/MODAL_E2E_PROTOCOL.md).
+
 ## What was done
 
 | Work | Delivered | What the result establishes |
@@ -28,7 +45,7 @@ an unfaithful objective.
 | Independent-test protection | Exact reliability intervals and hash-bound final-test lock prerequisites | Actual readiness is blocked; final strategy outcomes were not opened by this work |
 | English delivery | English maintained workflow, root guides, status, README and visual gallery | Historical originals and raw evidence are preserved, with English reading paths |
 
-The software suite currently contains **146 passing tests**. See the worklog for
+The software suite currently contains **150 passing tests**. See the worklog for
 recorded checks and the [qualification status](docs/research/QUALIFICATION_STATUS.md)
 for the substantive limitations.
 
@@ -111,11 +128,14 @@ verification decides suitability for this particular gate grammar and financial 
 
 ![Model readiness](results/research/evidence_gallery_v1/model-readiness.png)
 
-**Figure 3. Model qualification stages.** Source: tokenizer_preflight_v1 and the earlier QUASAR probe. All three passed pinned CPU tokenizer/chat rendering on Modal. No model weights or
-GPU inference were requested. Total CPU reservation was **USD 0.079125**, not a bill.
+**Figure 3. Earlier model preflight checkpoint.** Source: tokenizer_preflight_v1 and the earlier QUASAR probe. All three passed pinned CPU tokenizer/chat rendering on Modal. No model weights or
+GPU inference were requested in that preflight. Total CPU reservation was **USD 0.079125**, not a bill.
 Mistral's registry now matches the pinned checkpoint's HF weight layout. Its full
 GPU load and gate generation remain untested. The existing QUASAR interface probe
 accepted 1/3 tasks; failures remain in the denominator. No production model is selected.
+The subsequent connected Coder30 GPU run accepted 3/3 designs on small synthetic
+cases; see the latest run above. That integration result does not qualify a model
+on the independent correctness distribution or demonstrate financial value.
 
 The confirmation protocol requires **72 independent cases and 72 first-pass successes**
 to place a two-sided exact 95% reliability lower bound above 95%. This threshold is
@@ -227,6 +247,17 @@ launch inference. Read saved artifacts without charges using `replay`.
 .venv/bin/python -m agqo.research replay --output results/research/my_demo
 .venv/bin/python -m agqo.research trajectory --source market --output results/research/my_market
 ```
+
+The private Modal deployment and bounded dispatcher are reproducible with:
+
+```bash
+.venv/bin/modal deploy modal_research_pipeline.py
+.venv/bin/python scripts/run_modal_pipeline.py --run-id modal_e2e_v1
+```
+
+The completed run ID returns without scheduling compute. New live experiments
+require a new frozen protocol and run ID; see the runbook for source/hash checks,
+resource reservations and explicit failure handling.
 
 The gallery is available at http://127.0.0.1:8766/ when served. It filters evidence
 by Data, Models, Finance and Quantum; clicking a chart opens the vector original.

@@ -63,12 +63,20 @@ No new liquidation or universe policy has been silently introduced to avoid this
 
 ## LLM shortlist and actual runtime evidence
 
+**Subsequent integration checkpoint:** the connected [Modal run](../../results/research/modal_e2e_v1/RESULTS.md)
+completed one live Coder30 A10080GB batch:3/3 designs verified,24/24 synthetic
+decisions feasible and9 exported circuits independently crosschecked. Controls
+and LLM reached the same small reference objectives; LLM designs used more CX.
+This supersedes the earlier Coder30 "tokenizer only" runtime state below for that
+one integration scope. Mistral generation remains unrun, and no production model,
+independent financial benefit or quantum advantage is qualified.
+
 The shortlist retains the general coding control, framework specialist and quantum
 specialist from the [evidence review](EVIDENCE_REVIEW.md). It is not a model ranking.
 
 | Candidate | Pinned revision | New result | Qualification |
 |---|---|---|---|
-| Qwen3-Coder-30B-A3B-Instruct | `b2cff646eb4bb1d68355c01b18ae02e7cf42d120` | CPU tokenizer/chat rendering passed | Unqualified; older pilots exploratory |
+| Qwen3-Coder-30B-A3B-Instruct | `b2cff646eb4bb1d68355c01b18ae02e7cf42d120` | CPU pass; subsequent live integration 3/3 verified | Integration verified; production unqualified |
 | Qiskit Mistral Small 3.2 24B | `0c541958022de04bd7c200b14a4b7a58977ae751` | CPU tokenizer/chat rendering passed | Generation unrun |
 | QUASAR / rl_quantum_4b | `b9581279345436e2b7eadcdf80e4f1417748eb8b` | CPU tokenizer/chat rendering passed | Prior interface probe accepted 1/3 tasks |
 

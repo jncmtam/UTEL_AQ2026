@@ -1,0 +1,10 @@
+{
+  "version": "implementation-pipeline-v1.1",
+  "mode": "offline",
+  "periods": 2,
+  "data_directory": "/root/data/us_equities",
+  "dataset_hash": "03615e01a6989a5b96ee93652187d791aeb8c5aa0f9013ebc4c727b112bb36c0",
+  "evidence": "docs/research/IMPLEMENTATION_PROTOCOL.md",
+  "no_automatic_model_size_escalation": true,
+  "source_hash": "851bcd2c9ab48a99ab5549b2ba2c1fe7d9310562dfdc01f1bb2564dd6b5b0f70"
+}

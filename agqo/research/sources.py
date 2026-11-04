@@ -20,6 +20,7 @@ def capture_sources(directory):
         root / "docs/research/CONDITIONING_PROTOCOL.md",
         root / "docs/research/QUALIFICATION_PROTOCOL.md",
         root / "docs/research/DELIVERY_VISUAL_PROTOCOL.md",
+        root / "docs/research/MODAL_E2E_PROTOCOL.md",
     ]
     manifest = {"python": platform.python_version(), "files": {}, "packages": {}}
     for source in files:

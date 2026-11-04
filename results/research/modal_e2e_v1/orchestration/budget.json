@@ -1,0 +1,129 @@
+{
+  "version": "budget-v1",
+  "limit_usd": 150,
+  "jobs": [
+    {
+      "id": "7a64441ad2f940c498f58413a57cd05b",
+      "label": "prepare",
+      "resource": "cpu",
+      "reserved_usd": 0.09758749999999998,
+      "status": "completed",
+      "billing": {
+        "checked_utc": "2026-11-03T18:05:18.159408+00:00",
+        "metered_cost": 1.29907095,
+        "billed_cost": 0.0,
+        "adjustments": {
+          "Plan Cost": "0E-8",
+          "Network Egress Allowance": "-0.01650851",
+          "Free Storage": "-0.55256244",
+          "Reservation Adjustment": "-0E-8",
+          "Credits": "-0.73000000"
+        },
+        "rates": {
+          "mem_gib_hour_cost": 0.008,
+          "gpu_hour_cost_a100_80gb": 2.5,
+          "gpu_hour_cost_h200": 4.54,
+          "cpu_hour_cost": 0.0473
+        },
+        "allowance_basis": "API exposes metered/billed costs, not a standalone available-credit balance. Enforce the selected authorization policy separately."
+      },
+      "metadata": {
+        "function_call_id": "fc-01M6H9CGHV4AHXR902SQC2CPJC"
+      }
+    },
+    {
+      "id": "c2e9de04673a42f8a04304911cca3411",
+      "label": "prefetch:coder30",
+      "resource": "cpu",
+      "reserved_usd": 0.29737500000000006,
+      "status": "completed",
+      "billing": {
+        "checked_utc": "2026-11-03T18:05:43.509051+00:00",
+        "metered_cost": 1.29908385,
+        "billed_cost": 0.0,
+        "adjustments": {
+          "Plan Cost": "0E-8",
+          "Network Egress Allowance": "-0.01652141",
+          "Free Storage": "-0.55256244",
+          "Reservation Adjustment": "-0E-8",
+          "Credits": "-0.73000000"
+        },
+        "rates": {
+          "mem_gib_hour_cost": 0.008,
+          "gpu_hour_cost_a100_80gb": 2.5,
+          "gpu_hour_cost_h200": 4.54,
+          "cpu_hour_cost": 0.0473
+        },
+        "allowance_basis": "API exposes metered/billed costs, not a standalone available-credit balance. Enforce the selected authorization policy separately."
+      },
+      "metadata": {
+        "model": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+        "revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+        "seconds": 0.209348753,
+        "weight_bytes": 61066575656,
+        "execution": "cpu_prefetch_not_inference"
+      }
+    },
+    {
+      "id": "3a70d84660f94302bf8936dd4949998c",
+      "label": "coder30",
+      "resource": "gpu",
+      "reserved_usd": 1.84,
+      "status": "completed",
+      "billing": {
+        "checked_utc": "2026-11-03T18:05:57.961290+00:00",
+        "metered_cost": 1.29908385,
+        "billed_cost": 0.0,
+        "adjustments": {
+          "Plan Cost": "0E-8",
+          "Network Egress Allowance": "-0.01652141",
+          "Free Storage": "-0.55256244",
+          "Reservation Adjustment": "-0E-8",
+          "Credits": "-0.73000000"
+        },
+        "rates": {
+          "mem_gib_hour_cost": 0.008,
+          "gpu_hour_cost_a100_80gb": 2.5,
+          "gpu_hour_cost_h200": 4.54,
+          "cpu_hour_cost": 0.0473
+        },
+        "allowance_basis": "API exposes metered/billed costs, not a standalone available-credit balance. Enforce the selected authorization policy separately."
+      },
+      "metadata": {
+        "elapsed_seconds": 143.34449741704157,
+        "receipt": "3a70d84660f94302bf8936dd4949998c_receipt.json"
+      }
+    },
+    {
+      "id": "4726f42298d3431cb7efa18be6a00ea2",
+      "label": "finish",
+      "resource": "cpu",
+      "reserved_usd": 0.09758749999999998,
+      "status": "completed",
+      "billing": {
+        "checked_utc": "2026-11-03T18:08:22.334410+00:00",
+        "metered_cost": 1.47908568,
+        "billed_cost": 0.0,
+        "adjustments": {
+          "Plan Cost": "0E-8",
+          "Network Egress Allowance": "-0.01652324",
+          "Free Storage": "-0.55256244",
+          "Reservation Adjustment": "-0E-8",
+          "Credits": "-0.91000000"
+        },
+        "rates": {
+          "mem_gib_hour_cost": 0.008,
+          "gpu_hour_cost_a100_80gb": 2.5,
+          "gpu_hour_cost_h200": 4.54,
+          "cpu_hour_cost": 0.0473
+        },
+        "allowance_basis": "API exposes metered/billed costs, not a standalone available-credit balance. Enforce the selected authorization policy separately."
+      },
+      "metadata": {
+        "function_call_id": "fc-01M6H9J53JK0TPWCPFSMBM9QRP"
+      }
+    }
+  ],
+  "authorization": "User explicitly authorizes broader Modal usage, larger models and achieving the best measured result, replacing the previous credit-only cap.",
+  "monthly_allowance": null
+}
