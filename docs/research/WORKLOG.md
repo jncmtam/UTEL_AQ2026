@@ -685,3 +685,12 @@ reviewable commit on the same branch.
   fidelity0.9999999999999956);8 frozen numerical-certificate hashes reconstructed.
   Large full-statevector execution is not claimed. All apps report zero active
   tasks; all three completed drivers returned without billing or redispatch.
+
+## 2026-11-05 — actual contest rubric assessment
+
+- User supplied official contest URL. Reviewed official summary/site and Academy
+  regulations distributed on Banking Academy's domain, including final scoring.
+  Recorded CONTEST_READINESS.md; no invented score or placement prediction.
+- Main gap is practical LLM/QAOA value, not absence of quantum hardware. Flagged
+  Vietnamese submission requirements and AI-assistance/human-contribution rules.
+  English implementation remains unchanged; no new compute or model experiment.

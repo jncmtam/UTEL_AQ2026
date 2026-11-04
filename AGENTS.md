@@ -232,6 +232,10 @@ for the next action. Update this file and the worklog after meaningful changes.
   separate claims. Current hardware advantage and market outperformance unproven.
 
 ## Next dependencies and documentation
+- Contest rubric checked2026-11-05: docs/research/CONTEST_READINESS.md links actual
+  regulations. Final weights20/15/20/20/10/15; simulation allowed; practical value
+  emphasized. Vietnamese contest materials and declared AI assistance/significant
+  human contribution required. Keep English project surface; separate contest pack.
 - Contribution/performance recommendation: docs/research/CONTRIBUTION_STRATEGY.md
   (Nov4 primary-source review). Candidate: allocation-aware circuit reuse/editing
   after mandate changes; novelty unconfirmed. Its first mean/tail CPU pilot is now
