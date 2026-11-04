@@ -190,6 +190,11 @@ for the next action. Update this file and the worklog after meaningful changes.
   separate claims. Current hardware advantage and market outperformance unproven.
 
 ## Next dependencies and documentation
+- Contribution/performance recommendation: docs/research/CONTRIBUTION_STRATEGY.md
+  (Nov4 primary-source review). Candidate: allocation-aware circuit reuse/editing
+  after mandate changes; novelty unconfirmed. First proposed pilot compares
+  mean-F/lower-tail-F with strong classical controls, not another LLM sweep.
+  No new experiment, paid job or final-test opening authorized by that memo alone.
 - Recommended next study: docs/research/REMEDIATION_PLAN.md. Parallel dependencies
   are source reconstruction and a preregistered allocation-aware non-LLM CPU pilot.
   This is a proposal, not an executed protocol or a change to existing B/F semantics.

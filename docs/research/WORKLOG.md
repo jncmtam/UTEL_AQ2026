@@ -587,3 +587,24 @@ reviewable commit on the same branch.
   All33 generated evidence/source files matched recorded hashes; all eight request
   and descriptor identities and complete pair tables passed independent checks.
   Feature figure inspected. No change to prior raw runs or deployed Modal workers.
+
+## 2026-11-04 — performance and contribution strategy review
+
+- Reviewed primary Agent-Q, autonomous VQC design (June2026), certified agent
+  compilation (Oct2026), original CVaR optimization, portfolio CVaR-QAOA, mixed-binary
+  ADMM and portfolio benchmark v3. Generic generation, verification/feedback and
+  portfolio CVaR already have precedents. No broad novelty claim is justified.
+- Recorded CONTRIBUTION_STRATEGY.md: candidate allocation-aware circuit adaptation
+  after mandate changes, comparing reuse/retune/bounded edits/full redesign with
+  rules, numerical architecture search and strong direct classical finance methods.
+  Parallel critical reviews agreed on the narrow contribution and stop criteria.
+- Prioritized B/F and mean/best-of-budget alignment, feasibility accounting and
+  a separately frozen non-LLM CPU pilot before any new model comparison. Lower-tail
+  CVaR is an existing fitting method, distinct from financial return tail risk.
+- Identified the current parent<child grammar's ordering restriction, required
+  validity-preserving reuse/rebase controls, fair allocation-probe accounting and
+  family/time-level independence as specific design issues for a future protocol.
+- Kept source reconstruction/market admission as an independent gate. Saved full
+  rationale, alternatives, proposed acceptance and stop rules. Documentation only;
+  no new code, inference, experiment, test opening or deployment. The prior168-test
+  result remains the last software check; no redundant suite run for this memo.
