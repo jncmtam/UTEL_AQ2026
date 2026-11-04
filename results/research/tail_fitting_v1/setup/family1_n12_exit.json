@@ -1,0 +1,47 @@
+{
+  "hamiltonian_hash": "7d6468f68d89d9f5f1fafbeec8a8ae554215faf516fa976702faf6c064c804d4",
+  "ir_hash": "e94cc66082c5e2ed18fefb14b53d25d0d59a71314aa8a0e6f26b559362ad814d",
+  "seconds": 0.07678391702938825,
+  "verification": {
+    "valid": true,
+    "errors": [],
+    "warnings": [
+      {
+        "code": "inactive_first_cost",
+        "message": "Basis initialization: first COST is only a global phase; p=1 is a diagnostic baseline."
+      }
+    ],
+    "conservation_certificate": "trusted_diagonal_and_paired_exchange",
+    "synthesis_gate_count": 20,
+    "declared_parameters": 2,
+    "ir_hash": "9f2d8293b53ccc1e52fc6bedf39a65707b313fb899f25107802c537f762a360c",
+    "limits": {
+      "max_qubits": 12,
+      "max_layers": 4,
+      "max_parameters": 16,
+      "max_synthesis_gates": 512,
+      "max_two_qubit_gates": 40000,
+      "max_transpiled_depth": 80000
+    },
+    "resources": {
+      "qubits": 14,
+      "asset_qubits": 12,
+      "slack_qubits": 0,
+      "preparation_workspace_qubits": 2,
+      "workspace_cleanup": "independent_full_statevector",
+      "transpiled_cx": 293,
+      "transpiled_depth": 398,
+      "includes_cost_and_initialization": true
+    },
+    "inactive_parameters": [],
+    "active_parameters": 2,
+    "crosscheck_state_fidelities": [
+      1.0000000000000009,
+      0.9999999999999987,
+      0.999999999999996
+    ],
+    "maximum_cardinality_leak": 1.4395667280172175e-32,
+    "elapsed_seconds": 0.07409137499053031,
+    "reachability_scope": "Asset exchange connectivity certifies cardinality-domain connectivity only; no certificate for all inequality-feasible portfolios."
+  }
+}

@@ -1,0 +1,2 @@
+runs/*.json -diff linguist-generated=true
+source_snapshot/** linguist-generated=true

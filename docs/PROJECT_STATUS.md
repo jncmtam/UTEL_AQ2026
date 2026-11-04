@@ -4,6 +4,11 @@ Updated: 2026-11-04. Scope: maintained US-equity research application.
 
 ## Latest delivery
 
+- tail_fitting_v1:211 tests pass;96 local CPU runs/55,296 observations. New optional
+  lower-tail allocated-F fitting and independent empirical feasibility gates;
+  defaults preserved. N20 tail is0.40% better than gated mean but7.35% worse than
+  allocation-aware swap. No model/financial advantage. See tail_fitting_v1/FINDINGS.md.
+
 - data_guidance_v1: offline, opt-in feature-to-gate procedure and checked per-edge
   evidence contract. Exact exchange moments tested against exhaustive small supports;
   eight conditional-US requests /964 pair records prepared. Existing cost/preparation

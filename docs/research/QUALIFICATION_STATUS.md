@@ -25,6 +25,11 @@ the current selection/allocation objective mismatch.**
 
 ## Work performed
 
+The [tail-fitting pilot](../../results/research/tail_fitting_v1/FINDINGS.md)
+completed96 local CPU runs with independent objective/accounting audit. Tail
+aggregation modestly improves N20 mean-F fitting but still loses to informed
+classical search; it remains optional. No new model or financial qualification.
+
 The [preregistered protocol](QUALIFICATION_PROTOCOL.md) separates source hygiene,
 model reliability and independent financial utility. The new `history-audit` CLI
 checks raw-source checksums, source symbols, New York session dates against XNYS,

@@ -4,6 +4,12 @@ Updated: 2026-11-04, Asia/Ho_Chi_Minh.
 
 ## Delivered
 
+- tail_fitting_v1:211 tests pass. Opt-in lower-tail allocated-F fitting and separate
+  fit/final feasibility gates; legacy defaults retained. Local CPU pilot96/96 runs,
+  55,296 observations,35,651 allocation attempts;35,503 feasible allocations rescored.
+  Tail vs mean -0.40% at N20/+0.79% at N12; local search still leads. No new paid
+  job or LLM inference. See [findings](results/research/tail_fitting_v1/FINDINGS.md).
+
 - Explicit offline data-to-circuit guidance: exact proxy exchange moments, complete
   pair tables and mandatory gate-to-feature evidence links, followed by independent
   quantum/resource admission. Eight US-development request artifacts /964 pair

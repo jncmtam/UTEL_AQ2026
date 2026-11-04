@@ -37,6 +37,18 @@ for the next action. Update this file and the worklog after meaningful changes.
   zero tasks after the bounded probe. Do not relaunch a completed probe by default.
 
 ## Verified current evidence — do not repeat unnecessarily
+- tail_fitting_v1:211 tests pass. Opt-in fitting=mean|lower_tail uses allocated F,
+  fractional empirical tail and separate all-shot fit/final feasibility gates.
+  Default None retains legacy numerical behavior. Feasible portfolio and qualified
+  sampling distribution are separate statuses; unknown outcomes stay counted.
+- Frozen local CPU pilot:96/96 runs,55,296 observations,35,651 allocation attempts.
+  Independent audit rescored35,503 feasible allocations (max residual2.71e-20),
+  verified325 raw hashes;3 figures inspected. N20 tail vs gated mean -0.40%, vs
+  uniform -0.01%, vs swap +7.35% (all12 losses). N12 vs mean +0.79%. Related opened
+  development comparisons, no robust frontier/no LLM escalation.48/48 final fit
+  batches pass empirical95% gate, not population certification.0 paid/model calls.
+  Read TAIL_FITTING_PROTOCOL.md and tail_fitting_v1/FINDINGS.md/RESULTS.md. Recorded
+  run/setup times exclude input preparation/snapshot costs; not full adaptation cost.
 - data_guidance_v1: offline opt-in guidance.py computes exact mean/RMS delta-B
   for every permitted exchange (neutral cardinality/fixed-bit reference, no F
   allocation queries). New prompt explains feature-to-gate decisions and checks
@@ -45,7 +57,7 @@ for the next action. Update this file and the worklog after meaningful changes.
   Read DATA_GUIDANCE_PROTOCOL.md and its RESULTS.md before a new guided study.
   This API is NOT wired into deployed Modal; no model tested under it. Exact
   B moments are not F improvements or ADAPT quantum gradients. Legacy unchanged.
-- Latest full suite168 tests passes; F lint,33 guidance artifact hashes and eight
+- Previous full suite168 tests passed; F lint,33 guidance artifact hashes and eight
   request/descriptor identities/pair coverages checked. Feature plot inspected.
 - Latest improvement_v1:157 tests pass. One Modal CPU study,0 new model/GPU calls,
   USD0.221379 reservation (not invoice).8 real-US conditional cases,168 runs,
@@ -129,6 +141,10 @@ for the next action. Update this file and the worklog after meaningful changes.
   CONDITIONING_PROTOCOL.md. Defaults and earlier raw runs are unchanged.
 
 ## Implemented modules (read only the relevant one)
+- sample_loss.py: fractional empirical lower-tail mean, all-shot feasibility gate,
+  status accounting. budget_search.search exposes opt-in fitting; tail_study.py
+  freezes/resumes bounded CPU pilot with source/data guards. Scripts run_tail_pilot
+  and summarize_tail_pilot; completed runs retained, no inference from these paths.
 - finance.py: immutable FinancialSpec; CLARABEL allocator; SCIP full reference;
   proxy distortion; mandate diagnosis; self-financing Account.
 - quantum.py: direct Ising+slack; certified zero-penalty omission; independent
@@ -192,9 +208,10 @@ for the next action. Update this file and the worklog after meaningful changes.
 ## Next dependencies and documentation
 - Contribution/performance recommendation: docs/research/CONTRIBUTION_STRATEGY.md
   (Nov4 primary-source review). Candidate: allocation-aware circuit reuse/editing
-  after mandate changes; novelty unconfirmed. First proposed pilot compares
-  mean-F/lower-tail-F with strong classical controls, not another LLM sweep.
-  No new experiment, paid job or final-test opening authorized by that memo alone.
+  after mandate changes; novelty unconfirmed. Its first mean/tail CPU pilot is now
+  executed under TAIL_FITTING_PROTOCOL.md and does not qualify a strong frontier.
+  Next dependency is B/F formulation/circuit utility, not another LLM sweep.
+  No new paid job or final-test opening is scheduled by those memos.
 - Recommended next study: docs/research/REMEDIATION_PLAN.md. Parallel dependencies
   are source reconstruction and a preregistered allocation-aware non-LLM CPU pilot.
   This is a proposal, not an executed protocol or a change to existing B/F semantics.

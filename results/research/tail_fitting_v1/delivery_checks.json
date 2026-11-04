@@ -1,0 +1,22 @@
+{
+  "full_suite_tests_passed": 211,
+  "fitting_tests_passed": 42,
+  "completed_guard_test_passed": true,
+  "static_f_checks": "passed",
+  "english_surface_files_checked": 90,
+  "raw_files_verified": 324,
+  "derived_files_verified": 9,
+  "source_identity_files_verified": 85,
+  "figures_visually_inspected": 3,
+  "completed_replay_guard": "retained_no_rerun",
+  "llm_calls": 0,
+  "modal_calls": 0,
+  "new_paid_reservation_usd": 0,
+  "pytest_receipt": {
+    "returncode": 0,
+    "stdout": "........................................................................ [ 34%]\n........................................................................ [ 68%]\n...................................................................      [100%]\n",
+    "stderr": ""
+  },
+  "additional_interpretation_sha256": "304705e2e9a2adea6e7cd2ada7ce83bc892f998fd259ae39261ca6824e259a85",
+  "raw_files_verified_including_completion": 325
+}

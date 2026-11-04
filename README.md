@@ -19,6 +19,25 @@ an unfaithful objective.
 
 ## Latest improvements
 
+**Allocated-tail fitting is implemented and tested, with mixed performance.**
+`budget_search.search(..., fitting="lower_tail", tail_alpha=0.25,
+min_feasible_fraction=0.95)` fits the better tail of sampled allocated-F scores
+while separately checking all-shot feasibility. `fitting="mean"` is its gated
+mean comparator; `fitting=None` retains legacy behavior. Fit/final qualification
+is distinct from finding a feasible portfolio. This is candidate-score CVaR,
+not future investment-return tail risk.
+
+The local CPU pilot completed **96 runs /55,296 observations**. At N20, tail's
+final objective averages0.40% lower than gated mean but7.35% worse than informed
+local search. At N12 it is0.79% worse than mean. These are related development
+training scores. Defaults remain unchanged; no model/GPU sweep was launched.
+
+Read [findings](results/research/tail_fitting_v1/FINDINGS.md),
+[measurements/charts](results/research/tail_fitting_v1/RESULTS.md) and
+[protocol](docs/research/TAIL_FITTING_PROTOCOL.md).
+`.venv/bin/python scripts/run_tail_pilot.py` retains the completed study without
+rerunning. `scripts/summarize_tail_pilot.py` independently audits saved results.
+
 **Explicit data-to-gate guidance is now available as an offline, opt-in API.**
 The older prompt supplied features but left their connection to circuit choices
 largely implicit. `guidance.guided_request` now gives the designer exact numerical
@@ -97,7 +116,7 @@ Read the [measured results and charts](results/research/modal_e2e_v1/RESULTS.md)
 | Independent-test protection | Exact reliability intervals and hash-bound final-test lock prerequisites | Actual readiness is blocked; final strategy outcomes were not opened by this work |
 | English delivery | English maintained workflow, root guides, status, README and visual gallery | Historical originals and raw evidence are preserved, with English reading paths |
 
-The software suite currently contains **168 passing tests**. See the worklog for
+The software suite currently contains **211 passing tests**. See the worklog for
 recorded checks and the [qualification status](docs/research/QUALIFICATION_STATUS.md)
 for the substantive limitations.
 

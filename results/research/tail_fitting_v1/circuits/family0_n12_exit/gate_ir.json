@@ -1,0 +1,321 @@
+{
+  "version": "gate-ir-v1",
+  "problem_hash": "ce72f3683fa7df148c07449d16b5dc3d26b9a5d7228313e6cd49a66c5eaa6f2f",
+  "hamiltonian_hash": "c8be08b5636bd6ea348875f8672d6a9a171f2bcfc579c3b9ae44bdc157743803",
+  "qubit_to_asset": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+  ],
+  "mode": "preserve_cardinality",
+  "initial_bits": [
+    0,
+    1,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "parameters": [
+    {
+      "id": "gamma_0",
+      "kind": "cost",
+      "initial": null
+    },
+    {
+      "id": "beta_0_0",
+      "kind": "mixer",
+      "initial": null
+    }
+  ],
+  "initialization": [],
+  "layers": [
+    {
+      "cost": {
+        "op": "COST",
+        "parameter": "gamma_0",
+        "hamiltonian_hash": "c8be08b5636bd6ea348875f8672d6a9a171f2bcfc579c3b9ae44bdc157743803"
+      },
+      "mixer": [
+        {
+          "op": "RXX",
+          "qubits": [
+            1,
+            2
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            1,
+            2
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            3,
+            4
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            3,
+            4
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            5,
+            6
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            5,
+            6
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            7,
+            8
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            7,
+            8
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            9,
+            10
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            9,
+            10
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            2,
+            3
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            2,
+            3
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            4,
+            5
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            4,
+            5
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            6,
+            7
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            6,
+            7
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            8,
+            9
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            8,
+            9
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            10,
+            11
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            10,
+            11
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        }
+      ]
+    }
+  ],
+  "rationale": [
+    {
+      "feature_ids": [],
+      "decision": "Explicit fixed classical design baseline."
+    }
+  ],
+  "preparation": {
+    "kind": "dicke_sequential_counter_v1",
+    "free_qubits": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "ones": 3
+  }
+}

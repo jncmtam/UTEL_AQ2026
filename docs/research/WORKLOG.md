@@ -608,3 +608,32 @@ reviewable commit on the same branch.
   rationale, alternatives, proposed acceptance and stop rules. Documentation only;
   no new code, inference, experiment, test opening or deployment. The prior168-test
   result remains the last software check; no redundant suite run for this memo.
+
+## 2026-11-04 — feasibility-gated allocated-tail implementation and pilot
+
+- Reviewed original CVaR, portfolio CVaR-QAOA and strong-classical benchmark primary
+  sources, then froze TAIL_FITTING_PROTOCOL.md before code/outcomes. Implemented
+  opt-in fractional lower-tail/mean allocated-F fitting with a separate empirical
+  feasibility gate. Defaults and earlier raw results remain unchanged; COST is B.
+- Added batch loss/status/cache/solver metadata and independent final-batch gate.
+  Finding a feasible portfolio remains distinct from qualifying its distribution.
+  Restricted the new contract to tracking_cost; no silent negative-F clipping.
+- Added42 meaningful fitting tests plus completed-study guard. A parallel read-only
+  review found no blocking issue; timing scope excludes preparation/snapshot costs
+  and is explicitly limited in FINDINGS.md. Lost PTY completion receipts after chat
+  steering required a retained-log full-suite check:211 tests pass, returncode0.
+- Ran the frozen sequential local CPU study:96/96 runs,55,296 observations,
+  35,651 allocation attempts,117.32s recorded run time,1.07s setup. No new LLM,
+  Modal call or paid reservation. Source/protocol snapshots and interruption/resume
+  guards retained. No held-out return periods or market-admission flags changed.
+- Independent read-only report verified325 raw files, rescored35,503 feasible
+  cached allocations (max residual2.71e-20), checked every batch/final aggregation,
+  gate, sample/cache/solver counter and constraint. Three plots visually inspected.
+- N20 tail vs gated mean averages-0.40% (7/1/4); versus uniform-0.01% (5/0/7);
+  versus allocation swap+7.35% (0/0/12). N12 tail vs mean+0.79% (0/11/1). These are
+  dependent opened training comparisons.576 vs earlier88 draws is a distinct
+  configuration, not an isolated cross-study code improvement.
+- Retain the optional implementation but do not promote it or escalate model size.
+  Updated README/status/handoff with actual findings and B/F/market limitations.
+  A pre-existing concurrent README heading indentation edit is preserved separately
+  from this implementation's staged documentation changes.

@@ -1,0 +1,46 @@
+{
+  "hamiltonian_hash": "0025705075a2e9a46843557725fad0b31a2d2d77ce14a57f112b808b50df7e86",
+  "ir_hash": "1c496f0f6dde1976b4f58b0d1d1113c3ba5f700bd8c4a8a737a698633b8a1195",
+  "seconds": 0.043908041960094124,
+  "verification": {
+    "valid": true,
+    "errors": [],
+    "warnings": [
+      {
+        "code": "inactive_first_cost",
+        "message": "Basis initialization: first COST is only a global phase; p=1 is a diagnostic baseline."
+      }
+    ],
+    "conservation_certificate": "trusted_diagonal_and_paired_exchange",
+    "synthesis_gate_count": 36,
+    "declared_parameters": 2,
+    "ir_hash": "47e3b1d08999323fc47f5aeca47cb5e2ea2e9a21222b5611e12e04c21c746cfd",
+    "limits": {
+      "max_qubits": 40,
+      "max_layers": 4,
+      "max_parameters": 16,
+      "max_synthesis_gates": 512,
+      "max_two_qubit_gates": 40000,
+      "max_transpiled_depth": 80000
+    },
+    "resources": {
+      "qubits": 23,
+      "asset_qubits": 20,
+      "slack_qubits": 0,
+      "preparation_workspace_qubits": 3,
+      "workspace_cleanup": "analytic_construction_small_case_crosschecked",
+      "transpiled_cx": 967,
+      "transpiled_depth": 1412,
+      "includes_cost_and_initialization": true
+    },
+    "active_parameters": 2,
+    "inactive_parameters": [],
+    "simulation_states": 11628,
+    "verification_access": "analytic_certificate_and_conserved_simulation",
+    "crosscheck_state_fidelities": [],
+    "maximum_cardinality_leak": 0.0,
+    "leakage_basis_enforced": true,
+    "elapsed_seconds": 0.03970333398319781,
+    "reachability_scope": "All cardinality/include/exclude supports retained; no certificate for the inequality-feasible transition graph."
+  }
+}

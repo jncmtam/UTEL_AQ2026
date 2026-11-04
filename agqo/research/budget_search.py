@@ -131,6 +131,7 @@ class Observations:
 
     def score(self, samples):
         losses = []
+        begin, calls_before = len(self.rows), self.calls
         for index in map(int, samples):
             hit = index in self.cache
             if not hit:
@@ -158,6 +159,15 @@ class Observations:
                     "elapsed_seconds": perf_counter() - self.start,
                 }
             )
+        self.last_batch = {
+            "losses": losses,
+            "feasible": [r["feasible"] for r in self.rows[begin:]],
+            "statuses": [r["allocation_status"] for r in self.rows[begin:]],
+            "observations_start": begin + 1,
+            "observations_end": len(self.rows),
+            "allocation_calls": self.calls - calls_before,
+            "cache_hits": sum(r["cache_hit"] for r in self.rows[begin:]),
+        }
         return float(np.mean(losses))
 
 
@@ -172,6 +182,9 @@ def search(
     evaluations=10,
     shots=8,
     final_shots=8,
+    fitting=None,
+    tail_alpha=0.25,
+    min_feasible_fraction=0.95,
 ):
     if method not in ("circuit", "uniform", "swap") or target not in (
         "allocation",
@@ -180,6 +193,37 @@ def search(
         raise ValueError("Unsupported frozen search method/feedback.")
     if any(type(v) is not int or v <= 0 for v in (evaluations, shots, final_shots)):
         raise ValueError("Positive integer budgets required.")
+    fitting_record = None
+    if fitting is not None:
+        from .sample_loss import batch_loss
+
+        if (
+            method != "circuit"
+            or target != "allocation"
+            or spec.objective_kind != "tracking_cost"
+        ):
+            raise ValueError(
+                "Opt-in fitting requires circuit allocated tracking_cost feedback."
+            )
+        batch_loss(
+            [0.0],
+            [True],
+            ["optimal"],
+            kind=fitting,
+            alpha=tail_alpha,
+            min_feasible_fraction=min_feasible_fraction,
+        )
+        fitting_record = {
+            "version": "feasibility-gated-allocated-fitting-v1",
+            "kind": fitting,
+            "alpha": tail_alpha,
+            "minimum_feasible_fraction": min_feasible_fraction,
+            "batches": [],
+            "best_fit_eligible": False,
+            "final_eligible": False,
+            "feasibility_scope": "Empirical batch fractions, not population certification",
+            "cost_hamiltonian": "equal_weight_B_not_allocated_F",
+        }
     start = perf_counter()
     rng = np.random.default_rng(seed)
     oracle = Observations(spec)
@@ -261,9 +305,40 @@ def search(
                 else float(observed_energy.mean())
                 * coordinate_record["optimizer_loss_scale"]
             )
+            batch = None
+            if fitting_record is not None:
+                batch = record_batch("fit")
+                result = batch["objective_loss"]
             if result < value:
                 best, value = np.asarray(values).copy(), result
+                if batch is not None:
+                    fitting_record["best_fit_eligible"] = batch["eligible"]
             return result
+
+        def record_batch(phase):
+            raw = oracle.last_batch
+            batch = batch_loss(
+                raw["losses"],
+                raw["feasible"],
+                raw["statuses"],
+                kind=fitting,
+                alpha=tail_alpha,
+                min_feasible_fraction=min_feasible_fraction,
+            )
+            batch.update(
+                {
+                    k: raw[k]
+                    for k in (
+                        "observations_start",
+                        "observations_end",
+                        "allocation_calls",
+                        "cache_hits",
+                    )
+                }
+            )
+            batch["phase"] = phase
+            fitting_record["batches"].append(batch)
+            return batch
 
         try:
             minimize(
@@ -277,8 +352,10 @@ def search(
         while calls < evaluations:
             loss(best)
         oracle.score(sample(best, final_shots)[0])
+        if fitting_record is not None:
+            fitting_record["final_eligible"] = record_batch("final")["eligible"]
         angles = (best * scales).tolist()
-    return {
+    result = {
         "status": "feasible" if oracle.best else "unknown",
         "allocation": oracle.best,
         "observations": oracle.rows,
@@ -294,6 +371,9 @@ def search(
         "sampling_domain": "fixed_bits_and_cardinality",
         "fallback_used": False,
     }
+    if fitting_record is not None:
+        result["fitting_record"] = fitting_record
+    return result
 
 
 def prefix_rows(run, checkpoints=(8, 24, 48, 88)):
