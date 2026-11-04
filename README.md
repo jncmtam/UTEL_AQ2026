@@ -18,6 +18,36 @@ an unfaithful objective.
 
 ## Latest improvements
 
+**Explicit data-to-gate guidance is now available as an offline, opt-in API.**
+The older prompt supplied features but left their connection to circuit choices
+largely implicit. `guidance.guided_request` now gives the designer exact numerical
+exchange-sensitivity evidence and requires a matching evidence ID for every
+selected connection, plus testable scheduling/parameter-sharing explanations.
+
+```mermaid
+flowchart LR
+    A[Past returns, benchmark, holdings, mandate] --> B[Code computes exchange evidence]
+    B --> C[LLM proposes connections, order, beta sharing]
+    C --> D[Check gate-to-feature links]
+    D --> E[Verify quantum semantics and compiled resources]
+    E --> F[Measure allocated financial quality against strong references]
+    H[Immutable financial objective] --> E
+```
+
+| Numerical evidence | Design decision it can inform | Limit |
+|---|---|---|
+| Exact mean/RMS proxy change for an exchange | Compare candidate mixer connections | Sensitivity is not a favorable trade or proof of better allocated quality |
+| Correlation and half-window change | Compare stable substitution hypotheses | Correlation alone does not determine a good mixer |
+| Fixed assets and remaining cardinality | Connected exchanges on the free register | Other inequalities still need independent checks |
+| Shared-qubit conflicts and compiled limits | Gate ordering and one/two beta groups | Overlapping reorderings change the circuit; resources must be measured |
+
+Prepared **8 inspectable US-development requests / 964 pair records** without new
+inference, stock filtering, allocation queries or holdout scoring. The descriptor
+is checked against exhaustive small cases; continuous allocation quality remains
+an independent test. This new prompt was **not used in the completed live run**.
+Read the [feature visualization and requests](results/research/data_guidance_v1/RESULTS.md)
+and [rationale, formulas and future ablation](docs/research/DATA_GUIDANCE_PROTOCOL.md).
+
 Verified one-layer edits and disjoint exchange scheduling cut the recorded LLM
 circuits' CX counts by **24–34%** and depth by **19–31%**, with the same selected
 allocated objective on all12 opened edit runs. This is classical postprocessing,
@@ -66,7 +96,7 @@ Read the [measured results and charts](results/research/modal_e2e_v1/RESULTS.md)
 | Independent-test protection | Exact reliability intervals and hash-bound final-test lock prerequisites | Actual readiness is blocked; final strategy outcomes were not opened by this work |
 | English delivery | English maintained workflow, root guides, status, README and visual gallery | Historical originals and raw evidence are preserved, with English reading paths |
 
-The software suite currently contains **157 passing tests**. See the worklog for
+The software suite currently contains **168 passing tests**. See the worklog for
 recorded checks and the [qualification status](docs/research/QUALIFICATION_STATUS.md)
 for the substantive limitations.
 

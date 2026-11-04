@@ -1,0 +1,859 @@
+{
+  "version": "exchange-evidence-v1",
+  "problem_hash": "96a3b342ca19191fa014787ec5f7dd4e6d1bc8f564e647e0a1fe67438970b9f4",
+  "cutoff": "2010-07-02",
+  "free_qubits": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+  ],
+  "frozen_one": [],
+  "frozen_zero": [
+    0
+  ],
+  "remaining_cardinality": 3,
+  "reference": "uniform fixed-bit/cardinality states conditioned on x_i=1,x_j=0",
+  "not_conditioned_on": "other support inequalities or continuous allocation feasibility",
+  "objective": "unscaled equal-weight proxy B including its cost terms",
+  "units": "same as B; variance has squared units",
+  "formula_reference": "docs/research/DATA_GUIDANCE_PROTOCOL.md",
+  "allocation_queries": 0,
+  "support_enumerations": 0,
+  "edges": [
+    {
+      "id": "EDGE_1_2",
+      "parent_key": "p1",
+      "parent_index": 0,
+      "qubits": [
+        1,
+        2
+      ],
+      "mean_delta_B_i_to_j": -7.76035220125421e-05,
+      "variance_delta_B": 3.5720858934754167e-10,
+      "rms_delta_B": 7.987186750100844e-05,
+      "correlation": 0.3487367428965393,
+      "correlation_half_window_abs_change": 0.043992303881390915,
+      "same_policy_bucket": true
+    },
+    {
+      "id": "EDGE_1_3",
+      "parent_key": "p2",
+      "parent_index": 0,
+      "qubits": [
+        1,
+        3
+      ],
+      "mean_delta_B_i_to_j": -6.503538916553881e-05,
+      "variance_delta_B": 1.9027001608506424e-10,
+      "rms_delta_B": 6.648211684354031e-05,
+      "correlation": 0.4569776477709497,
+      "correlation_half_window_abs_change": 0.08077544764568062,
+      "same_policy_bucket": false
+    },
+    {
+      "id": "EDGE_2_3",
+      "parent_key": "p2",
+      "parent_index": 1,
+      "qubits": [
+        2,
+        3
+      ],
+      "mean_delta_B_i_to_j": 1.2568132847003308e-05,
+      "variance_delta_B": 1.8356330763674434e-10,
+      "rms_delta_B": 1.848029412365149e-05,
+      "correlation": 0.47195711190008255,
+      "correlation_half_window_abs_change": 0.08964079811877007,
+      "same_policy_bucket": false
+    },
+    {
+      "id": "EDGE_1_4",
+      "parent_key": "p3",
+      "parent_index": 0,
+      "qubits": [
+        1,
+        4
+      ],
+      "mean_delta_B_i_to_j": -7.022032971493302e-05,
+      "variance_delta_B": 8.42262623164435e-11,
+      "rms_delta_B": 7.081751879012953e-05,
+      "correlation": 0.537724305139654,
+      "correlation_half_window_abs_change": 0.07366077969322182,
+      "same_policy_bucket": true
+    },
+    {
+      "id": "EDGE_2_4",
+      "parent_key": "p3",
+      "parent_index": 1,
+      "qubits": [
+        2,
+        4
+      ],
+      "mean_delta_B_i_to_j": 7.383192297609091e-06,
+      "variance_delta_B": 2.432559089974472e-10,
+      "rms_delta_B": 1.7255939194982155e-05,
+      "correlation": 0.5407305214944879,
+      "correlation_half_window_abs_change": 0.1079863027997301,
+      "same_policy_bucket": true
+    },
+    {
+      "id": "EDGE_3_4",
+      "parent_key": "p3",
+      "parent_index": 2,
+      "qubits": [
+        3,
+        4
+      ],
+      "mean_delta_B_i_to_j": -5.184940549394214e-06,
+      "variance_delta_B": 4.093040733765111e-11,
+      "rms_delta_B": 8.234926583668096e-06,
+      "correlation": 0.6545335079216585,
+      "correlation_half_window_abs_change": 0.13341628214818657,
+      "same_policy_bucket": false
+    },
+    {
+      "id": "EDGE_1_5",
+      "parent_key": "p4",
+      "parent_index": 0,
+      "qubits": [
+        1,
+        5
+      ],
+      "mean_delta_B_i_to_j": -7.452072737020387e-05,
+      "variance_delta_B": 4.2422107699735135e-10,
+      "rms_delta_B": 7.73146809136635e-05,
+      "correlation": 0.437312723478427,
+      "correlation_half_window_abs_change": 0.0470518048359273,
+      "same_policy_bucket": true
+    },
+    {
+      "id": "EDGE_2_5",
+      "parent_key": "p4",
+      "parent_index": 1,
+      "qubits": [
+        2,
+        5
+      ],
+      "mean_delta_B_i_to_j": 3.082794642338244e-06,
+      "variance_delta_B": 1.6207766270594134e-11,
+      "rms_delta_B": 5.070639908080983e-06,
+      "correlation": 0.8377631610149294,
+      "correlation_half_window_abs_change": 0.04520994392978395,
+      "same_policy_bucket": true
+    },
+    {
+      "id": "EDGE_3_5",
+      "parent_key": "p4",
+      "parent_index": 2,
+      "qubits": [
+        3,
+        5
+      ],
+      "mean_delta_B_i_to_j": -9.48533820466506e-06,
+      "variance_delta_B": 1.6487222364093843e-10,
+      "rms_delta_B": 1.5963829881886646e-05,
+      "correlation": 0.603593119077296,
+      "correlation_half_window_abs_change": 0.0921746759997637,
+      "same_policy_bucket": false
+    },
+    {
+      "id": "EDGE_4_5",
+      "parent_key": "p4",
+      "parent_index": 3,
+      "qubits": [
+        4,
+        5
+      ],
+      "mean_delta_B_i_to_j": -4.300397655270843e-06,
+      "variance_delta_B": 2.1985704327633285e-10,
+      "rms_delta_B": 1.5438603021963866e-05,
+      "correlation": 0.6199680786468984,
+      "correlation_half_window_abs_change": 0.12085300942643307,
+      "same_policy_bucket": true
+    },
+    {
+      "id": "EDGE_1_6",
+      "parent_key": "p5",
+      "parent_index": 0,
+      "qubits": [
+        1,
+        6
+      ],
+      "mean_delta_B_i_to_j": 7.02317909221402e-05,
+      "variance_delta_B": 3.630553600224091e-10,
+      "rms_delta_B": 7.277059719525204e-05,
+      "correlation": 0.2801172800132995,
+      "correlation_half_window_abs_change": 0.18920288656322093,
+      "same_policy_bucket": false
+    },
+    {
+      "id": "EDGE_2_6",
+      "parent_key": "p5",
+      "parent_index": 1,
+      "qubits": [
+        2,
+        6
+      ],
+      "mean_delta_B_i_to_j": 0.00014783531293468231,
+      "variance_delta_B": 6.787881208465276e-10,
+      "rms_delta_B": 0.0001501135166177316,
+      "correlation": 0.37574137151743536,
+      "correlation_half_window_abs_change": 0.1133214250020077,
+      "same_policy_bucket": false
+    },
+    {
+      "id": "EDGE_3_6",
+      "parent_key": "p5",
+      "parent_index": 2,
+      "qubits": [
+        3,
+        6
+      ],
+      "mean_delta_B_i_to_j": 0.000135267180087679,
+      "variance_delta_B": 3.474666804950849e-10,
+      "rms_delta_B": 0.0001365455114215318,
+      "correlation": 0.32496473851601687,
+      "correlation_half_window_abs_change": 0.2019893170335026,
+      "same_policy_bucket": true
+    },
+    {
+      "id": "EDGE_4_6",
+      "parent_key": "p5",
+      "parent_index": 3,
+      "qubits": [
+        4,
+        6
+      ],
+      "mean_delta_B_i_to_j": 0.00014045212063707322,
+      "variance_delta_B": 3.029804910552933e-10,
+      "rms_delta_B": 0.0001415266006180685,
+      "correlation": 0.3842917654982018,
+      "correlation_half_window_abs_change": 0.11726655233017474,
+      "same_policy_bucket": false
+    },
+    {
+      "id": "EDGE_5_6",
+      "parent_key": "p5",
+      "parent_index": 4,
+      "qubits": [
+        5,
+        6
+      ],
+      "mean_delta_B_i_to_j": 0.00014475251829234407,
+      "variance_delta_B": 5.493709870181078e-10,
+      "rms_delta_B": 0.0001466378618876909,
+      "correlation": 0.3175934193625673,
+      "correlation_half_window_abs_change": 0.20650873780258633,
+      "same_policy_bucket": false
+    },
+    {
+      "id": "EDGE_1_7",
+      "parent_key": "p6",
+      "parent_index": 0,
+      "qubits": [
+        1,
+        7
+      ],
+      "mean_delta_B_i_to_j": -7.315412621977053e-05,
+      "variance_delta_B": 3.300955313691629e-10,
+      "rms_delta_B": 7.537653291540598e-05,
+      "correlation": 0.44784504769433875,
+      "correlation_half_window_abs_change": 0.02312635905775251,
+      "same_policy_bucket": true
+    },
+    {
+      "id": "EDGE_2_7",
+      "parent_key": "p6",
+      "parent_index": 1,
+      "qubits": [
+        2,
+        7
+      ],
+      "mean_delta_B_i_to_j": 4.449395792771588e-06,
+      "variance_delta_B": 4.868035572423785e-11,
+      "rms_delta_B": 8.27511200195933e-06,
+      "correlation": 0.7311789667796293,
+      "correlation_half_window_abs_change": 0.02291290489655262,
+      "same_policy_bucket": true
+    },
+    {
+      "id": "EDGE_3_7",
+      "parent_key": "p6",
+      "parent_index": 2,
+      "qubits": [
+        3,
+        7
+      ],
+      "mean_delta_B_i_to_j": -8.11873705423171e-06,
+      "variance_delta_B": 1.0924530376939102e-10,
+      "rms_delta_B": 1.323477219770503e-05,
+      "correlation": 0.558473840683724,
+      "correlation_half_window_abs_change": 0.059326844919612154,
+      "same_policy_bucket": false
+    },
+    {
+      "id": "EDGE_4_7",
+      "parent_key": "p6",
+      "parent_index": 3,
+      "qubits": [
+        4,
+        7
+      ],
+      "mean_delta_B_i_to_j": -2.9337965048375028e-06,
+      "variance_delta_B": 1.4167645160697223e-10,
+      "rms_delta_B": 1.2259021720299257e-05,
+      "correlation": 0.6109491099485566,
+      "correlation_half_window_abs_change": 0.04414573803333621,
+      "same_policy_bucket": true
+    },
+    {
+      "id": "EDGE_5_7",
+      "parent_key": "p6",
+      "parent_index": 4,
+      "qubits": [
+        5,
+        7
+      ],
+      "mean_delta_B_i_to_j": 1.3666011504333453e-06,
+      "variance_delta_B": 4.434860798759554e-11,
+      "rms_delta_B": 6.7982502669408465e-06,
+      "correlation": 0.8162902319858926,
+      "correlation_half_window_abs_change": 0.038756285205152397,
+      "same_policy_bucket": true
+    },
+    {
+      "id": "EDGE_6_7",
+      "parent_key": "p6",
+      "parent_index": 5,
+      "qubits": [
+        6,
+        7
+      ],
+      "mean_delta_B_i_to_j": -0.00014338591714191073,
+      "variance_delta_B": 3.9227284117621533e-10,
+      "rms_delta_B": 0.00014474734566064797,
+      "correlation": 0.38220016662249856,
+      "correlation_half_window_abs_change": 0.11880520821349061,
+      "same_policy_bucket": false
+    },
+    {
+      "id": "EDGE_1_8",
+      "parent_key": "p7",
+      "parent_index": 0,
+      "qubits": [
+        1,
+        8
+      ],
+      "mean_delta_B_i_to_j": 1.9035125504347132e-05,
+      "variance_delta_B": 6.536556379374276e-10,
+      "rms_delta_B": 3.1874623776660865e-05,
+      "correlation": 0.19966724136634081,
+      "correlation_half_window_abs_change": 0.39441371339131903,
+      "same_policy_bucket": true
+    },
+    {
+      "id": "EDGE_2_8",
+      "parent_key": "p7",
+      "parent_index": 1,
+      "qubits": [
+        2,
+        8
+      ],
+      "mean_delta_B_i_to_j": 9.663864751688925e-05,
+      "variance_delta_B": 3.951772239753794e-10,
+      "rms_delta_B": 9.866207689821325e-05,
+      "correlation": 0.18800467796859563,
+      "correlation_half_window_abs_change": 0.40804478570808067,
+      "same_policy_bucket": true
+    },
+    {
+      "id": "EDGE_3_8",
+      "parent_key": "p7",
+      "parent_index": 2,
+      "qubits": [
+        3,
+        8
+      ],
+      "mean_delta_B_i_to_j": 8.407051466988595e-05,
+      "variance_delta_B": 2.1976059919235014e-10,
+      "rms_delta_B": 8.536751159575789e-05,
+      "correlation": 0.2275783502008909,
+      "correlation_half_window_abs_change": 0.44663725855184055,
+      "same_policy_bucket": false
+    },
+    {
+      "id": "EDGE_4_8",
+      "parent_key": "p7",
+      "parent_index": 3,
+      "qubits": [
+        4,
+        8
+      ],
+      "mean_delta_B_i_to_j": 8.925545521928016e-05,
+      "variance_delta_B": 3.3042028518618756e-10,
+      "rms_delta_B": 9.108763127662896e-05,
+      "correlation": 0.2764966444990521,
+      "correlation_half_window_abs_change": 0.4336320714531984,
+      "same_policy_bucket": true
+    },
+    {
+      "id": "EDGE_5_8",
+      "parent_key": "p7",
+      "parent_index": 4,
+      "qubits": [
+        5,
+        8
+      ],
+      "mean_delta_B_i_to_j": 9.355585287455099e-05,
+      "variance_delta_B": 2.672479986936617e-10,
+      "rms_delta_B": 9.49733941995246e-05,
+      "correlation": 0.2209784452541631,
+      "correlation_half_window_abs_change": 0.3581440043948547,
+      "same_policy_bucket": true
+    },
+    {
+      "id": "EDGE_6_8",
+      "parent_key": "p7",
+      "parent_index": 5,
+      "qubits": [
+        6,
+        8
+      ],
+      "mean_delta_B_i_to_j": -5.1196665417793074e-05,
+      "variance_delta_B": 1.2232345066226653e-10,
+      "rms_delta_B": 5.237768609402018e-05,
+      "correlation": 0.019260946551495826,
+      "correlation_half_window_abs_change": 0.34826991882267266,
+      "same_policy_bucket": false
+    },
+    {
+      "id": "EDGE_7_8",
+      "parent_key": "p7",
+      "parent_index": 6,
+      "qubits": [
+        7,
+        8
+      ],
+      "mean_delta_B_i_to_j": 9.218925172411766e-05,
+      "variance_delta_B": 3.099757921099935e-10,
+      "rms_delta_B": 9.385538836722548e-05,
+      "correlation": 0.14218254130486824,
+      "correlation_half_window_abs_change": 0.39452471680578133,
+      "same_policy_bucket": true
+    },
+    {
+      "id": "EDGE_1_9",
+      "parent_key": "p8",
+      "parent_index": 0,
+      "qubits": [
+        1,
+        9
+      ],
+      "mean_delta_B_i_to_j": -5.4069871556898714e-05,
+      "variance_delta_B": 1.3027953958414695e-10,
+      "rms_delta_B": 5.526147437196796e-05,
+      "correlation": 0.4777708547079381,
+      "correlation_half_window_abs_change": 0.019075428582391807,
+      "same_policy_bucket": false
+    },
+    {
+      "id": "EDGE_2_9",
+      "parent_key": "p8",
+      "parent_index": 1,
+      "qubits": [
+        2,
+        9
+      ],
+      "mean_delta_B_i_to_j": 2.35336504556434e-05,
+      "variance_delta_B": 2.478462687352918e-10,
+      "rms_delta_B": 2.831393601221308e-05,
+      "correlation": 0.4443282971095182,
+      "correlation_half_window_abs_change": 0.02509343729226654,
+      "same_policy_bucket": false
+    },
+    {
+      "id": "EDGE_3_9",
+      "parent_key": "p8",
+      "parent_index": 2,
+      "qubits": [
+        3,
+        9
+      ],
+      "mean_delta_B_i_to_j": 1.0965517608640102e-05,
+      "variance_delta_B": 3.029108282086045e-11,
+      "rms_delta_B": 1.2269215918152904e-05,
+      "correlation": 0.7227548327765086,
+      "correlation_half_window_abs_change": 0.02593304164834942,
+      "same_policy_bucket": true
+    },
+    {
+      "id": "EDGE_4_9",
+      "parent_key": "p8",
+      "parent_index": 3,
+      "qubits": [
+        4,
+        9
+      ],
+      "mean_delta_B_i_to_j": 1.6150458158034317e-05,
+      "variance_delta_B": 2.916966363611385e-11,
+      "rms_delta_B": 1.7029590786349833e-05,
+      "correlation": 0.6797946432181168,
+      "correlation_half_window_abs_change": 0.09502486539753885,
+      "same_policy_bucket": false
+    },
+    {
+      "id": "EDGE_5_9",
+      "parent_key": "p8",
+      "parent_index": 4,
+      "qubits": [
+        5,
+        9
+      ],
+      "mean_delta_B_i_to_j": 2.0450855813305154e-05,
+      "variance_delta_B": 2.2410351264372293e-10,
+      "rms_delta_B": 2.534444744200039e-05,
+      "correlation": 0.5586947101937202,
+      "correlation_half_window_abs_change": 0.020942560708947067,
+      "same_policy_bucket": false
+    },
+    {
+      "id": "EDGE_6_9",
+      "parent_key": "p8",
+      "parent_index": 5,
+      "qubits": [
+        6,
+        9
+      ],
+      "mean_delta_B_i_to_j": -0.0001243016624790389,
+      "variance_delta_B": 3.736285619237276e-10,
+      "rms_delta_B": 0.00012579559553886074,
+      "correlation": 0.3122108244539697,
+      "correlation_half_window_abs_change": 0.07505954901075368,
+      "same_policy_bucket": true
+    },
+    {
+      "id": "EDGE_7_9",
+      "parent_key": "p8",
+      "parent_index": 6,
+      "qubits": [
+        7,
+        9
+      ],
+      "mean_delta_B_i_to_j": 1.908425466287182e-05,
+      "variance_delta_B": 1.9622744329759385e-10,
+      "rms_delta_B": 2.3673534153880332e-05,
+      "correlation": 0.5749336575238155,
+      "correlation_half_window_abs_change": 0.0008680759142098982,
+      "same_policy_bucket": false
+    },
+    {
+      "id": "EDGE_8_9",
+      "parent_key": "p8",
+      "parent_index": 7,
+      "qubits": [
+        8,
+        9
+      ],
+      "mean_delta_B_i_to_j": -7.310499706124585e-05,
+      "variance_delta_B": 2.623008451456208e-10,
+      "rms_delta_B": 7.487750957711123e-05,
+      "correlation": 0.27248222281401424,
+      "correlation_half_window_abs_change": 0.3919986511579936,
+      "same_policy_bucket": false
+    },
+    {
+      "id": "EDGE_1_10",
+      "parent_key": "p9",
+      "parent_index": 0,
+      "qubits": [
+        1,
+        10
+      ],
+      "mean_delta_B_i_to_j": -5.6779348518515215e-05,
+      "variance_delta_B": 3.483397118504997e-11,
+      "rms_delta_B": 5.708527296397965e-05,
+      "correlation": 0.4718301203275824,
+      "correlation_half_window_abs_change": 0.0682668166588194,
+      "same_policy_bucket": true
+    },
+    {
+      "id": "EDGE_2_10",
+      "parent_key": "p9",
+      "parent_index": 1,
+      "qubits": [
+        2,
+        10
+      ],
+      "mean_delta_B_i_to_j": 2.0824173494026894e-05,
+      "variance_delta_B": 2.799357500642305e-10,
+      "rms_delta_B": 2.6712954755578103e-05,
+      "correlation": 0.43256618660139984,
+      "correlation_half_window_abs_change": 0.07992582335867088,
+      "same_policy_bucket": true
+    },
+    {
+      "id": "EDGE_3_10",
+      "parent_key": "p9",
+      "parent_index": 2,
+      "qubits": [
+        3,
+        10
+      ],
+      "mean_delta_B_i_to_j": 8.256040647023596e-06,
+      "variance_delta_B": 8.673746064170107e-11,
+      "rms_delta_B": 1.2445869507873158e-05,
+      "correlation": 0.6211661176921065,
+      "correlation_half_window_abs_change": 0.07895561349347502,
+      "same_policy_bucket": false
+    },
+    {
+      "id": "EDGE_4_10",
+      "parent_key": "p9",
+      "parent_index": 3,
+      "qubits": [
+        4,
+        10
+      ],
+      "mean_delta_B_i_to_j": 1.344098119641781e-05,
+      "variance_delta_B": 2.3667806588085356e-11,
+      "rms_delta_B": 1.4294326920514393e-05,
+      "correlation": 0.6803964226031567,
+      "correlation_half_window_abs_change": 0.119533098656601,
+      "same_policy_bucket": true
+    },
+    {
+      "id": "EDGE_5_10",
+      "parent_key": "p9",
+      "parent_index": 4,
+      "qubits": [
+        5,
+        10
+      ],
+      "mean_delta_B_i_to_j": 1.7741378851688653e-05,
+      "variance_delta_B": 2.814743316835714e-10,
+      "rms_delta_B": 2.4417838873305655e-05,
+      "correlation": 0.5263622516561928,
+      "correlation_half_window_abs_change": 0.07742379442254754,
+      "same_policy_bucket": true
+    },
+    {
+      "id": "EDGE_6_10",
+      "parent_key": "p9",
+      "parent_index": 5,
+      "qubits": [
+        6,
+        10
+      ],
+      "mean_delta_B_i_to_j": -0.00012701113944065543,
+      "variance_delta_B": 2.634816980320577e-10,
+      "rms_delta_B": 0.00012804417690799404,
+      "correlation": 0.3888047394677729,
+      "correlation_half_window_abs_change": 0.13732097682358407,
+      "same_policy_bucket": false
+    },
+    {
+      "id": "EDGE_7_10",
+      "parent_key": "p9",
+      "parent_index": 6,
+      "qubits": [
+        7,
+        10
+      ],
+      "mean_delta_B_i_to_j": 1.6374777701255312e-05,
+      "variance_delta_B": 1.7867967221335812e-10,
+      "rms_delta_B": 2.1137952052620575e-05,
+      "correlation": 0.564830229308608,
+      "correlation_half_window_abs_change": 0.013640864283089638,
+      "same_policy_bucket": true
+    },
+    {
+      "id": "EDGE_8_10",
+      "parent_key": "p9",
+      "parent_index": 7,
+      "qubits": [
+        8,
+        10
+      ],
+      "mean_delta_B_i_to_j": -7.581447402286236e-05,
+      "variance_delta_B": 4.800834612326824e-10,
+      "rms_delta_B": 7.891715867031677e-05,
+      "correlation": 0.22621105690356227,
+      "correlation_half_window_abs_change": 0.42450913541800916,
+      "same_policy_bucket": true
+    },
+    {
+      "id": "EDGE_9_10",
+      "parent_key": "p9",
+      "parent_index": 8,
+      "qubits": [
+        9,
+        10
+      ],
+      "mean_delta_B_i_to_j": -2.709476961616507e-06,
+      "variance_delta_B": 6.42312840461932e-11,
+      "rms_delta_B": 8.460056113981976e-06,
+      "correlation": 0.6347177311025864,
+      "correlation_half_window_abs_change": 0.05380746841602413,
+      "same_policy_bucket": false
+    },
+    {
+      "id": "EDGE_1_11",
+      "parent_key": "p10",
+      "parent_index": 0,
+      "qubits": [
+        1,
+        11
+      ],
+      "mean_delta_B_i_to_j": -6.748262593137371e-05,
+      "variance_delta_B": 1.7698030818937004e-10,
+      "rms_delta_B": 6.87814299850118e-05,
+      "correlation": 0.3304428969113268,
+      "correlation_half_window_abs_change": 0.03905283111649516,
+      "same_policy_bucket": true
+    },
+    {
+      "id": "EDGE_2_11",
+      "parent_key": "p10",
+      "parent_index": 1,
+      "qubits": [
+        2,
+        11
+      ],
+      "mean_delta_B_i_to_j": 1.0120896081168391e-05,
+      "variance_delta_B": 9.977754913665796e-11,
+      "rms_delta_B": 1.4220059304463807e-05,
+      "correlation": 0.5310007168552653,
+      "correlation_half_window_abs_change": 0.08087952626539663,
+      "same_policy_bucket": true
+    },
+    {
+      "id": "EDGE_3_11",
+      "parent_key": "p10",
+      "parent_index": 2,
+      "qubits": [
+        3,
+        11
+      ],
+      "mean_delta_B_i_to_j": -2.447236765834908e-06,
+      "variance_delta_B": 5.003946695693857e-11,
+      "rms_delta_B": 7.485214408752275e-06,
+      "correlation": 0.655802353169386,
+      "correlation_half_window_abs_change": 0.05542280724094539,
+      "same_policy_bucket": false
+    },
+    {
+      "id": "EDGE_4_11",
+      "parent_key": "p10",
+      "parent_index": 3,
+      "qubits": [
+        4,
+        11
+      ],
+      "mean_delta_B_i_to_j": 2.7377037835593076e-06,
+      "variance_delta_B": 1.2178492298695918e-10,
+      "rms_delta_B": 1.1370133903937725e-05,
+      "correlation": 0.6150285112649968,
+      "correlation_half_window_abs_change": 0.07280090473524448,
+      "same_policy_bucket": true
+    },
+    {
+      "id": "EDGE_5_11",
+      "parent_key": "p10",
+      "parent_index": 4,
+      "qubits": [
+        5,
+        11
+      ],
+      "mean_delta_B_i_to_j": 7.038101438830151e-06,
+      "variance_delta_B": 8.45499173500069e-11,
+      "rms_delta_B": 1.157949865984145e-05,
+      "correlation": 0.5486091685437182,
+      "correlation_half_window_abs_change": 0.1336347298527657,
+      "same_policy_bucket": true
+    },
+    {
+      "id": "EDGE_6_11",
+      "parent_key": "p10",
+      "parent_index": 5,
+      "qubits": [
+        6,
+        11
+      ],
+      "mean_delta_B_i_to_j": -0.0001377144168535139,
+      "variance_delta_B": 5.121282533573042e-10,
+      "rms_delta_B": 0.0001395614160957845,
+      "correlation": 0.312179421912585,
+      "correlation_half_window_abs_change": 0.06055422818498768,
+      "same_policy_bucket": false
+    },
+    {
+      "id": "EDGE_7_11",
+      "parent_key": "p10",
+      "parent_index": 6,
+      "qubits": [
+        7,
+        11
+      ],
+      "mean_delta_B_i_to_j": 5.671500288396804e-06,
+      "variance_delta_B": 7.671031586340485e-11,
+      "rms_delta_B": 1.0434377383662615e-05,
+      "correlation": 0.5191473128474828,
+      "correlation_half_window_abs_change": 0.01164534318202981,
+      "same_policy_bucket": true
+    },
+    {
+      "id": "EDGE_8_11",
+      "parent_key": "p10",
+      "parent_index": 7,
+      "qubits": [
+        8,
+        11
+      ],
+      "mean_delta_B_i_to_j": -8.651775143572086e-05,
+      "variance_delta_B": 2.869196053509097e-10,
+      "rms_delta_B": 8.816031374061737e-05,
+      "correlation": 0.22757538246767436,
+      "correlation_half_window_abs_change": 0.34439385162411684,
+      "same_policy_bucket": true
+    },
+    {
+      "id": "EDGE_9_11",
+      "parent_key": "p10",
+      "parent_index": 8,
+      "qubits": [
+        9,
+        11
+      ],
+      "mean_delta_B_i_to_j": -1.3412754374475006e-05,
+      "variance_delta_B": 1.106358908028151e-10,
+      "rms_delta_B": 1.7045171477952738e-05,
+      "correlation": 0.5897476814986032,
+      "correlation_half_window_abs_change": 0.0277050957516356,
+      "same_policy_bucket": false
+    },
+    {
+      "id": "EDGE_10_11",
+      "parent_key": "p10",
+      "parent_index": 9,
+      "qubits": [
+        10,
+        11
+      ],
+      "mean_delta_B_i_to_j": -1.0703277412858505e-05,
+      "variance_delta_B": 1.2982392286590497e-10,
+      "rms_delta_B": 1.5632788306713298e-05,
+      "correlation": 0.48866211094438056,
+      "correlation_half_window_abs_change": 0.08395896761806038,
+      "same_policy_bucket": true
+    }
+  ],
+  "feature_hash": "8570b3e8d2300732dcf7adaaea2cc71c0c21eb6b4f2a2a8d08f1bc3af58cd00e",
+  "construction_seconds": 0.0013369579683057964
+}

@@ -1,0 +1,8 @@
+{
+  "execution": "local CPU only",
+  "modal_calls": 0,
+  "llm_calls": 0,
+  "new_paid_reservation_usd": 0,
+  "wall_seconds": 0.5029460419900715,
+  "not_an_invoice": true
+}

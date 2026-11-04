@@ -4,6 +4,11 @@ Updated: 2026-11-04. Scope: maintained US-equity research application.
 
 ## Latest delivery
 
+- data_guidance_v1: offline, opt-in feature-to-gate procedure and checked per-edge
+  evidence contract. Exact exchange moments tested against exhaustive small supports;
+  eight conditional-US requests /964 pair records prepared. Existing cost/preparation
+  and legacy Modal paths unchanged. No new inference or demonstrated quality benefit.
+
 - improvement_v1:157 tests pass,168 published-US conditional runs/672 prefix rows.
   Verified classical edits of saved LLM circuits cut CX24–34% and depth19–31% with
   the same opened-case selected F. Stronger controls reveal a budget crossover and

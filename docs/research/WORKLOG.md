@@ -558,3 +558,32 @@ reviewable commit on the same branch.
   all plots; retained original derived comparison plot and added a readable-margin
   revision without altering measurements. Both completed-run guards returned with
   no new dispatch. All Modal apps idle at the recorded check.
+
+## 2026-11-04 — explicit feature-to-gate guidance
+
+- User identified that raw feature context does not sufficiently guide circuit
+  decisions. Reviewed Hadfield alternating-operator v2, Zhu ADAPT-QAOA v3 and
+  Stopfer/Wagner portfolio v3 before recording DATA_GUIDANCE_PROTOCOL.md.
+- Added exact polynomial mean/variance/RMS B-difference for every allowed exchange,
+  conditioned on neutral cardinality/fixed bits. It includes benchmark/cost terms
+  but not the continuous F allocator or other inequality feasibility. No stock
+  filtering, classical portfolio search, gradient shots or allocation queries.
+- Optional guided_request now spells out connection/order/sharing decisions,
+  supplies all allowed pair statistics with explicit rounding/scale, and requires
+  per-parent references to the actual selected edge. Schedule/sharing responses
+  include hypotheses and falsifiers. Explanations are unproven; independent quantum
+  and compiled-resource checks remain mandatory. Legacy Modal/defaults unchanged.
+- Added exhaustive small-case moments, frozen bits, zero objective, consistent
+  permutation, benchmark-versus-correlation and admission-separation tests.
+  Two initial fixtures used outdated ticker labels; corrected them to current
+  ASSET identifiers. All11 new focused tests then passed.
+- Prepared eight opened US-development requests/964 pair records locally, archived
+  relevant source bytes and protocol, and generated an inspected feature figure.
+  Requests are18,460–24,507 serialized bytes, not tokenizer/context certificates.
+  No new inference, paid reservation, financial-quality search or holdout score.
+  Causal guidance value requires a frozen matched-budget ablation against rules,
+  adaptive classical structure search and allocation-aware local search.
+- Final checks:168 full-suite tests passed; F lint and diff whitespace passed.
+  All33 generated evidence/source files matched recorded hashes; all eight request
+  and descriptor identities and complete pair tables passed independent checks.
+  Feature figure inspected. No change to prior raw runs or deployed Modal workers.

@@ -26,3 +26,10 @@ cost. This is classical simulation and does not establish hardware advantage.
 
 Read results/research/improvement_v1/RESULTS.md and INSIGHTS.md for measured
 resource reductions, quality-by-budget curves and the outstanding limitations.
+
+`guidance.guided_request` is a further optional library API, with an explicit
+feature-to-decision procedure and per-parent evidence links. Its adapter performs
+evidence checks before the same cost-aware quantum/resource admission. Eight
+requests were prepared locally under DATA_GUIDANCE_PROTOCOL.md. This API is not
+wired into the deployed Modal entry point and has no live-model result; a future
+experiment must freeze the version and tokenize inputs before any dispatch.

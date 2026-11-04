@@ -4,6 +4,12 @@ Updated: 2026-11-04, Asia/Ho_Chi_Minh.
 
 ## Delivered
 
+- Explicit offline data-to-circuit guidance: exact proxy exchange moments, complete
+  pair tables and mandatory gate-to-feature evidence links, followed by independent
+  quantum/resource admission. Eight US-development request artifacts /964 pair
+  records; zero new inference, allocation queries or paid jobs. No new model or
+  financial-quality qualification. See [evidence](results/research/data_guidance_v1/RESULTS.md).
+
 - Latest improvement:157 tests pass;168 conditional US-return runs and672 budget
   points on Modal CPU. Saved-circuit edits cut CX24–34%/depth19–31% while retaining
   opened-case selected F. Strong conditioned/local-search references expose the

@@ -12,6 +12,12 @@ budget benchmark. Strong informed classical search still leads on these related
 development cases. This improves engineering/evaluation, not historical admission
 or independent financial qualification. No new LLM/GPU inference was used.
 
+The [explicit guidance artifacts](../../results/research/data_guidance_v1/RESULTS.md)
+add measured proxy-exchange evidence, a feature-to-gate procedure and checked
+citations for each proposed connection. Eight requests are prepared offline; no
+model has been evaluated under this new contract. Exact descriptor arithmetic
+and traceable explanations do not establish financial utility or causal adaptation.
+
 **The available-source audit and qualification infrastructure are implemented.
 Historical investability, a production LLM and independent financial value are
 not qualified. A larger model cannot resolve missing economic entitlements or

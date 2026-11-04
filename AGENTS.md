@@ -37,6 +37,16 @@ for the next action. Update this file and the worklog after meaningful changes.
   zero tasks after the bounded probe. Do not relaunch a completed probe by default.
 
 ## Verified current evidence — do not repeat unnecessarily
+- data_guidance_v1: offline opt-in guidance.py computes exact mean/RMS delta-B
+  for every permitted exchange (neutral cardinality/fixed-bit reference, no F
+  allocation queries). New prompt explains feature-to-gate decisions and checks
+  per-parent evidence links before quantum/resource admission.8 US-development
+  requests/964 pairs prepared; no new inference/quality search/Modal dispatch.
+  Read DATA_GUIDANCE_PROTOCOL.md and its RESULTS.md before a new guided study.
+  This API is NOT wired into deployed Modal; no model tested under it. Exact
+  B moments are not F improvements or ADAPT quantum gradients. Legacy unchanged.
+- Latest full suite168 tests passes; F lint,33 guidance artifact hashes and eight
+  request/descriptor identities/pair coverages checked. Feature plot inspected.
 - Latest improvement_v1:157 tests pass. One Modal CPU study,0 new model/GPU calls,
   USD0.221379 reservation (not invoice).8 real-US conditional cases,168 runs,
   672 budget rows,14,784 draws.564 files checked;13,048 feasible allocations rescored.
