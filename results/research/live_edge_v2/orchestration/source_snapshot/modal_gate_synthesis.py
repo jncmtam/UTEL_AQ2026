@@ -1,0 +1,186 @@
+"""Pinned, self-hosted vLLM batch workers. No public or per-token shared endpoint."""
+from __future__ import annotations
+
+import json
+import time
+import modal
+
+app = modal.App("agqo-gate-synthesis")
+cache = modal.Volume.from_name("agqo-gate-models", create_if_missing=True)
+image = (modal.Image.debian_slim(python_version="3.12")
+         .uv_pip_install("vllm==0.15.0", "jsonschema==4.26.0")
+         .env({"HF_HOME": "/model-cache/huggingface", "VLLM_LOGGING_LEVEL": "WARNING"})
+         .add_local_python_source("agqo"))
+modern_image = (modal.Image.debian_slim(python_version='3.12')
+                .uv_pip_install('vllm==0.17.1','jsonschema==4.26.0')
+                .env({'HF_HOME':'/model-cache/huggingface','VLLM_LOGGING_LEVEL':'WARNING'})
+                .add_local_python_source('agqo'))
+
+
+def generate(model_key, requests):
+    start = time.monotonic()
+    maximum=32 if model_key in {'coder480','qwen397'} else 8
+    if not isinstance(requests, list) or not 1 <= len(requests) <= maximum:
+        raise ValueError(f"Batch must have 1–{maximum} requests.")
+    from agqo.synthesis.budget import MODEL_CATALOG
+    from agqo.synthesis.decoding import decoder_schema
+    from vllm import LLM, SamplingParams
+    from vllm.sampling_params import StructuredOutputsParams
+    import torch
+    config = MODEL_CATALOG[model_key]
+    print(json.dumps({"stage": "loading_model", "model": config["model"], "revision": config["revision"], "requests": len(requests)}), flush=True)
+    engine = LLM(model=config["model"], revision=config["revision"], dtype=config["dtype"],
+                 tensor_parallel_size=config.get('tensor_parallel_size',1), max_model_len=16384,
+                 gpu_memory_utilization=0.90 if model_key in {'coder480','qwen397'} else 0.88,
+                 max_num_seqs=2, enforce_eager=True, enable_prefix_caching=False,
+                 trust_remote_code=False, **config.get("engine_kwargs",{}))
+    print(json.dumps({"stage": "engine_ready", "seconds": time.monotonic() - start}), flush=True)
+    tokenizer = engine.get_tokenizer()
+    messages, params, prompt_lengths = [], [], []
+    for request in requests:
+        chat = [{"role": "system", "content": request["system"]},
+                {"role": "user", "content": json.dumps(request["payload"], ensure_ascii=False)}]
+        chat_kwargs={'enable_thinking':False} if model_key in {'qwen397','quasar4'} else {}
+        count = len(tokenizer.apply_chat_template(chat, add_generation_prompt=True, tokenize=True,**chat_kwargs))
+        if count + request["max_tokens"] > 16384:
+            raise ValueError(f"Prompt length {count} plus output budget exceeds 16K; no silent data truncation.")
+        messages.append(chat); prompt_lengths.append(count)
+        params.append(SamplingParams(temperature=request.get("temperature", 0.4), top_p=0.9,
+                                     seed=request["seed"], max_tokens=request["max_tokens"],
+                                     **({"structured_outputs":StructuredOutputsParams(json=decoder_schema(request["schema"]))} if request.get("schema") else {})))
+    print(json.dumps({"stage": "generating", "prompt_tokens": prompt_lengths}), flush=True)
+    outputs = engine.chat(messages, sampling_params=params, use_tqdm=False,
+                          **({'chat_template_kwargs':{'enable_thinking':False}} if model_key in {'qwen397','quasar4'} else {}))
+    answers = []
+    for request, output, count in zip(requests, outputs, prompt_lengths, strict=True):
+        completion = output.outputs[0]
+        try:
+            value = json.loads(completion.text) if request.get("schema") else completion.text
+            status = "ok" if completion.finish_reason == "stop" else "truncated"
+        except json.JSONDecodeError:
+            value, status = None, "invalid_json"
+        answers.append({"request_hash": request["request_hash"], "status": status, "response": value,
+                        "raw_text": completion.text, "finish_reason": completion.finish_reason,
+                        "usage": {"input_tokens": count, "output_tokens": len(completion.token_ids)}})
+    print(json.dumps({"stage": "generation_done", "seconds": time.monotonic() - start,
+                      "statuses": [a["status"] for a in answers]}), flush=True)
+    cache.commit()
+    import vllm
+    return {"model": config["model"], "revision": config["revision"], "model_key": model_key,
+            "answers": answers, "execution": "live_modal_vllm", "vllm_version": vllm.__version__,
+            "elapsed_seconds": time.monotonic() - start, "runtime_adapter": "uniqueItems_checked_by_independent_validator_v1",
+            "gpu": torch.cuda.get_device_name(),
+            # vLLM engine owns allocations in a child process. The parent's
+            # allocator peak can be zero and must not be reported as model VRAM.
+            "parent_process_cuda_peak_bytes_not_model_vram": torch.cuda.max_memory_allocated(),
+            "gpu_memory_measurement": "device_free_snapshot_not_engine_peak",
+            "gpu_memory_total_bytes": torch.cuda.get_device_properties(0).total_memory,
+            "gpu_memory_free_bytes": torch.cuda.mem_get_info()[0], "batch_size": len(requests)}
+
+
+@app.function(image=image, gpu="H200", cpu=4, memory=131072, timeout=900,
+              startup_timeout=600, retries=0, max_containers=1, scaledown_window=2,
+              volumes={"/model-cache": cache})
+def next80_batch(requests):
+    return generate("next80", requests)
+
+
+@app.function(image=image, gpu="A100-80GB", cpu=4, memory=98304, timeout=900,
+              startup_timeout=600, retries=0, max_containers=1, scaledown_window=2,
+              volumes={"/model-cache": cache})
+def coder30_batch(requests):
+    return generate("coder30", requests)
+
+
+@app.function(image=image,gpu='H200:4',cpu=16,memory=393216,timeout=1800,
+              startup_timeout=900,retries=0,max_containers=1,scaledown_window=2,
+              volumes={'/model-cache':cache})
+def coder480_batch(requests):
+    return generate('coder480',requests)
+
+
+@app.function(image=modern_image,gpu='H200:4',cpu=16,memory=393216,timeout=1800,
+              startup_timeout=900,retries=0,max_containers=1,scaledown_window=2,
+              volumes={'/model-cache':cache})
+def qwen397_batch(requests):
+    return generate('qwen397',requests)
+
+
+@app.function(image=image, cpu=4, memory=16384, timeout=2400, startup_timeout=180,
+              retries=0, max_containers=1, scaledown_window=2, volumes={"/model-cache": cache})
+def prefetch_model(model_key):
+    """Download public pinned weights on CPU, before paying to load them on GPU."""
+    from pathlib import Path
+    from huggingface_hub import snapshot_download
+    from agqo.synthesis.budget import MODEL_CATALOG
+    config=MODEL_CATALOG[model_key]
+    start=time.monotonic()
+    location=snapshot_download(config['model'],revision=config['revision'],
+                               allow_patterns=['*.json','*.safetensors','*.txt','*.model','*.jinja'],max_workers=8)
+    cache.commit()
+    return {'model':config['model'],'revision':config['revision'],'seconds':time.monotonic()-start,
+            'weight_bytes':sum(p.stat().st_size for p in Path(location).rglob('*.safetensors')),
+            'execution':'cpu_prefetch_not_inference'}
+
+
+@app.function(image=image, gpu="A100-80GB", cpu=4, memory=65536, timeout=600,
+              startup_timeout=600, retries=0, max_containers=1, scaledown_window=2,
+              volumes={"/model-cache": cache})
+def quasar4_batch(requests):
+    return generate("quasar4", requests)
+
+
+@app.function(image=modern_image, gpu="A100-80GB", cpu=4, memory=98304, timeout=900,
+              startup_timeout=600, retries=0, max_containers=1, scaledown_window=2,
+              volumes={"/model-cache": cache})
+def mistral24q_batch(requests):
+    return generate("mistral24q", requests)
+
+
+@app.function(image=modern_image, cpu=2, memory=4096, timeout=300,
+              startup_timeout=180, retries=0, max_containers=1, scaledown_window=2,
+              volumes={"/model-cache":cache})
+def tokenizer_preflight(model_key):
+    """CPU-only HF tokenizer/chat check. Never instantiate or download model weights."""
+    from transformers import AutoTokenizer
+    from agqo.synthesis.budget import MODEL_CATALOG
+    if model_key not in ('coder30','mistral24q','quasar4'):
+        raise ValueError('Only the preregistered specialist/control shortlist is admitted.')
+    config=MODEL_CATALOG[model_key];start=time.monotonic()
+    tokenizer=AutoTokenizer.from_pretrained(config['model'],revision=config['revision'],trust_remote_code=False)
+    messages=[{'role':'system','content':'Return only valid English JSON.'},
+              {'role':'user','content':'Describe a two-qubit Bell circuit as gate data.'}]
+    kwargs={'enable_thinking':False} if model_key=='quasar4' else {}
+    ids=tokenizer.apply_chat_template(messages,add_generation_prompt=True,tokenize=True,**kwargs)
+    rendered=tokenizer.apply_chat_template(messages,add_generation_prompt=True,tokenize=False,**kwargs)
+    if not ids or not isinstance(rendered,str):raise ValueError('Tokenizer/chat rendering did not produce a prompt.')
+    cache.commit()
+    return {'status':'tokenizer_ready_only','model':config['model'],'revision':config['revision'],
+            'tokenizer_class':type(tokenizer).__name__,'prompt_tokens':len(ids),'rendered_prompt':rendered,
+            'elapsed_seconds':time.monotonic()-start,'execution':'modal_cpu_no_model_inference',
+            'gpu_requested':False,'model_weights_requested':False,'engine_kwargs':config.get('engine_kwargs',{})}
+
+
+@app.function(image=image, cpu=2, memory=4096, timeout=300,
+              startup_timeout=180, retries=0, max_containers=1, scaledown_window=2,
+              volumes={"/model-cache": cache})
+def tokenizer_requests(model_key, requests):
+    """Check actual bounded logical messages on the GPU worker's tokenizer image."""
+    from transformers import AutoTokenizer
+    from agqo.synthesis.budget import MODEL_CATALOG
+    if model_key != "coder30" or not 1 <= len(requests) <= 8:
+        raise ValueError("Only the frozen eight-request Coder30 pilot is admitted.")
+    config = MODEL_CATALOG[model_key]
+    tokenizer = AutoTokenizer.from_pretrained(config["model"], revision=config["revision"], trust_remote_code=False)
+    rows = []
+    for request in requests:
+        chat = [{"role": "system", "content": request["system"]},
+                {"role": "user", "content": json.dumps(request["payload"], ensure_ascii=False)}]
+        count = len(tokenizer.apply_chat_template(chat, add_generation_prompt=True, tokenize=True))
+        rows.append({"request_hash": request["request_hash"], "input_tokens": count,
+                     "output_allowance": request["max_tokens"],
+                     "fits": count + request["max_tokens"] <= 16384})
+    cache.commit()
+    return {"model": config["model"], "revision": config["revision"],
+            "status": "ready" if all(r["fits"] for r in rows) else "blocked_context",
+            "requests": rows, "execution": "CPU_tokenizer_no_inference", "context": 16384}

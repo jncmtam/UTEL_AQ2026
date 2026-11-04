@@ -37,6 +37,25 @@ for the next action. Update this file and the worklog after meaningful changes.
   zero tasks after the bounded probe. Do not relaunch a completed probe by default.
 
 ## Verified current evidence — do not repeat unnecessarily
+- Latest live_edge_v2:220 tests pass. Real pinned Coder30/A10080GB/vLLM0.15 GPU
+  batch8 normal responses,8/8 admitted;84 Modal CPU runs/48,384 observations;
+  30,659 feasible allocations independently rescored (max residual1.63e-19),393
+  downloads checked. Exact prompts/outputs/GPU proof and FINDINGS/RESULTS are saved.
+- Both v2 arms give identical first-free-qubit stars/group1 on every case. Physical
+  GateIR equals a deterministic star rule; independent review proves equivalence
+  without new simulations. Guidance has zero observed effect. Pooled vs fixed
+  -1.29%,uniform-1.20%,swap+3.57%; N20-only vs swap+6.92%. Stars9–17% deeper than
+  scheduled path. Prose has false constraint/hub claims. No production model or
+  financial/quantum advantage. Stop GPU escalation; no more inference scheduled.
+- Original live_guidance_v1 remains0/8 full-contract admission (8 real normal GPU
+  completions). Metadata duplicates/contradictory citations, not proof all gates
+  invalid. First CPU hash failure retained; separately registered CPU recovery pins
+  source-bound statistics to exact original H, resolving1.0842e-19 BLAS difference.
+  Exact compiler verification unchanged; no repeated GPU inference for recovery.
+- V2 is a new interface/caps/scheduler study, not a clean v1-v2 model comparison.
+  Both new ledgers' reservations total4.686350USD incl failed CPU, not invoice.
+  Read EDGE_PROGRAM_PROTOCOL.md, LIVE_GUIDANCE_RECOVERY.md, LLM_TRANSPARENCY.md.
+  Completed commands are guarded; do not relaunch completed GPU/CPU calls.
 - tail_fitting_v1:211 tests pass. Opt-in fitting=mean|lower_tail uses allocated F,
   fractional empirical tail and separate all-shot fit/final feasibility gates.
   Default None retains legacy numerical behavior. Feasible portfolio and qualified
@@ -55,7 +74,7 @@ for the next action. Update this file and the worklog after meaningful changes.
   per-parent evidence links before quantum/resource admission.8 US-development
   requests/964 pairs prepared; no new inference/quality search/Modal dispatch.
   Read DATA_GUIDANCE_PROTOCOL.md and its RESULTS.md before a new guided study.
-  This API is NOT wired into deployed Modal; no model tested under it. Exact
+  The original contract was not run as-is; latest live interfaces revise it. Exact
   B moments are not F improvements or ADAPT quantum gradients. Legacy unchanged.
 - Previous full suite168 tests passed; F lint,33 guidance artifact hashes and eight
   request/descriptor identities/pair coverages checked. Feature plot inspected.
@@ -141,6 +160,13 @@ for the next action. Update this file and the worklog after meaningful changes.
   CONDITIONING_PROTOCOL.md. Defaults and earlier raw runs are unchanged.
 
 ## Implemented modules (read only the relevant one)
+- edge_program.py: single-source edge/group schema, compiler disjoint scheduling,
+  exact evidence mapping; live_guidance.py: matched requests and CPU evaluation.
+  frozen_numerics.py: validated source-bound numerical transport, exact old H.
+  scripts/run_live_guidance.py --interface edge_v2 is the completed guarded driver;
+  scripts/summarize_live_guidance.py is read-only audit; preview_markdown.py makes
+  absolute-link app previews under gitignored .local-previews. Original evidence
+  and the unrelated working README heading indentation are preserved.
 - sample_loss.py: fractional empirical lower-tail mean, all-shot feasibility gate,
   status accounting. budget_search.search exposes opt-in fitting; tail_study.py
   freezes/resumes bounded CPU pilot with source/data guards. Scripts run_tail_pilot

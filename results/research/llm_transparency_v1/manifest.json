@@ -1,0 +1,23 @@
+{
+  "live_source": "results/research/modal_e2e_v1/prepared.json requests[0]",
+  "guided_source": "results/research/data_guidance_v1/cases/family0_n20_base/request.json",
+  "live_request_hash": "4de1d9d8fafd42d114969734ccbd2494934b2baec56092e82a210e600f386d2a",
+  "guided_request_hash": "64bc45f3ab7c0cf454469f550ca4eb24f5c834d90390afc2368a572dc29fd23b",
+  "model": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+  "revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+  "new_model_calls": 0,
+  "scope": "Exact saved request fields and reconstructed logical messages; tokenizer-rendered token IDs are not claimed.",
+  "sha256_files": {
+    "GUIDED_UNTESTED_LOGICAL_MESSAGES.json": "87a82209477b6e9c99f560fcee318765a74792b66efc2a1cea6600c63ed052df",
+    "GUIDED_UNTESTED_REQUEST.json": "3c20dfabf086f60f71896dc235fbe8356b88560ed9f65183f434883d7f555517",
+    "GUIDED_UNTESTED_RESPONSE_SCHEMA.json": "25f1027ef8fc0b0bdb7e9960fdd23928002e6d0dff6c815e471d7e2f74890077",
+    "GUIDED_UNTESTED_SYSTEM_PROMPT.txt": "c2e7bd4f42781aa2ca8a8957be3af37e9db5085c14cae733d1dc928bd3567dc4",
+    "GUIDED_UNTESTED_USER_PAYLOAD.json": "48268bc0eb7066e8d6f395ad97515364cebd54ed76114189082242f6588631e8",
+    "LIVE_ACTUAL_RESPONSE.json": "5ffe66f9c7c4e2374e69962dbc5015acf980dd70636f187131a1638f402dc62f",
+    "LIVE_LOGICAL_MESSAGES.json": "e489a9a92db04ccaee13b7735b7451a7d099b4181d969ce517730193df8ba80a",
+    "LIVE_REQUEST.json": "d15d1ac77d49d85079ebb26a8efb7835b07e64361847e9626b2ed125f17b9949",
+    "LIVE_RESPONSE_SCHEMA.json": "7875aff5818644a80dfc586dc0e3ae43d439023946875eb96533ac0e28871ddd",
+    "LIVE_SYSTEM_PROMPT.txt": "654e34f74bd71be2659564132b9048b4087a5657bb9d1bd899cc4a5ed3ddfea3",
+    "LIVE_USER_PAYLOAD.json": "5ff86922d960a103c7d1a2c2735a52a76de872ec01e3578cbbbbbbc77bb2e7b0"
+  }
+}

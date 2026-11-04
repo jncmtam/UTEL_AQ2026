@@ -1,0 +1,13 @@
+{
+  "raw_downloads_unchanged": true,
+  "derived_sha256": {
+    "analysis.json": "45d068930b038a21ae3e56424ce7f7940f95f8e4190adfa756175c2140cd46ab",
+    "RESULTS.md": "b4ccd4326a86df409bdb45272341f09f235f52c1eab6997f0b04b59e9a97610d",
+    "PROGRESS.md": "522f32fb70f33c232ca00f5ea5dc2b7731683a8c2794d653ee28f27f6b94098e",
+    "metrics.csv": "1a50a1ade3648d428727bd7f284b409ff1bbb0bf57ef16a769fac5ca1281390f",
+    "prefix_metrics.csv": "0b0e8ff400719653ff37932cb8cb52d0aea939588c4408fbc45cee688e2235a1",
+    "quality-by-budget.png": "e2d18046db9b7a20bbf1444c41092307c6f2c0436140d0ff5c3ba04e4bb175d1",
+    "circuit-structures.png": "67c1e9ff37c7227d9ef6ecacc32c029d8fd2055b091b1e6298644f03a280ca6d",
+    "report_generator.py": "ab815c1b0355868059cf5a0e5b60ecc6a7fa696dbe235041c7934f501b4ba377"
+  }
+}

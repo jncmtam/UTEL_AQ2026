@@ -1,0 +1,571 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "const": "data-guided-common-counter-v1"
+    },
+    "parents": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "p1": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 0
+        },
+        "p2": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "p3": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2
+        },
+        "p4": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        },
+        "p5": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4
+        },
+        "p6": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 5
+        },
+        "p7": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 6
+        },
+        "p8": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 7
+        },
+        "p9": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 8
+        },
+        "p10": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9
+        },
+        "p11": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "p12": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 11
+        },
+        "p13": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 12
+        },
+        "p14": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 13
+        },
+        "p15": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 14
+        },
+        "p16": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 15
+        },
+        "p17": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 16
+        },
+        "p18": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 17
+        },
+        "p19": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18
+        }
+      },
+      "required": [
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p5",
+        "p6",
+        "p7",
+        "p8",
+        "p9",
+        "p10",
+        "p11",
+        "p12",
+        "p13",
+        "p14",
+        "p15",
+        "p16",
+        "p17",
+        "p18",
+        "p19"
+      ]
+    },
+    "schedule": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 18
+      },
+      "minItems": 19,
+      "maxItems": 19
+    },
+    "groups": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "enum": [
+          0,
+          1
+        ]
+      },
+      "minItems": 19,
+      "maxItems": 19
+    },
+    "preparation": {
+      "const": "compiler_counter_dicke_v1"
+    },
+    "depth": {
+      "const": 1
+    },
+    "rationale": {
+      "type": "array",
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "feature_ids": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "CORRELATION",
+                "CLUSTERS",
+                "SPECTRUM",
+                "OBJECTIVE_TERMS",
+                "INCUMBENT",
+                "STABILITY"
+              ]
+            }
+          },
+          "decision": {
+            "type": "string",
+            "maxLength": 300
+          }
+        },
+        "required": [
+          "feature_ids",
+          "decision"
+        ]
+      },
+      "minItems": 1
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "parent_edges": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "p1": {
+              "enum": [
+                "EDGE_0_1"
+              ]
+            },
+            "p2": {
+              "enum": [
+                "EDGE_0_2",
+                "EDGE_1_2"
+              ]
+            },
+            "p3": {
+              "enum": [
+                "EDGE_0_3",
+                "EDGE_1_3",
+                "EDGE_2_3"
+              ]
+            },
+            "p4": {
+              "enum": [
+                "EDGE_0_4",
+                "EDGE_1_4",
+                "EDGE_2_4",
+                "EDGE_3_4"
+              ]
+            },
+            "p5": {
+              "enum": [
+                "EDGE_0_5",
+                "EDGE_1_5",
+                "EDGE_2_5",
+                "EDGE_3_5",
+                "EDGE_4_5"
+              ]
+            },
+            "p6": {
+              "enum": [
+                "EDGE_0_6",
+                "EDGE_1_6",
+                "EDGE_2_6",
+                "EDGE_3_6",
+                "EDGE_4_6",
+                "EDGE_5_6"
+              ]
+            },
+            "p7": {
+              "enum": [
+                "EDGE_0_7",
+                "EDGE_1_7",
+                "EDGE_2_7",
+                "EDGE_3_7",
+                "EDGE_4_7",
+                "EDGE_5_7",
+                "EDGE_6_7"
+              ]
+            },
+            "p8": {
+              "enum": [
+                "EDGE_0_8",
+                "EDGE_1_8",
+                "EDGE_2_8",
+                "EDGE_3_8",
+                "EDGE_4_8",
+                "EDGE_5_8",
+                "EDGE_6_8",
+                "EDGE_7_8"
+              ]
+            },
+            "p9": {
+              "enum": [
+                "EDGE_0_9",
+                "EDGE_1_9",
+                "EDGE_2_9",
+                "EDGE_3_9",
+                "EDGE_4_9",
+                "EDGE_5_9",
+                "EDGE_6_9",
+                "EDGE_7_9",
+                "EDGE_8_9"
+              ]
+            },
+            "p10": {
+              "enum": [
+                "EDGE_0_10",
+                "EDGE_1_10",
+                "EDGE_2_10",
+                "EDGE_3_10",
+                "EDGE_4_10",
+                "EDGE_5_10",
+                "EDGE_6_10",
+                "EDGE_7_10",
+                "EDGE_8_10",
+                "EDGE_9_10"
+              ]
+            },
+            "p11": {
+              "enum": [
+                "EDGE_0_11",
+                "EDGE_1_11",
+                "EDGE_2_11",
+                "EDGE_3_11",
+                "EDGE_4_11",
+                "EDGE_5_11",
+                "EDGE_6_11",
+                "EDGE_7_11",
+                "EDGE_8_11",
+                "EDGE_9_11",
+                "EDGE_10_11"
+              ]
+            },
+            "p12": {
+              "enum": [
+                "EDGE_0_12",
+                "EDGE_1_12",
+                "EDGE_2_12",
+                "EDGE_3_12",
+                "EDGE_4_12",
+                "EDGE_5_12",
+                "EDGE_6_12",
+                "EDGE_7_12",
+                "EDGE_8_12",
+                "EDGE_9_12",
+                "EDGE_10_12",
+                "EDGE_11_12"
+              ]
+            },
+            "p13": {
+              "enum": [
+                "EDGE_0_13",
+                "EDGE_1_13",
+                "EDGE_2_13",
+                "EDGE_3_13",
+                "EDGE_4_13",
+                "EDGE_5_13",
+                "EDGE_6_13",
+                "EDGE_7_13",
+                "EDGE_8_13",
+                "EDGE_9_13",
+                "EDGE_10_13",
+                "EDGE_11_13",
+                "EDGE_12_13"
+              ]
+            },
+            "p14": {
+              "enum": [
+                "EDGE_0_14",
+                "EDGE_1_14",
+                "EDGE_2_14",
+                "EDGE_3_14",
+                "EDGE_4_14",
+                "EDGE_5_14",
+                "EDGE_6_14",
+                "EDGE_7_14",
+                "EDGE_8_14",
+                "EDGE_9_14",
+                "EDGE_10_14",
+                "EDGE_11_14",
+                "EDGE_12_14",
+                "EDGE_13_14"
+              ]
+            },
+            "p15": {
+              "enum": [
+                "EDGE_0_15",
+                "EDGE_1_15",
+                "EDGE_2_15",
+                "EDGE_3_15",
+                "EDGE_4_15",
+                "EDGE_5_15",
+                "EDGE_6_15",
+                "EDGE_7_15",
+                "EDGE_8_15",
+                "EDGE_9_15",
+                "EDGE_10_15",
+                "EDGE_11_15",
+                "EDGE_12_15",
+                "EDGE_13_15",
+                "EDGE_14_15"
+              ]
+            },
+            "p16": {
+              "enum": [
+                "EDGE_0_16",
+                "EDGE_1_16",
+                "EDGE_2_16",
+                "EDGE_3_16",
+                "EDGE_4_16",
+                "EDGE_5_16",
+                "EDGE_6_16",
+                "EDGE_7_16",
+                "EDGE_8_16",
+                "EDGE_9_16",
+                "EDGE_10_16",
+                "EDGE_11_16",
+                "EDGE_12_16",
+                "EDGE_13_16",
+                "EDGE_14_16",
+                "EDGE_15_16"
+              ]
+            },
+            "p17": {
+              "enum": [
+                "EDGE_0_17",
+                "EDGE_1_17",
+                "EDGE_2_17",
+                "EDGE_3_17",
+                "EDGE_4_17",
+                "EDGE_5_17",
+                "EDGE_6_17",
+                "EDGE_7_17",
+                "EDGE_8_17",
+                "EDGE_9_17",
+                "EDGE_10_17",
+                "EDGE_11_17",
+                "EDGE_12_17",
+                "EDGE_13_17",
+                "EDGE_14_17",
+                "EDGE_15_17",
+                "EDGE_16_17"
+              ]
+            },
+            "p18": {
+              "enum": [
+                "EDGE_0_18",
+                "EDGE_1_18",
+                "EDGE_2_18",
+                "EDGE_3_18",
+                "EDGE_4_18",
+                "EDGE_5_18",
+                "EDGE_6_18",
+                "EDGE_7_18",
+                "EDGE_8_18",
+                "EDGE_9_18",
+                "EDGE_10_18",
+                "EDGE_11_18",
+                "EDGE_12_18",
+                "EDGE_13_18",
+                "EDGE_14_18",
+                "EDGE_15_18",
+                "EDGE_16_18",
+                "EDGE_17_18"
+              ]
+            },
+            "p19": {
+              "enum": [
+                "EDGE_0_19",
+                "EDGE_1_19",
+                "EDGE_2_19",
+                "EDGE_3_19",
+                "EDGE_4_19",
+                "EDGE_5_19",
+                "EDGE_6_19",
+                "EDGE_7_19",
+                "EDGE_8_19",
+                "EDGE_9_19",
+                "EDGE_10_19",
+                "EDGE_11_19",
+                "EDGE_12_19",
+                "EDGE_13_19",
+                "EDGE_14_19",
+                "EDGE_15_19",
+                "EDGE_16_19",
+                "EDGE_17_19",
+                "EDGE_18_19"
+              ]
+            }
+          },
+          "required": [
+            "p1",
+            "p2",
+            "p3",
+            "p4",
+            "p5",
+            "p6",
+            "p7",
+            "p8",
+            "p9",
+            "p10",
+            "p11",
+            "p12",
+            "p13",
+            "p14",
+            "p15",
+            "p16",
+            "p17",
+            "p18",
+            "p19"
+          ]
+        },
+        "schedule": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "feature_ids": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "enum": [
+                  "EXCHANGE_TABLE",
+                  "MANDATE_DOMAIN",
+                  "RESOURCE_BUDGET"
+                ]
+              }
+            },
+            "hypothesis": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 240
+            },
+            "falsifier": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 240
+            }
+          },
+          "required": [
+            "feature_ids",
+            "hypothesis",
+            "falsifier"
+          ]
+        },
+        "sharing": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "feature_ids": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "enum": [
+                  "EXCHANGE_TABLE",
+                  "MANDATE_DOMAIN",
+                  "RESOURCE_BUDGET"
+                ]
+              }
+            },
+            "hypothesis": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 240
+            },
+            "falsifier": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 240
+            }
+          },
+          "required": [
+            "feature_ids",
+            "hypothesis",
+            "falsifier"
+          ]
+        }
+      },
+      "required": [
+        "parent_edges",
+        "schedule",
+        "sharing"
+      ]
+    }
+  },
+  "required": [
+    "version",
+    "parents",
+    "schedule",
+    "groups",
+    "preparation",
+    "depth",
+    "rationale",
+    "evidence"
+  ]
+}

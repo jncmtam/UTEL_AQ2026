@@ -7,6 +7,20 @@ import shutil
 from .data import sha, write_json
 
 
+def relative_sources(root, files):
+    """Normalize absolute controller paths before joining an archive directory."""
+    root = Path(root).resolve()
+    result = []
+    for name in files:
+        source = (root / Path(name)).resolve()
+        if not source.is_relative_to(root) or not source.is_file():
+            raise ValueError(
+                "Snapshot sources must be existing files within the project."
+            )
+        result.append(source.relative_to(root))
+    return result
+
+
 def capture_sources(directory):
     root = Path(__file__).resolve().parents[2]
     output = Path(directory) / "source_snapshot"
@@ -23,6 +37,7 @@ def capture_sources(directory):
         root / "docs/research/MODAL_E2E_PROTOCOL.md",
         root / "docs/research/IMPROVEMENT_PROTOCOL.md",
         root / "docs/research/TAIL_FITTING_PROTOCOL.md",
+        root / "docs/research/LIVE_GUIDANCE_PROTOCOL.md",
     ]
     manifest = {"python": platform.python_version(), "files": {}, "packages": {}}
     for source in files:

@@ -14,10 +14,46 @@ an unfaithful objective.
 [Current findings](docs/research/QUALIFICATION_STATUS.md) ·
 [How to resolve the blockers](docs/research/REMEDIATION_PLAN.md) ·
 [Contribution strategy](docs/research/CONTRIBUTION_STRATEGY.md) ·
+[Exact LLM prompts and outputs](docs/research/LLM_TRANSPARENCY.md) ·
 [Visual evidence](results/research/evidence_gallery_v1/GALLERY.md) ·
 [User guide](docs/USER_GUIDE.md) · [Progress](PROGRESS.md) · [Agent handoff](AGENTS.md)
 
 ## Latest improvements
+
+**Real GPU LLM/QAOA experiment completed.** Pinned Qwen Coder30 generated eight
+edge programs on Modal **NVIDIA A100-SXM4-80GB**; all eight passed independent
+circuit/resource admission. The CPU evaluator completed84 runs/48,384 observations,
+and30,659 feasible allocations were independently rescored. These are actual model
+outputs: [GPU proof](results/research/live_edge_v2/GPU_EXECUTION_PROOF.md),
+[exact prompts](results/research/live_edge_v2/SYSTEM_PROMPTS.md),
+[verbatim answers](results/research/live_edge_v2/ACTUAL_RESPONSES.md).
+
+The engineering improvement is a typed interface: LLM selects graph edges and beta
+sharing once; compiler owns scheduling, preparation and immutable COST. Frozen
+financial numerics preserve exact Hamiltonian hashes across platforms. Original
+v1 failures remain0/8; v2 also changes scheduling/resource caps, so this is not a
+clean claim that the model became more intelligent.
+
+**Guidance did not add observed value.** Both arms return the same star/group1
+template on every case. Against fixed QAOA, the final allocated training objective
+averages1.29% lower; versus uniform1.20% lower; versus classical swap3.57% higher
+(worse). These pool N12/N20 related development cases. The stars use9–17% more
+logical depth than the scheduled fixed path. A deterministic star rule reproduces
+the physical circuits, and some model explanations are false. No data-adaptive
+LLM/financial or quantum advantage is qualified.
+
+Read [findings](results/research/live_edge_v2/FINDINGS.md),
+[audited measurements/charts](results/research/live_edge_v2/RESULTS.md),
+[independent review](results/research/live_edge_v2/INDEPENDENT_REVIEW.md) and
+[the frozen v2 protocol](docs/research/EDGE_PROGRAM_PROTOCOL.md).
+The [original failed contract](results/research/live_guidance_v1/FINDINGS.md) and
+[CPU recovery](docs/research/LIVE_GUIDANCE_RECOVERY.md) are retained. Combined
+reservations total USD4.686350, including the failed/recovery CPU calls, not an invoice.
+
+Replay guard: `.venv/bin/python scripts/run_live_guidance.py --interface edge_v2`
+retains the completed run without dispatching paid jobs. For desktop Markdown
+images, `.venv/bin/python scripts/preview_markdown.py results/research/live_edge_v2/RESULTS.md`
+creates a local preview with absolute image/file paths; canonical reports stay unchanged.
 
 **Allocated-tail fitting is implemented and tested, with mixed performance.**
 `budget_search.search(..., fitting="lower_tail", tail_alpha=0.25,
@@ -87,7 +123,7 @@ Read [results and charts](results/research/improvement_v1/RESULTS.md),
 [the frozen protocol](docs/research/IMPROVEMENT_PROTOCOL.md) and
 [cost-aware implementation](docs/research/COST_AWARE_PIPELINE.md).
 
-## Latest live Modal run
+## Earlier live Modal integration
 
 The connected cloud pipeline completed: **3/3 live Qwen Coder30 designs verified**,
 **24/24 synthetic allocation decisions feasible**, and **9 exported QPY/QASM
@@ -116,7 +152,7 @@ Read the [measured results and charts](results/research/modal_e2e_v1/RESULTS.md)
 | Independent-test protection | Exact reliability intervals and hash-bound final-test lock prerequisites | Actual readiness is blocked; final strategy outcomes were not opened by this work |
 | English delivery | English maintained workflow, root guides, status, README and visual gallery | Historical originals and raw evidence are preserved, with English reading paths |
 
-The software suite currently contains **211 passing tests**. See the worklog for
+The software suite currently contains **220 passing tests**. See the worklog for
 recorded checks and the [qualification status](docs/research/QUALIFICATION_STATUS.md)
 for the substantive limitations.
 

@@ -637,3 +637,51 @@ reviewable commit on the same branch.
   Updated README/status/handoff with actual findings and B/F/market limitations.
   A pre-existing concurrent README heading indentation edit is preserved separately
   from this implementation's staged documentation changes.
+
+## 2026-11-04 — exact prompts and real GPU LLM/QAOA improvement
+
+- Verified25 existing Markdown image links/PNGs; added absolute-link local previews
+  and reusable preview_markdown.py without altering original reports. Disclosed
+  exact old/new prompts, payloads, schemas, actual responses and runtime/source maps
+  in LLM_TRANSPARENCY.md and three transparency/live artifact directories.
+- Registered LIVE_GUIDANCE_PROTOCOL.md, then CPU tokenized all real requests and
+  ran Coder30/A10080GB/vLLM0.15:8 normal responses,278.73s worker time incl setup,
+  77,758 input/7,581 output tokens. First CPU phase failed exact canonical hash.
+- Registered manual CPU-only recovery before dispatch. Frozen source-bound numerical
+  statistics resolve a1.0842e-19 platform difference in benchmark-linear terms;
+  exact original H and compiler equality remain unchanged. GPU outputs reused;
+  failed CPU logs/reservation retained. No repeat inference for this recovery.
+- V1 remains0/8 full-contract admission: duplicate evidence labels unsupported by
+  decoder masking, and contradictory parent/edge citations.36 control runs and
+  20,736 observations completed;184 files checked/13,336 feasible allocations
+  rescored. No control result attributed to a rejected model proposal.
+- Registered EDGE_PROGRAM_PROTOCOL.md before one final GPU batch. Single-source
+  edge IDs/groups avoid redundant citations; compiler owns disjoint scheduling,
+  prep and COST. Caps use a saved unscheduled fixed baseline for every method.
+  This is a new interface/cap/scheduler study, not a clean v1-v2 model comparison.
+- V2 A10080GB:8 normal responses,407.67s worker incl setup,76,782 input/4,870 output
+  tokens.8/8 admitted,84 CPU runs/48,384 observations, no execution errors.393
+  downloads checked and30,659 feasible allocations rescored (max residual1.63e-19).
+  All prompts/raw outputs/GPU proof/QASM/QPY/compiler source evidence retained.
+- Both arms return identical first-free-qubit stars/group1 in every case. Independent
+  review proves physical-IR equivalence to a deterministic star without simulations
+  or allocation queries. Some prose falsely describes a frozen hub or weight-limit
+  preservation. Guidance adds no measured effect; no production model qualified.
+- Pooled guided F vs fixed-1.29%,uniform-1.20%,correlation rule-0.93%,random-0.0016%,
+  swap+3.57%; N20-only vs swap+6.92%. Opened dependent training comparisons, not
+  returns/significance; family/size confounded. Stars9–17% deeper. No financial/
+  quantum advantage, no third inference batch. Combined reservations4.686350USD
+  include failed/recovery CPU; not invoice or complete adaptation-cost measurement.
+- Provenance audit found absolute __file__ paths bypassed controller snapshot
+  prefixes. All three controller files recovered with exact recorded SHA256
+  matches; original protocols/evidence untouched. Fixed future archive normalization
+  and added tests. Metadata-only fix, no scientific rerun. Full220-test suite passes.
+- Updated README/handoff/status/runbook. Preserved unrelated README heading edit.
+  No independent holdout or historical source-admission state changed.
+- Final delivery: F lint/97-file English scan and220 tests pass. V1/V2 source
+  archives and every downloaded/derived hash verified; real CPU/GPU token counts
+  agree, all16 raw JSON responses match saved parsed outputs with no duplicate
+  object keys. Eight small QPY/QASM exported statevectors match NumPy (minimum
+  fidelity0.9999999999999956);8 frozen numerical-certificate hashes reconstructed.
+  Large full-statevector execution is not claimed. All apps report zero active
+  tasks; all three completed drivers returned without billing or redispatch.

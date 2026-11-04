@@ -159,3 +159,28 @@ def tokenizer_preflight(model_key):
             'tokenizer_class':type(tokenizer).__name__,'prompt_tokens':len(ids),'rendered_prompt':rendered,
             'elapsed_seconds':time.monotonic()-start,'execution':'modal_cpu_no_model_inference',
             'gpu_requested':False,'model_weights_requested':False,'engine_kwargs':config.get('engine_kwargs',{})}
+
+
+@app.function(image=image, cpu=2, memory=4096, timeout=300,
+              startup_timeout=180, retries=0, max_containers=1, scaledown_window=2,
+              volumes={"/model-cache": cache})
+def tokenizer_requests(model_key, requests):
+    """Check actual bounded logical messages on the GPU worker's tokenizer image."""
+    from transformers import AutoTokenizer
+    from agqo.synthesis.budget import MODEL_CATALOG
+    if model_key != "coder30" or not 1 <= len(requests) <= 8:
+        raise ValueError("Only the frozen eight-request Coder30 pilot is admitted.")
+    config = MODEL_CATALOG[model_key]
+    tokenizer = AutoTokenizer.from_pretrained(config["model"], revision=config["revision"], trust_remote_code=False)
+    rows = []
+    for request in requests:
+        chat = [{"role": "system", "content": request["system"]},
+                {"role": "user", "content": json.dumps(request["payload"], ensure_ascii=False)}]
+        count = len(tokenizer.apply_chat_template(chat, add_generation_prompt=True, tokenize=True))
+        rows.append({"request_hash": request["request_hash"], "input_tokens": count,
+                     "output_allowance": request["max_tokens"],
+                     "fits": count + request["max_tokens"] <= 16384})
+    cache.commit()
+    return {"model": config["model"], "revision": config["revision"],
+            "status": "ready" if all(r["fits"] for r in rows) else "blocked_context",
+            "requests": rows, "execution": "CPU_tokenizer_no_inference", "context": 16384}

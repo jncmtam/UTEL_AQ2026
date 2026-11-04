@@ -1,0 +1,217 @@
+{
+  "raw_files_verified": 184,
+  "completed_runs": 36,
+  "errors": [],
+  "observations": 20736,
+  "allocation_queries": 13386,
+  "feasible_allocations_rescored": 13336,
+  "maximum_objective_residual": 1.6263032587282567e-19,
+  "model_acceptance": "0/8",
+  "paired_guided_comparisons": [],
+  "structure_changes": [
+    {
+      "case_id": "family0_n12_base",
+      "parent_changes": 0,
+      "schedule_changed": false,
+      "groups_changed": true,
+      "guidance_usefulness_not_proven_by_changes": true
+    },
+    {
+      "case_id": "family0_n12_exit",
+      "parent_changes": 0,
+      "schedule_changed": false,
+      "groups_changed": true,
+      "guidance_usefulness_not_proven_by_changes": true
+    },
+    {
+      "case_id": "family1_n20_base",
+      "parent_changes": 18,
+      "schedule_changed": true,
+      "groups_changed": true,
+      "guidance_usefulness_not_proven_by_changes": true
+    },
+    {
+      "case_id": "family1_n20_exit",
+      "parent_changes": 16,
+      "schedule_changed": false,
+      "groups_changed": false,
+      "guidance_usefulness_not_proven_by_changes": true
+    }
+  ],
+  "cost": {
+    "ledger": {
+      "version": "budget-v1",
+      "limit_usd": 10,
+      "jobs": [
+        {
+          "id": "6dc6f5b1e14041ea9d8b47fc62f7d568",
+          "label": "tokenizer",
+          "resource": "cpu",
+          "reserved_usd": 0.022418749999999994,
+          "status": "completed",
+          "billing": {
+            "checked_utc": "2026-11-04T11:53:38.495688+00:00",
+            "metered_cost": 1.4692894,
+            "billed_cost": 0.0,
+            "adjustments": {
+              "Credits": "-0.90000000",
+              "Network Egress Allowance": "-0.01672696",
+              "Plan Cost": "0E-8",
+              "Free Storage": "-0.55256244",
+              "Reservation Adjustment": "-0E-8"
+            },
+            "rates": {
+              "gpu_hour_cost_h200": 4.54,
+              "gpu_hour_cost_a100_80gb": 2.5,
+              "mem_gib_hour_cost": 0.008,
+              "cpu_hour_cost": 0.0473
+            },
+            "allowance_basis": "API exposes metered/billed costs, not a standalone available-credit balance. Enforce the selected authorization policy separately."
+          },
+          "metadata": {
+            "call_id": "fc-01M6K6GRTEZ2VJWXXFTGE1S87S"
+          }
+        },
+        {
+          "id": "6e9b58c2bb0a49da88fbc5c501215388",
+          "label": "prefetch:coder30",
+          "resource": "cpu",
+          "reserved_usd": 0.29737500000000006,
+          "status": "completed",
+          "billing": {
+            "checked_utc": "2026-11-04T11:53:54.849059+00:00",
+            "metered_cost": 1.4692894,
+            "billed_cost": 0.0,
+            "adjustments": {
+              "Credits": "-0.90000000",
+              "Network Egress Allowance": "-0.01672696",
+              "Plan Cost": "0E-8",
+              "Free Storage": "-0.55256244",
+              "Reservation Adjustment": "-0E-8"
+            },
+            "rates": {
+              "gpu_hour_cost_h200": 4.54,
+              "gpu_hour_cost_a100_80gb": 2.5,
+              "mem_gib_hour_cost": 0.008,
+              "cpu_hour_cost": 0.0473
+            },
+            "allowance_basis": "API exposes metered/billed costs, not a standalone available-credit balance. Enforce the selected authorization policy separately."
+          },
+          "metadata": {
+            "model": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+            "revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+            "seconds": 0.19454350100000006,
+            "weight_bytes": 61066575656,
+            "execution": "cpu_prefetch_not_inference"
+          }
+        },
+        {
+          "id": "145c98a5aa9d4f229e56d8966b638ce0",
+          "label": "coder30",
+          "resource": "gpu",
+          "reserved_usd": 1.84,
+          "status": "completed",
+          "billing": {
+            "checked_utc": "2026-11-04T11:54:00.379749+00:00",
+            "metered_cost": 1.4692894,
+            "billed_cost": 0.0,
+            "adjustments": {
+              "Credits": "-0.90000000",
+              "Network Egress Allowance": "-0.01672696",
+              "Plan Cost": "0E-8",
+              "Free Storage": "-0.55256244",
+              "Reservation Adjustment": "-0E-8"
+            },
+            "rates": {
+              "gpu_hour_cost_h200": 4.54,
+              "gpu_hour_cost_a100_80gb": 2.5,
+              "mem_gib_hour_cost": 0.008,
+              "cpu_hour_cost": 0.0473
+            },
+            "allowance_basis": "API exposes metered/billed costs, not a standalone available-credit balance. Enforce the selected authorization policy separately."
+          },
+          "metadata": {
+            "elapsed_seconds": 287.18078537494875,
+            "receipt": "145c98a5aa9d4f229e56d8966b638ce0_receipt.json"
+          }
+        },
+        {
+          "id": "2ee01ae0321c4e8fbb5c4f166d256975",
+          "label": "evaluation",
+          "resource": "cpu",
+          "reserved_usd": 0.2213791666666667,
+          "status": "failed_reservation_charged",
+          "billing": {
+            "checked_utc": "2026-11-04T11:58:48.605461+00:00",
+            "metered_cost": 1.81929036,
+            "billed_cost": 0.0,
+            "adjustments": {
+              "Credits": "-1.25000000",
+              "Network Egress Allowance": "-0.01672792",
+              "Plan Cost": "0E-8",
+              "Free Storage": "-0.55256244",
+              "Reservation Adjustment": "-0E-8"
+            },
+            "rates": {
+              "gpu_hour_cost_h200": 4.54,
+              "gpu_hour_cost_a100_80gb": 2.5,
+              "mem_gib_hour_cost": 0.008,
+              "cpu_hour_cost": 0.0473
+            },
+            "allowance_basis": "API exposes metered/billed costs, not a standalone available-credit balance. Enforce the selected authorization policy separately."
+          },
+          "metadata": {
+            "reason": "Immutable Hamiltonian changed."
+          }
+        },
+        {
+          "id": "89fbc239e7ef4803920ad7965a83c7df",
+          "label": "diagnosed_cpu_recovery_v2",
+          "resource": "cpu",
+          "reserved_usd": 0.2213791666666667,
+          "status": "completed",
+          "billing": {
+            "checked_utc": "2026-11-04T12:06:07.846151+00:00",
+            "metered_cost": 1.81929173,
+            "billed_cost": 0.0,
+            "adjustments": {
+              "Plan Cost": "0E-8",
+              "Credits": "-1.25000000",
+              "Free Storage": "-0.55256244",
+              "Reservation Adjustment": "-0E-8",
+              "Network Egress Allowance": "-0.01672928"
+            },
+            "rates": {
+              "gpu_hour_cost_h200": 4.54,
+              "gpu_hour_cost_a100_80gb": 2.5,
+              "cpu_hour_cost": 0.0473,
+              "mem_gib_hour_cost": 0.008
+            },
+            "allowance_basis": "API exposes metered/billed costs, not a standalone available-credit balance. Enforce the selected authorization policy separately."
+          },
+          "metadata": {
+            "status": "completed_development_evaluation",
+            "inputs_hash": "a6cd7994b625814d2c8d2eb6eab82df084028ee39347fdb1743cbe292ba23e35",
+            "model_requests": 8,
+            "model_accepted": 0,
+            "runs": 36,
+            "errors": 0,
+            "observations": 20736,
+            "investment_universe_approved": false,
+            "hardware_execution": false
+          }
+        }
+      ],
+      "authorization": "User explicitly authorizes broader Modal usage, larger models and achieving the best measured result, replacing the previous credit-only cap.",
+      "monthly_allowance": null
+    },
+    "reserved_usd_total": 2.6025520833333338,
+    "reservation_is_not_invoice": true,
+    "billing_delta_is_not_isolated_job_bill": true,
+    "includes_failed_original_cpu_reservation": true,
+    "new_model_calls_in_recovery": 0,
+    "input_tokens": 77758,
+    "output_tokens": 7581
+  },
+  "scope": "Opened conditional US development; no investment/hardware advantage qualification"
+}

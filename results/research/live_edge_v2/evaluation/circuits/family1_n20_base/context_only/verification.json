@@ -1,0 +1,41 @@
+{
+  "valid": true,
+  "errors": [],
+  "warnings": [
+    {
+      "code": "inactive_first_cost",
+      "message": "Basis initialization: first COST is only a global phase; p=1 is a diagnostic baseline."
+    }
+  ],
+  "conservation_certificate": "trusted_diagonal_and_paired_exchange",
+  "synthesis_gate_count": 38,
+  "declared_parameters": 2,
+  "ir_hash": "2ad01ede6f83a6b8bce7d9d7c79de2c23e9630ef44dae94faaaac8ba31438432",
+  "limits": {
+    "max_qubits": 40,
+    "max_layers": 4,
+    "max_parameters": 16,
+    "max_synthesis_gates": 512,
+    "max_two_qubit_gates": 40000,
+    "max_transpiled_depth": 80000
+  },
+  "resources": {
+    "qubits": 23,
+    "asset_qubits": 20,
+    "slack_qubits": 0,
+    "preparation_workspace_qubits": 3,
+    "workspace_cleanup": "analytic_construction_small_case_crosschecked",
+    "transpiled_cx": 998,
+    "transpiled_depth": 1618,
+    "includes_cost_and_initialization": true
+  },
+  "active_parameters": 2,
+  "inactive_parameters": [],
+  "simulation_states": 15504,
+  "verification_access": "analytic_certificate_and_conserved_simulation",
+  "crosscheck_state_fidelities": [],
+  "maximum_cardinality_leak": 0.0,
+  "leakage_basis_enforced": true,
+  "elapsed_seconds": 0.1044536039999997,
+  "reachability_scope": "All cardinality/include/exclude supports retained; no certificate for the inequality-feasible transition graph."
+}

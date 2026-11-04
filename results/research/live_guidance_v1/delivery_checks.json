@@ -1,0 +1,22 @@
+{
+  "full_suite_tests_passed": 220,
+  "f_checks": "passed",
+  "english_surface_files": 97,
+  "downloaded_files_verified": 184,
+  "source_archive_files_verified": 86,
+  "exact_gpu_responses_verified": 8,
+  "token_counts_match_cpu_and_gpu": true,
+  "canonical_hashes_exact": true,
+  "raw_json_duplicate_keys": 0,
+  "additional_artifact_hashes": {
+    "GPU_EXECUTION_PROOF.md": "c42be517a6c315b62a07f27bd31fae37ae44de84b20c18e69a93964d45f22852",
+    "ACTUAL_RESPONSES.md": "651051576eae6a221ecf0a2ceb547a2cc5a4b53c83323b7be4190db02be7d6ff",
+    "report_manifest.json": "e09f1133f7a642fa91e27ae3cff7b45d9a833da5c1b25d8c24035aeaf664a227",
+    ".gitattributes": "21b24d72a33a1961f2b23b58e8d36e6ccf7442d2baca56426875d312c65fb027",
+    "FINDINGS.md": "73f0644949bf50c8d906a594fbf6ff6d6767c02d81dc9168491fb26fbec7315a",
+    "SYSTEM_PROMPTS.md": "2fc488dce069915003bc905b1c814c00bc4fdad1a8674747b3fafbb3a862de43"
+  },
+  "apps_idle": true,
+  "raw_measurements_unchanged": true,
+  "registered_stop_rule_no_more_inference": true
+}

@@ -4,6 +4,16 @@ Updated: 2026-11-04, Asia/Ho_Chi_Minh.
 
 ## Delivered
 
+- Real GPU LLM/QAOA v2:8/8 programs admitted,84 Modal CPU runs/48,384 observations,
+  30,659 feasible allocations rescored;218 tests pass. Both arms return identical
+  stars: no guidance effect. Pooled allocated F vs fixed-1.29%,uniform-1.20%,
+  classical swap+3.57%; no finance/quantum advantage. Exact outputs, prompts and
+  GPU receipts saved. See [findings](results/research/live_edge_v2/FINDINGS.md).
+- Preserved original v1:8 real GPU responses,0/8 full-contract admission. CPU-only
+  numerical transport recovery fixed hash portability without rerunning inference.
+  V2 removes redundant metadata and delegates scheduling to compiler; changes to
+  schema/caps also affect acceptance. Combined reservations4.686350USD, not bill.
+
 - tail_fitting_v1:211 tests pass. Opt-in lower-tail allocated-F fitting and separate
   fit/final feasibility gates; legacy defaults retained. Local CPU pilot96/96 runs,
   55,296 observations,35,651 allocation attempts;35,503 feasible allocations rescored.

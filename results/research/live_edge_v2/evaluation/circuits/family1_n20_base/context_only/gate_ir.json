@@ -1,0 +1,570 @@
+{
+  "version": "gate-ir-v2",
+  "problem_hash": "6c2c77e7f76db415a49555012423a623e73d3215645a83859780b5f0d2d2a44f",
+  "hamiltonian_hash": "52271b136ff583d7cac5e4214e4a0c6097de21d06285114ac5756050a2b6c18e",
+  "qubit_to_asset": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19
+  ],
+  "mode": "preserve_cardinality",
+  "initial_bits": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "parameters": [
+    {
+      "id": "gamma_0",
+      "kind": "cost",
+      "initial": null
+    },
+    {
+      "id": "beta_0_1",
+      "kind": "mixer",
+      "initial": null
+    }
+  ],
+  "initialization": [],
+  "layers": [
+    {
+      "cost": {
+        "op": "COST",
+        "parameter": "gamma_0",
+        "hamiltonian_hash": "52271b136ff583d7cac5e4214e4a0c6097de21d06285114ac5756050a2b6c18e"
+      },
+      "mixer": [
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            1
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            0,
+            1
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            2
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            0,
+            2
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            3
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            0,
+            3
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            4
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            0,
+            4
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            5
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            0,
+            5
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            6
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            0,
+            6
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            7
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            0,
+            7
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            8
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            0,
+            8
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            9
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            0,
+            9
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            10
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            0,
+            10
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            11
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            0,
+            11
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            12
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            0,
+            12
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            13
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            0,
+            13
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            14
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            0,
+            14
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            15
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            0,
+            15
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            16
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            0,
+            16
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            17
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            0,
+            17
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            18
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            0,
+            18
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            19
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            0,
+            19
+          ],
+          "angle": {
+            "parameter": "beta_0_1",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        }
+      ]
+    }
+  ],
+  "rationale": [
+    {
+      "feature_ids": [],
+      "decision": "Each data-edge ID represents a unique pairwise interaction between assets in the portfolio. These interactions are derived from the Hamiltonian's quadratic ZZ terms, which encode the correlation structure of the optimization problem. The q-"
+    },
+    {
+      "feature_ids": [],
+      "decision": "The beta group assignment ensures that each pair of assets is connected through a shared RXX(2*beta) and RYY(2*beta) gate, enabling quantum evolution under the problem Hamiltonian."
+    },
+    {
+      "feature_ids": [],
+      "decision": "If any asset pair's interaction strength (coefficient) is below the numerical precision threshold, the corresponding edge may be omitted from the exchange graph, invalidating the cardinality constraint."
+    }
+  ],
+  "preparation": {
+    "kind": "dicke_sequential_counter_v1",
+    "free_qubits": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19
+    ],
+    "ones": 5
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "model": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+  "revision": "b2cff646eb4bb1d68355c01b18ae02e7cf42d120",
+  "seconds": 0.19454350100000006,
+  "weight_bytes": 61066575656,
+  "execution": "cpu_prefetch_not_inference"
+}

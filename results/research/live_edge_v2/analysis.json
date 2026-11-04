@@ -1,0 +1,184 @@
+{
+  "raw_files_verified": 393,
+  "completed_runs": 84,
+  "errors": [],
+  "observations": 48384,
+  "allocation_queries": 30769,
+  "feasible_allocations_rescored": 30659,
+  "maximum_objective_residual": 1.6263032587282567e-19,
+  "model_acceptance": "8/8",
+  "paired_guided_comparisons": [
+    {
+      "reference": "context_only",
+      "pairs": 12,
+      "mean_pct": 0.0,
+      "median_pct": 0.0,
+      "wins": 0,
+      "ties": 12,
+      "losses": 0
+    },
+    {
+      "reference": "fixed_scheduled",
+      "pairs": 12,
+      "mean_pct": -1.2913400362696834,
+      "median_pct": 0.0,
+      "wins": 5,
+      "ties": 5,
+      "losses": 2
+    },
+    {
+      "reference": "uniform_conditioned",
+      "pairs": 12,
+      "mean_pct": -1.2048217221958406,
+      "median_pct": -0.3747341352655975,
+      "wins": 6,
+      "ties": 5,
+      "losses": 1
+    },
+    {
+      "reference": "allocation_swap",
+      "pairs": 12,
+      "mean_pct": 3.566928842338698,
+      "median_pct": 0.6376254952657701,
+      "wins": 0,
+      "ties": 6,
+      "losses": 6
+    }
+  ],
+  "structure_changes": [
+    {
+      "case_id": "family0_n12_base",
+      "parent_changes": 0,
+      "schedule_changed": false,
+      "groups_changed": false,
+      "guidance_usefulness_not_proven_by_changes": true
+    },
+    {
+      "case_id": "family0_n12_exit",
+      "parent_changes": 0,
+      "schedule_changed": false,
+      "groups_changed": false,
+      "guidance_usefulness_not_proven_by_changes": true
+    },
+    {
+      "case_id": "family1_n20_base",
+      "parent_changes": 0,
+      "schedule_changed": false,
+      "groups_changed": false,
+      "guidance_usefulness_not_proven_by_changes": true
+    },
+    {
+      "case_id": "family1_n20_exit",
+      "parent_changes": 0,
+      "schedule_changed": false,
+      "groups_changed": false,
+      "guidance_usefulness_not_proven_by_changes": true
+    }
+  ],
+  "cost": {
+    "ledger": {
+      "version": "budget-v1",
+      "limit_usd": 7.397447916666666,
+      "jobs": [
+        {
+          "id": "98c72ec552684831a63dbed280f91b2d",
+          "label": "tokenizer",
+          "resource": "cpu",
+          "reserved_usd": 0.022418749999999994,
+          "status": "completed",
+          "billing": {
+            "checked_utc": "2026-11-04T12:20:21.390819+00:00",
+            "metered_cost": 1.8394103,
+            "billed_cost": 0.0,
+            "adjustments": {
+              "Credits": "-1.27000000",
+              "Network Egress Allowance": "-0.01684786",
+              "Free Storage": "-0.55256244",
+              "Reservation Adjustment": "-0E-8",
+              "Plan Cost": "0E-8"
+            },
+            "rates": {
+              "gpu_hour_cost_a100_80gb": 2.5,
+              "cpu_hour_cost": 0.0473,
+              "gpu_hour_cost_h200": 4.54,
+              "mem_gib_hour_cost": 0.008
+            },
+            "allowance_basis": "API exposes metered/billed costs, not a standalone available-credit balance. Enforce the selected authorization policy separately."
+          },
+          "metadata": {
+            "call_id": "fc-01M6K81ND4QACSY3F0XW74ZQWE"
+          }
+        },
+        {
+          "id": "9d87ed2a1a26410391e130497d0391f0",
+          "label": "coder30",
+          "resource": "gpu",
+          "reserved_usd": 1.84,
+          "status": "completed",
+          "billing": {
+            "checked_utc": "2026-11-04T12:20:35.510095+00:00",
+            "metered_cost": 1.8394103,
+            "billed_cost": 0.0,
+            "adjustments": {
+              "Credits": "-1.27000000",
+              "Network Egress Allowance": "-0.01684786",
+              "Free Storage": "-0.55256244",
+              "Reservation Adjustment": "-0E-8",
+              "Plan Cost": "0E-8"
+            },
+            "rates": {
+              "gpu_hour_cost_a100_80gb": 2.5,
+              "cpu_hour_cost": 0.0473,
+              "gpu_hour_cost_h200": 4.54,
+              "mem_gib_hour_cost": 0.008
+            },
+            "allowance_basis": "API exposes metered/billed costs, not a standalone available-credit balance. Enforce the selected authorization policy separately."
+          },
+          "metadata": {
+            "elapsed_seconds": 420.2715011249529,
+            "receipt": "9d87ed2a1a26410391e130497d0391f0_receipt.json"
+          }
+        },
+        {
+          "id": "55fc88c0592248d1a3c9135936f2944e",
+          "label": "evaluation",
+          "resource": "cpu",
+          "reserved_usd": 0.2213791666666667,
+          "status": "completed",
+          "billing": {
+            "checked_utc": "2026-11-04T12:27:36.780678+00:00",
+            "metered_cost": 2.38941127,
+            "billed_cost": 0.0,
+            "adjustments": {
+              "Credits": "-1.82000000",
+              "Network Egress Allowance": "-0.01684883",
+              "Free Storage": "-0.55256244",
+              "Reservation Adjustment": "-0E-8",
+              "Plan Cost": "0E-8"
+            },
+            "rates": {
+              "gpu_hour_cost_a100_80gb": 2.5,
+              "cpu_hour_cost": 0.0473,
+              "gpu_hour_cost_h200": 4.54,
+              "mem_gib_hour_cost": 0.008
+            },
+            "allowance_basis": "API exposes metered/billed costs, not a standalone available-credit balance. Enforce the selected authorization policy separately."
+          },
+          "metadata": {
+            "call_id": "fc-01M6K8EYXWHZ66DSM7861WZ3RQ"
+          }
+        }
+      ],
+      "authorization": "User explicitly authorizes broader Modal usage, larger models and achieving the best measured result, replacing the previous credit-only cap.",
+      "monthly_allowance": null
+    },
+    "reserved_usd_total": 2.0837979166666667,
+    "original_v1_reservations_usd": 2.6025520833333338,
+    "combined_v1_v2_reserved_usd": 4.686350000000001,
+    "reservation_is_not_invoice": true,
+    "billing_delta_is_not_isolated_job_bill": true,
+    "input_tokens": 76782,
+    "output_tokens": 4870
+  },
+  "scope": "Opened conditional US development; no investment/hardware advantage qualification"
+}

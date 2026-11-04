@@ -1,0 +1,6 @@
+evaluation/runs/*.json -diff linguist-generated=true
+evaluation/source_snapshot/** linguist-generated=true
+orchestration/source_snapshot/** linguist-generated=true
+orchestration/recovery_v2/source_snapshot/** linguist-generated=true
+orchestration/inference/** -diff linguist-generated=true
+evaluation/circuits/** linguist-generated=true

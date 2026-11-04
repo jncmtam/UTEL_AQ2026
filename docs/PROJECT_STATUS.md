@@ -4,6 +4,13 @@ Updated: 2026-11-04. Scope: maintained US-equity research application.
 
 ## Latest delivery
 
+- live_edge_v2:218 tests pass; actual Coder30/A10080GB GPU inference8/8 admitted,
+  84 CPU evaluation runs and30,659 independently rescored feasible allocations.
+  Both arms give the same star/group1, no measured guidance benefit. Financial
+  scores beat fixed/uniform slightly but trail direct classical swaps. No model
+  or investment advantage qualified. Exact prompts, outputs, GPU proof and limits
+  are in results/research/live_edge_v2/FINDINGS.md and LLM_TRANSPARENCY.md.
+
 - tail_fitting_v1:211 tests pass;96 local CPU runs/55,296 observations. New optional
   lower-tail allocated-F fitting and independent empirical feasibility gates;
   defaults preserved. N20 tail is0.40% better than gated mean but7.35% worse than

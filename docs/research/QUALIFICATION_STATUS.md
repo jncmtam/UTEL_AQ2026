@@ -25,6 +25,13 @@ the current selection/allocation objective mismatch.**
 
 ## Work performed
 
+Latest [real GPU study](../../results/research/live_edge_v2/FINDINGS.md) admits8/8
+typed programs but produces identical star/group1 templates in both prompt arms.
+Guidance adds no observed value; a rule reproduces the architectures and some
+explanations are wrong. Engineering reliability improved, with schema/scheduling/
+cap changes confounded versus the preserved0/8 v1. Financial and model qualification
+remain open. Exact prompts and responses are in [LLM_TRANSPARENCY.md](LLM_TRANSPARENCY.md).
+
 The [tail-fitting pilot](../../results/research/tail_fitting_v1/FINDINGS.md)
 completed96 local CPU runs with independent objective/accounting audit. Tail
 aggregation modestly improves N20 mean-F fitting but still loses to informed

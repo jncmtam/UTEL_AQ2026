@@ -4,6 +4,33 @@ The private Functions deployment is `agqo-research-pipeline`. Live LLM inference
 uses the existing `agqo-gate-synthesis` deployment. Both run under the authenticated
 workspace; no public inference endpoint is exposed.
 
+## Latest completed GPU studies
+
+`live_guidance_v1` preserves8 real responses/0 full-contract admissions and the
+separately registered canonical-numerics CPU recovery. `live_edge_v2` has8/8
+admitted real A10080GB responses and84 audited CPU runs. Both v2 arms produce the
+same star/group1; guidance adds no observed effect. Read
+[exact prompts/outputs](research/LLM_TRANSPARENCY.md) and
+[measured findings](../results/research/live_edge_v2/FINDINGS.md).
+
+The following completed-run commands return without billing/dispatch:
+
+```bash
+.venv/bin/python scripts/run_live_guidance.py
+.venv/bin/python scripts/run_live_guidance.py --interface edge_v2
+.venv/bin/python scripts/recover_live_guidance_cpu.py
+```
+
+Do not delete markers or change a prepared run to launch another paid experiment.
+Use a new protocol/ID for future work. V2 chooses graph/groups; compiler owns
+scheduling/preparation/COST. Matrix/vector coefficients are transported with
+validated source identity so executed Hamiltonian hashes remain exact across
+platforms. Generated explanations remain unverified and can be wrong.
+
+Both v1/v2 GPU model inferences are real. QAOA evolution and allocation are CPU
+computations, not quantum hardware. Combined reservations4.686350USD are not an
+invoice; failed CPU work is included. No further GPU batch is scheduled.
+
 ## Deploy and run
 
 ```bash

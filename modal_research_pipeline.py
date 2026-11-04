@@ -129,3 +129,23 @@ def improvement_run(run_id, inputs):
         }
     finally:
         results.commit()
+
+
+@app.function(image=image, cpu=4, memory=16384, timeout=1800,
+              startup_timeout=180, retries=0, max_containers=1,
+              scaledown_window=2, volumes={"/runs": results})
+def guided_study_run(run_id, inputs, answers):
+    from agqo.research.live_guidance import evaluate
+    from agqo.research.data import sha
+    path = run_path(run_id)
+    try:
+        summary = evaluate(path, inputs, answers)
+        files = sorted(p for p in path.rglob("*") if p.is_file())
+        hashes = {str(p.relative_to(path)): sha(p) for p in files}
+        stream = io.BytesIO()
+        with zipfile.ZipFile(stream, "w", zipfile.ZIP_DEFLATED) as archive:
+            for p in files:
+                archive.write(p, str(p.relative_to(path)))
+        return {"summary": summary, "sha256_files": hashes, "archive": stream.getvalue()}
+    finally:
+        results.commit()

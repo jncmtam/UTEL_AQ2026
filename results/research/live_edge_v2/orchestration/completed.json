@@ -1,0 +1,11 @@
+{
+  "status": "completed_development_evaluation",
+  "inputs_hash": "71321d5caf6283a533e1759b92ac98c88422cfacb1be0cd3091b57c6befc7b62",
+  "model_requests": 8,
+  "model_accepted": 8,
+  "runs": 84,
+  "errors": 0,
+  "observations": 48384,
+  "investment_universe_approved": false,
+  "hardware_execution": false
+}
