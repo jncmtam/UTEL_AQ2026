@@ -44,11 +44,17 @@ def unpack_verified(payload, directory):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run-id", default="modal_e2e_v1")
+    parser.add_argument("--cost-aware", action="store_true")
     args = parser.parse_args()
     path = Path("results/research") / args.run_id
     orchestration = path / "orchestration"
     orchestration.mkdir(parents=True, exist_ok=True)
     if (orchestration / "completed.json").exists():
+        previous = json.loads((orchestration / "prepare.json").read_text())
+        if previous["protocol"].get("cost_aware", False) != args.cost_aware:
+            raise ValueError(
+                "Completed settings differ; use a new frozen protocol and run ID."
+            )
         print("Completed run already downloaded; no paid jobs relaunched.")
         return
     ledger = configured_budget(ledger_path=str(orchestration / "budget.json"))
@@ -113,7 +119,7 @@ def main():
             raise
 
     write_json(orchestration / "billing_before.json", billing_snapshot())
-    prepared = cpu_call("prepare", "prepare_run")
+    prepared = cpu_call("prepare", "prepare_run", args.cost_aware)
     client = SynthesisClient(
         "coder30", "modal", orchestration / "inference", ledger=ledger, prefetch=True
     )

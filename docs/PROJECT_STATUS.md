@@ -4,6 +4,12 @@ Updated: 2026-11-04. Scope: maintained US-equity research application.
 
 ## Latest delivery
 
+- improvement_v1:157 tests pass,168 published-US conditional runs/672 prefix rows.
+  Verified classical edits of saved LLM circuits cut CX24–34% and depth19–31% with
+  the same opened-case selected F. Stronger controls reveal a budget crossover and
+  a remaining gap to local search; no model/financial advantage qualified. New
+  cost-aware opt-in admission rejects extra layers/resources before fitting.
+
 - Connected Modal deployment/run completed:3/3 live Coder30 proposals verified,
   24/24 synthetic decisions feasible;9 QPY/QASM exports independently compared
   against NumPy evolution.388 downloaded files verified. All methods tied the

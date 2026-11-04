@@ -1,0 +1,106 @@
+{
+  "n20_final": [
+    {
+      "method": "allocation_swap",
+      "pairs": 12,
+      "mean_vs_uniform_pct": -10.1223390630582,
+      "median_vs_uniform_pct": -11.204269480486873,
+      "mean_vs_swap_pct": 0.0,
+      "mean_vs_fixed_pct": -12.720977767077299,
+      "wins_ties_losses_vs_uniform": [
+        12,
+        0,
+        0
+      ],
+      "feasible_rows": 12
+    },
+    {
+      "method": "depth2_pattern",
+      "pairs": 12,
+      "mean_vs_uniform_pct": 3.7437019960015063,
+      "median_vs_uniform_pct": 2.6789433633442217,
+      "mean_vs_swap_pct": 15.738739597595151,
+      "mean_vs_fixed_pct": 0.6970985846436878,
+      "wins_ties_losses_vs_uniform": [
+        4,
+        0,
+        8
+      ],
+      "feasible_rows": 12
+    },
+    {
+      "method": "fixed",
+      "pairs": 12,
+      "mean_vs_uniform_pct": 3.106865076950406,
+      "median_vs_uniform_pct": 2.4983731579849455,
+      "mean_vs_swap_pct": 15.03226075279081,
+      "mean_vs_fixed_pct": 0.0,
+      "wins_ties_losses_vs_uniform": [
+        3,
+        0,
+        9
+      ],
+      "feasible_rows": 12
+    },
+    {
+      "method": "proxy_feedback",
+      "pairs": 12,
+      "mean_vs_uniform_pct": 2.6354639722114155,
+      "median_vs_uniform_pct": 1.6554163706328562,
+      "mean_vs_swap_pct": 14.525120268637233,
+      "mean_vs_fixed_pct": -0.4176454167451338,
+      "wins_ties_losses_vs_uniform": [
+        2,
+        0,
+        10
+      ],
+      "feasible_rows": 12
+    },
+    {
+      "method": "rules",
+      "pairs": 12,
+      "mean_vs_uniform_pct": 3.8724881728256655,
+      "median_vs_uniform_pct": 2.7476725404520064,
+      "mean_vs_swap_pct": 15.837121552845401,
+      "mean_vs_fixed_pct": 0.8750117571575547,
+      "wins_ties_losses_vs_uniform": [
+        4,
+        0,
+        8
+      ],
+      "feasible_rows": 12
+    },
+    {
+      "method": "scheduled",
+      "pairs": 12,
+      "mean_vs_uniform_pct": 1.8783405525295152,
+      "median_vs_uniform_pct": 3.865852297136696,
+      "mean_vs_swap_pct": 13.469522370958808,
+      "mean_vs_fixed_pct": -1.1128375398267203,
+      "wins_ties_losses_vs_uniform": [
+        3,
+        0,
+        9
+      ],
+      "feasible_rows": 12
+    },
+    {
+      "method": "uniform_conditioned",
+      "pairs": 12,
+      "mean_vs_uniform_pct": 0.0,
+      "median_vs_uniform_pct": 0.0,
+      "mean_vs_swap_pct": 11.621496355767063,
+      "mean_vs_fixed_pct": -2.8433099439649623,
+      "wins_ties_losses_vs_uniform": [
+        0,
+        12,
+        0
+      ],
+      "feasible_rows": 12
+    }
+  ],
+  "audited_files": 564,
+  "audited_feasible_allocations": 13048,
+  "max_objective_residual": 1.6263032587282567e-19,
+  "new_inference_or_search_calls": 0
+}

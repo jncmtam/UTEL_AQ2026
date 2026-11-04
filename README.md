@@ -16,6 +16,27 @@ an unfaithful objective.
 [Visual evidence](results/research/evidence_gallery_v1/GALLERY.md) ·
 [User guide](docs/USER_GUIDE.md) · [Progress](PROGRESS.md) · [Agent handoff](AGENTS.md)
 
+## Latest improvements
+
+Verified one-layer edits and disjoint exchange scheduling cut the recorded LLM
+circuits' CX counts by **24–34%** and depth by **19–31%**, with the same selected
+allocated objective on all12 opened edit runs. This is classical postprocessing,
+not a new LLM achievement. The opt-in `--cost-aware` path now requires one layer,
+measured resource budgets and independent admission before fitting, and gives its
+uniform control the same fixed holdings/exclusions.
+
+The new CPU-only US-return benchmark completed **168 runs and672 budget points**,
+including N20/K5 with15,504 supports. Its curves reveal that the scheduled circuit
+is7.63% better than conditioned uniform at8 observations but1.88% worse at88;
+allocation-aware local swap is stronger on average at both budgets. These are
+allocated training-objective differences on related development cases, not realized
+returns or independent investment evidence. A larger LLM remains unjustified.
+
+Read [results and charts](results/research/improvement_v1/RESULTS.md),
+[the interpretation](results/research/improvement_v1/INSIGHTS.md),
+[the frozen protocol](docs/research/IMPROVEMENT_PROTOCOL.md) and
+[cost-aware implementation](docs/research/COST_AWARE_PIPELINE.md).
+
 ## Latest live Modal run
 
 The connected cloud pipeline completed: **3/3 live Qwen Coder30 designs verified**,
@@ -45,7 +66,7 @@ Read the [measured results and charts](results/research/modal_e2e_v1/RESULTS.md)
 | Independent-test protection | Exact reliability intervals and hash-bound final-test lock prerequisites | Actual readiness is blocked; final strategy outcomes were not opened by this work |
 | English delivery | English maintained workflow, root guides, status, README and visual gallery | Historical originals and raw evidence are preserved, with English reading paths |
 
-The software suite currently contains **150 passing tests**. See the worklog for
+The software suite currently contains **157 passing tests**. See the worklog for
 recorded checks and the [qualification status](docs/research/QUALIFICATION_STATUS.md)
 for the substantive limitations.
 

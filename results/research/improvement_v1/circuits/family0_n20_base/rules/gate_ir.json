@@ -1,0 +1,562 @@
+{
+  "version": "gate-ir-v2",
+  "problem_hash": "ea258601ed81c02ff99f59972aa1d0cb75e18a745057642f59bcfd3c40061936",
+  "hamiltonian_hash": "87808b8d5d043a92c25585a8a744dccf50c6e39ae495bc5109e9bb77c2ef38af",
+  "qubit_to_asset": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19
+  ],
+  "mode": "preserve_cardinality",
+  "initial_bits": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "parameters": [
+    {
+      "id": "gamma_0",
+      "kind": "cost",
+      "initial": null
+    },
+    {
+      "id": "beta_0_0",
+      "kind": "mixer",
+      "initial": null
+    }
+  ],
+  "initialization": [],
+  "layers": [
+    {
+      "cost": {
+        "op": "COST",
+        "parameter": "gamma_0",
+        "hamiltonian_hash": "87808b8d5d043a92c25585a8a744dccf50c6e39ae495bc5109e9bb77c2ef38af"
+      },
+      "mixer": [
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            1
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            0,
+            1
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            2
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            0,
+            2
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            3
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            0,
+            3
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            0,
+            4
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            0,
+            4
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            3,
+            5
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            3,
+            5
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            2,
+            6
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            2,
+            6
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            3,
+            7
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            3,
+            7
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            7,
+            8
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            7,
+            8
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            3,
+            9
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            3,
+            9
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            4,
+            10
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            4,
+            10
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            6,
+            11
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            6,
+            11
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            3,
+            12
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            3,
+            12
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            3,
+            13
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            3,
+            13
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            3,
+            14
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            3,
+            14
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            3,
+            15
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            3,
+            15
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            15,
+            16
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            15,
+            16
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            15,
+            17
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            15,
+            17
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            11,
+            18
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            11,
+            18
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RXX",
+          "qubits": [
+            5,
+            19
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        },
+        {
+          "op": "RYY",
+          "qubits": [
+            5,
+            19
+          ],
+          "angle": {
+            "parameter": "beta_0_0",
+            "scale": 2.0,
+            "offset": 0.0
+          }
+        }
+      ]
+    }
+  ],
+  "rationale": [
+    {
+      "feature_ids": [],
+      "decision": "Explicit rules classical design baseline."
+    }
+  ],
+  "preparation": {
+    "kind": "dicke_sequential_counter_v1",
+    "free_qubits": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19
+    ],
+    "ones": 5
+  }
+}

@@ -519,3 +519,42 @@ reviewable commit on the same branch.
   while the compiler fixes excluded bits. No exit-feasibility quantum benefit is
   inferred; a future frozen study needs a uniform control conditioned on those same
   bits. Added this caveat to the derived report without changing raw results.
+
+## 2026-11-04 — resource and benchmark improvement
+
+- Reviewed primary portfolio benchmark v3, ADAPT-QAOA, weighted-parameter and Dicke
+  sources before writing IMPROVEMENT_PROTOCOL.md. No model-size escalation; one
+  CPU-only development study under the existing reservation policy.
+- Added conserved allocation-aware budget search, conditioned uniform draws,
+  all-shot prefix accounting, explicit local swap reference, disjoint exchange
+  scheduling and deterministic resource eligibility. Legacy defaults remain intact.
+- Cloud study completed8 published-US cases,168 runs,672 prefix rows and14,784
+  observed supports; two disjoint hash-selected families, nested N12/N20 sizes,
+  base/exit mandates,3 seeds. First126 rows only; no source holdout scored. Returns
+  were used privately as case inputs; no raw return matrices published.
+- Six opened ablation variants produced12 runs: one-layer edits plus scheduling
+  reduced CX24.2–34.3% and depth18.9–31.2% while retaining selected F in every run.
+  Attribution is classical postprocessing of recorded LLM designs, not model learning.
+- At N20/88 draws, scheduled circuits average1.88% worse F than conditioned uniform,
+  versus fixed3.11% worse. Local swap is10.12% better than uniform. At8 draws,
+  scheduled is7.63% better than uniform, but local swap16.74% better. All are related
+  development pairs with no significance/investment-return interpretation.
+- This distinguishes early sampling bias from final portfolio quality and exposes
+  that mean-F fitting need not maximize best-of-budget tail probability. The latter
+  is an explanation to test, not an established causal finding or an excuse to tune
+  until a win. Strong classical search remains the required reference.
+- Downloaded/hash-checked564 files. Independently rescored13,048 feasible cached
+  allocations from sufficient statistics; max residual1.63e-19. All3 figures inspected.
+  CPU reservationUSD0.221379 is not an invoice. No new GPU/model inference.
+- Added one-layer measured-resource request and mandatory admission, opt-in Modal
+  --cost-aware mode, and conditioned uniform in that mode. Existing completed IDs
+  reject changed settings. These follow-up APIs were software-tested after the
+  study; they were not used for new live model outputs. The frozen study snapshot
+  records its actual pre-follow-up source bytes.
+- Current full suite157 tests passes. Redeployed updated CPU Functions without
+  launching another study. Existing integration and raw benchmark outputs retained.
+- Final verification:157 tests, F lint and84-file English scan passed; all564
+  original cloud hashes, documentation links and figure captions passed. Inspected
+  all plots; retained original derived comparison plot and added a readable-margin
+  revision without altering measurements. Both completed-run guards returned with
+  no new dispatch. All Modal apps idle at the recorded check.

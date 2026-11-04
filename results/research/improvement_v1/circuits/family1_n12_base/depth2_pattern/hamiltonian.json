@@ -1,0 +1,505 @@
+{
+  "version": "hamiltonian-ir-v3-subspace",
+  "problem_hash": "f180c4db27abb219251157b73bb6a6f13e0fa5d963a6dc17c737dee320afc403",
+  "asset_qubits": 12,
+  "qubits": 12,
+  "linear_z": [
+    -0.03218502467658862,
+    -0.03973445543992566,
+    -0.009491628050141318,
+    -0.021426809446318997,
+    -0.023230343841213242,
+    -0.011816914476900413,
+    -0.048968136316640126,
+    -0.015032796757136065,
+    -0.027218230809752882,
+    -0.025055825672077776,
+    -0.025242631873513895,
+    -0.019755187744404608
+  ],
+  "quadratic_zz": [
+    {
+      "qubits": [
+        0,
+        1
+      ],
+      "coefficient": 0.005930748646651469
+    },
+    {
+      "qubits": [
+        0,
+        2
+      ],
+      "coefficient": 0.0019369225745148391
+    },
+    {
+      "qubits": [
+        0,
+        3
+      ],
+      "coefficient": 0.0039032582256656196
+    },
+    {
+      "qubits": [
+        0,
+        4
+      ],
+      "coefficient": 0.004612537822271992
+    },
+    {
+      "qubits": [
+        0,
+        5
+      ],
+      "coefficient": 0.0021931392282581196
+    },
+    {
+      "qubits": [
+        0,
+        6
+      ],
+      "coefficient": 0.007697358005460669
+    },
+    {
+      "qubits": [
+        0,
+        7
+      ],
+      "coefficient": 0.002810292100025735
+    },
+    {
+      "qubits": [
+        0,
+        8
+      ],
+      "coefficient": 0.0025441488277914066
+    },
+    {
+      "qubits": [
+        0,
+        9
+      ],
+      "coefficient": 0.0034344178467603007
+    },
+    {
+      "qubits": [
+        0,
+        10
+      ],
+      "coefficient": 0.004697140616303469
+    },
+    {
+      "qubits": [
+        0,
+        11
+      ],
+      "coefficient": 0.003958249891034754
+    },
+    {
+      "qubits": [
+        1,
+        2
+      ],
+      "coefficient": 0.0017680721079692393
+    },
+    {
+      "qubits": [
+        1,
+        3
+      ],
+      "coefficient": 0.004341626019895371
+    },
+    {
+      "qubits": [
+        1,
+        4
+      ],
+      "coefficient": 0.005331202697763515
+    },
+    {
+      "qubits": [
+        1,
+        5
+      ],
+      "coefficient": 0.002420748077815847
+    },
+    {
+      "qubits": [
+        1,
+        6
+      ],
+      "coefficient": 0.006422303849583308
+    },
+    {
+      "qubits": [
+        1,
+        7
+      ],
+      "coefficient": 0.003213475245962137
+    },
+    {
+      "qubits": [
+        1,
+        8
+      ],
+      "coefficient": 0.0036788945201493587
+    },
+    {
+      "qubits": [
+        1,
+        9
+      ],
+      "coefficient": 0.005305469643142881
+    },
+    {
+      "qubits": [
+        1,
+        10
+      ],
+      "coefficient": 0.005179903393336097
+    },
+    {
+      "qubits": [
+        1,
+        11
+      ],
+      "coefficient": 0.003270726506816162
+    },
+    {
+      "qubits": [
+        2,
+        3
+      ],
+      "coefficient": 0.0011904278118144572
+    },
+    {
+      "qubits": [
+        2,
+        4
+      ],
+      "coefficient": 0.0014193084394748814
+    },
+    {
+      "qubits": [
+        2,
+        5
+      ],
+      "coefficient": 0.0012277940640549206
+    },
+    {
+      "qubits": [
+        2,
+        6
+      ],
+      "coefficient": 0.002292849638512482
+    },
+    {
+      "qubits": [
+        2,
+        7
+      ],
+      "coefficient": 0.0013857736478810937
+    },
+    {
+      "qubits": [
+        2,
+        8
+      ],
+      "coefficient": 0.0009301985800182887
+    },
+    {
+      "qubits": [
+        2,
+        9
+      ],
+      "coefficient": 0.0013156636082533395
+    },
+    {
+      "qubits": [
+        2,
+        10
+      ],
+      "coefficient": 0.0012620175118459016
+    },
+    {
+      "qubits": [
+        2,
+        11
+      ],
+      "coefficient": 0.0013805317419661265
+    },
+    {
+      "qubits": [
+        3,
+        4
+      ],
+      "coefficient": 0.0032190685315752485
+    },
+    {
+      "qubits": [
+        3,
+        5
+      ],
+      "coefficient": 0.001657058848994237
+    },
+    {
+      "qubits": [
+        3,
+        6
+      ],
+      "coefficient": 0.0037140184213103554
+    },
+    {
+      "qubits": [
+        3,
+        7
+      ],
+      "coefficient": 0.001982613114991492
+    },
+    {
+      "qubits": [
+        3,
+        8
+      ],
+      "coefficient": 0.002102283435587627
+    },
+    {
+      "qubits": [
+        3,
+        9
+      ],
+      "coefficient": 0.003999424615751114
+    },
+    {
+      "qubits": [
+        3,
+        10
+      ],
+      "coefficient": 0.0033916009302848607
+    },
+    {
+      "qubits": [
+        3,
+        11
+      ],
+      "coefficient": 0.0032002745427403873
+    },
+    {
+      "qubits": [
+        4,
+        5
+      ],
+      "coefficient": 0.001776192957989734
+    },
+    {
+      "qubits": [
+        4,
+        6
+      ],
+      "coefficient": 0.004561599583291649
+    },
+    {
+      "qubits": [
+        4,
+        7
+      ],
+      "coefficient": 0.002268590603818382
+    },
+    {
+      "qubits": [
+        4,
+        8
+      ],
+      "coefficient": 0.002638555794317489
+    },
+    {
+      "qubits": [
+        4,
+        9
+      ],
+      "coefficient": 0.003908556282494326
+    },
+    {
+      "qubits": [
+        4,
+        10
+      ],
+      "coefficient": 0.003866866367719708
+    },
+    {
+      "qubits": [
+        4,
+        11
+      ],
+      "coefficient": 0.0031470106258356316
+    },
+    {
+      "qubits": [
+        5,
+        6
+      ],
+      "coefficient": 0.002103526583378599
+    },
+    {
+      "qubits": [
+        5,
+        7
+      ],
+      "coefficient": 0.0016920060916026864
+    },
+    {
+      "qubits": [
+        5,
+        8
+      ],
+      "coefficient": 0.0011756899350663594
+    },
+    {
+      "qubits": [
+        5,
+        9
+      ],
+      "coefficient": 0.0017923334310382829
+    },
+    {
+      "qubits": [
+        5,
+        10
+      ],
+      "coefficient": 0.0016695415520960057
+    },
+    {
+      "qubits": [
+        5,
+        11
+      ],
+      "coefficient": 0.0015681702087903197
+    },
+    {
+      "qubits": [
+        6,
+        7
+      ],
+      "coefficient": 0.003267143438811406
+    },
+    {
+      "qubits": [
+        6,
+        8
+      ],
+      "coefficient": 0.000483940667218764
+    },
+    {
+      "qubits": [
+        6,
+        9
+      ],
+      "coefficient": 0.004201498400705749
+    },
+    {
+      "qubits": [
+        6,
+        10
+      ],
+      "coefficient": 0.0051385256959384775
+    },
+    {
+      "qubits": [
+        6,
+        11
+      ],
+      "coefficient": 0.00364556738092979
+    },
+    {
+      "qubits": [
+        7,
+        8
+      ],
+      "coefficient": 0.0009609723215042282
+    },
+    {
+      "qubits": [
+        7,
+        9
+      ],
+      "coefficient": 0.0023778132292322425
+    },
+    {
+      "qubits": [
+        7,
+        10
+      ],
+      "coefficient": 0.002315479571997341
+    },
+    {
+      "qubits": [
+        7,
+        11
+      ],
+      "coefficient": 0.0019361055629970238
+    },
+    {
+      "qubits": [
+        8,
+        9
+      ],
+      "coefficient": 0.0029765161318038827
+    },
+    {
+      "qubits": [
+        8,
+        10
+      ],
+      "coefficient": 0.0024221025956522283
+    },
+    {
+      "qubits": [
+        8,
+        11
+      ],
+      "coefficient": 0.0021044035013803907
+    },
+    {
+      "qubits": [
+        9,
+        10
+      ],
+      "coefficient": 0.004065272907200599
+    },
+    {
+      "qubits": [
+        9,
+        11
+      ],
+      "coefficient": 0.003336939576157283
+    },
+    {
+      "qubits": [
+        10,
+        11
+      ],
+      "coefficient": 0.002746867369574842
+    }
+  ],
+  "constant": 0.15393874084029122,
+  "objective_scale": 0.003408909933811001,
+  "penalty": 2.0,
+  "penalty_proof": "Integer residual squared >=1; penalty 2 exceeds normalized objective range bound 1.",
+  "equalities": [],
+  "slack": [],
+  "bit_order": "asset_i_is_bit_i_little_endian_then_slack",
+  "phase": "exp(-i*gamma*H)",
+  "post_allocation_constraints": [
+    "sector_weight_caps",
+    "position_bounds",
+    "one_way_turnover"
+  ],
+  "construction": "direct_quadratic_coefficients_no_truth_table",
+  "certified_subspace": true,
+  "omitted_zero_terms": [
+    "cardinality",
+    "include",
+    "exclude"
+  ],
+  "hamiltonian_hash": "6d8b2d9dcdd8bdf6a2b91374e6f503783731f058b6d3d140370a2aa83c073a8a"
+}

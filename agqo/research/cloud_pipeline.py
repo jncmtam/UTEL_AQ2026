@@ -49,7 +49,16 @@ def objective_bound(spec):
 
 
 def sampled_allocation_search(
-    spec, ir, h, *, seed=11, evaluations=6, shots=32, final_shots=64, uniform=False
+    spec,
+    ir,
+    h,
+    *,
+    seed=11,
+    evaluations=6,
+    shots=32,
+    final_shots=64,
+    uniform=False,
+    uniform_conditioned=False,
 ):
     """Every observed support counts; no financial optimum is used in fitting."""
     if any(type(v) is not int or v < 1 for v in (evaluations, shots, final_shots)):
@@ -106,13 +115,19 @@ def sampled_allocation_search(
         )
 
     if uniform:
-        all_k = np.array(
-            [
-                sum(1 << q for q in chosen)
-                for chosen in combinations(range(spec.n), spec.k)
-            ]
-        )
-        score_samples(rng.choice(all_k, evaluations * shots + final_shots))
+        if uniform_conditioned:
+            from .budget_search import conditioned_draws
+
+            samples = conditioned_draws(spec, rng, evaluations * shots + final_shots)
+        else:
+            all_k = np.array(
+                [
+                    sum(1 << q for q in chosen)
+                    for chosen in combinations(range(spec.n), spec.k)
+                ]
+            )
+            samples = rng.choice(all_k, evaluations * shots + final_shots)
+        score_samples(samples)
         physical_angles = None
     else:
         calls = 0
@@ -178,7 +193,7 @@ def sampled_allocation_search(
     }
 
 
-def prepare(directory, data_directory):
+def prepare(directory, data_directory, cost_aware=False):
     from .pipeline import execute_pipeline
     from .sources import capture_sources
 
@@ -188,8 +203,23 @@ def prepare(directory, data_directory):
         request(spec, compile_cost(spec, True), seed=100, common_preparation=True)
         for _, spec in context
     ]
+    if cost_aware:
+        from .budget_search import cost_aware_request
+
+        requests = []
+        for _, spec in context:
+            h = compile_cost(spec, True)
+            ir = lower(common_program(spec), spec, h, common_preparation=True)
+            report = verify(ir, spec, h)
+            if not report["valid"]:
+                raise ValueError("Reference circuit did not verify.")
+            budget = {
+                k: report["resources"][k]
+                for k in ("qubits", "transpiled_cx", "transpiled_depth")
+            }
+            requests.append(cost_aware_request(spec, h, budget))
     protocol = {
-        "version": RUN_VERSION,
+        "version": "modal-e2e-cost-aware-v1" if cost_aware else RUN_VERSION,
         "purpose": "live_cloud_integration_not_qualification",
         "evidence": "docs/research/MODAL_E2E_PROTOCOL.md",
         "cases": [{"id": name, "hash": spec.fingerprint()} for name, spec in context],
@@ -203,6 +233,7 @@ def prepare(directory, data_directory):
         ),
         "model_key": "coder30",
         "common_preparation": "compiler_counter_dicke_v1",
+        "cost_aware": cost_aware,
         "financial_claims_allowed": False,
         "raw_market_inputs_mounted": False,
     }
@@ -298,6 +329,17 @@ def finish(directory, answers, prepared_hash, cost_context=None):
                         if answer.get("status") != "ok":
                             raise ValueError(answer.get("reason", answer.get("status")))
                         program = answer["response"]
+                        if prepared["protocol"].get("cost_aware"):
+                            from .budget_search import admit_cost_aware_program
+
+                            admitted = admit_cost_aware_program(
+                                program,
+                                spec,
+                                h,
+                                item["payload"]["compiled_resource_budget"],
+                            )
+                            if admitted["status"] != "accepted":
+                                raise ValueError(str(admitted))
                     else:
                         program = common_program(spec, method)
                     ir = lower(program, spec, h, common_preparation=True)
@@ -316,7 +358,12 @@ def finish(directory, answers, prepared_hash, cost_context=None):
                     continue
             for seed in prepared["protocol"]["seeds"]:
                 run = sampled_allocation_search(
-                    spec, ir, h, seed=seed, uniform=method == "uniform"
+                    spec,
+                    ir,
+                    h,
+                    seed=seed,
+                    uniform=method == "uniform",
+                    uniform_conditioned=prepared["protocol"].get("cost_aware", False),
                 )
                 record["runs"].append(run)
                 allocation = run["allocation"]

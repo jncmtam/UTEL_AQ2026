@@ -1,0 +1,15 @@
+{
+  "generator_sha256": "f75038a5ee954a362bdcdd4910e5dd13c26d79329b1eb2de4bc156dff56ea425",
+  "source_download_manifest_sha256": "feb08cf1a15819b2b8800a416036290ee5f5506e5b955d47fc6ffa6dc4089c2f",
+  "output_sha256": {
+    "RESULTS.md": "346504bac3360ed7114c458dbe74ad6b9c017e5b461c234f7fe92f855e487687",
+    "analysis.json": "d43030a48b08b5c79f2bd51a8bb711f4698ee05f5bcec6e258ba33e5494c1e1e",
+    "resource-improvement.png": "156cb3557bc7bbeb3030ce613cdb306218d59040f899b9cdc0f8e0849e8fef1c",
+    "budget-curves.png": "4fef985bdd21d0cb0156579f76bf70acd7158e49727b13a3a590492e0b3954ab",
+    "conditioned-comparison.png": "8d1ab7ab9b2044297cbe6d4c90d47fccda559b7de5ff4fe6dd5970b88ebefd47",
+    "conditioned-comparison-readable.png": "d6fae26e1815348d11dd977ea8f3d19521b6361f70666db94e3f74c5b1293c90"
+  },
+  "new_inference_or_search_calls": 0,
+  "presentation_revision_sha256": "33046cb1155c96e807536f5d1e9ed92a533cb2e3f4100a6573d214f60fcba73e",
+  "original_derived_plot_retained": true
+}

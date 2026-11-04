@@ -37,6 +37,18 @@ for the next action. Update this file and the worklog after meaningful changes.
   zero tasks after the bounded probe. Do not relaunch a completed probe by default.
 
 ## Verified current evidence — do not repeat unnecessarily
+- Latest improvement_v1:157 tests pass. One Modal CPU study,0 new model/GPU calls,
+  USD0.221379 reservation (not invoice).8 real-US conditional cases,168 runs,
+  672 budget rows,14,784 draws.564 files checked;13,048 feasible allocations rescored.
+- Opened edits of saved LLM programs:CX reduced24–34%,depth19–31%,same selected F
+  on12 runs. Classical attribution. At N20 scheduled vs conditioned uniform is
+  -7.63% at8 draws, +1.88% at88; local swap -16.74%/-10.12%. Dependent development
+  comparisons, not return effects/significance. No larger-model experiment justified.
+- Read results/research/improvement_v1/INSIGHTS.md, RESULTS.md and
+  docs/research/IMPROVEMENT_PROTOCOL.md. New budget_search.py uses conserved F
+  fitting, conditioned uniform, prefix accounting and resource-gated admission.
+  Opt-in --cost-aware uses one layer/compiled resource caps; no new model tested
+  under that contract. Legacy defaults/raw outputs preserved. All apps should be idle.
 - Connected Modal integration completed under results/research/modal_e2e_v1.
   New app agqo-research-pipeline runs CPU preparation/verification/evaluation;
   existing coder30 worker completed one three-request A10080GB GPU batch.150 local tests passed.
@@ -150,8 +162,8 @@ for the next action. Update this file and the worklog after meaningful changes.
   simulation and counted in exported circuits/resources. No full N33 Qiskit check.
 - Paper RMS rescaling changes optimizer geometry, not the financial objective or
   quantum algorithm; improved proxy expectation does not establish improved F.
-- Current candidate pooling is final samples only. A next frozen study should
-  count/use all observed optimizer shots explicitly and retain matched-draw controls.
+- Legacy candidate pooling is final samples only. Modal integration and improvement
+  controls explicitly pool all optimizer/final observations; do not conflate versions.
 - Gradient baseline is ADAPT-inspired, not a full paper replication; count gradients.
 - Cost compilation is polynomial. Full statevector remains capped at 16 total
   qubits; GateIR v1 remains max12 assets. V2 allows max40 assets with a <=2m-state

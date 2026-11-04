@@ -45,6 +45,18 @@ allocation-aware fitting or live-LLM continuous market walk-forward execution.
 
 ## Outputs
 
+The subsequent [improvement study](../results/research/improvement_v1/RESULTS.md)
+uses the new private `improvement_run` CPU Function, with fixed-bit conditioning,
+conserved simulation and prefix curves. It completed with zero GPU/model calls.
+Its dispatcher is `python scripts/run_improvement_study.py`; a completed ID returns
+without new compute. Source data remains local; anonymized training cases were
+private call inputs. See IMPROVEMENT_PROTOCOL.md for budget and scope.
+
+The main dispatcher also supports opt-in `--cost-aware` for a separately frozen
+new run ID. It enforces one layer and measured resource admission and fixes the
+uniform comparator's excluded bits. No new GPU experiment under that mode has
+been run or scheduled; the study does not justify a model sweep.
+
 The local run directory contains:
 
 - `orchestration/`: billing snapshots, shared reservation ledger, CPU dispatch IDs,

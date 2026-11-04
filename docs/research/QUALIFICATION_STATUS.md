@@ -6,6 +6,12 @@ For concrete next actions, alternatives and stop rules, read the
 [remediation plan](REMEDIATION_PLAN.md). It proposes a study without changing
 existing objectives, raw results or financial admission.
 
+The subsequent [improvement controls](../../results/research/improvement_v1/RESULTS.md)
+reduced opened-case circuit cost and added a more discriminating conditional-US
+budget benchmark. Strong informed classical search still leads on these related
+development cases. This improves engineering/evaluation, not historical admission
+or independent financial qualification. No new LLM/GPU inference was used.
+
 **The available-source audit and qualification infrastructure are implemented.
 Historical investability, a production LLM and independent financial value are
 not qualified. A larger model cannot resolve missing economic entitlements or

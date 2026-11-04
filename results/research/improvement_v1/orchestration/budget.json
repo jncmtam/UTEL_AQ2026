@@ -1,0 +1,43 @@
+{
+  "version": "budget-v1",
+  "limit_usd": 150,
+  "jobs": [
+    {
+      "id": "a5c1dc3b83df4211b64e60040bb46374",
+      "label": "improvement_cpu",
+      "resource": "cpu",
+      "reserved_usd": 0.2213791666666667,
+      "status": "completed",
+      "billing": {
+        "checked_utc": "2026-11-04T05:48:32.163025+00:00",
+        "metered_cost": 1.4491241,
+        "billed_cost": 0.0,
+        "adjustments": {
+          "Free Storage": "-0.55256244",
+          "Network Egress Allowance": "-0.01656166",
+          "Reservation Adjustment": "-0E-8",
+          "Plan Cost": "0E-8",
+          "Credits": "-0.88000000"
+        },
+        "rates": {
+          "gpu_hour_cost_a100_80gb": 2.5,
+          "gpu_hour_cost_h200": 4.54,
+          "mem_gib_hour_cost": 0.008,
+          "cpu_hour_cost": 0.0473
+        },
+        "allowance_basis": "API exposes metered/billed costs, not a standalone available-credit balance. Enforce the selected authorization policy separately."
+      },
+      "metadata": {
+        "status": "completed_development_controls",
+        "inputs_hash": "2b31d4870cb258ef0254dba52d0509f6b7d36c5927a6f0e8a3d127c585ba3729",
+        "cases": 8,
+        "runs": 168,
+        "ablation_variants": 6,
+        "new_inference_calls": 0,
+        "investment_universe_approved": false
+      }
+    }
+  ],
+  "authorization": "User explicitly authorizes broader Modal usage, larger models and achieving the best measured result, replacing the previous credit-only cap.",
+  "monthly_allowance": null
+}

@@ -4,6 +4,12 @@ Updated: 2026-11-04, Asia/Ho_Chi_Minh.
 
 ## Delivered
 
+- Latest improvement:157 tests pass;168 conditional US-return runs and672 budget
+  points on Modal CPU. Saved-circuit edits cut CX24–34%/depth19–31% while retaining
+  opened-case selected F. Strong conditioned/local-search references expose the
+  remaining quality gap. No new inference; see [results](results/research/improvement_v1/RESULTS.md)
+  and [insights](results/research/improvement_v1/INSIGHTS.md).
+
 - Connected live Modal run completed:3/3 Coder30 designs passed verification,
   24/24 synthetic decisions feasible,9 exports independently checked and388 cloud
   files hash-verified. All methods tied the small reference objective; LLM circuits

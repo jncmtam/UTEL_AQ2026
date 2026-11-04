@@ -55,12 +55,12 @@ def run_path(run_id):
     scaledown_window=2,
     volumes={"/runs": results},
 )
-def prepare_run(run_id):
+def prepare_run(run_id, cost_aware=False):
     from agqo.research.cloud_pipeline import prepare
 
     path = run_path(run_id)
     try:
-        return prepare(path, "/root/data/us_equities")
+        return prepare(path, "/root/data/us_equities", cost_aware=cost_aware)
     finally:
         results.commit()
 
@@ -92,6 +92,39 @@ def finish_run(run_id, answers, prepared_hash, cost_context):
         return {
             "summary": summary,
             "sha256_files": manifest,
+            "archive": stream.getvalue(),
+        }
+    finally:
+        results.commit()
+
+
+@app.function(
+    image=image,
+    cpu=4,
+    memory=16384,
+    timeout=1800,
+    startup_timeout=180,
+    retries=0,
+    max_containers=1,
+    scaledown_window=2,
+    volumes={"/runs": results},
+)
+def improvement_run(run_id, inputs):
+    from agqo.research.improvement import run
+    from agqo.research.data import sha
+
+    path = run_path(run_id)
+    try:
+        summary = run(path, inputs)
+        files = sorted(p for p in path.rglob("*") if p.is_file())
+        hashes = {str(p.relative_to(path)): sha(p) for p in files}
+        stream = io.BytesIO()
+        with zipfile.ZipFile(stream, "w", zipfile.ZIP_DEFLATED) as archive:
+            for p in files:
+                archive.write(p, str(p.relative_to(path)))
+        return {
+            "summary": summary,
+            "sha256_files": hashes,
             "archive": stream.getvalue(),
         }
     finally:
