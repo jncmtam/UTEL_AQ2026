@@ -1,6 +1,13 @@
 # Historical audit and qualification status
 
-Updated: 2026-11-04, Asia/Ho_Chi_Minh.
+Updated: 2026-11-05, Asia/Ho_Chi_Minh.
+
+The [new live GPU feedback experiment](../../results/research/live_gpu_optimization_v1/RESULTS.md)
+completed12 real model generations and88 numerical runs with CUDA evolution.
+All eight revisions preserve their initial physical program. The usefulness target
+is unsupported; allocation-aware local search remains stronger. This is opened
+conditional-US development evidence, not an independent financial test. Data,
+formulation and model qualification gates below remain closed.
 
 For concrete next actions, alternatives and stop rules, read the
 [remediation plan](REMEDIATION_PLAN.md). It proposes a study without changing

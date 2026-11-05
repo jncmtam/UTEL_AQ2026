@@ -1,0 +1,20 @@
+{
+  "raw_downloads_unchanged": true,
+  "derived_sha256": {
+    "analysis.json": "454fbe23a2e5a048c176c8b39f8b3dfd34c42d4cb5dc1a42a639eb945e18b15e",
+    "metrics.csv": "3521704a751e22565c2f3ecd0236cc949b89cdaf06a36caf9f7e429a067b0be6",
+    "comparisons.csv": "c65c1d94ff54f2ef399870d6158a597fc1a47bbbe98ba056c333eb23ec3ff50f",
+    "prefix_metrics.csv": "c4747e32db556f52b823dc5ddbbc84f842a3f6b95955e6e67a67b5ca253c69dc",
+    "model_attempts.csv": "27728abd41625e297de5f33893eae928360697f8dfa21b77856930b249efea71",
+    "prompt_index.json": "4f45db717ab43e9a5f48d269b0b5b24bcab10e6f5d7b5ec2e8e03fa23e3394d4",
+    "ACTUAL_RESPONSES.md": "051e6fc9ec8328bd64fb083d7b6c740b07f0c3cacf4cf4bc085bbbe124184226",
+    "SYSTEM_PROMPTS.md": "0f4b3e1d89f6f00b9e6084b3df59c3144b6fe75aadede9263570923327a42307",
+    "RESULTS.md": "67b58d7f0ea9abd066119eeadb9170ede8dd64efa8d1be793ec01cbded9d1343",
+    "FINDINGS.md": "54f827ae9224e14de066f157ad561e634695cd19a0f723fd286c2b65e15216a3",
+    "PROGRESS.md": "b1af44d3479db521ce8b76ad2cc7c3dec02e9162e244ee7620509884a18c835b",
+    "architecture-changes.png": "2e1ee5b87ae43ac692c972c87601c3cea14e1121e61b3acc8aacaf1c293da378",
+    "relative-objective.png": "adcd8a4cc9d0d5226cd7733e4dba1e585685fbc3d36dff8139489882b49ad219",
+    "complete-sampling-costs.png": "63f4e0957c75d333fe52413319cb0866d0897a46f9b9a5bb02cc90d881d574d7",
+    "report_generator.py": "f4c10b34a55725950c7a0ba651446e7ffa9f1088fc7590e20cc05fc717756f69"
+  }
+}

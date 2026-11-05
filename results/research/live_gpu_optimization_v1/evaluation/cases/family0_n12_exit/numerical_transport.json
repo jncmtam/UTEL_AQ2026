@@ -1,0 +1,12 @@
+{
+  "problem_hash": "ce72f3683fa7df148c07449d16b5dc3d26b9a5d7228313e6cd49a66c5eaa6f2f",
+  "numerical_hash": "b5648c5bd16c3acc272bbc67a713e0806b19d240c554a7c9be51af78392712ba",
+  "canonical_hamiltonian_hash": "c8be08b5636bd6ea348875f8672d6a9a171f2bcfc579c3b9ae44bdc157743803",
+  "platform_recomputed_hamiltonian_hash": "34bb42972163c5e3a73cdaf5f07204dc51a63a795b691aa398039340857a09a4",
+  "platform_bitwise_same": false,
+  "maximum_matrix_difference": 3.2526065174565133e-19,
+  "maximum_linear_difference": 1.0842021724855044e-19,
+  "offset_difference": 0.0,
+  "executed_hamiltonian_bitwise_original": true,
+  "tolerance_scope": "Reconstruction audit only; executed coefficients and Hamiltonian are exact frozen originals"
+}

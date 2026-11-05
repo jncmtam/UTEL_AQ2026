@@ -1,0 +1,42 @@
+{
+  "valid": true,
+  "errors": [],
+  "warnings": [
+    {
+      "code": "inactive_first_cost",
+      "message": "Basis initialization: first COST is only a global phase; p=1 is a diagnostic baseline."
+    }
+  ],
+  "conservation_certificate": "trusted_diagonal_and_paired_exchange",
+  "synthesis_gate_count": 22,
+  "declared_parameters": 3,
+  "ir_hash": "e1e18cc85bc8a0d58cf460ea7e286f2e0e0c2bdbc201e158632eb63499681aac",
+  "limits": {
+    "max_qubits": 12,
+    "max_layers": 4,
+    "max_parameters": 16,
+    "max_synthesis_gates": 512,
+    "max_two_qubit_gates": 40000,
+    "max_transpiled_depth": 80000
+  },
+  "resources": {
+    "qubits": 14,
+    "asset_qubits": 12,
+    "slack_qubits": 0,
+    "preparation_workspace_qubits": 2,
+    "workspace_cleanup": "independent_full_statevector",
+    "transpiled_cx": 308,
+    "transpiled_depth": 437,
+    "includes_cost_and_initialization": true
+  },
+  "inactive_parameters": [],
+  "active_parameters": 3,
+  "crosscheck_state_fidelities": [
+    1.0,
+    1.0000000000000013,
+    1.0000000000000009
+  ],
+  "maximum_cardinality_leak": 1.6667364650170132e-32,
+  "elapsed_seconds": 0.31801108499996644,
+  "reachability_scope": "Asset exchange connectivity certifies cardinality-domain connectivity only; no certificate for all inequality-feasible portfolios."
+}

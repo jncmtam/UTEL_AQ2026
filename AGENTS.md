@@ -1,6 +1,6 @@
 # AGQO agent handoff
 
-Updated: 2026-11-04, Asia/Ho_Chi_Minh. Read this first; inspect only modules needed
+Updated: 2026-11-05, Asia/Ho_Chi_Minh. Read this first; inspect only modules needed
 for the next action. Update this file and the worklog after meaningful changes.
 
 ## User contract and workflow
@@ -37,6 +37,17 @@ for the next action. Update this file and the worklog after meaningful changes.
   zero tasks after the bounded probe. Do not relaunch a completed probe by default.
 
 ## Verified current evidence — do not repeat unnecessarily
+- live_gpu_optimization_v1 completed2026-11-05: actual pinned Coder30/A10080GB,
+  12/12 admitted live proposals,88/88 runs,64 CUDA circuit runs/59,904 observations.
+  359 raw hashes checked;36,494 feasible allocations rescored (max1.63e-19).
+  8 QPY/QASM full-state checks pass;8 larger exports explicitly skipped.230 tests pass.
+  All eight revisions preserve their initial circuit; four distinct case programs.
+  Pooled allocated F vs random-0.77%,star-1.26%,uniform-2.21%,swap+3.16%.
+  Registered usefulness target unsupported; no model/finance/quantum qualification.
+  1101.62s worker,339.57s generation;3.64USD reservation, not invoice. Read
+  live_gpu_optimization_v1/{RESULTS,INSIGHTS,GPU_EXECUTION_PROOF}.md. Completed
+  script guarded; do not relaunch it. User subsequently said keep going/use resources;
+  any follow-up needs its own evidence, protocol and bounded design, not blind sweeps.
 - Latest live_edge_v2:220 tests pass. Real pinned Coder30/A10080GB/vLLM0.15 GPU
   batch8 normal responses,8/8 admitted;84 Modal CPU runs/48,384 observations;
   30,659 feasible allocations independently rescored (max residual1.63e-19),393
@@ -160,6 +171,11 @@ for the next action. Update this file and the worklog after meaningful changes.
   CONDITIONING_PROTOCOL.md. Defaults and earlier raw runs are unchanged.
 
 ## Implemented modules (read only the relevant one)
+- gpu_optimization.py: live measured-feedback study and frozen winner lock;
+  cuda_simulation.py: explicit complex128 CUDA executor, no CPU fallback.
+  modal_live_optimizer.py and scripts/run_gpu_optimization.py: completed bounded
+  resident GPU run; summarize_gpu_optimization.py and audit_gpu_exports.py audit
+  immutable outputs. budget_search basis_factory is opt-in; old behavior unchanged.
 - edge_program.py: single-source edge/group schema, compiler disjoint scheduling,
   exact evidence mapping; live_guidance.py: matched requests and CPU evaluation.
   frozen_numerics.py: validated source-bound numerical transport, exact old H.

@@ -185,6 +185,7 @@ def search(
     fitting=None,
     tail_alpha=0.25,
     min_feasible_fraction=0.95,
+    basis_factory=None,
 ):
     if method not in ("circuit", "uniform", "swap") or target not in (
         "allocation",
@@ -275,7 +276,8 @@ def search(
                 oracle.score([index])
     else:
         scales, coordinate_record = coordinates(ir, h, "paper_rms_v1")
-        basis = ConservedBasis(spec, h)
+        # Explicit opt-in executor; legacy runs keep the NumPy implementation.
+        basis = (basis_factory or ConservedBasis)(spec, h)
         energies = cost_values(h, basis.indices)
         initial = rng.uniform(-np.pi, np.pi, len(ir["parameters"]))
         best, value, calls = initial.copy(), float("inf"), 0
@@ -373,6 +375,8 @@ def search(
     }
     if fitting_record is not None:
         result["fitting_record"] = fitting_record
+    if basis is not None and hasattr(basis, "execution_metadata"):
+        result["simulation_execution"] = basis.execution_metadata()
     return result
 
 

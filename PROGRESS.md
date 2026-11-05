@@ -1,8 +1,16 @@
 # AGQO progress
 
-Updated: 2026-11-04, Asia/Ho_Chi_Minh.
+Updated: 2026-11-05, Asia/Ho_Chi_Minh.
 
 ## Delivered
+
+- Live GPU feedback optimization:12/12 model proposals,88/88 runs,64 CUDA circuit
+  runs,59,904 observations and36,494 independently rescored feasible allocations.
+  All eight feedback revisions retain their initial circuits. Registered usefulness
+  target unsupported: random-0.77%,star-1.26%,swap+3.16% in allocated training F.
+  No independent investment result.230 tests pass. Read
+  [actual results](results/research/live_gpu_optimization_v1/RESULTS.md) and
+  [interpretation](results/research/live_gpu_optimization_v1/INSIGHTS.md).
 
 - Real GPU LLM/QAOA v2:8/8 programs admitted,84 Modal CPU runs/48,384 observations,
   30,659 feasible allocations rescored;218 tests pass. Both arms return identical

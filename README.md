@@ -5,7 +5,7 @@ of an existing constrained US-equity portfolio. The financial decision is concre
 **which holdings should change to restore compliance while balancing index tracking
 and trading cost?**
 
-**Status · November 4, 2026:** the research application, compiler, simulations and
+**Status · November 5, 2026:** the research application, compiler, simulations and
 available-source audit run. Historical investment-data admission is blocked; no
 production LLM, independent financial benefit or quantum advantage is qualified.
 A larger model is a conditional next experiment, not a solution to missing data or
@@ -18,7 +18,53 @@ an unfaithful objective.
 [Visual evidence](results/research/evidence_gallery_v1/GALLERY.md) ·
 [User guide](docs/USER_GUIDE.md) · [Progress](PROGRESS.md) · [Agent handoff](AGENTS.md)
 
-## Latest improvements
+## Latest live GPU feedback experiment (November 5)
+
+**One real model, one Modal A10080GB job, with CUDA QAOA simulation.** Pinned
+Qwen3-Coder-30B-A3B-Instruct produced12 live circuit proposals across three rounds,
+receiving measured allocated-F/feasibility/resource feedback between rounds.
+All12 were admitted;88/88 numerical runs completed with59,904 observations.
+The independent audit checked359 raw hashes and rescored36,494 feasible allocations.
+Eight small QPY/QASM statevectors matched the independent reference; eight larger
+exports have explicit statevector skips. All230 software tests pass.
+
+**The usefulness target was not met.** The LLM is0.77% better than matched random
+architecture search and1.26% better than fixed star in mean paired allocated training
+objective, but3.16% worse than allocation-aware local search. All eight revisions
+retain their initial physical program. These are related opened development
+comparisons, not investment-return improvements or an independent financial test.
+The model is selected for this experiment, not qualified as a production optimizer.
+
+```mermaid
+flowchart LR
+    D[US data and mandate] --> H[Immutable cost and measured features]
+    H --> L[Live Qwen on A100]
+    L --> V[Independent gate and resource verification]
+    V --> Q[CUDA QAOA evolution]
+    Q --> F[CPU allocation and financial scoring]
+    F -->|Measured feedback, two revisions| L
+    F --> R[Frozen comparisons and audited artifacts]
+```
+
+GPU runs inference and complex128 quantum-state evolution; CPU runs the compiler,
+independent checks, optimizer control, sampling RNG and convex allocator inside the
+same Modal GPU worker. This is simulation, not quantum hardware. All search attempts
+are charged. Fixed circuits have smaller complete design budgets than the LLM search.
+The USD3.64 reservation is not a bill. Historical market-data admission stays closed.
+
+[Results and charts](results/research/live_gpu_optimization_v1/RESULTS.md) ·
+[Interpretation](results/research/live_gpu_optimization_v1/INSIGHTS.md) ·
+[Actual model outputs](results/research/live_gpu_optimization_v1/ACTUAL_RESPONSES.md) ·
+[Exact prompts](results/research/live_gpu_optimization_v1/SYSTEM_PROMPTS.md) ·
+[GPU proof](results/research/live_gpu_optimization_v1/GPU_EXECUTION_PROOF.md) ·
+[Frozen protocol](docs/research/LIVE_GPU_OPTIMIZATION_PROTOCOL.md).
+
+The completed-run guard in `.venv/bin/python scripts/run_gpu_optimization.py`
+returns without dispatching a new paid job. Reports can be audited with
+`scripts/summarize_gpu_optimization.py` and `scripts/audit_gpu_exports.py`;
+existing reports are retained rather than silently overwritten.
+
+## Earlier improvements
 
 **Real GPU LLM/QAOA experiment completed.** Pinned Qwen Coder30 generated eight
 edge programs on Modal **NVIDIA A100-SXM4-80GB**; all eight passed independent

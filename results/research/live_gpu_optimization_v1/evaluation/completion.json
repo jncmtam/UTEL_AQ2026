@@ -1,0 +1,11 @@
+{
+  "version": "live-gpu-feedback-optimization-v1",
+  "inputs_hash": "71321d5caf6283a533e1759b92ac98c88422cfacb1be0cd3091b57c6befc7b62",
+  "live_requests": 12,
+  "runs": 88,
+  "completed_runs": 88,
+  "elapsed_seconds": 1101.621221657,
+  "financial_qualification": "not_established",
+  "quantum_hardware": false,
+  "selection_hash": "58bb1b4df7dcbbc673c8c99005a2ad20cc8bf443f5c28e1a2545d5d39b45bed2"
+}

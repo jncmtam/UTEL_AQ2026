@@ -1,5 +1,38 @@
 # Research and implementation worklog
 
+## 2026-11-05 — live GPU feedback run completed and independently audited
+
+One new resident Coder30/A10080GB call completed12 normal live generations,12/12
+admissions and88/88 runs. CUDA performed64 circuit evaluations;59,904 observations
+and36,621 allocator queries counted.359 raw downloads checked;36,494 feasible
+allocations independently rescored (max1.6263e-19);16 exports parsed,8 bounded
+QPY/QASM full-state checks passed,8 large explicit skips. All three scientific
+plots visually inspected.230 tests and F lint pass. Worker1101.62s, generation
+339.57s, load132.73s;127,641 input/7,257 output tokens.3.64USD reservation is not
+an invoice. No changes to earlier raw evidence. All eight revisions preserve their
+initial edges/groups/schedule: no measured architectural adaptation. Allocated
+training objective vs random-0.766%,fixed star-1.259%,uniform-2.209%,swap+3.160%;
+registered usefulness target unsupported. Independent financial qualification and
+historical data admission remain closed. README/transparency/progress/handoff
+now link the actual new evidence. The user subsequently asked to keep going/use
+resources; next intervention must address diagnosed limitations under a new
+bounded protocol rather than silently extending this completed experiment.
+
+## 2026-11-05 — new user-authorized live GPU feedback study, preparation
+
+The user explicitly requested one LLM and a complete new live Modal GPU run.
+Registered LIVE_GPU_OPTIMIZATION_PROTOCOL.md after revisiting Agent-Q, the Qwen
+model card, constrained mixers, and measured v2 shortcomings. Choose cached
+pinned Coder30 rather than a speculative larger model. Implemented a resident
+three-round (12-request) live feedback loop, neutral enum presentation, matched
+random architecture search, frozen development-seed selection and strong controls.
+New TorchConservedBasis performs complex128 evolution on explicit CUDA; production
+has no CPU simulation fallback. Convex allocation, compilation and independent
+checks remain CPU operations inside the same Modal GPU container. All230 tests
+pass locally, including independent Qiskit/NumPy/Torch checks. New app deployment
+is in progress; there are no new live model results at this checkpoint.
+Historical market admission and B/F limitations remain unchanged.
+
 Date: 2026-11-02. Authoritative short handoff: [AGENTS.md](../../AGENTS.md).
 
 ## Current workflow rule

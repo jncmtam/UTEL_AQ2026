@@ -1,0 +1,42 @@
+{
+  "ledger": {
+    "version": "budget-v1",
+    "limit_usd": 15,
+    "jobs": [
+      {
+        "id": "b79e15ce70944adc8691e55a90b468c4",
+        "label": "live_gpu_optimization_v1",
+        "resource": "gpu",
+        "reserved_usd": 3.64,
+        "status": "completed",
+        "billing": {
+          "checked_utc": "2026-11-05T05:06:31.255625+00:00",
+          "metered_cost": 2.22986325,
+          "billed_cost": 0.0,
+          "adjustments": {
+            "Network Egress Allowance": "-0.01730081",
+            "Free Storage": "-0.55256244",
+            "Reservation Adjustment": "-0E-8",
+            "Plan Cost": "0E-8",
+            "Credits": "-1.66000000"
+          },
+          "rates": {
+            "gpu_hour_cost_h200": 4.54,
+            "mem_gib_hour_cost": 0.008,
+            "gpu_hour_cost_a100_80gb": 2.5,
+            "cpu_hour_cost": 0.0473
+          },
+          "allowance_basis": "API exposes metered/billed costs, not a standalone available-credit balance. Enforce the selected authorization policy separately."
+        },
+        "metadata": {
+          "call_id": "fc-01M6N1M0D678WSXN6DXG5ZRVM4"
+        }
+      }
+    ],
+    "authorization": "User explicitly authorizes broader Modal usage, larger models and achieving the best measured result, replacing the previous credit-only cap.",
+    "monthly_allowance": null
+  },
+  "reserved_usd_total": 3.64,
+  "reservation_is_not_invoice": true,
+  "monthly_billing_delta_is_not_isolated_job_bill": true
+}

@@ -6,7 +6,18 @@ and results belong to its own protocol/receipts, not the older integration run.
 
 ## Exact prompts and full inputs
 
-The latest completed run is **live_edge_v2**: [exact system prompts](../../results/research/live_edge_v2/SYSTEM_PROMPTS.md),
+The latest completed run is **live_gpu_optimization_v1**:
+[all12 actual outputs](../../results/research/live_gpu_optimization_v1/ACTUAL_RESPONSES.md),
+[exact system prompts](../../results/research/live_gpu_optimization_v1/SYSTEM_PROMPTS.md),
+[full payload/schema index](../../results/research/live_gpu_optimization_v1/prompt_index.json),
+[GPU proof](../../results/research/live_gpu_optimization_v1/GPU_EXECUTION_PROOF.md),
+[interpretation](../../results/research/live_gpu_optimization_v1/INSIGHTS.md).
+A resident30B model receives measured feedback twice; all eight revisions retain
+initial edges/groups/schedules.12/12 admissions establish execution within this
+contract, not financial usefulness. Inference and quantum evolution actually ran
+on A100; the financial allocator/compiler remained CPU operations.
+
+The preceding completed run is **live_edge_v2**: [exact system prompts](../../results/research/live_edge_v2/SYSTEM_PROMPTS.md),
 [eight full requests/schemas](../../results/research/live_edge_v2/orchestration/prepared_requests.json),
 [verbatim model outputs](../../results/research/live_edge_v2/ACTUAL_RESPONSES.md),
 [GPU proof](../../results/research/live_edge_v2/GPU_EXECUTION_PROOF.md), and
