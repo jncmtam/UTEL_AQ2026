@@ -1,0 +1,43 @@
+{
+  "independent_checks": [
+    {
+      "case_id": "family1_n20_base",
+      "infeasible_supports_with_independent_sector_budget_contradiction": 21,
+      "local_search_reference": [
+        {
+          "seed": 23,
+          "F": 2.0179165631710676e-05,
+          "matches_numerical_reference": true
+        },
+        {
+          "seed": 47,
+          "F": 2.0179165631710676e-05,
+          "matches_numerical_reference": true
+        }
+      ],
+      "no_formal_joint_optimality_certificate": true
+    },
+    {
+      "case_id": "family1_n20_exit",
+      "infeasible_supports_with_independent_sector_budget_contradiction": 6,
+      "local_search_reference": [
+        {
+          "seed": 23,
+          "F": 2.068537019798746e-05,
+          "matches_numerical_reference": true
+        },
+        {
+          "seed": 47,
+          "F": 2.068537019798746e-05,
+          "matches_numerical_reference": true
+        }
+      ],
+      "no_formal_joint_optimality_certificate": true
+    }
+  ],
+  "new_model_or_optimizer_calls": 0,
+  "probability_field_crosschecks": {
+    "curves_checked": 90,
+    "maximum_residual": 1.3092305017892159e-13
+  }
+}

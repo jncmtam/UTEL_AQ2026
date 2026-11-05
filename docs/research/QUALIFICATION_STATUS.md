@@ -1,8 +1,17 @@
 # Historical audit and qualification status
 
-Updated: 2026-11-05, Asia/Ho_Chi_Minh.
+Updated: 2026-11-06, Asia/Ho_Chi_Minh.
 
-The [final measured-edit H200 study](../../results/research/counterfactual_editor_v4/FINAL_REPORT.md)
+The [decision-level audit](../../results/research/decision_audit_v1/FINDINGS.md)
+now exhausts27,132 supports on the two opened N20 cases. All non-infeasible
+allocations have optimal status; no formal exact-arithmetic joint certificate is
+claimed. Exact B minimization has11.07%/8.35% allocated regret, while local search
+matches the numerical feasible references. Conditional expected final-decision
+gap remains5.81%; this is not an unconditional adaptive-policy evaluation. No new
+LLM or financial partition opened. The [next formulation gate](FORMULATION_NEXT_GATE.md)
+is a proposal, not a qualified encoding or authorization to scale a model.
+
+The [preceding measured-edit H200 study](../../results/research/counterfactual_editor_v4/FINAL_REPORT.md)
 admits4/4 designs and completes28/28 runs. Scored alternatives produce new circuits,
 but their best allocated objective is5.96% worse than current circuits and12.55%
 worse than direct swap search. All operational failures and interrupted work remain

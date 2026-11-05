@@ -1,6 +1,6 @@
 # AGQO agent handoff
 
-Updated: 2026-11-05, Asia/Ho_Chi_Minh. Read this first; inspect only modules needed
+Updated: 2026-11-06, Asia/Ho_Chi_Minh. Read this first; inspect only modules needed
 for the next action. Update this file and the worklog after meaningful changes.
 
 ## User contract and workflow
@@ -37,6 +37,27 @@ for the next action. Update this file and the worklog after meaningful changes.
   zero tasks after the bounded probe. Do not relaunch a completed probe by default.
 
 ## Verified current evidence — do not repeat unnecessarily
+- decision_audit_v1 COMPLETED under latest keep-going continuation.247 tests pass.
+  Modal CPU table178.07s:27132 supports,17054 reused optimal records +10078 new
+  calls;27105 optimal-status feasible/27 infeasible. Independent financial rescore
+  residual1.63e-19; all27 infeasibilities independently contradict sector budget.
+  Numerical reference complete, NOT a formal exact-arithmetic joint certificate.
+  Prior local swap reaches both numerical references at both source seeds; numerical optima need only1/2 new positions vs original support.
+  Exact proxy-optimum allocated regret11.0719% base/8.3538% exit; B/F Spearman
+  .6414/.6291. Mean/best target discrepancy is real: detailed-vs-aggregate exact
+  operational mean-7.9777%, expected final-only best64+3.2645%, conditional expected
+  final decision given512-shot fitting history+5.8141% (observed+5.9599%). This is
+  NOT unconditional expected performance of the adaptive576-shot optimizer.
+  H200 GPU stage20.41s:12 unique CUDA states,18 logical distributions,0 new LLM
+  calls or angle fits;121 raw hashes checked, independent order-statistic residual
+  <9.51e-16.247 tests/F lint pass,3 plots inspected. New reservation1.80USD, not bill.
+  All apps idle. Read decision_audit_v1/{FINDINGS,RESULTS}.md and
+  docs/research/FORMULATION_NEXT_GATE.md before any new model experiment. New
+  finite_budget.py is an exact supplied-distribution metric; empirical probabilities
+  imply only an empirical-model expectation. Exhaustive F table is an exponential
+  diagnostic, never a production oracle/quantum win. No new default or model promoted.
+  CLI scripts/run_decision_audit.py completed guard must not redispatch. Prior source
+  snapshots/raw runs unchanged; next specification does not authorize another paid run.
 - counterfactual_editor_v4 COMPLETED: real pinned Coder30 on NVIDIA H200,
   4/4 admitted outputs;28/28 runs,16,128 observations,211 raw hashes checked,
   15,462 feasible allocations independently rescored.8 exports parsed; all8 full
@@ -195,6 +216,12 @@ for the next action. Update this file and the worklog after meaningful changes.
   CONDITIONING_PROTOCOL.md. Defaults and earlier raw runs are unchanged.
 
 ## Implemented modules (read only the relevant one)
+- finite_budget.py: exact discrete expected minimum/hit/feasibility/conditional-
+  incumbent metrics. decision_audit.py: validated allocation-cache reuse, full
+  diagnostic tables, frozen actual LLM-circuit distributions. modal_decision_audit.py
+  and scripts/run_decision_audit.py: completed sequential CPU/GPU study,8USD cap.
+  summarize_decision_audit.py: independent audit and3 scientific plots. Raw data
+  identity and source hashes guarded; no new model inference/angle optimization.
 - gpu_optimization.py: live measured-feedback study and frozen winner lock;
   cuda_simulation.py: explicit complex128 CUDA executor, no CPU fallback.
   modal_live_optimizer.py and scripts/run_gpu_optimization.py: completed bounded

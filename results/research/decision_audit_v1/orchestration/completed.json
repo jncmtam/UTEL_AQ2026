@@ -1,0 +1,9 @@
+{
+  "input_hash": "6c49aa33f33ec65dcb90af7ed7e84be29c81b244a1c596c5fc5804ddd5216df4",
+  "logical_distributions": 18,
+  "unique_cuda_evaluations": 12,
+  "new_llm_calls": 0,
+  "new_angle_optimizations": 0,
+  "elapsed_gpu_stage_seconds": 20.405095228999997,
+  "financial_qualification": false
+}

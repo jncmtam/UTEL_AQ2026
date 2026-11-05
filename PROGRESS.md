@@ -1,8 +1,17 @@
 # AGQO progress
 
-Updated: 2026-11-05, Asia/Ho_Chi_Minh.
+Updated: 2026-11-06, Asia/Ho_Chi_Minh.
 
 ## Delivered
+
+- Decision audit:27,132 supports checked,27,105 feasible allocations independently
+  rescored,121 raw hashes,12 real H200 distributions and247 passing tests. Exact
+  proxy minimization still has11.07%/8.35% allocated regret; local search matches
+  both numerical references. Added exact best-of-budget/conditional-incumbent metrics.
+  No new LLM, optimizer default or market test. Read
+  [findings](results/research/decision_audit_v1/FINDINGS.md),
+  [curves](results/research/decision_audit_v1/RESULTS.md) and
+  [next formulation gate](docs/research/FORMULATION_NEXT_GATE.md).
 
 - Final measured-edit study:4/4 real Coder30/H200 designs,28/28 runs,211 hashes,
   15,462 independently rescored feasible allocations. Detailed feedback changes

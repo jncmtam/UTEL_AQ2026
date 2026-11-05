@@ -5,7 +5,7 @@ of an existing constrained US-equity portfolio. The financial decision is concre
 **which holdings should change to restore compliance while balancing index tracking
 and trading cost?**
 
-**Status · November 5, 2026:** the research application, compiler, simulations and
+**Status · November 6, 2026:** the research application, compiler, simulations and
 available-source audit run. Historical investment-data admission is blocked; no
 production LLM, independent financial benefit or quantum advantage is qualified.
 A larger model is a conditional next experiment, not a solution to missing data or
@@ -18,7 +18,35 @@ an unfaithful objective.
 [Visual evidence](results/research/evidence_gallery_v1/GALLERY.md) ·
 [User guide](docs/USER_GUIDE.md) · [Progress](PROGRESS.md) · [Agent handoff](AGENTS.md)
 
-## Final measured-edit GPU follow-up (November 5)
+## Latest: financial-target and sampling audit (November 6)
+
+**The benchmark now has a complete numerical reference for both N20 cases.**
+All27,132 supports were checked:27,105 optimal-status feasible allocations and27
+infeasible supports.17,054 validated results were reused;10,078 new allocation
+calls completed on Modal CPU, followed by12 real H200/CUDA distribution evaluations.
+All247 tests pass; no new LLM calls or angle search. ReservedUSD1.80, not an invoice.
+
+This exposes a concrete formulation gap: the exact equal-weight proxy optimum
+is11.07%/8.35% worse after continuous allocation than the numerical financial
+reference. Existing local search already matches that reference in both cases.
+Detailed LLM guidance improves operational mean loss7.98% on average, yet expected
+best-of64 is3.26% worse. Conditional expected final decision quality remains5.81%
+worse, close to the observed5.96% gap. These are opened conditional-US estimation
+cases, not investment returns or an independent market test.
+
+The new `finite_budget.expected_minimum(F, p, 64, incumbent=best_fit_F)` measures
+the final64-shot decision conditional on the recorded fitting history. It does
+not evaluate the unconditional adaptive576-shot policy. If probabilities are
+empirical, the result is exact only for that empirical model. The exhaustive F
+table is expensive, exponential diagnostic preprocessing, not a scalable free oracle.
+No default fitting change, production-model promotion or quantum advantage follows.
+
+[Findings in financial units](results/research/decision_audit_v1/FINDINGS.md) ·
+[Audited curves and data](results/research/decision_audit_v1/RESULTS.md) ·
+[Next formulation gate](docs/research/FORMULATION_NEXT_GATE.md) ·
+[Frozen protocol](docs/research/DECISION_AUDIT_PROTOCOL.md).
+
+## Earlier measured-edit GPU follow-up (November 5)
 
 Real Qwen Coder30/H200 execution completed4/4 valid designs and28/28 numerical
 runs. Scored gate-edit feedback makes the LLM change both circuit families,

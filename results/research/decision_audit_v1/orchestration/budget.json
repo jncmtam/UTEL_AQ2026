@@ -1,0 +1,66 @@
+{
+  "version": "budget-v1",
+  "limit_usd": 8,
+  "jobs": [
+    {
+      "id": "9c13b2df229a440ead176623f423c03f",
+      "label": "table",
+      "resource": "cpu",
+      "reserved_usd": 0.23,
+      "status": "completed",
+      "billing": {
+        "checked_utc": "2026-11-05T17:05:02.172836+00:00",
+        "metered_cost": 4.4986291,
+        "billed_cost": 0.0,
+        "adjustments": {
+          "Plan Cost": "0E-8",
+          "Reservation Adjustment": "-0E-8",
+          "Network Egress Allowance": "-0.01779233",
+          "Free Storage": "-1.11083677",
+          "Credits": "-3.37000000"
+        },
+        "rates": {
+          "mem_gib_hour_cost": 0.008,
+          "gpu_hour_cost_a100_80gb": 2.5,
+          "gpu_hour_cost_h200": 4.54,
+          "cpu_hour_cost": 0.0473
+        },
+        "allowance_basis": "API exposes metered/billed costs, not a standalone available-credit balance. Enforce the selected authorization policy separately."
+      },
+      "metadata": {
+        "call_id": "fc-01M6PAQPY50M2HJCQYAKVFPZC0"
+      }
+    },
+    {
+      "id": "589fe41103ff49e2be13129fe8bce021",
+      "label": "gpu",
+      "resource": "gpu",
+      "reserved_usd": 1.57,
+      "status": "completed",
+      "billing": {
+        "checked_utc": "2026-11-05T17:08:16.253641+00:00",
+        "metered_cost": 4.5286291,
+        "billed_cost": 0.0,
+        "adjustments": {
+          "Plan Cost": "0E-8",
+          "Reservation Adjustment": "-0E-8",
+          "Network Egress Allowance": "-0.01779233",
+          "Free Storage": "-1.11083677",
+          "Credits": "-3.40000000"
+        },
+        "rates": {
+          "mem_gib_hour_cost": 0.008,
+          "gpu_hour_cost_a100_80gb": 2.5,
+          "gpu_hour_cost_h200": 4.54,
+          "cpu_hour_cost": 0.0473
+        },
+        "allowance_basis": "API exposes metered/billed costs, not a standalone available-credit balance. Enforce the selected authorization policy separately."
+      },
+      "metadata": {
+        "call_id": "fc-01M6PAXM25260KQGDB98F47EX2"
+      }
+    }
+  ],
+  "authorization": "User explicitly authorizes broader Modal usage, larger models and achieving the best measured result, replacing the previous credit-only cap.",
+  "monthly_allowance": null
+}

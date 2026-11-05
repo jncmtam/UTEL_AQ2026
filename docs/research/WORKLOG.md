@@ -1,5 +1,50 @@
 # Research and implementation worklog
 
+## 2026-11-06 — exhaustive numerical references and exact final-decision audit
+
+New source-frozen Modal CPU stage178.07s builds15504 base/11628 exit supports,
+reusing17054 validated optimal allocations and making10078 new common allocator
+calls.27105 optimal-status feasible/27 infeasible; independent rescore max1.63e-19.
+All27 infeasible supports independently contradict their sector-weight budget.
+No formal exact-arithmetic joint certificate. Old local-swap decisions equal both
+numerical feasible references for both source seeds: no observed quality headroom
+on these cases. Exact B-optimum allocated regret11.0719%/8.3538%, rank correlations
+.6414/.6291. This directly quantifies selection/continuous-allocation mismatch.
+
+H200 GPU stage20.41s computes12 unique actual states/18 logical distributions from
+frozen real model circuits and physical angles.0 new model/angle searches.121 raw
+hashes checked. Exact operational best-of-budget expectations and incumbent-clipped
+future64-shot metrics independently crosschecked (max9.50e-16); source512-shot
+incumbents/old decisions verified. Detailed-vs-aggregate mean-7.9777%, final-only
+best64+3.2645%, conditional expected final+5.8141% versus observed+5.9599%. This is
+conditional on realized histories, NOT expected performance of the whole adaptive
+576-shot policy or a causal proof. Numerical-status sensitivity and all failure
+mass retained. Both references complete; market admission still blocked.
+
+247 tests/F lint pass;3 scientific plots inspected/fixed label spacing.1.80USD new
+reservation (not invoice), no failed new stages; all six apps idle after completion.
+Added decision-unit comparison, supplemental infeasibility/reference/probability
+checks, explicit next formulation gate and updated README/status/handoff. No default
+fitting change or model promotion. Prior raw results/source snapshots unchanged.
+
+## 2026-11-06 — decision-level audit implementation and dispatch
+
+Latest user asked keep going. Reviewed primary multishot-QAOA, CVaR, Gibbs/AAS
+and iterative warm-start references before registering DECISION_AUDIT_PROTOCOL.md.
+No alpha/model sweep. Added exact discrete expected-min/conditional-incumbent
+metrics, tested against exhaustive ordered draws, ties, failures, tiny feasible
+mass and mean/best ranking reversal. Cache identity/financial rescoring tests
+reject corrupted or unresolved cached values.247 tests and F lint pass.
+Prepared17054 unique optimal cached allocations,27183 matching duplicate records;
+32 unresolved/nonoptimal records are not reused as certificates. Same two opened
+N20 cases require27132 supports total,10078 new common allocator calls. New Modal
+app builds full diagnostic table on CPU before releasing one bounded CUDA stage;
+no LLM, new angles or market test. Source hashes freeze before dispatch;8USD ledger
+cap and full failure reservations. Existing completed raw runs unchanged. Preserve
+unknown/nonoptimal solver status and no formal joint certificate. Final analysis
+must distinguish exact final64 expectation conditional on realized512-shot history
+from the unconditional adaptive576-shot policy, which is not computed here.
+
 ## 2026-11-05 — final H200 measured-edit study audited; financial target unsupported
 
 Final callfc-01M6NS84DP54N4HRW7J1RTRA0N completed4 real normal Coder30/H200 responses,

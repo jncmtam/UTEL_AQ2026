@@ -1,0 +1,17 @@
+{
+  "raw_downloads_unchanged": true,
+  "derived_sha256": {
+    "RESULTS.md": "34d2580661ecd2f74cc18ad6f10547c17696f305f82a06bdbfd7098f50db0638",
+    "FINDINGS.md": "05be64170b25b2aa9a2fb181c3f3efef45dfbc99bfec3d4ebe5de8960bb71872",
+    "analysis.json": "20d70cce1dde220a6867a35b0370dc1ade4ef49c5dd14b257f8214802c91d6c8",
+    "curves.csv": "4ec7e70503b78c944389642c7658bbaa4d7dae7a49b6d12f5ad7b78f7464842e",
+    "decisions.csv": "3d5ad3ac39ea7c180db964fc434d57a7da8060f31ae601a003595048117240d8",
+    "paired_differences.csv": "41ac84716f6560ec0e0a73182bff2af05dd66e1456c1cb51d73c1cfa8952c6f1",
+    "financial_comparison.json": "bb10123aad217fa98c7800557f85037c7ec3bd6fa1900fac97b232be9098c51b",
+    "SUPPLEMENTAL_AUDIT.json": "c57a2cf2aa9f1ea5759175615c84896333c8f593966253f71308370be2dc1a95",
+    "best-of-budget.png": "8166232a618883e2462d33f9fe28dcaf5f63c2ed4621c0ab3c23f89db00ecc81",
+    "conditional-decisions.png": "999530f2d20a4688532fb68bc9dc311467d1666ef6fb95773b663e8b693edcc2",
+    "proxy-versus-allocation.png": "b70c2b0ad7153666c3ad8a4430d40e2c0c2be160f9c08bc3e6bc48b30a904e85",
+    "report_generator.py": "ae0099028600fd170ebb71cd89552537ceef9e7eac479f25c9857ddbdc61b5f2"
+  }
+}
