@@ -1,5 +1,39 @@
 # Research and implementation worklog
 
+## 2026-11-06 — faithful-on-grid cost compiler and measured resource barrier
+
+Registered WEIGHT_GRID_PROTOCOL.md after reviewing Hodson discrete rebalancing,
+Yuan discrete-weight QAOA, Alessandroni penalty-scale and Rubio-Garcia strong
+classical search papers. Implemented an opt-in NAV-amount/selection QUBO; compiler
+locks exact on-grid tracking and proportional costs. Integer constraints include
+cash-aware turnover when prior holdings fit the grid; unsupported drift errors
+rather than rounding. Conservative coefficient-range penalty, no truth-table oracle.
+No primary objective, LLM grammar, optimizer default or old artifact changed.
+
+Initial local v1 launch stopped on a provenance-field error after snapshotting;
+second local preflight stopped before v2 artifacts because the edge-request wrapper
+omits provenance. Inspected actual contract, switched to direct prepare_inputs,
+retained partial original source/failure evidence. No financial outcome or paid
+call preceded the correction. V2 keeps all registered cases/grids/thresholds.
+
+Fixed first3 assets/126 rows of the opened family1 N20 development case, K2. M6
+loses5.6284% versus the common continuous numerical reference; M10/20/40 match its
+(.3,0,.7) boundary optimum within numerical tolerance. No general accuracy claim.
+Qubits15/24/46/89; only15-qubit full quantum check performed. Original N20 resource
+compilation63/123/244 qubits and3672/14538/58044 CX for one cost layer, excludes
+preparation, mixer and routing. One-hot encoding is a reference, not novel/optimal
+or a scalable circuit solution. No LLM/GPU/model-size follow-up is justified by it.
+
+Full253 tests/F lint pass.137 raw hashes,105 feasible financial records independently
+rescored (max3.2527e-19);4 QPY/QASM schedules match,1 state check/3 explicit skips.
+All32768 market-control encoded states plus64/8192 synthetic states audited. Two
+plots generated and inspected. Successful-run measured wall2.301s includes input
+preparation but excludes failed preflights/tests/reporting, not total cost.0 new
+Modal/model calls; all apps observed idle. Executed bytes frozen; maintained source
+later formatted only. Reports/protocol/handoff/README updated. Historical data and
+financial/quantum qualification remain blocked/unproven. Prior audit committed and
+pushed as2cc09cc; this continuation keeps the user's unrelated README indentation.
+
 ## 2026-11-06 — exhaustive numerical references and exact final-decision audit
 
 New source-frozen Modal CPU stage178.07s builds15504 base/11628 exit supports,

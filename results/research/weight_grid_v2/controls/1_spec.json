@@ -1,0 +1,64 @@
+{
+  "version": "financial-spec-v3",
+  "turnover_convention": "half_L1_including_cash",
+  "tickers": [
+    "ASSET_00",
+    "ASSET_01",
+    "ASSET_02"
+  ],
+  "sectors": [
+    "A",
+    "B",
+    "B"
+  ],
+  "returns": [
+    [
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0
+    ]
+  ],
+  "benchmark": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "previous_weights": [
+    0.5,
+    0.0,
+    0.0
+  ],
+  "k": 2,
+  "cutoff": "2010-07-02",
+  "include": [
+    "ASSET_00"
+  ],
+  "exclude": [
+    "ASSET_02"
+  ],
+  "sector_count_caps": {
+    "B": 1
+  },
+  "sector_weight_caps": {},
+  "turnover_cap": 0.5,
+  "max_replacements": 1,
+  "minimum_weight": 0.02,
+  "maximum_weight": 0.75,
+  "cost_weight": 0.01,
+  "cost_rate": 0.0005,
+  "objective_kind": "tracking_cost",
+  "risk_aversion": 5.0,
+  "mean_shrinkage": 0.5,
+  "horizon": 21,
+  "provenance": "published_conditional_development_not_investable"
+}

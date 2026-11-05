@@ -1,0 +1,4 @@
+{
+  "status": "skipped",
+  "reason": ">16 physical qubits; no full-statevector claim"
+}

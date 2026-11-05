@@ -2,6 +2,14 @@
 
 Updated: 2026-11-06, Asia/Ho_Chi_Minh.
 
+The opt-in [weight-grid diagnostic](../../results/research/weight_grid_v2/RESULTS.md)
+now validates exact tracking/cost encoding on a declared NAV grid. The small M6
+example has5.63% discretization regret; finer grids match that tiny numerical
+boundary optimum, without a general accuracy guarantee. Original N20 cost-layer
+resources grow to63–244 qubits and3,672–58,044 CX, excluding initialization/mixing.
+No large state simulation, new model, independent financial test or production
+encoding is qualified. Zero new Modal/LLM calls;253 software tests pass.
+
 The [decision-level audit](../../results/research/decision_audit_v1/FINDINGS.md)
 now exhausts27,132 supports on the two opened N20 cases. All non-infeasible
 allocations have optimal status; no formal exact-arithmetic joint certificate is

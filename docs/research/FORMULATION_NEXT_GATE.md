@@ -1,7 +1,16 @@
 # Next technical gate: preserve the financial problem before circuit scaling
 
-Date2026-11-06. Evidence-based specification, not an executed new experiment or
+Date 2026-11-06. Evidence-based next-gate specification, with an executed local
+formulation control linked below. Remaining alternatives are proposals, not
 permission to dispatch another paid/model study. Read decision_audit_v1/FINDINGS.md.
+
+## Executed first formulation control
+
+The [registered weight-grid diagnostic](WEIGHT_GRID_PROTOCOL.md) is now complete;
+see [measured results](../../results/research/weight_grid_v2/RESULTS.md). It verifies
+financial-cost equality on a declared NAV grid but exposes qubit/cost growth.
+The first option below has a correctness reference, not a qualified production
+formulation. The remaining options are proposals, with no new paid dispatch.
 
 ## Why the present continuation stops model scaling
 

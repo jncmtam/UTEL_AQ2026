@@ -4,6 +4,15 @@ Updated: 2026-11-06, Asia/Ho_Chi_Minh.
 
 ## Delivered
 
+- Weight-grid formulation diagnostic: exact cost on the declared NAV grid,
+  cash-aware turnover checks, explicit gate export and253 passing tests. Coarse
+  M6 loses5.63%; finer grids match the tiny continuous boundary reference but
+  require more qubits. Original N20 cost-only compilation needs63–244 qubits /
+  3,672–58,044 CX.137 raw hashes and105 financial records audited; no new LLM or
+  Modal calls, no production promotion. Adapter failures retained. See
+  [formulation results](results/research/weight_grid_v2/RESULTS.md) and
+  [registered protocol](docs/research/WEIGHT_GRID_PROTOCOL.md).
+
 - Decision audit:27,132 supports checked,27,105 feasible allocations independently
   rescored,121 raw hashes,12 real H200 distributions and247 passing tests. Exact
   proxy minimization still has11.07%/8.35% allocated regret; local search matches

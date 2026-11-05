@@ -18,7 +18,36 @@ an unfaithful objective.
 [Visual evidence](results/research/evidence_gallery_v1/GALLERY.md) ·
 [User guide](docs/USER_GUIDE.md) · [Progress](PROGRESS.md) · [Agent handoff](AGENTS.md)
 
-## Latest: financial-target and sampling audit (November 6)
+## Latest: faithful cost on a weight grid (November 6)
+
+The new opt-in compiler represents both asset selection and NAV amounts. Its cost
+matches tracking plus proportional trading costs on the declared grid; it checks
+money, cardinality, mandated holdings, sector exposure and supported turnover.
+Off-grid capped-turnover holdings raise an explicit error rather than being rounded.
+The continuous primary task and existing LLM/QAOA results remain unchanged.
+
+The fixed three-asset diagnostic passes exhaustive 15-qubit energy and gate checks.
+A coarse grid loses **5.63%** versus the continuous numerical reference; finer grids
+match this boundary optimum within solver tolerance. This is not a general accuracy
+guarantee. On the original N20 case, one cost layer alone needs **63–244 qubits and
+3,672–58,044 CX**. No large state simulation or practical quantum benefit is claimed.
+All253 tests pass;137 raw hashes/105 financial records independently checked.
+Zero new LLM/Modal calls in this formulation diagnostic. Earlier H200 results below
+are actual cloud executions. The report explains the resource barrier and preserved
+local adapter failures before the successful run.
+
+![Precision versus encoding resources](results/research/weight_grid_v2/precision-resources.png)
+
+[Measured formulation results](results/research/weight_grid_v2/RESULTS.md) ·
+[Technical rationale and papers](docs/research/WEIGHT_GRID_PROTOCOL.md) ·
+[Opt-in compiler](agqo/research/weight_grid.py).
+
+```bash
+# Completed results are guarded; this command does not relaunch the diagnostic.
+.venv/bin/python -m agqo.research.weight_grid_study
+```
+
+## Financial-target and sampling audit (November 6)
 
 **The benchmark now has a complete numerical reference for both N20 cases.**
 All27,132 supports were checked:27,105 optimal-status feasible allocations and27

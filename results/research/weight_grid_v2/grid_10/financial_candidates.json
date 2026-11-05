@@ -1,0 +1,242 @@
+[
+  {
+    "weights": [
+      0.3,
+      0.7,
+      0.0
+    ],
+    "objective": 0.0004438170026230549,
+    "tracking_mse": 0.0004418170026230549,
+    "tracking_rmse": 0.021019443442276364,
+    "tracking_error_per_period": 0.021090941028723532,
+    "one_way_turnover": 0.19999999999999998,
+    "two_way_turnover": 0.39999999999999997,
+    "transaction_cost": 0.00019999999999999998,
+    "number_of_trades": 2,
+    "objective_residual": 5.421010862427522e-20
+  },
+  {
+    "weights": [
+      0.4,
+      0.6,
+      0.0
+    ],
+    "objective": 0.0003703412310217971,
+    "tracking_mse": 0.00036934123102179715,
+    "tracking_rmse": 0.019218252548600698,
+    "tracking_error_per_period": 0.01927497500495369,
+    "one_way_turnover": 0.09999999999999998,
+    "two_way_turnover": 0.19999999999999996,
+    "transaction_cost": 9.999999999999998e-05,
+    "number_of_trades": 2,
+    "objective_residual": 0.0
+  },
+  {
+    "weights": [
+      0.5,
+      0.5,
+      0.0
+    ],
+    "objective": 0.00032125007364565905,
+    "tracking_mse": 0.000321250073645659,
+    "tracking_rmse": 0.017923450383384863,
+    "tracking_error_per_period": 0.01796534049058437,
+    "one_way_turnover": 0.0,
+    "two_way_turnover": 0.0,
+    "transaction_cost": 0.0,
+    "number_of_trades": 0,
+    "objective_residual": 1.0842021724855044e-19
+  },
+  {
+    "weights": [
+      0.6,
+      0.4,
+      0.0
+    ],
+    "objective": 0.00029854353049464037,
+    "tracking_mse": 0.0002975435304946402,
+    "tracking_rmse": 0.017249450150501614,
+    "tracking_error_per_period": 0.017277563079908454,
+    "one_way_turnover": 0.09999999999999998,
+    "two_way_turnover": 0.19999999999999996,
+    "transaction_cost": 9.999999999999998e-05,
+    "number_of_trades": 2,
+    "objective_residual": 5.421010862427522e-20
+  },
+  {
+    "weights": [
+      0.7,
+      0.3,
+      0.0
+    ],
+    "objective": 0.0003002216015687411,
+    "tracking_mse": 0.00029822160156874105,
+    "tracking_rmse": 0.017269093825929057,
+    "tracking_error_per_period": 0.017286030271706294,
+    "one_way_turnover": 0.19999999999999998,
+    "two_way_turnover": 0.39999999999999997,
+    "transaction_cost": 0.00019999999999999998,
+    "number_of_trades": 2,
+    "objective_residual": 5.421010862427522e-20
+  },
+  {
+    "weights": [
+      0.3,
+      0.0,
+      0.7
+    ],
+    "objective": 7.276053463529878e-05,
+    "tracking_mse": 6.57605346352988e-05,
+    "tracking_rmse": 0.008109286937536419,
+    "tracking_error_per_period": 0.008059538724152895,
+    "one_way_turnover": 0.7,
+    "two_way_turnover": 1.4,
+    "transaction_cost": 0.0007,
+    "number_of_trades": 3,
+    "objective_residual": 4.0657581468206416e-20
+  },
+  {
+    "weights": [
+      0.4,
+      0.0,
+      0.6
+    ],
+    "objective": 8.915775537379144e-05,
+    "tracking_mse": 8.31577553737914e-05,
+    "tracking_rmse": 0.009119087420010372,
+    "tracking_error_per_period": 0.0090702271042022,
+    "one_way_turnover": 0.6,
+    "two_way_turnover": 1.2,
+    "transaction_cost": 0.0006,
+    "number_of_trades": 3,
+    "objective_residual": 2.710505431213761e-20
+  },
+  {
+    "weights": [
+      0.5,
+      0.0,
+      0.5
+    ],
+    "objective": 0.00011788937708071322,
+    "tracking_mse": 0.00011288937708071322,
+    "tracking_rmse": 0.010624941274224212,
+    "tracking_error_per_period": 0.01058289188370811,
+    "one_way_turnover": 0.5,
+    "two_way_turnover": 1.0,
+    "transaction_cost": 0.0005,
+    "number_of_trades": 2,
+    "objective_residual": 6.776263578034403e-20
+  },
+  {
+    "weights": [
+      0.6,
+      0.0,
+      0.4
+    ],
+    "objective": 0.00015995539975606436,
+    "tracking_mse": 0.0001549553997560643,
+    "tracking_rmse": 0.0124481082802193,
+    "tracking_error_per_period": 0.012415389931350218,
+    "one_way_turnover": 0.5,
+    "two_way_turnover": 1.0,
+    "transaction_cost": 0.0005,
+    "number_of_trades": 3,
+    "objective_residual": 2.710505431213761e-20
+  },
+  {
+    "weights": [
+      0.7,
+      0.0,
+      0.3
+    ],
+    "objective": 0.00021435582339984465,
+    "tracking_mse": 0.00020935582339984458,
+    "tracking_rmse": 0.014469133470938906,
+    "tracking_error_per_period": 0.014446519971863685,
+    "one_way_turnover": 0.5,
+    "two_way_turnover": 1.0,
+    "transaction_cost": 0.0005,
+    "number_of_trades": 3,
+    "objective_residual": 0.0
+  },
+  {
+    "weights": [
+      0.0,
+      0.3,
+      0.7
+    ],
+    "objective": 9.140152032564214e-05,
+    "tracking_mse": 8.440152032564227e-05,
+    "tracking_rmse": 0.009187030005700552,
+    "tracking_error_per_period": 0.00919787140001078,
+    "one_way_turnover": 0.7,
+    "two_way_turnover": 1.4,
+    "transaction_cost": 0.0007,
+    "number_of_trades": 3,
+    "objective_residual": 6.776263578034403e-20
+  },
+  {
+    "weights": [
+      0.0,
+      0.4,
+      0.6
+    ],
+    "objective": 0.000130975367741943,
+    "tracking_mse": 0.00012497536774194311,
+    "tracking_rmse": 0.011179238245155307,
+    "tracking_error_per_period": 0.011206257688933746,
+    "one_way_turnover": 0.6,
+    "two_way_turnover": 1.2,
+    "transaction_cost": 0.0006,
+    "number_of_trades": 3,
+    "objective_residual": 2.710505431213761e-20
+  },
+  {
+    "weights": [
+      0.0,
+      0.5,
+      0.5
+    ],
+    "objective": 0.00019136509851718655,
+    "tracking_mse": 0.0001863650985171866,
+    "tracking_rmse": 0.013651560296068233,
+    "tracking_error_per_period": 0.013694322061339291,
+    "one_way_turnover": 0.5,
+    "two_way_turnover": 1.0,
+    "transaction_cost": 0.0005,
+    "number_of_trades": 2,
+    "objective_residual": 0.0
+  },
+  {
+    "weights": [
+      0.0,
+      0.6,
+      0.4
+    ],
+    "objective": 0.0002735707126513727,
+    "tracking_mse": 0.000268570712651373,
+    "tracking_rmse": 0.016388127185599122,
+    "tracking_error_per_period": 0.01644577679156045,
+    "one_way_turnover": 0.5,
+    "two_way_turnover": 1.0,
+    "transaction_cost": 0.0005,
+    "number_of_trades": 3,
+    "objective_residual": 5.421010862427522e-20
+  },
+  {
+    "weights": [
+      0.0,
+      0.7,
+      0.3
+    ],
+    "objective": 0.000376592210144502,
+    "tracking_mse": 0.00037159221014450197,
+    "tracking_rmse": 0.019276727163720038,
+    "tracking_error_per_period": 0.01934858041472862,
+    "one_way_turnover": 0.5,
+    "two_way_turnover": 1.0,
+    "transaction_cost": 0.0005,
+    "number_of_trades": 3,
+    "objective_residual": 5.421010862427522e-20
+  }
+]

@@ -37,6 +37,22 @@ for the next action. Update this file and the worklog after meaningful changes.
   zero tasks after the bounded probe. Do not relaunch a completed probe by default.
 
 ## Verified current evidence — do not repeat unnecessarily
+- weight_grid_v2 COMPLETED as opt-in formulation diagnostic;253 tests pass.
+  New weight_grid.py compiles selection + NAV amounts, exact tracking/proportional
+  costs on-grid, supported cash-aware turnover and integer penalties, RZ/RZZ export.
+  Off-grid capped-turnover holdings fail explicitly; continuous primary unchanged.
+  Fixed 3-asset conditional-US slice: M6 has5.6284% grid regret,15 qubits; M10/20/40
+  match the numerical continuous boundary optimum within solver tolerance, requiring
+  24/46/89 qubits. No general discretization guarantee. Original N20 compiled only:
+  63/123/244 qubits,3672/14538/58044 cost CX; no N20 state simulation. Cost only,
+  excludes preparation/mixer/routing. Not a new quantum algorithm or novel encoding.
+  All32768 small market states +64/8192 synthetic states checked.137 raw hashes,
+  105 feasible weights independently rescored (max3.26e-19);4 QASM/QPY pairs parsed,
+  one full-state check,3 explicit skips.0 LLM/Modal calls. Initial v1 adapter failure
+  source retained; second preflight stopped before v2 artifacts. No outcome changes.
+  Source snapshots preserve executed bytes; later formatting changes no semantics.
+  Read weight_grid_v2/RESULTS.md, WEIGHT_GRID_PROTOCOL.md. Completed-run guard tested.
+  This diagnoses precision/resources, does not admit production cost or model scaling.
 - decision_audit_v1 COMPLETED under latest keep-going continuation.247 tests pass.
   Modal CPU table178.07s:27132 supports,17054 reused optimal records +10078 new
   calls;27105 optimal-status feasible/27 infeasible. Independent financial rescore
@@ -216,6 +232,12 @@ for the next action. Update this file and the worklog after meaningful changes.
   CONDITIONING_PROTOCOL.md. Defaults and earlier raw runs are unchanged.
 
 ## Implemented modules (read only the relevant one)
+- weight_grid.py: opt-in one-hot NAV amount formulation and cost export; explicit
+  constraints and unsupported drift checks, conservative penalty,512-variable cap.
+  weight_grid_study.py: guarded local precision/resource diagnostic; module CLI
+  --output defaults completed weight_grid_v2, no LLM/Modal dispatch. Source protocol
+  and all candidate portfolios saved. scripts/summarize_weight_grid.py independently
+  audits raw/financial/export evidence and plots; never overwrites completed analysis.
 - finite_budget.py: exact discrete expected minimum/hit/feasibility/conditional-
   incumbent metrics. decision_audit.py: validated allocation-cache reuse, full
   diagnostic tables, frozen actual LLM-circuit distributions. modal_decision_audit.py
