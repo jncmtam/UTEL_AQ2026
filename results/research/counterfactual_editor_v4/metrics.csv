@@ -1,0 +1,29 @@
+case_id,method,seed,best_objective,observations,allocation_queries,cache_hits,state_evaluations,elapsed_seconds,pooled_feasible_fraction,final64_feasible_fraction,sample_status_counts,pooled_observed_hit_fraction,final64_observed_hit_fraction,best_fit_eligible,final_eligible,failed_fit_batches,phase,status
+family1_n20_base,edit_0,11,2.1683754826623077e-05,576,540,36,9,5.175690457,1.0,1.0,{'optimal': 576},,,True,True,0.0,design,completed
+family1_n20_base,edit_1,11,2.1046105165473638e-05,576,550,26,9,4.049457069999999,1.0,1.0,{'optimal': 576},,,True,True,0.0,design,completed
+family1_n20_base,edit_2,11,2.218766995922849e-05,576,554,22,9,4.064243576999999,1.0,1.0,{'optimal': 576},,,True,True,0.0,design,completed
+family1_n20_base,edit_3,11,2.1558018149457932e-05,576,559,17,9,4.259381865000002,1.0,1.0,{'optimal': 576},,,True,True,0.0,design,completed
+family1_n20_base,aggregate,23,2.0179165631710676e-05,576,558,18,9,4.181512945000009,1.0,1.0,{'optimal': 576},,,True,True,0.0,evaluation,completed
+family1_n20_base,aggregate,47,2.2547080894558663e-05,576,565,11,9,4.191245010999978,0.9982638888888888,1.0,"{'optimal': 575, 'infeasible': 1}",,,True,True,0.0,evaluation,completed
+family1_n20_base,allocation_swap,23,2.0179165631710676e-05,576,567,9,0,4.2908034600000065,1.0,1.0,{'optimal': 576},,,,,,evaluation,completed
+family1_n20_base,allocation_swap,47,2.0179165631710676e-05,576,570,6,0,4.319347673999971,1.0,1.0,{'optimal': 576},,,,,,evaluation,completed
+family1_n20_base,counterfactual,23,2.2743882692454904e-05,576,561,15,9,4.17180353400002,1.0,1.0,{'optimal': 576},,,True,True,0.0,evaluation,completed
+family1_n20_base,counterfactual,47,2.4084349613324177e-05,576,536,40,9,4.35941214799999,1.0,1.0,{'optimal': 576},,,True,True,0.0,evaluation,completed
+family1_n20_base,current,23,2.0179165631710676e-05,576,558,18,9,4.177003214000024,1.0,1.0,{'optimal': 576},,,True,True,0.0,evaluation,completed
+family1_n20_base,current,47,2.2547080894558663e-05,576,565,11,9,4.1970933239999795,0.9982638888888888,1.0,"{'optimal': 575, 'infeasible': 1}",,,True,True,0.0,evaluation,completed
+family1_n20_base,teacher,23,2.2788528140486036e-05,576,556,20,9,4.133017738000035,0.9965277777777778,0.984375,"{'optimal': 574, 'infeasible': 2}",,,True,True,0.0,evaluation,completed
+family1_n20_base,teacher,47,2.1967979595278028e-05,576,548,28,9,4.043078274999971,1.0,1.0,{'optimal': 576},,,True,True,0.0,evaluation,completed
+family1_n20_exit,edit_0,11,2.2943559788132752e-05,576,559,17,9,4.125744520999998,0.9965277777777778,1.0,"{'optimal': 574, 'infeasible': 2}",,,True,True,0.0,design,completed
+family1_n20_exit,edit_1,11,2.1046105165473638e-05,576,556,20,9,4.108093302999997,1.0,1.0,{'optimal': 576},,,True,True,0.0,design,completed
+family1_n20_exit,edit_2,11,2.198496079059349e-05,576,555,21,9,4.050550265000005,1.0,1.0,{'optimal': 576},,,True,True,0.0,design,completed
+family1_n20_exit,edit_3,11,2.4134285610164042e-05,576,547,29,9,4.188331960999996,1.0,1.0,{'optimal': 576},,,True,True,0.0,design,completed
+family1_n20_exit,aggregate,23,2.198496079059349e-05,576,545,31,9,4.475042741000038,1.0,1.0,{'optimal': 576},,,True,True,0.0,evaluation,completed
+family1_n20_exit,aggregate,47,2.218766995922849e-05,576,517,59,9,3.842077893999999,1.0,1.0,{'optimal': 576},,,True,True,0.0,evaluation,completed
+family1_n20_exit,allocation_swap,23,2.068537019798746e-05,576,564,12,0,4.230466400000012,0.9982638888888888,1.0,"{'optimal': 575, 'infeasible': 1}",,,,,,evaluation,completed
+family1_n20_exit,allocation_swap,47,2.068537019798746e-05,576,568,8,0,4.295546866999985,1.0,1.0,{'optimal': 576},,,,,,evaluation,completed
+family1_n20_exit,counterfactual,23,2.2939031700390073e-05,576,553,23,9,4.10482248400001,1.0,1.0,{'optimal': 576},,,True,True,0.0,evaluation,completed
+family1_n20_exit,counterfactual,47,2.2181528786435107e-05,576,543,33,9,4.016236841000023,1.0,1.0,{'optimal': 576},,,True,True,0.0,evaluation,completed
+family1_n20_exit,current,23,2.198496079059349e-05,576,545,31,9,4.046117056000014,1.0,1.0,{'optimal': 576},,,True,True,0.0,evaluation,completed
+family1_n20_exit,current,47,2.218766995922849e-05,576,517,59,9,3.8379897259999893,1.0,1.0,{'optimal': 576},,,True,True,0.0,evaluation,completed
+family1_n20_exit,teacher,23,2.18612917433048e-05,576,554,22,9,4.525899568,1.0,1.0,{'optimal': 576},,,True,True,0.0,evaluation,completed
+family1_n20_exit,teacher,47,2.1046105165473638e-05,576,559,17,9,4.1593810740000094,1.0,1.0,{'optimal': 576},,,True,True,0.0,evaluation,completed

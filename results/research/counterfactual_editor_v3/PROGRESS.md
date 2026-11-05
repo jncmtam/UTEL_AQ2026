@@ -1,0 +1,3 @@
+# Interrupted actual execution — earlier no-execution claim retracted
+
+Stale call-graph status incorrectly suggested no worker. Logs and19 captured files show8 completed numerical edit runs;4,418 feasible allocations independently rescored. No saved answers/runtime/completion artifacts. Model loading/inference may have begun, so this is interrupted/unknown model execution, not model incapability. Full3.64USD reservation restored; zero release explicitly retracted. See INTERRUPTED_AUDIT.json, interrupted_cloud/, original queue snapshots and ledger. V4 final report includes this failed operational assumption and all costs.

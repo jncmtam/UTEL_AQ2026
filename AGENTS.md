@@ -37,6 +37,30 @@ for the next action. Update this file and the worklog after meaningful changes.
   zero tasks after the bounded probe. Do not relaunch a completed probe by default.
 
 ## Verified current evidence — do not repeat unnecessarily
+- counterfactual_editor_v4 COMPLETED: real pinned Coder30 on NVIDIA H200,
+  4/4 admitted outputs;28/28 runs,16,128 observations,211 raw hashes checked,
+  15,462 feasible allocations independently rescored.8 exports parsed; all8 full
+  statevectors explicitly skipped (>16 physical qubits). Final234 tests pass.
+  Aggregate arms retain current circuits; detailed arms change both to novel physical
+  families but best allocated F worsens5.96% vs current,4.94% vs numerical teacher,
+  12.55% vs swap. Mean-F vs best-F conflict: base mean-4.73% /best+9.76%; exit
+  mean+1.92% /best+2.16%. Both have2 params; CX unchanged; depth only-1.90/-2.86%.
+  Target unsupported; no production model/finance/quantum qualification. Read
+  counterfactual_editor_v4/FINAL_REPORT.md and actual prompts/answers. All apps idle.
+  NO more paid attempts scheduled. Completed script guarded; do not relaunch.
+- Preserve all follow-up preparation/failure evidence. V1 overflow: no paid dispatch.
+  V2 unmapped sibling module: startup failure,3.64 reservation fully charged. V3
+  interrupted after8 real edit evaluations,19 partial files,4,418 feasible allocations
+  rescored; no saved answer/runtime/completion artifacts, model stage UNKNOWN.
+  Call-graph PENDING/empty task_id was STALE; initial no-execution assertion and0
+  software-reservation release RETRACTED; full3.64 restored. Never infer no work or
+  release cost from that API state alone. V4 corrected inherited3-proposal prompt
+  to actual1-proposal before v4 outputs, used documented one-GPU H200/A100 fallback.
+  Accounting: completed source3.64 +startup3.64 +interrupted3.64 +new5.79 +twoCPU
+  preflights0.0448375 =16.7548375USD reservations, NOT invoices. Earlier agent15USD
+  planning cap exceeded and disclosed; renewed explicit user resource instruction /
+ 150USD policy supports20USD operational ceiling for existing attempts, not new jobs.
+  EXECUTION_DEVIATIONS.md and COMBINED_COST_REPORT.json preserve the correction.
 - live_gpu_optimization_v1 completed2026-11-05: actual pinned Coder30/A10080GB,
   12/12 admitted live proposals,88/88 runs,64 CUDA circuit runs/59,904 observations.
   359 raw hashes checked;36,494 feasible allocations rescored (max1.63e-19).

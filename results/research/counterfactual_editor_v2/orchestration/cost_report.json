@@ -1,0 +1,44 @@
+{
+  "ledger": {
+    "version": "budget-v1",
+    "limit_usd": 11.36,
+    "jobs": [
+      {
+        "id": "0e387bba46df4000a0151be7e41f24ee",
+        "label": "counterfactual_editor_v2",
+        "resource": "gpu",
+        "reserved_usd": 3.64,
+        "status": "failed_reservation_charged",
+        "billing": {
+          "checked_utc": "2026-11-05T11:48:14.663374+00:00",
+          "metered_cost": 3.88845581,
+          "billed_cost": 0.0,
+          "adjustments": {
+            "Plan Cost": "0E-8",
+            "Network Egress Allowance": "-0.01761904",
+            "Credits": "-2.76000000",
+            "Free Storage": "-1.11083677",
+            "Reservation Adjustment": "-0E-8"
+          },
+          "rates": {
+            "gpu_hour_cost_h200": 4.54,
+            "mem_gib_hour_cost": 0.008,
+            "cpu_hour_cost": 0.0473,
+            "gpu_hour_cost_a100_80gb": 2.5
+          },
+          "allowance_basis": "API exposes metered/billed costs, not a standalone available-credit balance. Enforce the selected authorization policy separately."
+        },
+        "metadata": {
+          "reason": "Worker import failed before model/financial execution; call cancelled",
+          "call_id": "fc-01M6NRKKDXZFCEFR6RWNWACGY9"
+        }
+      }
+    ],
+    "authorization": "User explicitly authorizes broader Modal usage, larger models and achieving the best measured result, replacing the previous credit-only cap.",
+    "monthly_allowance": null
+  },
+  "reserved_usd_total": 3.64,
+  "reservation_is_not_invoice": true,
+  "inference_calls": 0,
+  "status": "startup_failed"
+}

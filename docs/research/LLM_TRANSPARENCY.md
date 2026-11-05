@@ -4,9 +4,18 @@ This guide distinguishes saved live evidence from prepared prompts. No prompt
 quoted here is evidence of financial benefit. The new live-guidance study's status
 and results belong to its own protocol/receipts, not the older integration run.
 
+## Final gate-edit study
+
+[Exact actual outputs](../../results/research/counterfactual_editor_v4/ACTUAL_RESPONSES.md),
+[full numerical prompts/schemas](../../results/research/counterfactual_editor_v4/evaluation/prepared_requests.json),
+[H200 runtime proof](../../results/research/counterfactual_editor_v4/evaluation/gpu_runtime.json),
+[final interpretation and operational deviations](../../results/research/counterfactual_editor_v4/FINAL_REPORT.md).
+Four actual responses pass gate/resource admission; detailed feedback changes
+physical circuits but worsens financial decision quality. No production model is qualified.
+
 ## Exact prompts and full inputs
 
-The latest completed run is **live_gpu_optimization_v1**:
+The preceding completed loop is **live_gpu_optimization_v1**:
 [all12 actual outputs](../../results/research/live_gpu_optimization_v1/ACTUAL_RESPONSES.md),
 [exact system prompts](../../results/research/live_gpu_optimization_v1/SYSTEM_PROMPTS.md),
 [full payload/schema index](../../results/research/live_gpu_optimization_v1/prompt_index.json),

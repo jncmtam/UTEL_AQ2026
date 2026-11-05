@@ -18,7 +18,25 @@ an unfaithful objective.
 [Visual evidence](results/research/evidence_gallery_v1/GALLERY.md) ·
 [User guide](docs/USER_GUIDE.md) · [Progress](PROGRESS.md) · [Agent handoff](AGENTS.md)
 
-## Latest live GPU feedback experiment (November 5)
+## Final measured-edit GPU follow-up (November 5)
+
+Real Qwen Coder30/H200 execution completed4/4 valid designs and28/28 numerical
+runs. Scored gate-edit feedback makes the LLM change both circuit families,
+while aggregate feedback retains them. **Financial usefulness still fails:**
+best allocated training F is5.96% worse than unchanged circuits,4.94% worse than
+the numerical teacher and12.55% worse than allocation-aware local search.
+In one case mean-F improves while the best chosen portfolio worsens; fitting and
+decision objectives require alignment. Neither larger GPUs nor changed gates
+establish a portfolio benefit.
+
+[Final interpretation and next dependencies](results/research/counterfactual_editor_v4/FINAL_REPORT.md) ·
+[Actual model responses](results/research/counterfactual_editor_v4/ACTUAL_RESPONSES.md) ·
+[Exact data/features/edit feedback](results/research/counterfactual_editor_v4/evaluation/prepared_requests.json) ·
+[All costs and interruptions](results/research/counterfactual_editor_v4/COMBINED_COST_REPORT.json).
+All apps are idle. Historical investment admission remains blocked. Model selection
+is experimental; no production LLM or independent financial/quantum advantage is qualified.
+
+## Earlier live GPU feedback experiment (November 5)
 
 **One real model, one Modal A10080GB job, with CUDA QAOA simulation.** Pinned
 Qwen3-Coder-30B-A3B-Instruct produced12 live circuit proposals across three rounds,

@@ -1,0 +1,24 @@
+{
+  "scope": "Observed partial cloud bytes; local SHA inventory, not a worker-completion manifest",
+  "files": {
+    "dataset_manifest.json": "b697da2702ba77776f31eb067831d10c325b908ec93e0450df299be66597b4ff",
+    "historical_anchors.json": "5be216d8e925be6decd39255308524c2926c7ea4b7e080ec757b0bc59cdb3140",
+    "prepared_requests.json": "b5429e744cb5a37097197aed96de804f0359c609171d66cfa644904c59c4810c",
+    "protocol.json": "a49528a42ad96c9e2b3e646ef03b5406059c384a6dcec949639734b6d85604a4",
+    "teacher_lock.json": "3439b680b64c88f7bbc2efc6afe9b6c27b3d7f03588764357927d76f96f9080c",
+    "runs/family1_n20_base__design__edit_0__11.json": "ac275a08d9abeb8673212e76f75929d8c4be254fbd53e6ba53e2bbda7fae5ff6",
+    "runs/family1_n20_base__design__edit_1__11.json": "36c2870c0d6d2935a1ead1a43991e20f98457b69f20288859499a8628036ede0",
+    "runs/family1_n20_base__design__edit_2__11.json": "b2256566251e054a2a12de8ed5df6dd4ae0330a55d15e3c9ee33d769e04cb259",
+    "runs/family1_n20_base__design__edit_3__11.json": "05730cade9ae96a793c85b687981505e62babf785bc213a941b3b067fca595eb",
+    "runs/family1_n20_exit__design__edit_0__11.json": "cecc8134f0380addf53d410af97f2c720b35508fb4f49c27e730bee8777616e4",
+    "runs/family1_n20_exit__design__edit_1__11.json": "12a51cad3a68b4de77cc845a6ed6d97538a189612fc8a625021d75bfe946d662",
+    "runs/family1_n20_exit__design__edit_2__11.json": "c3bc27323e9c23561909523ced436b4031fc384c4ca6c3f9dc379e7d8daece69",
+    "runs/family1_n20_exit__design__edit_3__11.json": "34b041a19a0cb9dbe5d155c7fcfb911fdc736a27777fa3ec3f1ead743f64c5a4",
+    "cases/family1_n20_base/cuda_selfcheck.json": "5214507e123bce890eab56ad7b66ac624f4948dd0a506038c26ddc8d9a0692dd",
+    "cases/family1_n20_base/numerical_transport.json": "217c4c7f9e9c60ded248994e0fbf3659a0aca8afcde86160bc3c8488a4c9b494",
+    "cases/family1_n20_base/sufficient_statistics.json": "2392525db1bcd083af84c60db6682875a998c9bc8d3555de71b9334d821dfd2c",
+    "cases/family1_n20_exit/cuda_selfcheck.json": "ad9fecd5da1d4383bb737e4bdf19e360c7e19b1ee7c7237b144d68a613d93115",
+    "cases/family1_n20_exit/numerical_transport.json": "b98029d22146c290b70988898f34332f0ff2a70efd7dd9e28f2e8275608d32d5",
+    "cases/family1_n20_exit/sufficient_statistics.json": "4d97a6bb121aab3a11b37a8d2653cbee552e6b8c368b9898d7a1343a127740e1"
+  }
+}

@@ -1,5 +1,87 @@
 # Research and implementation worklog
 
+## 2026-11-05 — final H200 measured-edit study audited; financial target unsupported
+
+Final callfc-01M6NS84DP54N4HRW7J1RTRA0N completed4 real normal Coder30/H200 responses,
+4/4 quantum/resource admissions,28/28 numerical runs,16,128 observations.211 raw
+checksums checked;15,462 feasible allocations independently rescored.8 QPY/QASM
+exports parsed/hash-checked, all8 full states explicitly skipped under16-qubit cap.
+Model load118.28s, inference56.76s, worker332.39s. Detailed feedback yields novel
+physical families in both cases; aggregate feedback retains current programs.
+Best training F worsens5.95994% vs aggregate/current,4.94070% vs teacher,12.54754%
+vs swap. Target unsupported. Secondary post-result analysis: base mean-F-4.72566%
+but best-F+9.76388%; exit mean+1.92248% /best+2.15599%. Both arms2 params, CX same,
+depth-1.90/-2.86%; no useful dominance or extra-parameter explanation.
+
+Preserved interrupted v3:19 partial files/8 numerical rows/4,418 feasible allocations
+rescored, max1.63e-19; no saved responses/runtime/completion, model stage unknown.
+Restored full reservation after stale PENDING status falsely suggested no work.
+Combined conservative reservations16.7548375USD include startup/interruption and
+both CPU preflights; not invoices.20USD operational ceiling under renewed user
+resource instruction/150 policy is disclosed, earlier15 planning cap exceeded.
+No new paid attempts. All five apps observed0 tasks. Final234 tests and F lint pass;
+canonicalization tests prevent parameter-renaming novelty claims. Four scientific
+plots inspected across both completed studies. README/transparency/status/handoff
+link final English report, all prompts/outputs, cost correction and raw evidence.
+No independent financial partition opened; market data and B/F gates remain closed.
+
+## 2026-11-05 — stale status exposed actual interrupted work; accounting restored
+
+Subsequent logs/volume files contradict the v3 call graph's PENDING/empty-task
+status: all8 neighboring circuit evaluations ran, and requests/teacher lock were
+saved before cancellation. The no-execution inference and zero reservation release
+were wrong and explicitly retracted. Full3.64USD restored; preserve stale status,
+logs and partial files. No completed LLM-response artifact observed; do not claim
+zero model loading/inference solely from absent outputs. Final v4 remains the one
+active registered batch; no new model added. Conservative total~16.75484USD exceeds
+agent-chosen15 planning cap; renewed broad user instruction/150 policy supports
+20USD operational cap for existing attempts. EXECUTION_DEVIATIONS.md documents
+this failure rather than hiding costs. Numerical hypotheses/source snapshots stay
+unchanged; no further paid attempts after v4. Historical market gate stays closed.
+
+## 2026-11-05 — pending-only cancellation and final pre-execution amendment
+
+V3 remained PENDING without a task_id; cancellation before/after snapshots preserve
+that observation. No model, gate-edit evaluation or financial output was reached.
+Retired its software GPU reservation to0 while retaining original_reserved_usd3.64;
+this is not an isolated provider-invoice claim. Source review before inference
+caught inherited3-proposal prompt budget despite actual1. V4 constructs fresh
+1-proposal/remaining0 metadata, tests unchanged H and both prompt arms, and removes
+that unintended earlier-loop text. Modal official GPU docs support ordered fallback;
+pricing bills container load/processing/idle time. Final deployment requests one
+H200 or A10080GB (never both), same model/financial semantics; worst-rate reserve
+and prior failed3.64 retained within15USD combined cap. CPU import preflight passes.
+Final bounded callfc-01M6NS84DP54N4HRW7J1RTRA0N active, no result yet. No further paid
+attempts after this call; record actual device and no cross-hardware timing claim.
+
+## 2026-11-05 — cancelled import failure; one packaging recovery
+
+V2 could not import its unmapped local sibling modal_live_optimizer.py at worker
+startup. No model, neighboring-circuit evaluation or inference was reached.
+Cancelled callfc-01M6NRKKDXZFCEFR6RWNWACGY9; kept full3.64USD reservation charged
+conservatively, source snapshot and startup logs intact. V3 inlines identical
+image/volume declarations; no prompt/data/financial-semantic change. Required
+bounded CPU import preflight passed (imports_ready, model_loadedFalse). New single
+recovery callfc-01M6NRVC24JHEW2SA6S73WQ7PN active; new reservation3.64USD. No second
+recovery or model sweep. Context projection and original overflow preflight remain
+preserved. All232 tests pass before freeze; new read-only report canonicalizes
+parameter names to prevent crediting known circuit families as novel designs.
+
+## 2026-11-05 — user-authorized measured-edit follow-up, live job active
+
+After d8188f5 was pushed, the user explicitly said keep going/use resources.
+Reviewed OPRO(v3), ReEvo(v3), ADAPT-QAOA(v3) primary sources and registered
+COUNTERFACTUAL_EDITOR_PROTOCOL.md before new execution. Same pinned30B model,
+no larger-model sweep. Two opened N20 cases, four independently measured one-edit
+counterexamples each, aggregate-vs-detailed feedback, direct numerical-teacher
+control and known-candidate attribution.232 tests pass. A local tokenizer-only
+preflight caught16,489 required tokens in one detailed v1 prompt; no GPU dispatch.
+Preserved v1 prepared snapshot; v2 omits redundant coefficient listings in both
+designer contexts while full exact compiler H/B remains unchanged. One new bounded
+GPU callfc-01M6NRKKDXZFCEFR6RWNWACGY9 active,3.64USD reservation, total with prior
+7.28USD (not invoices). No result yet at this checkpoint. Old raw runs immutable;
+new source/controller frozen; do not rerun completed calls or tune after results.
+
 ## 2026-11-05 — live GPU feedback run completed and independently audited
 
 One new resident Coder30/A10080GB call completed12 normal live generations,12/12

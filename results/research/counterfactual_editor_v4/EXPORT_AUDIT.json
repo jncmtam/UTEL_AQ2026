@@ -1,0 +1,105 @@
+{
+  "status": "passed_with_explicit_skips",
+  "downloaded_files_verified": 211,
+  "manifest_hash": "e365e8e1a6ca1ce5a5a980f998c260f5fcc7080d3606d45b49b7adf98a761926",
+  "manifest_failures": [],
+  "exports": [
+    {
+      "circuit": "circuits/family1_n20_base/aggregate",
+      "status": "skipped_statevector",
+      "hamiltonian_hash": "52271b136ff583d7cac5e4214e4a0c6097de21d06285114ac5756050a2b6c18e",
+      "original_hamiltonian_identity": "passed",
+      "bound_qpy_and_qasm_parse": "passed",
+      "physical_qubits": 23,
+      "preparation_workspace_qubits": 3,
+      "reason": "23 physical qubits exceeds frozen full-state cap of 16; no full state allocated.",
+      "statevector_verified": false
+    },
+    {
+      "circuit": "circuits/family1_n20_base/counterfactual",
+      "status": "skipped_statevector",
+      "hamiltonian_hash": "52271b136ff583d7cac5e4214e4a0c6097de21d06285114ac5756050a2b6c18e",
+      "original_hamiltonian_identity": "passed",
+      "bound_qpy_and_qasm_parse": "passed",
+      "physical_qubits": 23,
+      "preparation_workspace_qubits": 3,
+      "reason": "23 physical qubits exceeds frozen full-state cap of 16; no full state allocated.",
+      "statevector_verified": false
+    },
+    {
+      "circuit": "circuits/family1_n20_base/current",
+      "status": "skipped_statevector",
+      "hamiltonian_hash": "52271b136ff583d7cac5e4214e4a0c6097de21d06285114ac5756050a2b6c18e",
+      "original_hamiltonian_identity": "passed",
+      "bound_qpy_and_qasm_parse": "passed",
+      "physical_qubits": 23,
+      "preparation_workspace_qubits": 3,
+      "reason": "23 physical qubits exceeds frozen full-state cap of 16; no full state allocated.",
+      "statevector_verified": false
+    },
+    {
+      "circuit": "circuits/family1_n20_base/teacher",
+      "status": "skipped_statevector",
+      "hamiltonian_hash": "52271b136ff583d7cac5e4214e4a0c6097de21d06285114ac5756050a2b6c18e",
+      "original_hamiltonian_identity": "passed",
+      "bound_qpy_and_qasm_parse": "passed",
+      "physical_qubits": 23,
+      "preparation_workspace_qubits": 3,
+      "reason": "23 physical qubits exceeds frozen full-state cap of 16; no full state allocated.",
+      "statevector_verified": false
+    },
+    {
+      "circuit": "circuits/family1_n20_exit/aggregate",
+      "status": "skipped_statevector",
+      "hamiltonian_hash": "6530d2ac21fe6d6fa16dd3099d44ce27c0276d00134757681076783e5e142376",
+      "original_hamiltonian_identity": "passed",
+      "bound_qpy_and_qasm_parse": "passed",
+      "physical_qubits": 23,
+      "preparation_workspace_qubits": 3,
+      "reason": "23 physical qubits exceeds frozen full-state cap of 16; no full state allocated.",
+      "statevector_verified": false
+    },
+    {
+      "circuit": "circuits/family1_n20_exit/counterfactual",
+      "status": "skipped_statevector",
+      "hamiltonian_hash": "6530d2ac21fe6d6fa16dd3099d44ce27c0276d00134757681076783e5e142376",
+      "original_hamiltonian_identity": "passed",
+      "bound_qpy_and_qasm_parse": "passed",
+      "physical_qubits": 23,
+      "preparation_workspace_qubits": 3,
+      "reason": "23 physical qubits exceeds frozen full-state cap of 16; no full state allocated.",
+      "statevector_verified": false
+    },
+    {
+      "circuit": "circuits/family1_n20_exit/current",
+      "status": "skipped_statevector",
+      "hamiltonian_hash": "6530d2ac21fe6d6fa16dd3099d44ce27c0276d00134757681076783e5e142376",
+      "original_hamiltonian_identity": "passed",
+      "bound_qpy_and_qasm_parse": "passed",
+      "physical_qubits": 23,
+      "preparation_workspace_qubits": 3,
+      "reason": "23 physical qubits exceeds frozen full-state cap of 16; no full state allocated.",
+      "statevector_verified": false
+    },
+    {
+      "circuit": "circuits/family1_n20_exit/teacher",
+      "status": "skipped_statevector",
+      "hamiltonian_hash": "6530d2ac21fe6d6fa16dd3099d44ce27c0276d00134757681076783e5e142376",
+      "original_hamiltonian_identity": "passed",
+      "bound_qpy_and_qasm_parse": "passed",
+      "physical_qubits": 23,
+      "preparation_workspace_qubits": 3,
+      "reason": "23 physical qubits exceeds frozen full-state cap of 16; no full state allocated.",
+      "statevector_verified": false
+    }
+  ],
+  "export_count": 8,
+  "statevectors_verified": 0,
+  "statevectors_skipped": 8,
+  "failed_exports": 0,
+  "maximum_physical_qubits_for_full_statevector": 16,
+  "tolerance": 1e-09,
+  "new_inference_or_optimizer_runs": 0,
+  "quantum_hardware": false,
+  "scope": "Artifact and bounded ideal-state correctness only, not financial benefit or large-register full-state verification."
+}

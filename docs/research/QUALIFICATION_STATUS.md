@@ -2,7 +2,13 @@
 
 Updated: 2026-11-05, Asia/Ho_Chi_Minh.
 
-The [new live GPU feedback experiment](../../results/research/live_gpu_optimization_v1/RESULTS.md)
+The [final measured-edit H200 study](../../results/research/counterfactual_editor_v4/FINAL_REPORT.md)
+admits4/4 designs and completes28/28 runs. Scored alternatives produce new circuits,
+but their best allocated objective is5.96% worse than current circuits and12.55%
+worse than direct swap search. All operational failures and interrupted work remain
+in the accounting. Neither model qualification nor financial data admission advances.
+
+The [preceding live GPU feedback experiment](../../results/research/live_gpu_optimization_v1/RESULTS.md)
 completed12 real model generations and88 numerical runs with CUDA evolution.
 All eight revisions preserve their initial physical program. The usefulness target
 is unsupported; allocation-aware local search remains stronger. This is opened

@@ -4,6 +4,13 @@ Updated: 2026-11-05, Asia/Ho_Chi_Minh.
 
 ## Delivered
 
+- Final measured-edit study:4/4 real Coder30/H200 designs,28/28 runs,211 hashes,
+  15,462 independently rescored feasible allocations. Detailed feedback changes
+  both circuits but worsens best F5.96% vs current and12.55% vs local search.
+  Target unsupported; all apps idle. Operational failures/interrupted work and
+  full16.75484USD conservative reservations preserved. Read
+  [final findings](results/research/counterfactual_editor_v4/FINAL_REPORT.md).
+
 - Live GPU feedback optimization:12/12 model proposals,88/88 runs,64 CUDA circuit
   runs,59,904 observations and36,494 independently rescored feasible allocations.
   All eight feedback revisions retain their initial circuits. Registered usefulness

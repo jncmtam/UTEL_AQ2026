@@ -1,0 +1,17 @@
+case_id,seed,reference,valid,difference_pct,llm_final_eligible
+family1_n20_base,23,aggregate,True,12.70972798158656,True
+family1_n20_base,23,current,True,12.70972798158656,True
+family1_n20_base,23,teacher,True,-0.19591194199073403,True
+family1_n20_base,23,allocation_swap,True,12.70972798158656,True
+family1_n20_base,47,aggregate,True,6.818038778299251,True
+family1_n20_base,47,current,True,6.818038778299251,True
+family1_n20_base,47,teacher,True,9.63388557817606,True
+family1_n20_base,47,allocation_swap,True,19.35255427745077,True
+family1_n20_exit,23,aggregate,True,4.339652541954009,True
+family1_n20_exit,23,current,True,4.339652541954009,True
+family1_n20_exit,23,teacher,True,4.9299006195063555,True
+family1_n20_exit,23,allocation_swap,True,10.89495368384501,True
+family1_n20_exit,47,aggregate,True,-0.02767831324635983,True
+family1_n20_exit,47,current,True,-0.02767831324635983,True
+family1_n20_exit,47,teacher,True,5.3949346543423315,True
+family1_n20_exit,47,allocation_swap,True,7.232931168876111,True

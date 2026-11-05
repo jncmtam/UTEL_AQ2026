@@ -1,0 +1,7 @@
+{
+  "job_id": "0e387bba46df4000a0151be7e41f24ee",
+  "call_id": "fc-01M6NRKKDXZFCEFR6RWNWACGY9",
+  "reserved_usd": 3.64,
+  "failed": true,
+  "reason": "Pre-inference startup import failure; cancellation requested; never redispatch"
+}
