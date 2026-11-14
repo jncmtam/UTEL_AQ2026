@@ -1,0 +1,63 @@
+{
+  "n_qubits": 16,
+  "register_stocks": 16,
+  "stocks_in_portfolio": 25,
+  "coupling_pairs": 120,
+  "two_qubit_gate_budget": 1500,
+  "encoding": "rounding: every stock starts at the floor of the continuous optimum; qubit k adds one board lot to register stock k (the integer-lot rounding decision)",
+  "budget_note": "an affordability penalty couples all qubits; infeasible portfolios are never executed",
+  "training_instances": [
+    {
+      "coupling_abs_quantiles_q25_q50_q75_q90": [
+        0.066,
+        0.103,
+        0.165,
+        0.278
+      ],
+      "share_of_coupling_mass_in_top25pct_pairs": 0.54,
+      "max_field_over_max_coupling": 1.043,
+      "relaxed_solution_mean_distance_to_binary": 0.338,
+      "feasible_fraction_of_bitstrings": 0.5205,
+      "random_guess_success_probability": 0.00031
+    },
+    {
+      "coupling_abs_quantiles_q25_q50_q75_q90": [
+        0.091,
+        0.146,
+        0.229,
+        0.327
+      ],
+      "share_of_coupling_mass_in_top25pct_pairs": 0.505,
+      "max_field_over_max_coupling": 0.999,
+      "relaxed_solution_mean_distance_to_binary": 0.368,
+      "feasible_fraction_of_bitstrings": 0.5513,
+      "random_guess_success_probability": 0.00108
+    },
+    {
+      "coupling_abs_quantiles_q25_q50_q75_q90": [
+        0.095,
+        0.171,
+        0.28,
+        0.445
+      ],
+      "share_of_coupling_mass_in_top25pct_pairs": 0.522,
+      "max_field_over_max_coupling": 1.744,
+      "relaxed_solution_mean_distance_to_binary": 0.327,
+      "feasible_fraction_of_bitstrings": 0.449,
+      "random_guess_success_probability": 8e-05
+    },
+    {
+      "coupling_abs_quantiles_q25_q50_q75_q90": [
+        0.084,
+        0.166,
+        0.272,
+        0.417
+      ],
+      "share_of_coupling_mass_in_top25pct_pairs": 0.53,
+      "max_field_over_max_coupling": 0.816,
+      "relaxed_solution_mean_distance_to_binary": 0.313,
+      "feasible_fraction_of_bitstrings": 0.7318,
+      "random_guess_success_probability": 0.00024
+    }
+  ]
+}

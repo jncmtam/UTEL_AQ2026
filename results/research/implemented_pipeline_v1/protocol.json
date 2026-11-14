@@ -1,8 +1,0 @@
-{
-  "version": "implementation-pipeline-v1",
-  "mode": "offline",
-  "periods": 2,
-  "data_directory": "data/us_equities",
-  "evidence": "docs/research/IMPLEMENTATION_PROTOCOL.md",
-  "no_automatic_model_size_escalation": true
-}

@@ -1,0 +1,884 @@
+{
+ "none": {
+  "2023-01-03": {
+   "shortlist": [
+    "ACB",
+    "BID",
+    "CTG",
+    "FPT",
+    "GAS",
+    "GVR",
+    "HDB",
+    "HPG",
+    "MBB",
+    "MSN",
+    "MWG",
+    "PLX",
+    "SAB",
+    "SSI",
+    "STB",
+    "TCB",
+    "TPB",
+    "VCB",
+    "VHM",
+    "VIB",
+    "VIC",
+    "VJC",
+    "VNM",
+    "VPB",
+    "VRE"
+   ],
+   "views": {}
+  },
+  "2023-04-03": {
+   "shortlist": [
+    "ACB",
+    "BID",
+    "CTG",
+    "FPT",
+    "GAS",
+    "GVR",
+    "HDB",
+    "HPG",
+    "MBB",
+    "MSN",
+    "MWG",
+    "PLX",
+    "SAB",
+    "SSI",
+    "STB",
+    "TCB",
+    "TPB",
+    "VCB",
+    "VHM",
+    "VIB",
+    "VIC",
+    "VJC",
+    "VNM",
+    "VPB",
+    "VRE"
+   ],
+   "views": {}
+  },
+  "2023-07-03": {
+   "shortlist": [
+    "ACB",
+    "BID",
+    "CTG",
+    "FPT",
+    "GAS",
+    "GVR",
+    "HDB",
+    "HPG",
+    "MBB",
+    "MSN",
+    "MWG",
+    "PLX",
+    "SAB",
+    "SSI",
+    "STB",
+    "TCB",
+    "TPB",
+    "VCB",
+    "VHM",
+    "VIB",
+    "VIC",
+    "VJC",
+    "VNM",
+    "VPB",
+    "VRE"
+   ],
+   "views": {}
+  },
+  "2023-10-02": {
+   "shortlist": [
+    "ACB",
+    "BID",
+    "CTG",
+    "FPT",
+    "GAS",
+    "GVR",
+    "HDB",
+    "HPG",
+    "MBB",
+    "MSN",
+    "MWG",
+    "PLX",
+    "SAB",
+    "SHB",
+    "SSB",
+    "SSI",
+    "STB",
+    "TCB",
+    "TPB",
+    "VCB",
+    "VHM",
+    "VIB",
+    "VIC",
+    "VJC",
+    "VNM",
+    "VPB",
+    "VRE"
+   ],
+   "views": {}
+  },
+  "2024-01-02": {
+   "shortlist": [
+    "ACB",
+    "BID",
+    "CTG",
+    "FPT",
+    "GAS",
+    "GVR",
+    "HDB",
+    "HPG",
+    "MBB",
+    "MSN",
+    "MWG",
+    "PLX",
+    "SAB",
+    "SHB",
+    "SSB",
+    "SSI",
+    "STB",
+    "TCB",
+    "TPB",
+    "VCB",
+    "VHM",
+    "VIB",
+    "VIC",
+    "VJC",
+    "VNM",
+    "VPB",
+    "VRE"
+   ],
+   "views": {}
+  },
+  "2024-04-01": {
+   "shortlist": [
+    "ACB",
+    "BID",
+    "CTG",
+    "FPT",
+    "GAS",
+    "GVR",
+    "HDB",
+    "HPG",
+    "MBB",
+    "MSN",
+    "MWG",
+    "PLX",
+    "SAB",
+    "SHB",
+    "SSB",
+    "SSI",
+    "STB",
+    "TCB",
+    "TPB",
+    "VCB",
+    "VHM",
+    "VIB",
+    "VIC",
+    "VJC",
+    "VNM",
+    "VPB",
+    "VRE"
+   ],
+   "views": {}
+  },
+  "2024-07-01": {
+   "shortlist": [
+    "ACB",
+    "BID",
+    "CTG",
+    "FPT",
+    "GAS",
+    "GVR",
+    "HDB",
+    "HPG",
+    "MBB",
+    "MSN",
+    "MWG",
+    "PLX",
+    "SAB",
+    "SHB",
+    "SSB",
+    "SSI",
+    "STB",
+    "TCB",
+    "TPB",
+    "VCB",
+    "VHM",
+    "VIB",
+    "VIC",
+    "VJC",
+    "VNM",
+    "VPB",
+    "VRE"
+   ],
+   "views": {}
+  },
+  "2024-10-01": {
+   "shortlist": [
+    "ACB",
+    "BID",
+    "CTG",
+    "FPT",
+    "GAS",
+    "GVR",
+    "HDB",
+    "HPG",
+    "MBB",
+    "MSN",
+    "MWG",
+    "PLX",
+    "SAB",
+    "SHB",
+    "SSB",
+    "SSI",
+    "STB",
+    "TCB",
+    "TPB",
+    "VCB",
+    "VHM",
+    "VIB",
+    "VIC",
+    "VJC",
+    "VNM",
+    "VPB",
+    "VRE"
+   ],
+   "views": {}
+  },
+  "2025-01-02": {
+   "shortlist": [
+    "ACB",
+    "BID",
+    "CTG",
+    "FPT",
+    "GAS",
+    "GVR",
+    "HDB",
+    "HPG",
+    "MBB",
+    "MSN",
+    "MWG",
+    "PLX",
+    "SAB",
+    "SHB",
+    "SSB",
+    "SSI",
+    "STB",
+    "TCB",
+    "TPB",
+    "VCB",
+    "VHM",
+    "VIB",
+    "VIC",
+    "VJC",
+    "VNM",
+    "VPB",
+    "VRE"
+   ],
+   "views": {}
+  },
+  "2025-04-01": {
+   "shortlist": [
+    "ACB",
+    "BID",
+    "CTG",
+    "FPT",
+    "GAS",
+    "GVR",
+    "HDB",
+    "HPG",
+    "LPB",
+    "MBB",
+    "MSN",
+    "MWG",
+    "PLX",
+    "SAB",
+    "SHB",
+    "SSB",
+    "SSI",
+    "STB",
+    "TCB",
+    "TPB",
+    "VCB",
+    "VHM",
+    "VIB",
+    "VIC",
+    "VJC",
+    "VNM",
+    "VPB",
+    "VRE"
+   ],
+   "views": {}
+  },
+  "2025-07-01": {
+   "shortlist": [
+    "ACB",
+    "BID",
+    "CTG",
+    "FPT",
+    "GAS",
+    "GVR",
+    "HDB",
+    "HPG",
+    "LPB",
+    "MBB",
+    "MSN",
+    "MWG",
+    "PLX",
+    "SAB",
+    "SHB",
+    "SSB",
+    "SSI",
+    "STB",
+    "TCB",
+    "TPB",
+    "VCB",
+    "VHM",
+    "VIB",
+    "VIC",
+    "VJC",
+    "VNM",
+    "VPB",
+    "VRE"
+   ],
+   "views": {}
+  },
+  "2025-10-01": {
+   "shortlist": [
+    "ACB",
+    "BID",
+    "CTG",
+    "DGC",
+    "FPT",
+    "GAS",
+    "GVR",
+    "HDB",
+    "HPG",
+    "LPB",
+    "MBB",
+    "MSN",
+    "MWG",
+    "PLX",
+    "SAB",
+    "SHB",
+    "SSB",
+    "SSI",
+    "STB",
+    "TCB",
+    "TPB",
+    "VCB",
+    "VHM",
+    "VIB",
+    "VIC",
+    "VJC",
+    "VNM",
+    "VPB",
+    "VRE"
+   ],
+   "views": {}
+  },
+  "2026-01-05": {
+   "shortlist": [
+    "ACB",
+    "BID",
+    "CTG",
+    "DGC",
+    "FPT",
+    "GAS",
+    "GVR",
+    "HDB",
+    "HPG",
+    "LPB",
+    "MBB",
+    "MSN",
+    "MWG",
+    "PLX",
+    "SAB",
+    "SHB",
+    "SSB",
+    "SSI",
+    "STB",
+    "TCB",
+    "TPB",
+    "VCB",
+    "VHM",
+    "VIB",
+    "VIC",
+    "VJC",
+    "VNM",
+    "VPB",
+    "VRE"
+   ],
+   "views": {}
+  },
+  "2026-04-01": {
+   "shortlist": [
+    "ACB",
+    "BID",
+    "CTG",
+    "DGC",
+    "FPT",
+    "GAS",
+    "GVR",
+    "HDB",
+    "HPG",
+    "LPB",
+    "MBB",
+    "MSN",
+    "MWG",
+    "PLX",
+    "SAB",
+    "SHB",
+    "SSB",
+    "SSI",
+    "STB",
+    "TCB",
+    "TPB",
+    "VCB",
+    "VHM",
+    "VIB",
+    "VIC",
+    "VJC",
+    "VNM",
+    "VPB",
+    "VPL",
+    "VRE"
+   ],
+   "views": {}
+  },
+  "2026-07-01": {
+   "shortlist": [
+    "ACB",
+    "BID",
+    "CTG",
+    "FPT",
+    "GAS",
+    "GVR",
+    "HDB",
+    "HPG",
+    "LPB",
+    "MBB",
+    "MSN",
+    "MWG",
+    "PLX",
+    "SAB",
+    "SHB",
+    "SSB",
+    "SSI",
+    "STB",
+    "TCB",
+    "TPB",
+    "VCB",
+    "VHM",
+    "VIB",
+    "VIC",
+    "VJC",
+    "VNM",
+    "VPB",
+    "VPL",
+    "VRE"
+   ],
+   "views": {}
+  }
+ },
+ "liquidity": {
+  "2023-01-03": {
+   "shortlist": [
+    "STB",
+    "HPG",
+    "VPB",
+    "SSI",
+    "MWG",
+    "VNM",
+    "MSN",
+    "CTG"
+   ],
+   "views": {}
+  },
+  "2023-04-03": {
+   "shortlist": [
+    "STB",
+    "HPG",
+    "VPB",
+    "SSI",
+    "VNM",
+    "MWG",
+    "MSN",
+    "MBB"
+   ],
+   "views": {}
+  },
+  "2023-07-03": {
+   "shortlist": [
+    "STB",
+    "HPG",
+    "SSI",
+    "VPB",
+    "VNM",
+    "MWG",
+    "ACB",
+    "MSN"
+   ],
+   "views": {}
+  },
+  "2023-10-02": {
+   "shortlist": [
+    "STB",
+    "HPG",
+    "SSI",
+    "VIC",
+    "MWG",
+    "VPB",
+    "VNM",
+    "SHB"
+   ],
+   "views": {}
+  },
+  "2024-01-02": {
+   "shortlist": [
+    "STB",
+    "HPG",
+    "SSI",
+    "MWG",
+    "VPB",
+    "FPT",
+    "VNM",
+    "VHM"
+   ],
+   "views": {}
+  },
+  "2024-04-01": {
+   "shortlist": [
+    "STB",
+    "HPG",
+    "SSI",
+    "MWG",
+    "MSN",
+    "MBB",
+    "SHB",
+    "VRE"
+   ],
+   "views": {}
+  },
+  "2024-07-01": {
+   "shortlist": [
+    "MWG",
+    "HPG",
+    "STB",
+    "FPT",
+    "MSN",
+    "SSI",
+    "VPB",
+    "TCB"
+   ],
+   "views": {}
+  },
+  "2024-10-01": {
+   "shortlist": [
+    "MWG",
+    "FPT",
+    "HPG",
+    "MSN",
+    "TCB",
+    "STB",
+    "VNM",
+    "VPB"
+   ],
+   "views": {}
+  },
+  "2025-01-02": {
+   "shortlist": [
+    "FPT",
+    "MWG",
+    "STB",
+    "MSN",
+    "HPG",
+    "VPB",
+    "TCB",
+    "VHM"
+   ],
+   "views": {}
+  },
+  "2025-04-01": {
+   "shortlist": [
+    "FPT",
+    "HPG",
+    "SSI",
+    "STB",
+    "MWG",
+    "TCB",
+    "MSN",
+    "SHB"
+   ],
+   "views": {}
+  },
+  "2025-07-01": {
+   "shortlist": [
+    "SHB",
+    "FPT",
+    "STB",
+    "TCB",
+    "HPG",
+    "MWG",
+    "SSI",
+    "MSN"
+   ],
+   "views": {}
+  },
+  "2025-10-01": {
+   "shortlist": [
+    "HPG",
+    "SHB",
+    "SSI",
+    "VPB",
+    "FPT",
+    "TCB",
+    "MSN",
+    "MBB"
+   ],
+   "views": {}
+  },
+  "2026-01-05": {
+   "shortlist": [
+    "SHB",
+    "HPG",
+    "SSI",
+    "FPT",
+    "VIC",
+    "MSN",
+    "MWG",
+    "MBB"
+   ],
+   "views": {}
+  },
+  "2026-04-01": {
+   "shortlist": [
+    "HPG",
+    "FPT",
+    "SHB",
+    "SSI",
+    "STB",
+    "VIC",
+    "VCB",
+    "MWG"
+   ],
+   "views": {}
+  },
+  "2026-07-01": {
+   "shortlist": [
+    "SHB",
+    "VIC",
+    "FPT",
+    "HPG",
+    "VCB",
+    "MWG",
+    "STB",
+    "VHM"
+   ],
+   "views": {}
+  }
+ },
+ "greedy": {
+  "2023-01-03": {
+   "shortlist": [
+    "MBB",
+    "VHM",
+    "MWG",
+    "VPB",
+    "MSN",
+    "HPG",
+    "ACB",
+    "HDB"
+   ],
+   "views": {}
+  },
+  "2023-04-03": {
+   "shortlist": [
+    "MBB",
+    "VHM",
+    "MWG",
+    "VPB",
+    "MSN",
+    "ACB",
+    "HPG",
+    "HDB"
+   ],
+   "views": {}
+  },
+  "2023-07-03": {
+   "shortlist": [
+    "MBB",
+    "VHM",
+    "SSI",
+    "MSN",
+    "ACB",
+    "HPG",
+    "VPB",
+    "MWG"
+   ],
+   "views": {}
+  },
+  "2023-10-02": {
+   "shortlist": [
+    "MBB",
+    "VHM",
+    "SSI",
+    "MWG",
+    "VCB",
+    "VPB",
+    "STB",
+    "VIC"
+   ],
+   "views": {}
+  },
+  "2024-01-02": {
+   "shortlist": [
+    "MBB",
+    "SSI",
+    "VHM",
+    "MSN",
+    "VPB",
+    "TCB",
+    "HPG",
+    "STB"
+   ],
+   "views": {}
+  },
+  "2024-04-01": {
+   "shortlist": [
+    "MBB",
+    "HPG",
+    "VHM",
+    "MWG",
+    "STB",
+    "VPB",
+    "FPT",
+    "TCB"
+   ],
+   "views": {}
+  },
+  "2024-07-01": {
+   "shortlist": [
+    "MBB",
+    "HPG",
+    "VHM",
+    "FPT",
+    "TCB",
+    "VPB",
+    "MSN",
+    "STB"
+   ],
+   "views": {}
+  },
+  "2024-10-01": {
+   "shortlist": [
+    "HPG",
+    "VIB",
+    "VPB",
+    "FPT",
+    "VHM",
+    "TCB",
+    "MSN",
+    "STB"
+   ],
+   "views": {}
+  },
+  "2025-01-02": {
+   "shortlist": [
+    "MBB",
+    "FPT",
+    "HPG",
+    "VPB",
+    "VHM",
+    "TCB",
+    "MSN",
+    "STB"
+   ],
+   "views": {}
+  },
+  "2025-04-01": {
+   "shortlist": [
+    "MBB",
+    "FPT",
+    "VPB",
+    "HPG",
+    "TCB",
+    "VRE",
+    "HDB",
+    "MSN"
+   ],
+   "views": {}
+  },
+  "2025-07-01": {
+   "shortlist": [
+    "ACB",
+    "SSI",
+    "VHM",
+    "FPT",
+    "HDB",
+    "TCB",
+    "MSN",
+    "VPB"
+   ],
+   "views": {}
+  },
+  "2025-10-01": {
+   "shortlist": [
+    "TCB",
+    "HPG",
+    "VHM",
+    "ACB",
+    "FPT",
+    "HDB",
+    "VIC",
+    "VIB"
+   ],
+   "views": {}
+  },
+  "2026-01-05": {
+   "shortlist": [
+    "TCB",
+    "MWG",
+    "VHM",
+    "ACB",
+    "HPG",
+    "VIC",
+    "HDB",
+    "FPT"
+   ],
+   "views": {}
+  },
+  "2026-04-01": {
+   "shortlist": [
+    "TCB",
+    "MWG",
+    "VIC",
+    "ACB",
+    "HPG",
+    "HDB",
+    "MSN",
+    "FPT"
+   ],
+   "views": {}
+  },
+  "2026-07-01": {
+   "shortlist": [
+    "TCB",
+    "VHM",
+    "HPG",
+    "MWG",
+    "VIC",
+    "VPB",
+    "FPT",
+    "HDB"
+   ],
+   "views": {}
+  }
+ },
+ "llm": {}
+}

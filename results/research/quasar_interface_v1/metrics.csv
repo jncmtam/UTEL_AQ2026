@@ -1,4 +1,0 @@
-task,valid,fidelity,error
-native_bell,False,,Unsupported native program construct or size.
-native_cost,False,,Unsupported native program construct or size.
-gate_ir_transfer_n6,True,,

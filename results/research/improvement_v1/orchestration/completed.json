@@ -1,9 +1,0 @@
-{
-  "status": "completed_development_controls",
-  "inputs_hash": "2b31d4870cb258ef0254dba52d0509f6b7d36c5927a6f0e8a3d127c585ba3729",
-  "cases": 8,
-  "runs": 168,
-  "ablation_variants": 6,
-  "new_inference_calls": 0,
-  "investment_universe_approved": false
-}

@@ -1,7 +1,0 @@
-{
-  "sources": {
-    "results/research/delivery_pipeline_v1/baseline_study/records.json": "d1e5700dd3a163585c6fcaafde16836cc57d86a637fff5587a975d67e43705c7",
-    "results/research/delivery_pipeline_v1/synthetic_trajectory/metrics.csv": "ac57115dc6ecf9fbfe044677a5cff5cd702ea2a4c0b04b5ef2cae74df9b0f021"
-  },
-  "interpretation": "Descriptive software diagnostics only"
-}

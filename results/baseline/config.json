@@ -1,0 +1,31 @@
+{
+  "problem": {
+    "capital_vnd": 100000000,
+    "register_size": 16,
+    "n_candidates": 8,
+    "bits_per_asset": 2,
+    "invest_target": 0.98,
+    "lookback_days": 250,
+    "min_history": 180,
+    "shrinkage": 0.05,
+    "turnover_weight": 0.002,
+    "view_weight": 0.02,
+    "budget_penalty": 0.005,
+    "success_gap": 0.05
+  },
+  "search": {
+    "proposals_per_round": 6,
+    "rounds": 4,
+    "train_dates": 4,
+    "cx_budget": 1500,
+    "shots": 512,
+    "seed": 7
+  },
+  "rules": {
+    "lot_size": 100,
+    "commission": 0.0015,
+    "sell_tax": 0.001
+  },
+  "first_rebalance": "2023-01-01",
+  "last_rebalance": "2026-07-31"
+}

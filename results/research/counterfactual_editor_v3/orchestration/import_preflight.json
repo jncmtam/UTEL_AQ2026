@@ -1,8 +1,0 @@
-{
-  "status": "imports_ready",
-  "run_id": "counterfactual_editor_v3",
-  "executor": "TorchConservedBasis",
-  "generator": "generate_coder30",
-  "gpu_requested": false,
-  "model_loaded": false
-}

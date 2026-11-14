@@ -1,115 +1,65 @@
-# Modal full-pipeline integration runbook
+# Running the live LLM on Modal
 
-The private Functions deployment is `agqo-research-pipeline`. Live LLM inference
-uses the existing `agqo-gate-synthesis` deployment. Both run under the authenticated
-workspace; no public inference endpoint is exposed.
+The LLM runs as a Modal GPU class (`modal_app.py`) serving Qwen3 through vLLM with
+**JSON-schema constrained decoding**, so every answer parses. The experiment calls it in
+batches; the container stays warm for 10 minutes between batches, so the model loads
+once per experiment.
 
-## Latest completed GPU studies
-
-`live_guidance_v1` preserves8 real responses/0 full-contract admissions and the
-separately registered canonical-numerics CPU recovery. `live_edge_v2` has8/8
-admitted real A10080GB responses and84 audited CPU runs. Both v2 arms produce the
-same star/group1; guidance adds no observed effect. Read
-[exact prompts/outputs](research/LLM_TRANSPARENCY.md) and
-[measured findings](../results/research/live_edge_v2/FINDINGS.md).
-
-The following completed-run commands return without billing/dispatch:
+## One-time setup (on your Mac)
 
 ```bash
-.venv/bin/python scripts/run_live_guidance.py
-.venv/bin/python scripts/run_live_guidance.py --interface edge_v2
-.venv/bin/python scripts/recover_live_guidance_cpu.py
+cd "AI-Quantum Challenge 2026"
+python3 -m venv .venv && source .venv/bin/activate     # or reuse the existing .venv
+pip install -e '.[quantum,llm,dev]'
+modal setup                                             # browser login, stores your token
+modal deploy modal_app.py                               # builds the vLLM image once
 ```
 
-Do not delete markers or change a prepared run to launch another paid experiment.
-Use a new protocol/ID for future work. V2 chooses graph/groups; compiler owns
-scheduling/preparation/COST. Matrix/vector coefficients are transported with
-validated source identity so executed Hamiltonian hashes remain exact across
-platforms. Generated explanations remain unverified and can be wrong.
+The volume `agqo-gate-models` already holds Qwen3-Coder-30B weights from the v1 runs,
+so `coder30` starts fastest. Other models download on first use.
 
-Both v1/v2 GPU model inferences are real. QAOA evolution and allocation are CPU
-computations, not quantum hardware. Combined reservations4.686350USD are not an
-invoice; failed CPU work is included. No further GPU batch is scheduled.
-
-## Deploy and run
+## Smoke test (≈ 3–6 min cold start, < 1 min warm)
 
 ```bash
-.venv/bin/modal deploy modal_research_pipeline.py
-.venv/bin/python scripts/run_modal_pipeline.py --run-id modal_e2e_v1
+python -m agqo smoke-llm --llm modal --model coder30
 ```
 
-The frozen integration protocol is [MODAL_E2E_PROTOCOL](research/MODAL_E2E_PROTOCOL.md).
-The script reserves resources using fresh billing snapshots, dispatches bounded
-CPU/GPU work sequentially, checkpoints call IDs, and downloads hash-verified outputs.
-It refuses automatic paid retries after a recorded failed stage. Running it again
-on a completed local run prints a replay message and does not schedule compute.
-Use a new versioned protocol/run ID when changing the experiment.
+Expected: `"status": "ok"`, `"execution": "live_modal_vllm"`, a parsed JSON answer.
 
-The completed measured run is [modal_e2e_v1](../results/research/modal_e2e_v1/RESULTS.md).
-Its3/3 live proposals passed,24/24 synthetic decisions were feasible, and9 exports
-were independently checked. All controls reached the same small-case objective;
-LLM circuits used more CX gates. No production or financial advantage is inferred.
+## Full experiment
 
-## What runs where
-
-```mermaid
-flowchart LR
-    A[Local reservation and checkpoints] --> B[Modal CPU: data gate and software pipeline]
-    B --> C[Modal CPU: pinned weight prefetch]
-    C --> D[Modal A100: three live Coder30 circuit designs]
-    D --> E[Modal CPU: verify, sampled F fitting, allocation and trade accounting]
-    E --> F[Private result Volume and checked local download]
+```bash
+python -m agqo run --llm modal --model coder30 --samples 3 --out results/llm_coder30
+python -m agqo report --runs results/baseline results/llm_coder30
 ```
 
-The new path uses common compiler-owned counter-Dicke preparation, numerical RMS
-coordinates and finite sampled allocation-aware F feedback. LLMs choose exchange
-parents, schedules, sharing groups and depth. The compiler owns initialization and
-COST. COST still implements the immutable B proxy; sampled F feedback is classical.
-No coherent quantum F oracle or hardware advantage is claimed.
-The sampled-F fitter in this integration uses small full-statevector cases. The
-existing larger conserved executor is separate; this run does not claim N30
-allocation-aware fitting or live-LLM continuous market walk-forward execution.
+* `--samples 3` asks the analyst three times per quarter (different seeds) and uses
+  majority vote + agreement-weighted confidence (self-consistency).
+* LLM calls: 1 batch of 15 × samples analyst requests + 4 architect rounds = 5 remote calls.
+* Everything sent and received is in `results/llm_coder30/llm_log.jsonl`.
+* Replay without GPU cost: `python -m agqo run --llm replay --replay results/llm_coder30/llm_log.jsonl --out results/replay`.
 
-## Outputs
+## Choosing the model
 
-The subsequent [improvement study](../results/research/improvement_v1/RESULTS.md)
-uses the new private `improvement_run` CPU Function, with fixed-bit conditioning,
-conserved simulation and prefix curves. It completed with zero GPU/model calls.
-Its dispatcher is `python scripts/run_improvement_study.py`; a completed ID returns
-without new compute. Source data remains local; anonymized training cases were
-private call inputs. See IMPROVEMENT_PROTOCOL.md for budget and scope.
+| key | model | why |
+|---|---|---|
+| `coder30` | Qwen3-Coder-30B-A3B-Instruct (pinned revision) | cached, proven on this account, strong at structured JSON |
+| `instruct30` | Qwen3-30B-A3B-Instruct-2507 | general reasoning; better candidate for market analysis |
+| `qwen8b` | Qwen3-8B (pinned) | cheap ablation: does a small model do as well? |
 
-The main dispatcher also supports opt-in `--cost-aware` for a separately frozen
-new run ID. It enforces one layer and measured resource admission and fixes the
-uniform comparator's excluded bits. No new GPU experiment under that mode has
-been run or scheduled; the study does not justify a model sweep.
+Compare models by running the experiment once per key and putting all runs in the report.
+Pick on test-quarter results, never on parameter count.
 
-The local run directory contains:
+## Cost control
 
-- `orchestration/`: billing snapshots, shared reservation ledger, CPU dispatch IDs,
-  model requests/cache/raw GPU receipts, completion and download manifest.
-- `protocol.json`, `prepared.json`, `inputs/`, `source_snapshot/`: frozen case/
-  request identities, financial specifications and actual remote code/environment.
-- `software_pipeline/`: baseline controls, continuous synthetic accounts and the
-  explicit blocked market trajectory artifact contract.
-- `evaluation/`: complete protocol/manifest/decisions/metrics/cost/RESULTS/PROGRESS
-  contract, actual model-derived GateIR/QASM/QPY, verification, references and plot.
+* One A100-80GB; `max_containers=1`; idle shutdown after 10 minutes (`scaledown_window`).
+* Check live usage in the Modal dashboard; stop with `modal app stop agqo-llm-core`.
 
-Read `orchestration/cost_report.json` for final reservations and tokens. The cost
-snapshot inside the cloud evaluation was taken before the finish CPU call completed;
-its ledger status is historical. Monthly billing snapshots and reservations are not
-an isolated job invoice. Image-build spending is not separately allocated by this
-script; a during-build account-level snapshot is retained for this run.
+## Other endpoints
 
-## Interpretation
+Any OpenAI-compatible server works (vLLM elsewhere, a hosted API):
 
-The small synthetic cases test the connected software path. They do not establish
-production-model reliability, independent market benefit or quantum advantage.
-Market admission remains closed; raw provider files are not mounted in this test.
-Consequently, the remote manifest-only audit also reports unavailable raw files.
-That is not a new claim that the locally audited histories disappeared. Refer to
-historical_audit_v3 for the available-source coverage findings.
-
-The allocation-aware comparisons are state-matched decisions; the separate existing
-software stage tests continuous accounts. The run does not claim a continuous live-
-LLM market trajectory, frontend hosting or an executed securities transaction.
+```bash
+export AGQO_OPENAI_BASE_URL=https://.../v1 AGQO_OPENAI_API_KEY=...
+python -m agqo run --llm openai --model <model-name> --out results/llm_api
+```

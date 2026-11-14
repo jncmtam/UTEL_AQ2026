@@ -1,6 +1,0 @@
-{
-  "version": "synthetic-trajectory-v1",
-  "dataset_kind": "synthetic_diagnostic",
-  "financial_claims_allowed": false,
-  "seed": 20261102
-}

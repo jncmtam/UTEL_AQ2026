@@ -1,8 +1,0 @@
-scope,grid_units,status,qubits,cost_cx,cost_depth,objective,relative_regret,full_state
-conditional_US_3_asset_diagnostic,6,feasible,15,162,64,7.68557858849709e-05,0.05628396314057249,passed
-conditional_US_3_asset_diagnostic,10,feasible,24,468,118,7.276053463529878e-05,-2.2201129823429255e-12,skipped
-conditional_US_3_asset_diagnostic,20,feasible,46,1846,244,7.276053463529878e-05,-2.2201129823429255e-12,skipped
-conditional_US_3_asset_diagnostic,40,feasible,89,7272,496,7.276053463529878e-05,-2.2201129823429255e-12,skipped
-original_N20_resource_only,6,compiled_only,63,3672,361,,,not_attempted
-original_N20_resource_only,10,compiled_only,123,14538,712,,,not_attempted
-original_N20_resource_only,20,compiled_only,244,58044,1432,,,not_attempted
