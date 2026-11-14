@@ -124,14 +124,25 @@ def analyze_market_dataset(
     data, members = load_market_dataset(data_path, members_path)
     stock = data.loc[data.instrument_type == "stock"]
     indices = data.loc[data.instrument_type == "index"]
-    tickers = tuple(members["ticker"].astype(str))
+    all_tickers = tuple(members["ticker"].astype(str))
     index_prices = indices.pivot(index="date", columns="ticker", values="close")
     aligned_index_dates = index_prices[["VN30", "VNINDEX"]].dropna().index
     price_column = "close_adjusted" if "close_adjusted" in stock.columns else "close"
     prices = stock.pivot(index="date", columns="ticker", values=price_column).reindex(
-        index=aligned_index_dates, columns=tickers
+        index=aligned_index_dates, columns=all_tickers
     )
-    returns = prices.pct_change(fill_method=None)
+    all_returns = prices.pct_change(fill_method=None)
+    # Thành viên mới niêm yết (ví dụ TCX) chưa đủ cửa sổ thống kê; loại khỏi phần mô tả và ghi lại.
+    recent_coverage = all_returns.tail(lookback).notna().sum()
+    excluded_short_history = {
+        str(ticker): int(all_returns[ticker].notna().sum())
+        for ticker in all_tickers
+        if recent_coverage[ticker] < lookback
+    }
+    tickers = tuple(ticker for ticker in all_tickers if ticker not in excluded_short_history)
+    if len(tickers) < k:
+        raise ValueError(f"Chỉ {len(tickers)} mã đủ {lookback} phiên; cần ít nhất K={k}.")
+    returns = all_returns[list(tickers)]
     complete_returns = returns.dropna(how="any")
     if len(complete_returns) < lookback:
         coverage = returns.notna().sum().sort_values()
@@ -182,7 +193,7 @@ def analyze_market_dataset(
     coverage = (
         stock.groupby("ticker")
         .agg(first_date=("date", "min"), last_date=("date", "max"), sessions=("date", "count"))
-        .reindex(tickers)
+        .reindex(all_tickers)
     )
     return {
         "rows": int(len(data)),
@@ -195,6 +206,7 @@ def analyze_market_dataset(
             str(key): int(value) for key, value in members["group"].value_counts().items()
         },
         "lookback_sessions": int(lookback),
+        "excluded_short_history": excluded_short_history,
         "lookback_start": str(window.index.min().date()),
         "lookback_end": str(window.index.max().date()),
         "coverage": [
@@ -204,7 +216,7 @@ def analyze_market_dataset(
                 "last_date": str(coverage.loc[ticker, "last_date"].date()),
                 "sessions": int(coverage.loc[ticker, "sessions"]),
             }
-            for ticker in tickers
+            for ticker in all_tickers
         ],
         "index_metrics": {
             index: _series_metrics(index_returns[index])

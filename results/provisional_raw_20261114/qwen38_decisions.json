@@ -1,0 +1,1499 @@
+{
+  "c34a3bd90afa7cab2ad29b5c05fb18f44f898568900beaf2be99b792c38a4da3": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p1",
+      "insight_codes": [
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "evidence_ids": [
+        "MKT:CROSS_SECTION",
+        "MKT:LIQUIDITY",
+        "POLICY:n12_balanced_xy_ring_p1"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3.8-27B-FP8",
+    "model_revision": "c3a462cc3d38cf351f3b26cbd763469eeb74ef81",
+    "quantization": "FP8 (official Qwen3.8-27B-FP8 checkpoint); FP8 KV cache",
+    "serving": {
+      "engine": "vLLM 0.32.0",
+      "gpu": "H100:1",
+      "tensor_parallel_size": 1,
+      "max_model_len": 65536,
+      "mtp_speculative_decoding": false,
+      "engine_load_seconds": 260.7
+    },
+    "generation": {
+      "reasoning_effort": "medium",
+      "seed": 4287380184,
+      "max_new_tokens": 16384,
+      "temperature": 1.0,
+      "top_p": 0.95
+    },
+    "reasoning_sha256": [
+      "e0ddedbc738e2d1b153002010c802a2af5aeb68aa3e766535545b243120016cc"
+    ],
+    "latency_seconds": 21.98,
+    "response_id": null,
+    "usage": {
+      "input_tokens": 6293,
+      "output_tokens": 1266,
+      "total_tokens": 7559
+    },
+    "cache_key": "c34a3bd90afa7cab2ad29b5c05fb18f44f898568900beaf2be99b792c38a4da3",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v10-en-rag-qwen38-allowlisted-structured"
+  },
+  "88d948d3317c760b22a133999ab81e60eab9995bb4789be29c11fb9ed2da447b": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p1",
+      "insight_codes": [
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "evidence_ids": [
+        "MKT:CROSS_SECTION",
+        "MKT:LIQUIDITY",
+        "POLICY:n12_balanced_xy_ring_p1"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3.8-27B-FP8",
+    "model_revision": "c3a462cc3d38cf351f3b26cbd763469eeb74ef81",
+    "quantization": "FP8 (official Qwen3.8-27B-FP8 checkpoint); FP8 KV cache",
+    "serving": {
+      "engine": "vLLM 0.32.0",
+      "gpu": "H100:1",
+      "tensor_parallel_size": 1,
+      "max_model_len": 65536,
+      "mtp_speculative_decoding": false,
+      "engine_load_seconds": 260.7
+    },
+    "generation": {
+      "reasoning_effort": "medium",
+      "seed": 1245109270,
+      "max_new_tokens": 16384,
+      "temperature": 1.0,
+      "top_p": 0.95
+    },
+    "reasoning_sha256": [
+      "2bd6bcfe1648858499e149887d49dcbf772af27a04035509b4a7ae5acbcdfef7"
+    ],
+    "latency_seconds": 15.23,
+    "response_id": null,
+    "usage": {
+      "input_tokens": 6274,
+      "output_tokens": 1142,
+      "total_tokens": 7416
+    },
+    "cache_key": "88d948d3317c760b22a133999ab81e60eab9995bb4789be29c11fb9ed2da447b",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v10-en-rag-qwen38-allowlisted-structured"
+  },
+  "dc0be0b8fe98288efce24969ff3b751d9f954f2cd1f3cfcbb6f01c53c3bc5069": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p1",
+      "insight_codes": [
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "evidence_ids": [
+        "POLICY:n12_balanced_xy_ring_p1",
+        "MKT:CROSS_SECTION",
+        "MKT:VOLATILITY"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3.8-27B-FP8",
+    "model_revision": "c3a462cc3d38cf351f3b26cbd763469eeb74ef81",
+    "quantization": "FP8 (official Qwen3.8-27B-FP8 checkpoint); FP8 KV cache",
+    "serving": {
+      "engine": "vLLM 0.32.0",
+      "gpu": "H100:1",
+      "tensor_parallel_size": 1,
+      "max_model_len": 65536,
+      "mtp_speculative_decoding": false,
+      "engine_load_seconds": 260.7
+    },
+    "generation": {
+      "reasoning_effort": "medium",
+      "seed": 31640398,
+      "max_new_tokens": 16384,
+      "temperature": 1.0,
+      "top_p": 0.95
+    },
+    "reasoning_sha256": [
+      "a7aa280f0d194facffdec70ef1a1f70ade7c00aa7c2eff32300a52c29af22fdb"
+    ],
+    "latency_seconds": 15.87,
+    "response_id": null,
+    "usage": {
+      "input_tokens": 7758,
+      "output_tokens": 1182,
+      "total_tokens": 8940
+    },
+    "cache_key": "dc0be0b8fe98288efce24969ff3b751d9f954f2cd1f3cfcbb6f01c53c3bc5069",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v10-en-rag-qwen38-allowlisted-structured"
+  },
+  "f789b73dd6aab7da8fdde51bd88155396a7dc7391f3bcaba63941096708bad8e": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p1",
+      "insight_codes": [
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "evidence_ids": [
+        "POLICY:n12_balanced_xy_ring_p1",
+        "MKT:CROSS_SECTION",
+        "MKT:LIQUIDITY"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3.8-27B-FP8",
+    "model_revision": "c3a462cc3d38cf351f3b26cbd763469eeb74ef81",
+    "quantization": "FP8 (official Qwen3.8-27B-FP8 checkpoint); FP8 KV cache",
+    "serving": {
+      "engine": "vLLM 0.32.0",
+      "gpu": "H100:1",
+      "tensor_parallel_size": 1,
+      "max_model_len": 65536,
+      "mtp_speculative_decoding": false,
+      "engine_load_seconds": 260.7
+    },
+    "generation": {
+      "reasoning_effort": "medium",
+      "seed": 659530681,
+      "max_new_tokens": 16384,
+      "temperature": 1.0,
+      "top_p": 0.95
+    },
+    "reasoning_sha256": [
+      "4958fa6fc6fa9790bfa5d76f157c6e44789b53251921af26d19773275977951c"
+    ],
+    "latency_seconds": 16.97,
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8046,
+      "output_tokens": 1258,
+      "total_tokens": 9304
+    },
+    "cache_key": "f789b73dd6aab7da8fdde51bd88155396a7dc7391f3bcaba63941096708bad8e",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v10-en-rag-qwen38-allowlisted-structured"
+  },
+  "8080f7c585008a71afc90c2bdc589c7bbcde35a286fb268efc5d1233f7fd26d7": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p1",
+      "insight_codes": [
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "evidence_ids": [
+        "POLICY:n12_balanced_xy_ring_p1",
+        "MKT:CROSS_SECTION"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3.8-27B-FP8",
+    "model_revision": "c3a462cc3d38cf351f3b26cbd763469eeb74ef81",
+    "quantization": "FP8 (official Qwen3.8-27B-FP8 checkpoint); FP8 KV cache",
+    "serving": {
+      "engine": "vLLM 0.32.0",
+      "gpu": "H100:1",
+      "tensor_parallel_size": 1,
+      "max_model_len": 65536,
+      "mtp_speculative_decoding": false,
+      "engine_load_seconds": 260.7
+    },
+    "generation": {
+      "reasoning_effort": "medium",
+      "seed": 659123166,
+      "max_new_tokens": 16384,
+      "temperature": 1.0,
+      "top_p": 0.95
+    },
+    "reasoning_sha256": [
+      "ebf338aaf8e4c0d0b1c508883ed296cf73d39c0ceed81523bff0a171ec109a2b"
+    ],
+    "latency_seconds": 15.48,
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8050,
+      "output_tokens": 1143,
+      "total_tokens": 9193
+    },
+    "cache_key": "8080f7c585008a71afc90c2bdc589c7bbcde35a286fb268efc5d1233f7fd26d7",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v10-en-rag-qwen38-allowlisted-structured"
+  },
+  "f205992005628d644ded5a6d70cfd83704f31f8dd6e53486874a6c99ea3f1e83": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p1",
+      "insight_codes": [
+        "volatility_rising",
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "evidence_ids": [
+        "POLICY:n12_balanced_xy_ring_p1",
+        "MKT:VOLATILITY",
+        "MKT:CROSS_SECTION",
+        "MKT:LIQUIDITY",
+        "MKT:TREND"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3.8-27B-FP8",
+    "model_revision": "c3a462cc3d38cf351f3b26cbd763469eeb74ef81",
+    "quantization": "FP8 (official Qwen3.8-27B-FP8 checkpoint); FP8 KV cache",
+    "serving": {
+      "engine": "vLLM 0.32.0",
+      "gpu": "H100:1",
+      "tensor_parallel_size": 1,
+      "max_model_len": 65536,
+      "mtp_speculative_decoding": false,
+      "engine_load_seconds": 260.7
+    },
+    "generation": {
+      "reasoning_effort": "medium",
+      "seed": 123053181,
+      "max_new_tokens": 16384,
+      "temperature": 1.0,
+      "top_p": 0.95
+    },
+    "reasoning_sha256": [
+      "4d93de030939e498a8380b988d8d54a4baa91daac0fc2a2f1b8d4de9a896300b"
+    ],
+    "latency_seconds": 19.06,
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8398,
+      "output_tokens": 1420,
+      "total_tokens": 9818
+    },
+    "cache_key": "f205992005628d644ded5a6d70cfd83704f31f8dd6e53486874a6c99ea3f1e83",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v10-en-rag-qwen38-allowlisted-structured"
+  },
+  "f1bb99e204422b2db49071a6a2a70b77baca4e6790e59acf882c1153bb349ad3": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p1",
+      "insight_codes": [
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "evidence_ids": [
+        "POLICY:n12_balanced_xy_ring_p1",
+        "MKT:CROSS_SECTION",
+        "MKT:LIQUIDITY"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3.8-27B-FP8",
+    "model_revision": "c3a462cc3d38cf351f3b26cbd763469eeb74ef81",
+    "quantization": "FP8 (official Qwen3.8-27B-FP8 checkpoint); FP8 KV cache",
+    "serving": {
+      "engine": "vLLM 0.32.0",
+      "gpu": "H100:1",
+      "tensor_parallel_size": 1,
+      "max_model_len": 65536,
+      "mtp_speculative_decoding": false,
+      "engine_load_seconds": 260.7
+    },
+    "generation": {
+      "reasoning_effort": "medium",
+      "seed": 352667053,
+      "max_new_tokens": 16384,
+      "temperature": 1.0,
+      "top_p": 0.95
+    },
+    "reasoning_sha256": [
+      "3e4523312a6b433b010a2ac35fb6017da9c5f4d5cb67521ea0dca132ebcaecd9"
+    ],
+    "latency_seconds": 20.04,
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8398,
+      "output_tokens": 1494,
+      "total_tokens": 9892
+    },
+    "cache_key": "f1bb99e204422b2db49071a6a2a70b77baca4e6790e59acf882c1153bb349ad3",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v10-en-rag-qwen38-allowlisted-structured"
+  },
+  "f140d83538127ed7f26a6a48bfb4e2b544e17a0fddbff0d48c7ae2be01243ddb": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p1",
+      "insight_codes": [
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "evidence_ids": [
+        "POLICY:n12_balanced_xy_ring_p1",
+        "MKT:CROSS_SECTION",
+        "MKT:LIQUIDITY"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3.8-27B-FP8",
+    "model_revision": "c3a462cc3d38cf351f3b26cbd763469eeb74ef81",
+    "quantization": "FP8 (official Qwen3.8-27B-FP8 checkpoint); FP8 KV cache",
+    "serving": {
+      "engine": "vLLM 0.32.0",
+      "gpu": "H100:1",
+      "tensor_parallel_size": 1,
+      "max_model_len": 65536,
+      "mtp_speculative_decoding": false,
+      "engine_load_seconds": 260.7
+    },
+    "generation": {
+      "reasoning_effort": "medium",
+      "seed": 348849564,
+      "max_new_tokens": 16384,
+      "temperature": 1.0,
+      "top_p": 0.95
+    },
+    "reasoning_sha256": [
+      "7b277304242e1bf459d3fbf617a43682a44c6c6c52ff70b30bb514920ef2640c"
+    ],
+    "latency_seconds": 52.88,
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8768,
+      "output_tokens": 3992,
+      "total_tokens": 12760
+    },
+    "cache_key": "f140d83538127ed7f26a6a48bfb4e2b544e17a0fddbff0d48c7ae2be01243ddb",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v10-en-rag-qwen38-allowlisted-structured"
+  },
+  "906380ffb04efb7cafa47a12ffdc8582895376047a9debc26b92a62d1d1b8f02": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p1",
+      "insight_codes": [
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "evidence_ids": [
+        "POLICY:n12_balanced_xy_ring_p1",
+        "POLICY:n12_balanced_xy_ring_p2",
+        "MKT:CROSS_SECTION",
+        "MKT:VOLATILITY"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3.8-27B-FP8",
+    "model_revision": "c3a462cc3d38cf351f3b26cbd763469eeb74ef81",
+    "quantization": "FP8 (official Qwen3.8-27B-FP8 checkpoint); FP8 KV cache",
+    "serving": {
+      "engine": "vLLM 0.32.0",
+      "gpu": "H100:1",
+      "tensor_parallel_size": 1,
+      "max_model_len": 65536,
+      "mtp_speculative_decoding": false,
+      "engine_load_seconds": 260.7
+    },
+    "generation": {
+      "reasoning_effort": "medium",
+      "seed": 2108848341,
+      "max_new_tokens": 16384,
+      "temperature": 1.0,
+      "top_p": 0.95
+    },
+    "reasoning_sha256": [
+      "9d1bc99aa3f050599becbe0a5261d021c048f00f29896fce49d133079f8c91da"
+    ],
+    "latency_seconds": 32.23,
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8766,
+      "output_tokens": 2422,
+      "total_tokens": 11188
+    },
+    "cache_key": "906380ffb04efb7cafa47a12ffdc8582895376047a9debc26b92a62d1d1b8f02",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v10-en-rag-qwen38-allowlisted-structured"
+  },
+  "d5dadaaa35456042f3d6aba4e6fec984953a98c6b188193bc67491481d5b767d": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p1",
+      "insight_codes": [
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "evidence_ids": [
+        "POLICY:n12_balanced_xy_ring_p1",
+        "MKT:CROSS_SECTION",
+        "MKT:LIQUIDITY"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3.8-27B-FP8",
+    "model_revision": "c3a462cc3d38cf351f3b26cbd763469eeb74ef81",
+    "quantization": "FP8 (official Qwen3.8-27B-FP8 checkpoint); FP8 KV cache",
+    "serving": {
+      "engine": "vLLM 0.32.0",
+      "gpu": "H100:1",
+      "tensor_parallel_size": 1,
+      "max_model_len": 65536,
+      "mtp_speculative_decoding": false,
+      "engine_load_seconds": 260.7
+    },
+    "generation": {
+      "reasoning_effort": "medium",
+      "seed": 1519678644,
+      "max_new_tokens": 16384,
+      "temperature": 1.0,
+      "top_p": 0.95
+    },
+    "reasoning_sha256": [
+      "1bc84e20cd164f9368f6aebabd31e0d96306285bad551fb52b6cd8939234f58a"
+    ],
+    "latency_seconds": 54.4,
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8777,
+      "output_tokens": 4108,
+      "total_tokens": 12885
+    },
+    "cache_key": "d5dadaaa35456042f3d6aba4e6fec984953a98c6b188193bc67491481d5b767d",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v10-en-rag-qwen38-allowlisted-structured"
+  },
+  "6166afce26f1f62afdb4b3c2e3256259bb1bb7832c359386529e2b528ab3b1ed": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p1",
+      "insight_codes": [
+        "volatility_rising",
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "evidence_ids": [
+        "POLICY:n12_balanced_xy_ring_p1",
+        "MKT:VOLATILITY",
+        "MKT:CROSS_SECTION",
+        "MKT:LIQUIDITY"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3.8-27B-FP8",
+    "model_revision": "c3a462cc3d38cf351f3b26cbd763469eeb74ef81",
+    "quantization": "FP8 (official Qwen3.8-27B-FP8 checkpoint); FP8 KV cache",
+    "serving": {
+      "engine": "vLLM 0.32.0",
+      "gpu": "H100:1",
+      "tensor_parallel_size": 1,
+      "max_model_len": 65536,
+      "mtp_speculative_decoding": false,
+      "engine_load_seconds": 260.7
+    },
+    "generation": {
+      "reasoning_effort": "medium",
+      "seed": 4030922354,
+      "max_new_tokens": 16384,
+      "temperature": 1.0,
+      "top_p": 0.95
+    },
+    "reasoning_sha256": [
+      "d417fb5b6f0ed80d9a027ae89de517568810efb2413fad90089303a0812816b2"
+    ],
+    "latency_seconds": 71.91,
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8777,
+      "output_tokens": 5435,
+      "total_tokens": 14212
+    },
+    "cache_key": "6166afce26f1f62afdb4b3c2e3256259bb1bb7832c359386529e2b528ab3b1ed",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v10-en-rag-qwen38-allowlisted-structured"
+  },
+  "ea0255726bbb4c2959e40a5e85f5ac0b89722986546a03e0826341aa8448628e": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p1",
+      "insight_codes": [
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "evidence_ids": [
+        "MKT:CROSS_SECTION",
+        "MKT:VOLATILITY",
+        "MKT:TREND",
+        "POLICY:n12_balanced_xy_ring_p1"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3.8-27B-FP8",
+    "model_revision": "c3a462cc3d38cf351f3b26cbd763469eeb74ef81",
+    "quantization": "FP8 (official Qwen3.8-27B-FP8 checkpoint); FP8 KV cache",
+    "serving": {
+      "engine": "vLLM 0.32.0",
+      "gpu": "H100:1",
+      "tensor_parallel_size": 1,
+      "max_model_len": 65536,
+      "mtp_speculative_decoding": false,
+      "engine_load_seconds": 260.7
+    },
+    "generation": {
+      "reasoning_effort": "medium",
+      "seed": 79355071,
+      "max_new_tokens": 16384,
+      "temperature": 1.0,
+      "top_p": 0.95
+    },
+    "reasoning_sha256": [
+      "29288f229d8db735a7f9cba8ad8174f37f20b95f598ae7bf51ea4b7e7a9547a0"
+    ],
+    "latency_seconds": 43.19,
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8811,
+      "output_tokens": 3257,
+      "total_tokens": 12068
+    },
+    "cache_key": "ea0255726bbb4c2959e40a5e85f5ac0b89722986546a03e0826341aa8448628e",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v10-en-rag-qwen38-allowlisted-structured"
+  },
+  "27ea43340815f1c87567857a86748983fe60e87ff08fe5622ca3f9383944837f": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p1",
+      "insight_codes": [
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "evidence_ids": [
+        "POLICY:n12_balanced_xy_ring_p1",
+        "MKT:CROSS_SECTION",
+        "MKT:LIQUIDITY"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3.8-27B-FP8",
+    "model_revision": "c3a462cc3d38cf351f3b26cbd763469eeb74ef81",
+    "quantization": "FP8 (official Qwen3.8-27B-FP8 checkpoint); FP8 KV cache",
+    "serving": {
+      "engine": "vLLM 0.32.0",
+      "gpu": "H100:1",
+      "tensor_parallel_size": 1,
+      "max_model_len": 65536,
+      "mtp_speculative_decoding": false,
+      "engine_load_seconds": 260.7
+    },
+    "generation": {
+      "reasoning_effort": "medium",
+      "seed": 2048626893,
+      "max_new_tokens": 16384,
+      "temperature": 1.0,
+      "top_p": 0.95
+    },
+    "reasoning_sha256": [
+      "643bc9ccc18ef9c77784a0413b8daa27c5445f1baecfdce7535c8a8c57103ede"
+    ],
+    "latency_seconds": 35.35,
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8819,
+      "output_tokens": 2660,
+      "total_tokens": 11479
+    },
+    "cache_key": "27ea43340815f1c87567857a86748983fe60e87ff08fe5622ca3f9383944837f",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v10-en-rag-qwen38-allowlisted-structured"
+  },
+  "b44e3d5fd44195728848a3330234dd2607f0e02d281c95b72b7308554f4993fa": {
+    "decision": {
+      "policy_id": "n12_correlation_xy_p2",
+      "insight_codes": [
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "evidence_ids": [
+        "POLICY:n12_correlation_xy_p2",
+        "MKT:CROSS_SECTION",
+        "MKT:VOLATILITY",
+        "MKT:TREND",
+        "MKT:LIQUIDITY"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3.8-27B-FP8",
+    "model_revision": "c3a462cc3d38cf351f3b26cbd763469eeb74ef81",
+    "quantization": "FP8 (official Qwen3.8-27B-FP8 checkpoint); FP8 KV cache",
+    "serving": {
+      "engine": "vLLM 0.32.0",
+      "gpu": "H100:1",
+      "tensor_parallel_size": 1,
+      "max_model_len": 65536,
+      "mtp_speculative_decoding": false,
+      "engine_load_seconds": 260.7
+    },
+    "generation": {
+      "reasoning_effort": "medium",
+      "seed": 1291864885,
+      "max_new_tokens": 16384,
+      "temperature": 1.0,
+      "top_p": 0.95
+    },
+    "reasoning_sha256": [
+      "a45d69ad4100af870e813123a266a0ceb6ff1f3a811be0ccfda7f09fe5959fb9"
+    ],
+    "latency_seconds": 64.3,
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8796,
+      "output_tokens": 4860,
+      "total_tokens": 13656
+    },
+    "cache_key": "b44e3d5fd44195728848a3330234dd2607f0e02d281c95b72b7308554f4993fa",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v10-en-rag-qwen38-allowlisted-structured"
+  },
+  "40d486a09e10b4732f2bb60fc94b0274fd8aaff387fba8253138491d4e165574": {
+    "decision": {
+      "policy_id": "n12_correlation_xy_p2",
+      "insight_codes": [
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "evidence_ids": [
+        "POLICY:n12_correlation_xy_p2",
+        "MKT:CROSS_SECTION",
+        "MKT:VOLATILITY",
+        "MKT:TREND",
+        "MKT:LIQUIDITY"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3.8-27B-FP8",
+    "model_revision": "c3a462cc3d38cf351f3b26cbd763469eeb74ef81",
+    "quantization": "FP8 (official Qwen3.8-27B-FP8 checkpoint); FP8 KV cache",
+    "serving": {
+      "engine": "vLLM 0.32.0",
+      "gpu": "H100:1",
+      "tensor_parallel_size": 1,
+      "max_model_len": 65536,
+      "mtp_speculative_decoding": false,
+      "engine_load_seconds": 260.7
+    },
+    "generation": {
+      "reasoning_effort": "medium",
+      "seed": 2106751870,
+      "max_new_tokens": 16384,
+      "temperature": 1.0,
+      "top_p": 0.95
+    },
+    "reasoning_sha256": [
+      "de23c377a8862bbf17b54eb6e74330be25b2b70ce708f898cfbee507e0b7d310"
+    ],
+    "latency_seconds": 55.53,
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8791,
+      "output_tokens": 4193,
+      "total_tokens": 12984
+    },
+    "cache_key": "40d486a09e10b4732f2bb60fc94b0274fd8aaff387fba8253138491d4e165574",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v10-en-rag-qwen38-allowlisted-structured"
+  },
+  "f4fa8dd08430ef74f237d14c8873fa3202d514afdfff6d2a6d8f7247d278761e": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p1",
+      "insight_codes": [
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "evidence_ids": [
+        "POLICY:n12_balanced_xy_ring_p1",
+        "MKT:CROSS_SECTION",
+        "MKT:LIQUIDITY"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3.8-27B-FP8",
+    "model_revision": "c3a462cc3d38cf351f3b26cbd763469eeb74ef81",
+    "quantization": "FP8 (official Qwen3.8-27B-FP8 checkpoint); FP8 KV cache",
+    "serving": {
+      "engine": "vLLM 0.32.0",
+      "gpu": "H100:1",
+      "tensor_parallel_size": 1,
+      "max_model_len": 65536,
+      "mtp_speculative_decoding": false,
+      "engine_load_seconds": 260.7
+    },
+    "generation": {
+      "reasoning_effort": "medium",
+      "seed": 3922551613,
+      "max_new_tokens": 16384,
+      "temperature": 1.0,
+      "top_p": 0.95
+    },
+    "reasoning_sha256": [
+      "6785874ec823389824fc22955927abe9ced78b2225aa15fb897216fe00658017"
+    ],
+    "latency_seconds": 33.79,
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8842,
+      "output_tokens": 2540,
+      "total_tokens": 11382
+    },
+    "cache_key": "f4fa8dd08430ef74f237d14c8873fa3202d514afdfff6d2a6d8f7247d278761e",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v10-en-rag-qwen38-allowlisted-structured"
+  },
+  "3466d2395db0665632e1e74aaf882242818b99af259049487c7013e02723b4bd": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p1",
+      "insight_codes": [
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "evidence_ids": [
+        "MKT:CROSS_SECTION",
+        "MKT:LIQUIDITY",
+        "POLICY:n12_balanced_xy_ring_p1"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3.8-27B-FP8",
+    "model_revision": "c3a462cc3d38cf351f3b26cbd763469eeb74ef81",
+    "quantization": "FP8 (official Qwen3.8-27B-FP8 checkpoint); FP8 KV cache",
+    "serving": {
+      "engine": "vLLM 0.32.0",
+      "gpu": "H100:1",
+      "tensor_parallel_size": 1,
+      "max_model_len": 65536,
+      "mtp_speculative_decoding": false,
+      "engine_load_seconds": 260.7
+    },
+    "generation": {
+      "reasoning_effort": "medium",
+      "seed": 2024010515,
+      "max_new_tokens": 16384,
+      "temperature": 1.0,
+      "top_p": 0.95
+    },
+    "reasoning_sha256": [
+      "6ecfcc76df66eed30ff17c6bed8aa77338acd77eeff015074f094a5cae8ed5f6"
+    ],
+    "latency_seconds": 15.51,
+    "response_id": null,
+    "usage": {
+      "input_tokens": 6293,
+      "output_tokens": 1158,
+      "total_tokens": 7451
+    },
+    "cache_key": "3466d2395db0665632e1e74aaf882242818b99af259049487c7013e02723b4bd",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v10-en-rag-qwen38-allowlisted-structured"
+  },
+  "33e752a85ac60492dc51e8ef36a96f180eff2c08b6a95c0c5ecf6b3c184d2797": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p1",
+      "insight_codes": [
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "evidence_ids": [
+        "MKT:CROSS_SECTION",
+        "MKT:LIQUIDITY",
+        "POLICY:n12_balanced_xy_ring_p1"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3.8-27B-FP8",
+    "model_revision": "c3a462cc3d38cf351f3b26cbd763469eeb74ef81",
+    "quantization": "FP8 (official Qwen3.8-27B-FP8 checkpoint); FP8 KV cache",
+    "serving": {
+      "engine": "vLLM 0.32.0",
+      "gpu": "H100:1",
+      "tensor_parallel_size": 1,
+      "max_model_len": 65536,
+      "mtp_speculative_decoding": false,
+      "engine_load_seconds": 260.7
+    },
+    "generation": {
+      "reasoning_effort": "medium",
+      "seed": 3376966645,
+      "max_new_tokens": 16384,
+      "temperature": 1.0,
+      "top_p": 0.95
+    },
+    "reasoning_sha256": [
+      "b1ee95bf3226eeebf9388deb5c435dea0c191c9e3ed7cb454114fc9d6191bdf3"
+    ],
+    "latency_seconds": 17.79,
+    "response_id": null,
+    "usage": {
+      "input_tokens": 6273,
+      "output_tokens": 1337,
+      "total_tokens": 7610
+    },
+    "cache_key": "33e752a85ac60492dc51e8ef36a96f180eff2c08b6a95c0c5ecf6b3c184d2797",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v10-en-rag-qwen38-allowlisted-structured"
+  },
+  "cf4d67cd5a766cfd25c646c944660c17108bbfd2179d99814f5744ca90f2c627": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p1",
+      "insight_codes": [
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "evidence_ids": [
+        "POLICY:n12_balanced_xy_ring_p1",
+        "MKT:CROSS_SECTION",
+        "MKT:VOLATILITY",
+        "MKT:TREND",
+        "MKT:LIQUIDITY"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3.8-27B-FP8",
+    "model_revision": "c3a462cc3d38cf351f3b26cbd763469eeb74ef81",
+    "quantization": "FP8 (official Qwen3.8-27B-FP8 checkpoint); FP8 KV cache",
+    "serving": {
+      "engine": "vLLM 0.32.0",
+      "gpu": "H100:1",
+      "tensor_parallel_size": 1,
+      "max_model_len": 65536,
+      "mtp_speculative_decoding": false,
+      "engine_load_seconds": 260.7
+    },
+    "generation": {
+      "reasoning_effort": "medium",
+      "seed": 279236576,
+      "max_new_tokens": 16384,
+      "temperature": 1.0,
+      "top_p": 0.95
+    },
+    "reasoning_sha256": [
+      "fbdb3fdc3a07683e38c31acc0093d10e1472b99fc96cb44b34c61a2c7785dacf"
+    ],
+    "latency_seconds": 12.36,
+    "response_id": null,
+    "usage": {
+      "input_tokens": 7759,
+      "output_tokens": 910,
+      "total_tokens": 8669
+    },
+    "cache_key": "cf4d67cd5a766cfd25c646c944660c17108bbfd2179d99814f5744ca90f2c627",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v10-en-rag-qwen38-allowlisted-structured"
+  },
+  "8d490e8efd9ee3bcac0dcf6bd0edd357138ac2753af549a65cbd00ac2b994a37": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p1",
+      "insight_codes": [
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "evidence_ids": [
+        "POLICY:n12_balanced_xy_ring_p1",
+        "MKT:CROSS_SECTION",
+        "MKT:LIQUIDITY"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3.8-27B-FP8",
+    "model_revision": "c3a462cc3d38cf351f3b26cbd763469eeb74ef81",
+    "quantization": "FP8 (official Qwen3.8-27B-FP8 checkpoint); FP8 KV cache",
+    "serving": {
+      "engine": "vLLM 0.32.0",
+      "gpu": "H100:1",
+      "tensor_parallel_size": 1,
+      "max_model_len": 65536,
+      "mtp_speculative_decoding": false,
+      "engine_load_seconds": 260.7
+    },
+    "generation": {
+      "reasoning_effort": "medium",
+      "seed": 1856291474,
+      "max_new_tokens": 16384,
+      "temperature": 1.0,
+      "top_p": 0.95
+    },
+    "reasoning_sha256": [
+      "26a40e2b12ba6118bcfc813a748c3e49d127ecae03347bae2c4ab4124ee7015c"
+    ],
+    "latency_seconds": 17.36,
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8042,
+      "output_tokens": 1293,
+      "total_tokens": 9335
+    },
+    "cache_key": "8d490e8efd9ee3bcac0dcf6bd0edd357138ac2753af549a65cbd00ac2b994a37",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v10-en-rag-qwen38-allowlisted-structured"
+  },
+  "579ccea3eec6cfe28641441bb8dfeee55333fce64c86d17ecc95ac04a559f2ea": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p1",
+      "insight_codes": [
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "evidence_ids": [
+        "POLICY:n12_balanced_xy_ring_p1",
+        "MKT:CROSS_SECTION",
+        "MKT:LIQUIDITY"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3.8-27B-FP8",
+    "model_revision": "c3a462cc3d38cf351f3b26cbd763469eeb74ef81",
+    "quantization": "FP8 (official Qwen3.8-27B-FP8 checkpoint); FP8 KV cache",
+    "serving": {
+      "engine": "vLLM 0.32.0",
+      "gpu": "H100:1",
+      "tensor_parallel_size": 1,
+      "max_model_len": 65536,
+      "mtp_speculative_decoding": false,
+      "engine_load_seconds": 260.7
+    },
+    "generation": {
+      "reasoning_effort": "medium",
+      "seed": 3875455027,
+      "max_new_tokens": 16384,
+      "temperature": 1.0,
+      "top_p": 0.95
+    },
+    "reasoning_sha256": [
+      "ca0a633d4da645045cf90bf211a2e4b5791313c3729ae0a57052a1b2fd295a85"
+    ],
+    "latency_seconds": 19.97,
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8047,
+      "output_tokens": 1490,
+      "total_tokens": 9537
+    },
+    "cache_key": "579ccea3eec6cfe28641441bb8dfeee55333fce64c86d17ecc95ac04a559f2ea",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v10-en-rag-qwen38-allowlisted-structured"
+  },
+  "803819cca93de30f85caf1f747583e0f4ab41fa56c9463bed7b04e08fe1beb87": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p1",
+      "insight_codes": [
+        "volatility_rising",
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "evidence_ids": [
+        "POLICY:n12_balanced_xy_ring_p1",
+        "MKT:VOLATILITY",
+        "MKT:CROSS_SECTION",
+        "MKT:LIQUIDITY"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3.8-27B-FP8",
+    "model_revision": "c3a462cc3d38cf351f3b26cbd763469eeb74ef81",
+    "quantization": "FP8 (official Qwen3.8-27B-FP8 checkpoint); FP8 KV cache",
+    "serving": {
+      "engine": "vLLM 0.32.0",
+      "gpu": "H100:1",
+      "tensor_parallel_size": 1,
+      "max_model_len": 65536,
+      "mtp_speculative_decoding": false,
+      "engine_load_seconds": 260.7
+    },
+    "generation": {
+      "reasoning_effort": "medium",
+      "seed": 3136286482,
+      "max_new_tokens": 16384,
+      "temperature": 1.0,
+      "top_p": 0.95
+    },
+    "reasoning_sha256": [
+      "716372d20884422d9b1483d2ed8fa7423decde05a3d5cbe36ad5a02908abf676"
+    ],
+    "latency_seconds": 18.36,
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8399,
+      "output_tokens": 1365,
+      "total_tokens": 9764
+    },
+    "cache_key": "803819cca93de30f85caf1f747583e0f4ab41fa56c9463bed7b04e08fe1beb87",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v10-en-rag-qwen38-allowlisted-structured"
+  },
+  "7937a30236222ff73f39f539517ce143c3952285fc7ee4ac3cdb8cff78ac91c7": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p1",
+      "insight_codes": [
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "evidence_ids": [
+        "POLICY:n12_balanced_xy_ring_p1",
+        "MKT:CROSS_SECTION",
+        "MKT:LIQUIDITY"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3.8-27B-FP8",
+    "model_revision": "c3a462cc3d38cf351f3b26cbd763469eeb74ef81",
+    "quantization": "FP8 (official Qwen3.8-27B-FP8 checkpoint); FP8 KV cache",
+    "serving": {
+      "engine": "vLLM 0.32.0",
+      "gpu": "H100:1",
+      "tensor_parallel_size": 1,
+      "max_model_len": 65536,
+      "mtp_speculative_decoding": false,
+      "engine_load_seconds": 260.7
+    },
+    "generation": {
+      "reasoning_effort": "medium",
+      "seed": 3705664282,
+      "max_new_tokens": 16384,
+      "temperature": 1.0,
+      "top_p": 0.95
+    },
+    "reasoning_sha256": [
+      "a0475b2e45ad65b4142e5aedf7fe01b893a5b7360d49fe75d6108840514aea80"
+    ],
+    "latency_seconds": 17.66,
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8390,
+      "output_tokens": 1311,
+      "total_tokens": 9701
+    },
+    "cache_key": "7937a30236222ff73f39f539517ce143c3952285fc7ee4ac3cdb8cff78ac91c7",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v10-en-rag-qwen38-allowlisted-structured"
+  },
+  "18fad2d5f9a260a4efecb064d5204cf187f52a3339caee085d7550a7e0e9dd3d": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p1",
+      "insight_codes": [
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "evidence_ids": [
+        "POLICY:n12_balanced_xy_ring_p1",
+        "MKT:CROSS_SECTION",
+        "MKT:VOLATILITY",
+        "MKT:TREND",
+        "MKT:LIQUIDITY"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3.8-27B-FP8",
+    "model_revision": "c3a462cc3d38cf351f3b26cbd763469eeb74ef81",
+    "quantization": "FP8 (official Qwen3.8-27B-FP8 checkpoint); FP8 KV cache",
+    "serving": {
+      "engine": "vLLM 0.32.0",
+      "gpu": "H100:1",
+      "tensor_parallel_size": 1,
+      "max_model_len": 65536,
+      "mtp_speculative_decoding": false,
+      "engine_load_seconds": 260.7
+    },
+    "generation": {
+      "reasoning_effort": "medium",
+      "seed": 2683072601,
+      "max_new_tokens": 16384,
+      "temperature": 1.0,
+      "top_p": 0.95
+    },
+    "reasoning_sha256": [
+      "d736c0f788b62f8928a1447894aa3466e57ac33b42528b80a7aaaac8b0ecfae9"
+    ],
+    "latency_seconds": 66.98,
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8756,
+      "output_tokens": 5064,
+      "total_tokens": 13820
+    },
+    "cache_key": "18fad2d5f9a260a4efecb064d5204cf187f52a3339caee085d7550a7e0e9dd3d",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v10-en-rag-qwen38-allowlisted-structured"
+  },
+  "d5b541cc6b903726941e24f114b34afc2c5e3c955db9a90ecf44038aab5b6a19": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p1",
+      "insight_codes": [
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "evidence_ids": [
+        "MKT:CROSS_SECTION",
+        "MKT:LIQUIDITY",
+        "POLICY:n12_balanced_xy_ring_p1"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3.8-27B-FP8",
+    "model_revision": "c3a462cc3d38cf351f3b26cbd763469eeb74ef81",
+    "quantization": "FP8 (official Qwen3.8-27B-FP8 checkpoint); FP8 KV cache",
+    "serving": {
+      "engine": "vLLM 0.32.0",
+      "gpu": "H100:1",
+      "tensor_parallel_size": 1,
+      "max_model_len": 65536,
+      "mtp_speculative_decoding": false,
+      "engine_load_seconds": 260.7
+    },
+    "generation": {
+      "reasoning_effort": "medium",
+      "seed": 3064741550,
+      "max_new_tokens": 16384,
+      "temperature": 1.0,
+      "top_p": 0.95
+    },
+    "reasoning_sha256": [
+      "d1ed92d4cc5c2eaf3bd332413111d03b944e1aa0cd83100677355870f4badf92"
+    ],
+    "latency_seconds": 46.77,
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8758,
+      "output_tokens": 3528,
+      "total_tokens": 12286
+    },
+    "cache_key": "d5b541cc6b903726941e24f114b34afc2c5e3c955db9a90ecf44038aab5b6a19",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v10-en-rag-qwen38-allowlisted-structured"
+  },
+  "c14da60ad2974af83b1b739b86cf59e43be8e6b5a488ef11962cdc22527d86f6": {
+    "decision": {
+      "policy_id": "n12_diversified_xy_complete_p1",
+      "insight_codes": [
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "evidence_ids": [
+        "POLICY:n12_diversified_xy_complete_p1",
+        "MKT:CROSS_SECTION",
+        "MKT:LIQUIDITY"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3.8-27B-FP8",
+    "model_revision": "c3a462cc3d38cf351f3b26cbd763469eeb74ef81",
+    "quantization": "FP8 (official Qwen3.8-27B-FP8 checkpoint); FP8 KV cache",
+    "serving": {
+      "engine": "vLLM 0.32.0",
+      "gpu": "H100:1",
+      "tensor_parallel_size": 1,
+      "max_model_len": 65536,
+      "mtp_speculative_decoding": false,
+      "engine_load_seconds": 260.7
+    },
+    "generation": {
+      "reasoning_effort": "medium",
+      "seed": 3264905395,
+      "max_new_tokens": 16384,
+      "temperature": 1.0,
+      "top_p": 0.95
+    },
+    "reasoning_sha256": [
+      "d5c6917ec5e1f201a723240b2c9a58650ae6b1c974e6c43cfc3e36504da5e8cf"
+    ],
+    "latency_seconds": 66.12,
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8780,
+      "output_tokens": 5002,
+      "total_tokens": 13782
+    },
+    "cache_key": "c14da60ad2974af83b1b739b86cf59e43be8e6b5a488ef11962cdc22527d86f6",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v10-en-rag-qwen38-allowlisted-structured"
+  },
+  "46fd67ad9fbc8cb73565b731a2f5a696a9859a6bb94b0ab63f2d51b80a26478e": {
+    "decision": {
+      "policy_id": "n16_correlation_xy_p2",
+      "insight_codes": [
+        "volatility_rising",
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "evidence_ids": [
+        "POLICY:n16_correlation_xy_p2",
+        "POLICY:n12_balanced_xy_ring_p1",
+        "POLICY:n12_diversified_xy_complete_p1",
+        "MKT:VOLATILITY",
+        "MKT:CROSS_SECTION",
+        "MKT:LIQUIDITY"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3.8-27B-FP8",
+    "model_revision": "c3a462cc3d38cf351f3b26cbd763469eeb74ef81",
+    "quantization": "FP8 (official Qwen3.8-27B-FP8 checkpoint); FP8 KV cache",
+    "serving": {
+      "engine": "vLLM 0.32.0",
+      "gpu": "H100:1",
+      "tensor_parallel_size": 1,
+      "max_model_len": 65536,
+      "mtp_speculative_decoding": false,
+      "engine_load_seconds": 260.7
+    },
+    "generation": {
+      "reasoning_effort": "medium",
+      "seed": 371930445,
+      "max_new_tokens": 16384,
+      "temperature": 1.0,
+      "top_p": 0.95
+    },
+    "reasoning_sha256": [
+      "3686dccecf41e5ee91bb0540974b7469b771b931b2f66772053420862da81daa"
+    ],
+    "latency_seconds": 76.76,
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8780,
+      "output_tokens": 5806,
+      "total_tokens": 14586
+    },
+    "cache_key": "46fd67ad9fbc8cb73565b731a2f5a696a9859a6bb94b0ab63f2d51b80a26478e",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v10-en-rag-qwen38-allowlisted-structured"
+  },
+  "548dc8255ad149a6a5928f9e67ee876604d168d068f437b88c2f9b6981799810": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p1",
+      "insight_codes": [
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "evidence_ids": [
+        "POLICY:n12_balanced_xy_ring_p1",
+        "MKT:CROSS_SECTION",
+        "MKT:VOLATILITY"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3.8-27B-FP8",
+    "model_revision": "c3a462cc3d38cf351f3b26cbd763469eeb74ef81",
+    "quantization": "FP8 (official Qwen3.8-27B-FP8 checkpoint); FP8 KV cache",
+    "serving": {
+      "engine": "vLLM 0.32.0",
+      "gpu": "H100:1",
+      "tensor_parallel_size": 1,
+      "max_model_len": 65536,
+      "mtp_speculative_decoding": false,
+      "engine_load_seconds": 260.7
+    },
+    "generation": {
+      "reasoning_effort": "medium",
+      "seed": 924976780,
+      "max_new_tokens": 16384,
+      "temperature": 1.0,
+      "top_p": 0.95
+    },
+    "reasoning_sha256": [
+      "41574d5a88b4381b2186dfb9ae963bcea9c3ced953a75e92b6db67f05f32daad"
+    ],
+    "latency_seconds": 64.07,
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8816,
+      "output_tokens": 4841,
+      "total_tokens": 13657
+    },
+    "cache_key": "548dc8255ad149a6a5928f9e67ee876604d168d068f437b88c2f9b6981799810",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v10-en-rag-qwen38-allowlisted-structured"
+  },
+  "4529f08cb1b2ca2d6d780cb7d549e95e542d99302a0d49d717c646131934334f": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p1",
+      "insight_codes": [
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "evidence_ids": [
+        "POLICY:n12_balanced_xy_ring_p1",
+        "MKT:CROSS_SECTION",
+        "MKT:LIQUIDITY"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3.8-27B-FP8",
+    "model_revision": "c3a462cc3d38cf351f3b26cbd763469eeb74ef81",
+    "quantization": "FP8 (official Qwen3.8-27B-FP8 checkpoint); FP8 KV cache",
+    "serving": {
+      "engine": "vLLM 0.32.0",
+      "gpu": "H100:1",
+      "tensor_parallel_size": 1,
+      "max_model_len": 65536,
+      "mtp_speculative_decoding": false,
+      "engine_load_seconds": 260.7
+    },
+    "generation": {
+      "reasoning_effort": "medium",
+      "seed": 3571623027,
+      "max_new_tokens": 16384,
+      "temperature": 1.0,
+      "top_p": 0.95
+    },
+    "reasoning_sha256": [
+      "506f8104603e0a5664a7adba0f97c56c2b58153258d668e054943f205ff970e7"
+    ],
+    "latency_seconds": 41.82,
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8817,
+      "output_tokens": 3153,
+      "total_tokens": 11970
+    },
+    "cache_key": "4529f08cb1b2ca2d6d780cb7d549e95e542d99302a0d49d717c646131934334f",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v10-en-rag-qwen38-allowlisted-structured"
+  },
+  "d4504c5f91ab8e829ccb717a09ab044747b6d31fc1bbd630589b71fc204e52fc": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p1",
+      "insight_codes": [
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "evidence_ids": [
+        "POLICY:n12_balanced_xy_ring_p1",
+        "MKT:CROSS_SECTION",
+        "MKT:VOLATILITY",
+        "MKT:TREND",
+        "MKT:LIQUIDITY"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3.8-27B-FP8",
+    "model_revision": "c3a462cc3d38cf351f3b26cbd763469eeb74ef81",
+    "quantization": "FP8 (official Qwen3.8-27B-FP8 checkpoint); FP8 KV cache",
+    "serving": {
+      "engine": "vLLM 0.32.0",
+      "gpu": "H100:1",
+      "tensor_parallel_size": 1,
+      "max_model_len": 65536,
+      "mtp_speculative_decoding": false,
+      "engine_load_seconds": 260.7
+    },
+    "generation": {
+      "reasoning_effort": "medium",
+      "seed": 2165054549,
+      "max_new_tokens": 16384,
+      "temperature": 1.0,
+      "top_p": 0.95
+    },
+    "reasoning_sha256": [
+      "ddd8792b8edce53363e33726e26d4e1966130d9c6d69916af1317ce19fc683ae"
+    ],
+    "latency_seconds": 30.81,
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8796,
+      "output_tokens": 2313,
+      "total_tokens": 11109
+    },
+    "cache_key": "d4504c5f91ab8e829ccb717a09ab044747b6d31fc1bbd630589b71fc204e52fc",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v10-en-rag-qwen38-allowlisted-structured"
+  },
+  "ad997e9302c2cc9ca35ad4a300d3738b2064ed4b91464c5f175f346d4a789901": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p1",
+      "insight_codes": [
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "evidence_ids": [
+        "POLICY:n12_balanced_xy_ring_p1",
+        "MKT:CROSS_SECTION",
+        "MKT:VOLATILITY",
+        "MKT:TREND",
+        "MKT:LIQUIDITY"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3.8-27B-FP8",
+    "model_revision": "c3a462cc3d38cf351f3b26cbd763469eeb74ef81",
+    "quantization": "FP8 (official Qwen3.8-27B-FP8 checkpoint); FP8 KV cache",
+    "serving": {
+      "engine": "vLLM 0.32.0",
+      "gpu": "H100:1",
+      "tensor_parallel_size": 1,
+      "max_model_len": 65536,
+      "mtp_speculative_decoding": false,
+      "engine_load_seconds": 260.7
+    },
+    "generation": {
+      "reasoning_effort": "medium",
+      "seed": 1738370546,
+      "max_new_tokens": 16384,
+      "temperature": 1.0,
+      "top_p": 0.95
+    },
+    "reasoning_sha256": [
+      "55a740daec7f2fc8da7bac8f4d943de8f46387a294dc910eb3f86c2c9ae1f38f"
+    ],
+    "latency_seconds": 50.96,
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8782,
+      "output_tokens": 3847,
+      "total_tokens": 12629
+    },
+    "cache_key": "ad997e9302c2cc9ca35ad4a300d3738b2064ed4b91464c5f175f346d4a789901",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v10-en-rag-qwen38-allowlisted-structured"
+  },
+  "93d062d66bd7216fff8d85948387bc271e73d98489ef7d92b79890cac3e36195": {
+    "decision": {
+      "policy_id": "n12_balanced_xy_ring_p1",
+      "insight_codes": [
+        "high_dispersion",
+        "bank_concentration"
+      ],
+      "evidence_ids": [
+        "POLICY:n12_balanced_xy_ring_p1",
+        "POLICY:n12_diversified_xy_complete_p1",
+        "MKT:CROSS_SECTION",
+        "MKT:VOLATILITY"
+      ]
+    },
+    "validation_repairs": [],
+    "model": "Qwen/Qwen3.8-27B-FP8",
+    "model_revision": "c3a462cc3d38cf351f3b26cbd763469eeb74ef81",
+    "quantization": "FP8 (official Qwen3.8-27B-FP8 checkpoint); FP8 KV cache",
+    "serving": {
+      "engine": "vLLM 0.32.0",
+      "gpu": "H100:1",
+      "tensor_parallel_size": 1,
+      "max_model_len": 65536,
+      "mtp_speculative_decoding": false,
+      "engine_load_seconds": 260.7
+    },
+    "generation": {
+      "reasoning_effort": "medium",
+      "seed": 2817382321,
+      "max_new_tokens": 16384,
+      "temperature": 1.0,
+      "top_p": 0.95
+    },
+    "reasoning_sha256": [
+      "50ce8b667593c69b0c5fce664e7b9012efd58caa1d6f04a86b8fffb39b5eefc0"
+    ],
+    "latency_seconds": 59.14,
+    "response_id": null,
+    "usage": {
+      "input_tokens": 8835,
+      "output_tokens": 4457,
+      "total_tokens": 13292
+    },
+    "cache_key": "93d062d66bd7216fff8d85948387bc271e73d98489ef7d92b79890cac3e36195",
+    "cache_hit": false,
+    "prompt_version": "agqo-prompt-v10-en-rag-qwen38-allowlisted-structured"
+  }
+}

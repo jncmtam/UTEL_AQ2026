@@ -1,7 +1,7 @@
 .venv/
 .env
 config/qpu.toml
-config/modal-qwen3.env
+config/modal-qwen38.env
 outputs/
 results/agqo_llm_decisions.json
 results/.agqo_llm_decisions.json.*.tmp
@@ -13,3 +13,5 @@ __pycache__/
 data/vn30_snapshot_20261002/ohlcv_daily.csv
 data/vn30_snapshot_20261002/modal_upload.zip
 data/vn30_snapshot_20261002/download_failures.json
+data/vn30_provisional_raw_*/ohlcv_daily.csv
+data/vn30_provisional_raw_*/download_failures.json

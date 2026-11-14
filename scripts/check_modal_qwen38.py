@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Gửi một payload tổng hợp duy nhất để kiểm tra kết nối Qwen3 trên Modal."""
+"""Gửi một payload tổng hợp duy nhất để kiểm tra kết nối Qwen3.8-27B trên Modal."""
 
 from __future__ import annotations
 
@@ -7,9 +7,13 @@ import json
 import os
 
 from agqo.guide import (
-    ModalQwen3Guide,
-    QWEN3_MODEL_NAME,
-    QWEN3_MODEL_REVISION,
+    QWEN38_MODAL_APP,
+    QWEN38_MODAL_CLASS,
+    QWEN38_MODEL_NAME,
+    QWEN38_MODEL_REVISION,
+    QWEN38_REASONING_EFFORT,
+    PROMPT_CACHE_VERSION,
+    ModalQwenGuide,
     policy_catalog,
     validate_guidance,
 )
@@ -17,13 +21,13 @@ from agqo.insights import insight_code_rules
 
 
 def main() -> int:
-    app_name = os.environ.get("AGQO_QWEN3_MODAL_APP", "agqo-qwen3-guide")
-    function_name = os.environ.get(
-        "AGQO_QWEN3_MODAL_FUNCTION", "guide_qaoa_policy"
+    guide = ModalQwenGuide(
+        app_name=os.environ.get("AGQO_QWEN38_MODAL_APP", QWEN38_MODAL_APP),
+        class_name=os.environ.get("AGQO_QWEN38_MODAL_CLASS", QWEN38_MODAL_CLASS),
+        model_name=os.environ.get("AGQO_QWEN38_MODEL", QWEN38_MODEL_NAME),
+        revision=os.environ.get("AGQO_QWEN38_REVISION", QWEN38_MODEL_REVISION),
+        reasoning_effort=os.environ.get("AGQO_QWEN38_REASONING_EFFORT", QWEN38_REASONING_EFFORT),
     )
-    model_name = os.environ.get("AGQO_QWEN3_MODEL", QWEN3_MODEL_NAME)
-    revision = os.environ.get("AGQO_QWEN3_REVISION", QWEN3_MODEL_REVISION)
-    guide = ModalQwen3Guide(app_name, function_name, model_name, revision)
     catalog = policy_catalog()
     policy_evidence = [
         {
@@ -43,7 +47,7 @@ def main() -> int:
     evidence_ids = ["MKT:VOLATILITY", "MKT:TREND", "MKT:CROSS_SECTION", "MKT:LIQUIDITY"]
     evidence_ids.extend(f"POLICY:{row['id']}" for row in policy_evidence)
     payload = {
-        "prompt_version": "agqo-prompt-v9-en-rag-submodel-allowlisted-structured",
+        "prompt_version": PROMPT_CACHE_VERSION,
         "as_of_date": "2026-08-31",
         "information_cutoff": "Synthetic aggregate payload for endpoint verification only.",
         "market": {
@@ -116,6 +120,10 @@ def main() -> int:
                 "model": envelope.get("model"),
                 "model_revision": envelope.get("model_revision"),
                 "quantization": envelope.get("quantization"),
+                "serving": envelope.get("serving"),
+                "generation": envelope.get("generation"),
+                "latency_seconds": envelope.get("latency_seconds"),
+                "validation_repairs": envelope.get("validation_repairs"),
                 "decision": decision,
                 "usage": envelope.get("usage"),
             },

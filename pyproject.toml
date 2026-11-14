@@ -21,7 +21,6 @@ qpu = ["qiskit>=2.3,<3", "qiskit-ibm-runtime>=0.47,<1"]
 simulator = ["qiskit>=2.3,<3", "qiskit-aer>=0.17,<1"]
 dev = ["pytest>=8.3,<10"]
 llm-modal = ["modal>=1.6.2,<2"]
-qwen3 = ["torch>=2.6,<3", "transformers>=4.51,<5", "accelerate>=1.6", "bitsandbytes>=0.46,<1"]
 
 [project.scripts]
 agqo = "agqo.cli:main"

@@ -1,0 +1,19 @@
+$ python scripts/run_ai_qaoa_walkforward.py --llm-guide modal-qwen38 --data /root/agqo-project/data/vn30_provisional_raw_20261114/ohlcv_daily.csv --json /root/agqo-project/results/provisional_raw_20261114/agqo_final_walkforward.json --report /root/agqo-project/results/provisional_raw_20261114/BAO_CAO_AGQO_CUOI_CUNG.md --figures /root/agqo-project/results/provisional_raw_20261114/figures --guide-cache /root/agqo-project/results/provisional_raw_20261114/qwen38_decisions.json
+Đã lưu dữ liệu đo: /root/agqo-project/results/provisional_raw_20261114/agqo_final_walkforward.json
+Đã lưu báo cáo: /root/agqo-project/results/provisional_raw_20261114/BAO_CAO_AGQO_CUOI_CUNG.md
+Đã tạo 19 biểu đồ trong: /root/agqo-project/results/provisional_raw_20261114/figures
+CAGR ròng: AI toàn rổ=35.77%; QAOA X p=1=14.97%; VN30=24.58%.
+AGQO LLM→QAOA: CAGR=22.51%, Sharpe=0.85, MaxDD=-15.51%; LLM đã chọn 16 cấu hình; 179,198 token trong phản hồi đã lưu.
+[exit 0 after 1035s]
+$ python scripts/run_tail_probe.py
+Traceback (most recent call last):
+  File "/root/agqo-project/scripts/run_tail_probe.py", line 847, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/root/agqo-project/scripts/run_tail_probe.py", line 835, in main
+    _write_report(result)
+  File "/root/agqo-project/scripts/run_tail_probe.py", line 370, in _write_report
+    ring_p2 = next(row for row in arch_rows if row["policy_id"] == "n12_balanced_xy_ring_p2")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+[exit 1 after 57s]

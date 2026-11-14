@@ -1817,10 +1817,10 @@ def run_walkforward(
         "config": asdict(config),
         "agqo_guidance": {
             "enabled": guide is not None,
-            "controller": "Qwen3-8B NF4 4-bit trên Modal L4 ưu tiên, A10 dự phòng; chỉ chọn mã chính sách QAOA hữu hạn có bằng chứng.",
+            "controller": "Qwen3.8-27B FP8 qua vLLM trên Modal 1×H100, suy luận mức medium; chỉ chọn mã chính sách QAOA hữu hạn có bằng chứng.",
             "prompt_version": PROMPT_CACHE_VERSION,
             "retrieval_knowledge_base": f"{CORPUS_VERSION}; RAG từ tài liệu dự án phiên bản hóa, có giải nghĩa chỉ số tài chính và QAOA.",
-            "finance_support": "Bộ insight định lượng có ngưỡng cố định, bộ phân loại LogisticRegression chỉ dự báo chế độ biến động, và bộ giám sát số học; Qwen không tự tạo luận cứ tài chính.",
+            "finance_support": "Bộ insight định lượng có ngưỡng cố định, bộ phân loại LogisticRegression chỉ dự báo chế độ biến động, và bộ giám sát số học; Qwen3.8-27B không tự tạo luận cứ tài chính.",
             "execution_guardrail": {
                 "enabled": bool(guide),
                 "minimum_completed_periods": 6,

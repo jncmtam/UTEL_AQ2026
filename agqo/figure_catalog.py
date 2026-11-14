@@ -67,7 +67,7 @@ _FIGURES: dict[str, dict[str, str]] = {
     },
     "08_agqo_policy_comparison.png": {
         "title": "So sánh chính sách thích nghi và cố định",
-        "explanation": "Đặt AGQO, bộ chọn quy tắc và danh mục policy cố định trên cùng các kỳ đã ghi; khoảng cách với bộ chọn quy tắc cho thấy Qwen chưa tạo thêm giá trị trong mẫu hiện có.",
+        "explanation": "Đặt AGQO, bộ chọn quy tắc và danh mục policy cố định trên cùng các kỳ đã ghi; khoảng cách với bộ chọn quy tắc đo giá trị gia tăng của LLM trong mẫu hiện có.",
         "source": "results/final/agqo_final_walkforward.json · portfolio.performance",
         "period": "2025-06 đến 2026-10",
         "units": "CAGR, Sharpe, sụt giảm tối đa",
@@ -91,7 +91,7 @@ _FIGURES: dict[str, dict[str, str]] = {
     },
     "11_agqo_decision_audit.png": {
         "title": "Kiểm toán đề xuất LLM và policy được thực thi",
-        "explanation": "Đối chiếu policy Qwen đề xuất với policy vượt qua giám sát số học; biểu đồ giúp xác nhận quyết định nào được chấp nhận hay fallback và lý do.",
+        "explanation": "Đối chiếu policy Qwen3.8-27B đề xuất với policy vượt qua giám sát số học; biểu đồ giúp xác nhận quyết định nào được chấp nhận hay fallback và lý do.",
         "source": "results/final/agqo_final_walkforward.json · agqo_guidance.decisions",
         "period": "16 tín hiệu 2025-05 đến 2026-08",
         "units": "mã policy, ngày tín hiệu",
@@ -99,7 +99,7 @@ _FIGURES: dict[str, dict[str, str]] = {
     },
     "12_agqo_pipeline.png": {
         "title": "Kiến trúc AGQO từ dữ liệu đến bằng chứng",
-        "explanation": "Luồng chỉ ra ranh giới cắt thời gian, local/Modal, RAG, Qwen, bộ giám sát, QAOA, đối chứng cổ điển và đường fallback; lớp tin ngoài được đánh dấu tắt do chưa có dữ liệu hợp lệ.",
+        "explanation": "Luồng chỉ ra ranh giới cắt thời gian, local/Modal, RAG, Qwen3.8-27B, bộ giám sát, QAOA, đối chứng cổ điển và đường fallback; lớp tin ngoài được đánh dấu tắt do chưa có dữ liệu hợp lệ.",
         "source": "Mã nguồn AGQO và manifest tin tức",
         "period": "kiến trúc phiên bản hiện tại",
         "units": "thành phần và luồng dữ liệu",

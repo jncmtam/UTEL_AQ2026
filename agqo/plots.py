@@ -37,7 +37,8 @@ def _prepare(data_path: str | Path, members_path: str | Path, summary: dict[str,
     data, members = load_market_dataset(data_path, members_path)
     stocks = data.loc[data["instrument_type"] == "stock"].copy()
     indices = data.loc[data["instrument_type"] == "index"].copy()
-    tickers = tuple(members["ticker"].astype(str))
+    excluded = set(summary.get("excluded_short_history", {}))
+    tickers = tuple(t for t in members["ticker"].astype(str) if t not in excluded)
     index_prices = indices.pivot(index="date", columns="ticker", values="close").sort_index()
     all_dates = index_prices[["VN30", "VNINDEX"]].dropna().index
     prices = (
@@ -206,8 +207,9 @@ def _plot_returns(window: pd.DataFrame, groups: dict[str, str], selected: set[st
 
 
 def _plot_correlations(window: pd.DataFrame, members: pd.DataFrame, output: Path) -> Path:
-    banks = members.loc[members["group"] == "Ngân hàng", "ticker"].tolist()
-    others = members.loc[members["group"] != "Ngân hàng", "ticker"].tolist()
+    in_window = set(window.columns)
+    banks = [t for t in members.loc[members["group"] == "Ngân hàng", "ticker"] if t in in_window]
+    others = [t for t in members.loc[members["group"] != "Ngân hàng", "ticker"] if t in in_window]
     ordered = banks + others
     correlation = window[ordered].corr()
     fig, ax = plt.subplots(figsize=(12, 10))

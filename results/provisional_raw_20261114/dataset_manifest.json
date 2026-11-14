@@ -1,0 +1,374 @@
+{
+  "dataset_name": "PROVISIONAL_vn30_point_in_time_members_dnse_single_series",
+  "generated_at_utc": "2026-11-14T09:10:50.504722+00:00",
+  "requested_start_date": "2022-01-01",
+  "requested_end_date": "2026-10-19",
+  "membership_history_file": "vn30_membership_history.csv",
+  "membership_history_sha256": "4f8d3a0d4544237bf25b18df81f3a9bd009933106c93a2aa3a768169bd5ddd13",
+  "membership_history_coverage": [
+    "2022-01-01",
+    "2026-10-19"
+  ],
+  "membership_count_per_effective_snapshot": 30,
+  "stock_ticker_count": 40,
+  "stock_tickers": [
+    "ACB",
+    "BCM",
+    "BID",
+    "BSR",
+    "BVH",
+    "CTG",
+    "DGC",
+    "FPT",
+    "GAS",
+    "GVR",
+    "HDB",
+    "HPG",
+    "KDH",
+    "LPB",
+    "MBB",
+    "MCH",
+    "MSN",
+    "MWG",
+    "NVL",
+    "PDR",
+    "PLX",
+    "PNJ",
+    "POW",
+    "SAB",
+    "SHB",
+    "SSB",
+    "SSI",
+    "STB",
+    "TCB",
+    "TCX",
+    "TPB",
+    "VCB",
+    "VHM",
+    "VIB",
+    "VIC",
+    "VJC",
+    "VNM",
+    "VPB",
+    "VPL",
+    "VRE"
+  ],
+  "index_tickers": [
+    "VN30",
+    "VNINDEX"
+  ],
+  "rows": 48269,
+  "ohlcv_sha256": "f8e68c1266b3395e8102b245138d9988133c99237621eb1680ab88a772bb530d",
+  "coverage": [
+    {
+      "instrument_type": "index",
+      "ticker": "VN30",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1190
+    },
+    {
+      "instrument_type": "index",
+      "ticker": "VNINDEX",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1190
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "ACB",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "BCM",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "BID",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "BSR",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1184
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "BVH",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "CTG",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "DGC",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "FPT",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "GAS",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "GVR",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "HDB",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "HPG",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "KDH",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "LPB",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "MBB",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "MCH",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1186
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "MSN",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "MWG",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "NVL",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "PDR",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "PLX",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "PNJ",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "POW",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "SAB",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "SHB",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "SSB",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "SSI",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "STB",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "TCB",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "TCX",
+      "first_date": "2025-10-21",
+      "last_date": "2026-10-19",
+      "sessions": 247
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "TPB",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "VCB",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "VHM",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "VIB",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "VIC",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "VJC",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "VNM",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "VPB",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "VPL",
+      "first_date": "2025-05-13",
+      "last_date": "2026-10-19",
+      "sessions": 360
+    },
+    {
+      "instrument_type": "stock",
+      "ticker": "VRE",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    }
+  ],
+  "raw_price_source": {
+    "provider": "DNSE chart API",
+    "endpoint": "https://services.entrade.com.vn/chart-api/v2/ohlcs",
+    "use": "actual historical OHLC for execution-price assumptions and close×volume liquidity proxy",
+    "price_unit": "VND per share for equities; index points for indices"
+  },
+  "adjusted_price_source": {
+    "provider": "DNSE chart API (same series as raw columns; provider back-adjusted)",
+    "reason": "vnstock 6 requires a brokerage data key for a second, independent price source; key issuance was unavailable."
+  },
+  "liquidity_measure": "raw close × raw volume; a turnover proxy, not confirmed matched value or executable capacity",
+  "membership_method": "Use only the 30 constituents effective on the signal date. History is reconstructed from published HOSE review changes and anchored to the Jan-2026 HOSE membership list; see vn30_membership_events.csv and per-period source URLs.",
+  "membership_research_limit": "Review announcements were found for the changes listed, but this is a curated reconstruction rather than a licensed exchange constituents database; use source links to audit each interval.",
+  "data_rights": "Vnstock is a connector, not the market-data owner. The connector license does not convey redistribution rights for DNSE or the adjusted-price provider data. The generated OHLCV file is excluded from Git; check each provider's terms before publication or redistribution.",
+  "provider_requests": [],
+  "PROVISIONAL_WARNING": "The same DNSE chart-API series fills both the raw and *_adjusted columns. Data checks (no ex-date gaps beyond the daily price limit across 40 stocks in 2022-2026; off-tick price levels) indicate the provider already back-adjusts it for stock dividends and splits, so returns are usable. Historical price levels, assumed execution prices and the close*volume liquidity proxy are therefore NOT actual traded prices of the time; cash-dividend adjustment is unverified and no second source has been reconciled."
+}

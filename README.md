@@ -243,7 +243,7 @@ Chỉ gọi AGQO có lợi thế đầu tư nếu chiến lược vượt chuẩ
 
 ### Nguồn dữ liệu và quyền sử dụng
 
-Mã tải dữ liệu mới dùng Vnstock 5.1.0 để lấy OHLC đã điều chỉnh từ VCI và gọi DNSE chart API để lưu giá thô. Cài bằng `python -m pip install -r requirements-data.txt`, sau đó đăng ký miễn phí quyền Cộng đồng bằng `vnstock register`; kiểm tra quyền bằng `vnstock status`. Quyền Khách bị giới hạn một năm lịch sử và không đủ để tạo lại tập 2022–2026.
+Vnstock 5.x ngừng hoạt động từ 11/11/2026. Mã tải dữ liệu dùng vnstock 6.0.0 để lấy OHLC điều chỉnh từ nguồn công ty chứng khoán (mặc định SSI FastConnect; chọn bằng `--adjusted-source ssi|dnse|fhsc|tcbs`) và gọi DNSE chart API để lưu giá thô. vnstock 6 bỏ nguồn VCI miễn phí, nên cần cả tài khoản Vnstock Cộng đồng (`vnstock register`) lẫn khoá dữ liệu của công ty chứng khoán, tự nhập bằng `vnstock-oapi keys set <nguồn>`. Bộ tải so sánh chuỗi nguồn với giá thô và từ chối ghi tập dữ liệu nếu chuỗi có vẻ chưa điều chỉnh cổ tức/chia tách.
 
 Trước khi tải lại, chạy `python scripts/build_vn30_membership_history.py`, rồi `python scripts/download_vn30_dataset.py`. Tệp giá nằm trong máy nghiên cứu và không được theo dõi bởi Git. Kê khai nguồn, dấu băm và trạng thái điều chỉnh nằm trong [manifest dữ liệu](data/vn30_snapshot_20261002/manifest.json); lịch thành phần nằm trong [lịch hiệu lực](data/vn30_snapshot_20261002/vn30_membership_history.csv). Vnstock là công cụ kết nối, không phải nhà cung cấp dữ liệu; giấy phép phần mềm không mặc nhiên cấp quyền phân phối dữ liệu thị trường. [Điều khoản sử dụng Vnstock](https://www.vnstocks.com/onboard/giay-phep-su-dung).
 
@@ -257,12 +257,12 @@ HOSE áp dụng phiên bản 4.0 của phương pháp chỉ số từ kỳ rà s
 |---|---|
 | Phân tích và dữ liệu | Python 3.12, pandas, NumPy, SciPy |
 | Mô hình phụ | scikit-learn LogisticRegression |
-| LLM | Qwen3-8B, Transformers, bitsandbytes NF4, triển khai trên Modal |
+| LLM | Qwen3.8-27B (FP8 chính thức, Apache-2.0), vLLM 0.32.0 trên Modal 1×H100; lượt cũ dùng Qwen3-8B NF4 |
 | Tối ưu QAOA | Mô phỏng véc-tơ trạng thái NumPy trên CPU; COBYLA để tối ưu góc |
 | Hình ảnh | Matplotlib |
 | Phần cứng lượng tử | Không có kết quả QPU trong báo cáo; Qiskit/Aer và IBM Quantum chỉ là tùy chọn |
 
-Không cần khóa API OpenAI. Việc chạy Qwen trên Modal có thể phát sinh chi phí GPU.
+Không cần khóa API OpenAI. Qwen3.8-27B-FP8 chạy trên một GPU H100 của Modal (khoảng 4 USD/giờ khi container đang chạy) và cần một lần tải ~31 GB trọng số vào Volume.
 
 ### Hồ sơ kết quả
 
@@ -271,22 +271,24 @@ Không cần khóa API OpenAI. Việc chạy Qwen trên Modal có thể phát si
 - [Báo cáo phép thử đuôi 12 phiên](results/final/AGQO_KIEM_DINH_DUOI_20261019.md)
 - [Dữ liệu phép thử đuôi dạng JSON](results/final/agqo_tail_probe_20261019.json)
 - [Tóm tắt dữ liệu và nhận định](results/final/dataset_summary.json)
-- [16 quyết định Qwen đã kiểm tra](results/final/qwen3_decisions.json)
+- [16 quyết định Qwen3-8B của lượt cũ](results/final/qwen3_decisions.json)
 - [Tài liệu kỹ thuật AGQO](TAI_LIEU_KY_THUAT_AGQO.md)
-- [Sổ tay Qwen3 trên Modal](notebooks/AGQO_Qwen3_Modal.ipynb)
 - [Kế hoạch nghiên cứu vòng tiếp theo](AGQO_NEXT_ROUND_MASTER_PROMPT.md)
 
 ### Chạy lại
 
-Sao chép tệp mẫu config/modal-qwen3.env.example thành config/modal-qwen3.env. Điền các giá trị cần thay đổi trong tệp này và xác thực tài khoản bằng lệnh modal setup; không lưu mã thông báo bí mật vào tệp. Sau khi chuẩn bị môi trường Python, có thể triển khai mô hình và chạy lại quy trình:
+Sao chép tệp mẫu config/modal-qwen38.env.example thành config/modal-qwen38.env và xác thực tài khoản bằng lệnh modal setup; không lưu mã thông báo bí mật vào tệp. Tải trọng số Qwen3.8-27B một lần, triển khai lớp suy luận, kiểm tra bằng một payload tổng hợp rồi chạy toàn bộ pipeline trên Modal:
 
-    cp config/modal-qwen3.env.example config/modal-qwen3.env
+    cp config/modal-qwen38.env.example config/modal-qwen38.env
     source .venv/bin/activate
     set -a
-    source config/modal-qwen3.env
+    source config/modal-qwen38.env
     set +a
-    modal deploy modal_qwen3_agqo.py
-    python scripts/check_modal_qwen3.py
-    python scripts/run_ai_qaoa_walkforward.py --llm-guide modal-qwen3
+    modal run modal_qwen38_agqo.py::download_weights
+    modal deploy modal_qwen38_agqo.py
+    python scripts/check_modal_qwen38.py
+    modal run modal_agqo_pipeline.py
+
+`modal_agqo_pipeline.py` chạy walk-forward và phép thử đuôi trong một container CPU trên Modal, gọi Qwen3.8-27B cho từng quyết định, rồi tải kết quả về results/final. Quyết định đã xác thực được lưu tại results/final/qwen38_decisions.json. Có thể chạy cục bộ bằng python scripts/run_ai_qaoa_walkforward.py --llm-guide modal-qwen38.
 
 Phép thử đuôi được chạy bằng python scripts/run_tail_probe.py. Tệp kết quả ghi lại cấu hình, phản hồi mô hình, chính sách được dùng, nghiệm đối chứng, phí, lợi nhuận và siêu dữ liệu mạch.

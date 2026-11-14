@@ -1,4 +1,4 @@
-# Vnstock 5 is distributed from its official package index, not PyPI.
+# vnstock 6 is distributed from its official package index, not PyPI.
 --extra-index-url https://vnstocks.com/api/packages
-vnstock==5.1.0
+vnstock==6.0.0
 requests==2.34.2

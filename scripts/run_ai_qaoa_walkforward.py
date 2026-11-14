@@ -9,13 +9,15 @@ from pathlib import Path
 
 from agqo.guide import (
     CachedGuide,
-    ModalQwen3Guide,
+    QWEN38_MODAL_APP,
+    QWEN38_MODAL_CLASS,
+    QWEN38_MODEL_NAME,
+    QWEN38_MODEL_REVISION,
+    QWEN38_REASONING_EFFORT,
+    ModalQwenGuide,
     PROMPT_CACHE_VERSION,
-    QWEN3_MODEL_NAME,
-    QWEN3_MODEL_REVISION,
-    TransformersQwen3Guide,
 )
-from agqo.walkforward import ResearchConfig, run_walkforward
+from agqo.walkforward import AGQO_STRATEGY_NAME, ResearchConfig, run_walkforward
 from agqo.final_visuals import build_final_visuals
 from agqo.market_data import analyze_market_dataset, summary_json
 from agqo.plots import create_market_figures
@@ -66,66 +68,58 @@ def main() -> int:
     )
     parser.add_argument(
         "--llm-guide",
-        choices=("none", "qwen3", "modal-qwen3"),
+        choices=("none", "modal-qwen38"),
         default="none",
-        help="Chọn Qwen3 chạy cục bộ, Qwen3 trên Modal, hoặc tắt hướng dẫn LLM.",
+        help="Chọn Qwen3.8-27B trên Modal (vLLM, 1×H100) hoặc tắt hướng dẫn LLM.",
     )
     parser.add_argument(
         "--guide-cache",
         type=Path,
-        default=ROOT / "results/final/qwen3_decisions.json",
+        default=ROOT / "results/final/qwen38_decisions.json",
         help="Tệp lưu lời khuyên LLM đã xác thực để tránh gọi lại cùng tín hiệu.",
     )
     parser.add_argument(
-        "--qwen3-model",
-        default=os.environ.get("AGQO_QWEN3_MODEL", QWEN3_MODEL_NAME),
-        help="Tên mô hình Qwen3 trên Hugging Face; mặc định Qwen/Qwen3-8B.",
+        "--qwen-model",
+        default=os.environ.get("AGQO_QWEN38_MODEL", QWEN38_MODEL_NAME),
+        help="Tên mô hình trên Hugging Face; mặc định Qwen/Qwen3.8-27B-FP8.",
     )
     parser.add_argument(
-        "--qwen3-revision",
-        default=os.environ.get("AGQO_QWEN3_REVISION", QWEN3_MODEL_REVISION),
+        "--qwen-revision",
+        default=os.environ.get("AGQO_QWEN38_REVISION", QWEN38_MODEL_REVISION),
         help="Mã phiên bản Hugging Face; mặc định ghim vào phiên bản đã kiểm tra.",
     )
     parser.add_argument(
-        "--qwen3-modal-app",
-        default=os.environ.get("AGQO_QWEN3_MODAL_APP", "agqo-qwen3-guide"),
-        help="Tên ứng dụng Modal đã triển khai cho Qwen3.",
+        "--qwen-reasoning-effort",
+        choices=("low", "medium", "xhigh"),
+        default=os.environ.get("AGQO_QWEN38_REASONING_EFFORT", QWEN38_REASONING_EFFORT),
+        help="Mức suy luận Qwen3.8-27B; mặc định medium.",
     )
     parser.add_argument(
-        "--qwen3-modal-function",
-        default=os.environ.get("AGQO_QWEN3_MODAL_FUNCTION", "guide_qaoa_policy"),
-        help="Tên hàm Qwen3 trong ứng dụng Modal.",
+        "--qwen-modal-app",
+        default=os.environ.get("AGQO_QWEN38_MODAL_APP", QWEN38_MODAL_APP),
+        help="Tên ứng dụng Modal đã triển khai cho Qwen3.8-27B.",
+    )
+    parser.add_argument(
+        "--qwen-modal-class",
+        default=os.environ.get("AGQO_QWEN38_MODAL_CLASS", QWEN38_MODAL_CLASS),
+        help="Tên lớp suy luận Qwen3.8-27B trong ứng dụng Modal.",
     )
     args = parser.parse_args()
 
     guide = None
-    if args.llm_guide == "qwen3":
-        model_name = args.qwen3_model
-        qwen_guide = TransformersQwen3Guide(
-            model_name=model_name,
-            revision=args.qwen3_revision,
-        )
+    if args.llm_guide == "modal-qwen38":
         guide = CachedGuide(
-            qwen_guide,
-            args.guide_cache,
-            cache_namespace=(
-                f"{PROMPT_CACHE_VERSION}:transformers:{model_name}:"
-                f"{qwen_guide.model_revision}"
-            ),
-        )
-    elif args.llm_guide == "modal-qwen3":
-        model_name, revision = args.qwen3_model, args.qwen3_revision
-        guide = CachedGuide(
-            ModalQwen3Guide(
-                app_name=args.qwen3_modal_app,
-                function_name=args.qwen3_modal_function,
-                model_name=model_name,
-                revision=revision,
+            ModalQwenGuide(
+                app_name=args.qwen_modal_app,
+                class_name=args.qwen_modal_class,
+                model_name=args.qwen_model,
+                revision=args.qwen_revision,
+                reasoning_effort=args.qwen_reasoning_effort,
             ),
             args.guide_cache,
             cache_namespace=(
-                f"{PROMPT_CACHE_VERSION}:modal-qwen3:{args.qwen3_modal_app}:"
-                f"{args.qwen3_modal_function}:{model_name}:{revision}"
+                f"{PROMPT_CACHE_VERSION}:modal-qwen38:{args.qwen_modal_app}:{args.qwen_modal_class}:"
+                f"{args.qwen_model}:{args.qwen_revision}:{args.qwen_reasoning_effort}"
             ),
         )
     result = run_walkforward(
@@ -156,7 +150,7 @@ def main() -> int:
         f"VN30={result['portfolio']['performance']['VN30']['metrics']['cagr']:.2%}."
     )
     if result["agqo_guidance"]["enabled"]:
-        agqo = result["portfolio"]["performance"]["AGQO Qwen→giám sát→QAOA / chính sách thích nghi"]["metrics"]
+        agqo = result["portfolio"]["performance"][AGQO_STRATEGY_NAME]["metrics"]
         print(
             "AGQO LLM→QAOA: "
             f"CAGR={agqo['cagr']:.2%}, Sharpe={agqo['sharpe']:.2f}, "

@@ -13,7 +13,7 @@ OHLCV cục bộ
   ├─ Bảng kết quả các chính sách đã thoát lệnh
   └─ RAG cục bộ: công thức, định nghĩa, giới hạn và nguyên tắc benchmark
           ↓ payload có mốc thời gian, bằng chứng và mã tham chiếu
-Qwen3-8B trên Modal → đề xuất policy_id
+Qwen3.8-27B (vLLM, Modal 1×H100) → đề xuất policy_id
           ↓ xác thực schema + allow-list
 Bộ giám sát theo số liệu quá khứ → policy thực thi
           ↓
@@ -43,11 +43,11 @@ LLM không chọn mã cổ phiếu, không tự viết mạch, không tự đặ
 `scripts/download_vn30_dataset.py` lưu cùng lúc hai cơ sở giá:
 
 - `open/high/low/close/volume`: giá thô từ DNSE; dùng làm giá vào lệnh mô phỏng và tính `close × volume` làm đại diện thanh khoản.
-- `open_adjusted/high_adjusted/low_adjusted/close_adjusted`: giá VCI qua Vnstock 5.1.0; dùng để ước lượng lợi suất và đánh dấu giá trị danh mục qua thời gian. Tài liệu Vnstock ghi giá OHLC VCI đã điều chỉnh theo sự kiện quyền; nguồn VCI/KBS có thể khác nhau.
+- `open_adjusted/high_adjusted/low_adjusted/close_adjusted`: giá từ nguồn công ty chứng khoán qua vnstock 6.0.0 (mặc định SSI); dùng để ước lượng lợi suất và đánh dấu giá trị danh mục qua thời gian. vnstock không công bố phương pháp điều chỉnh của từng nguồn, nên bộ tải kiểm tra rằng phần lớn mã lệch khỏi giá thô DNSE trước khi coi chuỗi là đã điều chỉnh.
 
 Sổ danh mục áp dụng tỷ lệ giá mở cửa điều chỉnh giữa ngày vào và ngày ra cho phần tài sản đang nắm giữ. Phí và giới hạn khớp vẫn dựa trên lệnh danh nghĩa cùng thanh khoản từ giá thô. Đây là mô phỏng lợi suất tổng hợp từ chuỗi giá điều chỉnh, **không** phải sổ kế toán sự kiện doanh nghiệp: mã chưa đối soát độc lập từng cổ tức tiền mặt, chia tách, cổ phiếu thưởng và quyền mua, chưa ghi nhận chính xác ngày tiền/cổ phiếu được ghi có. Giá trị `close × volume` vẫn không xác nhận được giá trị khớp thực tế, chênh lệch giá mua bán, thuế hay độ sâu sổ lệnh.
 
-Vnstock quyền Khách chỉ cung cấp tối đa 365 ngày; truy xuất đủ 2022–2026 cần đăng ký miễn phí quyền Cộng đồng. Bộ tải từ chối ghi tập hoàn chỉnh nếu lịch sử VCI bắt đầu muộn hoặc còn thiếu phiên điều chỉnh. Quyền dùng thư viện không tự cấp quyền chia sẻ dữ liệu DNSE/VCI. Tệp dữ liệu OHLCV không đưa lên Git; nguồn, mã băm và chẩn đoán hệ số điều chỉnh nằm trong `manifest.json`.
+Vnstock 5.x đã ngừng từ 11/11/2026; vnstock 6 cần tài khoản Cộng đồng và khoá dữ liệu riêng của công ty chứng khoán (`vnstock-oapi keys set <nguồn>`). Bộ tải từ chối ghi tập hoàn chỉnh nếu chuỗi điều chỉnh bắt đầu muộn, còn thiếu phiên, hoặc gần như trùng giá thô. Quyền dùng thư viện không tự cấp quyền chia sẻ dữ liệu DNSE hay nguồn điều chỉnh. Tệp dữ liệu OHLCV không đưa lên Git; nguồn, mã băm và chẩn đoán hệ số điều chỉnh nằm trong `manifest.json`.
 
 ### Tin tức và chống nhìn trước
 
@@ -73,25 +73,26 @@ Tách mốc mặc định:
 | Xác nhận | 01/11/2024–30/04/2025 | Chọn C theo log-loss, chặn nhãn tương lai trước ranh giới |
 | Walk-forward | từ 01/05/2025 | Mở rộng huấn luyện bằng nhãn đã trưởng thành |
 
-Xác suất này dự báo **chế độ biến động**, không dự báo hướng hay lợi suất. Payload cung cấp Brier và kỹ năng Brier so với nền tỷ lệ nhãn đã biết. Nếu kỹ năng âm hoặc có dưới sáu dự báo tháng đã trưởng thành, prompt yêu cầu Qwen xem xác suất đó là bằng chứng yếu. Không được tăng λ, p hoặc số qubit chỉ vì xác suất biến động cao.
+Xác suất này dự báo **chế độ biến động**, không dự báo hướng hay lợi suất. Payload cung cấp Brier và kỹ năng Brier so với nền tỷ lệ nhãn đã biết. Nếu kỹ năng âm hoặc có dưới sáu dự báo tháng đã trưởng thành, prompt yêu cầu Qwen3.8-27B xem xác suất đó là bằng chứng yếu. Không được tăng λ, p hoặc số qubit chỉ vì xác suất biến động cao.
 
-## 4. Qwen3-8B và thiết kế prompt
+## 4. Qwen3.8-27B và thiết kế prompt
 
 ### Mô hình và suy luận
 
-- Mô hình: `Qwen/Qwen3-8B`, ghim revision `b968826d9c46dd6066d109eabc6255188de91218`.
-- Nơi chạy: Modal ưu tiên GPU L4, dự phòng A10 24 GB khi thiếu chỗ; trọng số NF4 4-bit, double quantization, kiểu tính bf16 nếu được hỗ trợ và fp16 nếu không. Ngân sách sinh là 192 token. T4 16 GB đã bị loại khỏi dự phòng sau khi gặp thiếu bộ nhớ GPU lúc sinh.
-- Suy luận zero-shot, greedy decoding; không huấn luyện lại mô hình.
-- Phiên bản prompt `agqo-prompt-v9-en-rag-submodel-allowlisted-structured`: toàn bộ chỉ dẫn và nhãn dữ liệu gửi đến mô hình được chuẩn hóa bằng tiếng Anh.
+- Mô hình: `Qwen/Qwen3.8-27B-FP8` (27,8B tham số dense, Apache-2.0, phát hành 08/2026), ghim revision `c3a462cc3d38cf351f3b26cbd763469eeb74ef81`, checkpoint FP8 chính thức.
+- Lý do chọn: mô hình trọng số mở mới nhất chạy trọn trên một GPU (~31 GB FP8), có chế độ suy nghĩ điều chỉnh được và hỗ trợ chính thức trong vLLM; ngân sách Modal giới hạn loại các mô hình hàng trăm GB như Qwen3.8-27B hay Kimi K3.1 Pro. Chưa có benchmark công khai cho việc LLM chọn chính sách QAOA, nên giá trị phải được đo bằng ablation trong dự án.
+- Nơi chạy: vLLM 0.32.0 trên Modal 1×H100 80 GB, KV cache FP8, `max_model_len` 65.536. Trọng số (~31 GB) nằm trong Modal Volume `agqo-qwen38-weights`.
+- Suy luận zero-shot với chế độ suy nghĩ của Qwen3.8-27B ở mức `reasoning_effort=medium`; lấy mẫu `temperature=1.0`, `top_p=0.95` theo khuyến nghị model card, seed tất định theo băm prompt; ngân sách sinh 16.384 token. Phần suy luận không lưu nguyên văn, chỉ lưu băm SHA-256; không huấn luyện lại mô hình.
+- Phiên bản prompt `agqo-prompt-v10-en-rag-qwen38-allowlisted-structured`: toàn bộ chỉ dẫn và nhãn dữ liệu gửi đến mô hình được chuẩn hóa bằng tiếng Anh.
 - Mỗi tín hiệu có lược đồ riêng với danh sách cấu hình, mã insight và mã bằng chứng được cho phép; đầu ra chỉ gồm `policy_id`, `insight_codes`, `evidence_ids`.
 
-Qwen3-8B không được giả định là chuyên gia tài chính. System prompt nói rõ điều này và cấm mô hình điền khoảng trống bằng kiến thức ghi nhớ. RAG cung cấp định nghĩa CAGR, Sharpe, Sortino, drawdown, CVaR, turnover, regret, tỷ lệ mẫu khả thi, λ, α, hàm mục tiêu, vai trò classifier và giới hạn dữ liệu. Bộ phân tích insight áp dụng ngưỡng tài chính xác định trên số liệu; bộ phân loại logistic chỉ ước tính chế độ biến động; bộ giám sát kiểm tra hiệu quả các cấu hình bằng số liệu lịch sử đã khép. Mô hình không được bịa thống kê, tự đặt tham số, dự báo lợi suất hoặc sinh luận cứ tự do.
+LLM không được giả định là chuyên gia tài chính. System prompt nói rõ điều này và cấm mô hình điền khoảng trống bằng kiến thức ghi nhớ. RAG cung cấp định nghĩa CAGR, Sharpe, Sortino, drawdown, CVaR, turnover, regret, tỷ lệ mẫu khả thi, λ, α, hàm mục tiêu, vai trò classifier và giới hạn dữ liệu. Bộ phân tích insight áp dụng ngưỡng tài chính xác định trên số liệu; bộ phân loại logistic chỉ ước tính chế độ biến động; bộ giám sát kiểm tra hiệu quả các cấu hình bằng số liệu lịch sử đã khép. Mô hình không được bịa thống kê, tự đặt tham số, dự báo lợi suất hoặc sinh luận cứ tự do.
 
 ### RAG cục bộ
 
 `agqo/knowledge.py` chứa kho ghi chú phiên bản `agqo-local-rag-v3-finance-qaoa-grounding`. Bộ truy xuất từ khóa xác định luôn đưa vào năm ghi chú nền: định nghĩa chỉ số tài chính, giới hạn dữ liệu, benchmark exact/regret, ý nghĩa các trường VN30 và giới hạn của bộ phân loại chế độ. Hai ghi chú liên quan nhất được chọn thêm từ định nghĩa hàm mục tiêu và thiết kế QAOA. Kho nhỏ có bảy ghi chú, nguồn nội bộ hoặc bài phương pháp gốc được ghim rõ; nội dung được nhúng trong payload để kiểm toán. Không tải tài liệu ngoài hoặc gọi dịch vụ nhúng trong lúc chạy.
 
-Qwen được chỉ dẫn đọc bằng chứng theo thứ tự: kết quả tài chính ròng sau phí cùng Sharpe, drawdown, CVaR và turnover; sau đó đối chiếu regret, tỷ lệ mẫu khả thi và số cổng logic hai qubit. Không tối ưu Sharpe hoặc regret riêng lẻ. Payload cung cấp số kỳ đã khép và bộ đếm cổng logic từng chính sách. Lược đồ JSON được giới hạn theo từng tín hiệu: danh sách `eligible_policy_ids` áp dụng ngưỡng sáu kết quả đã khép; `allowed_insight_codes` chỉ gồm mã vượt ngưỡng trên dữ liệu; `evidence_ids` chỉ nhận mã thực sự có trong payload. Nếu lịch sử chưa đủ, mã khởi động bắt buộc là `n12_balanced_xy_ring_p1`. Bộ giám sát số học vẫn quyết định độc lập cấu hình nào được thực thi.
+Qwen3.8-27B được chỉ dẫn đọc bằng chứng theo thứ tự: kết quả tài chính ròng sau phí cùng Sharpe, drawdown, CVaR và turnover; sau đó đối chiếu regret, tỷ lệ mẫu khả thi và số cổng logic hai qubit. Không tối ưu Sharpe hoặc regret riêng lẻ. Payload cung cấp số kỳ đã khép và bộ đếm cổng logic từng chính sách. Lược đồ JSON được giới hạn theo từng tín hiệu: danh sách `eligible_policy_ids` áp dụng ngưỡng sáu kết quả đã khép; `allowed_insight_codes` chỉ gồm mã vượt ngưỡng trên dữ liệu; `evidence_ids` chỉ nhận mã thực sự có trong payload. Nếu lịch sử chưa đủ, mã khởi động bắt buộc là `n12_balanced_xy_ring_p1`. Bộ giám sát số học vẫn quyết định độc lập cấu hình nào được thực thi.
 
 Kho ghi chú không tải tài liệu mới trong lúc chạy. Nội dung, mã ghi chú, nguồn và phiên bản được lưu trong JSON quyết định để kiểm toán. Ghi chú phương pháp Quantum trỏ tới bài QAOA gốc và bài về mixer bảo toàn ràng buộc; định nghĩa tài chính là định nghĩa đang được triển khai trong mã dự án.
 
@@ -107,7 +108,7 @@ Kho ghi chú không tải tài liệu mới trong lúc chạy. Nội dung, mã g
 }
 ```
 
-`validate_guidance` từ chối policy, insight hoặc evidence không nằm trong danh sách theo tín hiệu; đồng thời từ chối sai kiểu và trường tự do như `rationale`/`risk_flags`. Nếu JSON sai, hệ thống yêu cầu Qwen sửa một lần; nếu vẫn sai, `repair_guidance` bỏ trường ngoài lược đồ, loại mã không hợp lệ và quay về policy khởi động an toàn. Các lần sửa được lưu tại `validation_repairs`. Sau đó mã cục bộ dựng giải thích tiếng Việt từ các số đo đã xác thực và các mẫu câu cố định; mã rủi ro cũng được tính trực tiếp từ ngưỡng đã công bố. Bộ giám sát vẫn đánh giá đề xuất bằng bằng chứng độc lập.
+`validate_guidance` từ chối policy, insight hoặc evidence không nằm trong danh sách theo tín hiệu; đồng thời từ chối sai kiểu và trường tự do như `rationale`/`risk_flags`. Nếu JSON sai, hệ thống yêu cầu Qwen3.8-27B sửa một lần; nếu vẫn sai, `repair_guidance` bỏ trường ngoài lược đồ, loại mã không hợp lệ và quay về policy khởi động an toàn. Các lần sửa được lưu tại `validation_repairs`. Sau đó mã cục bộ dựng giải thích tiếng Việt từ các số đo đã xác thực và các mẫu câu cố định; mã rủi ro cũng được tính trực tiếp từ ngưỡng đã công bố. Bộ giám sát vẫn đánh giá đề xuất bằng bằng chứng độc lập.
 
 ## 5. Hàm mục tiêu danh mục
 
@@ -202,7 +203,7 @@ VN30, VN-Index, nghiệm chính xác toàn rổ, Ledoit–Wolf, AI điều chỉ
 | `agqo/news.py` | Kiểm tra dấu thời gian, quyền truy xuất và lọc siêu dữ liệu tin theo thời điểm |
 | `agqo/ai.py` | Đặc trưng và hồi quy logistic walk-forward |
 | `agqo/knowledge.py` | Kho ghi chú RAG cục bộ và bộ truy xuất |
-| `agqo/guide.py` | Prompt tiếng Anh, schema, allow-list, cache, sửa đầu ra, kết nối Modal/Transformers |
+| `agqo/guide.py` | Prompt tiếng Anh, schema, allow-list, cache, sửa đầu ra, kết nối Modal |
 | `agqo/estimators.py` | μ/Σ, shrinkage, mô hình rủi ro |
 | `agqo/problem.py` | Hàm mục tiêu, QUBO/Ising, exact/greedy/annealing |
 | `agqo/simulator.py` | Mô phỏng QAOA véc-tơ trạng thái, mixer X/XY, gate metrics |
@@ -211,11 +212,12 @@ VN30, VN-Index, nghiệm chính xác toàn rổ, Ledoit–Wolf, AI điều chỉ
 | `agqo/walkforward_plots.py` | Biểu đồ tài chính và QAOA |
 | `agqo/final_visuals.py` | Sơ đồ cổng, trade-off gate/regret, audit đề xuất/thực thi |
 | `agqo/walkforward_report.py` | Sinh báo cáo tiếng Việt từ JSON |
-| `modal_qwen3_agqo.py` | Endpoint Qwen3 trên Modal; cache model trên Modal Volume |
-| `scripts/check_modal_qwen3.py` | Kiểm tra endpoint bằng payload giả lập |
+| `modal_qwen38_agqo.py` | Lớp suy luận Qwen3.8-27B (vLLM, 1×H100) trên Modal; trọng số trên Modal Volume |
+| `modal_agqo_pipeline.py` | Chạy walk-forward, phép thử đuôi, biểu đồ và báo cáo trong container Modal |
+| `scripts/check_modal_qwen38.py` | Kiểm tra lớp suy luận bằng payload giả lập |
 | `scripts/run_ai_qaoa_walkforward.py` | Lệnh chạy đầy đủ, xuất JSON, hình và báo cáo |
 | `scripts/build_vn30_membership_history.py` | Dựng lịch thành phần VN30 từ snapshot neo và sự kiện có nguồn |
-| `scripts/download_vn30_dataset.py` | Tải giá DNSE thô và VCI điều chỉnh, kiểm tra độ bao phủ và tạo manifest |
+| `scripts/download_vn30_dataset.py` | Tải giá DNSE thô và giá điều chỉnh qua vnstock 6, kiểm tra độ bao phủ, mức điều chỉnh và tạo manifest |
 | `scripts/fetch_gdelt_news_metadata.py` | Thu siêu dữ liệu tin GDELT gần thời gian thực, không lưu tiêu đề/nội dung |
 
 ## 10. Chạy lại
@@ -223,25 +225,26 @@ VN30, VN-Index, nghiệm chính xác toàn rổ, Ledoit–Wolf, AI điều chỉ
 ```bash
 source .venv/bin/activate
 set -a
-source config/modal-qwen3.env
+source config/modal-qwen38.env
 set +a
-modal deploy modal_qwen3_agqo.py
-python scripts/check_modal_qwen3.py
+modal run modal_qwen38_agqo.py::download_weights
+modal deploy modal_qwen38_agqo.py
+python scripts/check_modal_qwen38.py
 python scripts/build_vn30_membership_history.py
 python scripts/download_vn30_dataset.py
-python scripts/run_ai_qaoa_walkforward.py --llm-guide modal-qwen3
+modal run modal_agqo_pipeline.py
 ```
 
 Nếu bật ngữ cảnh tin, thu thập đủ mọi bí danh bằng `python scripts/fetch_gdelt_news_metadata.py --days 30` rồi truyền `--news data/news/gdelt_metadata.csv`. Lượt chỉ giới hạn một mã dành cho chẩn đoán, không được coi là nguồn toàn danh mục. Chỉ bật khi manifest xác nhận `collected_metadata_only`, `complete_universe_query=true` và `news_context_available=true`; bản ghi hồi cứu sẽ không được dùng cho quyết định có ngày trước `collected_at`.
 
-Mẫu cấu hình là `config/modal-qwen3.env.example`. `AGQO_QWEN3_GPU=L4,A10` yêu cầu Modal thử L4 trước rồi A10 nếu L4 không có chỗ; thứ tự là ưu tiên cấp GPU chứ không làm hai GPU chạy đồng thời. Thay đổi tên app, revision hoặc ngân sách token ở đó; không đưa token vào Git. Lệnh chạy `--llm-guide qwen3` dùng model tại máy hiện tại nếu máy có CUDA và bộ nhớ phù hợp. `--llm-guide none` chỉ tạo đối chứng, không gọi mô hình ngôn ngữ.
+Mẫu cấu hình là `config/modal-qwen38.env.example`. `AGQO_QWEN38_GPU=H100:1` cấp một GPU H100 cho container; thay đổi tên app, revision, mức suy luận hoặc ngân sách token ở đó; không đưa token vào Git. `modal run modal_agqo_pipeline.py --llm-guide none` chỉ tạo đối chứng, không gọi mô hình ngôn ngữ. Có thể chạy walk-forward cục bộ bằng `python scripts/run_ai_qaoa_walkforward.py --llm-guide modal-qwen38`.
 
-Kết quả cuối: `results/final/agqo_final_walkforward.json`, `results/final/dataset_summary.json`, `results/final/BAO_CAO_AGQO_CUOI_CUNG.md`, `results/final/figures/` (11 hình walk-forward/QAOA và 8 hình khám phá dữ liệu) và `results/final/qwen3_decisions.json` (chỉ các quyết định prompt v9).
+Kết quả cuối: `results/final/agqo_final_walkforward.json`, `results/final/dataset_summary.json`, `results/final/BAO_CAO_AGQO_CUOI_CUNG.md`, `results/final/figures/` (11 hình walk-forward/QAOA và 8 hình khám phá dữ liệu) và `results/final/qwen38_decisions.json` (quyết định Qwen3.8-27B, prompt v10). `results/final/qwen3_decisions.json` giữ các quyết định Qwen3-8B prompt v9 của lượt cũ để đối chiếu.
 
 ## 11. Tài liệu tham khảo
 
-- [Qwen3-8B model card và lịch sử phiên bản](https://huggingface.co/Qwen/Qwen3-8B)
-- [Transformers: lượng tử hóa bitsandbytes 4-bit/NF4](https://huggingface.co/docs/transformers/main/quantization/bitsandbytes?bnb=4-bit)
+- [Qwen3.8-27B model card và revision đã ghim](https://huggingface.co/Qwen/Qwen3.8-27B-FP8/tree/c3a462cc3d38cf351f3b26cbd763469eeb74ef81)
+- [vLLM recipe cho Qwen3.8-27B](https://recipes.vllm.ai/Qwen/Qwen3.8-27B)
 - [Modal: GPU cloud](https://modal.com/docs/guide/gpu)
 - [Farhi, Goldstone, Gutmann (2014), A Quantum Approximate Optimization Algorithm](https://arxiv.org/abs/1411.4028)
 - [Hadfield và cộng sự, From the Quantum Approximate Optimization Algorithm to a Quantum Alternating Operator Ansatz](https://arxiv.org/abs/1709.03489)

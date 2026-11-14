@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fresh one-step Qwen→QAOA probe on the latest available VN30 data tail.
+"""Fresh one-step Qwen3.8-27B→QAOA probe on the latest available VN30 data tail.
 
 The LLM sees only data and completed outcomes available at the 2026-09-30
 decision cutoff. The test interval is the next-session open on 2026-10-01 to
@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import json
 import hashlib
+import os
 import sys
 from datetime import date, datetime, timezone
 from pathlib import Path
@@ -30,10 +31,13 @@ if str(ROOT) not in sys.path:
 
 from agqo.ai import fit_regime_model, fit_regime_model_as_of, forward_volatility
 from agqo.guide import (
-    ModalQwen3Guide,
+    QWEN38_MODAL_APP,
+    QWEN38_MODAL_CLASS,
+    QWEN38_REASONING_EFFORT,
+    ModalQwenGuide,
     POLICIES,
+    controller_system_prompt,
     enrich_guide_payload,
-    qwen3_system_prompt,
     validate_guidance,
 )
 from agqo.market_data import load_market_dataset
@@ -59,12 +63,14 @@ from agqo.insights import derive_risk_flags, render_grounded_narrative, support_
 SIGNAL_DATE = pd.Timestamp("2026-09-30")
 TEST_ENTRY = pd.Timestamp("2026-10-01")
 TEST_EXIT = pd.Timestamp("2026-10-19")
-OLD_RESULT = ROOT / "results/final/agqo_final_walkforward.json"
-DATA_PATH = ROOT / "data/vn30_snapshot_20261002/ohlcv_daily.csv"
+# Cho phép chạy tạm (ví dụ giá thô) ghi vào thư mục riêng, không đè results/final.
+RESULTS_DIR = Path(os.environ.get("AGQO_RESULTS_DIR", ROOT / "results/final"))
+OLD_RESULT = RESULTS_DIR / "agqo_final_walkforward.json"
+DATA_PATH = Path(os.environ.get("AGQO_OHLCV_PATH", ROOT / "data/vn30_snapshot_20261002/ohlcv_daily.csv"))
 MEMBERS_PATH = ROOT / "data/vn30_snapshot_20261002/vn30_membership_history.csv"
-OUT_JSON = ROOT / "results/final/agqo_tail_probe_20261019.json"
-OUT_REPORT = ROOT / "results/final/AGQO_KIEM_DINH_DUOI_20261019.md"
-FIG_DIR = ROOT / "results/final/figures/tail_probe_20261019"
+OUT_JSON = RESULTS_DIR / "agqo_tail_probe_20261019.json"
+OUT_REPORT = RESULTS_DIR / "AGQO_KIEM_DINH_DUOI_20261019.md"
+FIG_DIR = RESULTS_DIR / "figures/tail_probe_20261019"
 
 
 def _json_default(value: Any):
@@ -295,7 +301,7 @@ def _make_figures(
 
     fig, ax = plt.subplots(figsize=(12, 6.5))
     display_labels = {
-        "AGQO: Qwen + giám sát + QAOA",
+        "AGQO: Qwen3.8-27B + giám sát + QAOA",
         "Đối chứng quy tắc + QAOA",
         "Nghiệm chính xác cổ điển, cùng hàm mục tiêu",
         "Tham lam cổ điển, cùng hàm mục tiêu",
@@ -361,10 +367,39 @@ def _write_report(result: dict[str, Any]) -> None:
     cost_saving = by_key["equal_weight_liquid"]["metrics"]["modeled_transaction_cost_vnd_in_test"] - by_key["agqo"]["metrics"]["modeled_transaction_cost_vnd_in_test"]
     vn30_lag = by_key["vn30"]["metrics"]["net_return_after_entry_rebalance_and_capacity_limited_terminal_sale"] - agqo_return
     rule_lag = by_key["rule"]["metrics"]["net_return_after_entry_rebalance_and_capacity_limited_terminal_sale"] - agqo_return
-    ring_p2 = next(row for row in arch_rows if row["policy_id"] == "n12_balanced_xy_ring_p2")
-    x_p1 = next(row for row in arch_rows if row["policy_id"] == "n12_balanced_x_p1")
+    executed_id = decision.get("executed_policy_id")
+    executed_row = next((row for row in arch_rows if row["policy_id"] == executed_id), arch_rows[0])
+    xy_rows = [row for row in arch_rows if row["mixer"] == "XY"]
+    x_rows = [row for row in arch_rows if row["mixer"] == "X"]
+    best_xy = max(xy_rows, key=lambda row: row["best_sampled_feasible_probability"]) if xy_rows else None
+    best_x = max(x_rows, key=lambda row: row["best_sampled_feasible_probability"]) if x_rows else None
+    exact_return = by_key["exact"]["metrics"]["net_return_after_entry_rebalance_and_capacity_limited_terminal_sale"]
+    executed_return = executed_row.get("financial_net_return")
+    executed_regret = float(executed_row["normalized_objective_regret"])
+    if executed_regret > 1e-9:
+        solver_verdict = (
+            "Trên ca này, nghiệm vét cạn đạt hàm mục tiêu tốt hơn nghiệm QAOA; điều đó bác bỏ tuyên bố rằng "
+            "QAOA đã vượt nghiệm cổ điển."
+        )
+    else:
+        solver_verdict = (
+            "QAOA tìm lại đúng nghiệm vét cạn trên ca này; với bài toán nhỏ, đây là kiểm tra tính đúng của bộ "
+            "giải, không phải lợi thế lượng tử."
+        )
+    if best_xy and best_x:
+        mixer_line = (
+            f"- Bộ trộn XY tốt nhất (`{best_xy['policy_id']}`) đạt tỷ lệ mẫu khả thi "
+            f"**{_fmt_pct(best_xy['best_sampled_feasible_probability'])}**, so với "
+            f"**{_fmt_pct(best_x['best_sampled_feasible_probability'])}** của bộ trộn X tốt nhất (`{best_x['policy_id']}`). "
+            f"XY này dùng **{best_xy['logical_total_two_qubit_gate_count']} cổng hai qubit logic** và hối tiếc "
+            f"**{_fmt_pct(best_xy['normalized_objective_regret'])}**; X dùng **{best_x['logical_total_two_qubit_gate_count']}** cổng, "
+            f"hối tiếc **{_fmt_pct(best_x['normalized_objective_regret'])}**. Khác biệt tỷ lệ khả thi là về khả năng lấy mẫu "
+            "nghiệm đúng ràng buộc, không phải lợi thế lợi nhuận."
+        )
+    else:
+        mixer_line = "- Lượt này không chạy đủ cả bộ trộn X và XY để so sánh tỷ lệ mẫu khả thi."
     lines = [
-        "# Kiểm định đuôi dữ liệu AGQO: Qwen mới → giám sát → QAOA",
+        "# Kiểm định đuôi dữ liệu AGQO: Qwen3.8-27B mới → giám sát → QAOA",
         "",
         f"**Ngày quyết định:** {result['dates']['signal']}  |  **Ngày vào lệnh:** {result['dates']['entry']}  |  **Ngày định giá cuối:** {result['dates']['exit']}",
         "",
@@ -372,7 +407,7 @@ def _write_report(result: dict[str, Any]) -> None:
         "",
         "## Kết luận bằng số liệu",
         "",
-        f"- LLM gọi trực tiếp, không dùng bộ nhớ đệm: **{llm['status']}**; mô hình **{llm.get('model', 'Qwen3-8B theo cấu hình Modal')}**, phiên bản **{llm.get('model_revision', 'không được trả về')}**, lượng tử hóa **{llm.get('quantization', 'NF4 4-bit theo cấu hình Modal')}**, tổng {llm.get('usage', {}).get('total_tokens', 0):,} token.",
+        f"- LLM gọi trực tiếp, không dùng bộ nhớ đệm: **{llm['status']}**; mô hình **{llm.get('model', 'Qwen3.8-27B theo cấu hình Modal')}**, phiên bản **{llm.get('model_revision', 'không được trả về')}**, lượng tử hóa **{llm.get('quantization', 'FP8 theo cấu hình Modal')}**, tổng {llm.get('usage', {}).get('total_tokens', 0):,} token.",
         f"- Chính sách LLM đề xuất: `{decision.get('proposed_policy_id', 'không có')}`; chính sách sau giám sát: `{decision.get('executed_policy_id', 'không có')}`; đối chứng quy tắc: `{decision.get('rule_policy_id', 'không có')}`. Rổ QAOA chọn: **{', '.join(next((x['selected_tickers'] for x in portfolio_rows if x['key']=='agqo'), []))}**.",
         f"- Trạng thái thị trường tại mốc quyết định: xác suất biến động cao **{market['p_high_volatility']:.1%}**, biến động VN30 20 phiên **{market['vn30_vol_20d']:.1%}**, lợi nhuận VN30 20 phiên **{market['vn30_return_20d']:.1%}**, độ phân tán chéo lợi suất **{market['cross_sectional_20d_return_dispersion']:.1%}**, tương quan trung bình cổ phiếu **{market['mean_pairwise_correlation']:.3f}**; rổ ứng viên có {market['candidate_count']} mã, danh mục nắm {market['k']} mã.",
         f"- Lợi nhuận ròng của AGQO trên đoạn kiểm định: **{_fmt_pct(agqo_return)}** sau phí khớp lệnh và thanh lý cuối kỳ giới hạn theo thanh khoản. So với VN30/VNINDEX, xem biểu đồ và bảng bên dưới.",
@@ -407,11 +442,11 @@ def _write_report(result: dict[str, Any]) -> None:
         "",
         "## LLM đã hướng dẫn gì và QAOA đã làm gì",
         "",
-        f"- Qwen nhận dữ liệu tại mốc **{result['dates']['signal']}**, thống kê tài chính đã trưởng thành trước mốc đó, danh mục chính sách được phép, sổ tay phương pháp nội bộ và các mã insight có thể dẫn chứng. Nội dung prompt, phản hồi, phiên bản mô hình và số token được lưu trong JSON để kiểm tra.",
-        f"- Qwen chọn chính sách `{decision.get('proposed_policy_id', 'không có')}`. Bộ giám sát dựa vào hiệu quả lịch sử đã hoàn tất và ngưỡng rủi ro; quyết định thực thi là `{decision.get('executed_policy_id', 'không có')}`. LLM không chọn cổ phiếu.",
+        f"- Qwen3.8-27B nhận dữ liệu tại mốc **{result['dates']['signal']}**, thống kê tài chính đã trưởng thành trước mốc đó, danh mục chính sách được phép, sổ tay phương pháp nội bộ và các mã insight có thể dẫn chứng. Nội dung prompt, phản hồi, phiên bản mô hình và số token được lưu trong JSON để kiểm tra.",
+        f"- Qwen3.8-27B chọn chính sách `{decision.get('proposed_policy_id', 'không có')}`. Bộ giám sát dựa vào hiệu quả lịch sử đã hoàn tất và ngưỡng rủi ro; quyết định thực thi là `{decision.get('executed_policy_id', 'không có')}`. LLM không chọn cổ phiếu.",
         f"- QAOA tối ưu danh mục gồm đúng **K={result['parameters']['k']}** mã trên **{decision.get('executed_policy_id', 'chính sách được thực thi')}**. Nghiệm cổ điển vét cạn được tính trên cùng hàm mục tiêu làm chuẩn đối chiếu; QAOA là bộ tìm nghiệm, không được diễn giải là phần cứng lượng tử hay lợi thế lượng tử.",
-        f"- Trong cấu hình đã chạy, bộ trộn XY đạt tỷ lệ mẫu khả thi tốt nhất **{_fmt_pct(ring_p2['best_sampled_feasible_probability'])}**, so với **{_fmt_pct(x_p1['best_sampled_feasible_probability'])}** của bộ trộn X p=1. Đổi lại, XY vòng p=2 dùng **{ring_p2['logical_total_two_qubit_gate_count']} cổng hai qubit logic** và hối tiếc **{_fmt_pct(ring_p2['normalized_objective_regret'])}**; X p=1 đạt hối tiếc 0 trên hàm mục tiêu này. Đây là lợi thế về khả năng lấy mẫu nghiệm đúng ràng buộc, không phải lợi thế lợi nhuận.",
-        f"- Trên chính chính sách LLM chọn, QAOA lấy ra **{', '.join(ring_p2['selected_target_tickers'])}**, trong khi nghiệm vét cạn chọn **{', '.join(ring_p2['exact_target_tickers'])}**. Hối tiếc 10,64% đi cùng lợi nhuận **-2,65%**, còn nghiệm vét cạn và tham lam cùng đạt **-1,24%**. Trên ca này, bộ giải cổ điển tìm được phương án tốt hơn về cả hàm mục tiêu lẫn kết quả tài chính; điều đó bác bỏ tuyên bố rằng kết quả QAOA đã vượt nghiệm cổ điển.",
+        mixer_line,
+        f"- Trên chính sách được thực thi `{executed_row['policy_id']}`, QAOA lấy ra **{', '.join(executed_row['selected_target_tickers'])}**, trong khi nghiệm vét cạn chọn **{', '.join(executed_row['exact_target_tickers'])}**. Hối tiếc **{_fmt_pct(executed_regret)}**; lợi nhuận ròng của nghiệm QAOA là **{_fmt_pct(executed_return) if executed_return is not None else '—'}**, của nghiệm vét cạn là **{_fmt_pct(exact_return)}**. {solver_verdict}",
         "",
         "### Hình 3. Cấu hình mạch và khoảng cách tới nghiệm chính xác",
         "",
@@ -541,22 +576,24 @@ def main() -> int:
     serialized_user_payload = json.dumps(
         payload, ensure_ascii=False, sort_keys=True, separators=(",", ":")
     )
-    system_prompt = qwen3_system_prompt()
+    system_prompt = controller_system_prompt()
     llm: dict[str, Any] = {
         "status": "failed",
         "cache_bypassed": True,
         "request": {
-            "backend": "Modal deployed function",
-            "app": "agqo-qwen3-guide",
-            "function": "guide_qaoa_policy",
+            "backend": "Modal deployed class (vLLM, 1×H100)",
+            "app": QWEN38_MODAL_APP,
+            "class": QWEN38_MODAL_CLASS,
+            "method": "guide_qaoa_policy",
+            "reasoning_effort": QWEN38_REASONING_EFFORT,
             "system_prompt_sha256": hashlib.sha256(system_prompt.encode("utf-8")).hexdigest(),
             "user_payload_sha256": hashlib.sha256(serialized_user_payload.encode("utf-8")).hexdigest(),
             "system_prompt": system_prompt,
-            "quantization_requested": "NF4 4-bit in deployed Modal app",
+            "quantization_requested": "Official FP8 checkpoint in deployed Modal app",
         },
     }
     try:
-        envelope = ModalQwen3Guide() (payload)
+        envelope = ModalQwenGuide()(payload)
         raw_decision = envelope.get("decision", envelope)
         validated = validate_guidance(
             raw_decision, set(payload.get("evidence_ids", [])),
@@ -569,6 +606,9 @@ def main() -> int:
             "model": envelope.get("model"),
             "model_revision": envelope.get("model_revision"),
             "quantization": envelope.get("quantization"),
+            "serving": envelope.get("serving"),
+            "generation": envelope.get("generation"),
+            "latency_seconds": envelope.get("latency_seconds"),
             "usage": envelope.get("usage"),
             "response_id": envelope.get("response_id"),
             "decision": validated,
@@ -671,7 +711,7 @@ def main() -> int:
     full_liquidities = [*historic_liquidities, liquidity]
     terminal_liquidity = traded_value.loc[traded_value.index < TEST_EXIT].tail(20).mean().reindex(tickers)
     actions: list[tuple[str, str, tuple[str, ...]]] = [
-        ("AGQO: Qwen + giám sát + QAOA", "agqo", target_by_policy[executed_policy_id]),
+        ("AGQO: Qwen3.8-27B + giám sát + QAOA", "agqo", target_by_policy[executed_policy_id]),
         ("Đối chứng quy tắc + QAOA", "rule", target_by_policy[rule_policy_id]),
         ("Nghiệm chính xác cổ điển, cùng hàm mục tiêu", "exact", exact_target),
         ("Tham lam cổ điển, cùng hàm mục tiêu", "greedy", greedy_target),
@@ -780,7 +820,7 @@ def main() -> int:
         },
         "as_of_market": market_summary,
         "history_used_for_decision": {
-            "source_result_file": str(OLD_RESULT.relative_to(ROOT)),
+            "source_result_file": str(OLD_RESULT.resolve().relative_to(ROOT.resolve())),
             "source_result_sha256": hashlib.sha256(OLD_RESULT.read_bytes()).hexdigest(),
             "completed_strategy_metrics": past_strategy_metrics,
             "rule_policy_id": rule_policy_id,
@@ -817,7 +857,7 @@ def main() -> int:
         "runtime_seconds": None,
     }
     figures = _make_figures(portfolio_rows, architecture_rows, daily_paths)
-    result["figures"] = [str(path.relative_to(ROOT / "results/final")) for path in figures]
+    result["figures"] = [str(path.relative_to(RESULTS_DIR)) for path in figures]
     result["runtime_seconds"] = float(perf_counter() - started)
     OUT_JSON.parent.mkdir(parents=True, exist_ok=True)
     OUT_JSON.write_text(json.dumps(result, ensure_ascii=False, indent=2, default=_json_default) + "\n", encoding="utf-8")

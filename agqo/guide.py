@@ -57,9 +57,12 @@ INSIGHT_CODES = (
     "low_liquidity",
     "mixed_signals",
 )
-PROMPT_CACHE_VERSION = "agqo-prompt-v9-en-rag-submodel-allowlisted-structured"
-QWEN3_MODEL_NAME = "Qwen/Qwen3-8B"
-QWEN3_MODEL_REVISION = "b968826d9c46dd6066d109eabc6255188de91218"
+PROMPT_CACHE_VERSION = "agqo-prompt-v10-en-rag-qwen38-allowlisted-structured"
+QWEN38_MODEL_NAME = "Qwen/Qwen3.8-27B-FP8"
+QWEN38_MODEL_REVISION = "c3a462cc3d38cf351f3b26cbd763469eeb74ef81"
+QWEN38_REASONING_EFFORT = "medium"
+QWEN38_MODAL_APP = "agqo-qwen38-guide"
+QWEN38_MODAL_CLASS = "Qwen38Guide"
 
 
 def policy_catalog() -> list[dict[str, Any]]:
@@ -273,39 +276,72 @@ class CachedGuide:
         return result
 
 
-class ModalQwen3Guide:
-    """Máy khách cục bộ gọi bộ suy luận Qwen3 đã triển khai trên Modal."""
+def read_json_object(text: str) -> dict[str, Any]:
+    """Đọc JSON thuần hoặc JSON trong hàng rào mã; không thực thi văn bản mô hình."""
+    stripped = text.strip()
+    if stripped.startswith("```"):
+        stripped = stripped.split("\n", 1)[-1]
+        if stripped.endswith("```"):
+            stripped = stripped[:-3].strip()
+    try:
+        value = json.loads(stripped)
+    except json.JSONDecodeError:
+        start, end = stripped.find("{"), stripped.rfind("}")
+        if start < 0 or end <= start:
+            raise ValueError("Mô hình không trả đối tượng JSON có thể đọc được.")
+        value = json.loads(stripped[start : end + 1])
+    if not isinstance(value, dict):
+        raise ValueError("Đầu ra mô hình phải là một đối tượng JSON.")
+    return value
+
+
+def split_reasoning(text: str) -> tuple[str, str]:
+    """Tách phần suy luận `<think>…</think>` khỏi câu trả lời cuối của Qwen3.8-27B."""
+    if "</think>" not in text:
+        # Thiếu thẻ đóng nghĩa là suy luận bị cắt bởi giới hạn token; không có câu trả lời.
+        return text.replace("<think>", "", 1), ""
+    reasoning, answer = text.rsplit("</think>", 1)
+    return reasoning.replace("<think>", "", 1).strip(), answer.strip()
+
+
+class ModalQwenGuide:
+    """Máy khách gọi lớp suy luận Qwen3.8-27B (vLLM, 1×H100) đã triển khai trên Modal."""
 
     def __init__(
         self,
-        app_name: str = "agqo-qwen3-guide",
-        function_name: str = "guide_qaoa_policy",
-        model_name: str = QWEN3_MODEL_NAME,
-        revision: str = QWEN3_MODEL_REVISION,
+        app_name: str = QWEN38_MODAL_APP,
+        class_name: str = QWEN38_MODAL_CLASS,
+        model_name: str = QWEN38_MODEL_NAME,
+        revision: str = QWEN38_MODEL_REVISION,
+        reasoning_effort: str = QWEN38_REASONING_EFFORT,
     ):
         try:
             import modal
         except ImportError as exc:
             raise RuntimeError("Cài SDK bằng `python -m pip install -e '.[llm-modal]'`.") from exc
-        self.function = modal.Function.from_name(app_name, function_name)
+        if reasoning_effort not in {"low", "medium", "xhigh"}:
+            raise ValueError("reasoning_effort của Qwen3.8-27B chỉ nhận low, medium hoặc xhigh.")
+        self.service = modal.Cls.from_name(app_name, class_name)()
         self.model_name = model_name
         self.model_revision = revision
+        self.reasoning_effort = reasoning_effort
 
     def __call__(self, payload: dict[str, Any]) -> dict[str, Any]:
-        return self.function.remote(
+        return self.service.guide_qaoa_policy.remote(
             {
                 "payload": payload,
                 "model_name": self.model_name,
                 "revision": self.model_revision,
+                "reasoning_effort": self.reasoning_effort,
             }
         )
 
 
-def qwen3_system_prompt() -> str:
-    """English operating instructions for Qwen3; no hidden reasoning is requested."""
+def controller_system_prompt() -> str:
+    """English operating instructions for the AGQO LLM controller (Qwen3.8-27B)."""
     return (
         "You are a constrained decision controller in AGQO (AI Guide for Quantum Optimization), not a financial analyst. "
-        "Qwen3-8B may not know the project's finance definitions and must not fill gaps from memory. The supplied, "
+        "Do not fill gaps from general memory about markets, companies, or quantum algorithms. The supplied, "
         "date-cutoff payload and its retrieved method_notes are the only authority. They define this dataset's units, "
         "financial metrics, QAOA objective, solver metrics, and known data limitations. Follow those definitions exactly. "
         "The task is narrow: choose one policy_id from eligible_policy_ids, choose only currently supported insight codes, "
@@ -326,182 +362,9 @@ def qwen3_system_prompt() -> str:
         "company-name search aliases and GDELT first-seen timestamps, not verified publisher publication times. Treat "
         "them only as coverage context: do not infer sentiment, a verified issuer match, or causal explanation from counts. "
         "When no news evidence ID is supplied, make no news claim.\n\n"
-        "Return exactly one JSON object matching response_schema from the payload, with no Markdown or additional fields. "
-        "This is research, not investment advice."
+        "You may reason before answering. After reasoning, the final answer must be exactly one JSON object matching "
+        "response_schema from the payload, with no Markdown or additional fields. This is research, not investment advice."
     )
-
-
-class TransformersQwen3Guide:
-    """Chạy Qwen3 ngay trong máy tính Modal Notebook; không cần dịch vụ suy luận/API LLM."""
-
-    def __init__(
-        self,
-        model_name: str = QWEN3_MODEL_NAME,
-        max_new_tokens: int = 192,
-        require_gpu: bool = True,
-        revision: str | None = QWEN3_MODEL_REVISION,
-        quantize_4bit: bool = True,
-    ):
-        if not isinstance(model_name, str) or not model_name.strip():
-            raise ValueError("Cần tên mô hình Qwen3 hợp lệ.")
-        if max_new_tokens < 64:
-            raise ValueError("Ngân sách sinh phải ít nhất 64 token.")
-        try:
-            import torch
-            from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
-        except ImportError as exc:
-            raise RuntimeError(
-                "Cài Transformers và PyTorch trong Modal Notebook trước khi nạp Qwen3."
-            ) from exc
-
-        if require_gpu and not torch.cuda.is_available():
-            raise RuntimeError(
-                "Không tìm thấy GPU. Trong Modal Notebook, chọn GPU L4/A10 rồi khởi động lại kernel; "
-                "hoặc dùng Qwen3-0.6B với require_gpu=False để thử trên CPU."
-            )
-        if torch.cuda.is_available():
-            dtype = (
-                torch.bfloat16
-                if torch.cuda.is_bf16_supported()
-                else torch.float16
-            )
-        else:
-            dtype = torch.float32
-        self.torch = torch
-        self.model_name = model_name
-        self.requested_revision = revision
-        self.max_new_tokens = int(max_new_tokens)
-        self.quantize_4bit = bool(quantize_4bit and torch.cuda.is_available())
-        load_options = {"revision": revision} if revision else {}
-        self.tokenizer = AutoTokenizer.from_pretrained(model_name, **load_options)
-        if self.quantize_4bit:
-            compute_dtype = torch.bfloat16 if torch.cuda.is_bf16_supported() else torch.float16
-            quantization_config = BitsAndBytesConfig(
-                load_in_4bit=True,
-                bnb_4bit_quant_type="nf4",
-                bnb_4bit_use_double_quant=True,
-                bnb_4bit_compute_dtype=compute_dtype,
-            )
-            load_options["quantization_config"] = quantization_config
-        self.model = AutoModelForCausalLM.from_pretrained(
-            model_name,
-            dtype=dtype,
-            device_map="auto",
-            **load_options,
-        )
-        self.model_revision = (
-            revision
-            or getattr(self.model.config, "_commit_hash", None)
-            or "unresolved"
-        )
-        self.model.eval()
-
-    @staticmethod
-    def _read_json(text: str) -> dict[str, Any]:
-        """Đọc JSON thuần hoặc phần JSON trong hàng rào mã; không thực thi văn bản mô hình."""
-        stripped = text.strip()
-        if stripped.startswith("```"):
-            stripped = stripped.split("\n", 1)[-1]
-            if stripped.endswith("```"):
-                stripped = stripped[:-3].strip()
-        try:
-            value = json.loads(stripped)
-        except json.JSONDecodeError:
-            start, end = stripped.find("{"), stripped.rfind("}")
-            if start < 0 or end <= start:
-                raise ValueError("Qwen3 không trả đối tượng JSON có thể đọc được.")
-            value = json.loads(stripped[start : end + 1])
-        if not isinstance(value, dict):
-            raise ValueError("Đầu ra Qwen3 phải là một đối tượng JSON.")
-        return value
-
-    def _generate(self, messages: list[dict[str, str]]) -> tuple[str, int, int]:
-        torch = self.torch
-        encoded = self.tokenizer.apply_chat_template(
-            messages,
-            tokenize=True,
-            add_generation_prompt=True,
-            enable_thinking=False,
-            return_tensors="pt",
-            return_dict=True,
-        )
-        device = self.model.get_input_embeddings().weight.device
-        encoded = {key: value.to(device) for key, value in encoded.items()}
-        input_tokens = int(encoded["input_ids"].shape[-1])
-        with torch.inference_mode():
-            output = self.model.generate(
-                **encoded,
-                max_new_tokens=self.max_new_tokens,
-                do_sample=False,
-                use_cache=True,
-            )
-        generated = output[0, input_tokens:]
-        return (
-            self.tokenizer.decode(generated, skip_special_tokens=True).strip(),
-            input_tokens,
-            int(generated.numel()),
-        )
-
-    def __call__(self, payload: dict[str, Any]) -> dict[str, Any]:
-        if not isinstance(payload, dict):
-            raise ValueError("Bối cảnh AGQO phải là một đối tượng JSON.")
-        prompt_payload = enrich_guide_payload(payload)
-        user_prompt = json.dumps(prompt_payload, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
-        messages = [
-            {"role": "system", "content": qwen3_system_prompt()},
-            {"role": "user", "content": user_prompt},
-        ]
-        raw_text, input_tokens, output_tokens = self._generate(messages)
-        try:
-            allowed_evidence_ids = set(prompt_payload.get("evidence_ids", []))
-            allowed_policy_ids = set(prompt_payload.get("eligible_policy_ids", POLICIES))
-            allowed_insight_codes = set(prompt_payload.get("allowed_insight_codes", INSIGHT_CODES))
-            decision = validate_guidance(
-                self._read_json(raw_text), allowed_evidence_ids, allowed_policy_ids, allowed_insight_codes
-            )
-            validation_repairs: list[str] = []
-        except (ValueError, json.JSONDecodeError):
-            messages.extend(
-                [
-                    {"role": "assistant", "content": raw_text},
-                    {
-                        "role": "user",
-                        "content": (
-                            "The previous response was invalid JSON or violated the schema. Return exactly one valid JSON object containing only the required fields from the schema. Select policy_id only from eligible_policy_ids. Do not add rationale, risk flags, or any prose."
-                        ),
-                    },
-                ]
-            )
-            raw_text, retry_input_tokens, retry_output_tokens = self._generate(messages)
-            input_tokens += retry_input_tokens
-            output_tokens += retry_output_tokens
-            try:
-                decision = validate_guidance(
-                    self._read_json(raw_text), allowed_evidence_ids, allowed_policy_ids, allowed_insight_codes
-                )
-                validation_repairs = ["format_retry_used"]
-            except (ValueError, json.JSONDecodeError):
-                try:
-                    retry_object = self._read_json(raw_text)
-                except (ValueError, json.JSONDecodeError):
-                    retry_object = {}
-                decision, validation_repairs = repair_guidance(
-                    retry_object, allowed_evidence_ids, allowed_policy_ids, allowed_insight_codes
-                )
-                validation_repairs.insert(0, "format_retry_used")
-        return {
-            "decision": decision,
-            "validation_repairs": validation_repairs,
-            "model": self.model_name,
-            "model_revision": self.model_revision,
-            "response_id": None,
-            "usage": {
-                "input_tokens": input_tokens,
-                "output_tokens": output_tokens,
-                "total_tokens": input_tokens + output_tokens,
-            },
-        "quantization": "NF4 4-bit" if self.quantize_4bit else "bf16/fp16/fp32",
-        }
 
 
 def enrich_guide_payload(payload: dict[str, Any]) -> dict[str, Any]:

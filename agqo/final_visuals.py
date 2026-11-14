@@ -248,7 +248,7 @@ def build_agqo_decision_audit_plot(result_json: str | Path, output_dir: str | Pa
         ax.spines[["top", "right", "left", "bottom"]].set_visible(False)
         ax.tick_params(axis="y", left=False, labelleft=False)
     ax.set_title("AGQO decision audit: proposal and executed policy", loc="left", weight="bold")
-    fig.text(0.12, 0.012, "Blue circles are Qwen proposals; green diamonds are accepted; red diamonds show numeric guardrail overrides.", fontsize=8, color=COLORS["gray"])
+    fig.text(0.12, 0.012, "Blue circles are Qwen3.8-27B proposals; green diamonds are accepted; red diamonds show numeric guardrail overrides.", fontsize=8, color=COLORS["gray"])
     return _save(fig, Path(output_dir), "11_agqo_decision_audit.png")
 
 

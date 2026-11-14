@@ -116,7 +116,7 @@ def render_walkforward_report(result: dict[str, Any]) -> str:
         (_key(performance, "Tôi luyện mô phỏng") or "", "Tôi luyện mô phỏng, 12 mã"),
     ]
     if enabled:
-        named_rows.extend([(rule_name, "Bộ chọn quy tắc → QAOA"), (agqo_name, "AGQO: Qwen → giám sát → QAOA")])
+        named_rows.extend([(rule_name, "Bộ chọn quy tắc → QAOA"), (agqo_name, "AGQO: Qwen3.8-27B → giám sát → QAOA")])
     seen = set()
     for name, label in named_rows:
         if not name or name not in performance or name in seen:
@@ -174,7 +174,7 @@ def render_walkforward_report(result: dict[str, Any]) -> str:
         f"- Brier dự báo ngày chồng lấn: {_num(ai['metrics'].get('brier_score'), 3)}; nền mở rộng: "
         f"{_num(ai['metrics'].get('expanding_base_rate_brier'), 3)}; kỹ năng: "
         f"{_pct(ai['metrics'].get('brier_skill_vs_expanding_base_rate'))}. Dự báo ngày không độc lập vì nhãn 21 phiên chồng lấn.",
-        "- Khi kỹ năng Brier âm hoặc có dưới 6 dự báo tháng đã trưởng thành, prompt yêu cầu Qwen xem xác suất này là tín hiệu yếu; "
+        "- Khi kỹ năng Brier âm hoặc có dưới 6 dự báo tháng đã trưởng thành, prompt yêu cầu Qwen3.8-27B xem xác suất này là tín hiệu yếu; "
         "không được tự tăng rủi ro hay độ sâu mạch chỉ vì xác suất biến động cao.",
         "",
         "![Dự báo và nhãn biến động](figures/01_ai_regime_walkforward.png)",
@@ -211,9 +211,10 @@ def render_walkforward_report(result: dict[str, Any]) -> str:
         "",
         "## Cách AGQO dùng LLM, RAG và bộ giám sát",
         "",
-        "Qwen3-8B chạy trên Modal ở chế độ NF4 4-bit. LLM không tự giải danh mục và không được tự tạo λ, α, số qubit, bộ trộn, "
+        "Qwen3.8-27B (Alibaba Qwen, 27,8B tham số dense, checkpoint FP8 chính thức, Apache-2.0) chạy bằng vLLM trên Modal 1×H100, mức suy luận `medium`. "
+        "LLM không tự giải danh mục và không được tự tạo λ, α, số qubit, bộ trộn, "
         "độ sâu hay số shots; nó chỉ chọn một mã trong danh mục đã chạy đối chứng. Toàn bộ prompt được viết bằng tiếng Anh. "
-        "Do không giả định Qwen là chuyên gia tài chính, system prompt yêu cầu chỉ dùng định nghĩa và bằng chứng trong payload, "
+        "Do không giả định LLM là chuyên gia tài chính, system prompt yêu cầu chỉ dùng định nghĩa và bằng chứng trong payload, "
         "không lấp chỗ trống bằng kiến thức ghi nhớ và không sinh nhận định tự do.",
         "",
         f"Phiên bản prompt: `{guidance.get('prompt_version', '—')}`. Trong {guidance.get('decision_count', len(decisions))} tín hiệu, bộ giám sát đổi "
@@ -228,7 +229,7 @@ def render_walkforward_report(result: dict[str, Any]) -> str:
         "không phải lợi suất. Hiệu quả của classifier được đo bằng Brier so với tỷ lệ nền đã trưởng thành.",
         "",
         "Mỗi payload chứa lược đồ đầu ra riêng, chỉ liệt kê cấu hình, mã insight và mã evidence được phép tại ngày tín hiệu. "
-        "Qwen trả ba trường JSON: `policy_id`, `insight_codes`, `evidence_ids`; mã cục bộ xác thực lại và tạo câu giải thích tiếng Việt "
+        "Sau phần suy luận, Qwen3.8-27B trả ba trường JSON: `policy_id`, `insight_codes`, `evidence_ids`; mã cục bộ xác thực lại và tạo câu giải thích tiếng Việt "
         "cùng cờ rủi ro từ số đo. Bộ giám sát độc lập dùng tối thiểu 6 kỳ đã khép rồi kiểm tra tỷ lệ mẫu khả thi, sai lệch nghiệm, "
         "Sharpe và sụt giảm lịch sử. Khi bằng chứng chưa đủ hoặc đề xuất kém rõ rệt so với bộ chọn quy tắc, hệ thống lưu đề xuất ban đầu "
         "nhưng thực thi cấu hình đối chứng.",
@@ -345,7 +346,7 @@ def render_walkforward_report(result: dict[str, Any]) -> str:
         f"| Kiểm định walk-forward | tín hiệu từ {config['test_start']} | Mở rộng huấn luyện theo nhãn đã trưởng thành; chỉ dùng kết quả kỳ đã đóng cho kỳ sau |",
         f"| Thời gian danh mục | {first_entry} đến {last_exit} | Tín hiệu tháng, giao dịch ở phiên mở cửa kế tiếp |",
         "",
-        "LLM chạy zero-shot inference, không có epoch huấn luyện Qwen. Dữ liệu chỉ có ít tín hiệu tháng và không đủ để fine-tune "
+        "LLM chạy zero-shot inference, không có epoch huấn luyện Qwen3.8-27B. Dữ liệu chỉ có ít tín hiệu tháng và không đủ để fine-tune "
         "hoặc đánh giá đáng tin cậy mô hình ngôn ngữ. Tăng `max_evaluations`, số shots hay seed là tăng ngân sách tối ưu QAOA, "
         "không phải tăng epoch huấn luyện LLM.",
         "",
@@ -364,8 +365,8 @@ def render_walkforward_report(result: dict[str, Any]) -> str:
         "",
         "### Tài liệu phương pháp",
         "",
-        "- [Qwen3-8B model card và phiên bản đã ghim](https://huggingface.co/Qwen/Qwen3-8B)",
-        "- [Tài liệu Transformers về lượng tử hóa 4-bit NF4](https://huggingface.co/docs/transformers/main/quantization/bitsandbytes?bnb=4-bit)",
+        "- [Qwen3.8-27B model card và phiên bản đã ghim](https://huggingface.co/Qwen/Qwen3.8-27B-FP8/tree/c3a462cc3d38cf351f3b26cbd763469eeb74ef81)",
+        "- [vLLM recipe cho Qwen3.8-27B](https://recipes.vllm.ai/Qwen/Qwen3.8-27B)",
         "- [Modal: cấu hình GPU](https://modal.com/docs/guide/gpu)",
         "- [Farhi, Goldstone và Gutmann: QAOA](https://arxiv.org/abs/1411.4028)",
         "- [Hadfield và cộng sự: mixer cho tối ưu tổ hợp](https://arxiv.org/abs/1709.03489)",

@@ -6,7 +6,7 @@ from agqo.guide import (
     CachedGuide,
     create_guide_prompt,
     decision_json_schema,
-    qwen3_system_prompt,
+    controller_system_prompt,
     repair_guidance,
     validate_guidance,
 )
@@ -50,7 +50,7 @@ def _payload():
 
 def test_prompt_is_english_grounded_and_has_per_signal_allowlists():
     payload = _payload()
-    prompt = qwen3_system_prompt() + create_guide_prompt(payload)
+    prompt = controller_system_prompt() + create_guide_prompt(payload)
     enriched = json.loads(create_guide_prompt(payload))
     assert "not a financial analyst" in prompt
     assert "Sharpe" in prompt and "normalized objective regret" in prompt

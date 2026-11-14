@@ -1,0 +1,516 @@
+{
+  "rows": 48269,
+  "date_start": "2022-01-04",
+  "date_end": "2026-10-19",
+  "stock_count": 28,
+  "index_count": 2,
+  "members": [
+    {
+      "ticker": "ACB",
+      "group": "Ngân hàng"
+    },
+    {
+      "ticker": "BID",
+      "group": "Ngân hàng"
+    },
+    {
+      "ticker": "BSR",
+      "group": "Năng lượng"
+    },
+    {
+      "ticker": "CTG",
+      "group": "Ngân hàng"
+    },
+    {
+      "ticker": "FPT",
+      "group": "Công nghệ"
+    },
+    {
+      "ticker": "GAS",
+      "group": "Năng lượng"
+    },
+    {
+      "ticker": "GVR",
+      "group": "Nguyên vật liệu"
+    },
+    {
+      "ticker": "HDB",
+      "group": "Ngân hàng"
+    },
+    {
+      "ticker": "HPG",
+      "group": "Nguyên vật liệu"
+    },
+    {
+      "ticker": "LPB",
+      "group": "Ngân hàng"
+    },
+    {
+      "ticker": "MBB",
+      "group": "Ngân hàng"
+    },
+    {
+      "ticker": "MCH",
+      "group": "Tiêu dùng"
+    },
+    {
+      "ticker": "MSN",
+      "group": "Tiêu dùng"
+    },
+    {
+      "ticker": "MWG",
+      "group": "Tiêu dùng"
+    },
+    {
+      "ticker": "SAB",
+      "group": "Tiêu dùng"
+    },
+    {
+      "ticker": "SHB",
+      "group": "Ngân hàng"
+    },
+    {
+      "ticker": "SSB",
+      "group": "Ngân hàng"
+    },
+    {
+      "ticker": "SSI",
+      "group": "Chứng khoán"
+    },
+    {
+      "ticker": "STB",
+      "group": "Ngân hàng"
+    },
+    {
+      "ticker": "TCB",
+      "group": "Ngân hàng"
+    },
+    {
+      "ticker": "TCX",
+      "group": "Chứng khoán"
+    },
+    {
+      "ticker": "VCB",
+      "group": "Ngân hàng"
+    },
+    {
+      "ticker": "VHM",
+      "group": "Bất động sản"
+    },
+    {
+      "ticker": "VIB",
+      "group": "Ngân hàng"
+    },
+    {
+      "ticker": "VIC",
+      "group": "Bất động sản"
+    },
+    {
+      "ticker": "VJC",
+      "group": "Hàng không"
+    },
+    {
+      "ticker": "VNM",
+      "group": "Tiêu dùng"
+    },
+    {
+      "ticker": "VPB",
+      "group": "Ngân hàng"
+    },
+    {
+      "ticker": "VPL",
+      "group": "Bất động sản"
+    },
+    {
+      "ticker": "VRE",
+      "group": "Bất động sản"
+    }
+  ],
+  "member_group_counts": {
+    "Ngân hàng": 13,
+    "Tiêu dùng": 5,
+    "Bất động sản": 4,
+    "Năng lượng": 2,
+    "Nguyên vật liệu": 2,
+    "Chứng khoán": 2,
+    "Công nghệ": 1,
+    "Hàng không": 1
+  },
+  "lookback_sessions": 252,
+  "excluded_short_history": {
+    "MCH": 1180,
+    "TCX": 246
+  },
+  "lookback_start": "2025-10-14",
+  "lookback_end": "2026-10-19",
+  "coverage": [
+    {
+      "ticker": "ACB",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "ticker": "BID",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "ticker": "BSR",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1184
+    },
+    {
+      "ticker": "CTG",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "ticker": "FPT",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "ticker": "GAS",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "ticker": "GVR",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "ticker": "HDB",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "ticker": "HPG",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "ticker": "LPB",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "ticker": "MBB",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "ticker": "MCH",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1186
+    },
+    {
+      "ticker": "MSN",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "ticker": "MWG",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "ticker": "SAB",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "ticker": "SHB",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "ticker": "SSB",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "ticker": "SSI",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "ticker": "STB",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "ticker": "TCB",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "ticker": "TCX",
+      "first_date": "2025-10-21",
+      "last_date": "2026-10-19",
+      "sessions": 247
+    },
+    {
+      "ticker": "VCB",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "ticker": "VHM",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "ticker": "VIB",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "ticker": "VIC",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "ticker": "VJC",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "ticker": "VNM",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "ticker": "VPB",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    },
+    {
+      "ticker": "VPL",
+      "first_date": "2025-05-13",
+      "last_date": "2026-10-19",
+      "sessions": 360
+    },
+    {
+      "ticker": "VRE",
+      "first_date": "2022-01-04",
+      "last_date": "2026-10-19",
+      "sessions": 1192
+    }
+  ],
+  "index_metrics": {
+    "VN30": {
+      "sessions": 252,
+      "cumulative_return": -0.08602182598843144,
+      "annualized_volatility": 0.20441673829018467,
+      "max_drawdown": -0.16964745607508713,
+      "positive_session_fraction": 0.4722222222222222
+    },
+    "VNINDEX": {
+      "sessions": 252,
+      "cumulative_return": -0.04264865844814936,
+      "annualized_volatility": 0.20357886373866768,
+      "max_drawdown": -0.16383156500764595,
+      "positive_session_fraction": 0.49603174603174605
+    }
+  },
+  "universe_equal_weight_metrics": {
+    "sessions": 252,
+    "cumulative_return": -0.0232100080206592,
+    "annualized_volatility": 0.1954004211401349,
+    "max_drawdown": -0.14228153822888323,
+    "positive_session_fraction": 0.5198412698412699
+  },
+  "average_pairwise_correlation": 0.30530536060093827,
+  "median_pairwise_correlation": 0.2715638016069102,
+  "most_correlated_pairs": [
+    {
+      "pair": "BID / VCB",
+      "correlation": 0.8127940971709768
+    },
+    {
+      "pair": "CTG / MBB",
+      "correlation": 0.7413468217941207
+    },
+    {
+      "pair": "BID / CTG",
+      "correlation": 0.7333645098549727
+    },
+    {
+      "pair": "VHM / VRE",
+      "correlation": 0.7198839372542098
+    },
+    {
+      "pair": "VHM / VIC",
+      "correlation": 0.7189965693332155
+    }
+  ],
+  "least_correlated_pairs": [
+    {
+      "pair": "GVR / VIC",
+      "correlation": -0.047814838963323274
+    },
+    {
+      "pair": "BSR / VIC",
+      "correlation": -0.030274979049367514
+    },
+    {
+      "pair": "GVR / VHM",
+      "correlation": -0.018749246685380767
+    },
+    {
+      "pair": "GAS / VIC",
+      "correlation": -0.004011514441223866
+    },
+    {
+      "pair": "VIC / VNM",
+      "correlation": -0.003814341911825055
+    }
+  ],
+  "top_cumulative_returns": [
+    {
+      "ticker": "VIC",
+      "sessions": 252,
+      "cumulative_return": 1.01557935735151,
+      "annualized_volatility": 0.5118854574737243,
+      "max_drawdown": -0.32067039106145245,
+      "positive_session_fraction": 0.48412698412698413,
+      "mean_daily_traded_value_proxy_vnd": 804589984384.9207
+    },
+    {
+      "ticker": "BSR",
+      "sessions": 252,
+      "cumulative_return": 0.6336353340883383,
+      "annualized_volatility": 0.5402890202236449,
+      "max_drawdown": -0.39246593641464034,
+      "positive_session_fraction": 0.503968253968254,
+      "mean_daily_traded_value_proxy_vnd": 347817303472.2222
+    },
+    {
+      "ticker": "GAS",
+      "sessions": 252,
+      "cumulative_return": 0.30242825607063994,
+      "annualized_volatility": 0.4967580227516241,
+      "max_drawdown": -0.49964020148716726,
+      "positive_session_fraction": 0.4523809523809524,
+      "mean_daily_traded_value_proxy_vnd": 169905927349.20636
+    },
+    {
+      "ticker": "HDB",
+      "sessions": 252,
+      "cumulative_return": 0.17449664429530354,
+      "annualized_volatility": 0.31552772547396296,
+      "max_drawdown": -0.18862144420131277,
+      "positive_session_fraction": 0.46825396825396826,
+      "mean_daily_traded_value_proxy_vnd": 301492096694.44446
+    },
+    {
+      "ticker": "VJC",
+      "sessions": 252,
+      "cumulative_return": 0.1623666697055317,
+      "annualized_volatility": 0.3907717985054493,
+      "max_drawdown": -0.30716743799691515,
+      "positive_session_fraction": 0.4365079365079365,
+      "mean_daily_traded_value_proxy_vnd": 204851390269.84128
+    }
+  ],
+  "bottom_cumulative_returns": [
+    {
+      "ticker": "VRE",
+      "sessions": 252,
+      "cumulative_return": -0.44497953286780634,
+      "annualized_volatility": 0.4927272722280692,
+      "max_drawdown": -0.49176807444524007,
+      "positive_session_fraction": 0.4444444444444444,
+      "mean_daily_traded_value_proxy_vnd": 235246093384.92062
+    },
+    {
+      "ticker": "SHB",
+      "sessions": 252,
+      "cumulative_return": -0.4086322869955151,
+      "annualized_volatility": 0.2717435055930604,
+      "max_drawdown": -0.4425863991081377,
+      "positive_session_fraction": 0.35714285714285715,
+      "mean_daily_traded_value_proxy_vnd": 871446187313.6508
+    },
+    {
+      "ticker": "SSI",
+      "sessions": 252,
+      "cumulative_return": -0.3421926910299016,
+      "annualized_volatility": 0.3512710722528886,
+      "max_drawdown": -0.4169705004971832,
+      "positive_session_fraction": 0.4246031746031746,
+      "mean_daily_traded_value_proxy_vnd": 606847478284.9207
+    },
+    {
+      "ticker": "FPT",
+      "sessions": 252,
+      "cumulative_return": -0.3155939110631659,
+      "annualized_volatility": 0.3205997641133514,
+      "max_drawdown": -0.4083026799789795,
+      "positive_session_fraction": 0.4166666666666667,
+      "mean_daily_traded_value_proxy_vnd": 675728026579.3651
+    },
+    {
+      "ticker": "LPB",
+      "sessions": 252,
+      "cumulative_return": -0.22495464624067718,
+      "annualized_volatility": 0.344802457409515,
+      "max_drawdown": -0.33571428571428574,
+      "positive_session_fraction": 0.45634920634920634,
+      "mean_daily_traded_value_proxy_vnd": 99668640646.8254
+    }
+  ],
+  "optimizer": {
+    "selected_tickers": [
+      "BSR",
+      "GAS",
+      "HDB",
+      "SAB",
+      "VIC",
+      "VJC"
+    ],
+    "k": 6,
+    "risk_aversion": 5.0,
+    "diagonal_shrinkage": 0.4,
+    "transaction_cost_bps": 25.0,
+    "rebalances_per_year": 1,
+    "objective": -0.16163603177459912,
+    "risk_penalty_annual": 0.23071346196269704,
+    "expected_return_reward_annual": -0.39484949373729616,
+    "transaction_cost_annual": 0.0025,
+    "exact_solve_seconds": 12.96203984400006,
+    "annualized_historical_mean_return": 0.39484949373729616,
+    "annualized_model_volatility": 0.21480850167658497,
+    "exact_combinations_searched": 376740
+  },
+  "qaoa_note": "Không chạy QAOA trên đủ 30 mã: bộ mô phỏng véc-tơ trạng thái có chi phí tăng theo 2^N; bộ giải chính xác cổ điển dùng được cho N=30, K=6.",
+  "data_quality_note": "Lợi suất cổ phiếu dùng OHLC điều chỉnh theo quyền do VCI trả về; giá khớp và giá trị close×volume dùng OHLC thô từ DNSE. close×volume vẫn là đại diện thanh khoản, không phải giá trị khớp lệnh xác nhận. Danh sách mô tả là VN30 tại ngày cuối; walk-forward dùng lịch thành phần theo ngày hiệu lực."
+}
