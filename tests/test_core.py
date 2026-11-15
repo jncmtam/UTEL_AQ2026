@@ -257,3 +257,31 @@ def test_odd_lot_break_even_is_where_returns_meet():
         *[{"capital_vnd": 1.0, "scenario": f"odd-lot execution, premium {p}%", "te_odd_lot": 1.0,
            "return_odd_lot": 14.0 - 2 * p, "return_whole_lot_optimum": np.nan} for p in (0.0, 1.0, 1.5)]])
     assert abs(odd_lot_break_even(rb)[1.0] - 2.0) < 1e-9
+
+
+def test_meaning_check_requires_the_reference_of_each_number():
+    from agqo.llm.tasks import describe_evidence
+
+    ev = describe_evidence({"date": "2026-10-01", "trades": [],
+                            "tracking_error_pct": {"agqo_choice": 5.39, "nearest_lot_rounding": 5.56,
+                                                   "ideal_fractional_shares": 5.1},
+                            "sector_weights_pct": {"Banking": 39.4},
+                            "market": {"effective_independent_bets": 14.2, "market_factor_share_pct": 34.6}})
+    ok = {"summary_vi": "Sai số bám so với chỉ số VN30 là 5.39%.", "trade_notes": [],
+          "risk_notes_vi": ["Một yếu tố thị trường giải thích 34.6% biến động của các cổ phiếu VN30."]}
+    assert verify_explanation(ok, ev)["ok"]
+    bad = dict(ok, summary_vi="Độ lệch theo dõi là 5.39% so với lý tưởng.",
+               risk_notes_vi=["Yếu tố thị trường chiếm 34.6% trong danh mục, VN30 biến động mạnh."])
+    assert len(verify_explanation(bad, ev)["context_issues"]) == 2
+
+
+def test_meaning_check_allows_a_consequence_clause():
+    from agqo.llm.tasks import describe_evidence
+
+    ev = describe_evidence({"date": "d", "trades": [], "tracking_error_pct": {"agqo_choice": 5.39,
+                            "nearest_lot_rounding": 5.56, "ideal_fractional_shares": 5.1},
+                            "sector_weights_pct": {}, "market": {"effective_independent_bets": 14.2,
+                                                                 "market_factor_share_pct": 34.6}})
+    t = {"summary_vi": "Một yếu tố chung giải thích 34.6% biến động của nhóm VN30, nghĩa là danh mục vẫn chịu ảnh hưởng.",
+         "trade_notes": [], "risk_notes_vi": ["Rủi ro."]}
+    assert verify_explanation(t, ev)["ok"]

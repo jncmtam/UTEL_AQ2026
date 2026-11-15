@@ -341,7 +341,10 @@ def fig_board(run: Path, out: Path) -> str:
          f"test: {st['agqo vs frozen']['wins']}/12, p={st['agqo vs frozen']['wilcoxon_p']:.2f}", "no gain"),
         ("AI", "CVaR polish (chosen on training)", "train +1.5 pts", f"test {st['agqo vs polish_ablation']['ratio']:.2f}x, p={st['agqo vs polish_ablation']['wilcoxon_p']:.2f}", "no gain"),
         ("AI", "LLM mandate compiler (35 VN instructions)", f"{me['llm_effective_pct']:.0f}% correct", f"keyword rules {me['rule_effective_pct']:.1f}%", "pass"),
-        ("AI", "LLM explanations, numbers verified", f"{ex['all_numbers_verified']}/{ex['explanations']}", "code checks every number", "pass"),
+        ("AI", "LLM explanations: numbers and meaning checked",
+         f"{ex['all_numbers_verified']}/{ex['explanations']} numbers, "
+         f"{round(ex['faithful_pct'] * ex['explanations'] / 100)}/{ex['explanations']} meaning",
+         "old prompt: 12/12 numbers, 0/12 meaning", "pass"),
         ("Finance", "vs naive rounding, 20M VND", f"{sw['20000000']['te_a']:.1f}% vs {sw['20000000']['te_b']:.1f}%",
          f"CI {sw['20000000']['ci_low']:+.1f} to {sw['20000000']['ci_high']:+.1f} pp", "pass"),
         ("Finance", "vs greedy lot filling (strong heuristic), 20M", f"{gr['te_whole_lot_optimum']:.1f}% vs {gr['te_greedy']:.1f}%",
@@ -356,7 +359,7 @@ def fig_board(run: Path, out: Path) -> str:
          f"needs ~{hs['median_cz_error_today'] / hs['two_qubit_error_needed_for_esp_0.5']:.0f}x lower 2-qubit error", "fails today"),
         ("Finance", "Odd-lot execution (HOSE since 2022) vs AGQO whole lots",
          "odd lots track better", f"unless odd-lot cost > {be[20e6]:.1f}% (20M), {be[100e6]:.1f}% (100M)", "alternative"),
-        ("Quantum", "Quantum advantage", "none", "enumeration exact in 0.12 s; annealing near-optimal", "not claimed"),
+        ("Quantum", "Quantum advantage", "none", "enumeration exact in 0.12 s", "not claimed"),
     ]
     fig, ax = plt.subplots(figsize=(13, 0.48 * len(rows) + 1.4))
     ax.axis("off")

@@ -72,16 +72,20 @@ def main() -> None:
         from .experiment import run
         run(a.out, ExperimentConfig())
     elif a.cmd == "explain":
-        from .llm.tasks import explain_request, verify_explanation
+        from .llm.tasks import describe_evidence, explain_request, verify_explanation
 
-        evidence = json.loads((a.out / "evidence.json").read_text())
+        evidence = [describe_evidence(e) for e in json.loads((a.out / "evidence.json").read_text())]
+        (a.out / "evidence.json").write_text(json.dumps(evidence, indent=1, ensure_ascii=False))
         recs = _client(a.llm, a.out).generate([explain_request(e, seed=i) for i, e in enumerate(evidence)])
         rows = []
         for e, rec in zip(evidence, recs):
             p = rec["parsed"] if rec["status"] == "ok" else None
             rows.append({"date": e["date"], "explanation": p, "check": verify_explanation(p, e),
                          "usage": rec["usage"], "model": rec["model"], "execution": rec["execution"]})
-        score = {"explanations": len(rows), "all_numbers_verified": sum(r["check"]["ok"] for r in rows),
+        score = {"explanations": len(rows),
+                 "all_numbers_verified": sum(not r["check"]["unverified_numbers"] and not r["check"]["trade_mismatches"]
+                                             for r in rows),
+                 "context_issues": sum(len(r["check"].get("context_issues", [])) for r in rows),
                  "faithful_pct": 100 * sum(r["check"]["ok"] for r in rows) / len(rows)}
         (a.out / "llm" / "explanations.json").write_text(json.dumps({"score": score, "rows": rows}, indent=1,
                                                                     ensure_ascii=False))

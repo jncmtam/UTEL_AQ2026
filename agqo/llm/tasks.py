@@ -195,8 +195,50 @@ Write in Vietnamese, plainly, for a non-expert. Use ONLY the numbers that appear
 exactly as they appear there (same decimals); do not compute new numbers, percentages or totals. Do not promise
 returns and do not give investment advice. Explain: what the portfolio does this quarter, why buying whole lots
 needs an optimiser, what the quantum step (QAOA) contributed compared with the classical check, and the main risk.
+Every number must be written together with what it measures; "labels_vi" gives the Vietnamese meaning of each
+field (rephrase naturally, do not paste field names). Fields ending in _pct are percentages: write the % sign.
+Tracking errors are always measured against the VN30 index: say "so với chỉ số VN30" in the same sentence.
+The numbers in "vn30_market_structure" describe VN30 stocks in general: put them in a sentence about the VN30
+group that does not mention the investor's portfolio.
 Output JSON matching the schema: a 3-5 sentence summary, notes for at most 5 of the listed trades (ticker, action,
 lots exactly as given), and 1-3 risk notes."""
+
+
+LABELS_VI = {
+    "tracking_error_vs_vn30_index_pct": "sai số bám so với chỉ số VN30",
+    "agqo_whole_lot_portfolio": "danh mục lô chẵn do AGQO chọn",
+    "nearest_lot_rounding_portfolio": "cách làm tròn từng mã về lô gần nhất",
+    "ideal_fractional_share_portfolio": "danh mục lý tưởng nếu mua được cổ phiếu lẻ",
+    "portfolio_sector_weights_pct": "tỷ trọng ngành trong danh mục của bạn",
+    "vn30_market_structure": "đặc điểm chung của nhóm cổ phiếu VN30",
+    "effective_independent_bets_among_vn30_stocks": "số nguồn rủi ro độc lập hiệu dụng của nhóm VN30",
+    "share_of_vn30_stock_variance_from_one_market_factor_pct":
+        "phần biến động của cổ phiếu VN30 do một yếu tố thị trường chung giải thích",
+}
+
+# Numbers whose sentence must name their reference (field group -> words that must appear / must not appear).
+CONTEXT_RULES = {
+    "tracking_error_vs_vn30_index_pct": (("VN30",), ()),
+    "vn30_market_structure": (("VN30",), ("danh mục",)),
+}
+
+
+def describe_evidence(e: dict) -> dict:
+    """Self-describing evidence: every field name states its reference, with Vietnamese labels.
+    Accepts the older format (tracking_error_pct / market) and returns the new one; idempotent."""
+    if "labels_vi" in e:
+        return e
+    out = {k: v for k, v in e.items() if k not in ("tracking_error_pct", "sector_weights_pct", "market")}
+    te = e["tracking_error_pct"]
+    out["tracking_error_vs_vn30_index_pct"] = {"agqo_whole_lot_portfolio": te["agqo_choice"],
+                                               "nearest_lot_rounding_portfolio": te["nearest_lot_rounding"],
+                                               "ideal_fractional_share_portfolio": te["ideal_fractional_shares"]}
+    out["portfolio_sector_weights_pct"] = {SECTOR_VI.get(k, k): v for k, v in e["sector_weights_pct"].items()}
+    out["vn30_market_structure"] = {
+        "effective_independent_bets_among_vn30_stocks": e["market"]["effective_independent_bets"],
+        "share_of_vn30_stock_variance_from_one_market_factor_pct": e["market"]["market_factor_share_pct"]}
+    out["labels_vi"] = LABELS_VI
+    return out
 
 
 def explain_schema(tickers: list[str]) -> dict:
@@ -241,9 +283,45 @@ def _numbers(text: str) -> set[str]:
     return out
 
 
+_CLAUSE = re.compile(r",?\s+(?:nghĩa là|vì vậy|do đó|nên|khiến|làm)\s+")
+
+
+def _context_issues(texts: list[str], evidence: dict) -> list[str]:
+    """Meaning check: a number from a rule group must sit in a sentence that names its reference."""
+    def leaves(v):                                             # values only: key names like "..._vn30_..." hold no data
+        if isinstance(v, dict):
+            return [x for u in v.values() for x in leaves(u)]
+        if isinstance(v, list):
+            return [x for u in v for x in leaves(u)]
+        return [str(v)]
+
+    owner: dict[str, set] = {}
+    for group in CONTEXT_RULES:
+        for n in _numbers(" ".join(leaves(evidence.get(group, {})))):
+            owner.setdefault(n, set()).add(group)
+    rest = {k: v for k, v in evidence.items() if k not in CONTEXT_RULES and k != "labels_vi"}
+    for n in _numbers(" ".join(leaves(rest))):
+        owner.setdefault(n, set()).add("other")
+    issues = []
+    for text in texts:
+        for sent in re.split(r"(?<=[.!?;])\s+", text):
+            for n in _numbers(sent):
+                groups = owner.get(n, set())
+                if len(groups) != 1 or "other" in groups:
+                    continue                                   # ambiguous or unconstrained number
+                need, forbid = CONTEXT_RULES[next(iter(groups))]
+                low = re.sub(r"không phải (là )?danh mục( của bạn)?", "", sent.lower())
+                # the reference must be named in the sentence; a forbidden word must not share the number's
+                # clause (a consequence such as "..., nghĩa là danh mục vẫn chịu ảnh hưởng" is a valid inference)
+                clause = next((c for c in _CLAUSE.split(low) if n in _numbers(c)), low)
+                if not all(w.lower() in low for w in need) or any(w.lower() in clause for w in forbid):
+                    issues.append(f"{n}: {sent.strip()[:120]}")
+    return issues
+
+
 def verify_explanation(parsed: dict | None, evidence: dict) -> dict:
     if not isinstance(parsed, dict):
-        return {"ok": False, "unverified_numbers": [], "trade_mismatches": ["no valid JSON"]}
+        return {"ok": False, "unverified_numbers": [], "trade_mismatches": ["no valid JSON"], "context_issues": []}
     allowed = _numbers(json.dumps(evidence, ensure_ascii=False))
     text = " ".join([parsed.get("summary_vi", ""), *[n.get("reason_vi", "") for n in parsed.get("trade_notes", [])],
                      *parsed.get("risk_notes_vi", [])])
@@ -251,4 +329,6 @@ def verify_explanation(parsed: dict | None, evidence: dict) -> dict:
     trades = {(t["ticker"], t["action"], t["lots"]) for t in evidence["trades"]}
     mism = [f"{n['ticker']} {n['action']} {n['lots']}" for n in parsed.get("trade_notes", [])
             if (n["ticker"], n["action"], n["lots"]) not in trades]
-    return {"ok": not bad and not mism, "unverified_numbers": bad, "trade_mismatches": mism}
+    ctx = _context_issues([text], evidence) if "labels_vi" in evidence else []
+    return {"ok": not bad and not mism and not ctx, "unverified_numbers": bad, "trade_mismatches": mism,
+            "context_issues": ctx}

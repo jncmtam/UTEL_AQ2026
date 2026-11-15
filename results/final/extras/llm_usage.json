@@ -1,9 +1,11 @@
 {
   "explainer": {
     "requests": 12,
-    "input_tokens": 7608,
-    "output_tokens": 6854,
-    "batch_wall_seconds_incl_cold_start": 368.46,
+    "input_tokens": 11778,
+    "output_tokens": 8153,
+    "batch_wall_seconds_incl_cold_start": 16.37,
+    "model_load_s": 321.3,
+    "generate_s": 13.27,
     "model": "Qwen/Qwen3.8-27B-FP8",
     "gpu": "NVIDIA H100 80GB HBM3"
   },
@@ -12,6 +14,8 @@
     "input_tokens": 22644,
     "output_tokens": 3228,
     "batch_wall_seconds_incl_cold_start": 362.72,
+    "model_load_s": null,
+    "generate_s": null,
     "model": "Qwen/Qwen3.8-27B-FP8",
     "gpu": "NVIDIA H100 80GB HBM3"
   }

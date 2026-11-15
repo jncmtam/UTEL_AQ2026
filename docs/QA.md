@@ -265,8 +265,9 @@ bounds; the model cannot emit a ticker that is not in the list. (2) **Code valid
 is parsed and checked (`parse_mandate`); invalid answers become an empty mandate and are counted.
 (3) **Clarify, don't guess**: vague limits produce a question, not an invented number (2/2 vague
 test items handled). (4) **Number verification** of explanations: every number in the text must
-appear in the evidence pack and every trade note must match an executed trade
-(`verify_explanation`); 12/12 passed.
+appear in the evidence pack and every trade note must match an executed trade, and a **meaning
+check** requires each tracking error to be stated against VN30 in its sentence and forbids attributing
+VN30 market statistics to the investor's portfolio (`verify_explanation`). Numbers 12/12, meaning 11/12.
 
 **Q. How good is the mandate compiler?**
 On 35 hand-labelled Vietnamese instructions: **100 %** of effective constraints correct (94.3 %
@@ -277,23 +278,27 @@ sectors named in everyday words (energy, aviation, securities, insurance), caps 
 ở mức 5%", and it cannot ask a clarifying question.
 
 **Q. Is the number check enough?**
-It guarantees no invented numbers, not perfect meaning. Example from the last quarter: the evidence
-says the market factor explains 34.6 % of VN30 variance; the explainer wrote that the market factor
-is 34.6 % "trong danh mục" (in the portfolio), and called the 5.39 % tracking error (vs VN30)
-"so với lý tưởng" (vs the ideal). The numbers are right; two phrases are imprecise. The fix is
-cheap: name each evidence field with its reference ("tracking_error_vs_vn30_pct") and add a
-semantic check. We list this as a limitation rather than hide it.
+No, and we found out the hard way. The first prompt passed the number check 12/12, but a meaning check
+we added later failed **0/12**: it called the 5.39 % tracking error (which is against VN30) "so với lý
+tưởng" (vs the ideal) or even "chỉ số AGQO", and placed the 34.6 % VN30 market-factor share "trong danh
+mục" (in the portfolio). Cause: the evidence field was called `tracking_error_pct`, without its
+reference. Fix: every evidence field now names its reference (`tracking_error_vs_vn30_index_pct`,
+`vn30_market_structure`), carries a Vietnamese label, sector names are in Vietnamese, and the prompt
+says in which sentence each number must sit. Re-run live: numbers 12/12, **meaning 11/12**. The
+remaining flag (2025-07) writes "chỉ số" (the index) without naming VN30. In production a failed
+explanation would be regenerated or replaced by a template, never shown silently.
 
 **Q. Token use, latency and cost?**
 | task | requests | input tokens | output tokens | batch wall time (incl. cold start) |
 |---|---:|---:|---:|---:|
-| mandate compiler | 35 | 22,644 | 3,228 | 363 s |
-| explainer | 12 | 7,608 | 6,854 | 368 s |
+| mandate compiler | 35 | 22,644 | 3,228 | 363 s (cold) |
+| explainer | 12 | 11,778 | 8,153 | 16 s (warm; 13 s generation) |
 
-Input tokens are recounted with the Qwen3.8 tokenizer (`results/final/extras/llm_usage.json`);
-the live log under-counted them, a bug now fixed in `modal_app.py`. Most of the wall time is the cold
-start (loading 31 GB and compiling CUDA graphs); a warm container answers a batch in seconds. On an
-H100 at about 4 USD/hour, both batches cost under 1 USD.
+Mandate input tokens are recounted with the Qwen3.8 tokenizer (the first live log under-counted them,
+a bug fixed in `modal_app.py`; the explainer re-run logs them correctly), see
+`results/final/extras/llm_usage.json`. A cold start loads the 31 GB model in about 5 minutes; a warm
+container answers a batch in seconds. On an H100 at about 4 USD/hour, all live LLM runs of the project
+(including three explainer runs) cost about 1–2 USD.
 
 **Q. Why not GPT or Claude through an API?**
 Investor instructions are personal financial data; an open-weight model on our own GPU keeps them in
@@ -554,7 +559,7 @@ possible.
 | Return vs E1VFVN30: −1.1 %/yr | trails |
 | Deep circuit on Heron noise: ESP ≈ 0.0002 | fails today |
 | Odd lots track better unless they cost > 6.8 % (20M) / 2.6 % (100M) extra | alternative |
-| Explainer phrasing (2 imprecise phrases, numbers correct) | to fix |
+| Explainer meaning check: first prompt 0/12, fixed prompt 11/12 (one sentence omits "VN30") | fixed, 1 flagged |
 
 All of these are on the evaluation board ([A8](figures/A8_evaluation_board.png)).
 
@@ -576,13 +581,13 @@ pytest -q
 `--llm replay` uses the logged answers (no GPU); `--llm modal` re-runs Qwen3.8 live.
 
 **Q. How much did it cost?**
-LLM: under 1 USD of H100 time for both batches (plus a one-off 31 GB weight download). Quantum:
+LLM: about 1–2 USD of H100 time for all live runs (plus a one-off 31 GB weight download). Quantum:
 CPU only. The whole project ran within a 30 USD Modal trial.
 
 **Q. Is it ready for users?**
 The pipeline produces a decision for today (`results/final/latest_trades.csv`) with a Qiskit circuit
 and a Vietnamese note. Before a public release: real user instructions for the LLM test set, an
-odd-lot option in the register, a semantic check on explanations, a broker-API order preview (orders
+odd-lot option in the register, regeneration of explanations that fail a check, a broker-API order preview (orders
 stay with the user), and a live IBM hardware run of the noise-aware circuit.
 
 **Q. How is the code checked?**

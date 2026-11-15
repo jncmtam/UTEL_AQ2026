@@ -2,59 +2,61 @@
  "score": {
   "explanations": 12,
   "all_numbers_verified": 12,
-  "faithful_pct": 100.0
+  "context_issues": 1,
+  "faithful_pct": 91.66666666666667
  },
  "rows": [
   {
    "date": "2024-01-02",
    "explanation": {
-    "summary_vi": "Quá trình này mua lại 23 mã cổ phiếu với tổng tài khoản 100.0 triệu VND, tập trung 48.7% vào nhóm Ngân hàng. Việc mua theo lô nguyên đòi hỏi tối ưu hóa vì không thể chia nhỏ cổ phiếu, và thuật toán lượng tử QAOA đã tìm ra giải pháp gần tối ưu. Kết quả cho thấy sai lệch theo dõi là 4.79%, tương đương với phương pháp làm tròn cổ phần lý tưởng là 4.67%. Rủi ro chính là sự phụ thuộc lớn vào yếu tố thị trường chung với tỷ lệ 42.9%.",
+    "summary_vi": "Quý này, danh mục của bạn giữ 23 mã cổ phiếu với tổng giá trị tài khoản là 100.0 triệu VND, tập trung 48.7% vào nhóm Ngân hàng. Việc mua theo lô chẵn đòi hỏi một bộ tối ưu hóa để chọn tổ hợp cổ phiếu sao cho sai số bám so với chỉ số VN30 là thấp nhất, thay vì chỉ đơn thuần làm tròn số lượng. Nhóm VN30 có 12.4 nguồn rủi ro độc lập hiệu dụng, trong đó 42.9% biến động của các cổ phiếu trong nhóm này được giải thích bởi một yếu tố thị trường chung.",
     "trade_notes": [
      {
       "ticker": "VPB",
       "action": "mua",
       "lots": 6,
-      "reason_vi": "Mức đầu tư 8.15 triệu VND, chiếm tỷ trọng lớn nhất trong danh mục."
+      "reason_vi": "Giao dịch mua 6 lô với giá trị 8.15 triệu VND, đóng góp vào tỷ trọng 48.7% của nhóm Ngân hàng trong danh mục."
      },
      {
       "ticker": "MSN",
       "action": "mua",
       "lots": 1,
-      "reason_vi": "Mức đầu tư 6.84 triệu VND, bổ sung cho nhóm tiêu dùng."
+      "reason_vi": "Mua 1 lô với giá trị 6.84 triệu VND, giúp đa dạng hóa danh mục bên cạnh các mã ngân hàng chủ lực."
      },
      {
       "ticker": "FPT",
       "action": "mua",
       "lots": 1,
-      "reason_vi": "Mức đầu tư 6.29 triệu VND, đa dạng hóa danh mục."
+      "reason_vi": "Mua 1 lô với giá trị 6.29 triệu VND, bổ sung thêm mã cổ phiếu vào tổng số 23 mã đang nắm giữ."
      },
      {
       "ticker": "TCB",
       "action": "mua",
       "lots": 6,
-      "reason_vi": "Mức đầu tư 5.95 triệu VND, tiếp tục tăng tỷ trọng ngân hàng."
+      "reason_vi": "Mua 6 lô với giá trị 5.95 triệu VND, tiếp tục củng cố vị thế trong nhóm Ngân hàng chiếm 48.7% danh mục."
      },
      {
       "ticker": "ACB",
       "action": "mua",
       "lots": 4,
-      "reason_vi": "Mức đầu tư 5.91 triệu VND, cân bằng vị thế trong nhóm tài chính."
+      "reason_vi": "Mua 4 lô với giá trị 5.91 triệu VND, là một phần trong chiến lược tối ưu hóa để đạt sai số bám so với chỉ số VN30 là 4.79%."
      }
     ],
     "risk_notes_vi": [
-     "Danh mục có 48.7% vốn trong nhóm Ngân hàng, tạo ra rủi ro tập trung cao.",
-     "Yếu tố thị trường chiếm 42.9% biến động, khiến danh mục nhạy cảm với xu hướng chung.",
-     "Sai lệch theo dõi 4.79% cho thấy sự khác biệt so với danh mục lý tưởng do giới hạn mua theo lô."
+     "Sai số bám so với chỉ số VN30 của danh mục lô chẵn do AGQO chọn là 4.79%, cao hơn so với danh mục lý tưởng nếu mua được cổ phiếu lẻ (4.67%).",
+     "Danh mục có tỷ trọng 48.7% vào nhóm Ngân hàng, tạo ra sự tập trung cao vào một ngành duy nhất.",
+     "Bước lượng tử (QAOA) với 16 qubit và 6 lớp đã tìm ra giải pháp có khoảng cách chuẩn hóa đến điểm tối ưu tuyệt đối là 0.0% so với kiểm tra liệt kê chính xác 65536 lựa chọn, nhưng vẫn tồn tại sai số bám so với chỉ số VN30."
     ]
    },
    "check": {
     "ok": true,
     "unverified_numbers": [],
-    "trade_mismatches": []
+    "trade_mismatches": [],
+    "context_issues": []
    },
    "usage": {
-    "input_tokens": 2,
-    "output_tokens": 552
+    "input_tokens": 1026,
+    "output_tokens": 700
    },
    "model": "Qwen/Qwen3.8-27B-FP8",
    "execution": "live_modal_vllm"
@@ -62,53 +64,54 @@
   {
    "date": "2024-04-01",
    "explanation": {
-    "summary_vi": "Trong quý này, danh mục của bạn giữ 22 mã cổ phiếu với tổng giá trị tài khoản là 114.39 triệu VND. Chúng tôi đã thực hiện các giao dịch mua bán để tối ưu hóa việc nắm giữ theo từng lô nguyên, thay vì chia nhỏ cổ phiếu. Việc sử dụng thuật toán lượng tử QAOA giúp tìm ra cách chọn lô gần với lý tưởng nhất, với sai lệch so với phương án tối ưu tuyệt đối là 0.0%. Lỗi theo dõi (tracking error) của phương án chọn là 4.39%, cao hơn một chút so với lý thuyết 4.25% do giới hạn của việc mua bán theo lô nguyên.",
+    "summary_vi": "Quý này, danh mục của bạn có giá trị 114.39 triệu đồng và đang nắm giữ 22 mã cổ phiếu. Về cấu trúc chung, nhóm cổ phiếu VN30 có 13.6 nguồn rủi ro độc lập hiệu dụng, trong đó 39.3% phần biến động của cổ phiếu VN30 do một yếu tố thị trường chung giải thích. Tỷ trọng ngành trong danh mục của bạn hiện là 51.1% Ngân hàng, 15.5% Tiêu dùng, 10.0% Bất động sản và 7.1% Nguyên vật liệu.",
     "trade_notes": [
      {
       "ticker": "GVR",
       "action": "bán",
       "lots": 1,
-      "reason_vi": "Bán 1 lô GVR với giá trị 3.18 triệu VND để điều chỉnh tỷ trọng danh mục."
+      "reason_vi": "Thao tác bán 1 lô với giá trị 3.18 triệu đồng nhằm điều chỉnh vị thế trong danh mục."
      },
      {
       "ticker": "HPG",
       "action": "mua",
       "lots": 1,
-      "reason_vi": "Mua 1 lô HPG với giá trị 2.04 triệu VND để tăng tỷ trọng ngành vật liệu."
+      "reason_vi": "Thao tác mua 1 lô với giá trị 2.04 triệu đồng để bổ sung mã cổ phiếu mới."
      },
      {
       "ticker": "ACB",
       "action": "mua",
       "lots": 1,
-      "reason_vi": "Mua 1 lô ACB với giá trị 1.72 triệu VND để củng cố vị thế trong ngành ngân hàng."
+      "reason_vi": "Thao tác mua 1 lô với giá trị 1.72 triệu đồng, góp phần duy trì tỷ trọng ngành Ngân hàng."
      },
      {
       "ticker": "VPB",
       "action": "mua",
       "lots": 1,
-      "reason_vi": "Mua 1 lô VPB với giá trị 1.42 triệu VND nhằm đa dạng hóa danh mục ngân hàng."
+      "reason_vi": "Thao tác mua 1 lô với giá trị 1.42 triệu đồng để đa dạng hóa danh mục."
      },
      {
       "ticker": "HDB",
       "action": "bán",
       "lots": 1,
-      "reason_vi": "Bán 1 lô HDB với giá trị 1.14 triệu VND để tái cơ cấu danh mục."
+      "reason_vi": "Thao tác bán 1 lô với giá trị 1.14 triệu đồng để tối ưu hóa cấu trúc danh mục."
      }
     ],
     "risk_notes_vi": [
-     "Danh mục tập trung cao vào ngành Ngân hàng với tỷ trọng 51.1%, làm tăng rủi ro nếu ngành này biến động mạnh.",
-     "Lỗi theo dõi (tracking error) là 4.39%, cho thấy danh mục thực tế có thể lệch khỏi chỉ số mục tiêu do giới hạn mua bán theo lô nguyên.",
-     "Yếu tố thị trường chiếm 39.3% biến động, nghĩa là hiệu suất danh mục phụ thuộc đáng kể vào xu hướng chung của thị trường."
+     "Sai số bám so với chỉ số VN30 của danh mục lô chẵn do AGQO chọn là 4.39%, cao hơn so với danh mục lý tưởng nếu mua được cổ phiếu lẻ là 4.25%.",
+     "Mặc dù bước lượng tử (QAOA) với 16 qubits và 6 lớp đã tìm ra giải pháp có khoảng cách chuẩn hóa đến điểm tối ưu chính xác là 0.0%, sai số bám so với chỉ số VN30 vẫn tồn tại do giới hạn của việc mua bán theo lô chẵn.",
+     "Việc sử dụng bộ tối ưu hóa là cần thiết vì có 65536 lựa chọn lô chẵn cần kiểm tra, và kết quả từ QAOA đã được xác minh bằng cách liệt kê chính xác toàn bộ các lựa chọn này."
     ]
    },
    "check": {
     "ok": true,
     "unverified_numbers": [],
-    "trade_mismatches": []
+    "trade_mismatches": [],
+    "context_issues": []
    },
    "usage": {
-    "input_tokens": 2,
-    "output_tokens": 612
+    "input_tokens": 959,
+    "output_tokens": 664
    },
    "model": "Qwen/Qwen3.8-27B-FP8",
    "execution": "live_modal_vllm"
@@ -116,53 +119,54 @@
   {
    "date": "2024-07-01",
    "explanation": {
-    "summary_vi": "Quý này, danh mục của bạn có giá trị 114.77 triệu VND và đang nắm giữ 22 mã cổ phiếu. Chúng tôi đã thực hiện các giao dịch mua bán để tối ưu hóa việc phân bổ vốn theo từng lô nguyên. Quy trình này sử dụng thuật toán lượng tử QAOA để tìm ra tổ hợp lô tốt nhất, giúp giảm sai lệch so với lý tưởng. Rủi ro chính là danh mục tập trung lớn vào nhóm Ngân hàng, chiếm 52.7% tổng giá trị.",
+    "summary_vi": "Quý này, danh mục của bạn có giá trị 114.77 triệu đồng và đang nắm giữ 22 mã cổ phiếu. Về đặc điểm chung, nhóm cổ phiếu VN30 chỉ có 12.6 nguồn rủi ro độc lập hiệu dụng, trong đó 41.9% phần biến động của cổ phiếu VN30 do một yếu tố thị trường chung giải thích. Việc mua bán theo lô chẵn đòi hỏi một bộ tối ưu hóa vì không thể mua bán cổ phiếu lẻ, và bước lượng tử (QAOA) đã giúp tìm ra giải pháp gần tối ưu với sai số bám so với chỉ số VN30 là 4.49%, trong khi cách làm tròn đơn giản có sai số bám so với chỉ số VN30 là 4.54%. So với danh mục lý tưởng nếu mua được cổ phiếu lẻ có sai số bám so với chỉ số VN30 là 4.35%, giải pháp lượng tử đã đạt được khoảng cách chuẩn hóa đến mức tối ưu tuyệt đối là 0.0%.",
     "trade_notes": [
      {
       "ticker": "VIC",
       "action": "mua",
       "lots": 1,
-      "reason_vi": "Mua 1 lô VIC với giá trị 2.07 triệu VND để tăng tỷ trọng cổ phiếu này trong danh mục."
+      "reason_vi": "Mua 1 lô với giá trị 2.07 triệu đồng để điều chỉnh tỷ trọng ngành Bất động sản hiện đang ở mức 10.4% trong danh mục."
      },
      {
       "ticker": "SSI",
       "action": "bán",
       "lots": 1,
-      "reason_vi": "Bán 1 lô SSI với giá trị 1.88 triệu VND để tái phân bổ vốn sang các mã khác."
+      "reason_vi": "Bán 1 lô với giá trị 1.88 triệu đồng nhằm giảm bớt tỷ trọng ngành Ngân hàng đang chiếm 52.7% tổng giá trị danh mục."
      },
      {
       "ticker": "SSB",
       "action": "mua",
       "lots": 1,
-      "reason_vi": "Mua 1 lô SSB với giá trị 1.52 triệu VND nhằm đa dạng hóa danh mục."
-     },
-     {
-      "ticker": "VIB",
-      "action": "mua",
-      "lots": 1,
-      "reason_vi": "Mua 1 lô VIB với giá trị 1.32 triệu VND để bổ sung vị thế trong nhóm ngân hàng."
+      "reason_vi": "Mua 1 lô với giá trị 1.52 triệu đồng, đây là một trong những giao dịch giúp duy trì sự cân bằng trong nhóm ngành Ngân hàng."
      },
      {
       "ticker": "POW",
       "action": "bán",
       "lots": 1,
-      "reason_vi": "Bán 1 lô POW với giá trị 1.2 triệu VND để rút vốn và tối ưu hóa danh mục."
+      "reason_vi": "Bán 1 lô với giá trị 1.2 triệu đồng để tái cơ cấu danh mục theo kết quả của bộ tối ưu hóa lượng tử."
+     },
+     {
+      "ticker": "SHB",
+      "action": "bán",
+      "lots": 1,
+      "reason_vi": "Bán 1 lô với giá trị 0.84 triệu đồng, giao dịch này góp phần vào việc tối ưu hóa tổng thể để đạt sai số bám so với chỉ số VN30 là 4.49%."
      }
     ],
     "risk_notes_vi": [
-     "Danh mục có độ tập trung cao vào nhóm Ngân hàng với tỷ trọng 52.7%, làm tăng rủi ro nếu ngành này biến động mạnh.",
-     "Sai lệch theo dõi (tracking error) của phương pháp chọn lô AGQO là 4.49%, cao hơn so với lý tưởng là 4.35%, cho thấy sự khác biệt giữa thực tế và mô hình lý thuyết.",
-     "Thị trường có 12.6 cược độc lập hiệu quả và yếu tố thị trường chiếm 41.9%, nghĩa là danh mục vẫn chịu ảnh hưởng lớn từ xu hướng chung của thị trường."
+     "Danh mục của bạn tập trung lớn vào ngành Ngân hàng với tỷ trọng 52.7%, trong khi các ngành khác như Tiêu dùng chỉ chiếm 16.8% và Công nghệ 8.5%, tạo ra rủi ro tập trung cao.",
+     "Sai số bám so với chỉ số VN30 của danh mục lô chẵn do AGQO chọn là 4.49%, cao hơn so với danh mục lý tưởng nếu mua được cổ phiếu lẻ là 4.35%, cho thấy giới hạn của việc chỉ giao dịch theo lô chẵn.",
+     "Nhóm VN30 có 41.9% phần biến động của cổ phiếu VN30 do một yếu tố thị trường chung giải thích, nghĩa là khi thị trường chung biến động, hầu hết các mã trong danh mục có thể cùng tăng hoặc giảm."
     ]
    },
    "check": {
     "ok": true,
     "unverified_numbers": [],
-    "trade_mismatches": []
+    "trade_mismatches": [],
+    "context_issues": []
    },
    "usage": {
-    "input_tokens": 2,
-    "output_tokens": 604
+    "input_tokens": 1020,
+    "output_tokens": 812
    },
    "model": "Qwen/Qwen3.8-27B-FP8",
    "execution": "live_modal_vllm"
@@ -170,47 +174,48 @@
   {
    "date": "2024-10-01",
    "explanation": {
-    "summary_vi": "Quý này danh mục giữ 22 mã cổ phiếu với tổng giá trị 121.7 triệu VND, tập trung 54.0% vào nhóm Ngân hàng. Chúng tôi thực hiện bán 1 lô VIC và 1 lô MBB, đồng thời mua 1 lô SSI và 1 lô SHB. Việc mua bán theo từng lô nguyên vẹn đòi hỏi một bộ tối ưu hóa để chọn tổ hợp tốt nhất thay vì chỉ làm tròn đơn giản. Bước lượng tử (QAOA) đã kiểm tra 1440 cổng hai qubit và cho kết quả có khoảng cách chuẩn hóa đến điểm tối ưu tuyệt đối là 0.0%, tương đương với kiểm tra kinh điển.",
+    "summary_vi": "Trong quý này, tài khoản của bạn có giá trị 121.7 triệu VND và đang nắm giữ 22 mã cổ phiếu. Danh mục của bạn có tỷ trọng ngành Ngân hàng là 54.0%, Tiêu dùng là 16.5%, Công nghệ là 8.5% và Bất động sản là 8.5%. Về mặt kỹ thuật, sai số bám so với chỉ số VN30 của danh mục lô chẵn do AGQO chọn là 4.2%, tương đương với cách làm tròn từng mã về lô gần nhất, trong khi danh mục lý tưởng nếu mua được cổ phiếu lẻ có sai số bám so với chỉ số VN30 là 4.08%. Nhóm cổ phiếu VN30 có 12.4 nguồn rủi ro độc lập hiệu dụng và 41.9% phần biến động của cổ phiếu VN30 do một yếu tố thị trường chung giải thích.",
     "trade_notes": [
      {
       "ticker": "VIC",
       "action": "bán",
       "lots": 1,
-      "reason_vi": "Giảm vị thế để tái cân bằng danh mục theo chiến lược quý."
+      "reason_vi": "Giao dịch bán 1 lô VIC với giá trị 2.12 triệu VND nhằm điều chỉnh tỷ trọng trong danh mục."
      },
      {
       "ticker": "SSI",
       "action": "mua",
       "lots": 1,
-      "reason_vi": "Tăng tỷ trọng nhóm Ngân hàng, hiện chiếm 54.0% danh mục."
+      "reason_vi": "Giao dịch mua 1 lô SSI với giá trị 1.97 triệu VND để bổ sung vị thế."
      },
      {
       "ticker": "MBB",
       "action": "bán",
       "lots": 1,
-      "reason_vi": "Thực hiện chốt lời hoặc điều chỉnh cấu trúc danh mục."
+      "reason_vi": "Giao dịch bán 1 lô MBB với giá trị 1.34 triệu VND."
      },
      {
       "ticker": "SHB",
       "action": "mua",
       "lots": 1,
-      "reason_vi": "Mở vị thế mới trong nhóm Ngân hàng với giá trị 0.84 triệu VND."
+      "reason_vi": "Giao dịch mua 1 lô SHB với giá trị 0.84 triệu VND."
      }
     ],
     "risk_notes_vi": [
-     "Danh mục có độ lệch theo dõi (tracking error) là 4.2% so với lý tưởng, do giới hạn phải mua bán theo lô nguyên vẹn.",
-     "Tỷ trọng 54.0% vào nhóm Ngân hàng tạo ra rủi ro tập trung cao, trong khi yếu tố thị trường chiếm 41.9% biến động.",
-     "Kết quả lượng tử đạt 0.0% khoảng cách đến tối ưu tuyệt đối, nhưng vẫn phụ thuộc vào dữ liệu đầu vào và mô hình giả định."
+     "Sai số bám so với chỉ số VN30 của danh mục lô chẵn do AGQO chọn là 4.2%, cao hơn so với danh mục lý tưởng nếu mua được cổ phiếu lẻ là 4.08% do giới hạn của việc mua bán theo lô chẵn.",
+     "Quá trình tối ưu hóa sử dụng 16 qubit và 6 lớp, với 1440 cổng hai qubit, trong đó 18.3% số lần đo đạt được kết quả gần tối ưu và khoảng cách chuẩn hóa so với giải pháp tối ưu tuyệt đối là 0.0%.",
+     "Giải pháp được kiểm chứng bằng cách liệt kê chính xác tất cả 65536 lựa chọn lô, đảm bảo tính chính xác trong bối cảnh các ràng buộc về số lượng cổ phiếu."
     ]
    },
    "check": {
     "ok": true,
     "unverified_numbers": [],
-    "trade_mismatches": []
+    "trade_mismatches": [],
+    "context_issues": []
    },
    "usage": {
-    "input_tokens": 2,
-    "output_tokens": 516
+    "input_tokens": 887,
+    "output_tokens": 654
    },
    "model": "Qwen/Qwen3.8-27B-FP8",
    "execution": "live_modal_vllm"
@@ -218,53 +223,54 @@
   {
    "date": "2025-01-02",
    "explanation": {
-    "summary_vi": "Quá trình tái cân bằng danh mục này sử dụng 16 qubit và 6 lớp để tìm cách mua bán nguyên lô tối ưu. Kết quả cho thấy sai lệch so với lý tưởng là 3.7%, tương đương với mức làm tròn gần nhất là 3.76%. Phương pháp lượng tử đã kiểm tra được 65536 lựa chọn lô khác nhau để đảm bảo độ chính xác. Danh mục hiện tập trung 52.8% vào nhóm Ngân hàng, tạo ra một mức độ rủi ro tập trung đáng kể.",
+    "summary_vi": "Quý này, danh mục của bạn có giá trị 120.17 triệu đồng và đang nắm giữ 22 mã cổ phiếu. Việc chọn mua bán theo lô chẵn cần một công cụ tối ưu hóa vì không thể mua bán cổ phiếu lẻ, và thuật toán lượng tử QAOA đã giúp tìm ra giải pháp gần như tối ưu nhất. So với cách làm tròn đơn giản, danh mục do AGQO chọn có sai số bám so với chỉ số VN30 là 3.7%, trong khi cách làm tròn từng mã về lô gần nhất có sai số 3.76% so với chỉ số VN30. Nhóm cổ phiếu VN30 có 14.4 nguồn rủi ro độc lập hiệu dụng, và 36.8% phần biến động của cổ phiếu VN30 do một yếu tố thị trường chung giải thích.",
     "trade_notes": [
      {
       "ticker": "STB",
       "action": "bán",
       "lots": 1,
-      "reason_vi": "Giảm vị thế để tái phân bổ vốn theo chiến lược tối ưu hóa nguyên lô."
+      "reason_vi": "Bán 1 lô STB với giá trị 3.7 triệu đồng để điều chỉnh tỷ trọng ngành."
      },
      {
       "ticker": "VHM",
       "action": "mua",
       "lots": 1,
-      "reason_vi": "Tăng tỷ trọng bất động sản, hiện chiếm 9.6% tổng danh mục."
+      "reason_vi": "Mua 1 lô VHM với giá trị 1.93 triệu đồng để bổ sung vào danh mục."
      },
      {
       "ticker": "HDB",
       "action": "mua",
       "lots": 1,
-      "reason_vi": "Bổ sung vào nhóm Ngân hàng, vốn đang chiếm tỷ trọng lớn nhất là 52.8%."
+      "reason_vi": "Mua 1 lô HDB với giá trị 1.49 triệu đồng, góp phần vào tỷ trọng ngành Ngân hàng là 52.8%."
      },
      {
       "ticker": "VPB",
       "action": "bán",
       "lots": 1,
-      "reason_vi": "Giảm bớt vị thế ngân hàng để cân bằng lại cấu trúc danh mục."
+      "reason_vi": "Bán 1 lô VPB với giá trị 1.45 triệu đồng để tối ưu hóa cấu trúc danh mục."
      },
      {
       "ticker": "VIB",
       "action": "mua",
       "lots": 1,
-      "reason_vi": "Mua thêm lô ngân hàng, góp phần duy trì tỷ trọng nhóm này ở mức 52.8%."
+      "reason_vi": "Mua 1 lô VIB với giá trị 1.44 triệu đồng, tiếp tục duy trì tỷ trọng ngành Ngân hàng."
      }
     ],
     "risk_notes_vi": [
-     "Danh mục có 52.8% vốn trong nhóm Ngân hàng, dẫn đến rủi ro tập trung cao vào một ngành duy nhất.",
-     "Sai lệch theo dõi (tracking error) là 3.7%, cho thấy danh mục thực tế có thể biến động khác với chỉ số lý tưởng.",
-     "Thị trường hiện có 36.8% ảnh hưởng từ yếu tố chung, làm giảm hiệu quả của việc đa dạng hóa qua 14.4 cược độc lập."
+     "Danh mục của bạn có tỷ trọng ngành Ngân hàng lên đến 52.8%, tạo ra rủi ro tập trung cao vào một ngành duy nhất.",
+     "Sai số bám so với chỉ số VN30 của danh mục lô chẵn do AGQO chọn là 3.7%, cao hơn so với danh mục lý tưởng nếu mua được cổ phiếu lẻ là 3.62% so với chỉ số VN30.",
+     "36.8% phần biến động của cổ phiếu VN30 do một yếu tố thị trường chung giải thích, nghĩa là danh mục vẫn chịu ảnh hưởng lớn từ biến động chung của thị trường."
     ]
    },
    "check": {
     "ok": true,
     "unverified_numbers": [],
-    "trade_mismatches": []
+    "trade_mismatches": [],
+    "context_issues": []
    },
    "usage": {
-    "input_tokens": 2,
-    "output_tokens": 554
+    "input_tokens": 923,
+    "output_tokens": 678
    },
    "model": "Qwen/Qwen3.8-27B-FP8",
    "execution": "live_modal_vllm"
@@ -272,52 +278,54 @@
   {
    "date": "2025-04-01",
    "explanation": {
-    "summary_vi": "Quá trình tái cân bằng danh mục này đã chuyển sang trọng tâm vào nhóm Ngân hàng, chiếm 55.1% tổng giá trị, trong khi giảm bớt các vị thế bất động sản và một số cổ phiếu ngân hàng khác. Việc mua bán theo từng lô nguyên (lot) đòi hỏi một bộ tối ưu hóa để chọn ra tổ hợp cổ phiếu gần nhất với tỷ trọng lý tưởng mà không cần chia nhỏ cổ phiếu. Bước tính toán lượng tử (QAOA) đã giúp tìm ra giải pháp có sai lệch so với mức tối ưu tuyệt đối là 0.0%, tương đương với kết quả kiểm tra bằng phương pháp liệt kê toàn bộ 65536 lựa chọn. Rủi ro chính đến từ việc danh mục tập trung quá nhiều vào một ngành duy nhất, khiến hiệu suất phụ thuộc lớn vào biến động của nhóm Ngân hàng.",
+    "summary_vi": "Quý này, danh mục của bạn giữ 22 mã cổ phiếu với tổng giá trị 124.7 triệu đồng, trong đó tỷ trọng ngành Ngân hàng chiếm 55.1% và Tiêu dùng chiếm 17.3%. Việc mua bán theo lô chẵn đòi hỏi một công cụ tối ưu hóa để chọn tổ hợp tốt nhất, thay vì chỉ làm tròn từng mã riêng lẻ. Phương pháp lượng tử QAOA đã giúp giảm sai số bám so với chỉ số VN30 xuống còn 3.58%, tốt hơn so với cách làm tròn thông thường là 3.69% và chỉ cách danh mục lý tưởng 3.46% một khoảng rất nhỏ. Nhóm cổ phiếu VN30 có 15.0 nguồn rủi ro độc lập hiệu dụng, trong đó 35.9% biến động đến từ một yếu tố thị trường chung.",
     "trade_notes": [
      {
       "ticker": "SAB",
       "action": "mua",
       "lots": 1,
-      "reason_vi": "Tăng tỷ trọng cổ phiếu ngân hàng dẫn đầu để phù hợp với mục tiêu phân bổ 55.1% cho ngành này."
-     },
-     {
-      "ticker": "VHM",
-      "action": "bán",
-      "lots": 1,
-      "reason_vi": "Giảm vị thế bất động sản để tái cân bằng danh mục, hiện tại ngành này chỉ còn chiếm 8.9%."
+      "reason_vi": "Mua 1 lô với giá trị 4.16 triệu đồng để tăng tỷ trọng ngành Tiêu dùng."
      },
      {
       "ticker": "BID",
       "action": "mua",
       "lots": 1,
-      "reason_vi": "Bổ sung thêm cổ phiếu ngân hàng để duy trì mức độ tập trung cao vào nhóm tài chính."
+      "reason_vi": "Mua 1 lô với giá trị 3.57 triệu đồng, góp phần duy trì tỷ trọng ngành Ngân hàng ở mức 55.1%."
+     },
+     {
+      "ticker": "VHM",
+      "action": "bán",
+      "lots": 1,
+      "reason_vi": "Bán 1 lô với giá trị 2.55 triệu đồng để điều chỉnh tỷ trọng ngành Bất động sản còn 8.9%."
      },
      {
       "ticker": "VRE",
       "action": "bán",
       "lots": 1,
-      "reason_vi": "Thu hẹp danh mục bất động sản theo chiến lược giảm tỷ trọng ngành này xuống còn 8.9%."
+      "reason_vi": "Bán 1 lô với giá trị 1.93 triệu đồng, tiếp tục giảm tỷ trọng ngành Bất động sản."
      },
      {
-      "ticker": "VIB",
-      "action": "mua",
+      "ticker": "TCB",
+      "action": "bán",
       "lots": 1,
-      "reason_vi": "Thêm vị thế ngân hàng mới để hỗ trợ mục tiêu trọng số ngành Banking ở mức 55.1%."
+      "reason_vi": "Bán 1 lô với giá trị 1.78 triệu đồng, điều chỉnh vị thế trong nhóm Ngân hàng."
      }
     ],
     "risk_notes_vi": [
-     "Danh mục có mức tập trung cao vào ngành Ngân hàng với tỷ trọng 55.1%, làm tăng rủi ro khi ngành này biến động mạnh.",
-     "Sai lệch theo dõi (tracking error) của phương pháp chọn lô nguyên là 3.58%, cao hơn so với mức lý tưởng 3.46% khi cho phép chia cổ phiếu."
+     "Sai số bám so với chỉ số VN30 của danh mục lô chẵn là 3.58%, cao hơn so với danh mục lý tưởng 3.46% do giới hạn mua bán theo lô.",
+     "Tỷ trọng ngành Ngân hàng chiếm 55.1% trong danh mục, tạo ra sự tập trung cao vào một nhóm ngành duy nhất.",
+     "Nhóm VN30 có 35.9% biến động đến từ một yếu tố thị trường chung, nghĩa là rủi ro hệ thống vẫn ảnh hưởng lớn đến toàn bộ danh mục."
     ]
    },
    "check": {
     "ok": true,
     "unverified_numbers": [],
-    "trade_mismatches": []
+    "trade_mismatches": [],
+    "context_issues": []
    },
    "usage": {
-    "input_tokens": 2,
-    "output_tokens": 615
+    "input_tokens": 1021,
+    "output_tokens": 671
    },
    "model": "Qwen/Qwen3.8-27B-FP8",
    "execution": "live_modal_vllm"
@@ -325,53 +333,56 @@
   {
    "date": "2025-07-01",
    "explanation": {
-    "summary_vi": "Quá trình tái cân bằng danh mục này sử dụng 16 qubit và 6 lớp để tìm cách mua bán các lô cổ phiếu nguyên vẹn, thay vì chia nhỏ cổ phiếu như lý thuyết. Kết quả cho thấy sai lệch so với lý tưởng là 4.7%, gần như tương đương với việc làm tròn đơn giản (4.71%). Phương pháp lượng tử đã được kiểm chứng bằng cách liệt kê chính xác 65536 lựa chọn có thể, đảm bảo giải pháp là tối ưu nhất trong phạm vi cho phép. Danh mục hiện tập trung 52.0% vào nhóm Ngân hàng, tạo ra một rủi ro tập trung đáng kể.",
+    "summary_vi": "Quý này, tài khoản của bạn có giá trị 133.39 triệu VND và đang nắm giữ 23 mã cổ phiếu. Danh mục của bạn tập trung mạnh vào nhóm Ngân hàng với tỷ trọng 52.0%, trong khi nhóm Tiêu dùng chiếm 14.1%. Về mặt kỹ thuật, sai số bám so với chỉ số VN30 của danh mục lô chẵn do AGQO chọn là 4.7%, gần tương đương với mức 4.71% của cách làm tròn từng mã về lô gần nhất. Điều này cho thấy việc tối ưu hóa số lô chẵn đã giúp bạn đạt được hiệu quả bám sát chỉ số rất tốt, chỉ kém một chút so với mức lý tưởng 4.61% nếu được mua cổ phiếu lẻ.",
     "trade_notes": [
      {
       "ticker": "VIC",
       "action": "bán",
       "lots": 1,
-      "reason_vi": "Giảm tỷ trọng cổ phiếu vốn hóa lớn để tái cân bằng danh mục."
+      "reason_vi": "Bán 1 lô VIC với giá trị 4.78 triệu VND để tái cơ cấu danh mục."
      },
      {
       "ticker": "SAB",
       "action": "bán",
       "lots": 1,
-      "reason_vi": "Thao tác bán ra nhằm điều chỉnh vị thế theo chiến lược tối ưu hóa."
+      "reason_vi": "Bán 1 lô SAB với giá trị 4.18 triệu VND, đây là giao dịch bán có giá trị lớn thứ hai trong quý."
      },
      {
       "ticker": "LPB",
       "action": "mua",
       "lots": 1,
-      "reason_vi": "Mở vị thế mới trong nhóm Ngân hàng, chiếm tỷ trọng lớn nhất danh mục."
+      "reason_vi": "Mua 1 lô LPB với giá trị 3.04 triệu VND, bổ sung thêm vào nhóm Ngân hàng đang chiếm tỷ trọng 52.0%."
      },
      {
       "ticker": "GVR",
       "action": "mua",
       "lots": 1,
-      "reason_vi": "Mở vị thế mới để đa dạng hóa danh mục theo kết quả tối ưu hóa."
+      "reason_vi": "Mua 1 lô GVR với giá trị 3.03 triệu VND, giúp đa dạng hóa danh mục sang nhóm Nguyên vật liệu."
      },
      {
       "ticker": "VRE",
       "action": "mua",
       "lots": 1,
-      "reason_vi": "Mở vị thế mới trong nhóm Bất động sản, chiếm 10.9% danh mục."
+      "reason_vi": "Mua 1 lô VRE với giá trị 2.4 triệu VND, tăng tỷ trọng cho nhóm Bất động sản hiện đang ở mức 10.9%."
      }
     ],
     "risk_notes_vi": [
-     "Danh mục có 52.0% vốn đầu tư vào nhóm Ngân hàng, dẫn đến rủi ro tập trung cao vào một ngành duy nhất.",
-     "Sai lệch theo dõi (tracking error) là 4.7%, cho thấy danh mục thực tế có thể biến động khác biệt so với chỉ số lý tưởng.",
-     "Thị trường hiện có 47.8% ảnh hưởng từ yếu tố chung, nghĩa là biến động của cả thị trường sẽ tác động mạnh đến hiệu quả danh mục."
+     "Danh mục của bạn có tỷ trọng Ngân hàng lên đến 52.0%, điều này làm tăng rủi ro tập trung vào một ngành duy nhất.",
+     "Sai số bám so với chỉ số VN30 là 4.7%, nghĩa là hiệu suất của bạn có thể chênh lệch đáng kể so với chỉ số trong các giai đoạn biến động mạnh.",
+     "Nhóm VN30 có 47.8% biến động do một yếu tố thị trường chung giải thích, nên khi thị trường chung biến động, hầu hết các mã trong danh mục của bạn sẽ cùng hướng."
     ]
    },
    "check": {
-    "ok": true,
+    "ok": false,
     "unverified_numbers": [],
-    "trade_mismatches": []
+    "trade_mismatches": [],
+    "context_issues": [
+     "4.61: Điều này cho thấy việc tối ưu hóa số lô chẵn đã giúp bạn đạt được hiệu quả bám sát chỉ số rất tốt, chỉ kém một chút so v"
+    ]
    },
    "usage": {
-    "input_tokens": 2,
-    "output_tokens": 571
+    "input_tokens": 1021,
+    "output_tokens": 668
    },
    "model": "Qwen/Qwen3.8-27B-FP8",
    "execution": "live_modal_vllm"
@@ -379,53 +390,54 @@
   {
    "date": "2025-10-01",
    "explanation": {
-    "summary_vi": "Quý này, danh mục của bạn giữ 24 mã cổ phiếu với tổng giá trị tài khoản là 166.46 triệu VND, trong đó nhóm Ngân hàng chiếm tỷ trọng lớn nhất là 44.1%. Các giao dịch bao gồm mua FPT, CTG, PLX, HPG và bán VPB, ACB, BID, MBB để điều chỉnh vị thế. Việc mua bán theo từng lô nguyên (lot) đòi hỏi một bộ tối ưu hóa để chọn tổ hợp tốt nhất, thay vì chỉ làm tròn đơn giản. Phương pháp lượng tử QAOA đã được kiểm chứng bằng cách liệt kê chính xác 65536 lựa chọn lô, cho thấy khoảng cách chuẩn hóa đến điểm tối ưu tuyệt đối là 0.0%. Rủi ro chính đến từ việc danh mục phụ thuộc nhiều vào yếu tố thị trường, chiếm 45.5%.",
+    "summary_vi": "Trong quý này, tài khoản của bạn có giá trị 166.46 triệu đồng và đang nắm giữ 24 mã cổ phiếu. Danh mục của bạn tập trung 44.1% vào nhóm Ngân hàng, 12.9% vào Bất động sản, 12.7% vào Tiêu dùng và 10.0% vào Công nghệ. Việc mua bán theo lô chẵn đòi hỏi một công cụ tối ưu hóa để chọn tổ hợp cổ phiếu tốt nhất, thay vì chỉ làm tròn đơn giản từng mã. Phương pháp lượng tử (QAOA) đã giúp tìm ra giải pháp có sai số bám so với chỉ số VN30 là 5.31%, trong khi cách làm tròn thông thường cho sai số 5.42% và danh mục lý tưởng là 5.16%. Nhóm cổ phiếu VN30 có 10.9 nguồn rủi ro độc lập hiệu dụng, với 45.5% biến động do một yếu tố thị trường chung giải thích.",
     "trade_notes": [
      {
       "ticker": "FPT",
       "action": "mua",
       "lots": 1,
-      "reason_vi": "Mua 1 lô FPT với giá trị 8.29 triệu VND, tập trung vào nhóm Công nghệ chiếm 10.0% danh mục."
+      "reason_vi": "Mua 1 lô với giá trị 8.29 triệu đồng để tăng tỷ trọng nhóm Công nghệ."
      },
      {
       "ticker": "VPB",
       "action": "bán",
       "lots": 2,
-      "reason_vi": "Bán 2 lô VPB với giá trị 4.82 triệu VND, giảm tỷ trọng nhóm Ngân hàng đang chiếm 44.1%."
+      "reason_vi": "Bán 2 lô với giá trị 4.82 triệu đồng để điều chỉnh tỷ trọng nhóm Ngân hàng."
      },
      {
       "ticker": "ACB",
       "action": "bán",
       "lots": 2,
-      "reason_vi": "Bán 2 lô ACB với giá trị 4.45 triệu VND, tiếp tục điều chỉnh vị thế trong nhóm Ngân hàng."
-     },
-     {
-      "ticker": "BID",
-      "action": "bán",
-      "lots": 1,
-      "reason_vi": "Bán 1 lô BID với giá trị 3.66 triệu VND, nhằm cân bằng lại danh mục."
+      "reason_vi": "Bán 2 lô với giá trị 4.45 triệu đồng nhằm tối ưu hóa danh mục theo mô hình AGQO."
      },
      {
       "ticker": "CTG",
       "action": "mua",
       "lots": 1,
-      "reason_vi": "Mua 1 lô CTG với giá trị 3.48 triệu VND, duy trì sự hiện diện trong nhóm Ngân hàng."
+      "reason_vi": "Mua 1 lô với giá trị 3.48 triệu đồng để duy trì sự hiện diện trong nhóm Ngân hàng."
+     },
+     {
+      "ticker": "PLX",
+      "action": "mua",
+      "lots": 1,
+      "reason_vi": "Mua 1 lô với giá trị 3.3 triệu đồng để đa dạng hóa danh mục."
      }
     ],
     "risk_notes_vi": [
-     "Lỗi theo dõi (tracking error) của lựa chọn AGQO là 5.31%, cao hơn so với trường hợp cổ phiếu phân số lý tưởng là 5.16%, cho thấy chi phí do làm tròn lô.",
-     "Danh mục có 10.9 cược độc lập hiệu quả, nhưng yếu tố thị trường chiếm 45.5%, làm tăng rủi ro hệ thống.",
-     "Tỷ trọng nhóm Ngân hàng lên tới 44.1%, tạo ra sự tập trung cao vào một ngành duy nhất."
+     "Sai số bám so với chỉ số VN30 của danh mục lô chẵn do AGQO chọn là 5.31%, cao hơn so với danh mục lý tưởng 5.16% do giới hạn của việc mua bán theo lô.",
+     "Tỷ trọng 44.1% vào nhóm Ngân hàng tạo ra sự tập trung cao, làm tăng rủi ro nếu ngành này biến động mạnh.",
+     "45.5% biến động của cổ phiếu VN30 do một yếu tố thị trường chung giải thích, nghĩa là danh mục vẫn chịu ảnh hưởng lớn từ xu hướng chung của thị trường."
     ]
    },
    "check": {
     "ok": true,
     "unverified_numbers": [],
-    "trade_mismatches": []
+    "trade_mismatches": [],
+    "context_issues": []
    },
    "usage": {
-    "input_tokens": 2,
-    "output_tokens": 682
+    "input_tokens": 1022,
+    "output_tokens": 692
    },
    "model": "Qwen/Qwen3.8-27B-FP8",
    "execution": "live_modal_vllm"
@@ -433,53 +445,54 @@
   {
    "date": "2026-01-05",
    "explanation": {
-    "summary_vi": "Quý này danh mục giữ 23 mã cổ phiếu với tổng giá trị tài khoản là 173.07 triệu VND. Chúng tôi đã thực hiện các giao dịch mua bán để tối ưu hóa việc nắm giữ theo từng lô nguyên. Quy trình này sử dụng thuật toán lượng tử QAOA để tìm ra cách chọn lô tốt nhất, sau đó được kiểm chứng bằng phương pháp liệt kê chính xác. Mục tiêu là giảm thiểu sai lệch so với tỷ trọng lý tưởng của chỉ số AGQO.",
+    "summary_vi": "Quý này, danh mục của bạn có giá trị 173.07 triệu đồng và đang nắm giữ 23 mã cổ phiếu. Trong nhóm VN30, có 11.0 nguồn rủi ro độc lập hiệu dụng và 45.1% phần biến động của cổ phiếu VN30 do một yếu tố thị trường chung giải thích. Việc mua bán theo lô chẵn đòi hỏi một công cụ tối ưu hóa để chọn tổ hợp tốt nhất, thay vì chỉ làm tròn từng mã riêng lẻ. Phương pháp lượng tử (QAOA) đã giúp tìm ra giải pháp có sai số bám so với chỉ số VN30 là 5.96%, trong khi cách làm tròn thông thường cho sai số 6.03% so với chỉ số VN30. Rủi ro chính là danh mục tập trung 44.2% vào ngành Ngân hàng, khiến bạn dễ bị ảnh hưởng nếu ngành này biến động mạnh.",
     "trade_notes": [
      {
       "ticker": "VNM",
       "action": "mua",
       "lots": 1,
-      "reason_vi": "Mua thêm 1 lô trị giá 5.59 triệu VND để tăng tỷ trọng ngành Tiêu dùng."
+      "reason_vi": "Mua 1 lô với giá trị 5.59 triệu đồng để tăng tỷ trọng ngành Tiêu dùng, hiện đang chiếm 15.8% trong danh mục của bạn."
      },
      {
       "ticker": "LPB",
       "action": "mua",
       "lots": 1,
-      "reason_vi": "Mua 1 lô trị giá 3.83 triệu VND nhằm cân bằng tỷ trọng ngành Ngân hàng."
+      "reason_vi": "Mua 1 lô với giá trị 3.83 triệu đồng, góp phần duy trì tỷ trọng ngành Ngân hàng ở mức 44.2% trong danh mục."
      },
      {
       "ticker": "GVR",
       "action": "bán",
       "lots": 1,
-      "reason_vi": "Bán 1 lô trị giá 2.54 triệu VND để điều chỉnh danh mục theo tín hiệu tối ưu hóa."
+      "reason_vi": "Bán 1 lô với giá trị 2.54 triệu đồng để tái cơ cấu danh mục, giúp tối ưu hóa việc bám sát chỉ số VN30."
      },
      {
       "ticker": "SSI",
       "action": "bán",
       "lots": 1,
-      "reason_vi": "Bán 1 lô trị giá 2.33 triệu VND nhằm giảm bớt rủi ro tập trung."
+      "reason_vi": "Bán 1 lô với giá trị 2.33 triệu đồng, một phần trong chiến lược điều chỉnh để giảm sai số bám so với chỉ số VN30."
      },
      {
       "ticker": "TCB",
       "action": "mua",
       "lots": 1,
-      "reason_vi": "Mua 1 lô trị giá 2.28 triệu VND để duy trì vị thế trong nhóm Ngân hàng."
+      "reason_vi": "Mua 1 lô với giá trị 2.28 triệu đồng, tiếp tục củng cố vị thế trong ngành Ngân hàng chiếm 44.2% danh mục."
      }
     ],
     "risk_notes_vi": [
-     "Sai lệch theo dõi (tracking error) của phương pháp chọn lô AGQO là 5.96%, cao hơn so với mức lý tưởng 5.77% do giới hạn của việc mua bán theo lô nguyên.",
-     "Danh mục có 44.2% tỷ trọng vào ngành Ngân hàng, tạo ra mức độ tập trung cao vào một lĩnh vực duy nhất.",
-     "Yếu tố thị trường chiếm 45.1% biến động, cho thấy danh mục vẫn chịu ảnh hưởng lớn từ xu hướng chung của thị trường."
+     "Danh mục có 44.2% tỷ trọng vào ngành Ngân hàng, tạo ra sự tập trung cao và rủi ro lớn nếu ngành này gặp biến động tiêu cực.",
+     "Sai số bám so với chỉ số VN30 của danh mục lô chẵn do AGQO chọn là 5.96%, cao hơn so với danh mục lý tưởng nếu mua được cổ phiếu lẻ là 5.77% so với chỉ số VN30.",
+     "Trong nhóm VN30, 45.1% phần biến động của cổ phiếu VN30 do một yếu tố thị trường chung giải thích, nghĩa là nhiều cổ phiếu cùng lên xuống theo thị trường chung."
     ]
    },
    "check": {
     "ok": true,
     "unverified_numbers": [],
-    "trade_mismatches": []
+    "trade_mismatches": [],
+    "context_issues": []
    },
    "usage": {
-    "input_tokens": 2,
-    "output_tokens": 572
+    "input_tokens": 1023,
+    "output_tokens": 750
    },
    "model": "Qwen/Qwen3.8-27B-FP8",
    "execution": "live_modal_vllm"
@@ -487,7 +500,7 @@
   {
    "date": "2026-04-01",
    "explanation": {
-    "summary_vi": "Quý này danh mục của bạn có giá trị 161.91 triệu VND và đang nắm giữ 25 mã cổ phiếu. Chúng tôi đã thực hiện các giao dịch mua bán để tối ưu hóa việc nắm giữ theo lô nguyên, giúp giảm sai lệch so với tỷ trọng lý tưởng. Quy trình này sử dụng thuật toán lượng tử QAOA để tìm ra tổ hợp lô tốt nhất, sau đó được kiểm chứng bằng cách liệt kê chính xác 65536 lựa chọn có thể. Mục tiêu là giữ cho danh mục bám sát chỉ số AGQO với sai số theo dõi là 5.92%.",
+    "summary_vi": "Quý này, tài khoản của bạn có giá trị 161.91 triệu VND và đang nắm giữ 25 mã cổ phiếu. Danh mục được tối ưu để bám sát chỉ số VN30 với sai số 5.92% so với chỉ số VN30, thấp hơn mức 5.99% của cách làm tròn thông thường. Nhóm cổ phiếu VN30 có 13.2 nguồn rủi ro độc lập hiệu dụng, trong đó 37.3% biến động đến từ một yếu tố thị trường chung. Việc sử dụng thuật toán lượng tử giúp tìm ra tổ hợp lô chẵn tối ưu hơn so với kiểm tra thủ công.",
     "trade_notes": [
      {
       "ticker": "VNM",
@@ -499,13 +512,13 @@
       "ticker": "DGC",
       "action": "mua",
       "lots": 1,
-      "reason_vi": "Mua 1 lô trị giá 4.19 triệu VND để tăng tỷ trọng ngành Vật liệu."
+      "reason_vi": "Mua 1 lô trị giá 4.19 triệu VND để tăng tỷ trọng ngành Nguyên vật liệu."
      },
      {
       "ticker": "SAB",
       "action": "mua",
       "lots": 1,
-      "reason_vi": "Mua 1 lô trị giá 4.16 triệu VND nhằm cân bằng danh mục theo chỉ số."
+      "reason_vi": "Mua 1 lô trị giá 4.16 triệu VND để cân bằng danh mục."
      },
      {
       "ticker": "ACB",
@@ -521,19 +534,20 @@
      }
     ],
     "risk_notes_vi": [
-     "Sai số theo dõi hiện tại là 5.92%, cao hơn mức lý tưởng 5.66% do giới hạn phải mua bán theo lô nguyên.",
-     "Danh mục tập trung 42.6% vào ngành Ngân hàng, tạo ra rủi ro nếu ngành này biến động mạnh.",
-     "Kết quả tối ưu hóa lượng tử đã được kiểm chứng là chính xác tuyệt đối (khoảng cách 0.0%) so với giải pháp tối ưu."
+     "Sai số bám 5.92% so với chỉ số VN30 cho thấy danh mục không hoàn toàn trùng khớp với chỉ số do giới hạn mua bán theo lô chẵn.",
+     "Tỷ trọng ngành Ngân hàng chiếm 42.6% trong danh mục, tạo ra rủi ro tập trung cao vào một ngành duy nhất.",
+     "37.3% biến động của cổ phiếu VN30 đến từ một yếu tố thị trường chung, làm giảm hiệu quả phân tán rủi ro."
     ]
    },
    "check": {
     "ok": true,
     "unverified_numbers": [],
-    "trade_mismatches": []
+    "trade_mismatches": [],
+    "context_issues": []
    },
    "usage": {
-    "input_tokens": 2,
-    "output_tokens": 576
+    "input_tokens": 992,
+    "output_tokens": 583
    },
    "model": "Qwen/Qwen3.8-27B-FP8",
    "execution": "live_modal_vllm"
@@ -541,53 +555,54 @@
   {
    "date": "2026-07-01",
    "explanation": {
-    "summary_vi": "Quý này danh mục của bạn có giá trị 179.25 triệu VND và đang nắm giữ 24 mã cổ phiếu. Chúng tôi đã thực hiện các giao dịch mua bán để tối ưu hóa việc phân bổ vốn theo từng lô nguyên. Phương pháp lượng tử QAOA giúp tìm ra tổ hợp lô tốt nhất, với sai lệch so với mức tối ưu lý tưởng là 0.0%. Rủi ro chính là danh mục tập trung nhiều vào ngành Ngân hàng với tỷ trọng 41.4%.",
+    "summary_vi": "Quý này, tài khoản của bạn có giá trị 179.25 triệu đồng và đang nắm giữ 24 mã cổ phiếu. Danh mục của bạn có sai số bám so với chỉ số VN30 là 5.86%, trong khi cách làm tròn từng mã về lô gần nhất có sai số bám so với chỉ số VN30 là 5.92%. Nhóm cổ phiếu VN30 có 13.3 nguồn rủi ro độc lập hiệu dụng, và 36.1% phần biến động của cổ phiếu VN30 do một yếu tố thị trường chung giải thích. Việc mua bán theo lô chẵn đòi hỏi một bộ tối ưu hóa để chọn tổ hợp tốt nhất, và bước lượng tử (QAOA) đã giúp tìm ra giải pháp có khoảng cách chuẩn hóa so với điểm tối ưu chính xác là 0.0%.",
     "trade_notes": [
      {
       "ticker": "MWG",
       "action": "mua",
       "lots": 1,
-      "reason_vi": "Mua 1 lô MWG với giá trị 7.77 triệu VND để tăng tỷ trọng ngành Tiêu dùng."
+      "reason_vi": "Bạn đã mua 1 lô MWG với giá trị 7.77 triệu đồng."
      },
      {
       "ticker": "VHM",
       "action": "bán",
       "lots": 1,
-      "reason_vi": "Bán 1 lô VHM với giá trị 7.44 triệu VND để giảm tỷ trọng ngành Bất động sản."
+      "reason_vi": "Bạn đã bán 1 lô VHM với giá trị 7.44 triệu đồng."
      },
      {
       "ticker": "HPG",
       "action": "mua",
       "lots": 2,
-      "reason_vi": "Mua 2 lô HPG với giá trị 4.69 triệu VND để bổ sung ngành Vật liệu."
+      "reason_vi": "Bạn đã mua 2 lô HPG với giá trị 4.69 triệu đồng."
      },
      {
       "ticker": "TCB",
       "action": "bán",
       "lots": 1,
-      "reason_vi": "Bán 1 lô TCB với giá trị 2.29 triệu VND để điều chỉnh tỷ trọng ngành Ngân hàng."
+      "reason_vi": "Bạn đã bán 1 lô TCB với giá trị 2.29 triệu đồng."
      },
      {
       "ticker": "MBB",
       "action": "mua",
       "lots": 1,
-      "reason_vi": "Mua 1 lô MBB với giá trị 2.06 triệu VND để duy trì vị thế trong ngành Ngân hàng."
+      "reason_vi": "Bạn đã mua 1 lô MBB với giá trị 2.06 triệu đồng."
      }
     ],
     "risk_notes_vi": [
-     "Danh mục có độ lệch theo dõi (tracking error) là 5.86% so với chỉ số AGQO, cao hơn mức lý tưởng 5.6% do giới hạn mua bán theo lô nguyên.",
-     "Tỷ trọng ngành Ngân hàng chiếm 41.4%, tạo ra rủi ro tập trung cao nếu ngành này biến động mạnh.",
-     "Danh mục chỉ có 13.3 cược độc lập hiệu quả, cho thấy mức độ đa dạng hóa còn hạn chế."
+     "Danh mục của bạn tập trung 41.4% vào ngành Ngân hàng, điều này có thể làm tăng rủi ro nếu ngành này biến động mạnh.",
+     "Sai số bám so với chỉ số VN30 của danh mục lô chẵn do AGQO chọn là 5.86%, cao hơn so với danh mục lý tưởng nếu mua được cổ phiếu lẻ là 5.6%.",
+     "36.1% phần biến động của cổ phiếu VN30 do một yếu tố thị trường chung giải thích, nghĩa là nhiều cổ phiếu trong nhóm VN30 có xu hướng di chuyển cùng chiều."
     ]
    },
    "check": {
     "ok": true,
     "unverified_numbers": [],
-    "trade_mismatches": []
+    "trade_mismatches": [],
+    "context_issues": []
    },
    "usage": {
-    "input_tokens": 2,
-    "output_tokens": 577
+    "input_tokens": 958,
+    "output_tokens": 637
    },
    "model": "Qwen/Qwen3.8-27B-FP8",
    "execution": "live_modal_vllm"
@@ -595,41 +610,54 @@
   {
    "date": "2026-10-01",
    "explanation": {
-    "summary_vi": "Quý này danh mục của bạn có giá trị 168.82 triệu VND và đang nắm giữ 22 mã cổ phiếu. Chúng tôi đã thực hiện các giao dịch mua bán để tối ưu hóa việc phân bổ vốn theo các lô nguyên. Phương pháp lượng tử QAOA đã giúp tìm ra cấu hình giao dịch tốt hơn so với việc làm tròn đơn giản, với sai lệch theo dõi là 5.39%. Danh mục hiện tập trung nhiều vào nhóm Ngân hàng với tỷ trọng 39.4%.",
+    "summary_vi": "Quý này, danh mục của bạn có giá trị 168.82 triệu đồng và đang nắm giữ 22 mã cổ phiếu. Việc mua bán theo lô chẵn là cần thiết vì thị trường không cho phép mua bán cổ phiếu lẻ, nên cần một công cụ tối ưu hóa để chọn tổ hợp lô tốt nhất. Phương pháp lượng tử (QAOA) đã giúp tìm ra giải pháp có sai số bám so với chỉ số VN30 là 5.39%, trong khi cách làm tròn đơn giản có sai số 5.56% và danh mục lý tưởng là 5.1%. Rủi ro chính là danh mục vẫn có sai số bám so với chỉ số VN30 do giới hạn của việc mua bán theo lô chẵn.",
     "trade_notes": [
      {
       "ticker": "GVR",
       "action": "mua",
       "lots": 1,
-      "reason_vi": "Mua 1 lô với giá trị 3.23 triệu VND để điều chỉnh tỷ trọng danh mục."
+      "reason_vi": "Mua 1 lô GVR với giá trị 3.23 triệu đồng để điều chỉnh tỷ trọng ngành Nguyên vật liệu."
      },
      {
       "ticker": "SSI",
       "action": "bán",
       "lots": 1,
-      "reason_vi": "Bán 1 lô với giá trị 2.02 triệu VND để tái phân bổ vốn."
+      "reason_vi": "Bán 1 lô SSI với giá trị 2.02 triệu đồng để giảm tỷ trọng ngành Ngân hàng."
+     },
+     {
+      "ticker": "SSB",
+      "action": "bán",
+      "lots": 1,
+      "reason_vi": "Bán 1 lô SSB với giá trị 1.78 triệu đồng để cân bằng lại danh mục."
      },
      {
       "ticker": "VIB",
       "action": "mua",
       "lots": 1,
-      "reason_vi": "Mua 1 lô với giá trị 1.34 triệu VND theo kết quả tối ưu hóa."
+      "reason_vi": "Mua 1 lô VIB với giá trị 1.34 triệu đồng để tăng tỷ trọng ngành Ngân hàng."
+     },
+     {
+      "ticker": "SHB",
+      "action": "mua",
+      "lots": 1,
+      "reason_vi": "Mua 1 lô SHB với giá trị 1.14 triệu đồng để bổ sung vị thế trong ngành Ngân hàng."
      }
     ],
     "risk_notes_vi": [
-     "Danh mục có độ lệch theo dõi (tracking error) là 5.39% so với lý tưởng, do giới hạn phải mua bán theo lô nguyên.",
-     "Tỷ trọng nhóm Ngân hàng chiếm 39.4%, tạo ra rủi ro tập trung vào một ngành cụ thể.",
-     "Yếu tố thị trường chiếm 34.6% trong danh mục, khiến hiệu suất phụ thuộc nhiều vào biến động chung của thị trường."
+     "Danh mục có sai số bám so với chỉ số VN30 là 5.39%, cao hơn so với danh mục lý tưởng là 5.1% do giới hạn mua bán theo lô chẵn.",
+     "Tỷ trọng ngành Ngân hàng chiếm 39.4% trong danh mục, tạo ra sự tập trung rủi ro cao so với các ngành khác.",
+     "Nhóm cổ phiếu VN30 có 14.2 nguồn rủi ro độc lập hiệu dụng, nhưng 34.6% biến động đến từ một yếu tố thị trường chung, làm giảm hiệu quả phân tán rủi ro."
     ]
    },
    "check": {
     "ok": true,
     "unverified_numbers": [],
-    "trade_mismatches": []
+    "trade_mismatches": [],
+    "context_issues": []
    },
    "usage": {
-    "input_tokens": 2,
-    "output_tokens": 423
+    "input_tokens": 926,
+    "output_tokens": 644
    },
    "model": "Qwen/Qwen3.8-27B-FP8",
    "execution": "live_modal_vllm"

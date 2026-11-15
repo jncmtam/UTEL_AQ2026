@@ -7,13 +7,13 @@ trade only in **whole lots of 100 shares**. AI reads the market and the investor
 designed and tuned from that insight, picks the whole-lot portfolio; exact classical computation
 verifies every decision.
 
-**Read next:** [judge Q&A (75 questions)](docs/QA.md) · [methods and equations](docs/METHODS.md) ·
+**Read next:** [judge Q&A (75 questions)](docs/QA.md) · [rehearsal: five hardest questions](docs/REHEARSAL.md) · [methods and equations](docs/METHODS.md) ·
 [every table, auto-generated](docs/RESULTS.md)
 
 > **Tóm tắt.** AGQO giúp nhà đầu tư nhỏ nắm giữ danh mục bám VN30 theo quy tắc riêng (bỏ mã, giới hạn
 > ngành, số mã, tiền mặt) bằng các lô 100 cổ phiếu. LLM mã nguồn mở Qwen3.8-27B chuyển yêu cầu tiếng
-> Việt thành ràng buộc (đúng 35/35 câu thử, bộ quy tắc từ khóa 68,6 %) và viết giải thích có kiểm tra
-> từng con số (12/12). Mạch QAOA được thiết kế từ đặc trưng dữ liệu; trên 12 quý 2024–2026 chưa từng
+> Việt thành ràng buộc (đúng 35/35 câu thử, bộ quy tắc từ khóa 68,6 %) và viết giải thích được kiểm tra
+> từng con số (12/12) và ý nghĩa (11/12). Mạch QAOA được thiết kế từ đặc trưng dữ liệu; trên 12 quý 2024–2026 chưa từng
 > thấy, mạch lấy được nghiệm gần tối ưu nhiều gấp 6,9 lần trạng thái khởi động cổ điển và 19 lần QAOA
 > sách giáo khoa (12/12 quý, p = 0,0005). Với tài khoản 20 triệu đồng, sai số bám giảm từ 12,1 % xuống
 > 6,8 % so với làm tròn thông thường; thuật toán tham lam đạt 7,5 %. Trên mô phỏng nhiễu IBM Heron, mạch
@@ -48,7 +48,7 @@ verifies every decision.
 | 12 | [Small accounts](#12--result-small-accounts-are-where-lots-decide-everything) | 20M: TE 12.1 % → 6.8 %; greedy 7.5 % |
 | 13 | [Personal rules](#13--result-personal-rules-hold-with-zero-violations) | 0 violations; the cost of each rule is shown |
 | 14 | [100M and the ETF](#14--result-at-100m-vnd-and-against-the-etf) | at 100M, no significant gain; the ETF returns 1.1 %/yr more |
-| 15 | [The explanation](#15--the-llm-explains-every-number-is-checked) | 12/12 explanations pass the number check |
+| 15 | [The explanation](#15--the-llm-explains-every-number-is-checked) | numbers 12/12, meaning 11/12 (first prompt: 0/12) |
 | 16 | [Hardware](#16--hardware-depth-is-the-enemy-and-ai-guidance-adapts) | deep circuit dies on Heron noise; noise-aware choice keeps 1.6× |
 | 17 | [Scaling](#17--scaling-from-8-to-20-qubits) | schedule transfers 8→20 qubits; gain over warm start grows |
 | 18 | [Robustness & alternatives](#18--robustness-and-the-honest-alternatives) | fee levels, monthly rebalancing, greedy, odd lots |
@@ -185,7 +185,7 @@ token count to `results/final/llm/llm_log.jsonl`. `--llm replay` reproduces the 
 Vague instruction, live answer: *"Đừng mua quá nhiều cổ phiếu ngân hàng"* → *"Bạn muốn giới hạn tỷ trọng cổ
 phiếu ngân hàng tối đa là bao nhiêu phần trăm?"* The keyword parser fails on text without diacritics,
 fractions ("một phần ba", "1/4") and sectors named in everyday words.
-Cost: 47 requests, 30k input and 10k output tokens, under 1 USD of H100 time.
+Cost: 35 requests, 22.6k input and 3.2k output tokens; with the explainer, about 1–2 USD of H100 time in total.
 
 ---
 
@@ -339,17 +339,25 @@ cannot serve.
 
 ## 15 · The LLM explains; every number is checked
 
-Evidence pack for 2026-10-01 (built by code) → Qwen3.8-27B (temperature 0.3, JSON schema) → check:
+Evidence pack for 2026-10-01 (built by code; every field names its reference, e.g.
+`tracking_error_vs_vn30_index_pct`, with a Vietnamese label) → Qwen3.8-27B (temperature 0.3, JSON
+schema) → two checks:
 
-> *"Quý này danh mục của bạn có giá trị 168.82 triệu VND và đang nắm giữ 22 mã cổ phiếu. … Phương
-> pháp lượng tử QAOA đã giúp tìm ra cấu hình giao dịch tốt hơn so với việc làm tròn đơn giản …"*
-> Trade notes: GVR mua 1 lô, SSI bán 1 lô, VIB mua 1 lô. Check: **ok**, 0 unverified numbers,
-> 0 trade mismatches.
+> *"… Phương pháp lượng tử (QAOA) đã giúp tìm ra giải pháp có sai số bám so với chỉ số VN30 là 5.39%,
+> trong khi cách làm tròn đơn giản có sai số 5.56% và danh mục lý tưởng là 5.1%."*
+> *"Nhóm cổ phiếu VN30 có 14.2 nguồn rủi ro độc lập hiệu dụng, nhưng 34.6% biến động đến từ một yếu tố
+> thị trường chung, làm giảm hiệu quả phân tán rủi ro."*
+> Trade notes: GVR mua 1 lô, SSI bán 1 lô, SSB bán 1 lô, VIB mua 1 lô, SHB mua 1 lô.
 
-**12/12** quarterly explanations pass: every number appears in the evidence and every trade note matches
-an executed trade. The check guarantees numbers, not wording: in this note the model calls the 5.39 %
-TE (vs VN30) "so với lý tưởng" and places the 34.6 % market-factor share "trong danh mục". The fix,
-naming each evidence field with its reference, is listed in [docs/QA.md](docs/QA.md#5-the-llm-what-it-does-and-how-it-is-called).
+| check | what it tests | first prompt | current prompt |
+|---|---|---:|---:|
+| numbers | every number is in the evidence; every trade note matches an executed trade | 12/12 | **12/12** |
+| meaning | each tracking error is stated against VN30 in its sentence; VN30 market statistics are never attributed to the investor's portfolio | 0/12 | **11/12** |
+
+The first prompt passed the number check but wrote things like "5.39 % so với lý tưởng" (vs the ideal)
+or "chỉ số AGQO", when the reference is VN30. Self-describing evidence fields and one prompt rule fixed
+it. The one remaining flag (2025-07) says "chỉ số" (the index) without naming VN30; a failed check is
+shown, not hidden. 12 requests: 11.8k input and 8.2k output tokens, 13 s of generation on a warm H100.
 
 ---
 
@@ -444,11 +452,11 @@ survive.
 * 12 test quarters; at 100M the gain over naive rounding is within noise.
 * Back-adjusted prices understate historical lot costs (today's decision uses actual prices);
   cash-dividend treatment is unverified; no slippage or odd-lot fill model.
-* The LLM test set (35 instructions) was written by the team; explanation checks cover numbers, not
-  meaning.
+* The LLM test set (35 instructions) was written by the team; the explanation meaning check is
+  rule-based (references of tracking errors and market statistics), not a full semantic review.
 * Not investment advice: AGQO proposes trades; the investor decides.
 
-**Next steps.** Real user instructions for the LLM test set · semantic check of explanations · odd-lot
+**Next steps.** Real user instructions for the LLM test set · regenerate an explanation that fails a check · odd-lot
 top-up qubits · multi-lot encoding for a full ~60-qubit VN30 register · a live IBM Heron run of the
 noise-aware circuit · comparison with the best classical heuristics at each register size.
 
@@ -470,7 +478,7 @@ python -m agqo report                    # all figures + docs/RESULTS.md
 pytest -q                                # 22 tests
 ```
 
-**Cost.** LLM: under 1 USD of H100 time (two batches of about 6 min each, cold start included).
+**Cost.** LLM: about 1–2 USD of H100 time in total for all live runs (a cold start loads the model in ~5 min; a warm batch of 12 explanations takes 13 s).
 Quantum: CPU only; one decision takes 1 s (0.12 s to enumerate, 1.0 s to simulate and polish).
 
 ```

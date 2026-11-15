@@ -384,7 +384,9 @@ def _evidence(md: MarketData, d, rec, index, cfg) -> dict:
         sectors[md.sector(t)] = sectors.get(md.sector(t), 0) + wi
     nb = inst.meta["nearest_bits"]
     mi = market_insight(md, inst, land, [], cfg.lookback_days)
-    return {"date": inst.date, "account_value_million_vnd": round(inst.nav / 1e6, 2),
+    from .llm.tasks import describe_evidence
+
+    return describe_evidence({"date": inst.date, "account_value_million_vnd": round(inst.nav / 1e6, 2),
             "stocks_held_after_trade": int((new > 0).sum()), "trades": trades,
             "tracking_error_pct": {"agqo_choice": round(float(100 * inst.tracking_error(w)[0]), 2),
                                    "nearest_lot_rounding": round(float(100 * inst.tracking_error(inst.weights(nb))[0]), 2),
@@ -396,7 +398,7 @@ def _evidence(md: MarketData, d, rec, index, cfg) -> dict:
                         if r.best_sample is not None else None,
                         "checked_by": "exact enumeration of all 65536 lot choices"},
             "market": {"effective_independent_bets": round(mi.effective_bets, 1),
-                       "market_factor_share_pct": round(100 * mi.market_factor_share, 1)}}
+                       "market_factor_share_pct": round(100 * mi.market_factor_share, 1)}})
 
 
 def _export_latest(out: Path, rec) -> None:

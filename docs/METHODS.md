@@ -176,9 +176,13 @@ compiler runs at temperature 0, the explainer at 0.3.
    effective-constraint match (limits that cannot bind, such as 0 % cash, count as absent).
 2. **Explainer.** Input: a code-built evidence pack per quarter (trades in lots, tracking errors
    of AGQO vs nearest rounding vs fractional ideal, sector weights, quantum success and gap,
-   market insight). Output: a Vietnamese summary, trade notes and risk notes. Every number in the
-   text must appear in the evidence, and every trade note must match an executed trade; the pass
-   rate is reported.
+   market insight). Every evidence field names its reference (`tracking_error_vs_vn30_index_pct`,
+   `vn30_market_structure`, ...) and carries a Vietnamese label (`describe_evidence`). Output: a
+   Vietnamese summary, trade notes and risk notes. **Number check:** every number in the text must
+   appear in the evidence, and every trade note must match an executed trade. **Meaning check:** a
+   tracking-error value must sit in a sentence that names VN30, and a VN30 market statistic must not
+   share its clause with "danh mục" (portfolio); a consequence clause ("…, nghĩa là danh mục …") is
+   allowed. Both pass rates are reported.
 
 Every prompt, raw answer and token count is in `results/final/llm/llm_log.jsonl`;
 `--llm replay` reproduces the results without a GPU.
@@ -246,7 +250,8 @@ under-counted them; fixed in `modal_app.py`).
 * The noiseless choice (p = 6) is too deep for today's hardware (ESP ≈ 0.0002 on Heron r2); only
   the noise-aware choice (16 native CZ) keeps an advantage under simulated noise. No run on real
   hardware yet.
-* Explanations are checked for numbers and trades, not for meaning (see docs/QA.md §5).
+* The explanation meaning check is rule-based (references of tracking errors and market statistics),
+  not a full semantic review; 11/12 pass.
 
 ## References
 

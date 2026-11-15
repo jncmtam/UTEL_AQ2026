@@ -372,6 +372,10 @@ def llm_usage(run: Path) -> dict:
     out = {}
     for agent in sorted({r["agent"] for r in log}):
         rs = [r for r in log if r["agent"] == agent]
+        k = len(rs)                                             # the latest batch: trailing records of one call
+        while k > 0 and rs[k - 1]["batch_wall_s"] == rs[-1]["batch_wall_s"]:
+            k -= 1
+        rs = rs[k:]
         n_in = None
         if tok is not None:
             n_in = 0
@@ -382,7 +386,9 @@ def llm_usage(run: Path) -> dict:
                 n_in += len(ids["input_ids"] if isinstance(ids, dict) or hasattr(ids, "keys") else ids)
         out[agent] = {"requests": len(rs), "input_tokens": n_in, "output_tokens": sum(r["usage"].get("output_tokens", 0)
                                                                                          for r in rs),
-                      "batch_wall_seconds_incl_cold_start": rs[0]["batch_wall_s"], "model": rs[0]["model"],
+                      "batch_wall_seconds_incl_cold_start": rs[0]["batch_wall_s"],
+                      "model_load_s": rs[0].get("model_load_s"), "generate_s": rs[0].get("batch_generate_s"),
+                      "model": rs[0]["model"],
                       "gpu": rs[0].get("gpu")}
     if tok is None:
         out["note"] = "tokenizer unavailable: " + err

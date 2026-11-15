@@ -111,9 +111,9 @@ Tracking-error differences, moving-block bootstrap (21-day blocks, 2,000 resampl
 
 Mandate compiler on 35 hand-labelled Vietnamese instructions: Qwen3.8-27B effective-constraint match **100.0%** (strict JSON match 94.3%), keyword rules 68.6%; clarification decisions correct 35/35; invalid outputs 0.
 
-Explainer: 12/12 quarterly explanations had every number and trade verified against the evidence (100%). Latest (2026-10-01):
+Explainer: 12/12 quarterly explanations had every number and trade verified against the evidence (92%). Latest (2026-10-01):
 
-> Quý này danh mục của bạn có giá trị 168.82 triệu VND và đang nắm giữ 22 mã cổ phiếu. Chúng tôi đã thực hiện các giao dịch mua bán để tối ưu hóa việc phân bổ vốn theo các lô nguyên. Phương pháp lượng tử QAOA đã giúp tìm ra cấu hình giao dịch tốt hơn so với việc làm tròn đơn giản, với sai lệch theo dõi là 5.39%. Danh mục hiện tập trung nhiều vào nhóm Ngân hàng với tỷ trọng 39.4%.
+> Quý này, danh mục của bạn có giá trị 168.82 triệu đồng và đang nắm giữ 22 mã cổ phiếu. Việc mua bán theo lô chẵn là cần thiết vì thị trường không cho phép mua bán cổ phiếu lẻ, nên cần một công cụ tối ưu hóa để chọn tổ hợp lô tốt nhất. Phương pháp lượng tử (QAOA) đã giúp tìm ra giải pháp có sai số bám so với chỉ số VN30 là 5.39%, trong khi cách làm tròn đơn giản có sai số 5.56% và danh mục lý tưởng là 5.1%. Rủi ro chính là danh mục vẫn có sai số bám so với chỉ số VN30 do giới hạn của việc mua bán theo lô chẵn.
 
 ## 9. Latest decision
 ![11_latest_decision](figures/11_latest_decision.png)
