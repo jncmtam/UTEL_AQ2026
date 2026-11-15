@@ -13,3 +13,4 @@ results/hardware_run.json
 data/vn30/ohlcv_daily.csv
 data/vn30_provisional_raw_*/
 data/vn30_snapshot_*/
+results/final/llm/llm_log.replay.jsonl

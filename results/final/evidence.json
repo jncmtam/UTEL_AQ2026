@@ -1,0 +1,848 @@
+[
+ {
+  "date": "2024-01-02",
+  "account_value_million_vnd": 100.0,
+  "stocks_held_after_trade": 23,
+  "trades": [
+   {
+    "ticker": "VPB",
+    "action": "mua",
+    "lots": 6,
+    "value_million_vnd": 8.15
+   },
+   {
+    "ticker": "MSN",
+    "action": "mua",
+    "lots": 1,
+    "value_million_vnd": 6.84
+   },
+   {
+    "ticker": "FPT",
+    "action": "mua",
+    "lots": 1,
+    "value_million_vnd": 6.29
+   },
+   {
+    "ticker": "TCB",
+    "action": "mua",
+    "lots": 6,
+    "value_million_vnd": 5.95
+   },
+   {
+    "ticker": "ACB",
+    "action": "mua",
+    "lots": 4,
+    "value_million_vnd": 5.91
+   },
+   {
+    "ticker": "HPG",
+    "action": "mua",
+    "lots": 3,
+    "value_million_vnd": 5.57
+   },
+   {
+    "ticker": "STB",
+    "action": "mua",
+    "lots": 2,
+    "value_million_vnd": 5.55
+   },
+   {
+    "ticker": "VNM",
+    "action": "mua",
+    "lots": 1,
+    "value_million_vnd": 5.53
+   }
+  ],
+  "tracking_error_pct": {
+   "agqo_choice": 4.79,
+   "nearest_lot_rounding": 4.81,
+   "ideal_fractional_shares": 4.67
+  },
+  "sector_weights_pct": {
+   "Banking": 48.7,
+   "Consumer": 16.4,
+   "Real estate": 10.8,
+   "Materials": 7.6
+  },
+  "quantum": {
+   "qubits": 16,
+   "layers": 6,
+   "two_qubit_gates": 1440,
+   "near_optimal_share_of_shots_pct": 20.7,
+   "normalised_gap_to_exact_optimum_pct": 0.0,
+   "checked_by": "exact enumeration of all 65536 lot choices"
+  },
+  "market": {
+   "effective_independent_bets": 12.4,
+   "market_factor_share_pct": 42.9
+  }
+ },
+ {
+  "date": "2024-04-01",
+  "account_value_million_vnd": 114.39,
+  "stocks_held_after_trade": 22,
+  "trades": [
+   {
+    "ticker": "GVR",
+    "action": "bán",
+    "lots": 1,
+    "value_million_vnd": 3.18
+   },
+   {
+    "ticker": "HPG",
+    "action": "mua",
+    "lots": 1,
+    "value_million_vnd": 2.04
+   },
+   {
+    "ticker": "ACB",
+    "action": "mua",
+    "lots": 1,
+    "value_million_vnd": 1.72
+   },
+   {
+    "ticker": "VPB",
+    "action": "mua",
+    "lots": 1,
+    "value_million_vnd": 1.42
+   },
+   {
+    "ticker": "HDB",
+    "action": "bán",
+    "lots": 1,
+    "value_million_vnd": 1.14
+   },
+   {
+    "ticker": "TPB",
+    "action": "bán",
+    "lots": 1,
+    "value_million_vnd": 1.13
+   }
+  ],
+  "tracking_error_pct": {
+   "agqo_choice": 4.39,
+   "nearest_lot_rounding": 4.43,
+   "ideal_fractional_shares": 4.25
+  },
+  "sector_weights_pct": {
+   "Banking": 51.1,
+   "Consumer": 15.5,
+   "Real estate": 10.0,
+   "Materials": 7.1
+  },
+  "quantum": {
+   "qubits": 16,
+   "layers": 6,
+   "two_qubit_gates": 1440,
+   "near_optimal_share_of_shots_pct": 10.1,
+   "normalised_gap_to_exact_optimum_pct": 0.0,
+   "checked_by": "exact enumeration of all 65536 lot choices"
+  },
+  "market": {
+   "effective_independent_bets": 13.6,
+   "market_factor_share_pct": 39.3
+  }
+ },
+ {
+  "date": "2024-07-01",
+  "account_value_million_vnd": 114.77,
+  "stocks_held_after_trade": 22,
+  "trades": [
+   {
+    "ticker": "VIC",
+    "action": "mua",
+    "lots": 1,
+    "value_million_vnd": 2.07
+   },
+   {
+    "ticker": "SSI",
+    "action": "bán",
+    "lots": 1,
+    "value_million_vnd": 1.88
+   },
+   {
+    "ticker": "SSB",
+    "action": "mua",
+    "lots": 1,
+    "value_million_vnd": 1.52
+   },
+   {
+    "ticker": "VIB",
+    "action": "mua",
+    "lots": 1,
+    "value_million_vnd": 1.32
+   },
+   {
+    "ticker": "POW",
+    "action": "bán",
+    "lots": 1,
+    "value_million_vnd": 1.2
+   },
+   {
+    "ticker": "HDB",
+    "action": "mua",
+    "lots": 1,
+    "value_million_vnd": 1.1
+   },
+   {
+    "ticker": "TPB",
+    "action": "mua",
+    "lots": 1,
+    "value_million_vnd": 1.08
+   },
+   {
+    "ticker": "SHB",
+    "action": "bán",
+    "lots": 1,
+    "value_million_vnd": 0.84
+   }
+  ],
+  "tracking_error_pct": {
+   "agqo_choice": 4.49,
+   "nearest_lot_rounding": 4.54,
+   "ideal_fractional_shares": 4.35
+  },
+  "sector_weights_pct": {
+   "Banking": 52.7,
+   "Consumer": 16.8,
+   "Real estate": 10.4,
+   "Technology": 8.5
+  },
+  "quantum": {
+   "qubits": 16,
+   "layers": 6,
+   "two_qubit_gates": 1440,
+   "near_optimal_share_of_shots_pct": 13.5,
+   "normalised_gap_to_exact_optimum_pct": 0.0,
+   "checked_by": "exact enumeration of all 65536 lot choices"
+  },
+  "market": {
+   "effective_independent_bets": 12.6,
+   "market_factor_share_pct": 41.9
+  }
+ },
+ {
+  "date": "2024-10-01",
+  "account_value_million_vnd": 121.7,
+  "stocks_held_after_trade": 22,
+  "trades": [
+   {
+    "ticker": "VIC",
+    "action": "bán",
+    "lots": 1,
+    "value_million_vnd": 2.12
+   },
+   {
+    "ticker": "SSI",
+    "action": "mua",
+    "lots": 1,
+    "value_million_vnd": 1.97
+   },
+   {
+    "ticker": "MBB",
+    "action": "bán",
+    "lots": 1,
+    "value_million_vnd": 1.34
+   },
+   {
+    "ticker": "SHB",
+    "action": "mua",
+    "lots": 1,
+    "value_million_vnd": 0.84
+   }
+  ],
+  "tracking_error_pct": {
+   "agqo_choice": 4.2,
+   "nearest_lot_rounding": 4.2,
+   "ideal_fractional_shares": 4.08
+  },
+  "sector_weights_pct": {
+   "Banking": 54.0,
+   "Consumer": 16.5,
+   "Technology": 8.5,
+   "Real estate": 8.5
+  },
+  "quantum": {
+   "qubits": 16,
+   "layers": 6,
+   "two_qubit_gates": 1440,
+   "near_optimal_share_of_shots_pct": 18.3,
+   "normalised_gap_to_exact_optimum_pct": 0.0,
+   "checked_by": "exact enumeration of all 65536 lot choices"
+  },
+  "market": {
+   "effective_independent_bets": 12.4,
+   "market_factor_share_pct": 41.9
+  }
+ },
+ {
+  "date": "2025-01-02",
+  "account_value_million_vnd": 120.17,
+  "stocks_held_after_trade": 22,
+  "trades": [
+   {
+    "ticker": "STB",
+    "action": "bán",
+    "lots": 1,
+    "value_million_vnd": 3.7
+   },
+   {
+    "ticker": "VHM",
+    "action": "mua",
+    "lots": 1,
+    "value_million_vnd": 1.93
+   },
+   {
+    "ticker": "HDB",
+    "action": "mua",
+    "lots": 1,
+    "value_million_vnd": 1.49
+   },
+   {
+    "ticker": "VPB",
+    "action": "bán",
+    "lots": 1,
+    "value_million_vnd": 1.45
+   },
+   {
+    "ticker": "VIB",
+    "action": "mua",
+    "lots": 1,
+    "value_million_vnd": 1.44
+   }
+  ],
+  "tracking_error_pct": {
+   "agqo_choice": 3.7,
+   "nearest_lot_rounding": 3.76,
+   "ideal_fractional_shares": 3.62
+  },
+  "sector_weights_pct": {
+   "Banking": 52.8,
+   "Consumer": 15.2,
+   "Technology": 9.7,
+   "Real estate": 9.6
+  },
+  "quantum": {
+   "qubits": 16,
+   "layers": 6,
+   "two_qubit_gates": 1440,
+   "near_optimal_share_of_shots_pct": 26.4,
+   "normalised_gap_to_exact_optimum_pct": 0.0,
+   "checked_by": "exact enumeration of all 65536 lot choices"
+  },
+  "market": {
+   "effective_independent_bets": 14.4,
+   "market_factor_share_pct": 36.8
+  }
+ },
+ {
+  "date": "2025-04-01",
+  "account_value_million_vnd": 124.7,
+  "stocks_held_after_trade": 22,
+  "trades": [
+   {
+    "ticker": "SAB",
+    "action": "mua",
+    "lots": 1,
+    "value_million_vnd": 4.16
+   },
+   {
+    "ticker": "BID",
+    "action": "mua",
+    "lots": 1,
+    "value_million_vnd": 3.57
+   },
+   {
+    "ticker": "VHM",
+    "action": "bán",
+    "lots": 1,
+    "value_million_vnd": 2.55
+   },
+   {
+    "ticker": "VRE",
+    "action": "bán",
+    "lots": 1,
+    "value_million_vnd": 1.93
+   },
+   {
+    "ticker": "TCB",
+    "action": "bán",
+    "lots": 1,
+    "value_million_vnd": 1.78
+   },
+   {
+    "ticker": "SSB",
+    "action": "bán",
+    "lots": 1,
+    "value_million_vnd": 1.62
+   },
+   {
+    "ticker": "VIB",
+    "action": "mua",
+    "lots": 1,
+    "value_million_vnd": 1.46
+   },
+   {
+    "ticker": "TPB",
+    "action": "mua",
+    "lots": 1,
+    "value_million_vnd": 1.07
+   }
+  ],
+  "tracking_error_pct": {
+   "agqo_choice": 3.58,
+   "nearest_lot_rounding": 3.69,
+   "ideal_fractional_shares": 3.46
+  },
+  "sector_weights_pct": {
+   "Banking": 55.1,
+   "Consumer": 17.3,
+   "Real estate": 8.9,
+   "Technology": 7.4
+  },
+  "quantum": {
+   "qubits": 16,
+   "layers": 6,
+   "two_qubit_gates": 1440,
+   "near_optimal_share_of_shots_pct": 12.5,
+   "normalised_gap_to_exact_optimum_pct": 0.0,
+   "checked_by": "exact enumeration of all 65536 lot choices"
+  },
+  "market": {
+   "effective_independent_bets": 15.0,
+   "market_factor_share_pct": 35.9
+  }
+ },
+ {
+  "date": "2025-07-01",
+  "account_value_million_vnd": 133.39,
+  "stocks_held_after_trade": 23,
+  "trades": [
+   {
+    "ticker": "VIC",
+    "action": "bán",
+    "lots": 1,
+    "value_million_vnd": 4.78
+   },
+   {
+    "ticker": "SAB",
+    "action": "bán",
+    "lots": 1,
+    "value_million_vnd": 4.18
+   },
+   {
+    "ticker": "LPB",
+    "action": "mua",
+    "lots": 1,
+    "value_million_vnd": 3.04
+   },
+   {
+    "ticker": "GVR",
+    "action": "mua",
+    "lots": 1,
+    "value_million_vnd": 3.03
+   },
+   {
+    "ticker": "CTG",
+    "action": "bán",
+    "lots": 1,
+    "value_million_vnd": 2.83
+   },
+   {
+    "ticker": "VRE",
+    "action": "mua",
+    "lots": 1,
+    "value_million_vnd": 2.4
+   },
+   {
+    "ticker": "SSB",
+    "action": "mua",
+    "lots": 1,
+    "value_million_vnd": 1.49
+   },
+   {
+    "ticker": "VPB",
+    "action": "bán",
+    "lots": 1,
+    "value_million_vnd": 1.44
+   }
+  ],
+  "tracking_error_pct": {
+   "agqo_choice": 4.7,
+   "nearest_lot_rounding": 4.71,
+   "ideal_fractional_shares": 4.61
+  },
+  "sector_weights_pct": {
+   "Banking": 52.0,
+   "Consumer": 14.1,
+   "Real estate": 10.9,
+   "Materials": 8.3
+  },
+  "quantum": {
+   "qubits": 16,
+   "layers": 6,
+   "two_qubit_gates": 1440,
+   "near_optimal_share_of_shots_pct": 19.1,
+   "normalised_gap_to_exact_optimum_pct": 0.0,
+   "checked_by": "exact enumeration of all 65536 lot choices"
+  },
+  "market": {
+   "effective_independent_bets": 10.4,
+   "market_factor_share_pct": 47.8
+  }
+ },
+ {
+  "date": "2025-10-01",
+  "account_value_million_vnd": 166.46,
+  "stocks_held_after_trade": 24,
+  "trades": [
+   {
+    "ticker": "FPT",
+    "action": "mua",
+    "lots": 1,
+    "value_million_vnd": 8.29
+   },
+   {
+    "ticker": "VPB",
+    "action": "bán",
+    "lots": 2,
+    "value_million_vnd": 4.82
+   },
+   {
+    "ticker": "ACB",
+    "action": "bán",
+    "lots": 2,
+    "value_million_vnd": 4.45
+   },
+   {
+    "ticker": "BID",
+    "action": "bán",
+    "lots": 1,
+    "value_million_vnd": 3.66
+   },
+   {
+    "ticker": "CTG",
+    "action": "mua",
+    "lots": 1,
+    "value_million_vnd": 3.48
+   },
+   {
+    "ticker": "PLX",
+    "action": "mua",
+    "lots": 1,
+    "value_million_vnd": 3.3
+   },
+   {
+    "ticker": "HPG",
+    "action": "mua",
+    "lots": 1,
+    "value_million_vnd": 2.53
+   },
+   {
+    "ticker": "MBB",
+    "action": "bán",
+    "lots": 1,
+    "value_million_vnd": 2.11
+   }
+  ],
+  "tracking_error_pct": {
+   "agqo_choice": 5.31,
+   "nearest_lot_rounding": 5.42,
+   "ideal_fractional_shares": 5.16
+  },
+  "sector_weights_pct": {
+   "Banking": 44.1,
+   "Real estate": 12.9,
+   "Consumer": 12.7,
+   "Technology": 10.0
+  },
+  "quantum": {
+   "qubits": 16,
+   "layers": 6,
+   "two_qubit_gates": 1440,
+   "near_optimal_share_of_shots_pct": 9.2,
+   "normalised_gap_to_exact_optimum_pct": 0.0,
+   "checked_by": "exact enumeration of all 65536 lot choices"
+  },
+  "market": {
+   "effective_independent_bets": 10.9,
+   "market_factor_share_pct": 45.5
+  }
+ },
+ {
+  "date": "2026-01-05",
+  "account_value_million_vnd": 173.07,
+  "stocks_held_after_trade": 23,
+  "trades": [
+   {
+    "ticker": "VNM",
+    "action": "mua",
+    "lots": 1,
+    "value_million_vnd": 5.59
+   },
+   {
+    "ticker": "LPB",
+    "action": "mua",
+    "lots": 1,
+    "value_million_vnd": 3.83
+   },
+   {
+    "ticker": "GVR",
+    "action": "bán",
+    "lots": 1,
+    "value_million_vnd": 2.54
+   },
+   {
+    "ticker": "SSI",
+    "action": "bán",
+    "lots": 1,
+    "value_million_vnd": 2.33
+   },
+   {
+    "ticker": "TCB",
+    "action": "mua",
+    "lots": 1,
+    "value_million_vnd": 2.28
+   },
+   {
+    "ticker": "ACB",
+    "action": "mua",
+    "lots": 1,
+    "value_million_vnd": 2.07
+   },
+   {
+    "ticker": "MBB",
+    "action": "bán",
+    "lots": 1,
+    "value_million_vnd": 2.03
+   },
+   {
+    "ticker": "SSB",
+    "action": "mua",
+    "lots": 1,
+    "value_million_vnd": 1.43
+   }
+  ],
+  "tracking_error_pct": {
+   "agqo_choice": 5.96,
+   "nearest_lot_rounding": 6.03,
+   "ideal_fractional_shares": 5.77
+  },
+  "sector_weights_pct": {
+   "Banking": 44.2,
+   "Real estate": 19.4,
+   "Consumer": 15.8,
+   "Technology": 9.8
+  },
+  "quantum": {
+   "qubits": 16,
+   "layers": 6,
+   "two_qubit_gates": 1440,
+   "near_optimal_share_of_shots_pct": 28.6,
+   "normalised_gap_to_exact_optimum_pct": 0.0,
+   "checked_by": "exact enumeration of all 65536 lot choices"
+  },
+  "market": {
+   "effective_independent_bets": 11.0,
+   "market_factor_share_pct": 45.1
+  }
+ },
+ {
+  "date": "2026-04-01",
+  "account_value_million_vnd": 161.91,
+  "stocks_held_after_trade": 25,
+  "trades": [
+   {
+    "ticker": "VNM",
+    "action": "bán",
+    "lots": 1,
+    "value_million_vnd": 5.68
+   },
+   {
+    "ticker": "DGC",
+    "action": "mua",
+    "lots": 1,
+    "value_million_vnd": 4.19
+   },
+   {
+    "ticker": "SAB",
+    "action": "mua",
+    "lots": 1,
+    "value_million_vnd": 4.16
+   },
+   {
+    "ticker": "VRE",
+    "action": "mua",
+    "lots": 1,
+    "value_million_vnd": 2.66
+   },
+   {
+    "ticker": "ACB",
+    "action": "bán",
+    "lots": 1,
+    "value_million_vnd": 2.05
+   },
+   {
+    "ticker": "TCB",
+    "action": "bán",
+    "lots": 1,
+    "value_million_vnd": 2.01
+   },
+   {
+    "ticker": "VIB",
+    "action": "bán",
+    "lots": 1,
+    "value_million_vnd": 1.49
+   }
+  ],
+  "tracking_error_pct": {
+   "agqo_choice": 5.92,
+   "nearest_lot_rounding": 5.99,
+   "ideal_fractional_shares": 5.66
+  },
+  "sector_weights_pct": {
+   "Banking": 42.6,
+   "Real estate": 18.5,
+   "Consumer": 15.8,
+   "Materials": 10.1
+  },
+  "quantum": {
+   "qubits": 16,
+   "layers": 6,
+   "two_qubit_gates": 1440,
+   "near_optimal_share_of_shots_pct": 13.4,
+   "normalised_gap_to_exact_optimum_pct": 0.0,
+   "checked_by": "exact enumeration of all 65536 lot choices"
+  },
+  "market": {
+   "effective_independent_bets": 13.2,
+   "market_factor_share_pct": 37.3
+  }
+ },
+ {
+  "date": "2026-07-01",
+  "account_value_million_vnd": 179.25,
+  "stocks_held_after_trade": 24,
+  "trades": [
+   {
+    "ticker": "MWG",
+    "action": "mua",
+    "lots": 1,
+    "value_million_vnd": 7.77
+   },
+   {
+    "ticker": "VHM",
+    "action": "bán",
+    "lots": 1,
+    "value_million_vnd": 7.44
+   },
+   {
+    "ticker": "HPG",
+    "action": "mua",
+    "lots": 2,
+    "value_million_vnd": 4.69
+   },
+   {
+    "ticker": "TCB",
+    "action": "bán",
+    "lots": 1,
+    "value_million_vnd": 2.29
+   },
+   {
+    "ticker": "MBB",
+    "action": "mua",
+    "lots": 1,
+    "value_million_vnd": 2.06
+   },
+   {
+    "ticker": "SSB",
+    "action": "bán",
+    "lots": 1,
+    "value_million_vnd": 1.65
+   }
+  ],
+  "tracking_error_pct": {
+   "agqo_choice": 5.86,
+   "nearest_lot_rounding": 5.92,
+   "ideal_fractional_shares": 5.6
+  },
+  "sector_weights_pct": {
+   "Banking": 41.4,
+   "Real estate": 19.4,
+   "Consumer": 18.2,
+   "Materials": 9.2
+  },
+  "quantum": {
+   "qubits": 16,
+   "layers": 6,
+   "two_qubit_gates": 1440,
+   "near_optimal_share_of_shots_pct": 34.6,
+   "normalised_gap_to_exact_optimum_pct": 0.0,
+   "checked_by": "exact enumeration of all 65536 lot choices"
+  },
+  "market": {
+   "effective_independent_bets": 13.3,
+   "market_factor_share_pct": 36.1
+  }
+ },
+ {
+  "date": "2026-10-01",
+  "account_value_million_vnd": 168.82,
+  "stocks_held_after_trade": 22,
+  "trades": [
+   {
+    "ticker": "GVR",
+    "action": "mua",
+    "lots": 1,
+    "value_million_vnd": 3.23
+   },
+   {
+    "ticker": "SSI",
+    "action": "bán",
+    "lots": 1,
+    "value_million_vnd": 2.02
+   },
+   {
+    "ticker": "SSB",
+    "action": "bán",
+    "lots": 1,
+    "value_million_vnd": 1.78
+   },
+   {
+    "ticker": "VIB",
+    "action": "mua",
+    "lots": 1,
+    "value_million_vnd": 1.34
+   },
+   {
+    "ticker": "SHB",
+    "action": "mua",
+    "lots": 1,
+    "value_million_vnd": 1.14
+   }
+  ],
+  "tracking_error_pct": {
+   "agqo_choice": 5.39,
+   "nearest_lot_rounding": 5.56,
+   "ideal_fractional_shares": 5.1
+  },
+  "sector_weights_pct": {
+   "Banking": 39.4,
+   "Real estate": 19.9,
+   "Consumer": 18.6,
+   "Materials": 10.2
+  },
+  "quantum": {
+   "qubits": 16,
+   "layers": 6,
+   "two_qubit_gates": 1440,
+   "near_optimal_share_of_shots_pct": 49.4,
+   "normalised_gap_to_exact_optimum_pct": 0.0,
+   "checked_by": "exact enumeration of all 65536 lot choices"
+  },
+  "market": {
+   "effective_independent_bets": 14.2,
+   "market_factor_share_pct": 34.6
+  }
+ }
+]

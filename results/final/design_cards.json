@@ -1,0 +1,422 @@
+[
+ {
+  "date": "2024-01-02",
+  "qubits": 16,
+  "features": {
+   "warm_confidence": 0.2958,
+   "decided_share": 0.0,
+   "log_field_to_coupling": 0.3991,
+   "coupling_concentration": 0.4417,
+   "lot_weight_pct": 3.5247
+  },
+  "R1_R2_warm_start": {
+   "epsilon": 0.02
+  },
+  "R3_couplings": {
+   "kept": 120,
+   "of": 120,
+   "mass": 1.0,
+   "strongest_pairs": [
+    "MSN-VJC",
+    "MSN-MWG",
+    "GAS-MSN",
+    "MSN-SAB",
+    "GAS-VJC"
+   ]
+  },
+  "R4_scale": {
+   "rms": 2.9939698576348575e-05
+  },
+  "R5_schedule": {
+   "layers": 6,
+   "d_gamma": 0.5,
+   "d_beta": 0.6
+  },
+  "two_qubit_gates": 1440
+ },
+ {
+  "date": "2024-04-01",
+  "qubits": 16,
+  "features": {
+   "warm_confidence": 0.259,
+   "decided_share": 0.0,
+   "log_field_to_coupling": 1.0888,
+   "coupling_concentration": 0.4333,
+   "lot_weight_pct": 3.4296
+  },
+  "R1_R2_warm_start": {
+   "epsilon": 0.02
+  },
+  "R3_couplings": {
+   "kept": 120,
+   "of": 120,
+   "mass": 1.0,
+   "strongest_pairs": [
+    "MSN-MWG",
+    "FPT-MSN",
+    "MSN-VJC",
+    "FPT-VJC",
+    "FPT-MWG"
+   ]
+  },
+  "R4_scale": {
+   "rms": 3.369422566651269e-05
+  },
+  "R5_schedule": {
+   "layers": 6,
+   "d_gamma": 1.2,
+   "d_beta": 0.4
+  },
+  "two_qubit_gates": 1440
+ },
+ {
+  "date": "2024-07-01",
+  "qubits": 16,
+  "features": {
+   "warm_confidence": 0.2858,
+   "decided_share": 0.0625,
+   "log_field_to_coupling": 1.1765,
+   "coupling_concentration": 0.3,
+   "lot_weight_pct": 2.9181
+  },
+  "R1_R2_warm_start": {
+   "epsilon": 0.02
+  },
+  "R3_couplings": {
+   "kept": 120,
+   "of": 120,
+   "mass": 1.0,
+   "strongest_pairs": [
+    "MSN-MWG",
+    "MSN-VJC",
+    "GVR-MSN",
+    "GVR-MWG",
+    "MSN-PLX"
+   ]
+  },
+  "R4_scale": {
+   "rms": 3.4814962094923195e-05
+  },
+  "R5_schedule": {
+   "layers": 6,
+   "d_gamma": 0.9,
+   "d_beta": 0.4
+  },
+  "two_qubit_gates": 1440
+ },
+ {
+  "date": "2024-10-01",
+  "qubits": 16,
+  "features": {
+   "warm_confidence": 0.3357,
+   "decided_share": 0.0625,
+   "log_field_to_coupling": 0.6082,
+   "coupling_concentration": 0.3333,
+   "lot_weight_pct": 3.5152
+  },
+  "R1_R2_warm_start": {
+   "epsilon": 0.02
+  },
+  "R3_couplings": {
+   "kept": 120,
+   "of": 120,
+   "mass": 1.0,
+   "strongest_pairs": [
+    "FPT-MWG",
+    "FPT-MSN",
+    "MSN-MWG",
+    "FPT-GVR",
+    "FPT-VJC"
+   ]
+  },
+  "R4_scale": {
+   "rms": 3.4758926353755173e-05
+  },
+  "R5_schedule": {
+   "layers": 6,
+   "d_gamma": 0.9,
+   "d_beta": 0.4
+  },
+  "two_qubit_gates": 1440
+ },
+ {
+  "date": "2025-01-02",
+  "qubits": 16,
+  "features": {
+   "warm_confidence": 0.2683,
+   "decided_share": 0.0,
+   "log_field_to_coupling": 0.5478,
+   "coupling_concentration": 0.3583,
+   "lot_weight_pct": 2.9791
+  },
+  "R1_R2_warm_start": {
+   "epsilon": 0.02
+  },
+  "R3_couplings": {
+   "kept": 120,
+   "of": 120,
+   "mass": 1.0,
+   "strongest_pairs": [
+    "MSN-MWG",
+    "MSN-VJC",
+    "MWG-VJC",
+    "GVR-MSN",
+    "MSN-SAB"
+   ]
+  },
+  "R4_scale": {
+   "rms": 1.673830321682288e-05
+  },
+  "R5_schedule": {
+   "layers": 6,
+   "d_gamma": 0.5,
+   "d_beta": 0.6
+  },
+  "two_qubit_gates": 1440
+ },
+ {
+  "date": "2025-04-01",
+  "qubits": 16,
+  "features": {
+   "warm_confidence": 0.3398,
+   "decided_share": 0.0625,
+   "log_field_to_coupling": 0.3538,
+   "coupling_concentration": 0.5,
+   "lot_weight_pct": 3.63
+  },
+  "R1_R2_warm_start": {
+   "epsilon": 0.02
+  },
+  "R3_couplings": {
+   "kept": 120,
+   "of": 120,
+   "mass": 1.0,
+   "strongest_pairs": [
+    "FPT-MSN",
+    "FPT-MWG",
+    "FPT-VJC",
+    "MSN-MWG",
+    "FPT-GAS"
+   ]
+  },
+  "R4_scale": {
+   "rms": 1.9859325979648115e-05
+  },
+  "R5_schedule": {
+   "layers": 6,
+   "d_gamma": 0.7,
+   "d_beta": 0.4
+  },
+  "two_qubit_gates": 1440
+ },
+ {
+  "date": "2025-07-01",
+  "qubits": 16,
+  "features": {
+   "warm_confidence": 0.3109,
+   "decided_share": 0.0,
+   "log_field_to_coupling": 1.2081,
+   "coupling_concentration": 0.5083,
+   "lot_weight_pct": 3.5391
+  },
+  "R1_R2_warm_start": {
+   "epsilon": 0.02
+  },
+  "R3_couplings": {
+   "kept": 120,
+   "of": 120,
+   "mass": 1.0,
+   "strongest_pairs": [
+    "FPT-MSN",
+    "BCM-MSN",
+    "BCM-FPT",
+    "BVH-FPT",
+    "BVH-MSN"
+   ]
+  },
+  "R4_scale": {
+   "rms": 4.446559455766727e-05
+  },
+  "R5_schedule": {
+   "layers": 6,
+   "d_gamma": 0.7,
+   "d_beta": 0.6
+  },
+  "two_qubit_gates": 1440
+ },
+ {
+  "date": "2025-10-01",
+  "qubits": 16,
+  "features": {
+   "warm_confidence": 0.2157,
+   "decided_share": 0.0,
+   "log_field_to_coupling": 0.5366,
+   "coupling_concentration": 0.4917,
+   "lot_weight_pct": 3.0863
+  },
+  "R1_R2_warm_start": {
+   "epsilon": 0.02
+  },
+  "R3_couplings": {
+   "kept": 120,
+   "of": 120,
+   "mass": 1.0,
+   "strongest_pairs": [
+    "MSN-VJC",
+    "FPT-MSN",
+    "BCM-VJC",
+    "VIC-VJC",
+    "BCM-MSN"
+   ]
+  },
+  "R4_scale": {
+   "rms": 2.5836465146673604e-05
+  },
+  "R5_schedule": {
+   "layers": 6,
+   "d_gamma": 0.5,
+   "d_beta": 0.6
+  },
+  "two_qubit_gates": 1440
+ },
+ {
+  "date": "2026-01-05",
+  "qubits": 16,
+  "features": {
+   "warm_confidence": 0.3405,
+   "decided_share": 0.125,
+   "log_field_to_coupling": 1.3798,
+   "coupling_concentration": 0.3333,
+   "lot_weight_pct": 3.8375
+  },
+  "R1_R2_warm_start": {
+   "epsilon": 0.02
+  },
+  "R3_couplings": {
+   "kept": 120,
+   "of": 120,
+   "mass": 1.0,
+   "strongest_pairs": [
+    "VHM-VIC",
+    "VIC-VJC",
+    "MWG-VIC",
+    "VIC-VRE",
+    "MWG-VJC"
+   ]
+  },
+  "R4_scale": {
+   "rms": 8.64252671543184e-05
+  },
+  "R5_schedule": {
+   "layers": 6,
+   "d_gamma": 0.9,
+   "d_beta": 0.4
+  },
+  "two_qubit_gates": 1440
+ },
+ {
+  "date": "2026-04-01",
+  "qubits": 16,
+  "features": {
+   "warm_confidence": 0.29,
+   "decided_share": 0.0625,
+   "log_field_to_coupling": 1.4502,
+   "coupling_concentration": 0.15,
+   "lot_weight_pct": 3.1883
+  },
+  "R1_R2_warm_start": {
+   "epsilon": 0.02
+  },
+  "R3_couplings": {
+   "kept": 120,
+   "of": 120,
+   "mass": 1.0,
+   "strongest_pairs": [
+    "VHM-VIC",
+    "VIC-VJC",
+    "MWG-VIC",
+    "VHM-VJC",
+    "MWG-VJC"
+   ]
+  },
+  "R4_scale": {
+   "rms": 7.244074046297155e-05
+  },
+  "R5_schedule": {
+   "layers": 6,
+   "d_gamma": 0.9,
+   "d_beta": 0.4
+  },
+  "two_qubit_gates": 1440
+ },
+ {
+  "date": "2026-07-01",
+  "qubits": 16,
+  "features": {
+   "warm_confidence": 0.2652,
+   "decided_share": 0.0,
+   "log_field_to_coupling": 1.7671,
+   "coupling_concentration": 0.075,
+   "lot_weight_pct": 3.5366
+  },
+  "R1_R2_warm_start": {
+   "epsilon": 0.02
+  },
+  "R3_couplings": {
+   "kept": 120,
+   "of": 120,
+   "mass": 1.0,
+   "strongest_pairs": [
+    "VHM-VIC",
+    "VIC-VJC",
+    "VIC-VRE",
+    "MWG-VIC",
+    "VHM-VJC"
+   ]
+  },
+  "R4_scale": {
+   "rms": 0.00014354206097095913
+  },
+  "R5_schedule": {
+   "layers": 6,
+   "d_gamma": 0.9,
+   "d_beta": 0.4
+  },
+  "two_qubit_gates": 1440
+ },
+ {
+  "date": "2026-10-01",
+  "qubits": 16,
+  "features": {
+   "warm_confidence": 0.4399,
+   "decided_share": 0.125,
+   "log_field_to_coupling": 1.0989,
+   "coupling_concentration": 0.1417,
+   "lot_weight_pct": 4.4578
+  },
+  "R1_R2_warm_start": {
+   "epsilon": 0.02
+  },
+  "R3_couplings": {
+   "kept": 120,
+   "of": 120,
+   "mass": 1.0,
+   "strongest_pairs": [
+    "VHM-VIC",
+    "VIC-VJC",
+    "VIC-VPL",
+    "MWG-VIC",
+    "MCH-VIC"
+   ]
+  },
+  "R4_scale": {
+   "rms": 0.00010231904956039083
+  },
+  "R5_schedule": {
+   "layers": 6,
+   "d_gamma": 0.9,
+   "d_beta": 0.4
+  },
+  "two_qubit_gates": 1440
+ }
+]

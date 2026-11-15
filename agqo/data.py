@@ -78,9 +78,9 @@ class MarketData:
         pos = self.index.index.searchsorted(date)
         return self.index.index[min(pos, len(self.index) - 1)]
 
-    def rebalance_dates(self, first: str, last: str) -> list[pd.Timestamp]:
-        """First trading day of each calendar quarter in [first, last]."""
-        starts = pd.date_range(first, last, freq="QS")
+    def rebalance_dates(self, first: str, last: str, freq: str = "QS") -> list[pd.Timestamp]:
+        """First trading day of each calendar quarter ("QS") or month ("MS") in [first, last]."""
+        starts = pd.date_range(first, last, freq=freq)
         days = [self.trading_day_on_or_after(d) for d in starts]
         return sorted(set(d for d in days if d <= pd.Timestamp(last)))
 

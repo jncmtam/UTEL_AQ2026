@@ -4,10 +4,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "agqo"
-version = "2.0.0"
-description = "AGQO: LLM-core market analysis and quantum-circuit design for VN30 integer-lot rebalancing"
+version = "3.0.0"
+description = "AGQO: AI-guided quantum optimisation of whole-lot VN30 portfolios for small investors"
 requires-python = ">=3.10"
-dependencies = ["numpy>=1.26", "scipy>=1.11", "pandas>=2.1", "matplotlib>=3.8", "tabulate>=0.9"]
+dependencies = ["numpy>=1.26", "scipy>=1.11", "pandas>=2.1", "matplotlib>=3.8", "requests>=2.31"]
 
 [project.optional-dependencies]
 quantum = ["qiskit>=1.2"]

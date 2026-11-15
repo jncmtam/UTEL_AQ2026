@@ -1,0 +1,36 @@
+{
+  "qubits": 16,
+  "cx": 1440,
+  "depth": 1027,
+  "single_qubit": 1264,
+  "spec": {
+    "layers": 6,
+    "initial_state": "warm_start",
+    "mixer": "warm_x",
+    "warm_start_epsilon": 0.02,
+    "coupling_keep_fraction": 1.0,
+    "angle_init": "linear_ramp",
+    "ramp_dt": 0.9,
+    "optimizer": "cobyla",
+    "max_iter": 40,
+    "cvar_alpha": 0.1,
+    "coupling_mass": 1.0,
+    "hamiltonian_scale": "rms",
+    "ramp_dbeta": 0.4,
+    "rationale": "AGQO: warm start + aligned mixer, 100% coupling mass, RMS scale, linear ramp p=6; polished by 40 COBYLA steps"
+  },
+  "angles": [
+    0.1221,
+    0.2407,
+    0.3848,
+    0.5309,
+    0.5799,
+    1.8212,
+    0.2727,
+    0.2348,
+    0.2541,
+    0.2473,
+    0.2398,
+    0.1196
+  ]
+}

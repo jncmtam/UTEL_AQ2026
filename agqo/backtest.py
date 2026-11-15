@@ -1,4 +1,4 @@
-"""Walk-forward VN30 tracking backtest with exact lot, fee and tax accounting."""
+"""Walk-forward VN30 tracking: instance construction, exact lot/fee/tax accounting, performance."""
 
 from __future__ import annotations
 
@@ -10,7 +10,8 @@ import pandas as pd
 from .classical import continuous_min_te, round_to_lots
 from .config import ExperimentConfig
 from .data import MarketData, history_window, shrunk_covariance
-from .portfolio import Instance, black_litterman
+from .mandate import Mandate
+from .portfolio import Instance
 
 
 @dataclass
@@ -53,56 +54,91 @@ def risk_inputs(md: MarketData, date, tickers: list[str], cfg) -> tuple[np.ndarr
     return S[:n, :n], S[:n, n], float(S[n, n])
 
 
-def _common(md: MarketData, date, tickers: list[str], views: dict, account: Account, ec: ExperimentConfig):
+def continuous_target(md: MarketData, date, universe: list[str], account: Account, ec: ExperimentConfig,
+                      mandate: Mandate | None = None) -> tuple[list[str], np.ndarray, float, list]:
+    """Mandate-aware continuous minimum-TE weights: (tickers, weights, invest target, caps)."""
+    m = mandate or Mandate()
     cfg = ec.problem
-    prices = md.px.loc[date, tickers].to_numpy()
-    all_px = md.px.loc[date]
-    nav = account.value(all_px)
-    cov, cov_b, var_b = risk_inputs(md, date, tickers, cfg)
-    v = np.array([views.get(t, (0, 0.0))[0] for t in tickers], float)
-    c = np.array([views.get(t, (0, 0.0))[1] for t in tickers], float)
-    mu = black_litterman(252 * cov, v, c)
-    prev = np.array([account.shares.get(t, 0.0) for t in tickers])
-    other = sum(s * all_px[t] for t, s in account.shares.items() if t not in tickers)
-    return dict(date=str(pd.Timestamp(date).date()), tickers=list(tickers), prices=prices, nav=nav, cov=cov,
-                cov_b=cov_b, var_b=var_b, mu=mu, prev_shares=prev, other_value=other, cash=account.cash,
-                cfg=cfg, rules=ec.rules)
+    tickers = m.filter_universe(universe, md.sector)
+    target = m.invest_target(cfg.invest_target)
+    nav = account.value(md.px.loc[date])
+
+    def solve(tk):
+        cov, cov_b, _ = risk_inputs(md, date, tk, cfg)
+        w_prev = np.array([account.shares.get(t, 0.0) for t in tk]) * md.px.loc[date, tk].to_numpy() / nav
+        caps = m.caps(tk, md.sector)
+        return continuous_min_te(cov, cov_b, target, w_prev=w_prev, gamma=cfg.turnover_weight, caps=caps), caps
+
+    w, caps = solve(tickers)
+    if m.max_holdings is not None and m.max_holdings < len(tickers):
+        keep = sorted(np.argsort(-w)[: m.max_holdings])
+        tickers = [tickers[i] for i in keep]
+        w, caps = solve(tickers)
+    return tickers, w, target, caps
 
 
-def build_rounding_instance(md: MarketData, date, universe: list[str], views: dict, account: Account,
-                            ec: ExperimentConfig) -> Instance:
-    """Rounding mode: continuous optimum over every member, floored to lots; one qubit per register
+def build_rounding_instance(md: MarketData, date, universe: list[str], account: Account, ec: ExperimentConfig,
+                            mandate: Mandate | None = None) -> Instance:
+    """Continuous optimum over the (mandate-filtered) members, rounded to lots; one qubit per register
     stock decides whether to add one more lot. The register holds the stocks where rounding matters
     most: lot value x distance of the continuous lot count from an integer."""
     cfg, rules = ec.problem, ec.rules
-    kw = _common(md, date, universe, views, account, ec)
-    nav, px = kw["nav"], kw["prices"]
-    w = continuous_min_te(kw["cov"], kw["cov_b"], cfg.invest_target, mu=kw["mu"], eta=cfg.view_weight,
-                          w_prev=kw["prev_shares"] * px / nav, gamma=cfg.turnover_weight)
+    tickers, w, target, caps = continuous_target(md, date, universe, account, ec, mandate)
+    px = md.px.loc[date, tickers].to_numpy()
+    all_px = md.px.loc[date]
+    nav = account.value(all_px)
+    cov, cov_b, var_b = risk_inputs(md, date, tickers, cfg)
     lots = w * nav / (rules.lot_size * px)
     floor = np.floor(lots + 1e-9)
     frac = lots - floor
-    score = (rules.lot_size * px / nav) * np.minimum(frac, 1 - frac) + 1e-6 * frac
-    reg = np.sort(np.argsort(-score)[: min(cfg.register_size, len(universe))])
+    lot_w = rules.lot_size * px / nav                     # weight of one lot of each stock
+    score = lot_w * np.minimum(frac, 1 - frac) + 1e-6 * frac
+    floor_w = floor * lot_w
+
+    def fits(reg: list[int]) -> bool:
+        """Constraint-aware register: even with every qubit set, each cap holds (all 2^n states obey the mandate)."""
+        for mask, cap in caps:
+            if mask.all():                    # the total-cash cap is checked exactly on each sample instead
+                continue
+            if floor_w[mask].sum() + lot_w[[j for j in reg if mask[j]]].sum() > cap + 1e-12:
+                return False
+        return True
+
+    reg: list[int] = []
+    for j in np.argsort(-score):
+        if len(reg) == cfg.register_size:
+            break
+        if fits(reg + [int(j)]):
+            reg.append(int(j))
+    reg = np.array(sorted(reg), dtype=int)
     base = np.round(lots)                     # stocks outside the register: nearest lot
     base[reg] = floor[reg]                    # register stocks: floor, the qubit may add one lot
-    inst = Instance(**kw, base_shares=base * rules.lot_size, bit_stock=reg, bit_lots=np.ones(len(reg)),
-                    mode="rounding")
+    for mask, cap in caps:                    # fixed part + every qubit set must stay inside each cap
+        extra = 0.0 if mask.all() else lot_w[[j for j in reg if mask[j]]].sum()
+        while (base * lot_w)[mask].sum() + extra > cap + 1e-12:
+            j = np.flatnonzero(mask & (base > floor) & ~np.isin(np.arange(len(base)), reg))
+            j = j if len(j) else np.flatnonzero(mask & (base > 0))
+            base[j[np.argmax((base * px)[j])]] -= 1
+    prev = np.array([account.shares.get(t, 0.0) for t in tickers])
+    other = sum(s * all_px[t] for t, s in account.shares.items() if t not in tickers)
+    inst = Instance(date=str(pd.Timestamp(date).date()), tickers=list(tickers), prices=px, nav=nav, cov=cov,
+                    cov_b=cov_b, var_b=var_b, prev_shares=prev, other_value=other, cash=account.cash,
+                    base_shares=base * rules.lot_size, bit_stock=reg, bit_lots=np.ones(len(reg)), cfg=cfg,
+                    rules=rules, invest_target=target, caps=caps)
     inst.meta["continuous_weights"] = w
     inst.meta["nearest_bits"] = (frac[reg] >= 0.5).astype(int)   # plain rounding = one specific bitstring
+    inst.meta["register_dropped_by_caps"] = int(min(cfg.register_size, len(tickers)) - len(reg))
     return inst
 
 
-def qp_round_target(md: MarketData, date, universe: list[str], account: Account, ec: ExperimentConfig) -> dict:
-    """Practitioner baseline: continuous min-TE over every usable member, floored to whole lots."""
-    cfg, rules = ec.problem, ec.rules
-    cov, cov_b, _ = risk_inputs(md, date, universe, cfg)
-    px = md.px.loc[date, universe].to_numpy()
+def practitioner_target(md: MarketData, date, universe: list[str], account: Account, ec: ExperimentConfig,
+                        mandate: Mandate | None = None) -> dict:
+    """Practitioner baseline: the same continuous optimum, nearest whole lot, trimmed until affordable."""
+    tickers, w, target, caps = continuous_target(md, date, universe, account, ec, mandate)
     nav = account.value(md.px.loc[date])
-    w_prev = np.array([account.shares.get(t, 0.0) for t in universe]) * px / nav
-    w = continuous_min_te(cov, cov_b, cfg.invest_target, w_prev=w_prev, gamma=cfg.turnover_weight)
-    sh = round_to_lots(w, px, nav, rules.lot_size)
-    return dict(zip(universe, sh))
+    sh = round_to_lots(w, md.px.loc[date, tickers].to_numpy(), nav, ec.rules.lot_size,
+                       max_invest=min(0.985, target + 0.005), caps=caps)
+    return dict(zip(tickers, sh))
 
 
 def equal_weight_target(md: MarketData, date, universe: list[str], account: Account, ec: ExperimentConfig) -> dict:
@@ -113,14 +149,15 @@ def equal_weight_target(md: MarketData, date, universe: list[str], account: Acco
     return dict(zip(universe, round_to_lots(w, px, nav, ec.rules.lot_size)))
 
 
-def etf_buy_and_hold(md: MarketData, ticker: str, start, end, ec: ExperimentConfig) -> tuple[pd.Series, float]:
+def etf_buy_and_hold(md: MarketData, ticker: str, start, end, ec: ExperimentConfig,
+                     capital: float | None = None) -> tuple[pd.Series, float]:
     """What the investor could do instead: buy whole lots of one VN30 ETF on day one and hold.
 
     ETF units trade in 100-unit lots with the same commission; days without a trade carry the last price.
     Returns (daily account value, fees paid).
     """
     px = md.etf_close[ticker].loc[:end].ffill().loc[start:end]
-    cap, r = ec.problem.capital_vnd, ec.rules
+    cap, r = capital or ec.problem.capital_vnd, ec.rules
     p0 = px.iloc[0]
     units = np.floor(cap / (p0 * r.lot_size * (1 + r.commission))) * r.lot_size
     fee = units * p0 * r.commission
@@ -137,25 +174,30 @@ def daily_values(md: MarketData, account: Account, start, end) -> pd.Series:
 
 
 def performance(values: pd.Series, index: pd.Series, etf: pd.Series | None = None) -> dict:
-    """Tracking vs the VN30 price index (excludes dividends) and, if given, vs a VN30 ETF (includes them)."""
+    """Tracking vs the VN30 price index (excludes dividends) and, if given, vs a VN30 ETF (includes them).
+
+    Weekly tracking error is reported next to the daily one because ETF market prices carry
+    day-to-day noise around NAV that is not tracking skill.
+    """
     rp = values.pct_change().dropna()
     rb = index.pct_change().loc[rp.index]
     act = rp - rb
     yrs = len(rp) / 252
     tot_p = values.iloc[-1] / values.iloc[0] - 1
     tot_b = index.loc[values.index[-1]] / index.loc[values.index[0]] - 1
-    return {"tracking_error_ann_pct": float(100 * act.std() * np.sqrt(252)),
-            "active_return_ann_pct": float(100 * ((1 + tot_p) ** (1 / yrs) - (1 + tot_b) ** (1 / yrs))),
-            "portfolio_return_total_pct": float(100 * tot_p),
-            "index_return_total_pct": float(100 * tot_b),
-            "correlation": float(np.corrcoef(rp, rb)[0, 1]),
-            "days": int(len(rp))} | ({} if etf is None else _vs_etf(values, etf, yrs))
+    wk = values.resample("W-FRI").last().pct_change().dropna() - index.resample("W-FRI").last().pct_change().dropna()
+    out = {"tracking_error_ann_pct": float(100 * act.std() * np.sqrt(252)),
+           "tracking_error_weekly_ann_pct": float(100 * wk.std() * np.sqrt(52)),
+           "return_ann_pct": float(100 * ((1 + tot_p) ** (1 / yrs) - 1)),
+           "active_return_ann_pct": float(100 * ((1 + tot_p) ** (1 / yrs) - (1 + tot_b) ** (1 / yrs))),
+           "correlation": float(np.corrcoef(rp, rb)[0, 1]), "days": int(len(rp))}
+    if etf is not None:
+        e = etf.ffill().loc[values.index]
+        tot_e = e.iloc[-1] / e.iloc[0] - 1
+        out["excess_return_vs_etf_ann_pct"] = float(100 * ((1 + tot_p) ** (1 / yrs) - (1 + tot_e) ** (1 / yrs)))
+    return out
 
 
-def _vs_etf(values: pd.Series, etf: pd.Series, yrs: float) -> dict:
-    e = etf.ffill().loc[values.index]
-    act = values.pct_change().dropna() - e.pct_change().loc[values.index[1:]]
-    tot_p = values.iloc[-1] / values.iloc[0] - 1
-    tot_e = e.iloc[-1] / e.iloc[0] - 1
-    return {"tracking_error_vs_etf_pct": float(100 * act.std() * np.sqrt(252)),
-            "excess_return_vs_etf_ann_pct": float(100 * ((1 + tot_p) ** (1 / yrs) - (1 + tot_e) ** (1 / yrs)))}
+def active_returns(values: pd.Series, index: pd.Series) -> pd.Series:
+    rp = values.pct_change().dropna()
+    return rp - index.pct_change().loc[rp.index]

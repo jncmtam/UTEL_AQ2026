@@ -1,0 +1,1411 @@
+{
+ "score": {
+  "items": 35,
+  "rule_exact_pct": 68.57142857142857,
+  "rule_effective_pct": 68.57142857142857,
+  "llm_exact_pct": 94.28571428571429,
+  "llm_effective_pct": 100.0,
+  "llm_clarification_correct": 35,
+  "llm_invalid": 0,
+  "llm_wrong_constraint_items": 0
+ },
+ "rows": [
+  {
+   "instruction": "Bỏ NVL và PDR",
+   "gold": {
+    "exclude_tickers": [
+     "NVL",
+     "PDR"
+    ],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "gold_needs_clarification": false,
+   "rule": {
+    "exclude_tickers": [
+     "NVL",
+     "PDR"
+    ],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "rule_exact": true,
+   "rule_effective": true,
+   "llm": {
+    "exclude_tickers": [
+     "NVL",
+     "PDR"
+    ],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "llm_needs_clarification": false,
+   "llm_errors": [],
+   "llm_question": null,
+   "llm_exact": true,
+   "llm_effective": true
+  },
+  {
+   "instruction": "Không đầu tư vào bất động sản",
+   "gold": {
+    "exclude_tickers": [],
+    "exclude_sectors": [
+     "Real estate"
+    ],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "gold_needs_clarification": false,
+   "rule": {
+    "exclude_tickers": [],
+    "exclude_sectors": [
+     "Real estate"
+    ],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "rule_exact": true,
+   "rule_effective": true,
+   "llm": {
+    "exclude_tickers": [],
+    "exclude_sectors": [
+     "Real estate"
+    ],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "llm_needs_clarification": false,
+   "llm_errors": [],
+   "llm_question": null,
+   "llm_exact": true,
+   "llm_effective": true
+  },
+  {
+   "instruction": "Ngân hàng tối đa 30%",
+   "gold": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {
+     "Banking": 0.3
+    },
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "gold_needs_clarification": false,
+   "rule": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {
+     "Banking": 0.3
+    },
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "rule_exact": true,
+   "rule_effective": true,
+   "llm": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {
+     "Banking": 0.3
+    },
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "llm_needs_clarification": false,
+   "llm_errors": [],
+   "llm_question": null,
+   "llm_exact": true,
+   "llm_effective": true
+  },
+  {
+   "instruction": "khong mua co phieu ngan hang qua 25%",
+   "gold": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {
+     "Banking": 0.25
+    },
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "gold_needs_clarification": false,
+   "rule": {
+    "exclude_tickers": [],
+    "exclude_sectors": [
+     "Banking"
+    ],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "rule_exact": false,
+   "rule_effective": false,
+   "llm": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {
+     "Banking": 0.25
+    },
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "llm_needs_clarification": false,
+   "llm_errors": [],
+   "llm_question": null,
+   "llm_exact": true,
+   "llm_effective": true
+  },
+  {
+   "instruction": "Tôi chỉ muốn giữ tối đa 12 mã",
+   "gold": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": 12,
+    "min_cash_pct": null
+   },
+   "gold_needs_clarification": false,
+   "rule": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": 12,
+    "min_cash_pct": null
+   },
+   "rule_exact": true,
+   "rule_effective": true,
+   "llm": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": 12,
+    "min_cash_pct": null
+   },
+   "llm_needs_clarification": false,
+   "llm_errors": [],
+   "llm_question": null,
+   "llm_exact": true,
+   "llm_effective": true
+  },
+  {
+   "instruction": "Mỗi mã không quá 10%",
+   "gold": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": 0.1,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "gold_needs_clarification": false,
+   "rule": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": 0.1,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "rule_exact": true,
+   "rule_effective": true,
+   "llm": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": 0.1,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "llm_needs_clarification": false,
+   "llm_errors": [],
+   "llm_question": null,
+   "llm_exact": true,
+   "llm_effective": true
+  },
+  {
+   "instruction": "Giữ lại 5% tiền mặt",
+   "gold": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": 5.0
+   },
+   "gold_needs_clarification": false,
+   "rule": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": 5.0
+   },
+   "rule_exact": true,
+   "rule_effective": true,
+   "llm": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": 5
+   },
+   "llm_needs_clarification": false,
+   "llm_errors": [],
+   "llm_question": null,
+   "llm_exact": true,
+   "llm_effective": true
+  },
+  {
+   "instruction": "Tránh các doanh nghiệp năng lượng và hàng không",
+   "gold": {
+    "exclude_tickers": [],
+    "exclude_sectors": [
+     "Aviation",
+     "Energy"
+    ],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "gold_needs_clarification": false,
+   "rule": {
+    "exclude_tickers": [],
+    "exclude_sectors": [
+     "Energy"
+    ],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "rule_exact": false,
+   "rule_effective": false,
+   "llm": {
+    "exclude_tickers": [],
+    "exclude_sectors": [
+     "Aviation",
+     "Energy"
+    ],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "llm_needs_clarification": false,
+   "llm_errors": [],
+   "llm_question": null,
+   "llm_exact": true,
+   "llm_effective": true
+  },
+  {
+   "instruction": "Không mua VIC, VHM, VRE vì tôi đã có nhiều cổ phiếu nhóm này",
+   "gold": {
+    "exclude_tickers": [
+     "VHM",
+     "VIC",
+     "VRE"
+    ],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "gold_needs_clarification": false,
+   "rule": {
+    "exclude_tickers": [
+     "VHM",
+     "VIC",
+     "VRE"
+    ],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "rule_exact": true,
+   "rule_effective": true,
+   "llm": {
+    "exclude_tickers": [
+     "VHM",
+     "VIC",
+     "VRE"
+    ],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "llm_needs_clarification": false,
+   "llm_errors": [],
+   "llm_question": null,
+   "llm_exact": true,
+   "llm_effective": true
+  },
+  {
+   "instruction": "Nhóm ngân hàng không vượt quá một phần ba danh mục",
+   "gold": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {
+     "Banking": 0.333
+    },
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "gold_needs_clarification": false,
+   "rule": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "rule_exact": false,
+   "rule_effective": false,
+   "llm": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {
+     "Banking": 0.333
+    },
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "llm_needs_clarification": false,
+   "llm_errors": [],
+   "llm_question": null,
+   "llm_exact": true,
+   "llm_effective": true
+  },
+  {
+   "instruction": "Danh mục giống VN30, không có yêu cầu gì đặc biệt",
+   "gold": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "gold_needs_clarification": false,
+   "rule": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "rule_exact": true,
+   "rule_effective": true,
+   "llm": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "llm_needs_clarification": false,
+   "llm_errors": [],
+   "llm_question": null,
+   "llm_exact": true,
+   "llm_effective": true
+  },
+  {
+   "instruction": "Tôi không thích rủi ro, hãy để 10% tiền mặt và mỗi cổ phiếu tối đa 8%",
+   "gold": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": 0.08,
+    "max_holdings": null,
+    "min_cash_pct": 10.0
+   },
+   "gold_needs_clarification": false,
+   "rule": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": 0.08,
+    "max_holdings": null,
+    "min_cash_pct": 10.0
+   },
+   "rule_exact": true,
+   "rule_effective": true,
+   "llm": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": 0.08,
+    "max_holdings": null,
+    "min_cash_pct": 10
+   },
+   "llm_needs_clarification": false,
+   "llm_errors": [],
+   "llm_question": null,
+   "llm_exact": true,
+   "llm_effective": true
+  },
+  {
+   "instruction": "Loại bỏ cổ phiếu chứng khoán và bảo hiểm",
+   "gold": {
+    "exclude_tickers": [],
+    "exclude_sectors": [
+     "Brokerage",
+     "Insurance"
+    ],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "gold_needs_clarification": false,
+   "rule": {
+    "exclude_tickers": [],
+    "exclude_sectors": [
+     "Brokerage"
+    ],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "rule_exact": false,
+   "rule_effective": false,
+   "llm": {
+    "exclude_tickers": [],
+    "exclude_sectors": [
+     "Brokerage",
+     "Insurance"
+    ],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "llm_needs_clarification": false,
+   "llm_errors": [],
+   "llm_question": null,
+   "llm_exact": true,
+   "llm_effective": true
+  },
+  {
+   "instruction": "Bất động sản tối đa 10%, ngân hàng tối đa 35%",
+   "gold": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {
+     "Real estate": 0.1,
+     "Banking": 0.35
+    },
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "gold_needs_clarification": false,
+   "rule": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {
+     "Banking": 0.35,
+     "Real estate": 0.1
+    },
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "rule_exact": true,
+   "rule_effective": true,
+   "llm": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {
+     "Real estate": 0.1,
+     "Banking": 0.35
+    },
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "llm_needs_clarification": false,
+   "llm_errors": [],
+   "llm_question": null,
+   "llm_exact": true,
+   "llm_effective": true
+  },
+  {
+   "instruction": "Không mua MWG",
+   "gold": {
+    "exclude_tickers": [
+     "MWG"
+    ],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "gold_needs_clarification": false,
+   "rule": {
+    "exclude_tickers": [
+     "MWG"
+    ],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "rule_exact": true,
+   "rule_effective": true,
+   "llm": {
+    "exclude_tickers": [
+     "MWG"
+    ],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "llm_needs_clarification": false,
+   "llm_errors": [],
+   "llm_question": null,
+   "llm_exact": true,
+   "llm_effective": true
+  },
+  {
+   "instruction": "Tôi muốn tập trung, chỉ 8 mã thôi",
+   "gold": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": 8,
+    "min_cash_pct": null
+   },
+   "gold_needs_clarification": false,
+   "rule": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": 8,
+    "min_cash_pct": null
+   },
+   "rule_exact": true,
+   "rule_effective": true,
+   "llm": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": 8,
+    "min_cash_pct": null
+   },
+   "llm_needs_clarification": false,
+   "llm_errors": [],
+   "llm_question": null,
+   "llm_exact": true,
+   "llm_effective": true
+  },
+  {
+   "instruction": "Tỷ trọng ngân hàng dưới 40% và giữ 2% tiền mặt",
+   "gold": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {
+     "Banking": 0.4
+    },
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": 2.0
+   },
+   "gold_needs_clarification": false,
+   "rule": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {
+     "Banking": 0.4
+    },
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": 2.0
+   },
+   "rule_exact": true,
+   "rule_effective": true,
+   "llm": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {
+     "Banking": 0.4
+    },
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": 2
+   },
+   "llm_needs_clarification": false,
+   "llm_errors": [],
+   "llm_question": null,
+   "llm_exact": true,
+   "llm_effective": true
+  },
+  {
+   "instruction": "Đừng mua FPT, tôi đang làm việc ở đó",
+   "gold": {
+    "exclude_tickers": [
+     "FPT"
+    ],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "gold_needs_clarification": false,
+   "rule": {
+    "exclude_tickers": [
+     "FPT"
+    ],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "rule_exact": true,
+   "rule_effective": true,
+   "llm": {
+    "exclude_tickers": [
+     "FPT"
+    ],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "llm_needs_clarification": false,
+   "llm_errors": [],
+   "llm_question": null,
+   "llm_exact": true,
+   "llm_effective": true
+  },
+  {
+   "instruction": "Không quá 15 cổ phiếu, mỗi cổ phiếu tối đa 12%",
+   "gold": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": 0.12,
+    "max_holdings": 15,
+    "min_cash_pct": null
+   },
+   "gold_needs_clarification": false,
+   "rule": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": 0.12,
+    "max_holdings": 15,
+    "min_cash_pct": null
+   },
+   "rule_exact": true,
+   "rule_effective": true,
+   "llm": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": 0.12,
+    "max_holdings": 15,
+    "min_cash_pct": 0
+   },
+   "llm_needs_clarification": false,
+   "llm_errors": [],
+   "llm_question": null,
+   "llm_exact": false,
+   "llm_effective": true
+  },
+  {
+   "instruction": "Tránh ngành tiêu dùng",
+   "gold": {
+    "exclude_tickers": [],
+    "exclude_sectors": [
+     "Consumer"
+    ],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "gold_needs_clarification": false,
+   "rule": {
+    "exclude_tickers": [],
+    "exclude_sectors": [
+     "Consumer"
+    ],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "rule_exact": true,
+   "rule_effective": true,
+   "llm": {
+    "exclude_tickers": [],
+    "exclude_sectors": [
+     "Consumer"
+    ],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "llm_needs_clarification": false,
+   "llm_errors": [],
+   "llm_question": null,
+   "llm_exact": true,
+   "llm_effective": true
+  },
+  {
+   "instruction": "Tôi muốn danh mục không có ngân hàng",
+   "gold": {
+    "exclude_tickers": [],
+    "exclude_sectors": [
+     "Banking"
+    ],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "gold_needs_clarification": false,
+   "rule": {
+    "exclude_tickers": [],
+    "exclude_sectors": [
+     "Banking"
+    ],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "rule_exact": true,
+   "rule_effective": true,
+   "llm": {
+    "exclude_tickers": [],
+    "exclude_sectors": [
+     "Banking"
+    ],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "llm_needs_clarification": false,
+   "llm_errors": [],
+   "llm_question": null,
+   "llm_exact": true,
+   "llm_effective": true
+  },
+  {
+   "instruction": "Ngân hàng không quá 1/4 danh mục",
+   "gold": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {
+     "Banking": 0.25
+    },
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "gold_needs_clarification": false,
+   "rule": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "rule_exact": false,
+   "rule_effective": false,
+   "llm": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {
+     "Banking": 0.25
+    },
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "llm_needs_clarification": false,
+   "llm_errors": [],
+   "llm_question": null,
+   "llm_exact": true,
+   "llm_effective": true
+  },
+  {
+   "instruction": "toi muon giu 3% tien mat, bo SSI",
+   "gold": {
+    "exclude_tickers": [
+     "SSI"
+    ],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": 3.0
+   },
+   "gold_needs_clarification": false,
+   "rule": {
+    "exclude_tickers": [
+     "SSI"
+    ],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": 3.0
+   },
+   "rule_exact": true,
+   "rule_effective": true,
+   "llm": {
+    "exclude_tickers": [
+     "SSI"
+    ],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": 3
+   },
+   "llm_needs_clarification": false,
+   "llm_errors": [],
+   "llm_question": null,
+   "llm_exact": true,
+   "llm_effective": true
+  },
+  {
+   "instruction": "Không có điều kiện gì",
+   "gold": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "gold_needs_clarification": false,
+   "rule": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "rule_exact": true,
+   "rule_effective": true,
+   "llm": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "llm_needs_clarification": false,
+   "llm_errors": [],
+   "llm_question": null,
+   "llm_exact": true,
+   "llm_effective": true
+  },
+  {
+   "instruction": "Không mua cổ phiếu công nghệ và năng lượng; ngân hàng tối đa 30%",
+   "gold": {
+    "exclude_tickers": [],
+    "exclude_sectors": [
+     "Energy",
+     "Technology"
+    ],
+    "sector_caps": {
+     "Banking": 0.3
+    },
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "gold_needs_clarification": false,
+   "rule": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {
+     "Banking": 0.3,
+     "Technology": 0.3,
+     "Energy": 0.3
+    },
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "rule_exact": false,
+   "rule_effective": false,
+   "llm": {
+    "exclude_tickers": [],
+    "exclude_sectors": [
+     "Energy",
+     "Technology"
+    ],
+    "sector_caps": {
+     "Banking": 0.3
+    },
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "llm_needs_clarification": false,
+   "llm_errors": [],
+   "llm_question": null,
+   "llm_exact": true,
+   "llm_effective": true
+  },
+  {
+   "instruction": "Hạn chế bất động sản ở mức 5%",
+   "gold": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {
+     "Real estate": 0.05
+    },
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "gold_needs_clarification": false,
+   "rule": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "rule_exact": false,
+   "rule_effective": false,
+   "llm": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {
+     "Real estate": 0.05
+    },
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "llm_needs_clarification": false,
+   "llm_errors": [],
+   "llm_question": null,
+   "llm_exact": true,
+   "llm_effective": true
+  },
+  {
+   "instruction": "Bỏ hai mã hàng không VJC và HVN",
+   "gold": {
+    "exclude_tickers": [
+     "VJC"
+    ],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "gold_needs_clarification": false,
+   "rule": {
+    "exclude_tickers": [
+     "VJC"
+    ],
+    "exclude_sectors": [
+     "Aviation"
+    ],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "rule_exact": false,
+   "rule_effective": false,
+   "llm": {
+    "exclude_tickers": [
+     "VJC"
+    ],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "llm_needs_clarification": false,
+   "llm_errors": [],
+   "llm_question": null,
+   "llm_exact": true,
+   "llm_effective": true
+  },
+  {
+   "instruction": "Ưu tiên an toàn: giữ 20% tiền mặt",
+   "gold": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": 20.0
+   },
+   "gold_needs_clarification": false,
+   "rule": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": 20.0
+   },
+   "rule_exact": true,
+   "rule_effective": true,
+   "llm": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": 20
+   },
+   "llm_needs_clarification": false,
+   "llm_errors": [],
+   "llm_question": null,
+   "llm_exact": true,
+   "llm_effective": true
+  },
+  {
+   "instruction": "Không nắm giữ HPG và GAS",
+   "gold": {
+    "exclude_tickers": [
+     "GAS",
+     "HPG"
+    ],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "gold_needs_clarification": false,
+   "rule": {
+    "exclude_tickers": [
+     "GAS",
+     "HPG"
+    ],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "rule_exact": true,
+   "rule_effective": true,
+   "llm": {
+    "exclude_tickers": [
+     "GAS",
+     "HPG"
+    ],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "llm_needs_clarification": false,
+   "llm_errors": [],
+   "llm_question": null,
+   "llm_exact": true,
+   "llm_effective": true
+  },
+  {
+   "instruction": "Mỗi mã tối đa 15%, tổng cộng không quá 20 mã",
+   "gold": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": 0.15,
+    "max_holdings": 20,
+    "min_cash_pct": null
+   },
+   "gold_needs_clarification": false,
+   "rule": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": 0.15,
+    "max_holdings": 20,
+    "min_cash_pct": null
+   },
+   "rule_exact": true,
+   "rule_effective": true,
+   "llm": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": 0.15,
+    "max_holdings": 20,
+    "min_cash_pct": 0
+   },
+   "llm_needs_clarification": false,
+   "llm_errors": [],
+   "llm_question": null,
+   "llm_exact": false,
+   "llm_effective": true
+  },
+  {
+   "instruction": "Đừng mua quá nhiều cổ phiếu ngân hàng",
+   "gold": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "gold_needs_clarification": true,
+   "rule": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "rule_exact": false,
+   "rule_effective": false,
+   "llm": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "llm_needs_clarification": true,
+   "llm_errors": [],
+   "llm_question": "Bạn muốn giới hạn tỷ trọng cổ phiếu ngân hàng tối đa là bao nhiêu phần trăm?",
+   "llm_exact": true,
+   "llm_effective": true
+  },
+  {
+   "instruction": "Tôi muốn ít rủi ro hơn",
+   "gold": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "gold_needs_clarification": true,
+   "rule": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "rule_exact": false,
+   "rule_effective": false,
+   "llm": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "llm_needs_clarification": true,
+   "llm_errors": [],
+   "llm_question": "Bạn muốn giảm rủi ro bằng cách nào? Ví dụ: giữ bao nhiêu % tiền mặt, giới hạn tỷ trọng tối đa cho mỗi mã, hay loại bỏ các nhóm ngành cụ thể?",
+   "llm_exact": true,
+   "llm_effective": true
+  },
+  {
+   "instruction": "Không đầu tư bất động sản, ngân hàng tối đa 30%",
+   "gold": {
+    "exclude_tickers": [],
+    "exclude_sectors": [
+     "Real estate"
+    ],
+    "sector_caps": {
+     "Banking": 0.3
+    },
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "gold_needs_clarification": false,
+   "rule": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {
+     "Banking": 0.3,
+     "Real estate": 0.3
+    },
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "rule_exact": false,
+   "rule_effective": false,
+   "llm": {
+    "exclude_tickers": [],
+    "exclude_sectors": [
+     "Real estate"
+    ],
+    "sector_caps": {
+     "Banking": 0.3
+    },
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "llm_needs_clarification": false,
+   "llm_errors": [],
+   "llm_question": null,
+   "llm_exact": true,
+   "llm_effective": true
+  },
+  {
+   "instruction": "Chỉ giữ tối đa 12 mã, mỗi mã không quá 10%, giữ 5% tiền mặt",
+   "gold": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": 0.1,
+    "max_holdings": 12,
+    "min_cash_pct": 5.0
+   },
+   "gold_needs_clarification": false,
+   "rule": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": 0.1,
+    "max_holdings": 12,
+    "min_cash_pct": 5.0
+   },
+   "rule_exact": true,
+   "rule_effective": true,
+   "llm": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": 0.1,
+    "max_holdings": 12,
+    "min_cash_pct": 5
+   },
+   "llm_needs_clarification": false,
+   "llm_errors": [],
+   "llm_question": null,
+   "llm_exact": true,
+   "llm_effective": true
+  },
+  {
+   "instruction": "Bỏ VIC, VHM, VRE và giữ ngành ngân hàng dưới 35%",
+   "gold": {
+    "exclude_tickers": [
+     "VHM",
+     "VIC",
+     "VRE"
+    ],
+    "exclude_sectors": [],
+    "sector_caps": {
+     "Banking": 0.35
+    },
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "gold_needs_clarification": false,
+   "rule": {
+    "exclude_tickers": [
+     "VHM",
+     "VIC",
+     "VRE"
+    ],
+    "exclude_sectors": [],
+    "sector_caps": {
+     "Banking": 0.35
+    },
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "rule_exact": true,
+   "rule_effective": true,
+   "llm": {
+    "exclude_tickers": [
+     "VHM",
+     "VIC",
+     "VRE"
+    ],
+    "exclude_sectors": [],
+    "sector_caps": {
+     "Banking": 0.35
+    },
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "llm_needs_clarification": false,
+   "llm_errors": [],
+   "llm_question": null,
+   "llm_exact": true,
+   "llm_effective": true
+  }
+ ]
+}

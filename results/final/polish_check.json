@@ -1,0 +1,7 @@
+{
+  "train_success_plain": 0.15749593680628018,
+  "train_success_polished": 0.17294323045270196,
+  "polish_wins": 45,
+  "n": 48,
+  "use_polish": true
+}

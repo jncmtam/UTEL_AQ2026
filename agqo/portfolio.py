@@ -4,14 +4,15 @@ Decision: whole board lots per stock. Shares = base + B x for a bit vector x, so
 portfolio weights are affine in the bits, w = w_base + A x (see `Instance`).
 
 Objective (annualised):
-    F(w) = 252 * Var(R w - r_index)  - eta * mu' w  + gamma * ||w - w_prev||^2
+    F(w) = 252 * Var(R w - r_index) + gamma * ||w - w_prev||^2
 Every term is quadratic in w, and w is affine in x, so the QUBO is the *exact*
 discrete objective, not an equal-weight proxy. A budget penalty
 lambda * (sum w - target)^2 steers the circuit towards affordable portfolios;
-feasibility (cash >= 0 after fees and tax) is always checked exactly.
+feasibility (cash >= 0 after fees and tax, plus the investor's caps) is always
+checked exactly.
 
-The LLM never edits any coefficient here: this module is the single owner of
-the Hamiltonian.
+The investor's mandate can remove stocks and add caps, but no AI component edits
+a coefficient here: this module is the single owner of the Hamiltonian.
 """
 
 from __future__ import annotations
@@ -30,10 +31,8 @@ class Instance:
     """One rebalancing decision as a binary problem.
 
     Shares of stock j = base_shares_j + sum_k x_k * bit_lots_k * lot   over bits k with bit_stock_k = j.
-    Two encodings share this class:
-      rounding  : base = floor of the continuous optimum for every member; one bit per register
-                  stock adds one lot (the hard integer part of a small account)
-      selection : base = 0; b bits per register stock encode 0..2^b-1 position units (8-stock basket)
+    base = nearest lot of the continuous optimum (floor for register stocks); qubit k adds one lot
+    to register stock k: the hard integer part of a small account.
     """
 
     date: str
@@ -43,7 +42,6 @@ class Instance:
     cov: np.ndarray                    # daily covariance of returns (N x N)
     cov_b: np.ndarray                  # daily covariance(stocks, index) (N)
     var_b: float                       # daily index variance
-    mu: np.ndarray                     # annualised view returns (N), 0 if no views
     prev_shares: np.ndarray            # current holding (N)
     other_value: float                 # value of holdings outside `tickers` (sold)
     cash: float
@@ -52,7 +50,8 @@ class Instance:
     bit_lots: np.ndarray               # lots added by each qubit (Q)
     cfg: ProblemConfig
     rules: MarketRules
-    mode: str = "rounding"
+    invest_target: float = 0.98
+    caps: list = field(default_factory=list)   # [(mask over tickers, max weight)] from the mandate
     meta: dict = field(default_factory=dict)
 
     @property
@@ -98,10 +97,10 @@ class Instance:
     def quad_w(self) -> tuple[np.ndarray, np.ndarray, float]:
         """F(w) + penalty = w'Mw + m'w + c (penalty included)."""
         c = self.cfg
+        t = self.invest_target
         M = 252 * self.cov + c.turnover_weight * np.eye(self.n) + c.budget_penalty * np.ones((self.n, self.n))
-        m = (-2 * 252 * self.cov_b - c.view_weight * self.mu - 2 * c.turnover_weight * self.w_prev
-             - 2 * c.budget_penalty * c.invest_target * np.ones(self.n))
-        const = 252 * self.var_b + c.turnover_weight * self.w_prev @ self.w_prev + c.budget_penalty * c.invest_target ** 2
+        m = -2 * 252 * self.cov_b - 2 * c.turnover_weight * self.w_prev - 2 * c.budget_penalty * t * np.ones(self.n)
+        const = 252 * self.var_b + c.turnover_weight * self.w_prev @ self.w_prev + c.budget_penalty * t ** 2
         return M, m, const
 
     def true_objective_w(self, w: np.ndarray) -> np.ndarray:
@@ -109,9 +108,8 @@ class Instance:
         w = np.atleast_2d(w)
         c = self.cfg
         te2 = 252 * (np.einsum("ki,ij,kj->k", w, self.cov, w) - 2 * w @ self.cov_b + self.var_b)
-        tilt = -c.view_weight * w @ self.mu
         turn = c.turnover_weight * ((w - self.w_prev) ** 2).sum(1)
-        return te2 + tilt + turn
+        return te2 + turn
 
     def tracking_error(self, w: np.ndarray) -> np.ndarray:
         w = np.atleast_2d(w)
@@ -145,7 +143,12 @@ class Instance:
         return self.cash + self.other_value + (self.prev_shares * self.prices).sum() - (new * self.prices).sum(-1) - fees
 
     def feasible(self, x: np.ndarray) -> np.ndarray:
-        return self.cash_after(x) >= 0
+        ok = self.cash_after(x) >= 0
+        if self.caps:
+            W = self.weights(x)
+            for mask, cap in self.caps:
+                ok &= W[:, mask].sum(1) <= cap + 1e-9
+        return ok
 
     def ising(self) -> tuple[np.ndarray, np.ndarray, float]:
         """x = (1 - z)/2 -> E = sum_{i<j} J_ij z_i z_j + sum h_i z_i + c (J symmetric, used once per pair)."""
@@ -204,23 +207,3 @@ def relaxed_solution(inst: Instance) -> np.ndarray:
     res = minimize(f, np.full(inst.n_qubits, 0.5), jac=g, method="L-BFGS-B",
                    bounds=[(0, 1)] * inst.n_qubits)
     return res.x
-
-
-def black_litterman(cov_ann: np.ndarray, views: np.ndarray, confidence: np.ndarray,
-                    view_scale: float = 0.025, tau: float = 0.05) -> np.ndarray:
-    """Active-return Black-Litterman with a zero (benchmark-neutral) prior.
-
-    views in {-2..2}: one step = `view_scale` annual relative return. confidence in (0,1].
-    Assets without a view (confidence 0) keep the zero prior.
-    """
-    n = len(views)
-    keep = confidence > 1e-6
-    if not keep.any():
-        return np.zeros(n)
-    P = np.eye(n)[keep]
-    q = views[keep] * view_scale
-    conf = np.clip(confidence[keep], 0.05, 0.99)
-    omega = np.diag((1 - conf) / conf * tau * np.diag(cov_ann)[keep])
-    S = tau * cov_ann
-    mid = P @ S @ P.T + omega
-    return S @ P.T @ np.linalg.solve(mid, q)

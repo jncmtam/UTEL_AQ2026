@@ -1,0 +1,97 @@
+{
+  "problem": {
+    "capital_vnd": 100000000,
+    "register_size": 16,
+    "invest_target": 0.98,
+    "lookback_days": 250,
+    "min_history": 180,
+    "shrinkage": 0.05,
+    "turnover_weight": 0.002,
+    "budget_penalty": 0.01,
+    "success_gap": 0.05
+  },
+  "design": {
+    "layers_grid": [
+      2,
+      4,
+      6,
+      8
+    ],
+    "epsilon_grid": [
+      0.02,
+      0.05,
+      0.1
+    ],
+    "coupling_mass_grid": [
+      0.75,
+      0.9,
+      1.0
+    ],
+    "dgamma_grid": [
+      0.2,
+      0.35,
+      0.5,
+      0.7,
+      0.9,
+      1.2
+    ],
+    "dbeta_grid": [
+      0.2,
+      0.4,
+      0.6,
+      0.8,
+      1.0
+    ],
+    "knn_grid": [
+      3,
+      5,
+      10,
+      20,
+      0
+    ],
+    "polish_iters": 40,
+    "polish_cvar_alpha": 0.1,
+    "penalty_grid": [
+      0.001,
+      0.002,
+      0.005,
+      0.01,
+      0.02
+    ],
+    "train_sizes": [
+      50000000.0,
+      100000000.0,
+      200000000.0,
+      500000000.0
+    ],
+    "cx_budget": 1500,
+    "workers": 8
+  },
+  "search": {
+    "designs": 24,
+    "seeds": [
+      7,
+      8,
+      9
+    ],
+    "shots": 512,
+    "seed": 7
+  },
+  "rules": {
+    "lot_size": 100,
+    "commission": 0.0015,
+    "sell_tax": 0.001
+  },
+  "train_start": "2023-01-01",
+  "train_end": "2023-12-31",
+  "test_start": "2024-01-01",
+  "test_end": "2026-10-31",
+  "sweep_sizes": [
+    20000000.0,
+    50000000.0,
+    100000000.0,
+    200000000.0,
+    500000000.0
+  ],
+  "primary_etf": "E1VFVN30"
+}
