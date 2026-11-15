@@ -18,21 +18,30 @@ class MarketData:
     volume: pd.DataFrame         # date x ticker
     index: pd.Series             # VN30 index level
     membership: pd.DataFrame     # ticker, valid_from, valid_to, sector
+    etf_close: pd.DataFrame      # date x VN30 ETF, unit price in VND (investable benchmark)
 
     @classmethod
     def load(cls, data_dir: Path = DATA_DIR) -> "MarketData":
         raw = pd.read_csv(data_dir / "ohlcv_daily.csv", parse_dates=["date"])
         stocks = raw[raw.instrument_type == "stock"]
+        etfs = raw[raw.instrument_type == "etf"]
         close = stocks.pivot(index="date", columns="ticker", values="close").sort_index()
         volume = stocks.pivot(index="date", columns="ticker", values="volume").sort_index()
         idx = raw[raw.ticker == "VN30"].set_index("date")["close"].sort_index()
         close = close.reindex(idx.index)
         volume = volume.reindex(idx.index)
+        etf = (etfs.pivot(index="date", columns="ticker", values="close").sort_index().reindex(idx.index)
+               if len(etfs) else pd.DataFrame(index=idx.index))
         mem = pd.read_csv(data_dir / "vn30_membership_history.csv",
                           parse_dates=["valid_from", "valid_to"])
         mem["sector"] = mem["group"].map(SECTOR_EN).fillna(mem["group"])
         return cls(close=close.astype(float), volume=volume.astype(float),
-                   index=idx.astype(float), membership=mem)
+                   index=idx.astype(float), membership=mem, etf_close=etf.astype(float))
+
+    @cached_property
+    def px(self) -> pd.DataFrame:
+        """Prices for valuation and execution: last traded price carried over days without a trade."""
+        return self.close.ffill()
 
     @cached_property
     def returns(self) -> pd.DataFrame:

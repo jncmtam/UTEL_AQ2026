@@ -1,9 +1,8 @@
 """Command line.
 
-  python -m agqo run --out results/baseline                      # no LLM: classical + quantum controls
-  python -m agqo run --llm modal --model coder30 --out results/llm_coder30
-  python -m agqo run --llm replay --replay results/llm_coder30/llm_log.jsonl --out results/replay
-  python -m agqo report --runs results/baseline results/llm_coder30
+  python -m agqo download                                        # keyless VN30 stocks, indices and ETFs
+  python -m agqo run --out results/baseline                      # data insight -> designed QAOA -> backtest
+  python -m agqo report --runs results/baseline
   python -m agqo smoke-llm --llm modal --model coder30           # one tiny live request
   python -m agqo hardware --qasm results/baseline/circuits/<arm>_<date>.qasm [--confirm]
 """
@@ -23,10 +22,6 @@ def main() -> None:
     sub = ap.add_subparsers(dest="cmd", required=True)
     r = sub.add_parser("run")
     r.add_argument("--out", type=Path, required=True)
-    r.add_argument("--llm", choices=["none", "modal", "openai", "replay", "mock"], default="none")
-    r.add_argument("--model", default="coder30")
-    r.add_argument("--replay", type=Path)
-    r.add_argument("--samples", type=int, default=1, help="LLM analyst samples per date (self-consistency)")
     r.add_argument("--rounds", type=int)
     r.add_argument("--proposals", type=int)
     rep = sub.add_parser("report")
@@ -41,25 +36,23 @@ def main() -> None:
     h.add_argument("--shots", type=int, default=2000)
     h.add_argument("--confirm", action="store_true")
     h.add_argument("--out", type=Path, default=Path("results/hardware_run.json"))
+    dl = sub.add_parser("download")
+    dl.add_argument("--start", default="2022-01-01")
+    dl.add_argument("--end", default=None, help="last day (default: today)")
     a = ap.parse_args()
 
-    if a.cmd == "run":
+    if a.cmd == "download":
+        from .download import download
+        download(start=a.start, end=a.end)
+    elif a.cmd == "run":
         from .experiment import run
-        from .llm.client import LLMClient
 
         ec = ExperimentConfig()
         if a.rounds or a.proposals:
             ec = dataclasses.replace(ec, search=dataclasses.replace(
                 ec.search, rounds=a.rounds or ec.search.rounds,
                 proposals_per_round=a.proposals or ec.search.proposals_per_round))
-        llm = None
-        if a.llm != "none":
-            mock = None
-            if a.llm == "mock":
-                from .llm.mock import mock_response
-                mock = mock_response
-            llm = LLMClient(a.llm, a.out / "llm_log.jsonl", model=a.model, replay_from=a.replay, mock_fn=mock)
-        run(a.out, llm, ec, llm_samples=a.samples)
+        run(a.out, ec)
     elif a.cmd == "report":
         from .report import build_report
         build_report(a.runs, a.out)

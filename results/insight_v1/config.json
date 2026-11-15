@@ -1,0 +1,73 @@
+{
+  "problem": {
+    "capital_vnd": 100000000,
+    "register_size": 16,
+    "n_candidates": 8,
+    "bits_per_asset": 2,
+    "invest_target": 0.98,
+    "lookback_days": 250,
+    "min_history": 180,
+    "shrinkage": 0.05,
+    "turnover_weight": 0.002,
+    "view_weight": 0.02,
+    "budget_penalty": 0.001,
+    "success_gap": 0.05
+  },
+  "search": {
+    "proposals_per_round": 6,
+    "rounds": 4,
+    "train_dates": 4,
+    "cx_budget": 1500,
+    "shots": 512,
+    "seed": 7
+  },
+  "design": {
+    "coupling_mass": 0.9,
+    "layers_grid": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "epsilon_grid": [
+      0.05,
+      0.1,
+      0.2,
+      0.3
+    ],
+    "dgamma_grid": [
+      0.1,
+      0.2,
+      0.35,
+      0.5,
+      0.7,
+      0.9,
+      1.2
+    ],
+    "dbeta_grid": [
+      0.2,
+      0.4,
+      0.6,
+      0.8,
+      1.0
+    ],
+    "refine_iters": 40,
+    "refine_cvar_alpha": 0.1,
+    "penalty_grid": [
+      0.001,
+      0.002,
+      0.005,
+      0.01,
+      0.02
+    ]
+  },
+  "rules": {
+    "lot_size": 100,
+    "commission": 0.0015,
+    "sell_tax": 0.001
+  },
+  "first_rebalance": "2023-01-01",
+  "last_rebalance": "2026-10-31"
+}

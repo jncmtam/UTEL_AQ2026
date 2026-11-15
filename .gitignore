@@ -11,3 +11,5 @@ config/*.env
 results/smoke/
 results/hardware_run.json
 data/vn30/ohlcv_daily.csv
+data/vn30_provisional_raw_*/
+data/vn30_snapshot_*/

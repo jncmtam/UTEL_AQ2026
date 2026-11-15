@@ -1,4 +1,4 @@
-"""Classical baselines: shortlist rules, exact discrete optimum, annealing, QP + rounding."""
+"""Classical baselines: continuous QP, exact discrete optimum, simulated annealing, practitioner rounding."""
 
 from __future__ import annotations
 
@@ -8,7 +8,7 @@ from scipy.optimize import minimize
 from .portfolio import Instance, Landscape
 
 
-# ---------------------------------------------------------------- shortlists
+# ---------------------------------------------------------------- continuous optimum
 def continuous_min_te(cov: np.ndarray, cov_b: np.ndarray, budget: float,
                       mu: np.ndarray | None = None, eta: float = 0.0,
                       w_prev: np.ndarray | None = None, gamma: float = 0.0) -> np.ndarray:
@@ -29,27 +29,6 @@ def continuous_min_te(cov: np.ndarray, cov_b: np.ndarray, budget: float,
 
 def te_of(w: np.ndarray, cov: np.ndarray, cov_b: np.ndarray, var_b: float) -> float:
     return float(np.sqrt(max(252 * (w @ cov @ w - 2 * w @ cov_b + var_b), 0)))
-
-
-def greedy_te_shortlist(cov: np.ndarray, cov_b: np.ndarray, var_b: float, k: int, budget: float) -> list[int]:
-    """Forward selection: repeatedly add the stock that most lowers the best continuous TE."""
-    chosen: list[int] = []
-    rest = list(range(len(cov_b)))
-    for _ in range(k):
-        best, best_te = None, np.inf
-        for j in rest:
-            s = chosen + [j]
-            w = continuous_min_te(cov[np.ix_(s, s)], cov_b[s], budget)
-            te = te_of(w, cov[np.ix_(s, s)], cov_b[s], var_b)
-            if te < best_te:
-                best, best_te = j, te
-        chosen.append(best)
-        rest.remove(best)
-    return chosen
-
-
-def liquidity_shortlist(liquidity: np.ndarray, k: int) -> list[int]:
-    return list(np.argsort(-liquidity)[:k])
 
 
 # ---------------------------------------------------------------- solvers on the QUBO

@@ -51,11 +51,30 @@ class ProblemConfig:
 
 
 @dataclass(frozen=True)
+class DesignConfig:
+    """Data-insight-driven circuit design (agqo/quantum/design.py).
+
+    Structural choices come from rules on the data (warm start, aligned mixer, coupling
+    pruning by mass, RMS scaling). Only the global schedule scalars below are calibrated,
+    on the training quarters only, then frozen and transferred to every later quarter.
+    """
+
+    coupling_mass: float = 0.90        # keep the strongest ZZ couplings covering this share of sum J^2
+    layers_grid: tuple = (1, 2, 3, 4, 5, 6)
+    epsilon_grid: tuple = (0.05, 0.10, 0.20, 0.30)
+    dgamma_grid: tuple = (0.1, 0.2, 0.35, 0.5, 0.7, 0.9, 1.2)   # LR-QAOA ramp heights (RMS-normalised H)
+    dbeta_grid: tuple = (0.2, 0.4, 0.6, 0.8, 1.0)
+    refine_iters: int = 40             # optional per-instance COBYLA polish from the transferred angles
+    refine_cvar_alpha: float = 0.10
+    penalty_grid: tuple = (0.001, 0.002, 0.005, 0.01, 0.02)   # budget penalty, calibrated on training only
+
+
+@dataclass(frozen=True)
 class SearchConfig:
     """Budget for the circuit-design search (identical for every search arm)."""
 
     proposals_per_round: int = 6
-    rounds: int = 4                    # round 0 + 3 feedback rounds -> 24 designs per arm
+    rounds: int = 4                    # random-search control: rounds x proposals designs
     train_dates: int = 4               # first N rebalance dates are used to design circuits
     cx_budget: int = 1500              # hard cap on two-qubit gates per circuit
     shots: int = 512
@@ -66,9 +85,10 @@ class SearchConfig:
 class ExperimentConfig:
     problem: ProblemConfig = field(default_factory=ProblemConfig)
     search: SearchConfig = field(default_factory=SearchConfig)
+    design: DesignConfig = field(default_factory=DesignConfig)
     rules: MarketRules = field(default_factory=MarketRules)
     first_rebalance: str = "2023-01-01"
-    last_rebalance: str = "2026-07-31"
+    last_rebalance: str = "2026-10-31"
 
     def to_dict(self) -> dict:
         return asdict(self)

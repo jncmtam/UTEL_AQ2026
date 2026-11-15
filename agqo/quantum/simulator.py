@@ -1,13 +1,19 @@
 """Exact statevector QAOA simulator (numpy) for up to ~22 qubits.
 
-Phase separator: exp(-i gamma H_C) with H_C the (optionally pruned) Ising form of
-the locked QUBO, scaled to unit max coefficient so angles transfer across dates.
+Phase separator: exp(-i gamma H_C / s) with H_C the (optionally pruned) Ising form of the
+locked QUBO and s a scale that makes angles transfer across dates:
+  scale "max" - largest |coefficient| (textbook practice)
+  scale "rms" - root-mean-square of the coefficients (Sureshbabu et al. 2024, Quantum 8)
+Coupling pruning:
+  coupling_keep_fraction - keep a fixed share of pairs, strongest first
+  coupling_mass          - keep the fewest strongest pairs covering this share of sum J^2 (data-driven)
 Mixers:
   x       - exp(-i beta X) on every qubit; ground state |+>^n  (aligned with 'uniform')
   warm_x  - Egger et al. (2021) warm-start mixer R_y(t) R_z(-2 beta) R_y(-t);
-            its eigenstate is the warm-start product state (aligned with 'warm_start')
-Training loss: CVaR_alpha of the *full* QUBO energy of measured bitstrings
-(Barkoutsos et al. 2020). Pruning only changes the circuit, never the scoring.
+            its eigenstate is the warm-start product state (aligned with 'warm_start', He et al. 2023)
+Angles: linear ramp (LR-QAOA, Montanez-Barrera & Michielsen 2025) or constant; optionally refined
+by COBYLA / Nelder-Mead on CVaR_alpha of the *full* QUBO energy (Barkoutsos et al. 2020).
+Pruning only changes the circuit, never the scoring.
 """
 
 from __future__ import annotations
@@ -23,7 +29,7 @@ from .spec import CircuitSpec
 
 @dataclass
 class QAOAResult:
-    spec: CircuitSpec
+    spec: CircuitSpec | None
     angles: np.ndarray
     probs: np.ndarray
     evaluations: int
@@ -34,6 +40,7 @@ class QAOAResult:
     best_sample_gap: float
     two_qubit_gates: int
     kept_pairs: int
+    better_than_ref: float = float("nan")   # P(affordable and strictly better than the reference bitstring)
 
 
 class CompiledProblem:
@@ -48,27 +55,44 @@ class CompiledProblem:
         iu = np.triu_indices(self.n, 1)
         self.pairs = np.stack(iu, 1)
         self.pair_w = J[iu]
-        order = np.argsort(-np.abs(self.pair_w))
-        self.pair_order = order
+        self.pair_order = np.argsort(-np.abs(self.pair_w))
         self.energy = land.energy
         self.sort_idx = np.argsort(self.energy)
         self.sorted_energy = self.energy[self.sort_idx]
         self.relaxed = relaxed_solution(inst)
-        self._cache: dict[float, tuple[np.ndarray, int]] = {}
+        self._cache: dict[tuple, tuple[np.ndarray, np.ndarray, float]] = {}
 
-    def phase_diag(self, keep_fraction: float) -> tuple[np.ndarray, int]:
-        key = round(keep_fraction, 3)
+    def selected_pairs(self, keep_fraction: float = 1.0, mass: float = 0.0) -> np.ndarray:
+        """Indices (into pairs / pair_w) of the couplings kept in the circuit."""
+        if mass > 0:
+            sq = self.pair_w[self.pair_order] ** 2
+            k = int(np.searchsorted(np.cumsum(sq) / max(sq.sum(), 1e-30), mass - 1e-12) + 1)
+        else:
+            k = int(round(keep_fraction * len(self.pair_w)))
+        return self.pair_order[: min(k, len(self.pair_w))]
+
+    def phase_terms(self, spec: CircuitSpec) -> tuple[np.ndarray, np.ndarray, float]:
+        """(diagonal of H_C / scale over all bitstrings, kept pair indices, scale)."""
+        key = (round(spec.coupling_keep_fraction, 3), round(spec.coupling_mass, 3), spec.hamiltonian_scale)
         if key in self._cache:
             return self._cache[key]
-        k = int(round(keep_fraction * len(self.pair_w)))
-        sel = self.pair_order[:k]
+        sel = self.selected_pairs(spec.coupling_keep_fraction, spec.coupling_mass)
         diag = self.Z @ self.hz
         for (i, j), w in zip(self.pairs[sel], self.pair_w[sel]):
             diag += w * self.Z[:, i] * self.Z[:, j]
-        coeffs = np.concatenate([np.abs(self.hz), np.abs(self.pair_w[sel])])
-        diag = diag / max(coeffs.max(), 1e-12)
-        self._cache[key] = (diag, k)
-        return diag, k
+        coeffs = np.concatenate([self.hz, self.pair_w[sel]])
+        if spec.hamiltonian_scale == "rms":
+            scale = float(np.sqrt(np.mean(coeffs ** 2)))
+        else:
+            scale = float(np.abs(coeffs).max())
+        scale = max(scale, 1e-12)
+        self._cache[key] = (diag / scale, sel, scale)
+        return self._cache[key]
+
+    def reference_index(self) -> int:
+        """Bitstring of the practitioner's nearest-lot rounding (the classical starting point)."""
+        nb = self.inst.meta["nearest_bits"]
+        return int((nb * (2 ** np.arange(len(nb)))).sum())
 
 
 def _apply_1q(psi: np.ndarray, U: np.ndarray, q: int, n: int) -> np.ndarray:
@@ -103,7 +127,7 @@ def initial_state(cp: CompiledProblem, spec: CircuitSpec) -> np.ndarray:
 
 def statevector(cp: CompiledProblem, spec: CircuitSpec, angles: np.ndarray) -> np.ndarray:
     n, p = cp.n, spec.layers
-    diag, _ = cp.phase_diag(spec.coupling_keep_fraction)
+    diag, _, _ = cp.phase_terms(spec)
     psi = initial_state(cp, spec)
     thetas = warm_angles(cp, spec.warm_start_epsilon) if spec.mixer == "warm_x" else None
     gammas, betas = angles[:p], angles[p:]
@@ -122,11 +146,13 @@ def statevector(cp: CompiledProblem, spec: CircuitSpec, angles: np.ndarray) -> n
 
 
 def initial_angles(spec: CircuitSpec) -> np.ndarray:
-    p, dt = spec.layers, spec.ramp_dt
+    """Linear ramp: gamma rises to ramp_dt, beta falls from ramp_dbeta (or ramp_dt)."""
+    p, dg = spec.layers, spec.ramp_dt
+    db = spec.ramp_dbeta if spec.ramp_dbeta > 0 else spec.ramp_dt
     if spec.angle_init == "linear_ramp":
         k = (np.arange(p) + 0.5) / p
-        return np.concatenate([dt * k, dt * (1 - k)])
-    return np.full(2 * p, dt / 2)
+        return np.concatenate([dg * k, db * (1 - k)])
+    return np.concatenate([np.full(p, dg / 2), np.full(p, db / 2)])
 
 
 def cvar(cp: CompiledProblem, probs: np.ndarray, alpha: float) -> float:
@@ -134,6 +160,29 @@ def cvar(cp: CompiledProblem, probs: np.ndarray, alpha: float) -> float:
     cum = np.cumsum(ps)
     take = np.clip(alpha - (cum - ps), 0, ps)
     return float((take * cp.sorted_energy).sum() / alpha)
+
+
+def score(cp: CompiledProblem, probs: np.ndarray, success_gap: float, shots: int, rng: np.random.Generator,
+          spec: CircuitSpec | None = None, angles: np.ndarray | None = None, evaluations: int = 0,
+          two_qubit_gates: int = 0, kept_pairs: int = 0) -> QAOAResult:
+    """Metrics of a measurement distribution, shared by every circuit and baseline."""
+    probs = probs / probs.sum()
+    gap = cp.land.gap()
+    ok = np.isfinite(gap)
+    success = float(probs[ok & (gap <= success_gap)].sum())
+    fmass = float(probs[ok].sum())
+    mgap = float((probs[ok] * gap[ok]).sum() / fmass) if fmass > 0 else float("inf")
+    ref = cp.reference_index()
+    obj = cp.land.objective
+    better = ok & (obj < obj[ref] - 1e-15) if ok[ref] else ok      # any affordable choice beats an unaffordable one
+    samples = rng.choice(len(probs), size=shots, p=probs)
+    sg = gap[samples]
+    if np.isfinite(sg).any():
+        best, bgap = int(samples[np.argmin(sg)]), float(sg.min())
+    else:
+        best, bgap = None, float("inf")
+    return QAOAResult(spec, np.array([]) if angles is None else angles, probs, evaluations, success, fmass, mgap,
+                      best, bgap, two_qubit_gates, kept_pairs, float(probs[better].sum()))
 
 
 def run_qaoa(cp: CompiledProblem, spec: CircuitSpec, success_gap: float, shots: int,
@@ -154,22 +203,18 @@ def run_qaoa(cp: CompiledProblem, spec: CircuitSpec, success_gap: float, shots: 
         opts = {"maxiter": spec.max_iter} if method == "COBYLA" else {"maxfev": spec.max_iter}
         a = minimize(loss, a0, method=method, options=opts).x
     probs = np.abs(statevector(cp, spec, a)) ** 2
-    probs = probs / probs.sum()
     evals += 1
-    gap = cp.land.gap()
-    ok = np.isfinite(gap)
-    success = float(probs[ok & (gap <= success_gap)].sum())
-    fmass = float(probs[ok].sum())
-    mgap = float((probs[ok] * gap[ok]).sum() / fmass) if fmass > 0 else float("inf")
-    samples = rng.choice(len(probs), size=shots, p=probs)
-    sg = gap[samples]
-    if np.isfinite(sg).any():
-        best = int(samples[np.argmin(sg)])
-        bgap = float(sg.min())
-    else:
-        best, bgap = None, float("inf")
-    _, kept = cp.phase_diag(spec.coupling_keep_fraction)
-    return QAOAResult(spec, a, probs, evals, success, fmass, mgap, best, bgap, 2 * kept * spec.layers, kept)
+    _, sel, _ = cp.phase_terms(spec)
+    return score(cp, probs, success_gap, shots, rng, spec, a, evals, 2 * len(sel) * spec.layers, len(sel))
+
+
+def warm_start_only(cp: CompiledProblem, epsilon: float, success_gap: float, shots: int,
+                    rng: np.random.Generator) -> QAOAResult:
+    """Classical baseline: sample the warm-start product state with zero quantum layers."""
+    spec = CircuitSpec(layers=1, initial_state="warm_start", mixer="warm_x", warm_start_epsilon=epsilon,
+                       optimizer="none", max_iter=0, rationale="warm start only (p = 0)")
+    probs = np.abs(initial_state(cp, spec)) ** 2
+    return score(cp, probs, success_gap, shots, rng, spec)
 
 
 def uniform_reference(cp: CompiledProblem, success_gap: float) -> float:

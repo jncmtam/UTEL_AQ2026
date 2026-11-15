@@ -1,0 +1,3637 @@
+[
+ {
+  "split": "train",
+  "date": "2023-01-03",
+  "usable": 30,
+  "excluded": [],
+  "avg_correlation": 0.41080481836858257,
+  "market_factor_share": 0.45770268330443525,
+  "effective_bets": 10.783204754373626,
+  "clusters": [
+   [
+    "ACB",
+    "BID",
+    "BVH",
+    "CTG",
+    "FPT",
+    "GVR",
+    "HDB",
+    "HPG",
+    "KDH",
+    "MBB",
+    "MWG",
+    "PLX",
+    "POW",
+    "SSI",
+    "STB",
+    "TCB",
+    "TPB",
+    "VIB",
+    "VPB",
+    "VRE"
+   ],
+   [
+    "NVL",
+    "PDR"
+   ],
+   [
+    "VHM",
+    "VIC"
+   ],
+   [
+    "GAS"
+   ],
+   [
+    "MSN"
+   ],
+   [
+    "SAB"
+   ],
+   [
+    "VCB"
+   ],
+   [
+    "VJC"
+   ],
+   [
+    "VNM"
+   ]
+  ],
+  "sector_weights": {
+   "Banking": 0.4,
+   "Insurance": 0.0066,
+   "Technology": 0.0691,
+   "Energy": 0.0307,
+   "Materials": 0.0682,
+   "Real estate": 0.2004,
+   "Consumer": 0.1641,
+   "Brokerage": 0.0127,
+   "Aviation": 0.0264
+  },
+  "lot_cost_pct_median": 2.35,
+  "lot_cost_pct_max": 9.6,
+  "te_continuous_pct": 6.501678641641176,
+  "te_nearest_pct": 7.15805109430098,
+  "te_exact_pct": 6.832438379245377,
+  "register": [
+   {
+    "ticker": "BID",
+    "sector": "Banking",
+    "lot_pct_nav": 2.77,
+    "fractional_lot": 0.221,
+    "relaxed_prob": 0.182
+   },
+   {
+    "ticker": "BVH",
+    "sector": "Insurance",
+    "lot_pct_nav": 4.46,
+    "fractional_lot": 0.149,
+    "relaxed_prob": 0.188
+   },
+   {
+    "ticker": "FPT",
+    "sector": "Technology",
+    "lot_pct_nav": 4.46,
+    "fractional_lot": 0.55,
+    "relaxed_prob": 0.546
+   },
+   {
+    "ticker": "GAS",
+    "sector": "Energy",
+    "lot_pct_nav": 7.03,
+    "fractional_lot": 0.15,
+    "relaxed_prob": 0.148
+   },
+   {
+    "ticker": "MSN",
+    "sector": "Consumer",
+    "lot_pct_nav": 9.6,
+    "fractional_lot": 0.478,
+    "relaxed_prob": 0.48
+   },
+   {
+    "ticker": "MWG",
+    "sector": "Consumer",
+    "lot_pct_nav": 4.14,
+    "fractional_lot": 0.279,
+    "relaxed_prob": 0.303
+   },
+   {
+    "ticker": "PDR",
+    "sector": "Real estate",
+    "lot_pct_nav": 1.22,
+    "fractional_lot": 0.617,
+    "relaxed_prob": 0.746
+   },
+   {
+    "ticker": "PLX",
+    "sector": "Energy",
+    "lot_pct_nav": 2.91,
+    "fractional_lot": 0.346,
+    "relaxed_prob": 0.365
+   },
+   {
+    "ticker": "SAB",
+    "sector": "Consumer",
+    "lot_pct_nav": 6.41,
+    "fractional_lot": 0.265,
+    "relaxed_prob": 0.256
+   },
+   {
+    "ticker": "STB",
+    "sector": "Banking",
+    "lot_pct_nav": 2.35,
+    "fractional_lot": 0.718,
+    "relaxed_prob": 0.77
+   },
+   {
+    "ticker": "VCB",
+    "sector": "Banking",
+    "lot_pct_nav": 4.61,
+    "fractional_lot": 0.763,
+    "relaxed_prob": 0.765
+   },
+   {
+    "ticker": "VHM",
+    "sector": "Real estate",
+    "lot_pct_nav": 2.38,
+    "fractional_lot": 0.455,
+    "relaxed_prob": 0.426
+   },
+   {
+    "ticker": "VIC",
+    "sector": "Real estate",
+    "lot_pct_nav": 2.84,
+    "fractional_lot": 0.279,
+    "relaxed_prob": 0.205
+   },
+   {
+    "ticker": "VJC",
+    "sector": "Aviation",
+    "lot_pct_nav": 8.59,
+    "fractional_lot": 0.307,
+    "relaxed_prob": 0.3
+   },
+   {
+    "ticker": "VNM",
+    "sector": "Consumer",
+    "lot_pct_nav": 6.1,
+    "fractional_lot": 0.792,
+    "relaxed_prob": 0.771
+   },
+   {
+    "ticker": "VPB",
+    "sector": "Banking",
+    "lot_pct_nav": 1.27,
+    "fractional_lot": 0.625,
+    "relaxed_prob": 0.685
+   }
+  ],
+  "hamiltonian": {
+   "n_qubits": 16,
+   "n_pairs": 120,
+   "warm_probs": [
+    0.1817,
+    0.1884,
+    0.5463,
+    0.1481,
+    0.4798,
+    0.303,
+    0.7459,
+    0.3646,
+    0.256,
+    0.7699,
+    0.7653,
+    0.4255,
+    0.2052,
+    0.3002,
+    0.7709,
+    0.6847
+   ],
+   "warm_confidence": 0.4288097529113588,
+   "rms_scale": 8.455191826758953e-05,
+   "field_to_coupling_rms": 3.257133611832803,
+   "coupling_mass_from_risk": 0.999526762179638,
+   "coupling_mass_from_budget": 0.00047323782036209645,
+   "pairs_for_90pct_mass": 43,
+   "feasible_fraction": 0.3636627197265625,
+   "near_optimal_states": 4,
+   "nearest_rounding_gap": 0.6291300756454015
+  }
+ },
+ {
+  "split": "train",
+  "date": "2023-04-03",
+  "usable": 30,
+  "excluded": [],
+  "avg_correlation": 0.42914323430987933,
+  "market_factor_share": 0.47080090766321164,
+  "effective_bets": 10.477326149872106,
+  "clusters": [
+   [
+    "ACB",
+    "BID",
+    "BVH",
+    "CTG",
+    "FPT",
+    "GVR",
+    "HDB",
+    "HPG",
+    "MBB",
+    "MWG",
+    "PLX",
+    "POW",
+    "SSI",
+    "STB",
+    "TCB",
+    "TPB",
+    "VIB",
+    "VPB",
+    "VRE"
+   ],
+   [
+    "NVL",
+    "PDR"
+   ],
+   [
+    "VHM",
+    "VIC"
+   ],
+   [
+    "BCM"
+   ],
+   [
+    "GAS"
+   ],
+   [
+    "MSN"
+   ],
+   [
+    "SAB"
+   ],
+   [
+    "VCB"
+   ],
+   [
+    "VJC"
+   ],
+   [
+    "VNM"
+   ]
+  ],
+  "sector_weights": {
+   "Banking": 0.3997,
+   "Real estate": 0.1793,
+   "Insurance": 0.004,
+   "Technology": 0.074,
+   "Energy": 0.0261,
+   "Materials": 0.0765,
+   "Consumer": 0.174,
+   "Brokerage": 0.0153,
+   "Aviation": 0.0312
+  },
+  "lot_cost_pct_median": 2.5338624095032403,
+  "lot_cost_pct_max": 7.785665022874628,
+  "te_continuous_pct": 6.715415888016829,
+  "te_nearest_pct": 6.9534746237677885,
+  "te_exact_pct": 6.917764024416022,
+  "register": [
+   {
+    "ticker": "ACB",
+    "sector": "Banking",
+    "lot_pct_nav": 1.24,
+    "fractional_lot": 0.631,
+    "relaxed_prob": 0.526
+   },
+   {
+    "ticker": "BID",
+    "sector": "Banking",
+    "lot_pct_nav": 2.99,
+    "fractional_lot": 0.185,
+    "relaxed_prob": 0.198
+   },
+   {
+    "ticker": "BVH",
+    "sector": "Insurance",
+    "lot_pct_nav": 4.44,
+    "fractional_lot": 0.09,
+    "relaxed_prob": 0.109
+   },
+   {
+    "ticker": "FPT",
+    "sector": "Technology",
+    "lot_pct_nav": 4.36,
+    "fractional_lot": 0.696,
+    "relaxed_prob": 0.723
+   },
+   {
+    "ticker": "GAS",
+    "sector": "Energy",
+    "lot_pct_nav": 6.66,
+    "fractional_lot": 0.086,
+    "relaxed_prob": 0.131
+   },
+   {
+    "ticker": "HPG",
+    "sector": "Materials",
+    "lot_pct_nav": 1.38,
+    "fractional_lot": 0.295,
+    "relaxed_prob": 0.382
+   },
+   {
+    "ticker": "MSN",
+    "sector": "Consumer",
+    "lot_pct_nav": 7.48,
+    "fractional_lot": 0.607,
+    "relaxed_prob": 0.599
+   },
+   {
+    "ticker": "MWG",
+    "sector": "Consumer",
+    "lot_pct_nav": 3.56,
+    "fractional_lot": 0.547,
+    "relaxed_prob": 0.562
+   },
+   {
+    "ticker": "PLX",
+    "sector": "Energy",
+    "lot_pct_nav": 3.2,
+    "fractional_lot": 0.233,
+    "relaxed_prob": 0.275
+   },
+   {
+    "ticker": "SAB",
+    "sector": "Consumer",
+    "lot_pct_nav": 6.72,
+    "fractional_lot": 0.35,
+    "relaxed_prob": 0.352
+   },
+   {
+    "ticker": "SSI",
+    "sector": "Brokerage",
+    "lot_pct_nav": 1.15,
+    "fractional_lot": 0.339,
+    "relaxed_prob": 0.394
+   },
+   {
+    "ticker": "STB",
+    "sector": "Banking",
+    "lot_pct_nav": 2.59,
+    "fractional_lot": 0.493,
+    "relaxed_prob": 0.45
+   },
+   {
+    "ticker": "VCB",
+    "sector": "Banking",
+    "lot_pct_nav": 5.03,
+    "fractional_lot": 0.9,
+    "relaxed_prob": 0.884
+   },
+   {
+    "ticker": "VIC",
+    "sector": "Real estate",
+    "lot_pct_nav": 2.8,
+    "fractional_lot": 0.359,
+    "relaxed_prob": 0.45
+   },
+   {
+    "ticker": "VJC",
+    "sector": "Aviation",
+    "lot_pct_nav": 7.79,
+    "fractional_lot": 0.401,
+    "relaxed_prob": 0.418
+   },
+   {
+    "ticker": "VNM",
+    "sector": "Consumer",
+    "lot_pct_nav": 5.64,
+    "fractional_lot": 0.886,
+    "relaxed_prob": 0.925
+   }
+  ],
+  "hamiltonian": {
+   "n_qubits": 16,
+   "n_pairs": 120,
+   "warm_probs": [
+    0.526,
+    0.1983,
+    0.109,
+    0.723,
+    0.1307,
+    0.3818,
+    0.5991,
+    0.5624,
+    0.2754,
+    0.3519,
+    0.3943,
+    0.4497,
+    0.8837,
+    0.4499,
+    0.4175,
+    0.9255
+   ],
+   "warm_confidence": 0.38262426418960144,
+   "rms_scale": 5.656658364159169e-05,
+   "field_to_coupling_rms": 1.770132240915157,
+   "coupling_mass_from_risk": 0.9995314191440446,
+   "coupling_mass_from_budget": 0.0004685808559553361,
+   "pairs_for_90pct_mass": 58,
+   "feasible_fraction": 0.4791717529296875,
+   "near_optimal_states": 18,
+   "nearest_rounding_gap": 0.0651487891354578
+  }
+ },
+ {
+  "split": "train",
+  "date": "2023-07-03",
+  "usable": 30,
+  "excluded": [],
+  "avg_correlation": 0.3952053899803598,
+  "market_factor_share": 0.442183000542416,
+  "effective_bets": 11.459603798275507,
+  "clusters": [
+   [
+    "ACB",
+    "BID",
+    "BVH",
+    "CTG",
+    "FPT",
+    "GVR",
+    "HDB",
+    "HPG",
+    "MBB",
+    "MWG",
+    "POW",
+    "SSI",
+    "STB",
+    "TCB",
+    "TPB",
+    "VIB",
+    "VPB"
+   ],
+   [
+    "NVL",
+    "PDR"
+   ],
+   [
+    "VCB",
+    "VRE"
+   ],
+   [
+    "VHM",
+    "VIC"
+   ],
+   [
+    "BCM"
+   ],
+   [
+    "GAS"
+   ],
+   [
+    "MSN"
+   ],
+   [
+    "PLX"
+   ],
+   [
+    "SAB"
+   ],
+   [
+    "VJC"
+   ],
+   [
+    "VNM"
+   ]
+  ],
+  "sector_weights": {
+   "Banking": 0.4103,
+   "Real estate": 0.1687,
+   "Insurance": 0.0,
+   "Technology": 0.0642,
+   "Energy": 0.0299,
+   "Materials": 0.0723,
+   "Consumer": 0.1733,
+   "Brokerage": 0.023,
+   "Aviation": 0.0315
+  },
+  "lot_cost_pct_median": 2.061265304334758,
+  "lot_cost_pct_max": 7.139129093050057,
+  "te_continuous_pct": 5.932418082462405,
+  "te_nearest_pct": 6.147634610722778,
+  "te_exact_pct": 6.095120534815923,
+  "register": [
+   {
+    "ticker": "ACB",
+    "sector": "Banking",
+    "lot_pct_nav": 1.23,
+    "fractional_lot": 0.531,
+    "relaxed_prob": 0.48
+   },
+   {
+    "ticker": "CTG",
+    "sector": "Banking",
+    "lot_pct_nav": 1.63,
+    "fractional_lot": 0.226,
+    "relaxed_prob": 0.405
+   },
+   {
+    "ticker": "FPT",
+    "sector": "Technology",
+    "lot_pct_nav": 4.45,
+    "fractional_lot": 0.441,
+    "relaxed_prob": 0.439
+   },
+   {
+    "ticker": "GAS",
+    "sector": "Energy",
+    "lot_pct_nav": 5.81,
+    "fractional_lot": 0.096,
+    "relaxed_prob": 0.089
+   },
+   {
+    "ticker": "HPG",
+    "sector": "Materials",
+    "lot_pct_nav": 1.64,
+    "fractional_lot": 0.265,
+    "relaxed_prob": 0.388
+   },
+   {
+    "ticker": "MSN",
+    "sector": "Consumer",
+    "lot_pct_nav": 6.97,
+    "fractional_lot": 0.582,
+    "relaxed_prob": 0.598
+   },
+   {
+    "ticker": "MWG",
+    "sector": "Consumer",
+    "lot_pct_nav": 3.74,
+    "fractional_lot": 0.514,
+    "relaxed_prob": 0.489
+   },
+   {
+    "ticker": "NVL",
+    "sector": "Real estate",
+    "lot_pct_nav": 1.24,
+    "fractional_lot": 0.458,
+    "relaxed_prob": 0.414
+   },
+   {
+    "ticker": "PLX",
+    "sector": "Energy",
+    "lot_pct_nav": 3.07,
+    "fractional_lot": 0.333,
+    "relaxed_prob": 0.365
+   },
+   {
+    "ticker": "POW",
+    "sector": "Energy",
+    "lot_pct_nav": 1.02,
+    "fractional_lot": 0.389,
+    "relaxed_prob": 0.463
+   },
+   {
+    "ticker": "SAB",
+    "sector": "Consumer",
+    "lot_pct_nav": 5.46,
+    "fractional_lot": 0.457,
+    "relaxed_prob": 0.446
+   },
+   {
+    "ticker": "STB",
+    "sector": "Banking",
+    "lot_pct_nav": 2.74,
+    "fractional_lot": 0.547,
+    "relaxed_prob": 0.467
+   },
+   {
+    "ticker": "TCB",
+    "sector": "Banking",
+    "lot_pct_nav": 0.91,
+    "fractional_lot": 0.565,
+    "relaxed_prob": 0.489
+   },
+   {
+    "ticker": "VIC",
+    "sector": "Real estate",
+    "lot_pct_nav": 2.36,
+    "fractional_lot": 0.713,
+    "relaxed_prob": 0.582
+   },
+   {
+    "ticker": "VJC",
+    "sector": "Aviation",
+    "lot_pct_nav": 6.71,
+    "fractional_lot": 0.47,
+    "relaxed_prob": 0.467
+   },
+   {
+    "ticker": "VPB",
+    "sector": "Banking",
+    "lot_pct_nav": 1.26,
+    "fractional_lot": 0.697,
+    "relaxed_prob": 0.483
+   }
+  ],
+  "hamiltonian": {
+   "n_qubits": 16,
+   "n_pairs": 120,
+   "warm_probs": [
+    0.4798,
+    0.405,
+    0.4387,
+    0.0886,
+    0.3878,
+    0.5981,
+    0.4895,
+    0.414,
+    0.3645,
+    0.4634,
+    0.4463,
+    0.467,
+    0.4888,
+    0.5817,
+    0.4672,
+    0.4828
+   ],
+   "warm_confidence": 0.16205178846121568,
+   "rms_scale": 2.575318384111149e-05,
+   "field_to_coupling_rms": 1.9010588143421512,
+   "coupling_mass_from_risk": 0.9990586198341151,
+   "coupling_mass_from_budget": 0.0009413801658848366,
+   "pairs_for_90pct_mass": 42,
+   "feasible_fraction": 0.466827392578125,
+   "near_optimal_states": 11,
+   "nearest_rounding_gap": 0.24045276242479569
+  }
+ },
+ {
+  "split": "train",
+  "date": "2023-10-02",
+  "usable": 30,
+  "excluded": [],
+  "avg_correlation": 0.4312748720057967,
+  "market_factor_share": 0.4726113593851474,
+  "effective_bets": 10.636194446228865,
+  "clusters": [
+   [
+    "ACB",
+    "BID",
+    "BVH",
+    "CTG",
+    "FPT",
+    "GVR",
+    "HDB",
+    "HPG",
+    "MBB",
+    "MWG",
+    "POW",
+    "SHB",
+    "SSI",
+    "STB",
+    "TCB",
+    "TPB",
+    "VIB",
+    "VPB"
+   ],
+   [
+    "VHM",
+    "VIC",
+    "VRE"
+   ],
+   [
+    "BCM"
+   ],
+   [
+    "GAS"
+   ],
+   [
+    "MSN"
+   ],
+   [
+    "PLX"
+   ],
+   [
+    "SAB"
+   ],
+   [
+    "SSB"
+   ],
+   [
+    "VCB"
+   ],
+   [
+    "VJC"
+   ],
+   [
+    "VNM"
+   ]
+  ],
+  "sector_weights": {
+   "Banking": 0.4295,
+   "Real estate": 0.1373,
+   "Insurance": 0.0,
+   "Technology": 0.0612,
+   "Energy": 0.0233,
+   "Materials": 0.0718,
+   "Consumer": 0.1833,
+   "Brokerage": 0.0268,
+   "Aviation": 0.0387
+  },
+  "lot_cost_pct_median": 1.8159823925088328,
+  "lot_cost_pct_max": 6.800050178044686,
+  "te_continuous_pct": 6.166021855992417,
+  "te_nearest_pct": 6.323535371136654,
+  "te_exact_pct": 6.320232225785547,
+  "register": [
+   {
+    "ticker": "ACB",
+    "sector": "Banking",
+    "lot_pct_nav": 1.16,
+    "fractional_lot": 0.362,
+    "relaxed_prob": 0.458
+   },
+   {
+    "ticker": "FPT",
+    "sector": "Technology",
+    "lot_pct_nav": 5.37,
+    "fractional_lot": 0.139,
+    "relaxed_prob": 0.167
+   },
+   {
+    "ticker": "HPG",
+    "sector": "Materials",
+    "lot_pct_nav": 1.56,
+    "fractional_lot": 0.529,
+    "relaxed_prob": 0.54
+   },
+   {
+    "ticker": "MSN",
+    "sector": "Consumer",
+    "lot_pct_nav": 6.8,
+    "fractional_lot": 0.562,
+    "relaxed_prob": 0.572
+   },
+   {
+    "ticker": "MWG",
+    "sector": "Consumer",
+    "lot_pct_nav": 4.33,
+    "fractional_lot": 0.438,
+    "relaxed_prob": 0.472
+   },
+   {
+    "ticker": "PLX",
+    "sector": "Energy",
+    "lot_pct_nav": 2.96,
+    "fractional_lot": 0.298,
+    "relaxed_prob": 0.323
+   },
+   {
+    "ticker": "POW",
+    "sector": "Energy",
+    "lot_pct_nav": 0.85,
+    "fractional_lot": 0.422,
+    "relaxed_prob": 0.476
+   },
+   {
+    "ticker": "SAB",
+    "sector": "Consumer",
+    "lot_pct_nav": 4.93,
+    "fractional_lot": 0.435,
+    "relaxed_prob": 0.403
+   },
+   {
+    "ticker": "SHB",
+    "sector": "Banking",
+    "lot_pct_nav": 0.7,
+    "fractional_lot": 0.606,
+    "relaxed_prob": 0.492
+   },
+   {
+    "ticker": "SSI",
+    "sector": "Brokerage",
+    "lot_pct_nav": 1.56,
+    "fractional_lot": 0.713,
+    "relaxed_prob": 0.56
+   },
+   {
+    "ticker": "STB",
+    "sector": "Banking",
+    "lot_pct_nav": 2.71,
+    "fractional_lot": 0.387,
+    "relaxed_prob": 0.415
+   },
+   {
+    "ticker": "TCB",
+    "sector": "Banking",
+    "lot_pct_nav": 0.9,
+    "fractional_lot": 0.62,
+    "relaxed_prob": 0.49
+   },
+   {
+    "ticker": "VIB",
+    "sector": "Banking",
+    "lot_pct_nav": 1.01,
+    "fractional_lot": 0.614,
+    "relaxed_prob": 0.523
+   },
+   {
+    "ticker": "VIC",
+    "sector": "Real estate",
+    "lot_pct_nav": 2.06,
+    "fractional_lot": 0.741,
+    "relaxed_prob": 0.707
+   },
+   {
+    "ticker": "VJC",
+    "sector": "Aviation",
+    "lot_pct_nav": 6.66,
+    "fractional_lot": 0.581,
+    "relaxed_prob": 0.59
+   },
+   {
+    "ticker": "VNM",
+    "sector": "Consumer",
+    "lot_pct_nav": 5.33,
+    "fractional_lot": 0.149,
+    "relaxed_prob": 0.13
+   }
+  ],
+  "hamiltonian": {
+   "n_qubits": 16,
+   "n_pairs": 120,
+   "warm_probs": [
+    0.4583,
+    0.1667,
+    0.5399,
+    0.5722,
+    0.4724,
+    0.3232,
+    0.4762,
+    0.4034,
+    0.4915,
+    0.56,
+    0.4148,
+    0.49,
+    0.5231,
+    0.7073,
+    0.5897,
+    0.1302
+   ],
+   "warm_confidence": 0.20822451077242266,
+   "rms_scale": 2.542986392566456e-05,
+   "field_to_coupling_rms": 1.5419108861174715,
+   "coupling_mass_from_risk": 0.99918125158432,
+   "coupling_mass_from_budget": 0.0008187484156799381,
+   "pairs_for_90pct_mass": 38,
+   "feasible_fraction": 0.4747314453125,
+   "near_optimal_states": 36,
+   "nearest_rounding_gap": 0.017269829484824063
+  }
+ },
+ {
+  "split": "test",
+  "date": "2024-01-02",
+  "usable": 30,
+  "excluded": [],
+  "avg_correlation": 0.3943067531261187,
+  "market_factor_share": 0.4288825888567288,
+  "effective_bets": 12.430993062266886,
+  "clusters": [
+   [
+    "ACB",
+    "BID",
+    "CTG",
+    "GVR",
+    "HPG",
+    "MBB",
+    "POW",
+    "SHB",
+    "SSI",
+    "STB",
+    "TCB",
+    "TPB",
+    "VIB",
+    "VPB"
+   ],
+   [
+    "FPT",
+    "GAS"
+   ],
+   [
+    "MSN",
+    "VRE"
+   ],
+   [
+    "VHM",
+    "VIC"
+   ],
+   [
+    "BCM"
+   ],
+   [
+    "BVH"
+   ],
+   [
+    "HDB"
+   ],
+   [
+    "MWG"
+   ],
+   [
+    "PLX"
+   ],
+   [
+    "SAB"
+   ],
+   [
+    "SSB"
+   ],
+   [
+    "VCB"
+   ],
+   [
+    "VJC"
+   ],
+   [
+    "VNM"
+   ]
+  ],
+  "sector_weights": {
+   "Banking": 0.4776,
+   "Real estate": 0.1121,
+   "Insurance": 0.0,
+   "Technology": 0.0656,
+   "Energy": 0.0312,
+   "Materials": 0.0731,
+   "Consumer": 0.1585,
+   "Brokerage": 0.0283,
+   "Aviation": 0.0337
+  },
+  "lot_cost_pct_median": 1.815205450104466,
+  "lot_cost_pct_max": 7.40017635453683,
+  "te_continuous_pct": 4.668765278351293,
+  "te_nearest_pct": 4.832324541888471,
+  "te_exact_pct": 4.789306804655624,
+  "register": [
+   {
+    "ticker": "ACB",
+    "sector": "Banking",
+    "lot_pct_nav": 1.33,
+    "fractional_lot": 0.499,
+    "relaxed_prob": 0.465
+   },
+   {
+    "ticker": "CTG",
+    "sector": "Banking",
+    "lot_pct_nav": 1.65,
+    "fractional_lot": 0.731,
+    "relaxed_prob": 0.495
+   },
+   {
+    "ticker": "FPT",
+    "sector": "Technology",
+    "lot_pct_nav": 5.66,
+    "fractional_lot": 0.158,
+    "relaxed_prob": 0.21
+   },
+   {
+    "ticker": "GAS",
+    "sector": "Energy",
+    "lot_pct_nav": 5.66,
+    "fractional_lot": 0.097,
+    "relaxed_prob": 0.104
+   },
+   {
+    "ticker": "GVR",
+    "sector": "Materials",
+    "lot_pct_nav": 1.82,
+    "fractional_lot": 0.414,
+    "relaxed_prob": 0.39
+   },
+   {
+    "ticker": "MSN",
+    "sector": "Consumer",
+    "lot_pct_nav": 6.15,
+    "fractional_lot": 0.728,
+    "relaxed_prob": 0.746
+   },
+   {
+    "ticker": "MWG",
+    "sector": "Consumer",
+    "lot_pct_nav": 3.63,
+    "fractional_lot": 0.317,
+    "relaxed_prob": 0.299
+   },
+   {
+    "ticker": "PLX",
+    "sector": "Energy",
+    "lot_pct_nav": 2.79,
+    "fractional_lot": 0.299,
+    "relaxed_prob": 0.348
+   },
+   {
+    "ticker": "SAB",
+    "sector": "Consumer",
+    "lot_pct_nav": 4.39,
+    "fractional_lot": 0.142,
+    "relaxed_prob": 0.191
+   },
+   {
+    "ticker": "SSB",
+    "sector": "Banking",
+    "lot_pct_nav": 1.57,
+    "fractional_lot": 0.678,
+    "relaxed_prob": 0.538
+   },
+   {
+    "ticker": "SSI",
+    "sector": "Brokerage",
+    "lot_pct_nav": 1.62,
+    "fractional_lot": 0.746,
+    "relaxed_prob": 0.465
+   },
+   {
+    "ticker": "VHM",
+    "sector": "Real estate",
+    "lot_pct_nav": 1.86,
+    "fractional_lot": 0.537,
+    "relaxed_prob": 0.51
+   },
+   {
+    "ticker": "VIC",
+    "sector": "Real estate",
+    "lot_pct_nav": 1.98,
+    "fractional_lot": 0.498,
+    "relaxed_prob": 0.5
+   },
+   {
+    "ticker": "VJC",
+    "sector": "Aviation",
+    "lot_pct_nav": 7.4,
+    "fractional_lot": 0.455,
+    "relaxed_prob": 0.478
+   },
+   {
+    "ticker": "VNM",
+    "sector": "Consumer",
+    "lot_pct_nav": 4.97,
+    "fractional_lot": 0.202,
+    "relaxed_prob": 0.267
+   },
+   {
+    "ticker": "VRE",
+    "sector": "Real estate",
+    "lot_pct_nav": 2.01,
+    "fractional_lot": 0.77,
+    "relaxed_prob": 0.574
+   }
+  ],
+  "hamiltonian": {
+   "n_qubits": 16,
+   "n_pairs": 120,
+   "warm_probs": [
+    0.4652,
+    0.4951,
+    0.2095,
+    0.1038,
+    0.3901,
+    0.7463,
+    0.2992,
+    0.3485,
+    0.1911,
+    0.5378,
+    0.465,
+    0.5097,
+    0.5,
+    0.4782,
+    0.2675,
+    0.574
+   ],
+   "warm_confidence": 0.2693304098029664,
+   "rms_scale": 2.4973836721571352e-05,
+   "field_to_coupling_rms": 2.765283611463539,
+   "coupling_mass_from_risk": 0.9983163290690997,
+   "coupling_mass_from_budget": 0.0016836709309003411,
+   "pairs_for_90pct_mass": 50,
+   "feasible_fraction": 0.248138427734375,
+   "near_optimal_states": 11,
+   "nearest_rounding_gap": 0.1318788038757157
+  }
+ },
+ {
+  "split": "test",
+  "date": "2024-04-01",
+  "usable": 30,
+  "excluded": [],
+  "avg_correlation": 0.35953766438825574,
+  "market_factor_share": 0.39346275075119347,
+  "effective_bets": 13.605872268907415,
+  "clusters": [
+   [
+    "ACB",
+    "CTG",
+    "MBB",
+    "SHB",
+    "TCB",
+    "TPB",
+    "VIB",
+    "VPB"
+   ],
+   [
+    "HPG",
+    "POW",
+    "SSI",
+    "STB"
+   ],
+   [
+    "BVH",
+    "GAS",
+    "PLX"
+   ],
+   [
+    "VHM",
+    "VIC",
+    "VRE"
+   ],
+   [
+    "FPT",
+    "GVR"
+   ],
+   [
+    "MSN",
+    "MWG"
+   ],
+   [
+    "BCM"
+   ],
+   [
+    "BID"
+   ],
+   [
+    "HDB"
+   ],
+   [
+    "SAB"
+   ],
+   [
+    "SSB"
+   ],
+   [
+    "VCB"
+   ],
+   [
+    "VJC"
+   ],
+   [
+    "VNM"
+   ]
+  ],
+  "sector_weights": {
+   "Banking": 0.495,
+   "Real estate": 0.1029,
+   "Insurance": 0.0013,
+   "Technology": 0.0752,
+   "Energy": 0.027,
+   "Materials": 0.0764,
+   "Consumer": 0.1439,
+   "Brokerage": 0.0263,
+   "Aviation": 0.032
+  },
+  "lot_cost_pct_median": 1.8546173464290343,
+  "lot_cost_pct_max": 6.197748323514962,
+  "te_continuous_pct": 4.248206899451085,
+  "te_nearest_pct": 4.408878668811935,
+  "te_exact_pct": 4.354624300273749,
+  "register": [
+   {
+    "ticker": "CTG",
+    "sector": "Banking",
+    "lot_pct_nav": 1.85,
+    "fractional_lot": 0.435,
+    "relaxed_prob": 0.523
+   },
+   {
+    "ticker": "FPT",
+    "sector": "Technology",
+    "lot_pct_nav": 6.01,
+    "fractional_lot": 0.251,
+    "relaxed_prob": 0.307
+   },
+   {
+    "ticker": "GVR",
+    "sector": "Materials",
+    "lot_pct_nav": 2.49,
+    "fractional_lot": 0.369,
+    "relaxed_prob": 0.363
+   },
+   {
+    "ticker": "MSN",
+    "sector": "Consumer",
+    "lot_pct_nav": 5.76,
+    "fractional_lot": 0.664,
+    "relaxed_prob": 0.683
+   },
+   {
+    "ticker": "MWG",
+    "sector": "Consumer",
+    "lot_pct_nav": 3.83,
+    "fractional_lot": 0.226,
+    "relaxed_prob": 0.242
+   },
+   {
+    "ticker": "PLX",
+    "sector": "Energy",
+    "lot_pct_nav": 2.64,
+    "fractional_lot": 0.365,
+    "relaxed_prob": 0.504
+   },
+   {
+    "ticker": "SSI",
+    "sector": "Brokerage",
+    "lot_pct_nav": 1.69,
+    "fractional_lot": 0.561,
+    "relaxed_prob": 0.457
+   },
+   {
+    "ticker": "STB",
+    "sector": "Banking",
+    "lot_pct_nav": 2.46,
+    "fractional_lot": 0.221,
+    "relaxed_prob": 0.436
+   },
+   {
+    "ticker": "TPB",
+    "sector": "Banking",
+    "lot_pct_nav": 0.89,
+    "fractional_lot": 0.52,
+    "relaxed_prob": 0.514
+   },
+   {
+    "ticker": "VCB",
+    "sector": "Banking",
+    "lot_pct_nav": 4.92,
+    "fractional_lot": 0.885,
+    "relaxed_prob": 0.914
+   },
+   {
+    "ticker": "VHM",
+    "sector": "Real estate",
+    "lot_pct_nav": 1.62,
+    "fractional_lot": 0.683,
+    "relaxed_prob": 0.597
+   },
+   {
+    "ticker": "VIB",
+    "sector": "Banking",
+    "lot_pct_nav": 1.16,
+    "fractional_lot": 0.491,
+    "relaxed_prob": 0.512
+   },
+   {
+    "ticker": "VIC",
+    "sector": "Real estate",
+    "lot_pct_nav": 1.88,
+    "fractional_lot": 0.472,
+    "relaxed_prob": 0.564
+   },
+   {
+    "ticker": "VJC",
+    "sector": "Aviation",
+    "lot_pct_nav": 6.2,
+    "fractional_lot": 0.517,
+    "relaxed_prob": 0.596
+   },
+   {
+    "ticker": "VNM",
+    "sector": "Consumer",
+    "lot_pct_nav": 4.31,
+    "fractional_lot": 0.279,
+    "relaxed_prob": 0.426
+   },
+   {
+    "ticker": "VRE",
+    "sector": "Real estate",
+    "lot_pct_nav": 1.95,
+    "fractional_lot": 0.669,
+    "relaxed_prob": 0.627
+   }
+  ],
+  "hamiltonian": {
+   "n_qubits": 16,
+   "n_pairs": 120,
+   "warm_probs": [
+    0.5234,
+    0.3068,
+    0.3632,
+    0.683,
+    0.2424,
+    0.5037,
+    0.4572,
+    0.4356,
+    0.5144,
+    0.9142,
+    0.5971,
+    0.5124,
+    0.5635,
+    0.5961,
+    0.4261,
+    0.6272
+   ],
+   "warm_confidence": 0.22549874796318448,
+   "rms_scale": 1.5492460477298812e-05,
+   "field_to_coupling_rms": 1.3093583166625944,
+   "coupling_mass_from_risk": 0.9981851243187623,
+   "coupling_mass_from_budget": 0.0018148756812376525,
+   "pairs_for_90pct_mass": 49,
+   "feasible_fraction": 0.6280670166015625,
+   "near_optimal_states": 25,
+   "nearest_rounding_gap": 0.17430217830853922
+  }
+ },
+ {
+  "split": "test",
+  "date": "2024-07-01",
+  "usable": 30,
+  "excluded": [],
+  "avg_correlation": 0.3855023518551062,
+  "market_factor_share": 0.41865911565422953,
+  "effective_bets": 12.609330762420827,
+  "clusters": [
+   [
+    "ACB",
+    "BID",
+    "CTG",
+    "HPG",
+    "MBB",
+    "SHB",
+    "SSI",
+    "STB",
+    "TCB",
+    "TPB",
+    "VIB",
+    "VPB"
+   ],
+   [
+    "BVH",
+    "GAS",
+    "PLX"
+   ],
+   [
+    "VHM",
+    "VIC",
+    "VRE"
+   ],
+   [
+    "MSN",
+    "MWG"
+   ],
+   [
+    "BCM"
+   ],
+   [
+    "FPT"
+   ],
+   [
+    "GVR"
+   ],
+   [
+    "HDB"
+   ],
+   [
+    "POW"
+   ],
+   [
+    "SAB"
+   ],
+   [
+    "SSB"
+   ],
+   [
+    "VCB"
+   ],
+   [
+    "VJC"
+   ],
+   [
+    "VNM"
+   ]
+  ],
+  "sector_weights": {
+   "Banking": 0.5072,
+   "Real estate": 0.1044,
+   "Insurance": 0.0016,
+   "Technology": 0.0861,
+   "Energy": 0.0164,
+   "Materials": 0.0722,
+   "Consumer": 0.1316,
+   "Brokerage": 0.0282,
+   "Aviation": 0.0322
+  },
+  "lot_cost_pct_median": 1.660225189640009,
+  "lot_cost_pct_max": 7.689753923389483,
+  "te_continuous_pct": 4.346423759167255,
+  "te_nearest_pct": 4.445504355517469,
+  "te_exact_pct": 4.445499743658774,
+  "register": [
+   {
+    "ticker": "BID",
+    "sector": "Banking",
+    "lot_pct_nav": 2.61,
+    "fractional_lot": 0.321,
+    "relaxed_prob": 0.405
+   },
+   {
+    "ticker": "FPT",
+    "sector": "Technology",
+    "lot_pct_nav": 7.69,
+    "fractional_lot": 0.12,
+    "relaxed_prob": 0.166
+   },
+   {
+    "ticker": "GVR",
+    "sector": "Materials",
+    "lot_pct_nav": 2.6,
+    "fractional_lot": 0.267,
+    "relaxed_prob": 0.188
+   },
+   {
+    "ticker": "MSN",
+    "sector": "Consumer",
+    "lot_pct_nav": 5.98,
+    "fractional_lot": 0.722,
+    "relaxed_prob": 0.713
+   },
+   {
+    "ticker": "MWG",
+    "sector": "Consumer",
+    "lot_pct_nav": 4.96,
+    "fractional_lot": 0.824,
+    "relaxed_prob": 0.821
+   },
+   {
+    "ticker": "PLX",
+    "sector": "Energy",
+    "lot_pct_nav": 3.0,
+    "fractional_lot": 0.308,
+    "relaxed_prob": 0.333
+   },
+   {
+    "ticker": "SAB",
+    "sector": "Consumer",
+    "lot_pct_nav": 3.78,
+    "fractional_lot": 0.083,
+    "relaxed_prob": 0.12
+   },
+   {
+    "ticker": "SSB",
+    "sector": "Banking",
+    "lot_pct_nav": 1.2,
+    "fractional_lot": 0.682,
+    "relaxed_prob": 0.592
+   },
+   {
+    "ticker": "STB",
+    "sector": "Banking",
+    "lot_pct_nav": 2.31,
+    "fractional_lot": 0.15,
+    "relaxed_prob": 0.243
+   },
+   {
+    "ticker": "TCB",
+    "sector": "Banking",
+    "lot_pct_nav": 1.13,
+    "fractional_lot": 0.28,
+    "relaxed_prob": 0.442
+   },
+   {
+    "ticker": "TPB",
+    "sector": "Banking",
+    "lot_pct_nav": 0.85,
+    "fractional_lot": 0.403,
+    "relaxed_prob": 0.471
+   },
+   {
+    "ticker": "VCB",
+    "sector": "Banking",
+    "lot_pct_nav": 4.46,
+    "fractional_lot": 0.908,
+    "relaxed_prob": 1.0
+   },
+   {
+    "ticker": "VIB",
+    "sector": "Banking",
+    "lot_pct_nav": 1.04,
+    "fractional_lot": 0.674,
+    "relaxed_prob": 0.494
+   },
+   {
+    "ticker": "VJC",
+    "sector": "Aviation",
+    "lot_pct_nav": 6.09,
+    "fractional_lot": 0.529,
+    "relaxed_prob": 0.605
+   },
+   {
+    "ticker": "VPB",
+    "sector": "Banking",
+    "lot_pct_nav": 1.13,
+    "fractional_lot": 0.476,
+    "relaxed_prob": 0.485
+   },
+   {
+    "ticker": "VRE",
+    "sector": "Real estate",
+    "lot_pct_nav": 1.66,
+    "fractional_lot": 0.741,
+    "relaxed_prob": 0.616
+   }
+  ],
+  "hamiltonian": {
+   "n_qubits": 16,
+   "n_pairs": 120,
+   "warm_probs": [
+    0.4052,
+    0.166,
+    0.1877,
+    0.7129,
+    0.8212,
+    0.333,
+    0.12,
+    0.5925,
+    0.2432,
+    0.4416,
+    0.4714,
+    1.0,
+    0.4935,
+    0.605,
+    0.4855,
+    0.6159
+   ],
+   "warm_confidence": 0.3750393379405437,
+   "rms_scale": 2.269372386379782e-05,
+   "field_to_coupling_rms": 1.6849535354856258,
+   "coupling_mass_from_risk": 0.9988496929414772,
+   "coupling_mass_from_budget": 0.0011503070585227853,
+   "pairs_for_90pct_mass": 32,
+   "feasible_fraction": 0.520843505859375,
+   "near_optimal_states": 46,
+   "nearest_rounding_gap": 0.0009801345911389754
+  }
+ },
+ {
+  "split": "test",
+  "date": "2024-10-01",
+  "usable": 30,
+  "excluded": [],
+  "avg_correlation": 0.38500081278009973,
+  "market_factor_share": 0.41876696007219727,
+  "effective_bets": 12.443788259660243,
+  "clusters": [
+   [
+    "ACB",
+    "BID",
+    "CTG",
+    "HPG",
+    "MBB",
+    "SHB",
+    "SSI",
+    "STB",
+    "TCB",
+    "TPB",
+    "VIB",
+    "VPB"
+   ],
+   [
+    "BVH",
+    "GAS",
+    "VNM"
+   ],
+   [
+    "VHM",
+    "VIC",
+    "VRE"
+   ],
+   [
+    "GVR",
+    "PLX"
+   ],
+   [
+    "MSN",
+    "MWG"
+   ],
+   [
+    "BCM"
+   ],
+   [
+    "FPT"
+   ],
+   [
+    "HDB"
+   ],
+   [
+    "POW"
+   ],
+   [
+    "SAB"
+   ],
+   [
+    "SSB"
+   ],
+   [
+    "VCB"
+   ],
+   [
+    "VJC"
+   ]
+  ],
+  "sector_weights": {
+   "Banking": 0.516,
+   "Real estate": 0.0881,
+   "Insurance": 0.001,
+   "Technology": 0.093,
+   "Energy": 0.0125,
+   "Materials": 0.0731,
+   "Consumer": 0.1355,
+   "Brokerage": 0.0315,
+   "Aviation": 0.0292
+  },
+  "lot_cost_pct_median": 1.56326633080216,
+  "lot_cost_pct_max": 7.633765798829649,
+  "te_continuous_pct": 4.077702773606051,
+  "te_nearest_pct": 4.326416332718113,
+  "te_exact_pct": 4.176885471816964,
+  "register": [
+   {
+    "ticker": "BID",
+    "sector": "Banking",
+    "lot_pct_nav": 2.78,
+    "fractional_lot": 0.377,
+    "relaxed_prob": 0.533
+   },
+   {
+    "ticker": "CTG",
+    "sector": "Banking",
+    "lot_pct_nav": 1.82,
+    "fractional_lot": 0.29,
+    "relaxed_prob": 0.539
+   },
+   {
+    "ticker": "FPT",
+    "sector": "Technology",
+    "lot_pct_nav": 7.63,
+    "fractional_lot": 0.219,
+    "relaxed_prob": 0.255
+   },
+   {
+    "ticker": "GVR",
+    "sector": "Materials",
+    "lot_pct_nav": 2.56,
+    "fractional_lot": 0.268,
+    "relaxed_prob": 0.203
+   },
+   {
+    "ticker": "HPG",
+    "sector": "Materials",
+    "lot_pct_nav": 1.47,
+    "fractional_lot": 0.502,
+    "relaxed_prob": 0.545
+   },
+   {
+    "ticker": "MBB",
+    "sector": "Banking",
+    "lot_pct_nav": 0.99,
+    "fractional_lot": 0.489,
+    "relaxed_prob": 0.57
+   },
+   {
+    "ticker": "MSN",
+    "sector": "Consumer",
+    "lot_pct_nav": 5.66,
+    "fractional_lot": 0.815,
+    "relaxed_prob": 0.826
+   },
+   {
+    "ticker": "MWG",
+    "sector": "Consumer",
+    "lot_pct_nav": 4.8,
+    "fractional_lot": 0.791,
+    "relaxed_prob": 0.785
+   },
+   {
+    "ticker": "PLX",
+    "sector": "Energy",
+    "lot_pct_nav": 3.07,
+    "fractional_lot": 0.24,
+    "relaxed_prob": 0.268
+   },
+   {
+    "ticker": "SAB",
+    "sector": "Consumer",
+    "lot_pct_nav": 3.48,
+    "fractional_lot": 0.19,
+    "relaxed_prob": 0.231
+   },
+   {
+    "ticker": "STB",
+    "sector": "Banking",
+    "lot_pct_nav": 2.48,
+    "fractional_lot": 0.77,
+    "relaxed_prob": 0.773
+   },
+   {
+    "ticker": "VHM",
+    "sector": "Real estate",
+    "lot_pct_nav": 1.55,
+    "fractional_lot": 0.487,
+    "relaxed_prob": 0.586
+   },
+   {
+    "ticker": "VIB",
+    "sector": "Banking",
+    "lot_pct_nav": 1.07,
+    "fractional_lot": 0.612,
+    "relaxed_prob": 0.583
+   },
+   {
+    "ticker": "VIC",
+    "sector": "Real estate",
+    "lot_pct_nav": 1.56,
+    "fractional_lot": 0.414,
+    "relaxed_prob": 0.593
+   },
+   {
+    "ticker": "VJC",
+    "sector": "Aviation",
+    "lot_pct_nav": 5.99,
+    "fractional_lot": 0.488,
+    "relaxed_prob": 0.586
+   },
+   {
+    "ticker": "VRE",
+    "sector": "Real estate",
+    "lot_pct_nav": 1.39,
+    "fractional_lot": 0.78,
+    "relaxed_prob": 0.672
+   }
+  ],
+  "hamiltonian": {
+   "n_qubits": 16,
+   "n_pairs": 120,
+   "warm_probs": [
+    0.533,
+    0.5394,
+    0.2546,
+    0.2031,
+    0.5454,
+    0.5703,
+    0.8264,
+    0.785,
+    0.268,
+    0.2312,
+    0.7734,
+    0.5864,
+    0.5832,
+    0.5934,
+    0.5862,
+    0.6719
+   ],
+   "warm_confidence": 0.3296577426475818,
+   "rms_scale": 2.1136683395364463e-05,
+   "field_to_coupling_rms": 1.6885757860018533,
+   "coupling_mass_from_risk": 0.9989274768542961,
+   "coupling_mass_from_budget": 0.0010725231457039397,
+   "pairs_for_90pct_mass": 37,
+   "feasible_fraction": 0.59918212890625,
+   "near_optimal_states": 76,
+   "nearest_rounding_gap": 0.35817025147620446
+  }
+ },
+ {
+  "split": "test",
+  "date": "2025-01-02",
+  "usable": 30,
+  "excluded": [],
+  "avg_correlation": 0.3297476316425148,
+  "market_factor_share": 0.3681420108337748,
+  "effective_bets": 14.421951740085216,
+  "clusters": [
+   [
+    "ACB",
+    "BID",
+    "CTG",
+    "MBB",
+    "SHB",
+    "STB",
+    "TCB",
+    "TPB",
+    "VIB",
+    "VPB"
+   ],
+   [
+    "HPG",
+    "MSN",
+    "SSI"
+   ],
+   [
+    "VHM",
+    "VIC"
+   ],
+   [
+    "BCM"
+   ],
+   [
+    "BVH"
+   ],
+   [
+    "FPT"
+   ],
+   [
+    "GAS"
+   ],
+   [
+    "GVR"
+   ],
+   [
+    "HDB"
+   ],
+   [
+    "MWG"
+   ],
+   [
+    "PLX"
+   ],
+   [
+    "POW"
+   ],
+   [
+    "SAB"
+   ],
+   [
+    "SSB"
+   ],
+   [
+    "VCB"
+   ],
+   [
+    "VJC"
+   ],
+   [
+    "VNM"
+   ],
+   [
+    "VRE"
+   ]
+  ],
+  "sector_weights": {
+   "Banking": 0.5137,
+   "Real estate": 0.0912,
+   "Insurance": 0.0,
+   "Technology": 0.0982,
+   "Energy": 0.0126,
+   "Materials": 0.0727,
+   "Consumer": 0.1347,
+   "Brokerage": 0.0296,
+   "Aviation": 0.0272
+  },
+  "lot_cost_pct_median": 1.521946262478965,
+  "lot_cost_pct_max": 8.728677011288383,
+  "te_continuous_pct": 3.6162475607964666,
+  "te_nearest_pct": 3.710235664721015,
+  "te_exact_pct": 3.687980865360726,
+  "register": [
+   {
+    "ticker": "BID",
+    "sector": "Banking",
+    "lot_pct_nav": 2.62,
+    "fractional_lot": 0.563,
+    "relaxed_prob": 0.572
+   },
+   {
+    "ticker": "CTG",
+    "sector": "Banking",
+    "lot_pct_nav": 1.93,
+    "fractional_lot": 0.638,
+    "relaxed_prob": 0.522
+   },
+   {
+    "ticker": "FPT",
+    "sector": "Technology",
+    "lot_pct_nav": 8.73,
+    "fractional_lot": 0.125,
+    "relaxed_prob": 0.111
+   },
+   {
+    "ticker": "GVR",
+    "sector": "Materials",
+    "lot_pct_nav": 2.23,
+    "fractional_lot": 0.262,
+    "relaxed_prob": 0.211
+   },
+   {
+    "ticker": "HPG",
+    "sector": "Materials",
+    "lot_pct_nav": 1.51,
+    "fractional_lot": 0.436,
+    "relaxed_prob": 0.48
+   },
+   {
+    "ticker": "MSN",
+    "sector": "Consumer",
+    "lot_pct_nav": 5.31,
+    "fractional_lot": 0.851,
+    "relaxed_prob": 0.853
+   },
+   {
+    "ticker": "PLX",
+    "sector": "Energy",
+    "lot_pct_nav": 2.67,
+    "fractional_lot": 0.213,
+    "relaxed_prob": 0.235
+   },
+   {
+    "ticker": "SAB",
+    "sector": "Consumer",
+    "lot_pct_nav": 3.52,
+    "fractional_lot": 0.226,
+    "relaxed_prob": 0.302
+   },
+   {
+    "ticker": "SSB",
+    "sector": "Banking",
+    "lot_pct_nav": 1.04,
+    "fractional_lot": 0.475,
+    "relaxed_prob": 0.51
+   },
+   {
+    "ticker": "STB",
+    "sector": "Banking",
+    "lot_pct_nav": 2.78,
+    "fractional_lot": 0.532,
+    "relaxed_prob": 0.48
+   },
+   {
+    "ticker": "TPB",
+    "sector": "Banking",
+    "lot_pct_nav": 0.93,
+    "fractional_lot": 0.459,
+    "relaxed_prob": 0.493
+   },
+   {
+    "ticker": "VCB",
+    "sector": "Banking",
+    "lot_pct_nav": 4.54,
+    "fractional_lot": 0.872,
+    "relaxed_prob": 0.842
+   },
+   {
+    "ticker": "VHM",
+    "sector": "Real estate",
+    "lot_pct_nav": 1.45,
+    "fractional_lot": 0.668,
+    "relaxed_prob": 0.593
+   },
+   {
+    "ticker": "VIB",
+    "sector": "Banking",
+    "lot_pct_nav": 1.08,
+    "fractional_lot": 0.401,
+    "relaxed_prob": 0.48
+   },
+   {
+    "ticker": "VIC",
+    "sector": "Real estate",
+    "lot_pct_nav": 1.52,
+    "fractional_lot": 0.723,
+    "relaxed_prob": 0.571
+   },
+   {
+    "ticker": "VJC",
+    "sector": "Aviation",
+    "lot_pct_nav": 5.77,
+    "fractional_lot": 0.471,
+    "relaxed_prob": 0.47
+   }
+  ],
+  "hamiltonian": {
+   "n_qubits": 16,
+   "n_pairs": 120,
+   "warm_probs": [
+    0.572,
+    0.5218,
+    0.1112,
+    0.2112,
+    0.4799,
+    0.8534,
+    0.2354,
+    0.3022,
+    0.5098,
+    0.4804,
+    0.4926,
+    0.8421,
+    0.5926,
+    0.4798,
+    0.5712,
+    0.4705
+   ],
+   "warm_confidence": 0.27496753923174927,
+   "rms_scale": 1.8282507919058245e-05,
+   "field_to_coupling_rms": 4.108125525159011,
+   "coupling_mass_from_risk": 0.9964389337162131,
+   "coupling_mass_from_budget": 0.003561066283787038,
+   "pairs_for_90pct_mass": 34,
+   "feasible_fraction": 0.475311279296875,
+   "near_optimal_states": 38,
+   "nearest_rounding_gap": 0.1066414813654228
+  }
+ },
+ {
+  "split": "test",
+  "date": "2025-04-01",
+  "usable": 30,
+  "excluded": [],
+  "avg_correlation": 0.3160215105407147,
+  "market_factor_share": 0.35873786512885497,
+  "effective_bets": 14.950677349693704,
+  "clusters": [
+   [
+    "ACB",
+    "BID",
+    "CTG",
+    "HPG",
+    "MBB",
+    "SSI",
+    "STB",
+    "TCB",
+    "TPB",
+    "VIB",
+    "VPB"
+   ],
+   [
+    "VHM",
+    "VIC"
+   ],
+   [
+    "BCM"
+   ],
+   [
+    "BVH"
+   ],
+   [
+    "FPT"
+   ],
+   [
+    "GAS"
+   ],
+   [
+    "GVR"
+   ],
+   [
+    "HDB"
+   ],
+   [
+    "LPB"
+   ],
+   [
+    "MSN"
+   ],
+   [
+    "MWG"
+   ],
+   [
+    "PLX"
+   ],
+   [
+    "SAB"
+   ],
+   [
+    "SHB"
+   ],
+   [
+    "SSB"
+   ],
+   [
+    "VCB"
+   ],
+   [
+    "VJC"
+   ],
+   [
+    "VNM"
+   ],
+   [
+    "VRE"
+   ]
+  ],
+  "sector_weights": {
+   "Banking": 0.528,
+   "Real estate": 0.0841,
+   "Insurance": 0.0012,
+   "Technology": 0.0962,
+   "Energy": 0.0109,
+   "Materials": 0.0699,
+   "Consumer": 0.1342,
+   "Brokerage": 0.0304,
+   "Aviation": 0.0253
+  },
+  "lot_cost_pct_median": 2.152766455316231,
+  "lot_cost_pct_max": 6.700644551720158,
+  "te_continuous_pct": 3.457859754442688,
+  "te_nearest_pct": 3.8442941729285804,
+  "te_exact_pct": 3.5945112071241216,
+  "register": [
+   {
+    "ticker": "BID",
+    "sector": "Banking",
+    "lot_pct_nav": 2.59,
+    "fractional_lot": 0.657,
+    "relaxed_prob": 0.612
+   },
+   {
+    "ticker": "CTG",
+    "sector": "Banking",
+    "lot_pct_nav": 2.05,
+    "fractional_lot": 0.418,
+    "relaxed_prob": 0.538
+   },
+   {
+    "ticker": "FPT",
+    "sector": "Technology",
+    "lot_pct_nav": 6.7,
+    "fractional_lot": 0.435,
+    "relaxed_prob": 0.446
+   },
+   {
+    "ticker": "GAS",
+    "sector": "Energy",
+    "lot_pct_nav": 4.49,
+    "fractional_lot": 0.129,
+    "relaxed_prob": 0.219
+   },
+   {
+    "ticker": "GVR",
+    "sector": "Materials",
+    "lot_pct_nav": 2.25,
+    "fractional_lot": 0.356,
+    "relaxed_prob": 0.358
+   },
+   {
+    "ticker": "LPB",
+    "sector": "Banking",
+    "lot_pct_nav": 2.14,
+    "fractional_lot": 0.274,
+    "relaxed_prob": 0.29
+   },
+   {
+    "ticker": "MSN",
+    "sector": "Consumer",
+    "lot_pct_nav": 4.81,
+    "fractional_lot": 0.867,
+    "relaxed_prob": 0.893
+   },
+   {
+    "ticker": "PLX",
+    "sector": "Energy",
+    "lot_pct_nav": 2.74,
+    "fractional_lot": 0.186,
+    "relaxed_prob": 0.156
+   },
+   {
+    "ticker": "SAB",
+    "sector": "Consumer",
+    "lot_pct_nav": 3.03,
+    "fractional_lot": 0.415,
+    "relaxed_prob": 0.496
+   },
+   {
+    "ticker": "SSB",
+    "sector": "Banking",
+    "lot_pct_nav": 1.18,
+    "fractional_lot": 0.342,
+    "relaxed_prob": 0.467
+   },
+   {
+    "ticker": "STB",
+    "sector": "Banking",
+    "lot_pct_nav": 2.88,
+    "fractional_lot": 0.462,
+    "relaxed_prob": 0.497
+   },
+   {
+    "ticker": "VCB",
+    "sector": "Banking",
+    "lot_pct_nav": 4.61,
+    "fractional_lot": 0.913,
+    "relaxed_prob": 0.937
+   },
+   {
+    "ticker": "VIC",
+    "sector": "Real estate",
+    "lot_pct_nav": 2.17,
+    "fractional_lot": 0.712,
+    "relaxed_prob": 0.741
+   },
+   {
+    "ticker": "VJC",
+    "sector": "Aviation",
+    "lot_pct_nav": 5.32,
+    "fractional_lot": 0.475,
+    "relaxed_prob": 0.49
+   },
+   {
+    "ticker": "VPB",
+    "sector": "Banking",
+    "lot_pct_nav": 1.06,
+    "fractional_lot": 0.65,
+    "relaxed_prob": 0.565
+   },
+   {
+    "ticker": "VRE",
+    "sector": "Real estate",
+    "lot_pct_nav": 1.4,
+    "fractional_lot": 0.492,
+    "relaxed_prob": 0.584
+   }
+  ],
+  "hamiltonian": {
+   "n_qubits": 16,
+   "n_pairs": 120,
+   "warm_probs": [
+    0.6117,
+    0.5383,
+    0.4463,
+    0.2193,
+    0.3581,
+    0.29,
+    0.8928,
+    0.1562,
+    0.4964,
+    0.4669,
+    0.4967,
+    0.9366,
+    0.7409,
+    0.4897,
+    0.5646,
+    0.5836
+   ],
+   "warm_confidence": 0.306108058190946,
+   "rms_scale": 9.208474366206191e-06,
+   "field_to_coupling_rms": 1.5156979715226073,
+   "coupling_mass_from_risk": 0.9948110393925624,
+   "coupling_mass_from_budget": 0.00518896060743751,
+   "pairs_for_90pct_mass": 48,
+   "feasible_fraction": 0.67254638671875,
+   "near_optimal_states": 24,
+   "nearest_rounding_gap": 1.1388373404609244
+  }
+ },
+ {
+  "split": "test",
+  "date": "2025-07-01",
+  "usable": 30,
+  "excluded": [],
+  "avg_correlation": 0.43649553567677385,
+  "market_factor_share": 0.47772528399534964,
+  "effective_bets": 10.42546293672252,
+  "clusters": [
+   [
+    "ACB",
+    "BID",
+    "CTG",
+    "HDB",
+    "HPG",
+    "MBB",
+    "MSN",
+    "MWG",
+    "SSI",
+    "STB",
+    "TCB",
+    "TPB",
+    "VCB",
+    "VIB",
+    "VPB"
+   ],
+   [
+    "BCM",
+    "GVR",
+    "VJC"
+   ],
+   [
+    "VHM",
+    "VIC",
+    "VRE"
+   ],
+   [
+    "GAS",
+    "PLX"
+   ],
+   [
+    "BVH"
+   ],
+   [
+    "FPT"
+   ],
+   [
+    "LPB"
+   ],
+   [
+    "SAB"
+   ],
+   [
+    "SHB"
+   ],
+   [
+    "SSB"
+   ],
+   [
+    "VNM"
+   ]
+  ],
+  "sector_weights": {
+   "Banking": 0.5073,
+   "Real estate": 0.1292,
+   "Insurance": 0.0057,
+   "Technology": 0.0883,
+   "Energy": 0.0051,
+   "Materials": 0.0677,
+   "Consumer": 0.1347,
+   "Brokerage": 0.0257,
+   "Aviation": 0.0083
+  },
+  "lot_cost_pct_median": 2.1685727390167147,
+  "lot_cost_pct_max": 6.2246320824374575,
+  "te_continuous_pct": 4.613843671152903,
+  "te_nearest_pct": 4.819524835153875,
+  "te_exact_pct": 4.703998662797565,
+  "register": [
+   {
+    "ticker": "ACB",
+    "sector": "Banking",
+    "lot_pct_nav": 1.25,
+    "fractional_lot": 0.327,
+    "relaxed_prob": 0.493
+   },
+   {
+    "ticker": "BCM",
+    "sector": "Real estate",
+    "lot_pct_nav": 4.3,
+    "fractional_lot": 0.183,
+    "relaxed_prob": 0.191
+   },
+   {
+    "ticker": "BVH",
+    "sector": "Insurance",
+    "lot_pct_nav": 3.57,
+    "fractional_lot": 0.159,
+    "relaxed_prob": 0.166
+   },
+   {
+    "ticker": "CTG",
+    "sector": "Banking",
+    "lot_pct_nav": 1.92,
+    "fractional_lot": 0.447,
+    "relaxed_prob": 0.507
+   },
+   {
+    "ticker": "FPT",
+    "sector": "Technology",
+    "lot_pct_nav": 6.22,
+    "fractional_lot": 0.419,
+    "relaxed_prob": 0.43
+   },
+   {
+    "ticker": "GVR",
+    "sector": "Materials",
+    "lot_pct_nav": 2.06,
+    "fractional_lot": 0.69,
+    "relaxed_prob": 0.591
+   },
+   {
+    "ticker": "HDB",
+    "sector": "Banking",
+    "lot_pct_nav": 0.89,
+    "fractional_lot": 0.595,
+    "relaxed_prob": 0.491
+   },
+   {
+    "ticker": "MSN",
+    "sector": "Consumer",
+    "lot_pct_nav": 5.11,
+    "fractional_lot": 0.822,
+    "relaxed_prob": 0.872
+   },
+   {
+    "ticker": "SAB",
+    "sector": "Consumer",
+    "lot_pct_nav": 2.84,
+    "fractional_lot": 0.252,
+    "relaxed_prob": 0.32
+   },
+   {
+    "ticker": "STB",
+    "sector": "Banking",
+    "lot_pct_nav": 3.19,
+    "fractional_lot": 0.431,
+    "relaxed_prob": 0.465
+   },
+   {
+    "ticker": "VCB",
+    "sector": "Banking",
+    "lot_pct_nav": 3.89,
+    "fractional_lot": 0.753,
+    "relaxed_prob": 0.645
+   },
+   {
+    "ticker": "VHM",
+    "sector": "Real estate",
+    "lot_pct_nav": 2.49,
+    "fractional_lot": 0.245,
+    "relaxed_prob": 0.258
+   },
+   {
+    "ticker": "VIB",
+    "sector": "Banking",
+    "lot_pct_nav": 0.94,
+    "fractional_lot": 0.449,
+    "relaxed_prob": 0.476
+   },
+   {
+    "ticker": "VIC",
+    "sector": "Real estate",
+    "lot_pct_nav": 3.25,
+    "fractional_lot": 0.615,
+    "relaxed_prob": 0.566
+   },
+   {
+    "ticker": "VJC",
+    "sector": "Aviation",
+    "lot_pct_nav": 4.73,
+    "fractional_lot": 0.176,
+    "relaxed_prob": 0.194
+   },
+   {
+    "ticker": "VNM",
+    "sector": "Consumer",
+    "lot_pct_nav": 3.45,
+    "fractional_lot": 0.238,
+    "relaxed_prob": 0.327
+   }
+  ],
+  "hamiltonian": {
+   "n_qubits": 16,
+   "n_pairs": 120,
+   "warm_probs": [
+    0.4934,
+    0.1911,
+    0.1659,
+    0.5069,
+    0.4298,
+    0.5907,
+    0.4909,
+    0.8716,
+    0.3203,
+    0.4654,
+    0.6449,
+    0.2579,
+    0.4761,
+    0.5655,
+    0.1939,
+    0.3272
+   ],
+   "warm_confidence": 0.2959710808153202,
+   "rms_scale": 2.2131514369910474e-05,
+   "field_to_coupling_rms": 2.0062985715557344,
+   "coupling_mass_from_risk": 0.9989971832818823,
+   "coupling_mass_from_budget": 0.0010028167181177759,
+   "pairs_for_90pct_mass": 49,
+   "feasible_fraction": 0.4636077880859375,
+   "near_optimal_states": 29,
+   "nearest_rounding_gap": 0.4521464643933223
+  }
+ },
+ {
+  "split": "test",
+  "date": "2025-10-01",
+  "usable": 30,
+  "excluded": [],
+  "avg_correlation": 0.41934976156398673,
+  "market_factor_share": 0.4545129872953358,
+  "effective_bets": 10.92046086526776,
+  "clusters": [
+   [
+    "ACB",
+    "BID",
+    "CTG",
+    "DGC",
+    "HDB",
+    "HPG",
+    "MBB",
+    "MSN",
+    "MWG",
+    "SSI",
+    "STB",
+    "TCB",
+    "TPB",
+    "VCB",
+    "VIB",
+    "VPB"
+   ],
+   [
+    "VHM",
+    "VIC",
+    "VRE"
+   ],
+   [
+    "BCM",
+    "GVR"
+   ],
+   [
+    "GAS",
+    "PLX"
+   ],
+   [
+    "FPT"
+   ],
+   [
+    "LPB"
+   ],
+   [
+    "SAB"
+   ],
+   [
+    "SHB"
+   ],
+   [
+    "SSB"
+   ],
+   [
+    "VJC"
+   ],
+   [
+    "VNM"
+   ]
+  ],
+  "sector_weights": {
+   "Banking": 0.456,
+   "Real estate": 0.1641,
+   "Materials": 0.0831,
+   "Technology": 0.0825,
+   "Energy": 0.0174,
+   "Consumer": 0.1367,
+   "Brokerage": 0.0278,
+   "Aviation": 0.0123
+  },
+  "lot_cost_pct_median": 1.8654862447556464,
+  "lot_cost_pct_max": 5.281074630783236,
+  "te_continuous_pct": 5.164192026473299,
+  "te_nearest_pct": 5.31133303791404,
+  "te_exact_pct": 5.251804692788752,
+  "register": [
+   {
+    "ticker": "BCM",
+    "sector": "Real estate",
+    "lot_pct_nav": 3.53,
+    "fractional_lot": 0.322,
+    "relaxed_prob": 0.304
+   },
+   {
+    "ticker": "BID",
+    "sector": "Banking",
+    "lot_pct_nav": 1.97,
+    "fractional_lot": 0.554,
+    "relaxed_prob": 0.468
+   },
+   {
+    "ticker": "CTG",
+    "sector": "Banking",
+    "lot_pct_nav": 1.87,
+    "fractional_lot": 0.512,
+    "relaxed_prob": 0.449
+   },
+   {
+    "ticker": "FPT",
+    "sector": "Technology",
+    "lot_pct_nav": 4.45,
+    "fractional_lot": 0.856,
+    "relaxed_prob": 0.841
+   },
+   {
+    "ticker": "GAS",
+    "sector": "Energy",
+    "lot_pct_nav": 3.16,
+    "fractional_lot": 0.302,
+    "relaxed_prob": 0.337
+   },
+   {
+    "ticker": "GVR",
+    "sector": "Materials",
+    "lot_pct_nav": 1.45,
+    "fractional_lot": 0.48,
+    "relaxed_prob": 0.456
+   },
+   {
+    "ticker": "HPG",
+    "sector": "Materials",
+    "lot_pct_nav": 1.35,
+    "fractional_lot": 0.62,
+    "relaxed_prob": 0.483
+   },
+   {
+    "ticker": "LPB",
+    "sector": "Banking",
+    "lot_pct_nav": 2.58,
+    "fractional_lot": 0.501,
+    "relaxed_prob": 0.463
+   },
+   {
+    "ticker": "MWG",
+    "sector": "Consumer",
+    "lot_pct_nav": 4.05,
+    "fractional_lot": 0.15,
+    "relaxed_prob": 0.141
+   },
+   {
+    "ticker": "PLX",
+    "sector": "Energy",
+    "lot_pct_nav": 1.77,
+    "fractional_lot": 0.442,
+    "relaxed_prob": 0.446
+   },
+   {
+    "ticker": "SAB",
+    "sector": "Consumer",
+    "lot_pct_nav": 2.18,
+    "fractional_lot": 0.311,
+    "relaxed_prob": 0.408
+   },
+   {
+    "ticker": "STB",
+    "sector": "Banking",
+    "lot_pct_nav": 3.21,
+    "fractional_lot": 0.272,
+    "relaxed_prob": 0.298
+   },
+   {
+    "ticker": "VHM",
+    "sector": "Real estate",
+    "lot_pct_nav": 2.61,
+    "fractional_lot": 0.277,
+    "relaxed_prob": 0.317
+   },
+   {
+    "ticker": "VIC",
+    "sector": "Real estate",
+    "lot_pct_nav": 4.56,
+    "fractional_lot": 0.607,
+    "relaxed_prob": 0.629
+   },
+   {
+    "ticker": "VJC",
+    "sector": "Aviation",
+    "lot_pct_nav": 5.28,
+    "fractional_lot": 0.232,
+    "relaxed_prob": 0.226
+   },
+   {
+    "ticker": "VNM",
+    "sector": "Consumer",
+    "lot_pct_nav": 2.95,
+    "fractional_lot": 0.451,
+    "relaxed_prob": 0.44
+   }
+  ],
+  "hamiltonian": {
+   "n_qubits": 16,
+   "n_pairs": 120,
+   "warm_probs": [
+    0.3037,
+    0.468,
+    0.4489,
+    0.8407,
+    0.3373,
+    0.456,
+    0.4827,
+    0.4626,
+    0.1412,
+    0.4463,
+    0.4081,
+    0.2978,
+    0.3171,
+    0.6287,
+    0.2256,
+    0.4403
+   ],
+   "warm_confidence": 0.27922947122426933,
+   "rms_scale": 2.31952507698616e-05,
+   "field_to_coupling_rms": 3.3959754682092154,
+   "coupling_mass_from_risk": 0.9989524256034553,
+   "coupling_mass_from_budget": 0.0010475743965446354,
+   "pairs_for_90pct_mass": 61,
+   "feasible_fraction": 0.37066650390625,
+   "near_optimal_states": 36,
+   "nearest_rounding_gap": 0.23919937952946052
+  }
+ },
+ {
+  "split": "test",
+  "date": "2026-01-05",
+  "usable": 30,
+  "excluded": [],
+  "avg_correlation": 0.41524857186477476,
+  "market_factor_share": 0.4506501040071805,
+  "effective_bets": 11.011203619019845,
+  "clusters": [
+   [
+    "ACB",
+    "BID",
+    "CTG",
+    "HDB",
+    "HPG",
+    "MBB",
+    "MSN",
+    "MWG",
+    "SHB",
+    "SSI",
+    "STB",
+    "TCB",
+    "TPB",
+    "VCB",
+    "VIB",
+    "VPB"
+   ],
+   [
+    "VHM",
+    "VIC",
+    "VRE"
+   ],
+   [
+    "BCM",
+    "GVR"
+   ],
+   [
+    "GAS",
+    "PLX"
+   ],
+   [
+    "DGC"
+   ],
+   [
+    "FPT"
+   ],
+   [
+    "LPB"
+   ],
+   [
+    "SAB"
+   ],
+   [
+    "SSB"
+   ],
+   [
+    "VJC"
+   ],
+   [
+    "VNM"
+   ]
+  ],
+  "sector_weights": {
+   "Banking": 0.4352,
+   "Real estate": 0.1848,
+   "Materials": 0.082,
+   "Technology": 0.0803,
+   "Energy": 0.0151,
+   "Consumer": 0.139,
+   "Brokerage": 0.0171,
+   "Aviation": 0.0265
+  },
+  "lot_cost_pct_median": 1.7373361445719513,
+  "lot_cost_pct_max": 8.58255954981178,
+  "te_continuous_pct": 5.766721098855525,
+  "te_nearest_pct": 6.2335053927963635,
+  "te_exact_pct": 5.8923611071094175,
+  "register": [
+   {
+    "ticker": "ACB",
+    "sector": "Banking",
+    "lot_pct_nav": 1.03,
+    "fractional_lot": 0.415,
+    "relaxed_prob": 0.518
+   },
+   {
+    "ticker": "BCM",
+    "sector": "Real estate",
+    "lot_pct_nav": 2.98,
+    "fractional_lot": 0.362,
+    "relaxed_prob": 0.397
+   },
+   {
+    "ticker": "DGC",
+    "sector": "Materials",
+    "lot_pct_nav": 2.69,
+    "fractional_lot": 0.366,
+    "relaxed_prob": 0.38
+   },
+   {
+    "ticker": "FPT",
+    "sector": "Technology",
+    "lot_pct_nav": 4.22,
+    "fractional_lot": 0.902,
+    "relaxed_prob": 0.952
+   },
+   {
+    "ticker": "HDB",
+    "sector": "Banking",
+    "lot_pct_nav": 1.1,
+    "fractional_lot": 0.468,
+    "relaxed_prob": 0.478
+   },
+   {
+    "ticker": "LPB",
+    "sector": "Banking",
+    "lot_pct_nav": 1.9,
+    "fractional_lot": 0.332,
+    "relaxed_prob": 0.511
+   },
+   {
+    "ticker": "MBB",
+    "sector": "Banking",
+    "lot_pct_nav": 1.01,
+    "fractional_lot": 0.553,
+    "relaxed_prob": 0.496
+   },
+   {
+    "ticker": "MWG",
+    "sector": "Consumer",
+    "lot_pct_nav": 4.21,
+    "fractional_lot": 0.251,
+    "relaxed_prob": 0.232
+   },
+   {
+    "ticker": "SAB",
+    "sector": "Consumer",
+    "lot_pct_nav": 2.14,
+    "fractional_lot": 0.445,
+    "relaxed_prob": 0.535
+   },
+   {
+    "ticker": "SHB",
+    "sector": "Banking",
+    "lot_pct_nav": 0.79,
+    "fractional_lot": 0.533,
+    "relaxed_prob": 0.514
+   },
+   {
+    "ticker": "SSI",
+    "sector": "Brokerage",
+    "lot_pct_nav": 1.16,
+    "fractional_lot": 0.479,
+    "relaxed_prob": 0.467
+   },
+   {
+    "ticker": "STB",
+    "sector": "Banking",
+    "lot_pct_nav": 2.87,
+    "fractional_lot": 0.554,
+    "relaxed_prob": 0.548
+   },
+   {
+    "ticker": "VIB",
+    "sector": "Banking",
+    "lot_pct_nav": 0.76,
+    "fractional_lot": 0.367,
+    "relaxed_prob": 0.509
+   },
+   {
+    "ticker": "VJC",
+    "sector": "Aviation",
+    "lot_pct_nav": 7.91,
+    "fractional_lot": 0.335,
+    "relaxed_prob": 0.353
+   },
+   {
+    "ticker": "VNM",
+    "sector": "Consumer",
+    "lot_pct_nav": 2.77,
+    "fractional_lot": 0.467,
+    "relaxed_prob": 0.534
+   },
+   {
+    "ticker": "VRE",
+    "sector": "Real estate",
+    "lot_pct_nav": 1.7,
+    "fractional_lot": 0.49,
+    "relaxed_prob": 0.486
+   }
+  ],
+  "hamiltonian": {
+   "n_qubits": 16,
+   "n_pairs": 120,
+   "warm_probs": [
+    0.5183,
+    0.3974,
+    0.38,
+    0.9523,
+    0.4777,
+    0.511,
+    0.4958,
+    0.2324,
+    0.5347,
+    0.5144,
+    0.4669,
+    0.5484,
+    0.5085,
+    0.3535,
+    0.5342,
+    0.4861
+   ],
+   "warm_confidence": 0.16649785414138416,
+   "rms_scale": 2.0848095288746973e-05,
+   "field_to_coupling_rms": 2.851134503110539,
+   "coupling_mass_from_risk": 0.9992207731221651,
+   "coupling_mass_from_budget": 0.000779226877834953,
+   "pairs_for_90pct_mass": 40,
+   "feasible_fraction": 0.5165863037109375,
+   "near_optimal_states": 36,
+   "nearest_rounding_gap": 1.6540983461091296
+  }
+ },
+ {
+  "split": "test",
+  "date": "2026-04-01",
+  "usable": 30,
+  "excluded": [],
+  "avg_correlation": 0.32125417343136004,
+  "market_factor_share": 0.3725645336587212,
+  "effective_bets": 13.188030068415367,
+  "clusters": [
+   [
+    "ACB",
+    "CTG",
+    "HDB",
+    "HPG",
+    "MBB",
+    "MWG",
+    "SHB",
+    "SSB",
+    "SSI",
+    "TCB",
+    "TPB",
+    "VIB",
+    "VPB"
+   ],
+   [
+    "GAS",
+    "GVR",
+    "PLX"
+   ],
+   [
+    "VHM",
+    "VIC",
+    "VRE"
+   ],
+   [
+    "BID",
+    "VCB"
+   ],
+   [
+    "DGC"
+   ],
+   [
+    "FPT"
+   ],
+   [
+    "LPB"
+   ],
+   [
+    "MSN"
+   ],
+   [
+    "SAB"
+   ],
+   [
+    "STB"
+   ],
+   [
+    "VJC"
+   ],
+   [
+    "VNM"
+   ],
+   [
+    "VPL"
+   ]
+  ],
+  "sector_weights": {
+   "Banking": 0.3824,
+   "Materials": 0.1058,
+   "Technology": 0.0801,
+   "Energy": 0.0121,
+   "Consumer": 0.1671,
+   "Brokerage": 0.011,
+   "Real estate": 0.1889,
+   "Aviation": 0.0325
+  },
+  "lot_cost_pct_median": 1.9739434639216287,
+  "lot_cost_pct_max": 7.473846090573298,
+  "te_continuous_pct": 5.656100905049328,
+  "te_nearest_pct": 6.191410332007513,
+  "te_exact_pct": 5.931978790791225,
+  "register": [
+   {
+    "ticker": "ACB",
+    "sector": "Banking",
+    "lot_pct_nav": 1.09,
+    "fractional_lot": 0.485,
+    "relaxed_prob": 0.571
+   },
+   {
+    "ticker": "DGC",
+    "sector": "Materials",
+    "lot_pct_nav": 2.22,
+    "fractional_lot": 0.588,
+    "relaxed_prob": 0.64
+   },
+   {
+    "ticker": "FPT",
+    "sector": "Technology",
+    "lot_pct_nav": 3.58,
+    "fractional_lot": 0.237,
+    "relaxed_prob": 0.309
+   },
+   {
+    "ticker": "GVR",
+    "sector": "Materials",
+    "lot_pct_nav": 1.7,
+    "fractional_lot": 0.501,
+    "relaxed_prob": 0.513
+   },
+   {
+    "ticker": "HPG",
+    "sector": "Materials",
+    "lot_pct_nav": 1.28,
+    "fractional_lot": 0.557,
+    "relaxed_prob": 0.549
+   },
+   {
+    "ticker": "MBB",
+    "sector": "Banking",
+    "lot_pct_nav": 1.12,
+    "fractional_lot": 0.641,
+    "relaxed_prob": 0.564
+   },
+   {
+    "ticker": "MSN",
+    "sector": "Consumer",
+    "lot_pct_nav": 4.08,
+    "fractional_lot": 0.192,
+    "relaxed_prob": 0.213
+   },
+   {
+    "ticker": "MWG",
+    "sector": "Consumer",
+    "lot_pct_nav": 4.24,
+    "fractional_lot": 0.691,
+    "relaxed_prob": 0.702
+   },
+   {
+    "ticker": "PLX",
+    "sector": "Energy",
+    "lot_pct_nav": 2.08,
+    "fractional_lot": 0.483,
+    "relaxed_prob": 0.641
+   },
+   {
+    "ticker": "SAB",
+    "sector": "Consumer",
+    "lot_pct_nav": 2.21,
+    "fractional_lot": 0.807,
+    "relaxed_prob": 0.83
+   },
+   {
+    "ticker": "STB",
+    "sector": "Banking",
+    "lot_pct_nav": 3.3,
+    "fractional_lot": 0.133,
+    "relaxed_prob": 0.194
+   },
+   {
+    "ticker": "VCB",
+    "sector": "Banking",
+    "lot_pct_nav": 3.1,
+    "fractional_lot": 0.688,
+    "relaxed_prob": 0.856
+   },
+   {
+    "ticker": "VIC",
+    "sector": "Real estate",
+    "lot_pct_nav": 7.47,
+    "fractional_lot": 0.315,
+    "relaxed_prob": 0.347
+   },
+   {
+    "ticker": "VJC",
+    "sector": "Aviation",
+    "lot_pct_nav": 6.8,
+    "fractional_lot": 0.478,
+    "relaxed_prob": 0.494
+   },
+   {
+    "ticker": "VPB",
+    "sector": "Banking",
+    "lot_pct_nav": 1.11,
+    "fractional_lot": 0.494,
+    "relaxed_prob": 0.508
+   },
+   {
+    "ticker": "VRE",
+    "sector": "Real estate",
+    "lot_pct_nav": 1.41,
+    "fractional_lot": 0.252,
+    "relaxed_prob": 0.366
+   }
+  ],
+  "hamiltonian": {
+   "n_qubits": 16,
+   "n_pairs": 120,
+   "warm_probs": [
+    0.5709,
+    0.6398,
+    0.3091,
+    0.513,
+    0.549,
+    0.5642,
+    0.2135,
+    0.7023,
+    0.6409,
+    0.8296,
+    0.1941,
+    0.8555,
+    0.3472,
+    0.4943,
+    0.508,
+    0.3658
+   ],
+   "warm_confidence": 0.3061322665105297,
+   "rms_scale": 3.120314502948098e-05,
+   "field_to_coupling_rms": 3.0913477830486906,
+   "coupling_mass_from_risk": 0.9992942132474134,
+   "coupling_mass_from_budget": 0.0007057867525866135,
+   "pairs_for_90pct_mass": 31,
+   "feasible_fraction": 0.487945556640625,
+   "near_optimal_states": 7,
+   "nearest_rounding_gap": 0.609314882657176
+  }
+ },
+ {
+  "split": "test",
+  "date": "2026-07-01",
+  "usable": 30,
+  "excluded": [],
+  "avg_correlation": 0.3100845792636708,
+  "market_factor_share": 0.3612546114111874,
+  "effective_bets": 13.300177202713703,
+  "clusters": [
+   [
+    "ACB",
+    "HDB",
+    "MBB",
+    "SHB",
+    "SSB",
+    "TCB",
+    "TPB",
+    "VIB",
+    "VPB"
+   ],
+   [
+    "BSR",
+    "GAS",
+    "GVR",
+    "PLX"
+   ],
+   [
+    "HPG",
+    "MSN",
+    "MWG",
+    "SSI"
+   ],
+   [
+    "BID",
+    "CTG",
+    "VCB"
+   ],
+   [
+    "VHM",
+    "VIC",
+    "VRE"
+   ],
+   [
+    "FPT"
+   ],
+   [
+    "LPB"
+   ],
+   [
+    "SAB"
+   ],
+   [
+    "STB"
+   ],
+   [
+    "VJC"
+   ],
+   [
+    "VNM"
+   ],
+   [
+    "VPL"
+   ]
+  ],
+  "sector_weights": {
+   "Banking": 0.3853,
+   "Energy": 0.0135,
+   "Technology": 0.0833,
+   "Materials": 0.0961,
+   "Consumer": 0.1719,
+   "Brokerage": 0.0095,
+   "Real estate": 0.1861,
+   "Aviation": 0.0344
+  },
+  "lot_cost_pct_median": 1.6878022342134456,
+  "lot_cost_pct_max": 10.464711267963416,
+  "te_continuous_pct": 5.599635288092931,
+  "te_nearest_pct": 5.893762626963545,
+  "te_exact_pct": 5.847874946004033,
+  "register": [
+   {
+    "ticker": "ACB",
+    "sector": "Banking",
+    "lot_pct_nav": 1.09,
+    "fractional_lot": 0.598,
+    "relaxed_prob": 0.518
+   },
+   {
+    "ticker": "BID",
+    "sector": "Banking",
+    "lot_pct_nav": 1.92,
+    "fractional_lot": 0.213,
+    "relaxed_prob": 0.189
+   },
+   {
+    "ticker": "BSR",
+    "sector": "Energy",
+    "lot_pct_nav": 1.21,
+    "fractional_lot": 0.308,
+    "relaxed_prob": 0.359
+   },
+   {
+    "ticker": "CTG",
+    "sector": "Banking",
+    "lot_pct_nav": 1.63,
+    "fractional_lot": 0.375,
+    "relaxed_prob": 0.322
+   },
+   {
+    "ticker": "FPT",
+    "sector": "Technology",
+    "lot_pct_nav": 3.19,
+    "fractional_lot": 0.606,
+    "relaxed_prob": 0.685
+   },
+   {
+    "ticker": "GVR",
+    "sector": "Materials",
+    "lot_pct_nav": 1.58,
+    "fractional_lot": 0.521,
+    "relaxed_prob": 0.468
+   },
+   {
+    "ticker": "HDB",
+    "sector": "Banking",
+    "lot_pct_nav": 0.99,
+    "fractional_lot": 0.513,
+    "relaxed_prob": 0.442
+   },
+   {
+    "ticker": "LPB",
+    "sector": "Banking",
+    "lot_pct_nav": 2.56,
+    "fractional_lot": 0.638,
+    "relaxed_prob": 0.724
+   },
+   {
+    "ticker": "MSN",
+    "sector": "Consumer",
+    "lot_pct_nav": 3.49,
+    "fractional_lot": 0.465,
+    "relaxed_prob": 0.465
+   },
+   {
+    "ticker": "PLX",
+    "sector": "Energy",
+    "lot_pct_nav": 1.74,
+    "fractional_lot": 0.546,
+    "relaxed_prob": 0.619
+   },
+   {
+    "ticker": "SAB",
+    "sector": "Consumer",
+    "lot_pct_nav": 2.18,
+    "fractional_lot": 0.735,
+    "relaxed_prob": 0.874
+   },
+   {
+    "ticker": "STB",
+    "sector": "Banking",
+    "lot_pct_nav": 3.53,
+    "fractional_lot": 0.154,
+    "relaxed_prob": 0.16
+   },
+   {
+    "ticker": "VCB",
+    "sector": "Banking",
+    "lot_pct_nav": 3.01,
+    "fractional_lot": 0.607,
+    "relaxed_prob": 0.605
+   },
+   {
+    "ticker": "VHM",
+    "sector": "Real estate",
+    "lot_pct_nav": 3.58,
+    "fractional_lot": 0.437,
+    "relaxed_prob": 0.456
+   },
+   {
+    "ticker": "VJC",
+    "sector": "Aviation",
+    "lot_pct_nav": 6.71,
+    "fractional_lot": 0.512,
+    "relaxed_prob": 0.522
+   },
+   {
+    "ticker": "VNM",
+    "sector": "Consumer",
+    "lot_pct_nav": 2.55,
+    "fractional_lot": 0.186,
+    "relaxed_prob": 0.245
+   }
+  ],
+  "hamiltonian": {
+   "n_qubits": 16,
+   "n_pairs": 120,
+   "warm_probs": [
+    0.5182,
+    0.1888,
+    0.359,
+    0.3224,
+    0.6845,
+    0.4685,
+    0.4423,
+    0.7241,
+    0.4653,
+    0.6188,
+    0.8736,
+    0.1597,
+    0.6051,
+    0.4557,
+    0.5224,
+    0.2447
+   ],
+   "warm_confidence": 0.3050701787557647,
+   "rms_scale": 1.3689869743047943e-05,
+   "field_to_coupling_rms": 1.8379451954992838,
+   "coupling_mass_from_risk": 0.9988380406429402,
+   "coupling_mass_from_budget": 0.0011619593570597452,
+   "pairs_for_90pct_mass": 55,
+   "feasible_fraction": 0.5199432373046875,
+   "near_optimal_states": 5,
+   "nearest_rounding_gap": Infinity
+  }
+ },
+ {
+  "split": "test",
+  "date": "2026-10-01",
+  "usable": 30,
+  "excluded": [],
+  "avg_correlation": 0.2890113778559523,
+  "market_factor_share": 0.34564138713283155,
+  "effective_bets": 14.174473811978423,
+  "clusters": [
+   [
+    "ACB",
+    "CTG",
+    "HDB",
+    "HPG",
+    "MBB",
+    "MSN",
+    "MWG",
+    "SHB",
+    "SSI",
+    "TCB",
+    "VIB",
+    "VPB"
+   ],
+   [
+    "VHM",
+    "VIC",
+    "VPL",
+    "VRE"
+   ],
+   [
+    "BSR",
+    "GAS",
+    "GVR"
+   ],
+   [
+    "BID",
+    "VCB"
+   ],
+   [
+    "FPT"
+   ],
+   [
+    "LPB"
+   ],
+   [
+    "MCH"
+   ],
+   [
+    "SAB"
+   ],
+   [
+    "SSB"
+   ],
+   [
+    "STB"
+   ],
+   [
+    "TCX"
+   ],
+   [
+    "VJC"
+   ],
+   [
+    "VNM"
+   ]
+  ],
+  "sector_weights": {
+   "Banking": 0.3757,
+   "Energy": 0.0093,
+   "Technology": 0.0863,
+   "Materials": 0.0976,
+   "Consumer": 0.1798,
+   "Brokerage": 0.0075,
+   "Real estate": 0.183,
+   "Aviation": 0.0409
+  },
+  "lot_cost_pct_median": 1.7289724186357573,
+  "lot_cost_pct_max": 11.228750763095693,
+  "te_continuous_pct": 5.096147777136991,
+  "te_nearest_pct": 5.2555827927376075,
+  "te_exact_pct": 5.236181200570737,
+  "register": [
+   {
+    "ticker": "CTG",
+    "sector": "Banking",
+    "lot_pct_nav": 1.53,
+    "fractional_lot": 0.494,
+    "relaxed_prob": 0.59
+   },
+   {
+    "ticker": "FPT",
+    "sector": "Technology",
+    "lot_pct_nav": 3.2,
+    "fractional_lot": 0.698,
+    "relaxed_prob": 0.73
+   },
+   {
+    "ticker": "GAS",
+    "sector": "Energy",
+    "lot_pct_nav": 4.19,
+    "fractional_lot": 0.135,
+    "relaxed_prob": 0.209
+   },
+   {
+    "ticker": "GVR",
+    "sector": "Materials",
+    "lot_pct_nav": 1.65,
+    "fractional_lot": 0.663,
+    "relaxed_prob": 0.624
+   },
+   {
+    "ticker": "HPG",
+    "sector": "Materials",
+    "lot_pct_nav": 1.02,
+    "fractional_lot": 0.465,
+    "relaxed_prob": 0.506
+   },
+   {
+    "ticker": "MCH",
+    "sector": "Consumer",
+    "lot_pct_nav": 7.09,
+    "fractional_lot": 0.077,
+    "relaxed_prob": 0.079
+   },
+   {
+    "ticker": "MSN",
+    "sector": "Consumer",
+    "lot_pct_nav": 3.62,
+    "fractional_lot": 0.345,
+    "relaxed_prob": 0.411
+   },
+   {
+    "ticker": "SAB",
+    "sector": "Consumer",
+    "lot_pct_nav": 2.21,
+    "fractional_lot": 0.709,
+    "relaxed_prob": 0.645
+   },
+   {
+    "ticker": "STB",
+    "sector": "Banking",
+    "lot_pct_nav": 3.59,
+    "fractional_lot": 0.183,
+    "relaxed_prob": 0.195
+   },
+   {
+    "ticker": "VCB",
+    "sector": "Banking",
+    "lot_pct_nav": 2.94,
+    "fractional_lot": 0.635,
+    "relaxed_prob": 0.755
+   },
+   {
+    "ticker": "VHM",
+    "sector": "Real estate",
+    "lot_pct_nav": 3.49,
+    "fractional_lot": 0.309,
+    "relaxed_prob": 0.299
+   },
+   {
+    "ticker": "VIC",
+    "sector": "Real estate",
+    "lot_pct_nav": 11.23,
+    "fractional_lot": 0.951,
+    "relaxed_prob": 0.956
+   },
+   {
+    "ticker": "VJC",
+    "sector": "Aviation",
+    "lot_pct_nav": 6.61,
+    "fractional_lot": 0.618,
+    "relaxed_prob": 0.635
+   },
+   {
+    "ticker": "VNM",
+    "sector": "Consumer",
+    "lot_pct_nav": 2.86,
+    "fractional_lot": 0.318,
+    "relaxed_prob": 0.417
+   },
+   {
+    "ticker": "VPB",
+    "sector": "Banking",
+    "lot_pct_nav": 1.19,
+    "fractional_lot": 0.543,
+    "relaxed_prob": 0.568
+   },
+   {
+    "ticker": "VPL",
+    "sector": "Real estate",
+    "lot_pct_nav": 4.01,
+    "fractional_lot": 0.144,
+    "relaxed_prob": 0.136
+   }
+  ],
+  "hamiltonian": {
+   "n_qubits": 16,
+   "n_pairs": 120,
+   "warm_probs": [
+    0.5901,
+    0.7301,
+    0.2095,
+    0.6238,
+    0.5061,
+    0.079,
+    0.411,
+    0.6454,
+    0.195,
+    0.7549,
+    0.2986,
+    0.9557,
+    0.6347,
+    0.4172,
+    0.5675,
+    0.1357
+   ],
+   "warm_confidence": 0.4077868549425772,
+   "rms_scale": 0.00012067815330747012,
+   "field_to_coupling_rms": 6.957044277320768,
+   "coupling_mass_from_risk": 0.9995748942503709,
+   "coupling_mass_from_budget": 0.00042510574962906813,
+   "pairs_for_90pct_mass": 8,
+   "feasible_fraction": 0.595428466796875,
+   "near_optimal_states": 295,
+   "nearest_rounding_gap": 0.005985808961414831
+  }
+ }
+]

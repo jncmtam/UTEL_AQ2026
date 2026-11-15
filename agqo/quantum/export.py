@@ -16,10 +16,7 @@ def build_circuit(cp: CompiledProblem, spec: CircuitSpec, angles: np.ndarray, me
     from qiskit import QuantumCircuit
 
     n, p = cp.n, spec.layers
-    _, kept = cp.phase_diag(spec.coupling_keep_fraction)
-    sel = cp.pair_order[:kept]
-    coeffs = np.concatenate([np.abs(cp.hz), np.abs(cp.pair_w[sel])])
-    scale = max(coeffs.max(), 1e-12)
+    _, sel, scale = cp.phase_terms(spec)          # same pruning and scale as the simulator
     qc = QuantumCircuit(n, name="agqo_qaoa")
     thetas = warm_angles(cp, spec.warm_start_epsilon)
     if spec.initial_state == "uniform":

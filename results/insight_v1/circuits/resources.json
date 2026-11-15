@@ -1,0 +1,66 @@
+{
+  "textbook": {
+    "qubits": 16,
+    "cx": 480,
+    "depth": 286,
+    "single_qubit": 448,
+    "spec": {
+      "layers": 2,
+      "initial_state": "uniform",
+      "mixer": "x",
+      "warm_start_epsilon": 0.25,
+      "coupling_keep_fraction": 1.0,
+      "angle_init": "linear_ramp",
+      "ramp_dt": 0.75,
+      "optimizer": "cobyla",
+      "max_iter": 100,
+      "cvar_alpha": 0.25,
+      "coupling_mass": 0.0,
+      "hamiltonian_scale": "max",
+      "ramp_dbeta": 0.0,
+      "rationale": "Textbook QAOA: uniform superposition, X mixer, p=2, COBYLA, CVaR 0.25."
+    },
+    "angles": [
+      0.9685,
+      0.865,
+      1.1264,
+      1.4185
+    ]
+  },
+  "designed": {
+    "qubits": 16,
+    "cx": 96,
+    "depth": 127,
+    "single_qubit": 331,
+    "spec": {
+      "layers": 6,
+      "initial_state": "warm_start",
+      "mixer": "warm_x",
+      "warm_start_epsilon": 0.05,
+      "coupling_keep_fraction": 1.0,
+      "angle_init": "linear_ramp",
+      "ramp_dt": 0.7,
+      "optimizer": "none",
+      "max_iter": 0,
+      "cvar_alpha": 0.1,
+      "coupling_mass": 0.9,
+      "hamiltonian_scale": "rms",
+      "ramp_dbeta": 0.6,
+      "rationale": "insight design: warm start + aligned mixer, 90% coupling mass, RMS scale, linear ramp p=6; transferred schedule, no optimiser"
+    },
+    "angles": [
+      0.0583,
+      0.175,
+      0.2917,
+      0.4083,
+      0.525,
+      0.6417,
+      0.55,
+      0.45,
+      0.35,
+      0.25,
+      0.15,
+      0.05
+    ]
+  }
+}

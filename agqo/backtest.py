@@ -55,8 +55,8 @@ def risk_inputs(md: MarketData, date, tickers: list[str], cfg) -> tuple[np.ndarr
 
 def _common(md: MarketData, date, tickers: list[str], views: dict, account: Account, ec: ExperimentConfig):
     cfg = ec.problem
-    prices = md.close.loc[date, tickers].to_numpy()
-    all_px = md.close.loc[date]
+    prices = md.px.loc[date, tickers].to_numpy()
+    all_px = md.px.loc[date]
     nav = account.value(all_px)
     cov, cov_b, var_b = risk_inputs(md, date, tickers, cfg)
     v = np.array([views.get(t, (0, 0.0))[0] for t in tickers], float)
@@ -67,19 +67,6 @@ def _common(md: MarketData, date, tickers: list[str], views: dict, account: Acco
     return dict(date=str(pd.Timestamp(date).date()), tickers=list(tickers), prices=prices, nav=nav, cov=cov,
                 cov_b=cov_b, var_b=var_b, mu=mu, prev_shares=prev, other_value=other, cash=account.cash,
                 cfg=cfg, rules=ec.rules)
-
-
-def build_selection_instance(md: MarketData, date, tickers: list[str], views: dict, account: Account,
-                             ec: ExperimentConfig) -> Instance:
-    """Basket mode: b bits per register stock encode 0..2^b-1 position units; nothing else is held."""
-    cfg, rules = ec.problem, ec.rules
-    kw = _common(md, date, tickers, views, account, ec)
-    n, b = len(tickers), cfg.bits_per_asset
-    unit_frac = cfg.invest_target / (n * (2 ** b - 1) / 2)
-    units = np.maximum(1, np.round(unit_frac * kw["nav"] / (rules.lot_size * kw["prices"])))
-    bit_stock = np.repeat(np.arange(n), b)
-    bit_lots = np.array([units[i] * 2 ** j for i in range(n) for j in range(b)])
-    return Instance(**kw, base_shares=np.zeros(n), bit_stock=bit_stock, bit_lots=bit_lots, mode="selection")
 
 
 def build_rounding_instance(md: MarketData, date, universe: list[str], views: dict, account: Account,
@@ -110,23 +97,47 @@ def qp_round_target(md: MarketData, date, universe: list[str], account: Account,
     """Practitioner baseline: continuous min-TE over every usable member, floored to whole lots."""
     cfg, rules = ec.problem, ec.rules
     cov, cov_b, _ = risk_inputs(md, date, universe, cfg)
-    px = md.close.loc[date, universe].to_numpy()
-    nav = account.value(md.close.loc[date])
+    px = md.px.loc[date, universe].to_numpy()
+    nav = account.value(md.px.loc[date])
     w_prev = np.array([account.shares.get(t, 0.0) for t in universe]) * px / nav
     w = continuous_min_te(cov, cov_b, cfg.invest_target, w_prev=w_prev, gamma=cfg.turnover_weight)
     sh = round_to_lots(w, px, nav, rules.lot_size)
     return dict(zip(universe, sh))
 
 
+def equal_weight_target(md: MarketData, date, universe: list[str], account: Account, ec: ExperimentConfig) -> dict:
+    """Naive 1/N baseline: equal weight in every usable member, rounded to whole lots."""
+    px = md.px.loc[date, universe].to_numpy()
+    nav = account.value(md.px.loc[date])
+    w = np.full(len(universe), ec.problem.invest_target / len(universe))
+    return dict(zip(universe, round_to_lots(w, px, nav, ec.rules.lot_size)))
+
+
+def etf_buy_and_hold(md: MarketData, ticker: str, start, end, ec: ExperimentConfig) -> tuple[pd.Series, float]:
+    """What the investor could do instead: buy whole lots of one VN30 ETF on day one and hold.
+
+    ETF units trade in 100-unit lots with the same commission; days without a trade carry the last price.
+    Returns (daily account value, fees paid).
+    """
+    px = md.etf_close[ticker].loc[:end].ffill().loc[start:end]
+    cap, r = ec.problem.capital_vnd, ec.rules
+    p0 = px.iloc[0]
+    units = np.floor(cap / (p0 * r.lot_size * (1 + r.commission))) * r.lot_size
+    fee = units * p0 * r.commission
+    cash = cap - units * p0 - fee
+    return cash + units * px, float(fee)
+
+
 def daily_values(md: MarketData, account: Account, start, end) -> pd.Series:
-    px = md.close.loc[start:end]
+    px = md.px.loc[start:end]
     v = pd.Series(account.cash, index=px.index)
     for t, s in account.shares.items():
         v = v + s * px[t]
     return v
 
 
-def performance(values: pd.Series, index: pd.Series) -> dict:
+def performance(values: pd.Series, index: pd.Series, etf: pd.Series | None = None) -> dict:
+    """Tracking vs the VN30 price index (excludes dividends) and, if given, vs a VN30 ETF (includes them)."""
     rp = values.pct_change().dropna()
     rb = index.pct_change().loc[rp.index]
     act = rp - rb
@@ -138,4 +149,13 @@ def performance(values: pd.Series, index: pd.Series) -> dict:
             "portfolio_return_total_pct": float(100 * tot_p),
             "index_return_total_pct": float(100 * tot_b),
             "correlation": float(np.corrcoef(rp, rb)[0, 1]),
-            "days": int(len(rp))}
+            "days": int(len(rp))} | ({} if etf is None else _vs_etf(values, etf, yrs))
+
+
+def _vs_etf(values: pd.Series, etf: pd.Series, yrs: float) -> dict:
+    e = etf.ffill().loc[values.index]
+    act = values.pct_change().dropna() - e.pct_change().loc[values.index[1:]]
+    tot_p = values.iloc[-1] / values.iloc[0] - 1
+    tot_e = e.iloc[-1] / e.iloc[0] - 1
+    return {"tracking_error_vs_etf_pct": float(100 * act.std() * np.sqrt(252)),
+            "excess_return_vs_etf_ann_pct": float(100 * ((1 + tot_p) ** (1 / yrs) - (1 + tot_e) ** (1 / yrs)))}
