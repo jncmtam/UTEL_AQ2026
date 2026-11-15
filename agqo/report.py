@@ -50,8 +50,8 @@ def _md(df: pd.DataFrame, fmt: str = "{:,.3f}") -> str:
 
 
 def _save(fig, path: Path, title: str, subtitle: str) -> str:
-    t, st = textwrap.fill(title, 100), textwrap.fill(subtitle, 130)
-    h = fig.get_size_inches()[1]
+    w, h = fig.get_size_inches()
+    t, st = textwrap.fill(title, int(min(100, 8.2 * w))), textwrap.fill(subtitle, int(min(130, 11.5 * w)))
     lines = t.count("\n") + st.count("\n") + 2
     fig.tight_layout(rect=(0, 0, 1, 1 - (0.30 + 0.19 * lines) / h))
     fig.text(0.012, 1 - 0.12 / h, t, ha="left", va="top", fontsize=12.5, fontweight="bold", color=INK)
@@ -110,7 +110,8 @@ def fig_market(run: Path, out: Path) -> str:
     _quarters(a1, d.date)
     a2.bar(x, d.effective_bets, color=SERIES[2], width=0.6, label="effective independent bets (Meucci)")
     a2.plot(x, d.n_clusters, color=INK2, marker="D", linewidth=0, label="correlation clusters (rho >= 0.5)")
-    a2.legend(loc="upper left", fontsize=8)
+    a2.set_ylim(0, 1.3 * max(d.effective_bets.max(), d.n_clusters.max()))
+    a2.legend(loc="upper left", fontsize=8, ncol=2)
     _quarters(a2, d.date)
     return _save(fig, out / "02_market_structure.png",
                  f"Phase 1 insight: VN30 behaves like ~{d.effective_bets.median():.0f} independent bets, not 30; one market "
@@ -136,7 +137,8 @@ def fig_problem(run: Path, out: Path) -> str:
     a2.bar(x, total, color=GRID, width=0.6, label="all couplings")
     a2.bar(x, kept, color=SERIES[0], width=0.6, label="kept in AGQO's circuit")
     a2.plot(x, 100 * d.h_warm_confidence, color=SERIES[1], marker="o", label="warm-start confidence (%)")
-    a2.legend(loc="upper right", fontsize=8)
+    a2.set_ylim(0, 1.3 * max(total.max(), 100))
+    a2.legend(loc="upper left", fontsize=8, ncol=3)
     _quarters(a2, d.date)
     return _save(fig, out / "03_problem_structure.png",
                  f"From data to circuit: {100 * d.h_coupling_mass_from_risk.median():.0f}% of qubit coupling strength comes "
@@ -160,7 +162,8 @@ def fig_guidance(run: Path, out: Path) -> str:
     a2.plot(x, d.s_layers, color=SERIES[0], marker="o", label="layers p")
     a2.plot(x, 10 * d.s_dgamma, color=SERIES[1], marker="s", label="10 x ramp height d_gamma")
     a2.plot(x, 10 * d.s_coupling_mass, color=SERIES[2], marker="^", label="10 x coupling mass kept")
-    a2.legend(loc="lower left", fontsize=8)
+    a2.set_ylim(0, 13.5)
+    a2.legend(loc="lower right", fontsize=8)
     _quarters(a2, d.date)
     best = cv.sort_values("cv_success", ascending=False).iloc[0]
     return _save(fig, out / "04_ai_guidance.png",
@@ -205,8 +208,10 @@ def fig_rounding(run: Path, out: Path) -> str:
     q = _pool(pd.read_csv(run / "quantum_test.csv"))
     d = q[q.arm == "agqo"].set_index("date")
     cap = 2.0
+    he = int((d.best_sample_gap <= 1e-9).sum())
     series = [("nearest-lot rounding", d.nearest_rounding_gap, SERIES[7]),
-              ("AGQO best of 512 shots", d.best_sample_gap, SERIES[0]), ("simulated annealing", d.sa_gap, SERIES[3])]
+              (f"AGQO best of 512 shots (gap 0 in {he}/{len(d)}: bars invisible)", d.best_sample_gap, SERIES[0]),
+              ("simulated annealing, one run", d.sa_gap, SERIES[3])]
     fig, ax = plt.subplots(figsize=(10, 4.4))
     x = np.arange(len(d))
     for i, (lab, v, col) in enumerate(series):
@@ -214,15 +219,17 @@ def fig_rounding(run: Path, out: Path) -> str:
         ax.bar(x + (i - 1) * 0.26, np.minimum(vv.fillna(cap), cap), width=0.23, color=col, label=lab,
                hatch=["///" if np.isinf(t) else "" for t in v], edgecolor=SURFACE)
     _quarters(ax, list(d.index))
-    ax.set_ylabel("normalised gap to exact optimum (0 = optimal)")
+    ax.set_ylabel("gap to optimum (0 = optimal)")
     ax.set_ylim(0, cap * 1.05)
     ax.legend(loc="upper left", fontsize=8.5)
     hq, hn = int((d.best_sample_gap <= 0.05).sum()), int((d.nearest_rounding_gap <= 0.05).sum())
+    se, s5 = int((d.sa_gap <= 1e-9).sum()), int((d.sa_gap <= 0.05).sum())
     return _save(fig, out / "06_rounding_quality.png",
                  f"AGQO's best sample is within 5% of the exact optimum in {hq}/{len(d)} quarters; nearest-lot rounding in "
                  f"{hn}/{len(d)}",
-                 "Gap 1 = a typical affordable portfolio; hatched = over budget. Simulated annealing also reaches the optimum: "
-                 "at 16 qubits there is no quantum advantage, the contribution is a verified, data-guided circuit.")
+                 f"Gap 1 = a typical affordable portfolio; hatched = over budget. AGQO's 512 shots contain the exact optimum in "
+                 f"{he}/{len(d)} quarters; one short simulated-annealing run (25,600 flips) is exact in {se}/{len(d)} and within "
+                 f"5% in {s5}/{len(d)}. Enumeration solves 16 qubits exactly in a fraction of a second: no quantum advantage.")
 
 
 # ------------------------------------------------------------------ finance
@@ -401,6 +408,10 @@ def build_report(run: Path, out: Path) -> None:
                   f"trade verified against the evidence ({s['faithful_pct']:.0f}%). Latest ({last['date']}):", "",
                   "> " + (last["explanation"] or {}).get("summary_vi", "").replace("\n", " "), ""]
     lines += ["## 9. Latest decision", f(10), ""]
+    if (run / "extras").exists():
+        from .visuals import build_visuals
+        vis = build_visuals(run, out)
+        lines += ["## 10. Presentation figures", ""] + [f"![{v[:-4]}](figures/{v})" for v in vis] + [""]
     Path("docs").mkdir(exist_ok=True)
     (Path("docs") / "RESULTS.md").write_text("\n".join(lines))
     print("figures:", figs)

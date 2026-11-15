@@ -1,0 +1,19 @@
+{
+  "fit_log_esp_intercept": -0.09099835292148933,
+  "fit_log_esp_per_logical_cx": -0.006038444759381476,
+  "two_qubit_error_implied": 0.006020249992944038,
+  "schedule": {
+    "layers": 2.0,
+    "epsilon": 0.02,
+    "coupling_mass": 0.25,
+    "dgamma": 0.35,
+    "dbeta": 1.0
+  },
+  "train_expected_noisy_success": 0.016025918428164972,
+  "train_warm_start_noisy_success": 0.01060737143657999,
+  "train_ideal_success": 0.019139649786593254,
+  "cx_for_esp_half_at_p6": null,
+  "deep_native_2q": 4355.333333333333,
+  "two_qubit_error_needed_for_esp_0.5": 0.00015913639062303808,
+  "median_cz_error_today": 0.0018277333407478724
+}

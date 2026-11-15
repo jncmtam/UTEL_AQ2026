@@ -1,0 +1,18 @@
+{
+  "explainer": {
+    "requests": 12,
+    "input_tokens": 7608,
+    "output_tokens": 6854,
+    "batch_wall_seconds_incl_cold_start": 368.46,
+    "model": "Qwen/Qwen3.8-27B-FP8",
+    "gpu": "NVIDIA H100 80GB HBM3"
+  },
+  "mandate_compiler": {
+    "requests": 35,
+    "input_tokens": 22644,
+    "output_tokens": 3228,
+    "batch_wall_seconds_incl_cold_start": 362.72,
+    "model": "Qwen/Qwen3.8-27B-FP8",
+    "gpu": "NVIDIA H100 80GB HBM3"
+  }
+}

@@ -153,12 +153,17 @@ quarter with the Wilcoxon signed-rank test and a bootstrap interval for the rati
 * TE differences: moving-block bootstrap of the paired daily active returns (21-day blocks,
   2,000 resamples; Künsch 1989), 95 % percentile interval.
 * Account-size sweep: 20M, 50M, 100M, 200M, 500M VND on the same quarters.
+* **Greedy lot filling** (`extras.greedy_target`), a strong classical heuristic: start from the
+  floor lots of the QP target and repeatedly add the single lot that lowers $F$ (tracking
+  variance + turnover) the most, while the spend stays within
+  $V(1-2c)\min(0.985,\ t+0.005)$; stop when no affordable lot lowers $F$.
 
 ## 8. Investor mandates and the LLM (`agqo/mandate.py`, `agqo/llm/`)
 
-The LLM (Qwen3.8-27B, official FP8 checkpoint, vLLM on one Modal H100, non-thinking mode,
-JSON-schema-constrained decoding, temperature 0) has two jobs; neither can change a number
-that reaches the optimiser unchecked.
+The LLM (Qwen3.8-27B, official FP8 checkpoint pinned to revision `c3a462cc`, vLLM 0.32 on one
+Modal H100, non-thinking mode, JSON-schema-constrained decoding, top-p 0.8, top-k 20, fixed seed per
+request) has two jobs; neither can change a number that reaches the optimiser unchecked. The mandate
+compiler runs at temperature 0, the explainer at 0.3.
 
 1. **Mandate compiler.** Input: a Vietnamese instruction plus the ticker/sector list. Output:
    excluded tickers and sectors, sector caps, per-stock cap, maximum holdings, minimum cash, or a
@@ -178,7 +183,56 @@ that reaches the optimiser unchecked.
 Every prompt, raw answer and token count is in `results/final/llm/llm_log.jsonl`;
 `--llm replay` reproduces the results without a GPU.
 
-## 9. Known limitations
+## 9. Studies added for the judges (`agqo/extras.py`, `python -m agqo extras`)
+
+All use the same data, test quarters and 2023 calibration; outputs in `results/final/extras/`.
+
+**Measurement distributions** (`distributions.csv`). For each test quarter and circuit, the full
+probability over the 65,536 decisions binned by normalised gap: optimal, ≤ 5 %, 5–25 %, 25–100 %,
+worse than the median affordable portfolio, over budget.
+
+**Hardware noise** (`hardware.csv`). Each circuit is transpiled to `FakeKingston`
+(qiskit-ibm-runtime 0.50; 156-qubit IBM Heron r2 with calibrated gate errors) at optimisation
+level 3, seed 7, for 3 test quarters. The estimated success probability is
+$\text{ESP}=\prod_{g}(1-\varepsilon_g)$ over all transpiled gates and readouts, and the noisy
+success is modelled as $\text{ESP}\cdot s_{\text{ideal}}+(1-\text{ESP})\cdot s_{\text{uniform}}$
+(a global depolarising approximation). The warm-start and shallow circuits are also run in full
+qiskit-aer 0.17 noise simulation with the backend's noise model (1,000 shots).
+
+**Noise-aware guidance** (`hardware_aware.csv`, `hardware_aware.json`). Fit
+$\log\text{ESP}=a+b\cdot n_{\text{CX}}$ on the transpiled circuits ($n_{\text{CX}}$ = logical
+two-qubit gates; fitted $b=-0.0060$). Simulate a supplementary 2023 schedule table ($p\in\{1,2\}$,
+$\epsilon\in\{0.02,0.05,0.10\}$, $m\in\{0.25,0.5,0.75,1.0\}$, ramp heights) on the 48 training
+problems and choose the schedule with the largest mean *expected noisy* success
+$e^{a+b n_{\text{CX}}}s_{\text{ideal}}+(1-e^{a+b n_{\text{CX}}})s_{\text{uniform}}$. Evaluate it on the
+12 test quarters against the warm start under the same model (Wilcoxon), and in Aer on 3 quarters.
+The two-qubit error that would give the deep circuit ESP 0.5 is
+$\varepsilon^\*=1-0.5^{1/n_{\text{CZ}}}$ with $n_{\text{CZ}}$ its native CZ count.
+
+**Scaling** (`scaling.csv`). Registers of 8, 12, 16, 20 qubits on the 12 test quarters: enumeration,
+statevector and simulated-annealing times; success of random guessing, the warm start and the frozen
+2023 schedule (RMS scaling makes it size-independent); logical CX count $2p\binom{n}{2}$.
+
+**Robustness** (`robustness.csv`). Independent accounts walked forward from cash at 20M and 100M VND
+for: commission 0.15 % (base), 0.10 %, 0.25 %; quarterly vs monthly rebalancing. Each scenario
+compares the exact whole-lot decision with naive rounding and with greedy lot filling
+(block-bootstrap CIs as in §7). The exact decision stands in for AGQO because AGQO's best sample
+equalled it in 12/12 test quarters; it avoids re-simulating the circuit for every scenario.
+
+**Odd-lot execution.** HOSE has matched odd lots (1–99 shares) since 12 Sep 2022. The odd-lot
+account buys the ideal continuous weights in single shares; every trade pays the normal commission
+and tax, and the odd-lot part of each trade (|Δshares| mod 100) pays an extra premium $\pi\in\{0,0.5,1,2\}\,\%$ of its
+value for wider spreads. The break-even premium is where a straight-line fit of the return
+difference (odd lots − AGQO) against $\pi$ crosses zero (`visuals.odd_lot_break_even`). Fill risk and
+the thinner odd-lot order book are not modelled.
+
+**One decision up close** (`examples.json`). A new account of 20M and 100M VND on the latest test
+date: ideal, naive, greedy and AGQO weights, ex-ante TE of each, the coupling matrix and timings.
+
+**LLM usage** (`llm_usage.json`). Input tokens recounted with the Qwen3.8 tokenizer (the live log
+under-counted them; fixed in `modal_app.py`).
+
+## 10. Known limitations
 
 * Historical lot costs use back-adjusted prices (understated in the past); today's decision
   uses actual prices. Cash-dividend treatment by the provider is not independently verified.
@@ -186,10 +240,13 @@ Every prompt, raw answer and token count is in `results/final/llm/llm_log.jsonl`
   tracking-error differences are distinguishable from noise.
 * The mandate test set (35 instructions) was written by the developers; it covers common
   phrasings but is not a sample of real user requests.
-* The 16-qubit problem is enumerable classically in milliseconds: results show design quality,
-  not quantum advantage. Simulated annealing also finds the optimum.
-* The designed circuit's depth is chosen for success in noiseless simulation; deep circuits
-  will lose fidelity on today's hardware.
+* The 16-qubit problem is enumerable classically in 0.12 s: results show design quality, not
+  quantum advantage. One short simulated-annealing run is within 5 % of the optimum in 12/12 test
+  quarters (exact in 6/12).
+* The noiseless choice (p = 6) is too deep for today's hardware (ESP ≈ 0.0002 on Heron r2); only
+  the noise-aware choice (16 native CZ) keeps an advantage under simulated noise. No run on real
+  hardware yet.
+* Explanations are checked for numbers and trades, not for meaning (see docs/QA.md §5).
 
 ## References
 

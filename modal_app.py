@@ -6,7 +6,7 @@ The LLM in AGQO reads and writes language, never numbers that reach the optimise
 
     modal run modal_app.py::download_weights    # once, ~31 GB into the Volume
     modal deploy modal_app.py
-    python -m agqo mandates --llm modal          # 33 instructions in one batch
+    python -m agqo mandates --llm modal          # 35 instructions in one batch
     python -m agqo explain --llm modal           # one explanation per test quarter
 
 One H100 (~4 USD/hour on Modal); a batch of requests runs in one warm container.
@@ -77,7 +77,8 @@ class Engine:
         chats, params, lens = [], [], []
         for r in requests:
             chat = [{"role": "system", "content": r["system"]}, {"role": "user", "content": r["user"]}]
-            n_in = len(tok.apply_chat_template(chat, add_generation_prompt=True, tokenize=True, **kw))
+            ids = tok.apply_chat_template(chat, add_generation_prompt=True, tokenize=True, **kw)
+            n_in = len(ids["input_ids"] if hasattr(ids, "keys") else ids)    # transformers 5 returns a dict
             chats.append(chat)
             lens.append(n_in)
             params.append(SamplingParams(temperature=r["temperature"], top_p=0.8, top_k=20, seed=r["seed"],

@@ -79,6 +79,7 @@ class LLMClient:
                        "system": r["system"], "user": r["user"], "raw_text": o["raw_text"], "parsed": parsed,
                        "status": status, "finish_reason": o.get("finish_reason"), "usage": o.get("usage", {}),
                        "model": o.get("model"), "revision": o.get("revision"), "gpu": o.get("gpu"),
+                       "batch_generate_s": o.get("batch_generate_s"), "model_load_s": o.get("model_load_s"),
                        "execution": o.get("execution", self.backend), "batch_wall_s": round(wall, 2)}
                 f.write(json.dumps(rec, ensure_ascii=False) + "\n")
                 records.append(rec)

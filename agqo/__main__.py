@@ -1,9 +1,10 @@
 """Command line. The full pipeline, in order:
 
   python -m agqo download                       # keyless VN30 members, indices and ETFs (data/vn30)
-  python -m agqo mandates --llm modal           # LLM mandate compiler vs keyword rules (33 instructions)
+  python -m agqo mandates --llm modal           # LLM mandate compiler vs keyword rules (35 instructions)
   python -m agqo run                            # training, AI-guided QAOA, walk-forward, statistics (CPU)
   python -m agqo explain --llm modal            # Vietnamese explanations with number verification
+  python -m agqo extras                         # hardware, scaling, robustness, distributions (CPU)
   python -m agqo report                         # figures + docs/RESULTS.md
 
 `--llm replay` re-reads results/final/llm/llm_log.jsonl (no GPU); `--llm none` skips the LLM.
@@ -42,6 +43,8 @@ def main() -> None:
         p.add_argument("--out", type=Path, default=RESULTS_DIR)
     r = sub.add_parser("run")
     r.add_argument("--out", type=Path, default=RESULTS_DIR)
+    ex = sub.add_parser("extras")
+    ex.add_argument("--run", type=Path, default=RESULTS_DIR)
     rep = sub.add_parser("report")
     rep.add_argument("--run", type=Path, default=RESULTS_DIR)
     rep.add_argument("--out", type=Path, default=Path("docs/figures"))
@@ -83,6 +86,9 @@ def main() -> None:
         (a.out / "llm" / "explanations.json").write_text(json.dumps({"score": score, "rows": rows}, indent=1,
                                                                     ensure_ascii=False))
         print(json.dumps(score, indent=2))
+    elif a.cmd == "extras":
+        from .extras import run_extras
+        run_extras(a.run)
     elif a.cmd == "report":
         from .report import build_report
         build_report(a.run, a.out)

@@ -232,3 +232,28 @@ def test_llm_client_logs_every_call(tmp_path):
     rec = c.generate([make_request("smoke", "s", "u", {"type": "object"})])[0]
     line = json.loads((tmp_path / "log.jsonl").read_text())
     assert rec["execution"] == "mock" and line["execution"] == "mock"
+
+
+# ---------------------------------------------------------------- judge studies (agqo/extras.py, agqo/visuals.py)
+def test_greedy_baseline_buys_affordable_whole_lots(market):
+    from agqo.extras import greedy_target
+
+    md = market
+    d = md.rebalance_dates(EC.train_start, EC.train_end)[0]
+    uni, _ = md.universe(d, 250, 180)
+    g = greedy_target(md, d, uni, Account(cash=20e6), EC)
+    sh = np.array(list(g.values()))
+    spend = (sh * md.px.loc[d, list(g)].to_numpy()).sum()
+    assert (sh % EC.rules.lot_size == 0).all() and sh.min() >= 0
+    assert 0 < spend * (1 + EC.rules.commission) <= 20e6
+
+
+def test_odd_lot_break_even_is_where_returns_meet():
+    from agqo.visuals import odd_lot_break_even
+
+    rb = pd.DataFrame([
+        {"capital_vnd": 1.0, "scenario": "base (0.15% commission, quarterly)", "te_odd_lot": np.nan,
+         "return_odd_lot": np.nan, "return_whole_lot_optimum": 10.0},
+        *[{"capital_vnd": 1.0, "scenario": f"odd-lot execution, premium {p}%", "te_odd_lot": 1.0,
+           "return_odd_lot": 14.0 - 2 * p, "return_whole_lot_optimum": np.nan} for p in (0.0, 1.0, 1.5)]])
+    assert abs(odd_lot_break_even(rb)[1.0] - 2.0) < 1e-9

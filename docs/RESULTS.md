@@ -117,3 +117,14 @@ Explainer: 12/12 quarterly explanations had every number and trade verified agai
 
 ## 9. Latest decision
 ![11_latest_decision](figures/11_latest_decision.png)
+
+## 10. Presentation figures
+
+![A1_architecture](figures/A1_architecture.png)
+![A2_circuit](figures/A2_circuit.png)
+![A3_probability_flow](figures/A3_probability_flow.png)
+![A4_one_decision](figures/A4_one_decision.png)
+![A5_hardware](figures/A5_hardware.png)
+![A6_scaling](figures/A6_scaling.png)
+![A7_robustness](figures/A7_robustness.png)
+![A8_evaluation_board](figures/A8_evaluation_board.png)
