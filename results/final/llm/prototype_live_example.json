@@ -1,0 +1,9 @@
+{
+ "note": "Live call made through the deployed prototype (https://data1--agqo-demo.us-east.modal.run) on 2026-11-16; instruction not in the 35-item test set.",
+ "text": "Tôi làm ở ngân hàng nên không muốn giữ thêm cổ phiếu ngân hàng, và giữ lại 10% tiền mặt",
+ "keyword_rules": {"exclude_tickers": [], "exclude_sectors": [], "sector_caps": {}, "max_weight_per_stock": null, "max_holdings": null, "min_cash_pct": 10.0},
+ "qwen": {"exclude_tickers": [], "exclude_sectors": ["Banking"], "sector_caps": {}, "max_weight_per_stock": null, "max_holdings": null, "min_cash_pct": 10},
+ "keyword": "chỉ bắt được “giữ 10% tiền mặt”, bỏ sót yêu cầu không giữ cổ phiếu ngân hàng",
+ "llm": "loại ngành Ngân hàng · tiền mặt ≥ 10% (đúng cả hai ý)",
+ "seconds_incl_cold_start": 440, "model_load_s": 308.8, "usage": {"input_tokens": 659, "output_tokens": 88}, "gpu": "NVIDIA H100 80GB HBM3"
+}

@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AGQO · Bám VN30 bằng lô chẵn</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/vendor/katex.min.css">
+<link rel="stylesheet" href="/static/style.css?v=5">
+<script src="/static/vendor/echarts.min.js"></script>
+<script src="/static/vendor/katex.min.js"></script>
+</head>
+<body>
+
+<!-- ============ top bar + ticker tape ============ -->
+<header class="topbar">
+  <div class="brand"><span class="logo">◆</span> AGQO <small>AI-Guided Quantum Optimisation</small></div>
+  <nav>
+    <a href="#problem">Vấn đề</a><a href="#try">Thử ngay</a><a href="#inside">Bên trong</a><a href="#results">Kết quả</a><a href="#honest">Minh bạch</a>
+  </nav>
+  <div class="live"><span class="dot"></span><span id="asof">đang tải dữ liệu…</span></div>
+</header>
+<div class="tape"><div class="tape-inner" id="tape"></div></div>
+
+<!-- ============ hero ============ -->
+<section class="hero" id="top">
+  <div class="hero-grid"></div>
+  <div class="hero-text reveal">
+    <p class="kicker">AI–Quantum Challenge 2026 · Tài chính định lượng cho nhà đầu tư nhỏ</p>
+    <h1>Bám <span class="up">VN30</span> theo cách của bạn,<br>bằng từng <span class="accent">lô 100 cổ phiếu</span>.</h1>
+    <p class="lead">Bạn dặn bằng tiếng Việt. <b>AI</b> hiểu yêu cầu và đọc thị trường; <b>mạch lượng tử QAOA</b> do dữ liệu thiết kế
+      chọn tổ hợp lô; <b>máy tính cổ điển</b> kiểm chứng chính xác từng quyết định trước khi ra lệnh.</p>
+    <div class="kpis">
+      <div class="kpi"><div class="v"><span class="down">12,1%</span> → <span class="up" data-count="6.8" data-dec="1">0</span>%</div><div class="l">sai số bám VN30, tài khoản 20 triệu</div></div>
+      <div class="kpi"><div class="v"><span data-count="6.9" data-dec="1">0</span>×</div><div class="l">lượt đo trúng nghiệm tốt so với khởi động cổ điển (12/12 quý)</div></div>
+      <div class="kpi"><div class="v"><span data-count="35" data-dec="0">0</span>/35</div><div class="l">yêu cầu tiếng Việt được LLM dịch đúng (từ khóa: 68,6%)</div></div>
+      <div class="kpi"><div class="v"><span data-count="0" data-dec="0">0</span></div><div class="l">vi phạm quy tắc cá nhân trong 12 quý kiểm định</div></div>
+    </div>
+    <a class="cta" href="#try">Chạy thử một quyết định thật ↓</a>
+  </div>
+</section>
+
+<!-- ============ 1. problem ============ -->
+<section id="problem" class="sec">
+  <div class="sec-head reveal"><span class="num">01</span><div><h2>Vấn đề: với tài khoản nhỏ, một lô là một canh bạc lớn</h2>
+    <p>Sàn HOSE khớp lệnh theo lô 100 cổ phiếu. Bộ tối ưu nói “giữ 3,4% VIC”, nhưng tài khoản chỉ có thể giữ 0% hoặc trọn một lô. Kéo thanh trượt để xem.</p></div></div>
+  <div class="card reveal">
+    <div class="row-between">
+      <label class="slider-label">Số vốn: <b id="capLabel">20</b> triệu đồng</label>
+      <input type="range" id="capSlider" min="5" max="200" step="5" value="20">
+    </div>
+    <div id="lotChart" class="chart tall"></div>
+    <p class="caption" id="lotCaption">Hình 1. Giá một lô (100 cổ phiếu) của từng mã VN30 tính theo % số vốn.</p>
+  </div>
+  <div class="grid3 reveal">
+    <div class="card mini"><h4>ETF VN30</h4><p>Rẻ, đa dạng; nhưng <b class="down">không thể bỏ một mã hay giới hạn một ngành</b>.</p></div>
+    <div class="card mini"><h4>Làm tròn lô gần nhất</h4><p>Đơn giản; với 20 triệu thì <b class="down">phần lớn tiền nằm im</b>, sai số bám 12,1%.</p></div>
+    <div class="card mini"><h4>AGQO</h4><p>Chọn <b class="up">tổ hợp lô</b> bám chỉ số tốt nhất, tuân thủ mọi quy tắc của bạn, sai số bám 6,8%.</p></div>
+  </div>
+</section>
+
+<!-- ============ 2. try it ============ -->
+<section id="try" class="sec">
+  <div class="sec-head reveal"><span class="num">02</span><div><h2>Thử ngay: một quyết định thật, chạy trực tiếp</h2>
+    <p>Nhập số vốn và yêu cầu của bạn. Hệ thống chạy toàn bộ quy trình trên dữ liệu thị trường mới nhất, từng bước hiện ra bên dưới.</p></div></div>
+
+  <div class="card form reveal">
+    <div class="form-row">
+      <div class="field small"><label>Số vốn (triệu đồng)</label><input id="capital" type="number" value="20" min="5" max="2000"></div>
+      <div class="field grow"><label>Yêu cầu của bạn (tiếng Việt, có thể bỏ trống)</label>
+        <textarea id="instr" rows="2" placeholder="Ví dụ: Không mua VIC, VHM; ngân hàng tối đa 30%; giữ 5% tiền mặt"></textarea></div>
+    </div>
+    <div class="chips" id="examples"></div>
+    <div class="form-row end">
+      <label class="toggle"><input type="checkbox" id="liveLLM" checked> Gọi Qwen3.8 trực tiếp trên GPU (nếu GPU đang nghỉ: khởi động ≈ 6 phút)</label>
+      <button id="runBtn" class="btn">▶ Chạy AGQO</button>
+    </div>
+  </div>
+
+  <!-- pipeline stepper -->
+  <div class="stepper reveal" id="stepper">
+    <div class="step" data-s="1"><i>①</i><span>AI đọc yêu cầu</span></div>
+    <div class="step" data-s="2"><i>②</i><span>AI đọc thị trường</span></div>
+    <div class="step" data-s="3"><i>③</i><span>Tài chính → Hamiltonian</span></div>
+    <div class="step" data-s="4"><i>④</i><span>AI thiết kế mạch</span></div>
+    <div class="step" data-s="5"><i>⑤</i><span>QAOA lấy mẫu</span></div>
+    <div class="step" data-s="6"><i>⑥</i><span>Kiểm chứng chính xác</span></div>
+    <div class="step" data-s="7"><i>⑦</i><span>Lệnh giao dịch</span></div>
+  </div>
+
+  <div id="out" class="hidden">
+    <!-- 1 mandate -->
+    <div class="panel" id="p1"><div class="ph"><span class="tag ai">AI · LLM</span><h3>① Yêu cầu của bạn thành ràng buộc kiểm tra được</h3></div>
+      <div class="split">
+        <div><div id="mandateChips" class="chips big"></div><div id="mandateSource" class="muted"></div><div id="clarify"></div><div id="llmLive"></div></div>
+        <pre id="mandateJson" class="code"></pre>
+      </div>
+      <p class="caption">LLM chỉ được trả lời theo một lược đồ JSON cố định; mã nguồn kiểm tra từng trường trước khi dùng. LLM không bao giờ đưa ra tỷ trọng hay lệnh.</p>
+    </div>
+    <!-- 2 market -->
+    <div class="panel" id="p2"><div class="ph"><span class="tag ai">AI · Thống kê</span><h3>② Thị trường hôm nay nói gì</h3></div>
+      <div class="kpirow" id="marketKpis"></div>
+      <div id="clusters" class="clusters"></div>
+      <p class="caption">Các cụm cổ phiếu cùng biến động (tương quan ≥ 0,5). Cổ phiếu cùng cụm thay thế được nhau, nên quyết định mua lô của chúng phụ thuộc nhau: đó chính là các tương tác giữa qubit.</p>
+    </div>
+    <!-- 3 hamiltonian -->
+    <div class="panel" id="p3"><div class="ph"><span class="tag q">Lượng tử</span><h3>③ Bài toán tài chính trở thành Hamiltonian 16 qubit</h3></div>
+      <div class="eq" id="eq"></div>
+      <div class="split">
+        <div><div id="jHeat" class="chart sq"></div><p class="caption">Hình. Ma trận tương tác J<sub>ij</sub> giữa 16 qubit (mỗi qubit = “mua thêm 1 lô mã này?”). Đỏ: hai mã thay thế nhau; xanh: bổ sung cho nhau.</p></div>
+        <div><div id="regChart" class="chart sq"></div><p class="caption">Hình. Mỗi qubit: giá một lô (% vốn) và xác suất “nên mua” từ bài toán nới lỏng liên tục (khởi động ấm).</p></div>
+      </div>
+    </div>
+    <!-- 4 AI design -->
+    <div class="panel" id="p4"><div class="ph"><span class="tag ai">AI · Mô hình học</span><h3>④ AI chọn cấu hình mạch từ dữ liệu</h3></div>
+      <div class="split">
+        <div><div id="featChart" class="chart"></div><p class="caption">Hình. Năm đặc trưng của bài toán hôm nay (chấm) so với 10 bài toán huấn luyện năm 2023 giống nhất (vạch).</p></div>
+        <div><div id="schedBox"></div><div class="rules" id="rules"></div></div>
+      </div>
+    </div>
+    <!-- 5 circuit -->
+    <div class="panel" id="p5"><div class="ph"><span class="tag q">Lượng tử</span><h3>⑤ Mạch QAOA được dữ liệu “viết” ra</h3></div>
+      <div class="circuit-wrap"><div id="circuit"></div></div>
+      <p class="caption" id="circCaption">Hình. Mạch QAOA: khởi động ấm R<sub>y</sub>(θ), sau đó p lớp [tương tác ZZ theo J<sub>ij</sub> · trường R<sub>z</sub> theo h<sub>i</sub> · bộ trộn căn chỉnh], cuối cùng đo 512 lần.</p>
+      <div class="split">
+        <div><div id="rampChart" class="chart short"></div><p class="caption">Hình. Góc của từng lớp: khởi tạo theo dốc tuyến tính (γ tăng, β giảm, giống tôi luyện đoạn nhiệt), sau đó tinh chỉnh ngắn bằng COBYLA.</p></div>
+        <div class="kpirow col" id="circKpis"></div>
+      </div>
+    </div>
+    <!-- 6 sampling -->
+    <div class="panel" id="p6"><div class="ph"><span class="tag q">Lượng tử</span><span class="tag cl">Cổ điển</span><h3>⑥ Xác suất dồn về nghiệm tốt và được kiểm chứng chính xác</h3></div>
+      <div class="split">
+        <div><div id="massChart" class="chart"></div><p class="caption">Hình. Phân bố 65.536 tổ hợp lô theo khoảng cách tới tối ưu, dưới bốn cách lấy mẫu. Màu xanh lá: tối ưu hoặc trong 5%.</p></div>
+        <div><div id="topStates"></div><p class="caption">Hình. 12 trạng thái có xác suất cao nhất sau mạch. Ô sáng = mua thêm một lô mã đó. ★ = tối ưu chính xác (liệt kê toàn bộ 2<sup>16</sup>).</p></div>
+      </div>
+      <div id="verdict" class="verdict"></div>
+    </div>
+    <!-- 7 portfolio -->
+    <div class="panel" id="p7"><div class="ph"><span class="tag cl">Kết quả</span><h3>⑦ Danh mục và lệnh giao dịch</h3></div>
+      <div id="teBars" class="chart short"></div>
+      <p class="caption">Hình. Sai số bám VN30 dự kiến (năm hoá) của từng cách chọn lô cho cùng tài khoản. Thấp hơn là tốt hơn.</p>
+      <div id="wChart" class="chart tall"></div>
+      <p class="caption">Hình. Tỷ trọng từng mã: lý tưởng (cổ phiếu lẻ), làm tròn lô gần nhất, tham lam và AGQO.</p>
+      <div class="split">
+        <div><h4>Lệnh mua</h4><table class="tbl" id="trades"></table></div>
+        <div><h4>Kiểm tra trước khi đặt lệnh</h4><ul class="checks" id="checks"></ul>
+          <div class="actions"><button class="btn ghost" id="explainBtn">✦ Giải thích bằng AI</button><a class="btn ghost" id="qasmBtn" href="#">⤓ Tải mạch OpenQASM</a></div>
+          <div id="explain"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3. inside ============ -->
+<section id="inside" class="sec">
+  <div class="sec-head reveal"><span class="num">03</span><div><h2>Bên trong: AI đọc, lượng tử lấy mẫu, cổ điển kiểm chứng</h2>
+    <p>Mỗi đầu ra của AI đều qua một bước kiểm tra trước khi được dùng. Không con số nào chưa kiểm tra đi tới bộ tối ưu.</p></div></div>
+  <div class="arch reveal">
+    <div class="node data">Dữ liệu<br><small>40 mã từng thuộc VN30, 2022–2026</small></div><div class="arr">→</div>
+    <div class="node ai">AI thống kê<br><small>tương quan, nhân tố thị trường, cụm</small></div><div class="arr">→</div>
+    <div class="node ai">Qwen3.8-27B<br><small>yêu cầu tiếng Việt → ràng buộc</small></div><div class="arr">→</div>
+    <div class="node cl">QUBO 16 qubit<br><small>sai số bám² + vòng quay + ngân sách</small></div><div class="arr">→</div>
+    <div class="node ai">Mô hình k-NN<br><small>chọn 1 trong 1.080 lịch mạch</small></div><div class="arr">→</div>
+    <div class="node q">QAOA<br><small>512 lần đo</small></div><div class="arr">→</div>
+    <div class="node cl">Kiểm chứng<br><small>liệt kê 65.536 tổ hợp</small></div><div class="arr">→</div>
+    <div class="node ai">Qwen3.8 giải thích<br><small>từng con số được đối chiếu</small></div>
+  </div>
+  <p class="caption reveal">Hình. Kiến trúc AGQO. Xanh dương: AI · Tím: lượng tử · Xanh lá: tính toán cổ điển chính xác · Xám: dữ liệu.</p>
+  <div class="grid5 reveal">
+    <div class="card rule"><b>R1</b> Khởi động ấm<small>từ nghiệm nới lỏng (Egger 2021)</small></div>
+    <div class="card rule"><b>R2</b> Bộ trộn căn chỉnh<small>cùng trạng thái đầu (He 2023)</small></div>
+    <div class="card rule"><b>R3</b> Tỉa tương tác<small>giữ phần “khối lượng” J lớn nhất</small></div>
+    <div class="card rule"><b>R4</b> Chuẩn hoá RMS<small>góc chuyển được giữa các quý</small></div>
+    <div class="card rule"><b>R5</b> Dốc tuyến tính<small>LR-QAOA (2025)</small></div>
+  </div>
+</section>
+
+<!-- ============ 4. results ============ -->
+<section id="results" class="sec">
+  <div class="sec-head reveal"><span class="num">04</span><div><h2>Kết quả trên 12 quý chưa từng thấy (2024–2026)</h2>
+    <p>Huấn luyện chỉ trên năm 2023; kiểm định trên 12 quý, 711 phiên. Mọi so sánh là kiểm định cặp.</p></div></div>
+  <div class="kpirow reveal" id="statKpis"></div>
+  <div class="card reveal"><div id="qChart" class="chart"></div>
+    <p class="caption">Hình. Tỷ lệ lượt đo rơi vào nghiệm gần tối ưu (cách tối ưu không quá 5%) ở mỗi quý kiểm định. AGQO thắng cả ba mốc so sánh ở 12/12 quý (Wilcoxon p = 0,0005).</p></div>
+  <div class="split reveal">
+    <div class="card"><div id="accChart" class="chart"></div><p class="caption">Hình. Sai số bám VN30 thực tế (năm hoá) qua 12 quý, theo cỡ tài khoản. Lợi ích lớn nhất ở tài khoản nhỏ.</p></div>
+    <div class="card"><div id="btChart" class="chart"></div><p class="caption">Hình. Giá trị tài khoản 100 triệu theo tuần: AGQO bám sát chỉ số VN30.</p></div>
+  </div>
+  <div class="split reveal">
+    <div class="card"><div id="scChart" class="chart"></div><p class="caption">Hình. Từ 8 đến 20 qubit, lợi thế của mạch so với khởi động cổ điển tăng từ 4,3× lên 16,7×.</p></div>
+    <div class="card"><div id="manTable"></div><p class="caption">Bảng. Ba yêu cầu cá nhân do LLM dịch, chạy qua 12 quý: 0 vi phạm; chi phí bám của mỗi quy tắc được đo.</p></div>
+  </div>
+</section>
+
+<!-- ============ 5. honest ============ -->
+<section id="honest" class="sec">
+  <div class="sec-head reveal"><span class="num">05</span><div><h2>Minh bạch: điều chúng tôi khẳng định và điều chúng tôi không khẳng định</h2></div></div>
+  <div class="grid2 reveal">
+    <div class="card claim yes"><h4>✔ Khẳng định, có kiểm định</h4><ul>
+      <li>Mạch do dữ liệu thiết kế dồn xác suất vào nghiệm tốt gấp 6,9× khởi động cổ điển, 19× QAOA sách giáo khoa (12/12 quý).</li>
+      <li>Tài khoản 20 triệu: sai số bám 12,1% → 6,8% (khoảng tin cậy −6,9 đến −3,8 điểm %).</li>
+      <li>LLM dịch đúng 35/35 yêu cầu; mọi con số trong lời giải thích đều được đối chiếu tự động.</li>
+      <li>Trên mô phỏng nhiễu IBM Heron, mạch nông do AI chọn vẫn hơn khởi động cổ điển 1,6×.</li></ul></div>
+    <div class="card claim no"><h4>○ Không khẳng định, và đã đo để biết</h4><ul>
+      <li>Ưu thế lượng tử: ở 16 qubit, liệt kê cổ điển giải chính xác trong 0,12 giây. Chính nhờ vậy mỗi quyết định được kiểm chứng.</li>
+      <li>Thuật toán tham lam đạt 7,5%: phần lớn lợi ích đến từ việc “chọn lô có tối ưu”, AGQO thêm phần chính xác cuối.</li>
+      <li>Lô lẻ bám tốt hơn khi phí chênh dưới 6,8%; nhưng sổ lệnh lô lẻ mỏng và rủi ro khớp lệnh chưa được mô hình hoá.</li>
+      <li>Với 100 triệu, khác biệt không có ý nghĩa thống kê: lô đã đủ nhỏ.</li></ul></div>
+  </div>
+</section>
+
+<footer>AGQO · AI–Quantum Challenge 2026 · Dữ liệu: DNSE (giá đã điều chỉnh), thành phần VN30 theo thời điểm · Qwen3.8-27B (mã nguồn mở) trên Modal H100 · Qiskit 2.5 · Mô phỏng statevector chính xác</footer>
+
+<div id="toast" class="toast"></div>
+<script src="/static/app.js?v=5"></script>
+</body>
+</html>

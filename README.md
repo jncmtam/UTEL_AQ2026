@@ -7,6 +7,8 @@ trade only in **whole lots of 100 shares**. AI reads the market and the investor
 designed and tuned from that insight, picks the whole-lot portfolio; exact classical computation
 verifies every decision.
 
+**Prototype (live):** https://data1--agqo-demo.us-east.modal.run · **Contest files (Vietnamese):** built by `submission/build_*.py` · [chạy thử nhanh](CHAY_THU.md)
+
 **Read next:** [judge Q&A (75 questions)](docs/QA.md) · [rehearsal: five hardest questions](docs/REHEARSAL.md) · [kịch bản thuyết trình tiếng Việt](docs/KICH_BAN_THUYET_TRINH.md) · [methods and equations](docs/METHODS.md) ·
 [every table, auto-generated](docs/RESULTS.md)
 

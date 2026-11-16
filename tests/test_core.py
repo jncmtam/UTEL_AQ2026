@@ -285,3 +285,19 @@ def test_meaning_check_allows_a_consequence_clause():
     t = {"summary_vi": "Một yếu tố chung giải thích 34.6% biến động của nhóm VN30, nghĩa là danh mục vẫn chịu ảnh hưởng.",
          "trade_notes": [], "risk_notes_vi": ["Rủi ro."]}
     assert verify_explanation(t, ev)["ok"]
+
+
+def test_prototype_decision_is_feasible_and_verified():
+    """The web prototype's live decision obeys the investor's rules and is checked against enumeration."""
+    from agqo.demo import Demo
+    from agqo.mandate import Mandate
+
+    d = Demo()
+    m = Mandate(exclude_tickers=["VIC", "VHM"], sector_caps={"Banking": 0.3})
+    out = d.decide(20e6, m, with_textbook=False)
+    assert all(c["ok"] for c in out["checks"])
+    assert not {"VIC", "VHM"} & {t["ticker"] for t in out["trades"]}
+    assert out["cash_after_vnd"] >= 0
+    assert out["result"]["best_sample_gap_pct"] <= 5.0
+    w = dict(zip(out["tickers"], out["portfolios"]["AGQO"]["weights"]))
+    assert sum(v for t, v in w.items() if d.md.sector(t) == "Banking") <= 0.3 + 1e-9
