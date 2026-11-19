@@ -39,6 +39,8 @@ def main() -> None:
     dl = sub.add_parser("download")
     dl.add_argument("--start", default="2022-01-01")
     dl.add_argument("--end", default=None, help="last day (default: today)")
+    vd = sub.add_parser("verify-data", help="check the local VN30 price file against its manifest")
+    vd.add_argument("--run", type=Path, help="also match the data hash of a saved experiment")
     for name in ("mandates", "explain"):
         p = sub.add_parser(name)
         p.add_argument("--llm", choices=["modal", "replay", "none"], default="modal")
@@ -50,6 +52,7 @@ def main() -> None:
     rep = sub.add_parser("report")
     rep.add_argument("--run", type=Path, default=RESULTS_DIR)
     rep.add_argument("--out", type=Path, default=Path("docs/figures"))
+    rep.add_argument("--document", type=Path, default=Path("docs/RESULTS.md"), help="Markdown output path")
     h = sub.add_parser("hardware")
     h.add_argument("--qasm", type=Path, required=True)
     h.add_argument("--backend", default="ibm_kingston")
@@ -61,6 +64,14 @@ def main() -> None:
     if a.cmd == "download":
         from .download import download
         download(start=a.start, end=a.end)
+    elif a.cmd == "verify-data":
+        from .data import verify_price_snapshot
+
+        try:
+            digest = verify_price_snapshot(run_dir=a.run)
+        except (OSError, KeyError, ValueError, TypeError) as exc:
+            ap.error(str(exc))
+        print(f"VN30 price snapshot verified: {digest}")
     elif a.cmd == "mandates":
         from .data import MarketData
         from .llm.tasks import evaluate_mandates
@@ -97,7 +108,7 @@ def main() -> None:
         run_extras(a.run)
     elif a.cmd == "report":
         from .report import build_report
-        build_report(a.run, a.out)
+        build_report(a.run, a.out, a.document)
     elif a.cmd == "hardware":
         from .quantum.hardware import run_on_ibm
 

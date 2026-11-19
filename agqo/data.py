@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import hashlib
+import json
 from dataclasses import dataclass
 from functools import cached_property
 from pathlib import Path
@@ -10,6 +12,20 @@ import numpy as np
 import pandas as pd
 
 from .config import DATA_DIR, SECTOR_EN
+
+
+def verify_price_snapshot(data_dir: Path = DATA_DIR, run_dir: Path | None = None) -> str:
+    """Check the local OHLCV file against the provider snapshot and, optionally, a saved run."""
+    prices = data_dir / "ohlcv_daily.csv"
+    digest = hashlib.sha256(prices.read_bytes()).hexdigest()
+    manifests = [(data_dir / "manifest.json", "sha256")]
+    if run_dir is not None:
+        manifests.append((run_dir / "run_manifest.json", "data_sha256"))
+    for file, key in manifests:
+        expected = json.loads(file.read_text())[key]
+        if digest != expected:
+            raise ValueError(f"{prices} SHA-256 {digest} does not match {file} ({expected})")
+    return digest
 
 
 @dataclass

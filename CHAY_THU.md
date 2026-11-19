@@ -1,36 +1,52 @@
-# AGQO – Chạy thử nhanh
+# Chạy thử AGQO V3
 
-**Prototype đã triển khai (không cần tài khoản):** https://data1--agqo-demo.us-east.modal.run
+[Mở prototype công khai](https://data1--agqo-demo.us-east.modal.run/) để dùng thử trên dữ liệu lịch sử. Các lệnh bên dưới chạy từ thư mục gốc của snapshot V3.
 
-## Chạy trên máy (Python 3.12, không cần GPU)
-
-```bash
-python3.12 -m venv .venv && source .venv/bin/activate     # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
-pytest -q                                                 # 25 passed
-AGQO_LIVE_LLM=0 uvicorn app.server:api --port 8000        # mở http://localhost:8000
-```
-
-## Tái lập kết quả
+## Cài đặt và chạy trên máy
 
 ```bash
-python -m agqo mandates --llm replay   # 35 yêu cầu tiếng Việt, phát lại LLM từ nhật ký
-python -m agqo run                     # huấn luyện 2023 + kiểm định 12 quý (~20 phút CPU)
-python -m agqo explain --llm replay    # 12 lời giải thích, kiểm tra số và ý nghĩa
-python -m agqo extras                  # nhiễu IBM Heron, 8–20 qubit, độ bền
-python -m agqo report                  # hình + docs/RESULTS.md
+python3.12 -m venv .venv
+source .venv/bin/activate
+python -m pip install -e '.[web,quantum,dev]'
+python -m agqo --version
 ```
 
-## Bản đồ thư mục
+Trên Windows PowerShell, dùng `.venv\Scripts\Activate.ps1`. Cài toàn bộ công cụ phát triển, kể cả tạo hồ sơ và mô phỏng nhiễu, bằng `python -m pip install -r requirements.txt`.
 
-| Thư mục | Nội dung |
-|---|---|
-| `agqo/` | lõi: dữ liệu, danh mục lô chẵn, QUBO, QAOA, LLM, kiểm định |
-| `app/` | prototype web (FastAPI + ECharts), triển khai Modal |
-| `modal_app.py` | Qwen3.8-27B trên vLLM, GPU H100 |
-| `data/vn30/` | dữ liệu giá ngày 2022–2026, thành phần VN30 theo thời điểm |
-| `results/final/` | mọi kết quả, nhật ký mọi lời gọi LLM |
-| `docs/` | phương pháp, kết quả, 75 câu hỏi phản biện, kịch bản thuyết trình, hình |
-| `submission/` | mã tạo slide, báo cáo, hướng dẫn |
+Đặt bản giá được phép sử dụng tại `data/vn30/ohlcv_daily.csv`. Xem [cách chuẩn bị dữ liệu](data/vn30/README.md) để biết khi nào cần đúng snapshot lưu trong manifest. Sau khi có dữ liệu:
 
-Chi tiết: `AQ2026-R2-Madoi-Huong_dan.pdf`.
+```bash
+python -m pytest -q
+AGQO_LIVE_LLM=0 python -m uvicorn app.server:api --port 8000
+```
+
+Mở [localhost:8000](http://localhost:8000). Trên PowerShell, đặt `$env:AGQO_LIVE_LLM = '0'` ở dòng riêng trước khi chạy Uvicorn. Chế độ này dùng câu trả lời Qwen đã lưu cho các ví dụ có trong nhật ký và quy tắc từ khóa cho câu mới. QAOA chạy mô phỏng trên CPU.
+
+## Đối chiếu bằng chứng đã lưu
+
+Giữ `results/final/` làm mốc và phát lại LLM trên một bản sao. Các lệnh Bash/zsh sau dùng nhật ký đã ghi và không gọi GPU:
+
+```bash
+run_dir=$(mktemp -d)
+cp -R results/final/. "$run_dir/"
+python -m agqo mandates --llm replay --out "$run_dir"
+python -m agqo explain --llm replay --out "$run_dir"
+python -m agqo hardware --qasm results/final/circuits/agqo_2026-10-01.qasm
+```
+
+Phép kiểm tra mạch chỉ đọc OpenQASM nếu không có `--confirm`. Các bảng đã lưu được mô tả trong [kết quả V3](docs/RESULTS.md).
+
+## Chạy thí nghiệm mới
+
+Ghi ra một thư mục mới. Để gọi Qwen trực tiếp, cài `.[llm]`, đăng nhập Modal và chạy `modal run modal_app.py::download_weights` rồi `modal deploy modal_app.py` một lần. Để chạy các nghiên cứu mô phỏng nhiễu, cài `.[studies]`.
+
+```bash
+run_dir=$(mktemp -d)
+python -m agqo mandates --llm modal --out "$run_dir"
+python -m agqo run --out "$run_dir"
+python -m agqo explain --llm modal --out "$run_dir"
+python -m agqo extras --run "$run_dir"
+python -m agqo report --run "$run_dir" --out "$run_dir/figures" --document "$run_dir/RESULTS.md"
+```
+
+Phát lại LLM khớp theo nội dung yêu cầu đã lưu. Nếu dữ liệu hoặc đầu vào thay đổi, cần tạo nhật ký cho lần chạy mới.

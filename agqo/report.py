@@ -7,6 +7,7 @@ a fixed categorical order; text stays in ink tones.
 from __future__ import annotations
 
 import json
+import os
 import textwrap
 from pathlib import Path
 
@@ -345,14 +346,18 @@ def fig_latest(run: Path, out: Path) -> str:
 
 
 # ------------------------------------------------------------------ results page
-def build_report(run: Path, out: Path) -> None:
+def build_report(run: Path, out: Path, document: Path = Path("docs/RESULTS.md")) -> None:
     out.mkdir(parents=True, exist_ok=True)
+    figure_dir = Path(os.path.relpath(out.resolve(), document.parent.resolve()))
     cfg = json.loads((run / "config.json").read_text())
     man = json.loads((run / "run_manifest.json").read_text())
     figs = [fig_lots(run, out, cfg["problem"]["capital_vnd"]), fig_market(run, out), fig_problem(run, out),
             fig_guidance(run, out), fig_quantum(run, out), fig_rounding(run, out), fig_backtest(run, out),
             fig_sweep(run, out), fig_etf(run, out), fig_mandates(run, out), fig_latest(run, out)]
-    f = lambda i: f"![{figs[i][:-4]}](figures/{figs[i]})"
+    def figure_link(filename: str) -> str:
+        return f"![{Path(filename).stem}](<{(figure_dir / filename).as_posix()}>)"
+
+    f = lambda i: figure_link(figs[i])
     q = _pool(pd.read_csv(run / "quantum_test.csv"))
     qt = q.groupby("arm").agg(success_pct=("success_prob", lambda s: 100 * s.mean()),
                               beats_rounding_pct=("better_than_rounding", lambda s: 100 * s.mean()),
@@ -411,7 +416,7 @@ def build_report(run: Path, out: Path) -> None:
     if (run / "extras").exists():
         from .visuals import build_visuals
         vis = build_visuals(run, out)
-        lines += ["## 10. Presentation figures", ""] + [f"![{v[:-4]}](figures/{v})" for v in vis] + [""]
-    Path("docs").mkdir(exist_ok=True)
-    (Path("docs") / "RESULTS.md").write_text("\n".join(lines))
+        lines += ["## 10. Presentation figures", ""] + [figure_link(v) for v in vis] + [""]
+    document.parent.mkdir(parents=True, exist_ok=True)
+    document.write_text("\n".join(lines))
     print("figures:", figs)
