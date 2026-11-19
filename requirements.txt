@@ -1,19 +1,2 @@
-# core pipeline
-numpy>=1.26
-scipy>=1.11
-pandas>=2.1
-matplotlib>=3.8
-requests>=2.31
-qiskit>=1.2
-# live LLM on Modal (optional; replay works without it)
-modal>=1.0
-# prototype web app
-fastapi>=0.115
-uvicorn>=0.30
-# tests
-pytest>=8
-# rebuilding the submission documents (optional)
-python-docx>=1.1
-python-pptx>=1.0
-pymupdf>=1.24
-playwright>=1.45
+# Full development environment. Dependency definitions live in pyproject.toml.
+-e .[web,llm,studies,submission,dev]

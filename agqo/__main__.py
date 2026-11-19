@@ -17,6 +17,7 @@ import argparse
 import json
 from pathlib import Path
 
+from . import __version__
 from .config import RESULTS_DIR, ExperimentConfig
 
 
@@ -33,6 +34,7 @@ def _client(kind: str, out: Path):
 
 def main() -> None:
     ap = argparse.ArgumentParser(prog="agqo")
+    ap.add_argument("--version", action="version", version=f"%(prog)s {__version__}")
     sub = ap.add_subparsers(dest="cmd", required=True)
     dl = sub.add_parser("download")
     dl.add_argument("--start", default="2022-01-01")
