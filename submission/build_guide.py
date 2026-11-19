@@ -15,6 +15,8 @@ from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx.shared import Cm, Pt, RGBColor
 
+from agqo import __version__
+
 ROOT = Path(__file__).resolve().parent.parent
 SHOT = ROOT / "docs" / "prototype_shots"
 RUN = ROOT / "results" / "final"
@@ -141,7 +143,7 @@ def build() -> Path:
     g.p("Không cần tài khoản · không cần cài đặt · chạy trên trình duyệt Chrome, Edge, Firefox, Safari", 11,
         align=WD_ALIGN_PARAGRAPH.CENTER, color=MUTED)
     g.d.add_paragraph()
-    g.p("Mã đội: [Mã đội] · Tên đội: [Tên đội] · Phiên bản v3.1 (16/11/2026)", 11, align=WD_ALIGN_PARAGRAPH.CENTER, color=MUTED)
+    g.p(f"Mã đội: [Mã đội] · Tên đội: [Tên đội] · Phiên bản v{__version__}", 11, align=WD_ALIGN_PARAGRAPH.CENTER, color=MUTED)
     g.pagebreak()
 
     # ------------------------------------------------------------ 1
@@ -153,7 +155,7 @@ def build() -> Path:
     g.table(["Thành phần", "Tệp / đường dẫn", "Nội dung"], [
         ["Báo cáo giải pháp", "AQ2026-R2-Madoi-Bao_cao_giai_phap.pdf", "12 trang theo mẫu BTC"],
         ["Slide trình bày", "AQ2026-R2-Madoi-Slide.pptx", "20 trang, chuyển cảnh và hoạt ảnh, lời nói trong ghi chú"],
-        ["Mã nguồn", "AQ2026-R2-Madoi-Ma_nguon.zip", "mã nguồn có chú thích, dữ liệu, kết quả, kiểm thử"],
+        ["Mã nguồn", "AQ2026-R2-Madoi-Ma_nguon.zip", "mã nguồn, manifest dữ liệu, kết quả, kiểm thử"],
         ["Hướng dẫn", "AQ2026-R2-Madoi-Huong_dan.pdf", "tài liệu này"],
         ["Prototype", URL, "web app công khai, không cần tài khoản"]], [3.6, 6.6, 6.8])
 
@@ -214,6 +216,8 @@ def build() -> Path:
 python3.12 -m venv .venv
 source .venv/bin/activate          # Windows: .venv\\Scripts\\activate
 pip install -r requirements.txt""")
+    g.p("Tệp giá gốc nằm ngoài ZIP. Chuẩn bị tệp được phép sử dụng tại data/vn30/ohlcv_daily.csv theo "
+        "data/vn30/README.md. Dùng lệnh python -m agqo verify-data --run results/final để kiểm tra snapshot V3.")
     g.h("3.3. Chạy prototype cục bộ", 2)
     g.code("""AGQO_LIVE_LLM=0 uvicorn app.server:api --port 8000
 # Windows: set AGQO_LIVE_LLM=0  rồi  uvicorn app.server:api --port 8000
@@ -226,15 +230,15 @@ pip install -r requirements.txt""")
     # ------------------------------------------------------------ 4
     g.h("4. Tái lập toàn bộ kết quả")
     g.table(["Lệnh", "Việc làm", "Thời gian"], [
-        ["python -m agqo download", "tải lại dữ liệu DNSE (dữ liệu đã có sẵn trong data/vn30)", "~2 phút"],
+        ["python -m agqo download", "tải dữ liệu DNSE nếu quyền sử dụng cho phép (xem data/vn30/README.md)", "~2 phút"],
         ["python -m agqo mandates --llm replay", "đánh giá 35 câu yêu cầu, phát lại LLM từ nhật ký (không GPU)", "giây"],
         ["python -m agqo run", "huấn luyện 2023, thiết kế mạch, kiểm định 12 quý, thống kê", "~20 phút CPU"],
         ["python -m agqo explain --llm replay", "12 lời giải thích, kiểm tra số và ý nghĩa", "giây"],
         ["python -m agqo extras", "phần cứng (nhiễu IBM), mở rộng 8–20 qubit, độ bền", "10–20 phút"],
         ["python -m agqo report", "hình và docs/RESULTS.md", "~1 phút"],
         ["python -m agqo.figures_vi", "hình tiếng Việt cho slide và báo cáo", "~30 giây"]], [5.6, 8.6, 2.8])
-    g.p("Kết quả được ghi vào results/final; thư mục đã có sẵn kết quả của lần chạy chính thức để đối chiếu. Hạt giống ngẫu nhiên cố định "
-        "nên các con số tái lập giống hệt.")
+    g.p("results/final lưu bằng chứng của lần chạy chính thức. CHAY_THU.md hướng dẫn phát lại trên bản sao và ghi "
+        "thí nghiệm mới ra thư mục riêng. Dữ liệu tải lại có thể khác snapshot V3.")
 
     # ------------------------------------------------------------ 5
     g.h("5. Kiểm tra kết quả")

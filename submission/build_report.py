@@ -21,6 +21,8 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.shared import Cm, Pt, RGBColor
 from docx.text.paragraph import Paragraph
 
+from agqo import __version__
+
 ROOT = Path(__file__).resolve().parent.parent
 RUN = ROOT / "results" / "final"
 FIG = ROOT / "docs" / "figures_vi" / "light"
@@ -217,9 +219,9 @@ def build(template: Path) -> Path:
             ts[i + 1].text = "AGQO – Bám VN30 bằng lô chẵn, do AI dẫn dắt và tối ưu lượng tử"
     f.fill_table(2, {(2, 1): NAME, (3, 1): "Tài chính (đầu tư chứng khoán) · liên ngành AI và tính toán lượng tử",
                      (4, 1): "AI và lượng tử trong tối ưu danh mục đầu tư"})
-    f.fill_table(4, {(1, 1): "Web app: dashboard tương tác + LLM + mô phỏng lượng tử", (1, 2): "v3.1 (16/11/2026)",
+    f.fill_table(4, {(1, 1): "Web app: dashboard tương tác + LLM + mô phỏng lượng tử", (1, 2): f"v{__version__}",
                      (2, 1): URL, (2, 2): "Công khai, không cần tài khoản",
-                     (3, 1): "AQ2026-R2-Madoi-Ma_nguon.zip", (3, 2): "Mã nguồn, dữ liệu, kết quả, kiểm thử",
+                     (3, 1): "AQ2026-R2-Madoi-Ma_nguon.zip", (3, 2): "Mã nguồn, manifest, kết quả, kiểm thử",
                      (4, 1): "AQ2026-R2-Madoi-Huong_dan.pdf", (4, 2): "Cài đặt ~10 phút; chạy thử không cần GPU"})
 
     # ---------------------------------------------------------- executive summary
@@ -373,7 +375,7 @@ def build(template: Path) -> Path:
     f.write(f.para("[Báo cáo kết quả bước đầu"), "Đo trên bản triển khai: khởi động container ~8 giây; một quyết định 16 qubit ~2 giây CPU "
             "(xây QUBO 0,01 giây; liệt kê 0,12 giây; QAOA + tinh chỉnh ~1 giây; QAOA sách giáo khoa để so sánh ~0,7 giây). Lời gọi LLM "
             f"mới: {live['seconds_incl_cold_start']} giây khi GPU nguội (nạp mô hình {vn(live['model_load_s'], 0)} giây), vài giây khi GPU nóng; câu "
-            f"thử “{live['text']}” được Qwen3.8 dịch đúng cả hai ý, quy tắc từ khoá bỏ sót ý thứ nhất. 24/25 kiểm thử đạt. Hạn chế: "
+            f"thử “{live['text']}” được Qwen3.8 dịch đúng cả hai ý, quy tắc từ khoá bỏ sót ý thứ nhất. 25/25 kiểm thử đạt. Hạn chế: "
             "GPU nguội mất ~6 phút; giới hạn 40 lời gọi LLM/giờ để kiểm soát chi phí.", size=BODY)
     f.write(f.para("[Trình bày cấu trúc cơ bản của mã nguồn"), "Mã nguồn Python có chú thích: `agqo/` (dữ liệu, danh mục, lượng tử, LLM, "
             "kiểm định, báo cáo), `app/` (máy chủ web, giao diện, triển khai Modal), `modal_app.py` (LLM trên GPU), `tests/`, `results/final` "
@@ -382,7 +384,7 @@ def build(template: Path) -> Path:
     lk = f.para("Liên kết chạy demo")
     f.write(lk, f"Liên kết chạy demo: {URL}   |   Video demo: [đội bổ sung nếu có]", size=10)
     ev = f.para("MINH CHỨNG BỔ SUNG", 3)
-    f.write(ev, "MINH CHỨNG BỔ SUNG: 24/25 kiểm thử tự động đạt (`pytest`); nhật ký mọi lời gọi LLM trong results/final/llm.",
+    f.write(ev, "MINH CHỨNG BỔ SUNG: 25/25 kiểm thử tự động đạt (`pytest`); nhật ký mọi lời gọi LLM trong results/final/llm.",
             color=RGBColor(0x0F, 0x4C, 0x5C))
 
     # ---------------------------------------------------------- criterion 5
@@ -411,11 +413,11 @@ def build(template: Path) -> Path:
               f"khởi động ấm từ {vn(sr['8'])}× lên {vn(sr['20'])}× – lợi thế tăng theo quy mô.")
 
     # ---------------------------------------------------------- criterion 6
-    p = f.write(f.para("[Liệt kê báo cáo, slide"), "Hồ sơ nộp kèm (phiên bản v3.1, 16/11/2026):", size=BODY)
+    p = f.write(f.para("[Liệt kê báo cáo, slide"), f"Hồ sơ nộp kèm (phiên bản v{__version__}):", size=BODY)
     f.table_from(4, p, ["Thành phần", "Tên tệp / đường dẫn", "Ghi chú"], [
         ["Báo cáo giải pháp", "AQ2026-R2-Madoi-Bao_cao_giai_phap.pdf", "theo mẫu BTC"],
         ["Slide trình bày", "AQ2026-R2-Madoi-Slide.pptx", "20 trang, hoạt ảnh, ghi chú lời nói"],
-        ["Mã nguồn", "AQ2026-R2-Madoi-Ma_nguon.zip", "mã, dữ liệu, kết quả, kiểm thử"],
+        ["Mã nguồn", "AQ2026-R2-Madoi-Ma_nguon.zip", "mã, manifest, kết quả, kiểm thử"],
         ["Hướng dẫn", "AQ2026-R2-Madoi-Huong_dan.pdf", "cài đặt, sử dụng, kiểm tra kết quả"],
         ["Prototype", URL, "công khai, không cần tài khoản"]], size=9)
     f.write(f.para("[Nêu cấu trúc trình bày rõ ràng"), "10 phút: vấn đề (1,5 phút: 1 lô VIC > tài khoản 20 triệu) → giải pháp và kiến trúc "

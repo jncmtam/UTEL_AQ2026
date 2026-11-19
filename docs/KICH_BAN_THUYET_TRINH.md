@@ -590,7 +590,7 @@ dưới 30 giây.
 > và tinh chỉnh 1 giây. Toàn bộ thực nghiệm 12 quý với mọi đối chứng mất khoảng 20 phút trên 8 nhân CPU.
 
 **H2. Làm sao biết code đúng?**
-> 24 bài test tự động, gồm:
+> 25 bài test tự động, gồm:
 > - QUBO bằng đúng mục tiêu tài chính trên mọi trạng thái
 > - mọi trạng thái của thanh ghi tuân thủ giới hạn
 > - mạch Qiskit khớp bộ mô phỏng
@@ -634,7 +634,7 @@ dưới 30 giây.
 | Phần cứng | mạch sâu 4.355 CZ, ESP 0,0002; mạch theo nhiễu 16 CZ, ESP 0,88, 1,6×, 11/12, p = 0,001; cần lỗi 0,016% (nay 0,18%) |
 | Mở rộng | 8 → 20 qubit: 4,3× → 16,7× so với khởi động ấm; 60 qubit liệt kê khoảng 10⁵ năm |
 | Ủ mô phỏng | chính xác 6/12 quý, trong 5% ở 12/12 |
-| Vận hành | 1 giây/quyết định; LLM tổng khoảng 1–2 USD; 24 bài test |
+| Vận hành | 1 giây/quyết định; LLM tổng khoảng 1–2 USD; 25 bài test |
 
 ---
 
