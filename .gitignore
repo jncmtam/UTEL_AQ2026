@@ -16,12 +16,10 @@ data/vn30_provisional_raw_*/
 data/vn30_snapshot_*/
 results/final/llm/llm_log.replay.jsonl
 
-# generated contest deliverables (rebuild with submission/build_*.py)
+# submission: builds, final files, the team's edited report and personal data stay local
 submission/out/
-
-# generated drafts of the semifinal package (each build writes a new folder)
 submission/drafts/
-submission/deck/figures/
-submission/team.local.json
 submission/final/
+submission/deck/figures/
 submission/report/user_base/
+submission/team.local.json
