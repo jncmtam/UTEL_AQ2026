@@ -153,6 +153,14 @@ keyword arm is unchanged; two V3 items do ("Ngân hàng không quá 1/4 …", "N
 archived V3 keyword score (68.6%) was measured with the old rule and would change on a rerun. The instruction's
 account size ("Tôi 60 triệu") is not parsed into the capital field; the investor sets capital in its own field.
 
+### 2026-11-20 — Final checks (commit `177e76a`)
+
+- `20261120-075200-177e76a-smoke` (data hash ok), `20261120-075231-177e76a-pytest` (45 passed on Modal CPU),
+  `20261120-075207-177e76a-product-failures` (0 exceptions, 0 silent cap breaches, verifier rejects the swap).
+- Live end to end on https://data1--agqo-v32.us-east.modal.run: a new instruction parsed by Qwen (V3.2 prompt,
+  warm H100, 4 s) → fields labelled "Từ câu lệnh" → Run → `decide_job` container (6.3 s) → banking 26.03% ≤ 28%,
+  cash 26.02% ≥ 7%, TE 10.81% vs 19.86% for nearest-lot rounding.
+
 ## Open questions and decisions
 
 - **Historical traded prices.** The only price series available is the provider's back-adjusted series. The
@@ -163,3 +171,13 @@ account size ("Tôi 60 triệu") is not parsed into the capital field; the inves
   owner's call.
 - **Submitted prototype.** `agqo-web` (label `agqo-demo`) is the URL already handed to the organisers. V3.2 is
   deployed under a separate label so the submitted URL keeps working until the owner decides to switch.
+- **Owner decisions pending:** (1) whether to point the Round-2 URL (`agqo-demo`) at V3.2
+  (`AGQO_WEB_APP=agqo-web AGQO_WEB_LABEL=agqo-demo modal deploy app/modal_web.py`); (2) merging this branch into
+  `main` and pushing; (3) keeping a warm `decide_job` container during the final (costs money while on).
+- **Product choices suggested by the research, not yet made:** replace k-NN by a per-account-size schedule (same
+  holdout gain, simpler) or keep the V3 k-NN configuration (best on holdout); apply the COBYLA polish only to small
+  accounts (helps at 20M, neutral at 100–200M, 41× cost).
+- **Known gaps (roadmap `docs/vi/LO_TRINH.md`):** corporate-actions data for a traded-price rerun; an independent
+  user test of the parser; the account size written inside an instruction is not parsed into the capital field;
+  existing holdings cannot be entered in the app yet (the code supports sells and the sales tax).
+
