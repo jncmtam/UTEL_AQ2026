@@ -1,12 +1,12 @@
-"""Deploy the AGQO V3.2 prototype on Modal: a web container plus a CPU job per decision.
+"""Deploy the AGQO prototype on Modal: a web container plus a CPU job per decision.
 
-    modal deploy app/modal_web.py                       # app "agqo-web-v32", URL label "agqo-v32"
+    modal deploy app/modal_web.py                       # app "agqo-prototype", URL label "agqo-prototype"
     AGQO_WEB_APP=agqo-web AGQO_WEB_LABEL=agqo-demo modal deploy app/modal_web.py   # replace the Round-2 URL
 
 The web container (FastAPI) serves the page, compiles instructions and starts jobs; it never simulates.
 Each "Run" spawns `decide_job` in its own Modal CPU container: feasibility diagnosis, QUBO, k-NN schedule,
 QAOA statevector simulation, exact enumeration, baselines, rule checks on post-trade NAV, explanation
-evidence and OpenQASM. Progress goes to the Modal Dict `agqo-v32-progress`, read by the page every second.
+evidence and OpenQASM. Progress goes to the Modal Dict `agqo-progress`, read by the page every second.
 Live LLM calls go to the GPU app `agqo-llm` (modal_app.py); AGQO_LLM_PER_HOUR caps them per web container.
 """
 
@@ -17,10 +17,10 @@ from pathlib import Path
 import modal
 
 ROOT = Path(__file__).resolve().parent.parent
-APP = os.environ.get("AGQO_WEB_APP", "agqo-web-v32")
-LABEL = os.environ.get("AGQO_WEB_LABEL", "agqo-v32")
+APP = os.environ.get("AGQO_WEB_APP", "agqo-prototype")
+LABEL = os.environ.get("AGQO_WEB_LABEL", "agqo-prototype")
 app = modal.App(APP)
-progress = modal.Dict.from_name("agqo-v32-progress", create_if_missing=True)
+progress = modal.Dict.from_name("agqo-progress", create_if_missing=True)
 
 image = (
     modal.Image.debian_slim(python_version="3.12")
@@ -29,7 +29,7 @@ image = (
     .env({"AGQO_LIVE_LLM": "1", "AGQO_LLM_PER_HOUR": "40", "AGQO_WEB_APP": APP, "AGQO_COMPUTE": "modal"})
     .add_local_dir(ROOT / "data" / "vn30", "/root/data/vn30")
     .add_local_dir(ROOT / "results" / "final", "/root/results/final")
-    .add_local_dir(ROOT / "results" / "v32", "/root/results/v32")
+    .add_local_dir(ROOT / "results" / "app", "/root/results/app")
     .add_local_dir(ROOT / "app", "/root/app")
     .add_local_python_source("agqo")
 )

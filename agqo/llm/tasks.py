@@ -332,7 +332,7 @@ def verify_explanation(parsed: dict | None, evidence: dict) -> dict:
             if (n["ticker"], n["action"], n["lots"]) not in trades]
     ctx = _context_issues([text], evidence) if "labels_vi" in evidence else []
     attr = []
-    if "labels_vi" in evidence:                      # V3.2: each number tied to its strategy, metric and unit
+    if "labels_vi" in evidence:                      # each number tied to its strategy, metric and unit
         from .attribution import check_attribution
 
         pieces = [parsed.get("summary_vi", ""), *parsed.get("risk_notes_vi", []),

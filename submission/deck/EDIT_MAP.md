@@ -36,9 +36,9 @@ python submission/deck/render.py submission/drafts/<thời điểm>/AGQO_BanKet_
   Trạng thái cuối luôn đầy đủ nên bản PDF không thiếu nội dung.
 - **Vạch 100% ở slide 1** là một đường thẳng đặt trên biểu đồ với trục cố định 0–120%; nếu đổi trục hoặc cỡ biểu đồ, kéo vạch theo.
 - **Đổi theme:** Design → Variants → Colors/Fonts (“AGQO”, “AGQO Arial”); hoặc sửa `theme.json` rồi dựng lại.
-- **Bản 3 phút:** slide 1, 3, 4, 8 (xem `docs/submission/LOI_NOI_THUYET_TRINH.md`). Ẩn slide 2, 5, 6, 7 bằng Hide Slide.
+- **Bản 3 phút:** slide 1, 3, 4, 8 (xem `docs/presentation/LOI_NOI_THUYET_TRINH.md`). Ẩn slide 2, 5, 6, 7 bằng Hide Slide.
 
 ## Hình có chữ bên trong
 
-Ảnh màn hình prototype (`docs/prototype_shots/v32/`, chụp bằng `app/capture_v32.py`) giữ nguyên chữ tiếng Việt của giao diện. Hình
+Ảnh màn hình prototype (`docs/assets/screenshots/`, chụp bằng `app/capture.py`) giữ nguyên chữ tiếng Việt của giao diện. Hình
 in của báo cáo sinh từ `submission/deck/figures.py` với nhãn tiếng Anh; sửa nhãn trong script rồi chạy lại.

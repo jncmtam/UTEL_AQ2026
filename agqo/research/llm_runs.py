@@ -1,4 +1,4 @@
-"""Orchestration of the two V3.2 LLM experiments (called from the research notebook).
+"""Orchestration of the two LLM experiments (called from the research notebook).
 
 The LLM runs on the Modal H100 app `agqo-llm` through LLMClient (every call logged with prompts, raw text,
 status and token counts); deterministic evaluation runs on Modal CPU through the functions passed in.
@@ -18,11 +18,11 @@ from ..mandate import Mandate, rule_clarification, rule_parse
 # ================================================================== 3a. instruction parsing
 def run_mandates(run, client, decide_fn, sector_of: dict[str, str]) -> dict:
     from ..llm.tasks import mandate_request, parse_mandate
-    from .mandate_eval_v2 import ITEMS, PROMPT_VERSION, field_matches, question_quality, request_v32, status_of
+    from .mandate_eval import ITEMS, PROMPT_VERSION, field_matches, question_quality, compiler_request, status_of
 
     tickers = set(sector_of)
     reqs_v3 = [mandate_request(text, sector_of, seed=i) for i, (_, _, _, text, _, _) in enumerate(ITEMS)]
-    reqs_v32 = [request_v32(text, sector_of, seed=i) for i, (_, _, _, text, _, _) in enumerate(ITEMS)]
+    reqs_v32 = [compiler_request(text, sector_of, seed=i) for i, (_, _, _, text, _, _) in enumerate(ITEMS)]
     run.log(f"LLM: {len(ITEMS)} items x 2 prompts on {client.backend}")
     recs = client.generate(reqs_v3 + reqs_v32)
     rec_v3, rec_v32 = recs[:len(ITEMS)], recs[len(ITEMS):]
@@ -103,7 +103,7 @@ def run_mandates(run, client, decide_fn, sector_of: dict[str, str]) -> dict:
             "question_quality_mean": float(np.mean(qq)) if qq else None,
             "e2e_correct_pct": float(100 * g.e2e_correct.mean()), "e2e_exact_pct": float(100 * g.e2e_exact.mean()),
             "e2e_by_category_pct": {c: float(100 * gg.e2e_correct.mean()) for c, gg in g.groupby("category")}}
-    # McNemar (exact) on end-to-end correctness, V3.2 prompt vs keyword rules and vs the V3 prompt
+    # McNemar (exact) on end-to-end correctness, current prompt vs keyword rules and vs the first prompt
     piv = df.pivot(index="item", columns="arm", values="e2e_correct")
     tests = {}
     for b in ("keyword", "qwen_v3_prompt"):
@@ -114,9 +114,9 @@ def run_mandates(run, client, decide_fn, sector_of: dict[str, str]) -> dict:
     out = {"prompt_version": PROMPT_VERSION, "model": recs[0].get("model"), "revision": recs[0].get("revision"),
            "gpu": recs[0].get("gpu"), "score": score, "tests": tests,
            "note": "team-written evaluation set (50 items), not independent users"}
-    run.save("mandate_eval_v2.json", out)
-    run.save("mandate_eval_v2_rows.csv", df.drop(columns=["raw"]))
-    run.save("mandate_eval_v2_raw.json", df[["item", "arm", "raw"]].to_dict("records"))
+    run.save("mandate_eval.json", out)
+    run.save("mandate_eval_rows.csv", df.drop(columns=["raw"]))
+    run.save("mandate_eval_raw.json", df[["item", "arm", "raw"]].to_dict("records"))
     return out
 
 

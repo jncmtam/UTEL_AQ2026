@@ -1,6 +1,6 @@
 """Attribution check for LLM explanations: is each number tied to the right strategy, metric and unit?
 
-V3.1 only checked that every number in the text also appears somewhere in the evidence. Two correct numbers
+The first version only checked that every number in the text also appears somewhere in the evidence. Two correct numbers
 written for the wrong strategies (AGQO's tracking error given as the rounding baseline's, and vice versa) passed.
 
 Here the evidence is turned into facts (value, unit, metric, entity). For every number in the text the checker

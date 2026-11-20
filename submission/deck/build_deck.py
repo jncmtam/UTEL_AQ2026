@@ -31,7 +31,7 @@ from pptx.util import Emu, Inches, Pt
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 DATA = HERE / "data"
-SHOTS = ROOT / "docs" / "prototype_shots" / "v32"
+SHOTS = ROOT / "docs" / "assets" / "screenshots"
 TH = json.loads((HERE / "theme.json").read_text())
 D, S, SEM = TH["dark"], TH["series"], TH["semantic"]
 FONT = TH["font"]["deck"]
@@ -624,7 +624,7 @@ def cover(dk: Deck, meta: dict):
             "vòng bán kết", 16, D["muted"], name="S0 Team")
     if team["members"]:
         dk.text(s, 0.8, 5.6, 11.8, 0.6, "  ·  ".join(m["name"] for m in team["members"]), 14, D["muted"], name="S0 Members")
-    dk.text(s, 0.8, 5.0, 11.8, 0.6, "Prototype: https://data1--agqo-v32.us-east.modal.run", 14, D["muted"], name="S0 Link")
+    dk.text(s, 0.8, 5.0, 11.8, 0.6, "Prototype: https://data1--agqo-prototype.us-east.modal.run", 14, D["muted"], name="S0 Link")
     for sh in list(s.shapes):
         if sh.name == "S0 Page":
             sh._element.getparent().remove(sh._element)
@@ -691,7 +691,7 @@ def appendix(dk: Deck, items: list[dict]):
         elif kind == "image":
             path = ROOT / it["image"]
             if not path.exists():
-                raise FileNotFoundError(f"{path}: run python submission/report/figures_en.py first")
+                raise FileNotFoundError(f"{path}: run python submission/report/figures.py first")
             pic = dk.picture(s, path, 0.55, 1.6, w=it.get("width", 12.2), name=f"{it['id']} Figure")
             if pic.height > Inches(4.75):                          # keep inside the slide
                 ratio = Inches(4.75) / pic.height

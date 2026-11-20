@@ -1,47 +1,53 @@
-"""Capture the prototype's panels as PNG images (used in the slides, the report and the guide).
+"""Screenshots of the product flow for the deck, report and guide (Playwright + installed Chrome).
 
-    uvicorn app.server:api --port 8765 &        # or any deployed URL
-    python app/capture.py http://localhost:8765 docs/prototype_shots
+    python app/capture.py https://data1--agqo-prototype.us-east.modal.run docs/assets/screenshots
 
-Uses the locally installed Google Chrome through Playwright (no browser download).
+Shots: the pitch preset waiting for confirmation, the confirmed form, the result (live Modal run), a
+clarification question, an infeasible request, and the lot-cost chart. Interface copy stays Vietnamese.
 """
 
 import sys
-import urllib.parse
 from pathlib import Path
 
 from playwright.sync_api import sync_playwright
 
-URL = sys.argv[1] if len(sys.argv) > 1 else "http://localhost:8765"
-OUT = Path(sys.argv[2] if len(sys.argv) > 2 else "docs/prototype_shots")
+URL = sys.argv[1] if len(sys.argv) > 1 else "https://data1--agqo-prototype.us-east.modal.run"
+OUT = Path(sys.argv[2] if len(sys.argv) > 2 else "docs/assets/screenshots")
 OUT.mkdir(parents=True, exist_ok=True)
-Q = "Không mua VIC, VHM, VRE vì tôi đã có nhiều cổ phiếu nhóm này"
+SETTLE = ("document.querySelectorAll('.reveal').forEach(e=>{e.style.transition='none';e.classList.add('in')});"
+          "document.querySelector('.topbar').style.position='static';")
 
 
-def shoot(page, selector: str, name: str) -> None:
+def shot(page, selector, name, pad=0):
     el = page.locator(selector).first
     el.scroll_into_view_if_needed()
-    page.wait_for_timeout(1600)                       # let ECharts animations finish
+    page.wait_for_timeout(1200)
     el.screenshot(path=str(OUT / f"{name}.png"))
     print("saved", name)
 
 
 with sync_playwright() as p:
-    browser = p.chromium.launch(channel="chrome")
-    page = browser.new_page(viewport={"width": 1440, "height": 900}, device_scale_factor=2)
-    page.goto(URL + "/")
+    b = p.chromium.launch(channel="chrome")
+    page = b.new_page(viewport={"width": 1440, "height": 1000}, device_scale_factor=2)
+    page.goto(URL + "/?live=0")
+    page.wait_for_selector("body[data-done='1']", state="attached", timeout=90000)
+    page.evaluate(SETTLE)
+    shot(page, "#problem .card", "lot_cost_chart")
+    page.evaluate("choosePreset('pitch20')")
     page.wait_for_timeout(2500)
-    page.screenshot(path=str(OUT / "00_hero.png"))
-    print("saved 00_hero")
-    shoot(page, "#problem .card", "01_lot_slider")
-    page.goto(URL + "/?run=1&live=0&capital=20&q=" + urllib.parse.quote(Q))
-    page.wait_for_selector("body[data-done='1']", state="attached", timeout=60000)
-    page.add_style_tag(content=".topbar{position:static!important}")    # keep the sticky bar out of panel shots
-    for i, name in enumerate(["mandate", "market", "hamiltonian", "ai_design", "circuit", "sampling", "portfolio"], 1):
-        shoot(page, f"#p{i}", f"p{i}_{name}")
-    shoot(page, "#try .form", "form")
-    shoot(page, "#stepper", "stepper")
-    shoot(page, "#inside", "inside")
-    shoot(page, "#results", "results")
-    shoot(page, "#honest", "honest")
-    browser.close()
+    shot(page, "#constraintCard", "pitch_constraints_pending")
+    page.evaluate("document.querySelector('#confirmBtn').click()")
+    shot(page, "#constraintCard", "pitch_constraints_confirmed")
+    page.evaluate("runClicked()")
+    page.wait_for_function("document.querySelector('#execLabel').innerText.length > 0", timeout=120000)
+    page.wait_for_timeout(1500)
+    shot(page, "#p7", "pitch_result")
+    shot(page, "#resKpis", "pitch_kpis")
+    page.evaluate("choosePreset('vague_bank')")
+    page.wait_for_timeout(2500)
+    shot(page, "#try .card.form:nth-of-type(2)", "clarification")
+    page.evaluate("choosePreset('cap2_20'); runClicked()")
+    page.wait_for_function("document.querySelector('#infeasible').innerText.length > 0", timeout=120000)
+    page.wait_for_timeout(1200)
+    shot(page, "#infeasible", "infeasible")
+    b.close()

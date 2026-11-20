@@ -5,7 +5,7 @@
   python -m agqo run                            # training, AI-guided QAOA, walk-forward, statistics (CPU)
   python -m agqo explain --llm modal            # Vietnamese explanations with number verification
   python -m agqo extras                         # hardware, scaling, robustness, distributions (CPU)
-  python -m agqo report                         # figures + docs/RESULTS.md
+  python -m agqo report                         # figures + docs/technical/RESULTS.md
 
 `--llm replay` re-reads results/final/llm/llm_log.jsonl (no GPU); `--llm none` skips the LLM.
   python -m agqo hardware --qasm results/final/circuits/<file>.qasm [--confirm]   # optional IBM run
@@ -51,8 +51,8 @@ def main() -> None:
     ex.add_argument("--run", type=Path, default=RESULTS_DIR)
     rep = sub.add_parser("report")
     rep.add_argument("--run", type=Path, default=RESULTS_DIR)
-    rep.add_argument("--out", type=Path, default=Path("docs/figures"))
-    rep.add_argument("--document", type=Path, default=Path("docs/RESULTS.md"), help="Markdown output path")
+    rep.add_argument("--out", type=Path, default=Path("docs/assets/figures"))
+    rep.add_argument("--document", type=Path, default=Path("docs/technical/RESULTS.md"), help="Markdown output path")
     h = sub.add_parser("hardware")
     h.add_argument("--qasm", type=Path, required=True)
     h.add_argument("--backend", default="ibm_kingston")

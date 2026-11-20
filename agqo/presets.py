@@ -1,7 +1,7 @@
 """Product presets: starting points grounded in the data and in where AGQO helps (or does not).
 
 Each preset fills the structured constraint form; the user can edit every field before running. The
-`expect` class is what the V3 evidence predicts; the V3.2 preset run (protocol §6) measures it again and the
+`expect` class is what the main backtest predicts; the preset run (protocol §6) measures it again and the
 app shows the measured numbers next to each preset.
 """
 

@@ -1,4 +1,4 @@
-"""V3.2 circuit-design experiment (protocol §3b): the LLM proposes structured QAOA candidates, code validates
+"""Circuit-design experiment (protocol §3b): the LLM proposes structured QAOA candidates, code validates
 and scores them with a deterministic evaluator on Modal CPU, and a second round sees the first round's scores.
 
 Control: random search over the same component space with the same budget (16 evaluated candidates, 3 seeds).

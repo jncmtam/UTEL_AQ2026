@@ -141,6 +141,6 @@
    "20261120-073008-ab60365-knn-study"
   ],
   "metric": "near-optimal probability per shot (%)",
-  "scope": "V3.2 holdout: 22 months × 5 sizes × 3 rule types, fresh accounts"
+  "scope": "Holdout: 22 months × 5 sizes × 3 rule types, fresh accounts"
  }
 }

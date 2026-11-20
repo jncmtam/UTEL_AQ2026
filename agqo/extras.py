@@ -218,7 +218,7 @@ def greedy_target(md, d, universe, acc, ec, mandate=None) -> dict:
     """Strong classical heuristic: floor lots of the QP target, then add the single lot that lowers
     TE^2 + turnover the most, while cash (after fees) allows; stop when no lot helps.
 
-    With a mandate (V3.2) the same rules as AGQO apply: exclusions and the holdings limit through the
+    With a mandate the same rules as AGQO apply: exclusions and the holdings limit through the
     continuous target, and every cap (sector, per stock, cash floor) tightened by the fee margin on each step."""
     from .backtest import risk_inputs
 

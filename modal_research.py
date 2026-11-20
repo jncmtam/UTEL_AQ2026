@@ -1,12 +1,12 @@
-"""Modal CPU app for every V3.2 quantum simulation, test run and benchmark rerun.
+"""Modal CPU app for every quantum simulation, test run and benchmark rerun.
 
 Nothing in this file simulates a circuit on the caller's machine: each function runs in a Modal
-container, writes its run directory to the Volume `agqo-v32-runs` and returns the files so the caller
+container, writes its run directory to the Volume `agqo-research-runs` and returns the files so the caller
 can keep a local copy under results/runs/<run_id>/. The notebook
-`notebooks/AGQO_V3_2_Research_Modal.ipynb` is the entry point; it calls these functions.
+`notebooks/AGQO_Research_Modal.ipynb` is the entry point; it calls these functions.
 
     modal run modal_research.py::smoke        # check the image and the data snapshot
-    (all research tasks: run the notebook, see docs/vi/NGHIEN_CUU_MODAL.md)
+    (all research tasks: run the notebook, see docs/guides/NGHIEN_CUU_MODAL.md)
 
 The LLM stays in the GPU app `agqo-llm` (modal_app.py); research functions that need it call the
 deployed Engine, so a CPU container never holds a GPU.
@@ -25,7 +25,7 @@ APP_NAME = "agqo-research"
 RUNS = "/runs"
 
 app = modal.App(APP_NAME)
-runs_volume = modal.Volume.from_name("agqo-v32-runs", create_if_missing=True)
+runs_volume = modal.Volume.from_name("agqo-research-runs", create_if_missing=True)
 
 image = (
     modal.Image.debian_slim(python_version="3.12")
@@ -34,7 +34,7 @@ image = (
     .env({"AGQO_LIVE_LLM": "0", "PYTHONPATH": "/root"})
     .add_local_dir(ROOT / "data" / "vn30", "/root/data/vn30")
     .add_local_dir(ROOT / "results" / "final", "/root/results/final")
-    .add_local_dir(ROOT / "results" / "v32", "/root/results/v32")
+    .add_local_dir(ROOT / "results" / "app", "/root/results/app")
     .add_local_dir(ROOT / "tests", "/root/tests")
     .add_local_dir(ROOT / "app", "/root/app")
     .add_local_file(ROOT / "pyproject.toml", "/root/pyproject.toml")
@@ -109,7 +109,7 @@ def pytest_suite(rev: dict, args: list[str] | None = None) -> dict:
 # ------------------------------------------------------------------ fan-out workers (called with .map)
 @app.function(cpu=2, memory=4096, image=image, timeout=3600, retries=1)
 def schedule_rows(batch: list[dict]) -> list[dict]:
-    """Success of every V3 grid schedule on each instance spec (k-NN study table)."""
+    """Success of every grid schedule on each instance spec (k-NN study table)."""
     from agqo.research.workers import schedule_rows as go
 
     return go(batch)
@@ -145,7 +145,7 @@ def decide_items(jobs: list[dict]) -> list[dict]:
 
 @app.function(cpu=2, memory=4096, image=image, timeout=3600, retries=1)
 def walk_job(job: dict) -> dict:
-    """One account through the 12 V3 quarters with one strategy and mandate."""
+    """One account through the 12 test quarters with one strategy and mandate."""
     from agqo.research.workers import walk_job as go
 
     return go(job)

@@ -1,9 +1,9 @@
-"""Generate notebooks/AGQO_V3_2_Research_Modal.ipynb from the cells below (keeps the notebook reviewable).
+"""Generate notebooks/AGQO_Research_Modal.ipynb from the cells below (keeps the notebook reviewable).
 
     python notebooks/build_notebook.py
 
 Execute (from the repository root; the notebook only submits work, Modal runs it):
-    papermill notebooks/AGQO_V3_2_Research_Modal.ipynb results/runs/notebook_<date>.ipynb -p TASKS '["reproduce"]'
+    papermill notebooks/AGQO_Research_Modal.ipynb results/runs/notebook_<date>.ipynb -p TASKS '["reproduce"]'
 or open it in Jupyter / Modal Notebooks and run the cells in order.
 """
 
@@ -13,16 +13,16 @@ import nbformat as nbf
 
 MD, CODE = "markdown", "code"
 CELLS = [
-    (MD, """# AGQO V3.2 research runs on Modal
+    (MD, """# AGQO research runs on Modal
 
 This notebook is the entry point for every quantum simulation, benchmark rerun and live LLM experiment of
-V3.2. It submits work to Modal and keeps a local copy of each run directory under `results/runs/`.
+AGQO. It submits work to Modal and keeps a local copy of each run directory under `results/runs/`.
 No circuit is simulated in this kernel: the functions live in `modal_research.py` (Modal CPU) and
 `modal_app.py` (Qwen3.8-27B on a Modal H100).
 
 Prerequisites: `modal token new` once (credentials stay in `~/.modal.toml`), the price snapshot at
 `data/vn30/ohlcv_daily.csv`, and for LLM tasks the deployed `agqo-llm` app. Vietnamese guide:
-`docs/vi/NGHIEN_CUU_MODAL.md`.
+`docs/guides/NGHIEN_CUU_MODAL.md`.
 
 Set `TASKS` in the next cell (papermill parameter) to choose what runs."""),
     (CODE, """# Parameters (papermill)
@@ -54,7 +54,7 @@ kept = {}"""),
     kept["smoke"] = keep(res); show(kept["smoke"])"""),
     (MD, """## Product failure reproduction
 
-Runs the decision pipeline on the edge cases reported against V3.1 and audits every result on the
+Runs the decision pipeline on the edge cases reported against the earlier prototype and audits every result on the
 post-trade NAV (cash after fees + holdings). Output: `product_failures.json`."""),
     (CODE, """if "reproduce" in TASKS:
     with mr.app.run():
@@ -73,7 +73,7 @@ post-trade NAV (cash after fees + holdings). Output: `product_failures.json`."""
     print((kept["pytest"] / "pytest.txt").read_text()[-3000:])"""),
     (MD, """## k-NN study: success table (protocol §4)
 
-Builds every calibration, validation, holdout and V3-test instance (5 account sizes × 3 constraint types) in
+Builds every calibration, validation, holdout and main-test instance (5 account sizes × 3 constraint types) in
 Modal containers and scores all 1,080 grid schedules on each with an exact statevector. The caller only
 collects rows. Output: `meta.csv` (spec, features, baselines), `success_table.npz` (success, two-qubit gates)."""),
     (CODE, """if "knn_table" in TASKS:
@@ -83,7 +83,7 @@ collects rows. Output: `meta.csv` (spec, features, baselines), `success_table.np
     from agqo.research.orchestrate import local_run, push
     md = MarketData.load()
     sp = specs(md) + specs(md, splits=("v3_test",))
-    run = local_run("knn-table", {"n_specs": len(sp), "grid": "V3 DesignConfig (1080 schedules)", "batch": 3,
+    run = local_run("knn-table", {"n_specs": len(sp), "grid": "DesignConfig (1080 schedules)", "batch": 3,
                                   "account": "fresh cash", "sizes": sorted({s["capital_vnd"] for s in sp})})
     batches = [sp[i:i + 3] for i in range(0, len(sp), 3)]
     from agqo.research.orchestrate import fanout
@@ -117,7 +117,7 @@ this kernel. Validation chooses the variant before the holdout rows are scored."
     from agqo.research.orchestrate import local_run, push
     from agqo.research.runlog import RUNS_DIR
     table = sorted(p for p in RUNS_DIR.glob("*-knn-table") if json.loads((p / "run.json").read_text())["status"] == "ok")[-1]
-    run = local_run("knn-study", {"table_run": table.name, "protocol": "docs/research/PROTOCOL_V3_2.md §4"})
+    run = local_run("knn-study", {"table_run": table.name, "protocol": "docs/technical/RESEARCH_PROTOCOL.md §4"})
     try:
         out = run_study(table, run)
         run.finish(selected=out["selection"]["label"],
@@ -168,8 +168,8 @@ mass, best-of-512 gap, circuit evaluations and wall time."""),
     kept["knn_refine"] = run.dir; show(run.dir)"""),
     (MD, """## LLM experiment 1: Vietnamese instructions → constraints (protocol §3a)
 
-Qwen3.8-27B on the Modal H100 app `agqo-llm` parses the 50 V3.2 evaluation instructions twice (V3 prompt and the
-English V3.2 prompt); the keyword rules are the baseline. Every unblocked parse then runs through the
+Qwen3.8-27B on the Modal H100 app `agqo-llm` parses the 50 new evaluation instructions twice (first prompt and the
+current English prompt); the keyword rules are the baseline. Every unblocked parse then runs through the
 deterministic optimiser on Modal CPU and is judged against the gold constraints."""),
     (CODE, """if "llm_mandates" in TASKS:
     from agqo.data import MarketData
@@ -227,17 +227,17 @@ historical lot costs understated by 10%, 25%, 50%) for rounding, greedy, exact a
     from agqo.research.product_runs import run_account_benchmark, run_presets
     with mr.app.run():
         if "presets" in TASKS:
-            run = local_run("presets", {"quarters": "V3 test (12)", "account": "fresh cash, then walk"})
+            run = local_run("presets", {"quarters": "test (12)", "account": "fresh cash, then walk"})
             try:
                 res = run_presets(run, lambda ps: fanout(mr.preset_job, ps), lambda js: fanout(mr.walk_job, js))
-                (ROOT / "results" / "v32").mkdir(parents=True, exist_ok=True)
-                shutil.copy(run.dir / "presets.json", ROOT / "results" / "v32" / "presets.json")
+                (ROOT / "results" / "app").mkdir(parents=True, exist_ok=True)
+                shutil.copy(run.dir / "presets.json", ROOT / "results" / "app" / "presets.json")
                 run.finish(**{p["id"]: p["outcome"] for p in res["presets"]})
             except Exception as e:
                 run.error("presets", e); run.finish("failed")
             push(run, mr.archive); kept["presets"] = run.dir; show(run.dir)
         if "account_benchmark" in TASKS:
-            run = local_run("account-benchmark", {"capitals": [20e6, 18.18e6, 16e6, 13.33e6], "quarters": "V3 test (12)"})
+            run = local_run("account-benchmark", {"capitals": [20e6, 18.18e6, 16e6, 13.33e6], "quarters": "test (12)"})
             try:
                 res = run_account_benchmark(run, lambda js: fanout(mr.walk_job, js))
                 run.finish(**{f"{int(t['capital_vnd'] / 1e5) / 10:g}M {t['comparison']}": round(t["diff_pp"], 2)
@@ -247,23 +247,23 @@ historical lot costs understated by 10%, 25%, 50%) for rounding, greedy, exact a
             push(run, mr.archive); kept["account_benchmark"] = run.dir; show(run.dir)"""),
     (MD, """## LLM probe: negations and vague requests (semifinal review)
 
-A handful of new instructions through the V3.2 prompt on the H100; answers are appended to
-`results/v32/llm_log_mandates.jsonl` so the app can replay them (labelled as replay)."""),
+A handful of new instructions through the current prompt on the H100; answers are appended to
+`results/app/llm_log_mandates.jsonl` so the app can replay them (labelled as replay)."""),
     (CODE, """if "llm_probe" in TASKS:
     from agqo.data import MarketData
-    from agqo.llm import v32
+    from agqo.llm import compiler
     from agqo.llm.client import LLMClient
     from agqo.research.orchestrate import local_run, push
     PROBES = ["Đừng bỏ VIC", "Tôi muốn ít rủi ro hơn", "Không loại VIC nhưng bỏ VHM", "Giữ VIC, bỏ VRE",
               "Tôi thích VIC", "Không đầu tư bất động sản, ngân hàng tối đa 30%",
               "Tôi có 20 triệu, không muốn bất động sản, ngân hàng tối đa 30%"]
     md = MarketData.load(); so = {t: md.sector(t) for t in md.close.columns}
-    run = local_run("llm-probe", {"prompt": "V3.2", "probes": PROBES})
+    run = local_run("llm-probe", {"prompt": "current", "probes": PROBES})
     client = LLMClient("modal", run.dir / "llm_log.jsonl", app_name=LLM_MODEL_APP)
-    recs = client.generate([v32.request(p, so, seed=i) for i, p in enumerate(PROBES)])
-    rows = [{"text": p, **v32.parse(r["parsed"], set(so))} for p, r in zip(PROBES, recs)]
+    recs = client.generate([compiler.request(p, so, seed=i) for i, p in enumerate(PROBES)])
+    rows = [{"text": p, **compiler.parse(r["parsed"], set(so))} for p, r in zip(PROBES, recs)]
     run.save("probe.json", rows)
-    with open(ROOT / "results" / "v32" / "llm_log_mandates.jsonl", "a") as f:
+    with open(ROOT / "results" / "app" / "llm_log_mandates.jsonl", "a") as f:
         for r in recs:
             f.write(json.dumps(r | {"source_run": run.run_id}, ensure_ascii=False) + "\\n")
     run.finish(**{r["text"][:30]: f"{r['status']} {r['mandate']['exclude_tickers']}" for r in rows})
@@ -282,7 +282,7 @@ without the rules."""),
     from agqo.stats import block_bootstrap_te_diff
     import pandas as pd
     M = {"exclude_sectors": ["Real estate"], "sector_caps": {"Banking": 0.30}}
-    run = local_run("pitch", {"capital_vnd": 20e6, "mandate": M, "quarters": "V3 test (12)"})
+    run = local_run("pitch", {"capital_vnd": 20e6, "mandate": M, "quarters": "test (12)"})
     jobs = [{"label": f"{tag}|{s}", "capital_vnd": 20e6, "strategy": s, "mandate": m}
             for tag, m in (("rules", M), ("none", {})) for s in ("practitioner", "greedy", "exact", "agqo")]
     with mr.app.run():
@@ -315,7 +315,7 @@ without the rules."""),
     from agqo.research.orchestrate import fanout, local_run, push
     from agqo.research.product_runs import run_account_benchmark
     with mr.app.run():
-        run = local_run("account-sizes", {"capitals": [20e6, 50e6, 100e6, 200e6, 500e6], "quarters": "V3 test (12)"})
+        run = local_run("account-sizes", {"capitals": [20e6, 50e6, 100e6, 200e6, 500e6], "quarters": "test (12)"})
         try:
             res = run_account_benchmark(run, lambda js: fanout(mr.walk_job, js), capitals=(20e6, 50e6, 100e6, 200e6, 500e6))
             run.finish(**{f"{int(t['capital_vnd'] / 1e6)}M {t['comparison']}": round(t["diff_pp"], 2) for t in res["tests"]})
@@ -327,7 +327,7 @@ without the rules."""),
 ]
 
 
-def build(path: Path = Path(__file__).with_name("AGQO_V3_2_Research_Modal.ipynb")) -> Path:
+def build(path: Path = Path(__file__).with_name("AGQO_Research_Modal.ipynb")) -> Path:
     nb = nbf.v4.new_notebook()
     nb.metadata["kernelspec"] = {"name": "python3", "display_name": "Python 3", "language": "python"}
     for kind, src in CELLS:

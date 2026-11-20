@@ -8,7 +8,7 @@
 | Slide trình bày | AQ2026-R2-AQ2026-169-Slide.pptx (0,4 MB) | Bìa + 8 slide chính + 13 phụ lục; chữ, biểu đồ, sơ đồ chỉnh được; ghi chú người nói. PDF dự phòng kèm theo |
 | Mã nguồn và dữ liệu chạy thử | AQ2026-R2-AQ2026-169-Ma_nguon.zip (18 MB) | Từ commit `466ab92` (20/11/2026, có hình, chữ web và script báo cáo mới); giải nén, đặt tệp giá, mã băm khớp, 58/58 test pass trên Modal |
 | Hướng dẫn cài đặt và sử dụng | AQ2026-R2-AQ2026-169-Huong_dan.pdf (4 trang; kèm .docx) | Có URL prototype, ghi rõ không cần tài khoản thử nghiệm |
-| Đường dẫn prototype | https://data1--agqo-v32.us-east.modal.run | Luồng mẫu, câu mơ hồ, yêu cầu không khả thi đã chạy thật ngày 20/11/2026 |
+| Đường dẫn prototype | https://data1--agqo-prototype.us-east.modal.run | Luồng mẫu, câu mơ hồ, yêu cầu không khả thi đã chạy thật ngày 20/11/2026 |
 
 ## Đã kiểm tra
 
@@ -17,7 +17,7 @@
 - Xem từng trang deck và báo cáo sau khi xuất PDF (cắt chữ, cỡ chữ, dấu tiếng Việt, nhãn biểu đồ).
 - Sửa thử một tiêu đề, một số liệu biểu đồ, một nhãn sơ đồ trong PPTX: bố cục giữ nguyên.
 - Tập dượt trên bản đã triển khai: nút Chạy khóa trước khi xác nhận; job Modal 14 giây khi container nguội, 5–11 giây khi ấm; câu
-  mơ hồ bị khóa để hỏi lại; yêu cầu “mỗi mã ≤ 2%” báo không khả thi. Đường phát lại có kiểm thử riêng (`tests/test_v32_app.py`).
+  mơ hồ bị khóa để hỏi lại; yêu cầu “mỗi mã ≤ 2%” báo không khả thi. Đường phát lại có kiểm thử riêng (`tests/test_app.py`).
 
 ## Số liệu đã tính lại cho vòng này
 
@@ -31,7 +31,7 @@ tái hiện lỗi, thăm dò Qwen với câu phủ định. Danh sách đầy đ
 3. **Số điện thoại** của thành viên 3 và 4 đang giống nhau theo thông tin được cung cấp.
 4. **Thời lượng trình bày:** chưa có thông báo của BTC trong máy; deck có bản đầy đủ (~8–9 phút) và bản 3 phút.
 5. **Demo dùng câu trả lời Qwen đã lưu** (có nhãn “phát lại”) vì GPU khởi động lạnh mất ~440 giây; phần tối ưu chạy trực tiếp.
-6. Prototype phải chạy được trong thời gian chấm: ứng dụng Modal `agqo-web-v32` đang triển khai; nên kiểm tra hạn mức chi tiêu Modal.
+6. Prototype phải chạy được trong thời gian chấm: ứng dụng Modal `agqo-prototype` đang triển khai; nên kiểm tra hạn mức chi tiêu Modal.
 
 ## Sửa an toàn
 

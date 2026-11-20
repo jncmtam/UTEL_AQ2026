@@ -7,11 +7,11 @@ bottom of each section. Every result named here has a run directory under `resul
 ## Ground rules for this work
 
 - Quantum simulation, benchmark reruns and the test suite run on **Modal CPU** (`modal_research.py`), driven
-  by `notebooks/AGQO_V3_2_Research_Modal.ipynb` (executed with papermill from the repo root; the kernel only
+  by `notebooks/AGQO_Research_Modal.ipynb` (executed with papermill from the repo root; the kernel only
   submits work). Live LLM work runs on the existing **Modal H100** app `agqo-llm` (`modal_app.py`).
 - Pure-Python checks that do not simulate circuits (parsers, verifiers, accounting helpers) may run locally.
 - Archived V3 evidence in `results/final/` is not modified. New runs go to `results/runs/` (local copy) and the
-  Modal Volume `agqo-v32-runs` (remote copy). Failed and partial runs are kept.
+  Modal Volume `agqo-research-runs` (remote copy). Failed and partial runs are kept.
 - Deterministic code owns feasibility and final trade quantities. The LLM only fills constraint fields and
   writes explanations that a verifier checks.
 
@@ -29,7 +29,7 @@ bottom of each section. Every result named here has a run directory under `resul
 ### 2026-11-20 — Step 1: reproduce the product failures (V3.1 code, Modal CPU)
 
 What: added the research harness (`agqo/research/{runlog,orchestrate,repro}.py`, `modal_research.py`,
-`notebooks/build_notebook.py` → `AGQO_V3_2_Research_Modal.ipynb`) without touching product code, then ran
+`notebooks/build_notebook.py` → `AGQO_Research_Modal.ipynb`) without touching product code, then ran
 `papermill … -p TASKS '["smoke","reproduce"]'`.
 
 Runs: `20261120-065949-11e4c20-smoke` (image + data hash ok), `20261120-065958-11e4c20-product-failures`.
@@ -54,7 +54,7 @@ should aggregate to one row ("largest single stock").
 
 ### 2026-11-20 — Evaluation protocol
 
-Written before any new holdout result was computed: `docs/research/PROTOCOL_V3_2.md`.
+Written before any new holdout result was computed: `docs/technical/RESEARCH_PROTOCOL.md`.
 
 ### 2026-11-20 — Step 2: product fixes (commit `344bb16`)
 
@@ -76,18 +76,18 @@ Written before any new holdout result was computed: `docs/research/PROTOCOL_V3_2
   (0 exceptions, 0 silent cap breaches, 2 infeasible with reason, verifier rejects the swap). The reported case now
   ends at 24.05% banking on post-fee NAV in a live app run.
 
-### 2026-11-20 — Step 3: interactive app (commit `607c888`, Modal app `agqo-web-v32`)
+### 2026-11-20 — Step 3: interactive app (commit `607c888`, Modal app `agqo-prototype`)
 
 - Page flow: presets (`agqo/presets.py`) or Vietnamese text → structured, editable constraint fields with a
   provenance badge each (Bạn nhập / Từ mẫu / Từ câu lệnh / Chưa đặt + default) → Run.
 - Run = `POST /api/run` → `decide_job.spawn` in its own Modal CPU container; stages written to the Modal Dict
-  `agqo-v32-progress`; `GET /api/run/{id}` polls; errors show a retry button. Results are labelled
+  `agqo-progress`; `GET /api/run/{id}` polls; errors show a retry button. Results are labelled
   live Modal / replay of a saved Modal run / in-process fallback (fallback only with AGQO_ALLOW_LOCAL_COMPUTE=1).
 - A pending clarification disables Run in the page and the API returns 409.
 - Verified in the browser (desktop and 375 px): 200M banking ≤ 25% (live, 10.9 s, 24.05%), infeasible preset
   (blocking message shown, no trades), vague preset (question, Run disabled, answer → cap filled from text),
   one-stock preset (exact search, no circuit), exclusions preset.
-- URL: https://data1--agqo-v32.us-east.modal.run (the Round-2 URL `agqo-demo` is unchanged).
+- URL: https://data1--agqo-prototype.us-east.modal.run (the Round-2 URL `agqo-demo` is unchanged).
 
 ### 2026-11-20 — Step 4: k-NN study (protocol §4)
 
@@ -116,7 +116,7 @@ Written before any new holdout result was computed: `docs/research/PROTOCOL_V3_2
 
 ### 2026-11-20 — Step 5: presets and small-account benchmark (Modal CPU)
 
-- `20261120-073818-5c9f384-presets`: each preset's latest decision (copied to `results/v32/presets.json` for the
+- `20261120-073818-5c9f384-presets`: each preset's latest decision (copied to `results/app/presets.json` for the
   app's labelled replay) and 12-quarter walks with its rules. Outcomes: 20M favourable (6.77% vs 12.14%), 200M
   banking ≤ 25% favourable (3.57% vs 4.34%, rule costs +1.07 pp), exclusions favourable but small, 500M no clear
   difference, one stock no difference (exact search), 2% per stock infeasible with the rule named, vague
@@ -131,7 +131,7 @@ Written before any new holdout result was computed: `docs/research/PROTOCOL_V3_2
   prompt 46/50, V3.2 English prompt 49/50 (McNemar vs keyword p = 3e-5; vs V3 prompt p = 0.25). Only miss: k05
   (conflict that needs arithmetic). Team-written set, stated next to every number.
 - Product now uses the V3.2 prompt (`agqo/llm/v32.py`); its 50 logged answers are in
-  `results/v32/llm_log_mandates.jsonl` for replay; status `conflict` blocks the run like a clarification.
+  `results/app/llm_log_mandates.jsonl` for replay; status `conflict` blocks the run like a clarification.
 - Circuit design `20261120-074358-ef91bb6-llm-circuits`: 16/16 candidates valid. Holdout: best LLM candidate 9.83%
   vs random search best 2.6–3.9% (+6.43 pp, 22/22 dates) but vs frozen grid schedule 14.35% (−4.53 pp, 0/22) and
   frozen + polish 15.31%, at 60× the circuit evaluations. AGQO keeps the data-driven schedule.
@@ -139,11 +139,11 @@ Written before any new holdout result was computed: `docs/research/PROTOCOL_V3_2
 
 ### 2026-11-20 — Step 7: documentation
 
-- Vietnamese: `docs/vi/HUONG_DAN_MODAL.md` (setup, credentials, deploy, env vars, costs),
-  `docs/vi/NGHIEN_CUU_MODAL.md` (rerunning the notebook tasks, outputs, interpretation, errors),
-  `docs/vi/DEMO_VONG_CHUNG_KET.md` (final-round runbook and recovery), `docs/vi/KET_QUA_V3_2.md` (plain-language
-  results), `docs/vi/LO_TRINH.md` (roadmap with scope and prerequisites).
-- English research record: `docs/RESULTS_V3_2.md`; protocol with change log: `docs/research/PROTOCOL_V3_2.md`.
+- Vietnamese: `docs/guides/HUONG_DAN_MODAL.md` (setup, credentials, deploy, env vars, costs),
+  `docs/guides/NGHIEN_CUU_MODAL.md` (rerunning the notebook tasks, outputs, interpretation, errors),
+  `docs/guides/KICH_BAN_DEMO.md` (final-round runbook and recovery), `docs/guides/KET_QUA.md` (plain-language
+  results), `docs/guides/LO_TRINH.md` (roadmap with scope and prerequisites).
+- English research record: `docs/technical/RESEARCH_RESULTS.md`; protocol with change log: `docs/technical/RESEARCH_PROTOCOL.md`.
 - Page claims updated (hero KPIs, "Minh bạch" lists) to the V3.2 numbers.
 
 Observed while testing the live page: the keyword fallback read "ngân hàng không quá 28%" as an exclusion of the
@@ -157,7 +157,7 @@ account size ("Tôi 60 triệu") is not parsed into the capital field; the inves
 
 - `20261120-075200-177e76a-smoke` (data hash ok), `20261120-075231-177e76a-pytest` (45 passed on Modal CPU),
   `20261120-075207-177e76a-product-failures` (0 exceptions, 0 silent cap breaches, verifier rejects the swap).
-- Live end to end on https://data1--agqo-v32.us-east.modal.run: a new instruction parsed by Qwen (V3.2 prompt,
+- Live end to end on https://data1--agqo-prototype.us-east.modal.run: a new instruction parsed by Qwen (V3.2 prompt,
   warm H100, 4 s) → fields labelled "Từ câu lệnh" → Run → `decide_job` container (6.3 s) → banking 26.03% ≤ 28%,
   cash 26.02% ≥ 7%, TE 10.81% vs 19.86% for nearest-lot rounding.
 
@@ -169,11 +169,11 @@ English for every technical term (no calques such as "khởi động ấm", "QAO
 instead of semicolon lists, a capital after every sentence start and colon, and writing that explains why each step
 exists and what each number means. Same treatment for the deck and the web demo.
 
-- `submission/report/figures_en.py`: all report figures in English. Circuit drawn with Qiskit's `mpl` drawer
+- `submission/report/figures.py`: all report figures in English. Circuit drawn with Qiskit's `mpl` drawer
   (ticker-named wires, R_Y warm start, R_ZZ/R_Z cost layer, U_M(β) aligned mixer, measurement), with the layer
   boxed as "repeated p = 6 times" and the polished angles next to the linear-ramp start. Pipeline and data charts
   are drawn at their printed size so text prints at ~7 pt; chart titles state the finding.
-- `submission/report/revise_user_report.py <owner.docx>`: applies the review to the owner's file without touching
+- `submission/report/build_report.py <owner.docx>`: applies the review to the owner's file without touching
   anything else: swaps figures, rewrites listed paragraphs, converts 1.3, 1.4, 3.2 (rules), 3.3, 4.3, 4.4, 5.3,
   5.4 into tables, turns the KPI "Ghi chú" column into "Ý nghĩa", adds shaded "Vì sao…" / "Con số nói gì" boxes,
   maps terms to English, capitalises. Result: 12 pages (PDF from Word).
@@ -206,7 +206,7 @@ exists and what each number means. Same treatment for the deck and the web demo.
 - **Product choices suggested by the research, not yet made:** replace k-NN by a per-account-size schedule (same
   holdout gain, simpler) or keep the V3 k-NN configuration (best on holdout); apply the COBYLA polish only to small
   accounts (helps at 20M, neutral at 100–200M, 41× cost).
-- **Known gaps (roadmap `docs/vi/LO_TRINH.md`):** corporate-actions data for a traded-price rerun; an independent
+- **Known gaps (roadmap `docs/guides/LO_TRINH.md`):** corporate-actions data for a traded-price rerun; an independent
   user test of the parser; the account size written inside an instruction is not parsed into the capital field;
   existing holdings cannot be entered in the app yet (the code supports sells and the sales tax).
 

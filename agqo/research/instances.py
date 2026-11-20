@@ -1,7 +1,7 @@
-"""Instance pool of the V3.2 studies (protocol §1): splits, account sizes, constraint types.
+"""Instance pool of the follow-up studies (protocol §1): splits, account sizes, constraint types.
 
 An instance spec is a small dict {split, date, capital_vnd, constraint}. Containers rebuild the instance from
-the spec with the V3 configuration (results/final/config.json), so every worker solves exactly the same QUBO.
+the spec with the main-study configuration (results/final/config.json), so every worker solves exactly the same QUBO.
 """
 
 from __future__ import annotations
@@ -24,7 +24,7 @@ QUARTER_MONTHS = (1, 4, 7, 10)
 def split_dates(md, split: str) -> list[pd.Timestamp]:
     lo, hi = SPLITS[split]
     dates = md.rebalance_dates(lo, hi, "MS")
-    if split == "holdout":                       # V3 reported the quarter starts; the new holdout is the rest
+    if split == "holdout":                       # the main study reported the quarter starts; the new holdout is the rest
         dates = [d for d in dates if d.month not in QUARTER_MONTHS]
     return dates
 
@@ -62,7 +62,7 @@ def load_v3_config():
 
 
 def extended_features(cp, spec: dict) -> dict:
-    """Design inputs for the k-NN variants (no enumeration): V3 features + account/size/constraint context."""
+    """Design inputs for the k-NN variants (no enumeration): main-study features + account/size/constraint context."""
     from ..insight import coupling_decomposition
     from ..quantum.design import design_features
 

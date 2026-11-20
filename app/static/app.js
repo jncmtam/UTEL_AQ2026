@@ -194,7 +194,7 @@ function renderSampling(d) {
       `gần như chắc chắn có nghiệm tốt. Exhaustive enumeration là trọng tài: QAOA chỉ đề xuất, không tự quyết.</span>` : "");
 }
 
-/* ================= V3.2: structured constraints, presets, Modal jobs ================= */
+/* ================= Structured constraints, presets, Modal jobs ================= */
 const FIELDS = ["capital", "exclude_sectors", "exclude_tickers", "sector_caps", "max_weight_per_stock", "max_holdings", "min_cash_pct"];
 const SRC_VI = { user: "Bạn nhập", preset: "Từ mẫu", text: "Từ câu lệnh", unset: "Chưa đặt" };
 const DEFAULT_VI = { exclude_sectors: "không loại ngành nào", exclude_tickers: "không loại mã nào", sector_caps: "không có trần ngành",

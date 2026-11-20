@@ -1,14 +1,14 @@
 """k-NN schedule selection as a standalone study (protocol §4).
 
-Input: a `knn-table` run (meta.csv + success_table.npz): exact success of each of the 1,080 V3 grid schedules on
-every calibration / validation / holdout / V3-test instance. This module only reads that table; it simulates
+Input: a `knn-table` run (meta.csv + success_table.npz): exact success of each of the 1,080 grid schedules on
+every calibration / validation / holdout / main-test instance. This module only reads that table; it simulates
 nothing. Selectors are fitted on calibration rows, compared on validation rows, and the chosen variant is
 evaluated once on the holdout rows.
 
 Arms on the same table
   frozen            schedule with the best mean calibration success
   stratum_frozen    best mean schedule per account size (calibration)
-  knn_v3            V3 configuration: five V3 features, z-score, Euclidean, uniform weights, k = 10, mean
+  knn_v3            main-study configuration: five features, z-score, Euclidean, uniform weights, k = 10, mean
   knn_selected      best variant on validation (search space of the protocol)
   knn_selected_fb   the same with the support fallback to frozen
   random_grid       expected success of a uniformly random admissible schedule

@@ -1,6 +1,6 @@
 """Write the talk track, the three-minute cut and the Q&A cards from story.yaml / qa.yaml (same facts as the deck).
 
-    python submission/deck/notes_doc.py        # -> docs/submission/LOI_NOI_THUYET_TRINH.md
+    python submission/deck/notes_doc.py        # -> docs/presentation/LOI_NOI_THUYET_TRINH.md
 """
 
 from pathlib import Path

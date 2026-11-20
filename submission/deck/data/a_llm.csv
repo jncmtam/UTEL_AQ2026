@@ -1,4 +1,4 @@
 set,metric,llm,keyword
-V3 (35 instructions),effective constraints correct,35/35,24/35
-V3 (35 instructions),strict JSON match,33/35,
-V3.2 (50 instructions),end-to-end correct outcome,49/50,33/50
+Set A (35 instructions),effective constraints correct,35/35,24/35
+Set A (35 instructions),strict JSON match,33/35,
+Set B (50 new instructions),end-to-end correct outcome,49/50,33/50

@@ -2,7 +2,7 @@
 
     python submission/deck/make_data.py
 
-Reads saved evidence only (results/final for V3, results/runs/<run_id> for V3.2 runs) and the price snapshot for
+Reads saved evidence only (results/final for the main study, results/runs/<run_id> for follow-up runs) and the price snapshot for
 the lot-cost chart. Nothing is simulated here. Edit a number by rerunning the run that produced it, then this.
 """
 
@@ -123,7 +123,7 @@ def main() -> None:
          "per qubit: continuous lots from the fractional optimum, fixed lots, warm-start probability, chosen bit",
          f"{dec['date']}, 16 qubits")
 
-    # ---- circuit comparison (V3, 12 quarters, 100M trajectory account)
+    # ---- circuit comparison (main study, 12 quarters, 100M trajectory account)
     q = pd.read_csv(R / "quantum_test.csv")
     q["arm2"] = q.arm.str.replace(r"^random_s\d+$", "random_search", regex=True)
     g = q.groupby("arm2").agg(success_pct=("success_prob", lambda s: 100 * s.mean()), evaluations=("evaluations", "mean"),
@@ -150,16 +150,17 @@ def main() -> None:
          [str(R / "extras/hardware_aware.csv")], "success under the ESP noise model (estimate), Aer noisy simulation where run",
          "noise-aware shallow circuit chosen on 2023, IBM Heron model (FakeKingston); no hardware run")
     me = json.loads((R / "llm" / "mandate_eval.json").read_text())["score"]
-    v32 = json.loads((LLM32 / "mandate_eval_v2.json").read_text())["score"]
+    ev_file = next(f for f in (LLM32 / "mandate_eval.json", LLM32 / "mandate_eval_v2.json") if f.exists())  # older runs used _v2
+    v32 = json.loads(ev_file.read_text())["score"]
     save("a_llm", pd.DataFrame([
-        {"set": "V3 (35 instructions)", "metric": "effective constraints correct", "llm": f"{round(me['llm_effective_pct'] * .35)}/35",
+        {"set": "Set A (35 instructions)", "metric": "effective constraints correct", "llm": f"{round(me['llm_effective_pct'] * .35)}/35",
          "keyword": f"{round(me['rule_effective_pct'] * .35)}/35"},
-        {"set": "V3 (35 instructions)", "metric": "strict JSON match", "llm": f"{round(me['llm_exact_pct'] * .35)}/35", "keyword": ""},
-        {"set": "V3.2 (50 instructions)", "metric": "end-to-end correct outcome", "llm": "49/50", "keyword": "33/50"}]),
+        {"set": "Set A (35 instructions)", "metric": "strict JSON match", "llm": f"{round(me['llm_exact_pct'] * .35)}/35", "keyword": ""},
+        {"set": "Set B (50 new instructions)", "metric": "end-to-end correct outcome", "llm": "49/50", "keyword": "33/50"}]),
         [str(R / "llm/mandate_eval.json"), LLM32.name], "team-written evaluation sets", "Qwen3.8-27B-FP8, temperature 0")
     kn = json.loads((KNN / "holdout_results.json").read_text())["holdout"]["arms"]
     save("a_knn", pd.DataFrame([{"arm": k, "success_pct": 100 * v["mean_success"]} for k, v in kn.items()]), [KNN.name],
-         "near-optimal probability per shot (%)", "V3.2 holdout: 22 months × 5 sizes × 3 rule types, fresh accounts")
+         "near-optimal probability per shot (%)", "Holdout: 22 months × 5 sizes × 3 rule types, fresh accounts")
     (OUT / "SOURCES.json").write_text(json.dumps(SOURCES, indent=1, ensure_ascii=False, default=str))
     print(f"wrote {len(SOURCES)} tables to {OUT}")
 

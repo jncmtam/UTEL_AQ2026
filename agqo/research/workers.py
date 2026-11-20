@@ -131,7 +131,7 @@ def decide_items(jobs: list[dict]) -> list[dict]:
 
 
 def walk_job(job: dict) -> dict:
-    """One account through the 12 V3 test quarters with one strategy (protocol §5 and §6).
+    """One account through the 12 test quarters with one strategy (protocol §5 and §6).
 
     job = {capital_vnd, strategy: practitioner | greedy | exact | agqo, mandate: dict, label}
     Returns daily account values, per-rebalance rows (post-trade weights) and the mandate audit."""

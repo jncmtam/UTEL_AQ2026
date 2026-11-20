@@ -1,4 +1,4 @@
-"""Reproduce the product failure modes reported against V3.1 and probe nearby edge cases.
+"""Reproduce the product failure modes reported against the earlier prototype and probe nearby edge cases.
 
 Each case runs the real decision pipeline (`Demo.decide`) and then re-checks the result with an
 independent post-trade audit written here, so the audit does not share code with the checks it tests:
@@ -126,7 +126,7 @@ def parser_cases(d) -> list[dict]:
 
 
 def clarification_case(d) -> dict:
-    """What the V3.1 flow does with a vague instruction: the logged Qwen answer and the app path."""
+    """What the earlier flow did with a vague instruction: the logged Qwen answer and the app path."""
     from ..demo import compile_mandate
 
     text = "Đừng mua quá nhiều cổ phiếu ngân hàng"

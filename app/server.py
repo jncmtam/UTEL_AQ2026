@@ -1,4 +1,4 @@
-"""AGQO V3.2 prototype web server (FastAPI). The page: choose a preset or type requirements, review the
+"""AGQO prototype web server (FastAPI). The page: choose a preset or type requirements, review the
 structured constraints, click Run, follow a real Modal job, read the result.
 
 Run locally (the page still sends every decision to Modal):
@@ -6,15 +6,15 @@ Run locally (the page still sends every decision to Modal):
     AGQO_LIVE_LLM=0 uvicorn app.server:api --port 8000
 
 Compute modes (env AGQO_COMPUTE)
-  modal   (default) each Run spawns `decide_job` in the deployed app AGQO_WEB_APP (default agqo-web-v32)
-  replay  only presets, answered from the saved Modal preset run (results/v32/presets.json)
+  modal   (default) each Run spawns `decide_job` in the deployed app AGQO_WEB_APP (default agqo-prototype)
+  replay  only presets, answered from the saved Modal preset run (results/app/presets.json)
 If a live job cannot start, a preset falls back to its replay; anything else returns an error with a retry.
 AGQO_ALLOW_LOCAL_COMPUTE=1 additionally allows an in-process run (development only, labelled "fallback").
 
 Endpoints
   GET  /                      the page (app/static/index.html)
   GET  /api/meta              date, universe, sectors, presets (with measured numbers), compute mode
-  GET  /api/story             saved V3 evidence for the results section
+  GET  /api/story             saved backtest evidence for the results section
   POST /api/mandate           instruction -> structured constraints + status (ok | needs_clarification)
   POST /api/run               start a decision job (refused while a clarification is pending)
   GET  /api/run/{id}          job status: queued | running (stage) | done (result) | failed (error)
@@ -41,18 +41,18 @@ from pydantic import BaseModel, Field
 
 from agqo.config import RESULTS_DIR, ROOT, SECTOR_EN
 from agqo.demo import compile_mandate
-from agqo.llm import v32
+from agqo.llm import compiler
 from agqo.llm.tasks import explain_request, verify_explanation
 from agqo.mandate import Mandate
 from agqo.presets import PRESETS, public
 from agqo.service import clean
 
 STATIC = Path(__file__).resolve().parent / "static"
-V32 = ROOT / "results" / "v32"
+APP_DATA = ROOT / "results" / "app"
 LIVE_LLM = os.environ.get("AGQO_LIVE_LLM", "1") == "1"          # set 0 to never start the GPU
 LLM_PER_HOUR = int(os.environ.get("AGQO_LLM_PER_HOUR", "40"))    # cost guard for a public URL
 COMPUTE = os.environ.get("AGQO_COMPUTE", "modal")
-WEB_APP = os.environ.get("AGQO_WEB_APP", "agqo-web-v32")
+WEB_APP = os.environ.get("AGQO_WEB_APP", "agqo-prototype")
 ALLOW_LOCAL = os.environ.get("AGQO_ALLOW_LOCAL_COMPUTE", "0") == "1"
 
 api = FastAPI(title="AGQO prototype")
@@ -76,7 +76,7 @@ def startup() -> dict:
             md = MarketData.load()
             date = md.rebalance_dates(ec.test_start, ec.test_end)[-1]
             uni, _ = md.universe(date, ec.problem.lookback_days, ec.problem.min_history)
-            replay = json.loads((V32 / "presets.json").read_text()) if (V32 / "presets.json").exists() else None
+            replay = json.loads((APP_DATA / "presets.json").read_text()) if (APP_DATA / "presets.json").exists() else None
             _ctx.update(md=md, ec=ec, date=date, universe=uni, sector_of={t: md.sector(t) for t in md.close.columns},
                         replay=replay)
     return _ctx
@@ -150,16 +150,16 @@ def story():
     expl = json.loads((run / "llm" / "explanations.json").read_text())
     example = expl["rows"][-1]
     ev_last = {e["date"]: e for e in json.loads((run / "evidence.json").read_text())}.get(example["date"])
-    if ev_last is not None:                       # re-check the saved example with the V3.2 verifier
+    if ev_last is not None:                       # re-check the saved example with the current verifier
         from agqo.llm.fallback import deterministic_explanation
         from agqo.llm.tasks import describe_evidence
 
         ev_last = describe_evidence(ev_last)
         recheck = verify_explanation(example["explanation"], ev_last)
-        example = example | {"check_v32": recheck}
+        example = example | {"check": recheck}
         if not recheck["ok"]:
             example["fallback"] = deterministic_explanation(ev_last)
-    v32 = json.loads((V32 / "summary.json").read_text()) if (V32 / "summary.json").exists() else None
+    research = json.loads((APP_DATA / "summary.json").read_text()) if (APP_DATA / "summary.json").exists() else None
     return _json({
         "backtest": {"dates": [str(x.date()) for x in wk.index],
                      "series": {keep[c]: (wk[c] / 1e6).round(3).tolist() for c in keep}},
@@ -172,7 +172,7 @@ def story():
         "mandates": man.to_dict("records"),
         "explainer_score": expl["score"],
         "explanation_example": example,
-        "v32": v32,
+        "research": research,
     })
 
 
@@ -196,7 +196,7 @@ def mandate(body: MandateIn):
             res["llm_note"] = "live LLM budget for this hour is used up; keyword rules shown"
         else:
             try:
-                req = v32.request(text, c["sector_of"])
+                req = compiler.request(text, c["sector_of"])
                 fc = _spawn_llm([req])
                 jid = uuid.uuid4().hex[:12]
                 _jobs[jid] = {"kind": "mandate", "fc": fc.object_id, "req": req, "t0": time.time()}
@@ -303,7 +303,7 @@ def run_status(rid: str):
     except TimeoutError:
         stage = None
         try:
-            stage = modal.Dict.from_name("agqo-v32-progress").get(rec["key"])
+            stage = modal.Dict.from_name("agqo-progress").get(rec["key"])
         except Exception:
             pass
         return _json({"id": rid, "status": "running" if stage else "queued", "stage": stage, "seconds": t,
@@ -378,10 +378,10 @@ def job(jid: str):
            "usage": out.get("usage"), "gpu": out.get("gpu"), "model_load_s": out.get("model_load_s")}
     if j["kind"] == "mandate":
         c = startup()
-        pr = v32.parse(parsed, set(c["sector_of"]))
+        pr = compiler.parse(parsed, set(c["sector_of"]))
         mstatus = pr.pop("status")                   # keep "status" for the job state (done), not the parse state
         res |= pr | {"mandate_status": mstatus, "needs_clarification": mstatus != "ok",
-                     "source": "Qwen3.8-27B, V3.2 prompt (live, Modal H100)", "raw": parsed}
+                     "source": "Qwen3.8-27B (live, Modal H100)", "raw": parsed}
     else:
         check = verify_explanation(parsed, j["ev"])
         res |= {"explanation": parsed, "check": check}

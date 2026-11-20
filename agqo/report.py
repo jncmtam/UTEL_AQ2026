@@ -1,4 +1,4 @@
-"""Figures and the auto-generated results page (docs/RESULTS.md).
+"""Figures and the auto-generated results page (docs/technical/RESULTS.md).
 
 Every figure title states the takeaway; the subtitle says exactly what is plotted. Colours follow
 a fixed categorical order; text stays in ink tones.
@@ -346,7 +346,7 @@ def fig_latest(run: Path, out: Path) -> str:
 
 
 # ------------------------------------------------------------------ results page
-def build_report(run: Path, out: Path, document: Path = Path("docs/RESULTS.md")) -> None:
+def build_report(run: Path, out: Path, document: Path = Path("docs/technical/RESULTS.md")) -> None:
     out.mkdir(parents=True, exist_ok=True)
     figure_dir = Path(os.path.relpath(out.resolve(), document.parent.resolve()))
     cfg = json.loads((run / "config.json").read_text())

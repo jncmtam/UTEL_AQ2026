@@ -221,10 +221,10 @@
   <div class="grid2 reveal">
     <div class="card claim yes"><h4>✔ Khẳng định, có kiểm định</h4><ul>
       <li>Mạch do dữ liệu thiết kế dồn xác suất vào nghiệm tốt gấp 6,9× warm-start baseline, 19× textbook QAOA (12/12 quý).</li>
-      <li>Tài khoản 20 triệu: Sai số bám 12,1% → 6,8% (khoảng tin cậy −6,9 đến −3,8 điểm %). V3.2 tái lập đúng. Lợi thế còn khoảng 5 điểm % ngay cả khi giá lô lịch sử thực ra cao hơn 50%.</li>
-      <li>V3.2: Qwen3.8 với prompt tiếng Anh mới xử lý đúng 49/50 câu tiếng Việt mới, gồm câu mơ hồ, mâu thuẫn và không khả thi (keyword parser 33/50, p = 0,00003).</li>
-      <li>V3.2: Mọi trần được kiểm tra trên NAV sau phí. Yêu cầu không khả thi được giải thích, không tạo lệnh.</li>
-      <li>V3.2: Chọn circuit schedule theo dữ liệu (k-NN) hơn frozen schedule 0,76 điểm % trên 330 bài toán holdout mới (20/22 tháng).</li></ul></div>
+      <li>Tài khoản 20 triệu: Sai số bám 12,1% → 6,8% (khoảng tin cậy −6,9 đến −3,8 điểm %). Kết quả được tái lập độc lập. Lợi thế còn khoảng 5 điểm % ngay cả khi giá lô lịch sử thực ra cao hơn 50%.</li>
+      <li>Qwen3.8 với prompt tiếng Anh mới xử lý đúng 49/50 câu tiếng Việt mới, gồm câu mơ hồ, mâu thuẫn và không khả thi (keyword parser 33/50, p = 0,00003).</li>
+      <li>Mọi trần được kiểm tra trên NAV sau phí. Yêu cầu không khả thi được giải thích, không tạo lệnh.</li>
+      <li>Chọn circuit schedule theo dữ liệu (k-NN) hơn frozen schedule 0,76 điểm % trên 330 bài toán holdout mới (20/22 tháng).</li></ul></div>
     <div class="card claim no"><h4>○ Không khẳng định, và đã đo để biết</h4><ul>
       <li>Quantum advantage: Ở 16 qubit, exhaustive enumeration giải chính xác trong 0,12 giây. Chính nhờ vậy mỗi quyết định được kiểm chứng.</li>
       <li>Thuật toán greedy đạt 7,5%: Phần lớn lợi ích đến từ việc “chọn lô có tối ưu”. Ở đúng 20 triệu, chênh lệch AGQO với greedy chưa có ý nghĩa thống kê (−1,5 đến +0,02 điểm %).</li>
