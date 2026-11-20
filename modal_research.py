@@ -103,3 +103,32 @@ def pytest_suite(rev: dict, args: list[str] | None = None) -> dict:
     run.log(tail)
     run.finish("ok" if p.returncode == 0 else "failed", returncode=p.returncode, tail=tail)
     return {"run_id": run.run_id, "files": _files(run)}
+
+
+# ------------------------------------------------------------------ fan-out workers (called with .map)
+@app.function(cpu=2, memory=4096, image=image, timeout=3600, retries=1)
+def schedule_rows(batch: list[dict]) -> list[dict]:
+    """Success of every V3 grid schedule on each instance spec (k-NN study table)."""
+    from agqo.research.workers import schedule_rows as go
+
+    return go(batch)
+
+
+@app.function(cpu=2, memory=4096, image=image, timeout=3600, retries=1)
+def evaluate_specs(job: dict) -> list[dict]:
+    """Run CircuitSpecs (validated first) on instance specs; used by the circuit-design experiment."""
+    from agqo.research.workers import evaluate_specs as go
+
+    return go(job)
+
+
+@app.function(cpu=1, memory=1024, image=image, volumes={RUNS: runs_volume}, timeout=600)
+def archive(run_id: str, files: dict[str, str]) -> int:
+    """Copy a run directory assembled by the caller (fan-out runs) to the Volume."""
+    base = Path(RUNS) / run_id
+    for name, text in files.items():
+        p = base / name
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text(text)
+    runs_volume.commit()
+    return len(files)

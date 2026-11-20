@@ -26,7 +26,7 @@ Prerequisites: `modal token new` once (credentials stay in `~/.modal.toml`), the
 
 Set `TASKS` in the next cell (papermill parameter) to choose what runs."""),
     (CODE, """# Parameters (papermill)
-TASKS = ["smoke"]          # any of: smoke, reproduce, pytest, presets, account_benchmark, llm_mandates,
+TASKS = ["smoke"]          # any of: smoke, reproduce, pytest, knn_table, knn_refine, presets, account_benchmark, llm_mandates,
                            #         llm_circuits, knn_table, knn_study
 PYTEST_ARGS = []
 LLM_MODEL_APP = "agqo-llm"
@@ -71,6 +71,44 @@ post-trade NAV (cash after fees + holdings). Output: `product_failures.json`."""
         res = mr.pytest_suite.remote(REV, PYTEST_ARGS)
     kept["pytest"] = keep(res); show(kept["pytest"])
     print((kept["pytest"] / "pytest.txt").read_text()[-3000:])"""),
+    (MD, """## k-NN study: success table (protocol §4)
+
+Builds every calibration, validation, holdout and V3-test instance (5 account sizes × 3 constraint types) in
+Modal containers and scores all 1,080 grid schedules on each with an exact statevector. The caller only
+collects rows. Output: `meta.csv` (spec, features, baselines), `success_table.npz` (success, two-qubit gates)."""),
+    (CODE, """if "knn_table" in TASKS:
+    import numpy as np, pandas as pd
+    from agqo.data import MarketData
+    from agqo.research.instances import specs
+    from agqo.research.orchestrate import local_run, push
+    md = MarketData.load()
+    sp = specs(md) + specs(md, splits=("v3_test",))
+    run = local_run("knn-table", {"n_specs": len(sp), "grid": "V3 DesignConfig (1080 schedules)", "batch": 3,
+                                  "account": "fresh cash", "sizes": sorted({s["capital_vnd"] for s in sp})})
+    batches = [sp[i:i + 3] for i in range(0, len(sp), 3)]
+    rows = []
+    with mr.app.run():
+        for out in mr.schedule_rows.map(batches, order_outputs=False):
+            rows += out
+            if len(rows) % 90 < 3:
+                run.log(f"{len(rows)}/{len(sp)} instances")
+        ok = [r for r in rows if "error" not in r]
+        bad = [r for r in rows if "error" in r]
+        for r in bad:
+            run.manifest["errors"].append({"where": f"{r['split']} {r['date']} {r['capital_vnd']:.0f} {r['constraint']}",
+                                           "error": r["error"], "traceback": ""})
+        key = lambda r: (r["split"], r["date"], r["capital_vnd"], r["constraint"])
+        ok.sort(key=key)
+        meta = pd.DataFrame([{k: v for k, v in r.items() if k not in ("features", "success", "cx", "warm_success")}
+                             | {f"f_{k}": v for k, v in r["features"].items()}
+                             | {f"warm_{k}": v for k, v in r["warm_success"].items()} for r in ok])
+        run.save("meta.csv", meta)
+        np.savez_compressed(run.dir / "success_table.npz", success=np.array([r["success"] for r in ok], dtype=np.float32),
+                            cx=np.array([r["cx"] for r in ok], dtype=np.int32))
+        run.step("table", instances=len(ok), errors=len(bad), cpu_seconds=float(meta.seconds.sum()))
+        run.finish(instances=len(ok), errors=len(bad), cpu_hours=round(float(meta.seconds.sum()) / 3600, 2))
+        push(run, mr.archive)
+    kept["knn_table"] = run.dir; show(run.dir)"""),
     (MD, "## Summary of this notebook execution"),
     (CODE, """print(json.dumps({k: str(v) for k, v in kept.items()}, indent=1))"""),
 ]
