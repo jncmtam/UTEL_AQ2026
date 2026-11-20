@@ -1,0 +1,46 @@
+{
+ "run_id": "20261120-071428-5f548ba-knn-table",
+ "kind": "knn-table",
+ "git": {
+  "sha": "5f548ba70f20f6f2d4d596c7ec7280c76e08096d",
+  "short": "5f548ba",
+  "dirty": false
+ },
+ "data_sha256": "7f076128a4f625f9589844f7465e3a1745e1a31e2cecfa8b70e3d8e141433042",
+ "config": {
+  "n_specs": 690,
+  "grid": "V3 DesignConfig (1080 schedules)",
+  "batch": 3,
+  "account": "fresh cash",
+  "sizes": [
+   20000000.0,
+   50000000.0,
+   100000000.0,
+   200000000.0,
+   500000000.0
+  ]
+ },
+ "python": "3.12.12",
+ "host": "Cedric-Mac.local",
+ "modal_task_id": null,
+ "started_utc": "2026-11-20T07:14:28Z",
+ "status": "ok",
+ "steps": [
+  {
+   "step": "table",
+   "status": "ok",
+   "t_s": 351.8,
+   "instances": 690,
+   "errors": 0,
+   "cpu_seconds": 25982.34665942192
+  }
+ ],
+ "errors": [],
+ "seconds": 351.8,
+ "finished_utc": "2026-11-20T07:20:19Z",
+ "summary": {
+  "instances": 690,
+  "errors": 0,
+  "cpu_hours": 7.22
+ }
+}

@@ -1,0 +1,76 @@
+{
+ "run_id": "20261120-072848-204ca51-knn-study",
+ "kind": "knn-study",
+ "git": {
+  "sha": "204ca51bf4833f2f748ee1066fd438923f43c7ca",
+  "short": "204ca51",
+  "dirty": false
+ },
+ "data_sha256": "7f076128a4f625f9589844f7465e3a1745e1a31e2cecfa8b70e3d8e141433042",
+ "config": {
+  "table_run": "20261120-071428-5f548ba-knn-table",
+  "protocol": "docs/research/PROTOCOL_V3_2.md §4"
+ },
+ "python": "3.12.12",
+ "host": "Cedric-Mac.local",
+ "modal_task_id": null,
+ "started_utc": "2026-11-20T07:28:48Z",
+ "status": "ok",
+ "steps": [
+  {
+   "step": "k1_diagnosis",
+   "status": "ok",
+   "t_s": 0.1,
+   "calibration_top1_minus_top10_pp": 2.7259,
+   "calibration_schedules_within_90pct_of_best": 9.4667,
+   "schedules_admissible": 990,
+   "knn_v3_in_sample_estimate": 0.2077,
+   "knn_v3_realised": 0.1447,
+   "knn_3_in_sample_estimate": 0.2124,
+   "knn_3_realised": 0.1444,
+   "knn_40_in_sample_estimate": 0.216,
+   "knn_40_realised": 0.1439,
+   "frozen_in_sample_estimate": 0.205,
+   "frozen_realised": 0.1373,
+   "spearman_feature_distance_vs_profile_dissimilarity": 0.3233,
+   "nn1_transfer_share_of_own_best": 0.7738,
+   "frozen_share_of_own_best_validation": 0.7686,
+   "oracle_minus_frozen_validation_pp": 2.5447
+  },
+  {
+   "step": "validation_selection",
+   "status": "ok",
+   "t_s": 8.6,
+   "label": "ext/rank/manhattan/inverse/k=3/mean/fallback",
+   "val_success": 0.1489,
+   "val_frozen": 0.1373
+  },
+  {
+   "step": "holdout",
+   "status": "ok",
+   "t_s": 8.6,
+   "knn_selected": 0.1536,
+   "frozen": 0.1458,
+   "oracle": 0.178,
+   "K2_p": 0.0026
+  },
+  {
+   "step": "v3_test",
+   "status": "ok",
+   "t_s": 8.7,
+   "knn_selected": 0.147,
+   "frozen": 0.1393,
+   "oracle": 0.1715,
+   "K2_p": 0.0012
+  }
+ ],
+ "errors": [],
+ "seconds": 8.7,
+ "finished_utc": "2026-11-20T07:28:57Z",
+ "summary": {
+  "selected": "ext/rank/manhattan/inverse/k=3/mean/fallback",
+  "holdout_knn": 0.15360070353436836,
+  "holdout_frozen": 0.145840900615324,
+  "K2_p": 0.0026378631591796875
+ }
+}

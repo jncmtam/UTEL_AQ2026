@@ -1,0 +1,2642 @@
+[
+ {
+  "split": "holdout",
+  "date": "2024-02-01",
+  "capital_vnd": 20000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2024-02-01",
+  "capital_vnd": 20000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2024-02-01",
+  "capital_vnd": 20000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2024-02-01",
+  "capital_vnd": 50000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2024-02-01",
+  "capital_vnd": 50000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2024-02-01",
+  "capital_vnd": 50000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 621
+ },
+ {
+  "split": "holdout",
+  "date": "2024-02-01",
+  "capital_vnd": 100000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2024-02-01",
+  "capital_vnd": 100000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 621
+ },
+ {
+  "split": "holdout",
+  "date": "2024-02-01",
+  "capital_vnd": 100000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2024-02-01",
+  "capital_vnd": 200000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 611
+ },
+ {
+  "split": "holdout",
+  "date": "2024-02-01",
+  "capital_vnd": 200000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ },
+ {
+  "split": "holdout",
+  "date": "2024-02-01",
+  "capital_vnd": 200000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 621
+ },
+ {
+  "split": "holdout",
+  "date": "2024-02-01",
+  "capital_vnd": 500000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2024-02-01",
+  "capital_vnd": 500000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2024-02-01",
+  "capital_vnd": 500000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 607
+ },
+ {
+  "split": "holdout",
+  "date": "2024-03-01",
+  "capital_vnd": 20000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2024-03-01",
+  "capital_vnd": 20000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2024-03-01",
+  "capital_vnd": 20000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 626
+ },
+ {
+  "split": "holdout",
+  "date": "2024-03-01",
+  "capital_vnd": 50000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ },
+ {
+  "split": "holdout",
+  "date": "2024-03-01",
+  "capital_vnd": 50000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2024-03-01",
+  "capital_vnd": 50000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 626
+ },
+ {
+  "split": "holdout",
+  "date": "2024-03-01",
+  "capital_vnd": 100000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2024-03-01",
+  "capital_vnd": 100000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2024-03-01",
+  "capital_vnd": 100000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 857
+ },
+ {
+  "split": "holdout",
+  "date": "2024-03-01",
+  "capital_vnd": 200000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 607
+ },
+ {
+  "split": "holdout",
+  "date": "2024-03-01",
+  "capital_vnd": 200000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2024-03-01",
+  "capital_vnd": 200000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ },
+ {
+  "split": "holdout",
+  "date": "2024-03-01",
+  "capital_vnd": 500000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2024-03-01",
+  "capital_vnd": 500000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 852
+ },
+ {
+  "split": "holdout",
+  "date": "2024-03-01",
+  "capital_vnd": 500000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2024-05-02",
+  "capital_vnd": 20000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2024-05-02",
+  "capital_vnd": 20000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2024-05-02",
+  "capital_vnd": 20000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 626
+ },
+ {
+  "split": "holdout",
+  "date": "2024-05-02",
+  "capital_vnd": 50000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2024-05-02",
+  "capital_vnd": 50000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2024-05-02",
+  "capital_vnd": 50000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 626
+ },
+ {
+  "split": "holdout",
+  "date": "2024-05-02",
+  "capital_vnd": 100000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2024-05-02",
+  "capital_vnd": 100000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2024-05-02",
+  "capital_vnd": 100000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 616
+ },
+ {
+  "split": "holdout",
+  "date": "2024-05-02",
+  "capital_vnd": 200000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2024-05-02",
+  "capital_vnd": 200000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2024-05-02",
+  "capital_vnd": 200000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 621
+ },
+ {
+  "split": "holdout",
+  "date": "2024-05-02",
+  "capital_vnd": 500000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2024-05-02",
+  "capital_vnd": 500000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 611
+ },
+ {
+  "split": "holdout",
+  "date": "2024-05-02",
+  "capital_vnd": 500000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 616
+ },
+ {
+  "split": "holdout",
+  "date": "2024-06-03",
+  "capital_vnd": 20000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2024-06-03",
+  "capital_vnd": 20000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 626
+ },
+ {
+  "split": "holdout",
+  "date": "2024-06-03",
+  "capital_vnd": 20000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2024-06-03",
+  "capital_vnd": 50000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ },
+ {
+  "split": "holdout",
+  "date": "2024-06-03",
+  "capital_vnd": 50000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2024-06-03",
+  "capital_vnd": 50000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 626
+ },
+ {
+  "split": "holdout",
+  "date": "2024-06-03",
+  "capital_vnd": 100000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2024-06-03",
+  "capital_vnd": 100000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2024-06-03",
+  "capital_vnd": 100000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 621
+ },
+ {
+  "split": "holdout",
+  "date": "2024-06-03",
+  "capital_vnd": 200000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 611
+ },
+ {
+  "split": "holdout",
+  "date": "2024-06-03",
+  "capital_vnd": 200000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 616
+ },
+ {
+  "split": "holdout",
+  "date": "2024-06-03",
+  "capital_vnd": 200000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 621
+ },
+ {
+  "split": "holdout",
+  "date": "2024-06-03",
+  "capital_vnd": 500000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2024-06-03",
+  "capital_vnd": 500000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2024-06-03",
+  "capital_vnd": 500000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 607
+ },
+ {
+  "split": "holdout",
+  "date": "2024-08-01",
+  "capital_vnd": 20000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2024-08-01",
+  "capital_vnd": 20000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 626
+ },
+ {
+  "split": "holdout",
+  "date": "2024-08-01",
+  "capital_vnd": 20000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2024-08-01",
+  "capital_vnd": 50000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2024-08-01",
+  "capital_vnd": 50000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ },
+ {
+  "split": "holdout",
+  "date": "2024-08-01",
+  "capital_vnd": 50000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ },
+ {
+  "split": "holdout",
+  "date": "2024-08-01",
+  "capital_vnd": 100000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2024-08-01",
+  "capital_vnd": 100000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2024-08-01",
+  "capital_vnd": 100000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 616
+ },
+ {
+  "split": "holdout",
+  "date": "2024-08-01",
+  "capital_vnd": 200000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2024-08-01",
+  "capital_vnd": 200000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 616
+ },
+ {
+  "split": "holdout",
+  "date": "2024-08-01",
+  "capital_vnd": 200000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 621
+ },
+ {
+  "split": "holdout",
+  "date": "2024-08-01",
+  "capital_vnd": 500000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 621
+ },
+ {
+  "split": "holdout",
+  "date": "2024-08-01",
+  "capital_vnd": 500000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 607
+ },
+ {
+  "split": "holdout",
+  "date": "2024-08-01",
+  "capital_vnd": 500000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2024-09-04",
+  "capital_vnd": 20000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2024-09-04",
+  "capital_vnd": 20000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2024-09-04",
+  "capital_vnd": 20000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2024-09-04",
+  "capital_vnd": 50000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ },
+ {
+  "split": "holdout",
+  "date": "2024-09-04",
+  "capital_vnd": 50000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ },
+ {
+  "split": "holdout",
+  "date": "2024-09-04",
+  "capital_vnd": 50000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ },
+ {
+  "split": "holdout",
+  "date": "2024-09-04",
+  "capital_vnd": 100000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 607
+ },
+ {
+  "split": "holdout",
+  "date": "2024-09-04",
+  "capital_vnd": 100000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2024-09-04",
+  "capital_vnd": 100000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 616
+ },
+ {
+  "split": "holdout",
+  "date": "2024-09-04",
+  "capital_vnd": 200000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 607
+ },
+ {
+  "split": "holdout",
+  "date": "2024-09-04",
+  "capital_vnd": 200000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2024-09-04",
+  "capital_vnd": 200000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2024-09-04",
+  "capital_vnd": 500000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2024-09-04",
+  "capital_vnd": 500000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 607
+ },
+ {
+  "split": "holdout",
+  "date": "2024-09-04",
+  "capital_vnd": 500000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2024-11-01",
+  "capital_vnd": 20000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2024-11-01",
+  "capital_vnd": 20000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2024-11-01",
+  "capital_vnd": 20000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2024-11-01",
+  "capital_vnd": 50000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ },
+ {
+  "split": "holdout",
+  "date": "2024-11-01",
+  "capital_vnd": 50000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ },
+ {
+  "split": "holdout",
+  "date": "2024-11-01",
+  "capital_vnd": 50000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 626
+ },
+ {
+  "split": "holdout",
+  "date": "2024-11-01",
+  "capital_vnd": 100000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2024-11-01",
+  "capital_vnd": 100000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 616
+ },
+ {
+  "split": "holdout",
+  "date": "2024-11-01",
+  "capital_vnd": 100000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 621
+ },
+ {
+  "split": "holdout",
+  "date": "2024-11-01",
+  "capital_vnd": 200000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2024-11-01",
+  "capital_vnd": 200000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 621
+ },
+ {
+  "split": "holdout",
+  "date": "2024-11-01",
+  "capital_vnd": 200000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2024-11-01",
+  "capital_vnd": 500000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 621
+ },
+ {
+  "split": "holdout",
+  "date": "2024-11-01",
+  "capital_vnd": 500000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 607
+ },
+ {
+  "split": "holdout",
+  "date": "2024-11-01",
+  "capital_vnd": 500000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2024-12-02",
+  "capital_vnd": 20000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2024-12-02",
+  "capital_vnd": 20000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2024-12-02",
+  "capital_vnd": 20000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2024-12-02",
+  "capital_vnd": 50000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ },
+ {
+  "split": "holdout",
+  "date": "2024-12-02",
+  "capital_vnd": 50000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2024-12-02",
+  "capital_vnd": 50000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 626
+ },
+ {
+  "split": "holdout",
+  "date": "2024-12-02",
+  "capital_vnd": 100000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 857
+ },
+ {
+  "split": "holdout",
+  "date": "2024-12-02",
+  "capital_vnd": 100000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 616
+ },
+ {
+  "split": "holdout",
+  "date": "2024-12-02",
+  "capital_vnd": 100000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 621
+ },
+ {
+  "split": "holdout",
+  "date": "2024-12-02",
+  "capital_vnd": 200000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ },
+ {
+  "split": "holdout",
+  "date": "2024-12-02",
+  "capital_vnd": 200000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2024-12-02",
+  "capital_vnd": 200000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2024-12-02",
+  "capital_vnd": 500000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 621
+ },
+ {
+  "split": "holdout",
+  "date": "2024-12-02",
+  "capital_vnd": 500000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 852
+ },
+ {
+  "split": "holdout",
+  "date": "2024-12-02",
+  "capital_vnd": 500000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 607
+ },
+ {
+  "split": "holdout",
+  "date": "2025-02-03",
+  "capital_vnd": 20000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2025-02-03",
+  "capital_vnd": 20000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 626
+ },
+ {
+  "split": "holdout",
+  "date": "2025-02-03",
+  "capital_vnd": 20000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2025-02-03",
+  "capital_vnd": 50000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2025-02-03",
+  "capital_vnd": 50000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2025-02-03",
+  "capital_vnd": 50000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ },
+ {
+  "split": "holdout",
+  "date": "2025-02-03",
+  "capital_vnd": 100000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 607
+ },
+ {
+  "split": "holdout",
+  "date": "2025-02-03",
+  "capital_vnd": 100000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2025-02-03",
+  "capital_vnd": 100000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2025-02-03",
+  "capital_vnd": 200000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2025-02-03",
+  "capital_vnd": 200000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 621
+ },
+ {
+  "split": "holdout",
+  "date": "2025-02-03",
+  "capital_vnd": 200000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 621
+ },
+ {
+  "split": "holdout",
+  "date": "2025-02-03",
+  "capital_vnd": 500000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2025-02-03",
+  "capital_vnd": 500000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 852
+ },
+ {
+  "split": "holdout",
+  "date": "2025-02-03",
+  "capital_vnd": 500000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2025-03-03",
+  "capital_vnd": 20000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2025-03-03",
+  "capital_vnd": 20000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 626
+ },
+ {
+  "split": "holdout",
+  "date": "2025-03-03",
+  "capital_vnd": 20000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2025-03-03",
+  "capital_vnd": 50000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2025-03-03",
+  "capital_vnd": 50000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2025-03-03",
+  "capital_vnd": 50000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 626
+ },
+ {
+  "split": "holdout",
+  "date": "2025-03-03",
+  "capital_vnd": 100000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 607
+ },
+ {
+  "split": "holdout",
+  "date": "2025-03-03",
+  "capital_vnd": 100000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2025-03-03",
+  "capital_vnd": 100000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 616
+ },
+ {
+  "split": "holdout",
+  "date": "2025-03-03",
+  "capital_vnd": 200000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2025-03-03",
+  "capital_vnd": 200000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2025-03-03",
+  "capital_vnd": 200000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 621
+ },
+ {
+  "split": "holdout",
+  "date": "2025-03-03",
+  "capital_vnd": 500000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2025-03-03",
+  "capital_vnd": 500000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ },
+ {
+  "split": "holdout",
+  "date": "2025-03-03",
+  "capital_vnd": 500000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 607
+ },
+ {
+  "split": "holdout",
+  "date": "2025-05-05",
+  "capital_vnd": 20000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2025-05-05",
+  "capital_vnd": 20000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2025-05-05",
+  "capital_vnd": 20000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2025-05-05",
+  "capital_vnd": 50000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2025-05-05",
+  "capital_vnd": 50000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2025-05-05",
+  "capital_vnd": 50000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 626
+ },
+ {
+  "split": "holdout",
+  "date": "2025-05-05",
+  "capital_vnd": 100000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2025-05-05",
+  "capital_vnd": 100000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 616
+ },
+ {
+  "split": "holdout",
+  "date": "2025-05-05",
+  "capital_vnd": 100000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 616
+ },
+ {
+  "split": "holdout",
+  "date": "2025-05-05",
+  "capital_vnd": 200000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2025-05-05",
+  "capital_vnd": 200000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 616
+ },
+ {
+  "split": "holdout",
+  "date": "2025-05-05",
+  "capital_vnd": 200000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2025-05-05",
+  "capital_vnd": 500000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2025-05-05",
+  "capital_vnd": 500000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 607
+ },
+ {
+  "split": "holdout",
+  "date": "2025-05-05",
+  "capital_vnd": 500000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2025-06-02",
+  "capital_vnd": 20000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ },
+ {
+  "split": "holdout",
+  "date": "2025-06-02",
+  "capital_vnd": 20000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2025-06-02",
+  "capital_vnd": 20000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2025-06-02",
+  "capital_vnd": 50000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2025-06-02",
+  "capital_vnd": 50000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2025-06-02",
+  "capital_vnd": 50000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 626
+ },
+ {
+  "split": "holdout",
+  "date": "2025-06-02",
+  "capital_vnd": 100000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2025-06-02",
+  "capital_vnd": 100000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 616
+ },
+ {
+  "split": "holdout",
+  "date": "2025-06-02",
+  "capital_vnd": 100000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 616
+ },
+ {
+  "split": "holdout",
+  "date": "2025-06-02",
+  "capital_vnd": 200000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2025-06-02",
+  "capital_vnd": 200000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2025-06-02",
+  "capital_vnd": 200000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ },
+ {
+  "split": "holdout",
+  "date": "2025-06-02",
+  "capital_vnd": 500000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2025-06-02",
+  "capital_vnd": 500000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2025-06-02",
+  "capital_vnd": 500000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2025-08-01",
+  "capital_vnd": 20000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2025-08-01",
+  "capital_vnd": 20000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2025-08-01",
+  "capital_vnd": 20000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2025-08-01",
+  "capital_vnd": 50000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2025-08-01",
+  "capital_vnd": 50000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2025-08-01",
+  "capital_vnd": 50000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2025-08-01",
+  "capital_vnd": 100000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2025-08-01",
+  "capital_vnd": 100000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2025-08-01",
+  "capital_vnd": 100000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 626
+ },
+ {
+  "split": "holdout",
+  "date": "2025-08-01",
+  "capital_vnd": 200000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2025-08-01",
+  "capital_vnd": 200000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2025-08-01",
+  "capital_vnd": 200000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2025-08-01",
+  "capital_vnd": 500000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2025-08-01",
+  "capital_vnd": 500000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 852
+ },
+ {
+  "split": "holdout",
+  "date": "2025-08-01",
+  "capital_vnd": 500000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2025-09-03",
+  "capital_vnd": 20000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2025-09-03",
+  "capital_vnd": 20000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2025-09-03",
+  "capital_vnd": 20000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2025-09-03",
+  "capital_vnd": 50000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2025-09-03",
+  "capital_vnd": 50000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2025-09-03",
+  "capital_vnd": 50000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 626
+ },
+ {
+  "split": "holdout",
+  "date": "2025-09-03",
+  "capital_vnd": 100000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2025-09-03",
+  "capital_vnd": 100000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2025-09-03",
+  "capital_vnd": 100000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2025-09-03",
+  "capital_vnd": 200000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ },
+ {
+  "split": "holdout",
+  "date": "2025-09-03",
+  "capital_vnd": 200000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2025-09-03",
+  "capital_vnd": 200000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ },
+ {
+  "split": "holdout",
+  "date": "2025-09-03",
+  "capital_vnd": 500000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2025-09-03",
+  "capital_vnd": 500000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 607
+ },
+ {
+  "split": "holdout",
+  "date": "2025-09-03",
+  "capital_vnd": 500000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2025-11-03",
+  "capital_vnd": 20000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2025-11-03",
+  "capital_vnd": 20000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 626
+ },
+ {
+  "split": "holdout",
+  "date": "2025-11-03",
+  "capital_vnd": 20000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2025-11-03",
+  "capital_vnd": 50000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2025-11-03",
+  "capital_vnd": 50000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2025-11-03",
+  "capital_vnd": 50000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 626
+ },
+ {
+  "split": "holdout",
+  "date": "2025-11-03",
+  "capital_vnd": 100000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 607
+ },
+ {
+  "split": "holdout",
+  "date": "2025-11-03",
+  "capital_vnd": 100000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2025-11-03",
+  "capital_vnd": 100000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 857
+ },
+ {
+  "split": "holdout",
+  "date": "2025-11-03",
+  "capital_vnd": 200000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2025-11-03",
+  "capital_vnd": 200000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 616
+ },
+ {
+  "split": "holdout",
+  "date": "2025-11-03",
+  "capital_vnd": 200000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2025-11-03",
+  "capital_vnd": 500000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2025-11-03",
+  "capital_vnd": 500000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 857
+ },
+ {
+  "split": "holdout",
+  "date": "2025-11-03",
+  "capital_vnd": 500000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2025-12-01",
+  "capital_vnd": 20000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2025-12-01",
+  "capital_vnd": 20000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2025-12-01",
+  "capital_vnd": 20000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2025-12-01",
+  "capital_vnd": 50000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ },
+ {
+  "split": "holdout",
+  "date": "2025-12-01",
+  "capital_vnd": 50000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ },
+ {
+  "split": "holdout",
+  "date": "2025-12-01",
+  "capital_vnd": 50000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 626
+ },
+ {
+  "split": "holdout",
+  "date": "2025-12-01",
+  "capital_vnd": 100000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 852
+ },
+ {
+  "split": "holdout",
+  "date": "2025-12-01",
+  "capital_vnd": 100000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 621
+ },
+ {
+  "split": "holdout",
+  "date": "2025-12-01",
+  "capital_vnd": 100000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2025-12-01",
+  "capital_vnd": 200000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 607
+ },
+ {
+  "split": "holdout",
+  "date": "2025-12-01",
+  "capital_vnd": 200000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 621
+ },
+ {
+  "split": "holdout",
+  "date": "2025-12-01",
+  "capital_vnd": 200000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ },
+ {
+  "split": "holdout",
+  "date": "2025-12-01",
+  "capital_vnd": 500000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2025-12-01",
+  "capital_vnd": 500000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 607
+ },
+ {
+  "split": "holdout",
+  "date": "2025-12-01",
+  "capital_vnd": 500000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2026-02-02",
+  "capital_vnd": 20000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2026-02-02",
+  "capital_vnd": 20000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2026-02-02",
+  "capital_vnd": 20000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2026-02-02",
+  "capital_vnd": 50000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ },
+ {
+  "split": "holdout",
+  "date": "2026-02-02",
+  "capital_vnd": 50000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2026-02-02",
+  "capital_vnd": 50000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ },
+ {
+  "split": "holdout",
+  "date": "2026-02-02",
+  "capital_vnd": 100000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 852
+ },
+ {
+  "split": "holdout",
+  "date": "2026-02-02",
+  "capital_vnd": 100000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2026-02-02",
+  "capital_vnd": 100000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2026-02-02",
+  "capital_vnd": 200000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2026-02-02",
+  "capital_vnd": 200000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 621
+ },
+ {
+  "split": "holdout",
+  "date": "2026-02-02",
+  "capital_vnd": 200000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 621
+ },
+ {
+  "split": "holdout",
+  "date": "2026-02-02",
+  "capital_vnd": 500000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 621
+ },
+ {
+  "split": "holdout",
+  "date": "2026-02-02",
+  "capital_vnd": 500000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ },
+ {
+  "split": "holdout",
+  "date": "2026-02-02",
+  "capital_vnd": 500000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ },
+ {
+  "split": "holdout",
+  "date": "2026-03-02",
+  "capital_vnd": 20000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2026-03-02",
+  "capital_vnd": 20000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2026-03-02",
+  "capital_vnd": 20000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2026-03-02",
+  "capital_vnd": 50000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2026-03-02",
+  "capital_vnd": 50000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2026-03-02",
+  "capital_vnd": 50000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ },
+ {
+  "split": "holdout",
+  "date": "2026-03-02",
+  "capital_vnd": 100000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 607
+ },
+ {
+  "split": "holdout",
+  "date": "2026-03-02",
+  "capital_vnd": 100000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2026-03-02",
+  "capital_vnd": 100000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 1032
+ },
+ {
+  "split": "holdout",
+  "date": "2026-03-02",
+  "capital_vnd": 200000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2026-03-02",
+  "capital_vnd": 200000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2026-03-02",
+  "capital_vnd": 200000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ },
+ {
+  "split": "holdout",
+  "date": "2026-03-02",
+  "capital_vnd": 500000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 621
+ },
+ {
+  "split": "holdout",
+  "date": "2026-03-02",
+  "capital_vnd": 500000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 607
+ },
+ {
+  "split": "holdout",
+  "date": "2026-03-02",
+  "capital_vnd": 500000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ },
+ {
+  "split": "holdout",
+  "date": "2026-05-04",
+  "capital_vnd": 20000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2026-05-04",
+  "capital_vnd": 20000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2026-05-04",
+  "capital_vnd": 20000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2026-05-04",
+  "capital_vnd": 50000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ },
+ {
+  "split": "holdout",
+  "date": "2026-05-04",
+  "capital_vnd": 50000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ },
+ {
+  "split": "holdout",
+  "date": "2026-05-04",
+  "capital_vnd": 50000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ },
+ {
+  "split": "holdout",
+  "date": "2026-05-04",
+  "capital_vnd": 100000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 607
+ },
+ {
+  "split": "holdout",
+  "date": "2026-05-04",
+  "capital_vnd": 100000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 616
+ },
+ {
+  "split": "holdout",
+  "date": "2026-05-04",
+  "capital_vnd": 100000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 616
+ },
+ {
+  "split": "holdout",
+  "date": "2026-05-04",
+  "capital_vnd": 200000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 621
+ },
+ {
+  "split": "holdout",
+  "date": "2026-05-04",
+  "capital_vnd": 200000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 621
+ },
+ {
+  "split": "holdout",
+  "date": "2026-05-04",
+  "capital_vnd": 200000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ },
+ {
+  "split": "holdout",
+  "date": "2026-05-04",
+  "capital_vnd": 500000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2026-05-04",
+  "capital_vnd": 500000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2026-05-04",
+  "capital_vnd": 500000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 607
+ },
+ {
+  "split": "holdout",
+  "date": "2026-06-01",
+  "capital_vnd": 20000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2026-06-01",
+  "capital_vnd": 20000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2026-06-01",
+  "capital_vnd": 20000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2026-06-01",
+  "capital_vnd": 50000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ },
+ {
+  "split": "holdout",
+  "date": "2026-06-01",
+  "capital_vnd": 50000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2026-06-01",
+  "capital_vnd": 50000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ },
+ {
+  "split": "holdout",
+  "date": "2026-06-01",
+  "capital_vnd": 100000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 607
+ },
+ {
+  "split": "holdout",
+  "date": "2026-06-01",
+  "capital_vnd": 100000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 616
+ },
+ {
+  "split": "holdout",
+  "date": "2026-06-01",
+  "capital_vnd": 100000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 616
+ },
+ {
+  "split": "holdout",
+  "date": "2026-06-01",
+  "capital_vnd": 200000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ },
+ {
+  "split": "holdout",
+  "date": "2026-06-01",
+  "capital_vnd": 200000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2026-06-01",
+  "capital_vnd": 200000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 857
+ },
+ {
+  "split": "holdout",
+  "date": "2026-06-01",
+  "capital_vnd": 500000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2026-06-01",
+  "capital_vnd": 500000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 612
+ },
+ {
+  "split": "holdout",
+  "date": "2026-06-01",
+  "capital_vnd": 500000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 616
+ },
+ {
+  "split": "holdout",
+  "date": "2026-08-03",
+  "capital_vnd": 20000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2026-08-03",
+  "capital_vnd": 20000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 626
+ },
+ {
+  "split": "holdout",
+  "date": "2026-08-03",
+  "capital_vnd": 20000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2026-08-03",
+  "capital_vnd": 50000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ },
+ {
+  "split": "holdout",
+  "date": "2026-08-03",
+  "capital_vnd": 50000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2026-08-03",
+  "capital_vnd": 50000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ },
+ {
+  "split": "holdout",
+  "date": "2026-08-03",
+  "capital_vnd": 100000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 607
+ },
+ {
+  "split": "holdout",
+  "date": "2026-08-03",
+  "capital_vnd": 100000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2026-08-03",
+  "capital_vnd": 100000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 616
+ },
+ {
+  "split": "holdout",
+  "date": "2026-08-03",
+  "capital_vnd": 200000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 607
+ },
+ {
+  "split": "holdout",
+  "date": "2026-08-03",
+  "capital_vnd": 200000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 621
+ },
+ {
+  "split": "holdout",
+  "date": "2026-08-03",
+  "capital_vnd": 200000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ },
+ {
+  "split": "holdout",
+  "date": "2026-08-03",
+  "capital_vnd": 500000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2026-08-03",
+  "capital_vnd": 500000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2026-08-03",
+  "capital_vnd": 500000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 616
+ },
+ {
+  "split": "holdout",
+  "date": "2026-09-03",
+  "capital_vnd": 20000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2026-09-03",
+  "capital_vnd": 20000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 626
+ },
+ {
+  "split": "holdout",
+  "date": "2026-09-03",
+  "capital_vnd": 20000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 627
+ },
+ {
+  "split": "holdout",
+  "date": "2026-09-03",
+  "capital_vnd": 50000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ },
+ {
+  "split": "holdout",
+  "date": "2026-09-03",
+  "capital_vnd": 50000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2026-09-03",
+  "capital_vnd": 50000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ },
+ {
+  "split": "holdout",
+  "date": "2026-09-03",
+  "capital_vnd": 100000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 607
+ },
+ {
+  "split": "holdout",
+  "date": "2026-09-03",
+  "capital_vnd": 100000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2026-09-03",
+  "capital_vnd": 100000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 626
+ },
+ {
+  "split": "holdout",
+  "date": "2026-09-03",
+  "capital_vnd": 200000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 617
+ },
+ {
+  "split": "holdout",
+  "date": "2026-09-03",
+  "capital_vnd": 200000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 626
+ },
+ {
+  "split": "holdout",
+  "date": "2026-09-03",
+  "capital_vnd": 200000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ },
+ {
+  "split": "holdout",
+  "date": "2026-09-03",
+  "capital_vnd": 500000000.0,
+  "constraint": "bank25",
+  "frozen_schedule": 617,
+  "knn_schedule": 621
+ },
+ {
+  "split": "holdout",
+  "date": "2026-09-03",
+  "capital_vnd": 500000000.0,
+  "constraint": "no_real_estate",
+  "frozen_schedule": 617,
+  "knn_schedule": 866
+ },
+ {
+  "split": "holdout",
+  "date": "2026-09-03",
+  "capital_vnd": 500000000.0,
+  "constraint": "none",
+  "frozen_schedule": 617,
+  "knn_schedule": 622
+ }
+]

@@ -125,4 +125,8 @@ No quantum advantage is claimed: exact enumeration solves every 16-qubit instanc
 
 ## 8. Changes after registration
 
-(none yet)
+- 2026-11-20, k-NN study, reporting fix (no change to data, variants or selection rule): the first analysis run
+  (`20261120-072848-204ca51-knn-study`) evaluated K2 on the selected variant *without* its support fallback,
+  although validation had selected the variant *with* fallback. The rerun reports K2 on the variant exactly as
+  selected and keeps the no-fallback version as a separate row. Added two descriptive comparisons against the
+  per-stratum frozen baseline. Both runs are kept.

@@ -210,7 +210,8 @@ def arms_on(t: Table, cal, tgt, selected: Variant, tau: float, seed: int = 0) ->
         strat[caps[tgt] == c] = frozen_choice(t.S[rows]) if len(rows) else fz
     out["stratum_frozen"] = S_t[np.arange(len(tgt)), strat]
     out["knn_v3"] = realised(t, tgt, knn_choose(t, cal, tgt, V3_VARIANT))
-    out["knn_selected"] = realised(t, tgt, knn_choose(t, cal, tgt, Variant(**(asdict(selected) | {"fallback": False}))))
+    out["knn_selected"] = realised(t, tgt, knn_choose(t, cal, tgt, selected, tau))          # exactly as chosen
+    out["knn_selected_nofb"] = realised(t, tgt, knn_choose(t, cal, tgt, Variant(**(asdict(selected) | {"fallback": False}))))
     out["knn_selected_fb"] = realised(t, tgt, knn_choose(t, cal, tgt, Variant(**(asdict(selected) | {"fallback": True})), tau))
     out["random_grid"] = np.nanmean(S_t, 1)
     rng = np.random.default_rng(seed)
@@ -307,13 +308,15 @@ def run_study(table_dir: Path, run) -> dict:
     # stage 3: holdout, examined once
     res = {}
     for split, tgt in (("holdout", hold), ("v3_test", v3t)):
-        A = arms_on(t, cal, tgt, sel_nofb, tau)
+        A = arms_on(t, cal, tgt, sel, tau)
         pdd = {k: per_date(t, tgt, v) for k, v in A.items()}
         summary = {k: {"mean_success": float(s.mean()), "per_date_sd": float(s.std())} for k, s in pdd.items()}
         tests = {"K2 knn_selected vs frozen": paired(pdd["knn_selected"], pdd["frozen"]),
                  "knn_v3 vs frozen": paired(pdd["knn_v3"], pdd["frozen"], "two-sided"),
                  "K4 knn_selected_fb vs frozen (non-inferiority, margin 0.5pp)": paired(pdd["knn_selected_fb"], pdd["frozen"], "two-sided"),
                  "stratum_frozen vs frozen": paired(pdd["stratum_frozen"], pdd["frozen"], "two-sided"),
+                 "knn_selected vs stratum_frozen": paired(pdd["knn_selected"], pdd["stratum_frozen"], "two-sided"),
+                 "knn_v3 vs stratum_frozen": paired(pdd["knn_v3"], pdd["stratum_frozen"], "two-sided"),
                  "frozen vs best_of_24": paired(pdd["frozen"], pdd["best_of_24"]),
                  "frozen vs random_grid": paired(pdd["frozen"], pdd["random_grid"]),
                  "oracle vs frozen": paired(pdd["oracle"], pdd["frozen"])}
@@ -335,7 +338,7 @@ def run_study(table_dir: Path, run) -> dict:
         k3["persists"] = bool(k3["sizes_positive"] >= 4 and k3["constraints_positive"] == 3)
         # cost: two-qubit gates of the chosen schedules
         cx = {"frozen": float(np.mean(t.cx[tgt, frozen_choice(t.S[cal])])),
-              "knn_selected": float(np.mean(t.cx[tgt, knn_choose(t, cal, tgt, sel_nofb)]))}
+              "knn_selected": float(np.mean(t.cx[tgt, knn_choose(t, cal, tgt, sel, tau)]))}
         sec_per_circuit = float((m.sim_seconds / (~np.isnan(t.S[tgt])).sum(1)).mean())
         res[split] = {"arms": summary, "tests": tests, "K3": k3, "strata": strata, "two_qubit_gates_mean": cx,
                       "seconds_per_circuit_evaluation": sec_per_circuit}
@@ -347,8 +350,10 @@ def run_study(table_dir: Path, run) -> dict:
     run.save("holdout_results.json", res)
     # per-instance choices for the refinement ablation (Modal job): frozen and selected schedule per holdout row
     fz = frozen_choice(t.S[cal])
-    ch = knn_choose(t, cal, hold, sel_nofb)
+    ch = knn_choose(t, cal, hold, sel, tau)
+    ch3 = knn_choose(t, cal, hold, V3_VARIANT)
     plan = [{"split": "holdout", "date": r.date, "capital_vnd": float(r.capital_vnd), "constraint": r.constraint,
-             "frozen_schedule": int(fz), "knn_schedule": int(c)} for r, c in zip(t.meta.iloc[hold].itertuples(), ch)]
+             "frozen_schedule": int(fz), "knn_schedule": int(c), "knn_v3_schedule": int(c3)}
+            for r, c, c3 in zip(t.meta.iloc[hold].itertuples(), ch, ch3)]
     run.save("refine_plan.json", plan)
     return {"diagnosis": diag, "selection": selection, "results": res}

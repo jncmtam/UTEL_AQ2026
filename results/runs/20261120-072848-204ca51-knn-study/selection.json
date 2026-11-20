@@ -1,0 +1,17 @@
+{
+ "selected": {
+  "features": "ext",
+  "scaling": "rank",
+  "distance": "manhattan",
+  "weighting": "inverse",
+  "k": 3,
+  "aggregation": "mean",
+  "fallback": true
+ },
+ "label": "ext/rank/manhattan/inverse/k=3/mean/fallback",
+ "val_success": 0.14891972357096772,
+ "val_frozen": 0.13726470262433094,
+ "support_threshold": 0.6108333333333336,
+ "n_variants": 1620,
+ "n_tied_at_best": 1
+}

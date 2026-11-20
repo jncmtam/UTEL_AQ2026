@@ -1,0 +1,428 @@
+{
+ "holdout": {
+  "arms": {
+   "frozen": {
+    "mean_success": 0.145840900615324,
+    "per_date_sd": 0.03712101513545816
+   },
+   "stratum_frozen": {
+    "mean_success": 0.15345643450411553,
+    "per_date_sd": 0.038526214283834924
+   },
+   "knn_v3": {
+    "mean_success": 0.1563033864026665,
+    "per_date_sd": 0.03739091467765772
+   },
+   "knn_selected": {
+    "mean_success": 0.15360070353436836,
+    "per_date_sd": 0.03612612531743748
+   },
+   "knn_selected_fb": {
+    "mean_success": 0.15344443908137084,
+    "per_date_sd": 0.035479545789914343
+   },
+   "random_grid": {
+    "mean_success": 0.04717324902168613,
+    "per_date_sd": 0.021535949950017
+   },
+   "best_of_24": {
+    "mean_success": 0.10797043625612444,
+    "per_date_sd": 0.031207700738668773
+   },
+   "best_of_108": {
+    "mean_success": 0.13647394826299014,
+    "per_date_sd": 0.03430211386703033
+   },
+   "oracle": {
+    "mean_success": 0.17797477831005712,
+    "per_date_sd": 0.04409867415960326
+   },
+   "warm_start": {
+    "mean_success": 0.021679041450743262,
+    "per_date_sd": 0.01171642874494743
+   }
+  },
+  "tests": {
+   "K2 knn_selected vs frozen": {
+    "n_dates": 22,
+    "mean_a": 0.15360070353436836,
+    "mean_b": 0.145840900615324,
+    "diff_pp": 0.7759802919044337,
+    "ci95_pp": [
+     0.26457606726051547,
+     1.1975824271939655
+    ],
+    "wins": 19,
+    "losses": 3,
+    "wilcoxon_p": 0.0026378631591796875,
+    "alternative": "greater"
+   },
+   "knn_v3 vs frozen": {
+    "n_dates": 22,
+    "mean_a": 0.1563033864026665,
+    "mean_b": 0.145840900615324,
+    "diff_pp": 1.0462485787342521,
+    "ci95_pp": [
+     0.7672308179446987,
+     1.3125900961699006
+    ],
+    "wins": 19,
+    "losses": 3,
+    "wilcoxon_p": 9.059906005859375e-06,
+    "alternative": "two-sided"
+   },
+   "K4 knn_selected_fb vs frozen (non-inferiority, margin 0.5pp)": {
+    "n_dates": 22,
+    "mean_a": 0.15344443908137084,
+    "mean_b": 0.145840900615324,
+    "diff_pp": 0.7603538466046855,
+    "ci95_pp": [
+     0.3742121873169844,
+     1.1117761304658142
+    ],
+    "wins": 20,
+    "losses": 2,
+    "wilcoxon_p": 0.0003046989440917969,
+    "alternative": "two-sided",
+    "non_inferior": true
+   },
+   "stratum_frozen vs frozen": {
+    "n_dates": 22,
+    "mean_a": 0.15345643450411553,
+    "mean_b": 0.145840900615324,
+    "diff_pp": 0.7615533888791547,
+    "ci95_pp": [
+     0.5417594023923757,
+     0.9942404825353265
+    ],
+    "wins": 22,
+    "losses": 0,
+    "wilcoxon_p": 4.76837158203125e-07,
+    "alternative": "two-sided"
+   },
+   "frozen vs best_of_24": {
+    "n_dates": 22,
+    "mean_a": 0.145840900615324,
+    "mean_b": 0.10797043625612444,
+    "diff_pp": 3.7870464359199545,
+    "ci95_pp": [
+     3.4396917051494578,
+     4.184586147100286
+    ],
+    "wins": 22,
+    "losses": 0,
+    "wilcoxon_p": 2.384185791015625e-07,
+    "alternative": "greater"
+   },
+   "frozen vs random_grid": {
+    "n_dates": 22,
+    "mean_a": 0.145840900615324,
+    "mean_b": 0.04717324902168613,
+    "diff_pp": 9.866765159363785,
+    "ci95_pp": [
+     9.146127957745021,
+     10.718717191708564
+    ],
+    "wins": 22,
+    "losses": 0,
+    "wilcoxon_p": 2.384185791015625e-07,
+    "alternative": "greater"
+   },
+   "oracle vs frozen": {
+    "n_dates": 22,
+    "mean_a": 0.17797477831005712,
+    "mean_b": 0.145840900615324,
+    "diff_pp": 3.213387769473311,
+    "ci95_pp": [
+     2.7449579337069903,
+     3.7071533581597302
+    ],
+    "wins": 22,
+    "losses": 0,
+    "wilcoxon_p": 2.384185791015625e-07,
+    "alternative": "greater"
+   }
+  },
+  "K3": {
+   "sizes_positive": 4,
+   "constraints_positive": 3,
+   "persists": true
+  },
+  "strata": [
+   {
+    "by": "capital_vnd",
+    "value": 20000000.0,
+    "knn_selected": 0.08539820478692876,
+    "frozen": 0.056996020848270164,
+    "diff_pp": 2.84021839386586
+   },
+   {
+    "by": "capital_vnd",
+    "value": 50000000.0,
+    "knn_selected": 0.11219710086218337,
+    "frozen": 0.10801703723457953,
+    "diff_pp": 0.41800636276038416
+   },
+   {
+    "by": "capital_vnd",
+    "value": 100000000.0,
+    "knn_selected": 0.25934501683734584,
+    "frozen": 0.2607216699627426,
+    "diff_pp": -0.1376653125396754
+   },
+   {
+    "by": "capital_vnd",
+    "value": 200000000.0,
+    "knn_selected": 0.21706257733008397,
+    "frozen": 0.21001558089064376,
+    "diff_pp": 0.7046996439440206
+   },
+   {
+    "by": "capital_vnd",
+    "value": 500000000.0,
+    "knn_selected": 0.09400061785529971,
+    "frozen": 0.09345419414038396,
+    "diff_pp": 0.05464237149157558
+   },
+   {
+    "by": "constraint",
+    "value": "bank25",
+    "knn_selected": 0.22277845025364515,
+    "frozen": 0.20952889236794528,
+    "diff_pp": 1.324955788569987
+   },
+   {
+    "by": "constraint",
+    "value": "no_real_estate",
+    "knn_selected": 0.1314361889936911,
+    "frozen": 0.12523671958604773,
+    "diff_pp": 0.6199469407643377
+   },
+   {
+    "by": "constraint",
+    "value": "none",
+    "knn_selected": 0.10658747135576879,
+    "frozen": 0.10275708989197897,
+    "diff_pp": 0.383038146378982
+   }
+  ],
+  "two_qubit_gates_mean": {
+   "frozen": 1440.0,
+   "knn_selected": 1410.860606060606
+  },
+  "seconds_per_circuit_evaluation": 0.03720001088905159
+ },
+ "v3_test": {
+  "arms": {
+   "frozen": {
+    "mean_success": 0.13933310141631713,
+    "per_date_sd": 0.03182395287625601
+   },
+   "stratum_frozen": {
+    "mean_success": 0.14812792107307662,
+    "per_date_sd": 0.029473123756786377
+   },
+   "knn_v3": {
+    "mean_success": 0.1523013668334089,
+    "per_date_sd": 0.029279913990115685
+   },
+   "knn_selected": {
+    "mean_success": 0.1469987160356848,
+    "per_date_sd": 0.03221353325779216
+   },
+   "knn_selected_fb": {
+    "mean_success": 0.1449100518274564,
+    "per_date_sd": 0.03308445223970837
+   },
+   "random_grid": {
+    "mean_success": 0.043930601673496834,
+    "per_date_sd": 0.018813995512996548
+   },
+   "best_of_24": {
+    "mean_success": 0.10435900529575996,
+    "per_date_sd": 0.028186406491264956
+   },
+   "best_of_108": {
+    "mean_success": 0.1315516330392303,
+    "per_date_sd": 0.030987247086067756
+   },
+   "oracle": {
+    "mean_success": 0.1715351336774701,
+    "per_date_sd": 0.03340587221474287
+   },
+   "warm_start": {
+    "mean_success": 0.02118942699054159,
+    "per_date_sd": 0.010787590565112234
+   }
+  },
+  "tests": {
+   "K2 knn_selected vs frozen": {
+    "n_dates": 12,
+    "mean_a": 0.1469987160356848,
+    "mean_b": 0.13933310141631713,
+    "diff_pp": 0.7665614619367659,
+    "ci95_pp": [
+     0.3898484761707041,
+     1.1387312312314555
+    ],
+    "wins": 10,
+    "losses": 2,
+    "wilcoxon_p": 0.001220703125,
+    "alternative": "greater"
+   },
+   "knn_v3 vs frozen": {
+    "n_dates": 12,
+    "mean_a": 0.1523013668334089,
+    "mean_b": 0.13933310141631713,
+    "diff_pp": 1.2968265417091764,
+    "ci95_pp": [
+     0.9586092158928696,
+     1.657561051477487
+    ],
+    "wins": 12,
+    "losses": 0,
+    "wilcoxon_p": 0.00048828125,
+    "alternative": "two-sided"
+   },
+   "K4 knn_selected_fb vs frozen (non-inferiority, margin 0.5pp)": {
+    "n_dates": 12,
+    "mean_a": 0.1449100518274564,
+    "mean_b": 0.13933310141631713,
+    "diff_pp": 0.5576950411139272,
+    "ci95_pp": [
+     0.06776567780586108,
+     1.0398168728692723
+    ],
+    "wins": 9,
+    "losses": 3,
+    "wilcoxon_p": 0.06396484375,
+    "alternative": "two-sided",
+    "non_inferior": true
+   },
+   "stratum_frozen vs frozen": {
+    "n_dates": 12,
+    "mean_a": 0.14812792107307662,
+    "mean_b": 0.13933310141631713,
+    "diff_pp": 0.8794819656759495,
+    "ci95_pp": [
+     0.5173044035780335,
+     1.264107594732195
+    ],
+    "wins": 11,
+    "losses": 1,
+    "wilcoxon_p": 0.00146484375,
+    "alternative": "two-sided"
+   },
+   "frozen vs best_of_24": {
+    "n_dates": 12,
+    "mean_a": 0.13933310141631713,
+    "mean_b": 0.10435900529575996,
+    "diff_pp": 3.497409612055717,
+    "ci95_pp": [
+     3.2127476544388425,
+     3.784001353493506
+    ],
+    "wins": 12,
+    "losses": 0,
+    "wilcoxon_p": 0.000244140625,
+    "alternative": "greater"
+   },
+   "frozen vs random_grid": {
+    "n_dates": 12,
+    "mean_a": 0.13933310141631713,
+    "mean_b": 0.043930601673496834,
+    "diff_pp": 9.540249974282029,
+    "ci95_pp": [
+     8.645047207676791,
+     10.483094387628244
+    ],
+    "wins": 12,
+    "losses": 0,
+    "wilcoxon_p": 0.000244140625,
+    "alternative": "greater"
+   },
+   "oracle vs frozen": {
+    "n_dates": 12,
+    "mean_a": 0.1715351336774701,
+    "mean_b": 0.13933310141631713,
+    "diff_pp": 3.220203226115295,
+    "ci95_pp": [
+     2.7912531117904607,
+     3.85792596797061
+    ],
+    "wins": 12,
+    "losses": 0,
+    "wilcoxon_p": 0.000244140625,
+    "alternative": "greater"
+   }
+  },
+  "K3": {
+   "sizes_positive": 5,
+   "constraints_positive": 3,
+   "persists": true
+  },
+  "strata": [
+   {
+    "by": "capital_vnd",
+    "value": 20000000.0,
+    "knn_selected": 0.07060900860879984,
+    "frozen": 0.04650049936026335,
+    "diff_pp": 2.4108509248536496
+   },
+   {
+    "by": "capital_vnd",
+    "value": 50000000.0,
+    "knn_selected": 0.12285821518809016,
+    "frozen": 0.11673595607539433,
+    "diff_pp": 0.6122259112695829
+   },
+   {
+    "by": "capital_vnd",
+    "value": 100000000.0,
+    "knn_selected": 0.23821235489514136,
+    "frozen": 0.23569077677610847,
+    "diff_pp": 0.2521578119032891
+   },
+   {
+    "by": "capital_vnd",
+    "value": 200000000.0,
+    "knn_selected": 0.21368009434728366,
+    "frozen": 0.2121713037356838,
+    "diff_pp": 0.1508790611599864
+   },
+   {
+    "by": "capital_vnd",
+    "value": 500000000.0,
+    "knn_selected": 0.08963390713910889,
+    "frozen": 0.08556697113413571,
+    "diff_pp": 0.4066936004973182
+   },
+   {
+    "by": "constraint",
+    "value": "bank25",
+    "knn_selected": 0.20122117926633412,
+    "frozen": 0.19698432017539744,
+    "diff_pp": 0.42368590909366843
+   },
+   {
+    "by": "constraint",
+    "value": "no_real_estate",
+    "knn_selected": 0.1288695159143875,
+    "frozen": 0.11943524537030802,
+    "diff_pp": 0.9434270544079484
+   },
+   {
+    "by": "constraint",
+    "value": "none",
+    "knn_selected": 0.11090545292633275,
+    "frozen": 0.1015797387032459,
+    "diff_pp": 0.9325714223086854
+   }
+  ],
+  "two_qubit_gates_mean": {
+   "frozen": 1440.0,
+   "knn_selected": 1424.2666666666667
+  },
+  "seconds_per_circuit_evaluation": 0.03804890651895543
+ }
+}
