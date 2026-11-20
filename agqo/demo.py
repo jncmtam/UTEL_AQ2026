@@ -257,7 +257,9 @@ class Demo:
                 "market": self._market(mi), "stocks": self._stocks(inst), "register": [],
                 "quantum": {"ran": False, "qubits": int(n),
                             "reason": f"only {n} lot decision(s) remain after the rules; exact search over "
-                                      f"{2 ** n} choice(s) decides directly, no circuit is run"},
+                                      f"{2 ** n} choice(s) decides directly, no circuit is run",
+                            "reason_vi": f"sau khi áp quy tắc chỉ còn {n} quyết định lô; tìm kiếm chính xác trên "
+                                         f"{2 ** n} lựa chọn quyết định ngay, không cần chạy mạch"},
                 "hamiltonian": None, "ai": None, "circuit": None,
                 "result": {"found_exact_optimum": True, "states_total": int(2 ** n),
                            "states_affordable": int(land.feasible.sum())},

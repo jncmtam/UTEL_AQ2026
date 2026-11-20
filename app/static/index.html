@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/static/vendor/katex.min.css">
-<link rel="stylesheet" href="/static/style.css?v=5">
+<link rel="stylesheet" href="/static/style.css?v=7">
 <script src="/static/vendor/echarts.min.js"></script>
 <script src="/static/vendor/katex.min.js"></script>
 </head>
@@ -37,7 +37,7 @@
       <div class="kpi"><div class="v"><span data-count="35" data-dec="0">0</span>/35</div><div class="l">yêu cầu tiếng Việt được LLM dịch đúng (từ khóa: 68,6%)</div></div>
       <div class="kpi"><div class="v"><span data-count="0" data-dec="0">0</span></div><div class="l">vi phạm quy tắc cá nhân trong 12 quý kiểm định</div></div>
     </div>
-    <a class="cta" href="#try">Chạy thử một quyết định thật ↓</a>
+    <a class="cta" href="#try">Chạy thử một quyết định thật trên Modal ↓</a>
   </div>
 </section>
 
@@ -62,93 +62,114 @@
 
 <!-- ============ 2. try it ============ -->
 <section id="try" class="sec">
-  <div class="sec-head reveal"><span class="num">02</span><div><h2>Thử ngay: một quyết định thật, chạy trực tiếp</h2>
-    <p>Nhập số vốn và yêu cầu của bạn. Hệ thống chạy toàn bộ quy trình trên dữ liệu thị trường mới nhất, từng bước hiện ra bên dưới.</p></div></div>
+  <div class="sec-head reveal"><span class="num">02</span><div><h2>Thử ngay: chọn mẫu hoặc nhập yêu cầu, xem lại ràng buộc, rồi chạy</h2>
+    <p>Mỗi lần bấm <b>Chạy</b> là một job thật trên Modal: kiểm tra khả thi, dựng bài toán lô chẵn, mô phỏng mạch QAOA, liệt kê toàn bộ tổ hợp lô để kiểm chứng, rồi trả về lệnh, phí và kết quả kiểm tra quy tắc.</p></div></div>
 
   <div class="card form reveal">
+    <h4 class="step-h"><i>1</i> Chọn một mẫu <span class="muted">(điền sẵn các ô bên dưới; bạn vẫn sửa được)</span></h4>
+    <div class="presets" id="presets"></div>
+  </div>
+
+  <div class="card form reveal">
+    <h4 class="step-h"><i>2</i> Hoặc mô tả yêu cầu bằng tiếng Việt <span class="muted">(AI điền các ô, bạn xem lại trước khi chạy)</span></h4>
     <div class="form-row">
-      <div class="field small"><label>Số vốn (triệu đồng)</label><input id="capital" type="number" value="20" min="5" max="2000"></div>
-      <div class="field grow"><label>Yêu cầu của bạn (tiếng Việt, có thể bỏ trống)</label>
-        <textarea id="instr" rows="2" placeholder="Ví dụ: Không mua VIC, VHM; ngân hàng tối đa 30%; giữ 5% tiền mặt"></textarea></div>
+      <div class="field grow"><textarea id="instr" rows="2" placeholder="Ví dụ: Không mua VIC, VHM; ngân hàng tối đa 30%; giữ 5% tiền mặt"></textarea></div>
+      <div class="field parse-col"><button id="parseBtn" class="btn ghost">Diễn giải thành ràng buộc</button>
+        <label class="toggle"><input type="checkbox" id="liveLLM" checked> Gọi Qwen3.8 trên GPU Modal</label></div>
     </div>
     <div class="chips" id="examples"></div>
-    <div class="form-row end">
-      <label class="toggle"><input type="checkbox" id="liveLLM" checked> Gọi Qwen3.8 trực tiếp trên GPU (nếu GPU đang nghỉ: khởi động ≈ 6 phút)</label>
-      <button id="runBtn" class="btn">▶ Chạy AGQO</button>
-    </div>
+    <div id="mandateSource" class="muted"></div>
+    <div id="clarify"></div>
+    <div id="llmLive"></div>
   </div>
 
-  <!-- pipeline stepper -->
-  <div class="stepper reveal" id="stepper">
-    <div class="step" data-s="1"><i>①</i><span>AI đọc yêu cầu</span></div>
-    <div class="step" data-s="2"><i>②</i><span>AI đọc thị trường</span></div>
-    <div class="step" data-s="3"><i>③</i><span>Tài chính → Hamiltonian</span></div>
-    <div class="step" data-s="4"><i>④</i><span>AI thiết kế mạch</span></div>
-    <div class="step" data-s="5"><i>⑤</i><span>QAOA lấy mẫu</span></div>
-    <div class="step" data-s="6"><i>⑥</i><span>Kiểm chứng chính xác</span></div>
-    <div class="step" data-s="7"><i>⑦</i><span>Lệnh giao dịch</span></div>
+  <div class="card form reveal" id="constraintCard">
+    <h4 class="step-h"><i>3</i> Xem lại và chỉnh ràng buộc</h4>
+    <div class="src-legend"><span class="src user">Bạn nhập</span><span class="src preset">Từ mẫu</span><span class="src text">Từ câu lệnh</span><span class="src unset">Chưa đặt</span></div>
+    <div class="cgrid">
+      <div class="cfield"><label>Số vốn (triệu đồng) <span class="src" id="src-capital"></span></label>
+        <input id="capital" type="number" value="20" min="5" max="2000" step="1"></div>
+      <div class="cfield"><label>Mỗi mã tối đa (% tài khoản) <span class="src" id="src-max_weight_per_stock"></span></label>
+        <input id="maxW" type="number" min="0.1" max="100" step="0.5" placeholder="không giới hạn"></div>
+      <div class="cfield"><label>Tối đa số mã nắm giữ <span class="src" id="src-max_holdings"></span></label>
+        <input id="maxH" type="number" min="1" max="30" step="1" placeholder="không giới hạn"></div>
+      <div class="cfield"><label>Giữ tiền mặt tối thiểu (%) <span class="src" id="src-min_cash_pct"></span></label>
+        <input id="minCash" type="number" min="0" max="99" step="0.5" placeholder="không đặt (đệm phí ~2%)"></div>
+      <div class="cfield wide"><label>Loại cả ngành <span class="src" id="src-exclude_sectors"></span></label>
+        <div id="secChips" class="chips toggles"></div></div>
+      <div class="cfield wide"><label>Loại mã cụ thể <span class="src" id="src-exclude_tickers"></span></label>
+        <div class="tick-row"><input id="tickIn" list="tickList" placeholder="Gõ mã (VD: VIC) rồi Enter"><datalist id="tickList"></datalist><div id="tickChips" class="chips"></div></div></div>
+      <div class="cfield wide"><label>Trần tỷ trọng ngành <span class="src" id="src-sector_caps"></span></label>
+        <div id="caps"></div><button id="addCap" class="btn tiny ghost" type="button">+ thêm trần ngành</button></div>
+    </div>
+    <p class="fee" id="feeNote"></p>
+    <div id="formErr" class="form-err"></div>
+    <div class="form-row end"><span id="runNote" class="muted"></span><button id="runBtn" class="btn">▶ Chạy trên Modal</button></div>
   </div>
+
+  <div id="job" class="card job hidden"></div>
 
   <div id="out" class="hidden">
-    <!-- 1 mandate -->
-    <div class="panel" id="p1"><div class="ph"><span class="tag ai">AI · LLM</span><h3>① Yêu cầu của bạn thành ràng buộc kiểm tra được</h3></div>
-      <div class="split">
-        <div><div id="mandateChips" class="chips big"></div><div id="mandateSource" class="muted"></div><div id="clarify"></div><div id="llmLive"></div></div>
-        <pre id="mandateJson" class="code"></pre>
+    <div class="panel show" id="p7"><div class="ph"><span class="tag cl">Kết quả</span><h3>Danh mục, lệnh giao dịch và kiểm tra quy tắc</h3><span id="execLabel" class="exec"></span></div>
+      <div id="infeasible"></div>
+      <div id="resultBody">
+        <div class="kpirow" id="resKpis"></div>
+        <div class="split">
+          <div><h4>Lệnh mua</h4><table class="tbl" id="trades"></table></div>
+          <div><h4>Kiểm tra trước khi đặt lệnh <small class="muted">(trên NAV sau phí)</small></h4><ul class="checks" id="checks"></ul>
+            <div id="notes"></div>
+            <div class="actions"><button class="btn ghost" id="explainBtn">✦ Giải thích bằng AI</button><a class="btn ghost" id="qasmBtn" href="#">⤓ Tải mạch OpenQASM</a></div>
+            <div id="explain"></div></div>
+        </div>
+        <h4>So với cách cổ điển</h4>
+        <div id="teBars" class="chart short"></div>
+        <p class="caption" id="cmpCaption">Hình. Sai số bám VN30 dự kiến (năm hoá) của từng cách chọn lô cho cùng tài khoản. Thấp hơn là tốt hơn.</p>
+        <div id="wChart" class="chart tall"></div>
+        <p class="caption">Hình. Tỷ trọng từng mã: lý tưởng (cổ phiếu lẻ), làm tròn lô gần nhất, tham lam và AGQO.</p>
+        <div id="usedRules"></div>
       </div>
-      <p class="caption">LLM chỉ được trả lời theo một lược đồ JSON cố định; mã nguồn kiểm tra từng trường trước khi dùng. LLM không bao giờ đưa ra tỷ trọng hay lệnh.</p>
     </div>
+    <details class="inside-run" id="insideRun"><summary>Bên trong quyết định này: thị trường → Hamiltonian → AI chọn mạch → QAOA → kiểm chứng</summary>
+    <div id="noQuantum" class="muted"></div>
     <!-- 2 market -->
-    <div class="panel" id="p2"><div class="ph"><span class="tag ai">AI · Thống kê</span><h3>② Thị trường hôm nay nói gì</h3></div>
+    <div class="panel show" id="p2"><div class="ph"><span class="tag ai">AI · Thống kê</span><h3>Thị trường hôm nay nói gì</h3></div>
       <div class="kpirow" id="marketKpis"></div>
       <div id="clusters" class="clusters"></div>
       <p class="caption">Các cụm cổ phiếu cùng biến động (tương quan ≥ 0,5). Cổ phiếu cùng cụm thay thế được nhau, nên quyết định mua lô của chúng phụ thuộc nhau: đó chính là các tương tác giữa qubit.</p>
     </div>
     <!-- 3 hamiltonian -->
-    <div class="panel" id="p3"><div class="ph"><span class="tag q">Lượng tử</span><h3>③ Bài toán tài chính trở thành Hamiltonian 16 qubit</h3></div>
+    <div class="panel show" id="p3"><div class="ph"><span class="tag q">Lượng tử</span><h3>Bài toán tài chính trở thành Hamiltonian</h3></div>
       <div class="eq" id="eq"></div>
       <div class="split">
-        <div><div id="jHeat" class="chart sq"></div><p class="caption">Hình. Ma trận tương tác J<sub>ij</sub> giữa 16 qubit (mỗi qubit = “mua thêm 1 lô mã này?”). Đỏ: hai mã thay thế nhau; xanh: bổ sung cho nhau.</p></div>
+        <div><div id="jHeat" class="chart sq"></div><p class="caption">Hình. Ma trận tương tác J<sub>ij</sub> giữa các qubit (mỗi qubit = “mua thêm 1 lô mã này?”). Đỏ: hai mã thay thế nhau; xanh: bổ sung cho nhau.</p></div>
         <div><div id="regChart" class="chart sq"></div><p class="caption">Hình. Mỗi qubit: giá một lô (% vốn) và xác suất “nên mua” từ bài toán nới lỏng liên tục (khởi động ấm).</p></div>
       </div>
     </div>
     <!-- 4 AI design -->
-    <div class="panel" id="p4"><div class="ph"><span class="tag ai">AI · Mô hình học</span><h3>④ AI chọn cấu hình mạch từ dữ liệu</h3></div>
+    <div class="panel show" id="p4"><div class="ph"><span class="tag ai">AI · Mô hình học</span><h3>AI chọn cấu hình mạch từ dữ liệu</h3></div>
       <div class="split">
-        <div><div id="featChart" class="chart"></div><p class="caption">Hình. Năm đặc trưng của bài toán hôm nay (chấm) so với 10 bài toán huấn luyện năm 2023 giống nhất (vạch).</p></div>
+        <div><div id="featChart" class="chart"></div><p class="caption">Hình. Năm đặc trưng của bài toán hôm nay (chấm) so với các bài toán huấn luyện năm 2023 giống nhất (vạch).</p></div>
         <div><div id="schedBox"></div><div class="rules" id="rules"></div></div>
       </div>
     </div>
     <!-- 5 circuit -->
-    <div class="panel" id="p5"><div class="ph"><span class="tag q">Lượng tử</span><h3>⑤ Mạch QAOA được dữ liệu “viết” ra</h3></div>
+    <div class="panel show" id="p5"><div class="ph"><span class="tag q">Lượng tử</span><h3>Mạch QAOA được dữ liệu “viết” ra</h3></div>
       <div class="circuit-wrap"><div id="circuit"></div></div>
-      <p class="caption" id="circCaption">Hình. Mạch QAOA: khởi động ấm R<sub>y</sub>(θ), sau đó p lớp [tương tác ZZ theo J<sub>ij</sub> · trường R<sub>z</sub> theo h<sub>i</sub> · bộ trộn căn chỉnh], cuối cùng đo 512 lần.</p>
+      <p class="caption" id="circCaption"></p>
       <div class="split">
-        <div><div id="rampChart" class="chart short"></div><p class="caption">Hình. Góc của từng lớp: khởi tạo theo dốc tuyến tính (γ tăng, β giảm, giống tôi luyện đoạn nhiệt), sau đó tinh chỉnh ngắn bằng COBYLA.</p></div>
+        <div><div id="rampChart" class="chart short"></div><p class="caption">Hình. Góc của từng lớp: khởi tạo theo dốc tuyến tính (γ tăng, β giảm), sau đó tinh chỉnh ngắn bằng COBYLA.</p></div>
         <div class="kpirow col" id="circKpis"></div>
       </div>
     </div>
     <!-- 6 sampling -->
-    <div class="panel" id="p6"><div class="ph"><span class="tag q">Lượng tử</span><span class="tag cl">Cổ điển</span><h3>⑥ Xác suất dồn về nghiệm tốt và được kiểm chứng chính xác</h3></div>
+    <div class="panel show" id="p6"><div class="ph"><span class="tag q">Lượng tử</span><span class="tag cl">Cổ điển</span><h3>Xác suất dồn về nghiệm tốt và được kiểm chứng chính xác</h3></div>
       <div class="split">
-        <div><div id="massChart" class="chart"></div><p class="caption">Hình. Phân bố 65.536 tổ hợp lô theo khoảng cách tới tối ưu, dưới bốn cách lấy mẫu. Màu xanh lá: tối ưu hoặc trong 5%.</p></div>
-        <div><div id="topStates"></div><p class="caption">Hình. 12 trạng thái có xác suất cao nhất sau mạch. Ô sáng = mua thêm một lô mã đó. ★ = tối ưu chính xác (liệt kê toàn bộ 2<sup>16</sup>).</p></div>
+        <div><div id="massChart" class="chart"></div><p class="caption">Hình. Phân bố mọi tổ hợp lô theo khoảng cách tới tối ưu, dưới các cách lấy mẫu. Xanh lá: tối ưu hoặc trong 5%.</p></div>
+        <div><div id="topStates"></div><p class="caption">Hình. 12 trạng thái có xác suất cao nhất sau mạch. Ô sáng = mua thêm một lô mã đó. ★ = tối ưu chính xác.</p></div>
       </div>
       <div id="verdict" class="verdict"></div>
     </div>
-    <!-- 7 portfolio -->
-    <div class="panel" id="p7"><div class="ph"><span class="tag cl">Kết quả</span><h3>⑦ Danh mục và lệnh giao dịch</h3></div>
-      <div id="teBars" class="chart short"></div>
-      <p class="caption">Hình. Sai số bám VN30 dự kiến (năm hoá) của từng cách chọn lô cho cùng tài khoản. Thấp hơn là tốt hơn.</p>
-      <div id="wChart" class="chart tall"></div>
-      <p class="caption">Hình. Tỷ trọng từng mã: lý tưởng (cổ phiếu lẻ), làm tròn lô gần nhất, tham lam và AGQO.</p>
-      <div class="split">
-        <div><h4>Lệnh mua</h4><table class="tbl" id="trades"></table></div>
-        <div><h4>Kiểm tra trước khi đặt lệnh</h4><ul class="checks" id="checks"></ul>
-          <div class="actions"><button class="btn ghost" id="explainBtn">✦ Giải thích bằng AI</button><a class="btn ghost" id="qasmBtn" href="#">⤓ Tải mạch OpenQASM</a></div>
-          <div id="explain"></div></div>
-      </div>
-    </div>
+    </details>
   </div>
 </section>
 
@@ -213,6 +234,6 @@
 <footer>AGQO · AI–Quantum Challenge 2026 · Dữ liệu: DNSE (giá đã điều chỉnh), thành phần VN30 theo thời điểm · Qwen3.8-27B (mã nguồn mở) trên Modal H100 · Qiskit 2.5 · Mô phỏng statevector chính xác</footer>
 
 <div id="toast" class="toast"></div>
-<script src="/static/app.js?v=5"></script>
+<script src="/static/app.js?v=7"></script>
 </body>
 </html>

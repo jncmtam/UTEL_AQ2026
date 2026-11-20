@@ -18,7 +18,7 @@ const $ = (s) => document.querySelector(s);
 const fmt = (x, d = 1) => Number(x).toLocaleString("vi-VN", { minimumFractionDigits: d, maximumFractionDigits: d });
 const vnd = (x) => Math.round(x).toLocaleString("vi-VN");
 const charts = {};
-let META = null, LAST = null;
+let META = null;
 
 function chart(id) {
   if (charts[id]) charts[id].dispose();
@@ -69,30 +69,7 @@ function lotChart(cap) {
     `<b class="amber">${over10}</b> mã có một lô vượt 10% số vốn${over100 ? `, <b class="down">${over100}</b> mã vượt toàn bộ số vốn` : ""}.`;
 }
 
-/* ---------------- pipeline stepper ---------------- */
-function stepTo(n) { document.querySelectorAll(".step").forEach((s) => { const k = +s.dataset.s; s.classList.toggle("done", k < n); s.classList.toggle("active", k === n); }); }
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-async function showPanel(i) { stepTo(i); const p = $(`#p${i}`); p.classList.add("show"); await sleep(380); }
-
-/* ---------------- 1. mandate ---------------- */
-function mandateChips(m) {
-  const out = [];
-  if (m.exclude_tickers?.length) out.push(`Loại mã: ${m.exclude_tickers.join(", ")}`);
-  if (m.exclude_sectors?.length) out.push(`Loại ngành: ${m.exclude_sectors.map((s) => SECTOR_VI[s] || s).join(", ")}`);
-  for (const [s, c] of Object.entries(m.sector_caps || {})) out.push(`${SECTOR_VI[s] || s} ≤ ${fmt(100 * c, 0)}%`);
-  if (m.max_weight_per_stock != null) out.push(`Mỗi mã ≤ ${fmt(100 * m.max_weight_per_stock, 0)}%`);
-  if (m.max_holdings != null) out.push(`Tối đa ${m.max_holdings} mã`);
-  if (m.min_cash_pct != null) out.push(`Tiền mặt ≥ ${fmt(m.min_cash_pct, 0)}%`);
-  return out;
-}
-function renderMandate(res) {
-  const chips = mandateChips(res.mandate);
-  $("#mandateChips").innerHTML = chips.length ? chips.map((c) => `<span class="chip">${c}</span>`).join("") : `<span class="chip none">Không có ràng buộc: bám VN30 đầy đủ</span>`;
-  const live = res.source.includes("live") || res.source.includes("logged");
-  $("#mandateSource").innerHTML = `Nguồn: <b style="color:${live ? C.ai : C.amber}">${res.source}</b>${res.llm_note ? " · " + res.llm_note : ""}`;
-  $("#mandateJson").textContent = JSON.stringify(res.raw || res.mandate, null, 2);
-  $("#clarify").innerHTML = res.needs_clarification && res.question ? `<div class="bubble">🤖 LLM hỏi lại: “${res.question}”<br><small>Yêu cầu chưa đủ rõ để thành ràng buộc; AGQO chạy với danh mục bám VN30 đầy đủ cho đến khi bạn trả lời.</small></div>` : "";
-}
 
 /* ---------------- 2. market ---------------- */
 function renderMarket(d) {
@@ -136,14 +113,14 @@ function renderAI(d) {
   chart("featChart").setOption({ ...BASE, grid: { left: 160, right: 30, top: 30, bottom: 30 }, legend: LEG,
     tooltip: { ...BASE.tooltip, trigger: "axis" },
     xAxis: { type: "value", name: "độ lệch chuẩn", ...AX }, yAxis: { type: "category", data: names, ...AX, axisLabel: { color: C.text } },
-    series: [{ name: "khoảng của 10 láng giềng", type: "bar", stack: "r", data: lo, itemStyle: { color: "transparent" }, tooltip: { show: false } },
-      { name: "10 bài toán 2023 giống nhất", type: "bar", stack: "r", data: hi.map((h, i) => +(h - lo[i]).toFixed(3)), itemStyle: { color: "rgba(56,189,248,.25)", borderRadius: 4 }, barWidth: 14 },
+    series: [{ name: `khoảng của ${nb.length} láng giềng`, type: "bar", stack: "r", data: lo, itemStyle: { color: "transparent" }, tooltip: { show: false } },
+      { name: `${nb.length} bài toán 2023 giống nhất`, type: "bar", stack: "r", data: hi.map((h, i) => +(h - lo[i]).toFixed(3)), itemStyle: { color: "rgba(56,189,248,.25)", borderRadius: 4 }, barWidth: 14 },
       { name: "bài toán hôm nay", type: "scatter", data: a.features_z, symbolSize: 16, itemStyle: { color: C.accent, borderColor: "#000" } }] });
   const s = a.schedule;
   $("#schedBox").innerHTML = `<div class="sched">
     <div><b>${s.layers}</b><small>số lớp p</small></div><div><b>${s.epsilon}</b><small>ε khởi động ấm</small></div>
     <div><b>${fmt(100 * s.coupling_mass, 0)}%</b><small>khối lượng J giữ lại</small></div><div><b>${s.dgamma}</b><small>Δγ dốc</small></div><div><b>${s.dbeta}</b><small>Δβ dốc</small></div></div>
-    <div class="nbrs">Mô hình k-NN (k = ${a.k}, chọn bằng kiểm định chéo) tìm 10 bài toán năm 2023 giống nhất rồi chọn lịch tốt nhất trên chúng, trong ${vnd(a.schedules_considered)} lịch đã chấm điểm. ` +
+    <div class="nbrs">Mô hình k-NN (k = ${a.k}, chọn bằng kiểm định chéo) tìm ${a.neighbours.length} bài toán năm 2023 giống nhất rồi chọn lịch tốt nhất trên chúng, trong ${vnd(a.schedules_considered)} lịch đã chấm điểm. ` +
     `Láng giềng: ${a.neighbours.slice(0, 6).map((n) => `${n.date.slice(0, 7)} (${fmt(n.capital_vnd / 1e6, 0)}tr)`).join(", ")}…${a.polish ? " Sau đó tinh chỉnh ngắn bằng COBYLA trên CVaR." : ""}</div>`;
   $("#rules").innerHTML = [
     `R1 · Khởi động ấm: mỗi qubit bắt đầu ở xác suất “nên mua” của nghiệm nới lỏng (kẹp trong [${s.epsilon}, ${1 - s.epsilon}]).`,
@@ -215,30 +192,290 @@ function renderSampling(d) {
     (r.found_exact_optimum ? `<b class="up">chính là tối ưu chính xác</b>.` : `cách tối ưu ${fmt(r.best_sample_gap_pct, 2)}%.`);
 }
 
-/* ---------------- 7. portfolio + trades ---------------- */
-function renderPortfolio(d) {
+/* ================= V3.2: structured constraints, presets, Modal jobs ================= */
+const FIELDS = ["capital", "exclude_sectors", "exclude_tickers", "sector_caps", "max_weight_per_stock", "max_holdings", "min_cash_pct"];
+const SRC_VI = { user: "Bạn nhập", preset: "Từ mẫu", text: "Từ câu lệnh", unset: "Chưa đặt" };
+const DEFAULT_VI = { exclude_sectors: "không loại ngành nào", exclude_tickers: "không loại mã nào", sector_caps: "không có trần ngành",
+  max_weight_per_stock: "không giới hạn", max_holdings: "giữ bao nhiêu mã cũng được", min_cash_pct: "không đặt; giữ khoảng 2% làm đệm phí" };
+const STAGE_VI = { queued: "Đang xếp hàng trên Modal", started: "Container Modal đã khởi động", load: "Nạp dữ liệu VN30 và mô hình",
+  feasibility: "Kiểm tra yêu cầu có khả thi không", build_qubo: "Dựng bài toán chọn lô (QUBO)", enumerate: "Liệt kê toàn bộ tổ hợp lô để kiểm chứng",
+  baselines: "Tính các cách cổ điển để so sánh", schedule: "AI (k-NN) chọn lịch cho mạch", qaoa: "Mô phỏng mạch QAOA, đo 512 lần",
+  textbook: "Chạy QAOA sách giáo khoa để so sánh", verify: "Kiểm tra mọi quy tắc trên NAV sau phí", evidence: "Chuẩn bị bằng chứng cho lời giải thích",
+  done: "Xong" };
+const STAGES = ["queued", "started", "load", "feasibility", "build_qubo", "enumerate", "baselines", "schedule", "qaoa", "textbook", "verify", "evidence", "done"];
+let FORM = { capital: 20, exclude_sectors: [], exclude_tickers: [], sector_caps: {}, max_weight_per_stock: null, max_holdings: null, min_cash_pct: null };
+let SRC = Object.fromEntries(FIELDS.map((f) => [f, f === "capital" ? "user" : "unset"]));
+let PRESET = null, PENDING = null, LAST_RUN = null, LAST_BODY = null;
+
+function isSet(f, v) { return Array.isArray(v) ? v.length > 0 : (v && typeof v === "object") ? Object.keys(v).length > 0 : v != null && v !== ""; }
+function mandateOf() {
+  return { exclude_tickers: FORM.exclude_tickers, exclude_sectors: FORM.exclude_sectors, sector_caps: FORM.sector_caps,
+    max_weight_per_stock: FORM.max_weight_per_stock, max_holdings: FORM.max_holdings, min_cash_pct: FORM.min_cash_pct };
+}
+function applyMandate(m, src, capital) {
+  FORM = { capital: capital ?? FORM.capital, exclude_sectors: [...(m.exclude_sectors || [])], exclude_tickers: [...(m.exclude_tickers || [])],
+    sector_caps: { ...(m.sector_caps || {}) }, max_weight_per_stock: m.max_weight_per_stock ?? null, max_holdings: m.max_holdings ?? null, min_cash_pct: m.min_cash_pct ?? null };
+  for (const f of FIELDS) if (f !== "capital") SRC[f] = isSet(f, FORM[f]) ? src : "unset";
+  if (capital != null) SRC.capital = src;
+  renderForm();
+}
+function touch(f) { SRC[f] = isSet(f, FORM[f]) || f === "capital" ? "user" : "unset"; PRESET = null; markPreset(); renderSrc(); validateForm(); }
+function renderSrc() {
+  for (const f of FIELDS) {
+    const el = $(`#src-${f}`); if (!el) continue;
+    el.className = `src ${SRC[f]}`;
+    el.textContent = SRC[f] === "unset" ? `Chưa đặt · ${DEFAULT_VI[f]}` : SRC_VI[SRC[f]];
+  }
+}
+function renderForm() {
+  $("#capital").value = FORM.capital;
+  $("#maxW").value = FORM.max_weight_per_stock != null ? +(100 * FORM.max_weight_per_stock).toFixed(2) : "";
+  $("#maxH").value = FORM.max_holdings ?? "";
+  $("#minCash").value = FORM.min_cash_pct ?? "";
+  $("#secChips").innerHTML = META.sectors.map((s) => `<span class="chip tog ${FORM.exclude_sectors.includes(s.en) ? "on" : ""}" data-s="${s.en}">${s.vi}</span>`).join("");
+  document.querySelectorAll("#secChips .chip").forEach((c) => c.onclick = () => {
+    const s = c.dataset.s; FORM.exclude_sectors = FORM.exclude_sectors.includes(s) ? FORM.exclude_sectors.filter((x) => x !== s) : [...FORM.exclude_sectors, s].sort();
+    c.classList.toggle("on"); touch("exclude_sectors"); });
+  $("#tickChips").innerHTML = FORM.exclude_tickers.map((t) => `<span class="chip rm" data-t="${t}">${t} ✕</span>`).join("");
+  document.querySelectorAll("#tickChips .chip").forEach((c) => c.onclick = () => { FORM.exclude_tickers = FORM.exclude_tickers.filter((x) => x !== c.dataset.t); renderForm(); touch("exclude_tickers"); });
+  $("#caps").innerHTML = Object.entries(FORM.sector_caps).map(([s, v]) => `<div class="cap-row" data-s="${s}"><select>${META.sectors.map((x) => `<option value="${x.en}" ${x.en === s ? "selected" : ""}>${x.vi}</option>`).join("")}</select>` +
+    `<span>tối đa</span><input type="number" min="0.5" max="100" step="0.5" value="${+(100 * v).toFixed(2)}"><span>%</span><button class="btn tiny ghost" type="button">✕</button></div>`).join("");
+  document.querySelectorAll("#caps .cap-row").forEach((row) => {
+    const old = row.dataset.s, sel = row.querySelector("select"), inp = row.querySelector("input");
+    const upd = () => { const caps = { ...FORM.sector_caps }; delete caps[old]; const v = parseFloat(inp.value); if (isFinite(v)) caps[sel.value] = v / 100; FORM.sector_caps = caps; renderForm(); touch("sector_caps"); };
+    sel.onchange = upd; inp.onchange = upd;
+    row.querySelector("button").onclick = () => { const caps = { ...FORM.sector_caps }; delete caps[old]; FORM.sector_caps = caps; renderForm(); touch("sector_caps"); };
+  });
+  renderSrc(); validateForm();
+}
+function validateForm() {
+  const errs = [];
+  if (!(FORM.capital >= 5 && FORM.capital <= 2000)) errs.push("Số vốn phải từ 5 đến 2.000 triệu đồng.");
+  if (FORM.max_weight_per_stock != null && !(FORM.max_weight_per_stock > 0 && FORM.max_weight_per_stock <= 1)) errs.push("“Mỗi mã tối đa” phải trong (0, 100]%.");
+  if (FORM.max_holdings != null && !(Number.isInteger(FORM.max_holdings) && FORM.max_holdings >= 1 && FORM.max_holdings <= 30)) errs.push("“Tối đa số mã” là số nguyên từ 1 đến 30.");
+  if (FORM.min_cash_pct != null && !(FORM.min_cash_pct >= 0 && FORM.min_cash_pct < 100)) errs.push("Tiền mặt tối thiểu phải trong [0, 100)%.");
+  for (const [s, v] of Object.entries(FORM.sector_caps)) if (!(v > 0 && v <= 1)) errs.push(`Trần ngành ${SECTOR_VI[s] || s} phải trong (0, 100]%.`);
+  for (const s of FORM.exclude_sectors) if (s in FORM.sector_caps) errs.push(`Ngành ${SECTOR_VI[s]} vừa bị loại vừa có trần: khi chạy, quy tắc loại được áp dụng.`);
+  $("#formErr").innerHTML = errs.map((e) => `<div>${e}</div>`).join("");
+  const blocking = errs.filter((e) => !e.includes("quy tắc loại được áp dụng")).length;
+  $("#runBtn").disabled = !!PENDING || blocking > 0;
+  $("#runNote").innerHTML = PENDING ? `<b class="amber">Hãy trả lời câu hỏi làm rõ ở bước 2</b> (hoặc chọn bỏ qua) trước khi chạy.` : "";
+  return blocking === 0;
+}
+function bindForm() {
+  const num = (id, f, scale = 1, int = false) => $(id).onchange = (e) => {
+    const v = e.target.value === "" ? null : (int ? parseInt(e.target.value, 10) : parseFloat(e.target.value) / scale);
+    FORM[f] = v; touch(f); };
+  $("#capital").onchange = (e) => { FORM.capital = parseFloat(e.target.value); touch("capital"); };
+  num("#maxW", "max_weight_per_stock", 100); num("#maxH", "max_holdings", 1, true); num("#minCash", "min_cash_pct");
+  $("#tickList").innerHTML = Object.keys(SECTOR_OF).sort().map((t) => `<option value="${t}">${SECTOR_VI[SECTOR_OF[t]] || ""}</option>`).join("");
+  $("#tickIn").onkeydown = (e) => { if (e.key !== "Enter") return; e.preventDefault();
+    const t = e.target.value.trim().toUpperCase(); if (!SECTOR_OF[t]) { toast(`Không có mã ${t} trong dữ liệu VN30`); return; }
+    if (!FORM.exclude_tickers.includes(t)) FORM.exclude_tickers = [...FORM.exclude_tickers, t].sort();
+    e.target.value = ""; renderForm(); touch("exclude_tickers"); };
+  $("#addCap").onclick = () => { const free = META.sectors.find((s) => !(s.en in FORM.sector_caps)); if (!free) return;
+    FORM.sector_caps = { ...FORM.sector_caps, [free.en]: 0.3 }; renderForm(); touch("sector_caps"); };
+  const f = META.fees;
+  $("#feeNote").innerHTML = `Phí: mua ${fmt(f.commission_pct, 2)}% giá trị khớp; bán ${fmt(f.commission_pct, 2)}% + thuế ${fmt(f.sell_tax_pct, 1)}%. Lô = ${f.lot_size} cổ phiếu. ` +
+    `Mọi giới hạn được kiểm tra trên <b>NAV sau phí</b> = tiền mặt còn lại sau khi trả phí + giá trị cổ phiếu vừa mua. Vì phí làm NAV nhỏ đi một chút, ` +
+    `một danh mục “vừa đúng 25%” tính trên vốn ban đầu có thể vượt 25% sau phí; AGQO chừa sẵn biên cho phí để điều này không xảy ra.`;
+}
+
+/* ---------------- presets ---------------- */
+const EXPECT_VI = { favourable: ["Có lợi", "up"], unfavourable: ["Ít lợi / đánh đổi", "amber"], infeasible: ["Không khả thi", "down"], clarification: ["Cần hỏi lại", "ai"] };
+function renderPresets() {
+  $("#presets").innerHTML = META.presets.map((p) => {
+    const [lab, cls] = EXPECT_VI[p.expect] || ["", ""], m = p.measured || {};
+    const meas = m.status === "ok" && m.te_pct != null ? `Đo trên Modal: sai số bám ${fmt(m.te_pct, 2)}%${m.te_rounding_pct != null ? ` (làm tròn: ${fmt(m.te_rounding_pct, 2)}%)` : ""}`
+      : m.status === "infeasible" ? `Đo trên Modal: không khả thi (${m.blocking || ""})` : m.status === "needs_clarification" ? "Đo: hệ thống hỏi lại, không hiện lệnh" : "";
+    return `<div class="pcard" data-id="${p.id}"><div class="pt"><b>${p.title_vi}</b><span class="badge ${cls}">${lab}</span></div>` +
+      `<p>${p.why_vi}</p><p class="muted">Đánh đổi: ${p.tradeoff_vi}</p>${meas ? `<p class="meas">${meas}</p>` : ""}</div>`;
+  }).join("");
+  document.querySelectorAll(".pcard").forEach((el) => el.onclick = () => choosePreset(el.dataset.id));
+}
+function markPreset() { document.querySelectorAll(".pcard").forEach((el) => el.classList.toggle("on", el.dataset.id === PRESET)); }
+async function choosePreset(id) {
+  const p = META.presets.find((x) => x.id === id);
+  PENDING = null; $("#clarify").innerHTML = ""; $("#llmLive").innerHTML = ""; $("#mandateSource").innerHTML = "";
+  applyMandate(p.mandate, "preset", p.capital_million);
+  PRESET = id; markPreset();
+  if (p.instruction_vi) { $("#instr").value = p.instruction_vi; await parseInstruction(); PRESET = id; markPreset(); }
+  else $("#instr").value = "";
+  $("#constraintCard").scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
+/* ---------------- instruction -> constraints ---------------- */
+function showClarify(question, text) {
+  PENDING = { question, text };
+  $("#clarify").innerHTML = `<div class="bubble ask">🤖 Cần làm rõ: “${question}”<div class="ans"><input id="ansIn" placeholder="Trả lời, VD: tối đa 25%"><button class="btn tiny" id="ansBtn">Gửi trả lời</button>` +
+    `<button class="btn tiny ghost" id="skipBtn">Bỏ qua, không đặt giới hạn này</button></div><small>Chưa có lệnh nào được tạo: AGQO chờ câu trả lời của bạn.</small></div>`;
+  $("#ansBtn").onclick = async () => { const a = $("#ansIn").value.trim(); if (!a) return; $("#instr").value = `${text}. ${a}`; await parseInstruction(); };
+  $("#ansIn").onkeydown = (e) => { if (e.key === "Enter") $("#ansBtn").click(); };
+  $("#skipBtn").onclick = () => { PENDING = null; $("#clarify").innerHTML = `<div class="bubble">Bạn chọn chạy mà không đặt giới hạn cho câu “${text}”.</div>`; validateForm(); };
+  validateForm();
+}
+function showMandateResult(res, text) {
+  const live = res.source.includes("live") || res.source.includes("logged");
+  $("#mandateSource").innerHTML = `Nguồn diễn giải: <b style="color:${live ? C.ai : C.amber}">${res.source}</b>${res.llm_note ? " · " + res.llm_note : ""}` +
+    (res.errors?.length ? ` · <span class="down">câu trả lời bị loại: ${res.errors.join("; ")}</span>` : "");
+  applyMandate(res.mandate, "text");
+  if (res.status === "needs_clarification" && res.question) showClarify(res.question, text);
+  else { PENDING = null; $("#clarify").innerHTML = ""; validateForm(); }
+}
+async function parseInstruction() {
+  const text = $("#instr").value.trim();
+  $("#llmLive").innerHTML = "";
+  if (!text) { toast("Hãy nhập yêu cầu hoặc chọn một mẫu."); return; }
+  const btn = $("#parseBtn"); btn.disabled = true;
+  try {
+    const res = await api("/api/mandate", { text, live: $("#liveLLM").checked });
+    PRESET = null; markPreset();
+    showMandateResult(res, text);
+    if (res.job) liveMandate(res.job, text);
+  } catch (err) { toast("Lỗi diễn giải: " + err.message, 6000); }
+  btn.disabled = false;
+}
+async function liveMandate(job, text) {
+  const box = $("#llmLive");
+  box.innerHTML = `<div class="bubble"><span class="spinner"></span>Đang hiện kết quả quy tắc từ khóa; Qwen3.8 đang đọc yêu cầu trên GPU H100…</div>`;
+  const res = await pollJob(job, (s) => box.innerHTML = `<div class="bubble"><span class="spinner"></span>Qwen3.8 đang đọc yêu cầu (${s} giây${s > 20 ? "; GPU khởi động lần đầu mất khoảng 6 phút" : ""})…</div>`);
+  if ($("#instr").value.trim() !== text) { box.innerHTML = ""; return; }           // the user moved on
+  if (res.status !== "done") { box.innerHTML = `<div class="bubble">Qwen3.8 không phản hồi (${res.error || "lỗi"}); giữ kết quả quy tắc từ khóa.</div>`; return; }
+  box.innerHTML = `<div class="bubble">✔ Qwen3.8 trả lời sau ${res.seconds} giây; các ô bên dưới đã cập nhật. Hãy xem lại rồi bấm Chạy.</div>`;
+  showMandateResult(res, text);
+}
+
+/* ---------------- run on Modal ---------------- */
+function jobBox(html) { const b = $("#job"); b.classList.remove("hidden"); b.innerHTML = html; }
+function progressHtml(st) {
+  const cur = st.stage?.stage || st.status, i = Math.max(0, STAGES.indexOf(cur));
+  const pct = Math.round(100 * (i + 1) / STAGES.length);
+  const where = st.mode === "live_modal" ? `job Modal <code>${st.function_call || ""}</code>${st.stage?.container ? ` · container <code>${st.stage.container}</code>` : ""}` : st.mode;
+  return `<div class="jobrow"><span class="spinner"></span><b>${STAGE_VI[cur] || cur}</b><span class="muted">${fmt(st.seconds || 0, 0)} giây · ${where}</span></div>` +
+    `<div class="bar"><i style="width:${pct}%"></i></div>` +
+    (st.status === "queued" && (st.seconds || 0) > 8 ? `<small class="muted">Container đang khởi động (lần đầu có thể mất 20–60 giây).</small>` : "");
+}
+async function runJob(body) {
+  LAST_BODY = body;
+  const btn = $("#runBtn"); btn.disabled = true; btn.textContent = "Đang chạy…";
+  $("#out").classList.add("hidden");
+  jobBox(progressHtml({ status: "queued", mode: "live_modal", seconds: 0 }));
+  try {
+    const start = await api("/api/run", body);
+    let st = start;
+    const t0 = Date.now();
+    while (st.status !== "done" && st.status !== "failed") {
+      jobBox(progressHtml(st));
+      await sleep(1000);
+      st = await api(`/api/run/${start.id}`);
+      if (Date.now() - t0 > 10 * 60 * 1000) throw new Error("job chạy quá 10 phút");
+    }
+    if (st.status === "failed") throw new Error(st.error || "job thất bại");
+    if (start.status === "done" && !st.result) st = await api(`/api/run/${start.id}`);
+    $("#job").classList.add("hidden");
+    LAST_RUN = { id: start.id, ...st.result, sources: st.sources || body.sources };
+    await showResult(LAST_RUN, st);
+  } catch (err) {
+    jobBox(`<div class="jobrow"><b class="down">Không hoàn tất: ${err.message}</b></div>` +
+      `<p class="muted">Lỗi thường gặp: container Modal đang khởi động, mạng chập chờn, hoặc máy chủ web vừa khởi động lại. Bấm thử lại; ràng buộc của bạn vẫn giữ nguyên.</p>` +
+      `<button class="btn" id="retryBtn">↻ Thử lại</button>`);
+    $("#retryBtn").onclick = () => runJob(LAST_BODY);
+  }
+  btn.textContent = "▶ Chạy trên Modal"; validateForm();
+}
+function runClicked() {
+  if (!validateForm()) return;
+  runJob({ capital_million: FORM.capital, mandate: mandateOf(), sources: { ...SRC }, preset_id: PRESET, clarification_pending: !!PENDING });
+}
+
+/* ---------------- result ---------------- */
+function execLabel(e) {
+  if (!e) return "";
+  if (e.mode === "live_modal") return `<span class="exec live">● Chạy thật trên Modal · container ${e.container || "?"} · ${fmt(e.seconds, 1)} giây</span>`;
+  if (e.mode === "replay") return `<span class="exec replay">↺ Phát lại kết quả Modal đã lưu (run ${e.run_id}) · không tính lại${e.why ? " · lý do: " + e.why : ""}</span>`;
+  return `<span class="exec fallback">⚠ Dự phòng: tính trong máy chủ web, không phải job Modal${e.why ? " · " + e.why : ""}</span>`;
+}
+function checkLabel(c) {
+  const v = (x) => fmt(x, 2) + "%";
+  switch (c.kind) {
+    case "sector_cap": return `Ngành ${SECTOR_VI[c.sector] || c.sector} ≤ ${fmt(c.limit_pct, 1)}% · thực tế ${v(c.value_pct)}`;
+    case "max_weight_per_stock": return `Mã lớn nhất${c.ticker ? ` (${c.ticker})` : ""} ≤ ${fmt(c.limit_pct, 1)}% · thực tế ${v(c.value_pct)}`;
+    case "min_cash_pct": return `Tiền mặt ≥ ${fmt(c.limit_pct, 1)}% · thực tế ${v(c.value_pct)}`;
+    case "max_holdings": return `Tối đa ${c.limit} mã · thực tế ${c.value} mã`;
+    case "exclusions": return `Không giữ mã/ngành bị loại${c.held?.length ? ` · vi phạm: ${c.held.join(", ")}` : ""}`;
+    case "cash": return `Đủ tiền sau phí · tiền mặt còn ${vnd(c.value_vnd)} đ`;
+    default: return c.rule;
+  }
+}
+function usedRules(d) {
+  const m = d.mandate, s = d.sources || {}, rows = [];
+  const add = (f, label, val) => rows.push(`<tr><td>${label}</td><td>${val}</td><td><span class="src ${s[f] || "unset"}">${SRC_VI[s[f] || "unset"]}</span></td></tr>`);
+  add("capital", "Số vốn", `${fmt(d.capital_vnd / 1e6, 0)} triệu đồng`);
+  add("exclude_sectors", "Loại ngành", m.exclude_sectors.length ? m.exclude_sectors.map((x) => SECTOR_VI[x] || x).join(", ") : "—");
+  add("exclude_tickers", "Loại mã", m.exclude_tickers.length ? m.exclude_tickers.join(", ") : "—");
+  add("sector_caps", "Trần ngành", Object.keys(m.sector_caps).length ? Object.entries(m.sector_caps).map(([k, v]) => `${SECTOR_VI[k] || k} ≤ ${fmt(100 * v, 1)}%`).join(", ") : "—");
+  add("max_weight_per_stock", "Mỗi mã tối đa", m.max_weight_per_stock != null ? fmt(100 * m.max_weight_per_stock, 1) + "%" : "—");
+  add("max_holdings", "Tối đa số mã", m.max_holdings ?? "—");
+  add("min_cash_pct", "Tiền mặt tối thiểu", m.min_cash_pct != null ? fmt(m.min_cash_pct, 1) + "%" : "—");
+  return `<h4>Ràng buộc đã dùng cho lần chạy này</h4><table class="tbl small">${rows.join("")}</table>`;
+}
+async function showResult(d, st) {
+  $("#out").classList.remove("hidden");
+  $("#execLabel").innerHTML = execLabel(d.execution);
+  const fe = d.feasibility || { blocking: [], notes: [] };
+  if (d.status === "infeasible") {
+    $("#resultBody").classList.add("hidden"); $("#insideRun").classList.add("hidden");
+    $("#infeasible").innerHTML = `<div class="infeasible"><h4>Không có danh mục lô chẵn nào thỏa yêu cầu này</h4><ul>` +
+      fe.blocking.map((r) => `<li><b>${r.message_vi}</b></li>`).join("") + `</ul>` +
+      (fe.notes.length ? `<p class="muted">Ghi chú: ${fe.notes.map((r) => r.message_vi).join(" ")}</p>` : "") +
+      `<p>Gợi ý: nới quy tắc bị nêu ở trên (ví dụ tăng “Mỗi mã tối đa”, bớt ngành bị loại, giảm tiền mặt giữ lại) hoặc tăng số vốn, rồi chạy lại. Không có lệnh nào được tạo.</p></div>` + usedRules(d);
+    $("#out").scrollIntoView({ behavior: "smooth" });
+    return;
+  }
+  $("#infeasible").innerHTML = ""; $("#resultBody").classList.remove("hidden"); $("#insideRun").classList.remove("hidden");
+  const ag = d.portfolios.AGQO, rd = d.portfolios["nearest-lot rounding"];
+  $("#resKpis").innerHTML = [[d.trades.length, "mã mua"], [vnd(d.fees_vnd) + " đ", "phí giao dịch ước tính"], [vnd(d.cash_after_vnd) + " đ", "tiền mặt còn lại sau phí"],
+    [fmt(d.invested_pct_post_fee, 1) + "%", "tỷ lệ đầu tư trên NAV sau phí"], [fmt(ag.te_pct, 2) + "%", `sai số bám dự kiến (làm tròn: ${fmt(rd.te_pct, 2)}%)`]]
+    .map(([v, l]) => `<div class="k"><div class="v">${v}</div><div class="l">${l}</div></div>`).join("");
+  $("#trades").innerHTML = `<tr><th>Mã</th><th>Ngành</th><th>Số lô</th><th>Giá</th><th>Giá trị</th><th>Phí</th></tr>` +
+    d.trades.map((t) => `<tr><td><b>${t.ticker}</b></td><td>${SECTOR_VI[t.sector] || t.sector}</td><td>${t.lots}</td><td>${vnd(t.price_vnd)}</td><td>${vnd(t.value_vnd)}</td><td>${vnd(t.fee_vnd)}</td></tr>`).join("") +
+    `<tr><td colspan="5">Tổng phí</td><td>${vnd(d.fees_vnd)}</td></tr><tr><td colspan="5"><b>Tiền mặt còn lại</b></td><td><b>${vnd(d.cash_after_vnd)}</b></td></tr>` +
+    `<tr><td colspan="5">NAV sau phí (cơ sở kiểm tra quy tắc)</td><td>${vnd(d.post_trade_nav_vnd)}</td></tr>`;
+  $("#checks").innerHTML = d.checks.map((c) => `<li class="${c.ok ? "" : "bad"}">${checkLabel(c)}</li>`).join("") +
+    `<li>${d.quantum.ran ? `Đã đối chiếu với tối ưu chính xác của toàn bộ 2<sup>${d.quantum.qubits}</sup> tổ hợp lô` : `Quyết định bằng tìm kiếm chính xác (${d.quantum.reason_vi || d.quantum.reason})`}</li>`;
+  $("#notes").innerHTML = fe.notes.length ? `<div class="notes">${fe.notes.map((r) => `<p>ⓘ ${r.message_vi}</p>`).join("")}</div>` : "";
   const names = Object.keys(d.portfolios);
   chart("teBars").setOption({ ...BASE, grid: { left: 190, right: 60, top: 10, bottom: 20 }, tooltip: { ...BASE.tooltip },
     xAxis: { type: "value", name: "% / năm", ...AX }, yAxis: { type: "category", data: names.map((n) => PORT_VI[n]), inverse: true, ...AX, axisLabel: { color: C.text } },
     series: [{ type: "bar", data: names.map((n) => ({ value: d.portfolios[n].te_pct, itemStyle: { color: PORT_COLOR[n], borderRadius: [0, 6, 6, 0] } })), barWidth: 22,
       label: { show: true, position: "right", color: C.text, formatter: (p) => fmt(p.value, 2) + "%" } }] });
-  const order = d.tickers.map((t, i) => i).sort((a, b) => d.portfolios["ideal (fractional shares)"].weights[b] - d.portfolios["ideal (fractional shares)"].weights[a]);
+  const gain = rd.te_pct - ag.te_pct;
+  $("#cmpCaption").innerHTML = `Hình. Sai số bám VN30 dự kiến (năm hoá) cho cùng tài khoản. So với làm tròn lô gần nhất, AGQO ${gain > 0.005 ? `giảm <b class="up">${fmt(gain, 2)} điểm %</b>` : gain < -0.005 ? `<b class="down">kém hơn ${fmt(-gain, 2)} điểm %</b>` : "<b>gần như bằng</b>"}` +
+    `${d.portfolios["greedy lot filling"] ? `; thuật toán tham lam cổ điển đạt ${fmt(d.portfolios["greedy lot filling"].te_pct, 2)}%` : ""}. Đây là ước tính trước khi giao dịch, không phải kết quả tương lai.`;
+  const ideal = d.portfolios["ideal (fractional shares)"].weights;
+  const order = d.tickers.map((t, i) => i).sort((a, b) => ideal[b] - ideal[a]);
   chart("wChart").setOption({ ...BASE, grid: { left: 50, right: 20, top: 40, bottom: 60 }, legend: LEG, tooltip: { ...BASE.tooltip, trigger: "axis", valueFormatter: (v) => fmt(v, 1) + "%" },
     xAxis: { type: "category", data: order.map((i) => d.tickers[i]), ...AX, axisLabel: { color: C.muted, rotate: 60, fontSize: 11, fontFamily: "JetBrains Mono" } },
     yAxis: { type: "value", name: "% vốn", ...AX },
     series: names.map((n) => ({ name: PORT_VI[n], type: "bar", data: order.map((i) => +(100 * d.portfolios[n].weights[i]).toFixed(2)), itemStyle: { color: PORT_COLOR[n] }, barGap: "8%" })) });
-  $("#trades").innerHTML = `<tr><th>Mã</th><th>Ngành</th><th>Số lô</th><th>Giá</th><th>Giá trị</th></tr>` +
-    d.trades.map((t) => `<tr><td><b>${t.ticker}</b></td><td>${SECTOR_VI[t.sector] || t.sector}</td><td>${t.lots}</td><td>${vnd(t.price_vnd)}</td><td>${vnd(t.value_vnd)}</td></tr>`).join("") +
-    `<tr><td colspan="4">Phí giao dịch</td><td>${vnd(d.fees_vnd)}</td></tr><tr><td colspan="4"><b>Tiền mặt còn lại</b></td><td><b>${vnd(d.cash_after_vnd)}</b></td></tr>`;
-  const ag = d.portfolios.AGQO;
-  $("#checks").innerHTML = [`Tổng đầu tư ${fmt(ag.invested_pct)}% · ${ag.holdings} mã`, ...d.checks.map((c) => c.rule.replace("invested share", "Tỷ trọng đầu tư").replace("no excluded stock or sector held", "Không giữ mã/ngành bị loại").replace("cash never negative after fees", "Đủ tiền sau phí").replace(/^at most (\d+) stocks$/, "Tối đa $1 mã") + (c.value_pct != null ? ` (thực tế ${fmt(c.value_pct)}%)` : ""))]
-    .map((t, i) => `<li class="${i > 0 && !d.checks[i - 1].ok ? "bad" : ""}">${t}</li>`).join("") +
-    `<li>Đã đối chiếu với tối ưu chính xác của toàn bộ 2<sup>16</sup> tổ hợp</li>`;
-  $("#qasmBtn").href = `/api/qasm/${d.id}`;
+  $("#usedRules").innerHTML = usedRules(d);
+  $("#qasmBtn").style.display = d.qasm ? "" : "none"; $("#qasmBtn").href = `/api/qasm/${d.id}`;
+  $("#explainBtn").style.display = d.evidence ? "" : "none";
   $("#explain").innerHTML = "";
+  const panels = ["#p2", "#p3", "#p4", "#p5", "#p6"];
+  if (d.quantum.ran) {
+    $("#noQuantum").innerHTML = "";
+    panels.forEach((p) => $(p).classList.remove("hidden"));
+    renderMarket(d); renderHamiltonian(d); renderAI(d); renderCircuit(d); renderSampling(d);
+  } else {
+    panels.forEach((p) => $(p).classList.add("hidden"));
+    $("#noQuantum").innerHTML = `Lần chạy này không dùng mạch lượng tử: ${d.quantum.reason_vi || d.quantum.reason}.`;
+  }
+  $("#insideRun").ontoggle = () => Object.values(charts).forEach((c) => c.resize());
+  $("#out").scrollIntoView({ behavior: "smooth" });
 }
 
-/* ---------------- LLM jobs ---------------- */
+/* ---------------- LLM explanation ---------------- */
 async function pollJob(id, onTick) {
   for (;;) {
     await sleep(4000);
@@ -247,64 +484,28 @@ async function pollJob(id, onTick) {
     onTick(r.seconds);
   }
 }
+
 function highlightNumbers(text, bad) {
   const badSet = new Set(bad || []);
   return text.replace(/\d+(?:[.,]\d+)*/g, (m) => { const norm = m.replace(/\./g, "").replace(",", "."); return `<mark class="${badSet.has(norm) || badSet.has(m) ? "bad" : ""}">${m}</mark>`; });
 }
 async function explain() {
-  if (!LAST) return;
+  if (!LAST_RUN) return;
   const box = $("#explain");
   box.innerHTML = `<div class="explain"><span class="spinner"></span>Đang gửi bằng chứng do mã nguồn tạo cho Qwen3.8-27B…</div>`;
   try {
-    const r = await api("/api/explain", { id: LAST.id });
+    const r = await api("/api/explain", { id: LAST_RUN.id });
     if (!r.job) { box.innerHTML = `<div class="explain">${r.note}. Bằng chứng LLM sẽ nhận:<pre class="code">${JSON.stringify(r.evidence, null, 1)}</pre></div>`; return; }
     const res = await pollJob(r.job, (s) => box.innerHTML = `<div class="explain"><span class="spinner"></span>Qwen3.8 đang viết giải thích (${s} giây${s > 20 ? "; GPU đang khởi động, lần đầu mất khoảng 6 phút" : ""})…</div>`);
     if (res.status !== "done" || !res.explanation) { box.innerHTML = `<div class="explain">Không nhận được giải thích (${res.error || "lỗi"}).</div>`; return; }
-    const e = res.explanation, ck = res.check, bad = ck.unverified_numbers;
-    box.innerHTML = `<div class="explain"><p>${highlightNumbers(e.summary_vi, bad)}</p>` +
-      (e.trade_notes || []).map((t) => `<p>• <b>${t.ticker}</b> ${t.action} ${t.lots} lô: ${highlightNumbers(t.reason_vi, bad)}</p>`).join("") +
-      (e.risk_notes_vi || []).map((t) => `<p>⚠ ${highlightNumbers(t, bad)}</p>`).join("") +
-      `<p class="muted">Kiểm tra tự động: ${ck.ok ? `<b class="up">mọi con số và lệnh khớp với bằng chứng</b>` : `<b class="down">${bad.length} số không có trong bằng chứng, ${ck.trade_mismatches.length} lệnh lệch, ${ck.context_issues.length} lỗi ngữ cảnh</b>`} · ${res.usage?.input_tokens || "?"} token vào, ${res.usage?.output_tokens || "?"} token ra · ${res.gpu || ""}</p></div>`;
+    const e = res.explanation, ck = res.check, bad = ck.unverified_numbers, attr = ck.attribution_issues || [];
+    const badAttr = attr.map((i) => i.number.replace(/\./g, "").replace(",", "."));
+    box.innerHTML = `<div class="explain"><p>${highlightNumbers(e.summary_vi, [...bad, ...badAttr])}</p>` +
+      (e.trade_notes || []).map((t) => `<p>• <b>${t.ticker}</b> ${t.action} ${t.lots} lô: ${highlightNumbers(t.reason_vi, [...bad, ...badAttr])}</p>`).join("") +
+      (e.risk_notes_vi || []).map((t) => `<p>⚠ ${highlightNumbers(t, [...bad, ...badAttr])}</p>`).join("") +
+      `<p class="muted">Kiểm tra tự động: ${ck.ok ? `<b class="up">mọi con số khớp bằng chứng, đúng phương án, chỉ số và đơn vị</b>` :
+        `<b class="down">${bad.length} số không có trong bằng chứng, ${ck.trade_mismatches.length} lệnh lệch, ${ck.context_issues.length} lỗi ngữ cảnh, ${attr.length} số gán sai phương án/đơn vị</b>`} · ${res.usage?.input_tokens || "?"} token vào, ${res.usage?.output_tokens || "?"} token ra · ${res.gpu || ""}</p></div>`;
   } catch (err) { box.innerHTML = `<div class="explain">Lỗi: ${err.message}</div>`; }
-}
-
-/* ---------------- run the pipeline ---------------- */
-async function run() {
-  const btn = $("#runBtn"); btn.disabled = true; btn.textContent = "Đang chạy…";
-  $("#out").classList.remove("hidden"); document.querySelectorAll(".panel").forEach((p) => p.classList.remove("show"));
-  $("#llmLive").innerHTML = "";
-  const capital = Math.max(5, Math.min(2000, +$("#capital").value || 20));
-  try {
-    stepTo(1);
-    const mres = await api("/api/mandate", { text: $("#instr").value, live: $("#liveLLM").checked });
-    renderMandate(mres); await showPanel(1);
-    await decideAndShow(capital, mres.mandate);
-    if (mres.job) liveMandate(mres.job, capital, mres.mandate);
-  } catch (err) { toast("Lỗi: " + err.message, 7000); }
-  btn.disabled = false; btn.textContent = "▶ Chạy AGQO";
-}
-async function decideAndShow(capital, mandate) {
-  stepTo(2);
-  const d = await api("/api/decide", { capital_million: capital, mandate });
-  LAST = d;
-  renderMarket(d); await showPanel(2);
-  renderHamiltonian(d); await showPanel(3);
-  renderAI(d); await showPanel(4);
-  renderCircuit(d); await showPanel(5);
-  renderSampling(d); await showPanel(6);
-  renderPortfolio(d); await showPanel(7);
-  stepTo(8);
-  Object.values(charts).forEach((c) => c.resize());
-}
-async function liveMandate(job, capital, shown) {
-  const box = $("#llmLive");
-  box.innerHTML = `<div class="bubble"><span class="spinner"></span>Đang chạy bằng quy tắc từ khóa; Qwen3.8 đang đọc yêu cầu trên GPU H100…</div>`;
-  const res = await pollJob(job, (s) => box.innerHTML = `<div class="bubble"><span class="spinner"></span>Qwen3.8 đang đọc yêu cầu (${s} giây${s > 20 ? "; GPU khởi động lần đầu mất khoảng 6 phút, kết quả sẽ tự cập nhật" : ""})…</div>`);
-  if (res.status !== "done") { box.innerHTML = `<div class="bubble">LLM không phản hồi (${res.error || "lỗi"}); giữ kết quả theo quy tắc từ khóa.</div>`; return; }
-  renderMandate(res);
-  const same = JSON.stringify(res.mandate) === JSON.stringify(shown);
-  box.innerHTML = `<div class="bubble">✔ Qwen3.8 trả lời sau ${res.seconds} giây. ${same ? "Ràng buộc trùng với quy tắc từ khóa." : "Ràng buộc khác quy tắc từ khóa: chạy lại AGQO với ràng buộc của LLM."}</div>`;
-  if (!same && !res.needs_clarification) { toast("Qwen3.8 đã dịch xong yêu cầu, đang chạy lại AGQO"); await decideAndShow(capital, res.mandate); }
 }
 
 /* ---------------- results section ---------------- */
@@ -339,26 +540,31 @@ async function story() {
 }
 
 /* ---------------- boot ---------------- */
+let SECTOR_OF = {};
 (async function boot() {
   try {
     META = await api("/api/meta");
-    $("#asof").textContent = `Dữ liệu đến ${META.date} · ${META.universe.length} mã VN30`;
+    SECTOR_OF = Object.fromEntries(META.stocks.map((s) => [s.ticker, s.sector]));
+    $("#asof").textContent = `Dữ liệu đến ${META.date} · ${META.universe.length} mã VN30 · tính toán: ${META.compute === "modal" ? "Modal" : META.compute}`;
     const tape = META.stocks.map((s) => `<span><b>${s.ticker}</b>1 lô ${vnd(s.lot_vnd)} đ <span class="${s.lot_vnd > 2e6 ? "down" : "up"}">${fmt(100 * s.lot_vnd / 20e6)}% của 20tr</span></span>`).join("");
     $("#tape").innerHTML = tape + tape;
     const pick = ["Không mua VIC, VHM, VRE vì tôi đã có nhiều cổ phiếu nhóm này", "Ngân hàng tối đa 30%", "Tôi không thích rủi ro, hãy để 10% tiền mặt và mỗi cổ phiếu tối đa 8%",
-      "Không đầu tư bất động sản, ngân hàng tối đa 30%", "Tôi muốn tập trung, chỉ 8 mã thôi", "Tôi muốn ít rủi ro hơn"].filter((e) => META.examples.includes(e) || e === "Tôi muốn ít rủi ro hơn");
-    $("#examples").innerHTML = `<span class="muted" style="margin:0 6px 0 0">Ví dụ (đã chạy thật với Qwen3.8):</span>` + pick.map((e) => `<span class="chip">${e}</span>`).join("");
-    document.querySelectorAll("#examples .chip").forEach((c) => c.onclick = () => { $("#instr").value = c.textContent; });
+      "Tôi muốn tập trung, chỉ 8 mã thôi", "Tôi muốn ít rủi ro hơn"];
+    $("#examples").innerHTML = `<span class="muted" style="margin:0 6px 0 0">Ví dụ:</span>` + pick.map((e) => `<span class="chip">${e}</span>`).join("");
+    document.querySelectorAll("#examples .chip").forEach((c) => c.onclick = () => { $("#instr").value = c.textContent; parseInstruction(); });
     if (!META.live_llm) { $("#liveLLM").checked = false; $("#liveLLM").disabled = true; }
+    bindForm(); renderForm(); renderPresets();
     lotChart(20);
     $("#capSlider").oninput = (e) => { $("#capLabel").textContent = e.target.value; lotChart(+e.target.value); };
-    $("#runBtn").onclick = run; $("#explainBtn").onclick = explain;
+    $("#runBtn").onclick = runClicked; $("#parseBtn").onclick = parseInstruction; $("#explainBtn").onclick = explain;
     await story();
-    // shareable link that runs a decision on load: /?run=1&capital=20&q=Ngân hàng tối đa 30%&live=0
+    // shareable link: /?preset=bank25_200&run=1   or   /?capital=20&q=Ngân hàng tối đa 30%&live=0
     const P = new URLSearchParams(location.search);
-    if (P.get("capital")) $("#capital").value = P.get("capital");
-    if (P.get("q")) $("#instr").value = P.get("q");
     if (P.get("live") === "0") $("#liveLLM").checked = false;
-    if (P.get("run") === "1") { document.documentElement.style.scrollBehavior = "auto"; $("#try").scrollIntoView(); await run(); document.body.dataset.done = "1"; }
+    if (P.get("preset")) await choosePreset(P.get("preset"));
+    if (P.get("capital")) { FORM.capital = +P.get("capital"); SRC.capital = "user"; renderForm(); }
+    if (P.get("q")) { $("#instr").value = P.get("q"); await parseInstruction(); }
+    if (P.get("run") === "1" && !PENDING) { document.documentElement.style.scrollBehavior = "auto"; $("#try").scrollIntoView(); await runJob({ capital_million: FORM.capital, mandate: mandateOf(), sources: { ...SRC }, preset_id: PRESET, clarification_pending: false }); }
+    document.body.dataset.done = "1";
   } catch (err) { toast("Không tải được dữ liệu: " + err.message, 8000); }
 })();

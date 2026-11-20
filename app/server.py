@@ -1,17 +1,26 @@
-"""AGQO prototype web server (FastAPI).
+"""AGQO V3.2 prototype web server (FastAPI). The page: choose a preset or type requirements, review the
+structured constraints, click Run, follow a real Modal job, read the result.
 
-Run locally:   uvicorn app.server:api --port 8000        (from the repository root)
-Deploy:        modal deploy app/modal_web.py              (public URL, scales to zero)
+Run locally (the page still sends every decision to Modal):
+    modal deploy app/modal_web.py                      # once: deploys decide_job (and the public page)
+    AGQO_LIVE_LLM=0 uvicorn app.server:api --port 8000
+
+Compute modes (env AGQO_COMPUTE)
+  modal   (default) each Run spawns `decide_job` in the deployed app AGQO_WEB_APP (default agqo-web-v32)
+  replay  only presets, answered from the saved Modal preset run (results/v32/presets.json)
+If a live job cannot start, a preset falls back to its replay; anything else returns an error with a retry.
+AGQO_ALLOW_LOCAL_COMPUTE=1 additionally allows an in-process run (development only, labelled "fallback").
 
 Endpoints
-  GET  /                      the single-page prototype (app/static/index.html)
-  GET  /api/meta              date, universe, example instructions, LLM availability
-  GET  /api/story             pre-computed evidence for the "Kết quả" section (backtest, 12 quarters, board)
-  POST /api/mandate           Vietnamese instruction -> constraints (logged live answer | live Qwen job | keyword rules)
-  POST /api/decide            one live AGQO decision for a new account (QAOA simulation + exact verification)
-  POST /api/explain           start the LLM explainer for a decision (returns a job id)
+  GET  /                      the page (app/static/index.html)
+  GET  /api/meta              date, universe, sectors, presets (with measured numbers), compute mode
+  GET  /api/story             saved V3 evidence for the results section
+  POST /api/mandate           instruction -> structured constraints + status (ok | needs_clarification)
+  POST /api/run               start a decision job (refused while a clarification is pending)
+  GET  /api/run/{id}          job status: queued | running (stage) | done (result) | failed (error)
+  POST /api/explain           start the LLM explainer for a finished run
   GET  /api/job/{id}          poll a live LLM job (mandate or explanation)
-  GET  /api/qasm/{id}         the decision's circuit as OpenQASM 2 (hardware-ready)
+  GET  /api/qasm/{id}         the run's circuit as OpenQASM 2
 """
 
 from __future__ import annotations
@@ -24,55 +33,56 @@ import uuid
 from collections import OrderedDict
 from pathlib import Path
 
-import numpy as np
 import pandas as pd
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse, JSONResponse, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
-from agqo.config import RESULTS_DIR
-from agqo.demo import Demo, compile_mandate
+from agqo.config import RESULTS_DIR, ROOT, SECTOR_EN
+from agqo.demo import compile_mandate
 from agqo.llm.tasks import explain_request, mandate_request, parse_mandate, verify_explanation
-from agqo.mandate import Mandate, rule_parse
+from agqo.mandate import Mandate
+from agqo.presets import PRESETS, public
+from agqo.service import clean
 
 STATIC = Path(__file__).resolve().parent / "static"
-LIVE_LLM = os.environ.get("AGQO_LIVE_LLM", "1") == "1"         # set 0 to never start the GPU
-LLM_PER_HOUR = int(os.environ.get("AGQO_LLM_PER_HOUR", "40"))   # cost guard for a public URL
+V32 = ROOT / "results" / "v32"
+LIVE_LLM = os.environ.get("AGQO_LIVE_LLM", "1") == "1"          # set 0 to never start the GPU
+LLM_PER_HOUR = int(os.environ.get("AGQO_LLM_PER_HOUR", "40"))    # cost guard for a public URL
+COMPUTE = os.environ.get("AGQO_COMPUTE", "modal")
+WEB_APP = os.environ.get("AGQO_WEB_APP", "agqo-web-v32")
+ALLOW_LOCAL = os.environ.get("AGQO_ALLOW_LOCAL_COMPUTE", "0") == "1"
 
 api = FastAPI(title="AGQO prototype")
 api.mount("/static", StaticFiles(directory=STATIC), name="static")
 
-_demo: Demo | None = None
+_ctx: dict = {}
 _lock = threading.Lock()
-_decisions: OrderedDict[str, dict] = OrderedDict()
+_runs: OrderedDict[str, dict] = OrderedDict()
 _jobs: dict[str, dict] = {}
 _llm_calls: list[float] = []
 
 
-def demo() -> Demo:
-    global _demo
+def startup() -> dict:
+    """Light context for the page: prices, universe, sectors, presets. No optimiser state is loaded."""
     with _lock:
-        if _demo is None:
-            _demo = Demo()
-    return _demo
+        if not _ctx:
+            from agqo.data import MarketData
+            from agqo.extras import load_config
 
-
-def _clean(o):
-    """JSON-safe copy: numpy scalars -> Python, NaN/inf -> null."""
-    if isinstance(o, dict):
-        return {str(k): _clean(v) for k, v in o.items()}
-    if isinstance(o, (list, tuple)):
-        return [_clean(v) for v in o]
-    if hasattr(o, "item") and not isinstance(o, (str, bytes)):
-        o = o.item()
-    if isinstance(o, float) and not np.isfinite(o):
-        return None
-    return o if isinstance(o, (str, int, float, bool, type(None))) else str(o)
+            ec = load_config(RESULTS_DIR)
+            md = MarketData.load()
+            date = md.rebalance_dates(ec.test_start, ec.test_end)[-1]
+            uni, _ = md.universe(date, ec.problem.lookback_days, ec.problem.min_history)
+            replay = json.loads((V32 / "presets.json").read_text()) if (V32 / "presets.json").exists() else None
+            _ctx.update(md=md, ec=ec, date=date, universe=uni, sector_of={t: md.sector(t) for t in md.close.columns},
+                        replay=replay)
+    return _ctx
 
 
 def _json(obj) -> JSONResponse:
-    return JSONResponse(_clean(obj))
+    return JSONResponse(clean(obj))
 
 
 def _llm_budget_ok() -> bool:
@@ -81,8 +91,7 @@ def _llm_budget_ok() -> bool:
     return len(_llm_calls) < LLM_PER_HOUR
 
 
-def _spawn(requests: list[dict]):
-    """Start a Qwen3.8 batch on the deployed Modal GPU app; returns the FunctionCall (non-blocking)."""
+def _spawn_llm(requests: list[dict]):
     import modal
 
     engine = modal.Cls.from_name("agqo-llm", "Engine")()
@@ -99,15 +108,22 @@ def index():
 
 @api.get("/api/meta")
 def meta():
-    d = demo()
+    c = startup()
+    md, date = c["md"], c["date"]
     ev = json.loads((RESULTS_DIR / "llm" / "mandate_eval.json").read_text())
-    examples = [r["instruction"] for r in ev["rows"] if r.get("llm_effective")]
-    px = d.md.px.loc[d.date]
-    stocks = sorted(({"ticker": t, "sector": d.md.sector(t), "price_vnd": float(px[t]),
-                      "lot_vnd": float(100 * px[t])} for t in d.universe), key=lambda z: -z["lot_vnd"])
-    return _json({"date": str(d.date.date()), "universe": d.universe, "stocks": stocks, "examples": examples,
-                  "live_llm": LIVE_LLM, "llm_score": ev["score"],
-                  "schedules": len(d.grid), "k": d.model.k, "polish": d.use_polish})
+    px = md.px.loc[date]
+    stocks = sorted(({"ticker": t, "sector": md.sector(t), "price_vnd": float(px[t]), "lot_vnd": float(100 * px[t])}
+                     for t in c["universe"]), key=lambda z: -z["lot_vnd"])
+    measured = {p["id"]: p for p in (c["replay"] or {}).get("presets", [])}
+    presets = [public(p) | {"measured": {k: v for k, v in measured.get(p["id"], {}).items() if k != "decision"},
+                            "replay_available": "decision" in measured.get(p["id"], {})} for p in PRESETS]
+    rules = c["ec"].rules
+    return _json({"date": str(date.date()), "universe": c["universe"], "stocks": stocks,
+                  "sectors": [{"en": en, "vi": vi} for vi, en in SECTOR_EN.items()],
+                  "presets": presets, "replay_run": (c["replay"] or {}).get("run_id"),
+                  "live_llm": LIVE_LLM, "llm_score": ev["score"], "compute": COMPUTE, "web_app": WEB_APP,
+                  "fees": {"commission_pct": 100 * rules.commission, "sell_tax_pct": 100 * rules.sell_tax,
+                           "lot_size": rules.lot_size}})
 
 
 @api.get("/api/story")
@@ -118,7 +134,7 @@ def story():
             "VN30 index (scaled)": "Chỉ số VN30", "ETF E1VFVN30": "ETF E1VFVN30"}
     wk = dv[list(keep)].resample("W-FRI").last().dropna()
     q = pd.read_csv(run / "quantum_test.csv")
-    q["arm"] = q.arm.str.replace(r"^random_s\d+$", "random_search", regex=True)   # mean of the three seeds
+    q["arm"] = q.arm.str.replace(r"^random_s\d+$", "random_search", regex=True)
     arms = {"agqo": "AGQO", "warm_start_only": "Khởi động ấm (cổ điển)", "textbook": "QAOA sách giáo khoa",
             "random_search": "Tìm kiếm ngẫu nhiên"}
     qt = (q[q.arm.isin(arms)].pivot_table(index="date", columns="arm", values="success_prob").rename(columns=arms))
@@ -131,6 +147,7 @@ def story():
     man = man[man.strategy.str.startswith("AGQO")][["instruction", "tracking_error_ann_pct", "te_cost_vs_unconstrained_pp",
                                                      "avg_holdings", "rule_violations_at_rebalance"]]
     expl = json.loads((run / "llm" / "explanations.json").read_text())
+    v32 = json.loads((V32 / "summary.json").read_text()) if (V32 / "summary.json").exists() else None
     return _json({
         "backtest": {"dates": [str(x.date()) for x in wk.index],
                      "series": {keep[c]: (wk[c] / 1e6).round(3).tolist() for c in keep}},
@@ -143,75 +160,162 @@ def story():
         "mandates": man.to_dict("records"),
         "explainer_score": expl["score"],
         "explanation_example": expl["rows"][-1],
+        "v32": v32,
     })
 
 
-# ------------------------------------------------------------------ LLM: mandate
+# ------------------------------------------------------------------ instruction -> constraints
 class MandateIn(BaseModel):
-    text: str = Field(max_length=600)
+    text: str = Field(max_length=800)
     live: bool = True
+
+
+def _status(res: dict) -> str:
+    return "needs_clarification" if res.get("needs_clarification") else "ok"
 
 
 @api.post("/api/mandate")
 def mandate(body: MandateIn):
-    d = demo()
+    c = startup()
     text = body.text.strip()
     if not text:
-        return _json({"mandate": Mandate().to_dict(), "source": "no instruction", "job": None})
-    res = compile_mandate(text, d.sector_of, backend="none")     # logged live answer, else keyword rules
+        return _json({"mandate": Mandate().to_dict(), "source": "no instruction", "status": "ok", "job": None})
+    res = compile_mandate(text, c["sector_of"], backend="none")     # logged live answer, else keyword rules
     res["job"] = None
     if res["source"].startswith("keyword") and body.live and LIVE_LLM:
         if not _llm_budget_ok():
             res["llm_note"] = "live LLM budget for this hour is used up; keyword rules shown"
         else:
             try:
-                req = mandate_request(text, d.sector_of)
-                fc = _spawn([req])
+                req = mandate_request(text, c["sector_of"])
+                fc = _spawn_llm([req])
                 jid = uuid.uuid4().hex[:12]
                 _jobs[jid] = {"kind": "mandate", "fc": fc.object_id, "req": req, "t0": time.time()}
                 res["job"] = jid
-            except Exception as e:                                  # Modal not reachable: keep the fallback
+            except Exception as e:
                 res["llm_note"] = f"live LLM unavailable ({type(e).__name__}); keyword rules shown"
     res.pop("fallback_reason", None)
+    res["status"] = _status(res)
     return _json(res)
 
 
-# ------------------------------------------------------------------ the decision
-class DecideIn(BaseModel):
+# ------------------------------------------------------------------ decision jobs
+class RunIn(BaseModel):
     capital_million: float = Field(ge=5, le=2000)
     mandate: dict = {}
+    sources: dict = {}                   # field -> "user" | "preset" | "text" | "unset" (shown back, logged)
+    preset_id: str | None = None
+    clarification_pending: bool = False
+    with_textbook: bool = True
 
 
-@api.post("/api/decide")
-def decide(body: DecideIn):
-    d = demo()
+def _replay(preset_id: str | None, capital: float, mandate: dict) -> dict | None:
+    rp = (startup()["replay"] or {})
+    for p in rp.get("presets", []):
+        if p["id"] == preset_id and "decision" in p and abs(p["capital_million"] - capital) < 1e-9 \
+                and Mandate.from_dict(p["mandate"]) == Mandate.from_dict(mandate):
+            return p["decision"] | {"execution": {"mode": "replay", "run_id": rp.get("run_id"),
+                                                   "note": "saved result of a Modal run; no new computation"}}
+    return None
+
+
+def _store(rid: str, rec: dict) -> None:
+    _runs[rid] = rec
+    while len(_runs) > 60:
+        _runs.popitem(last=False)
+
+
+@api.post("/api/run")
+def run(body: RunIn):
+    c = startup()
+    if body.clarification_pending:
+        raise HTTPException(409, "Hãy trả lời câu hỏi làm rõ trước khi chạy danh mục cá nhân hóa.")
     m = Mandate.from_dict(body.mandate or {})
-    errs = m.validate(set(d.sector_of))
+    errs = m.validate(set(c["sector_of"]))
     if errs:
         raise HTTPException(400, "; ".join(errs))
+    payload = {"capital_million": body.capital_million, "mandate": m.to_dict(), "with_textbook": body.with_textbook}
+    rid = uuid.uuid4().hex[:12]
+    rec = {"t0": time.time(), "payload": payload, "sources": body.sources, "preset_id": body.preset_id}
+    if COMPUTE == "modal":
+        try:
+            import modal
+
+            fn = modal.Function.from_name(WEB_APP, "decide_job")
+            key = f"run-{rid}"
+            fc = fn.spawn(payload, key)
+            _store(rid, rec | {"mode": "live_modal", "fc": fc.object_id, "key": key})
+            return _json({"id": rid, "mode": "live_modal", "status": "queued", "function_call": fc.object_id})
+        except Exception as e:
+            reason = f"{type(e).__name__}: {e}"[:300]
+    else:
+        reason = f"compute mode {COMPUTE}"
+    rep = _replay(body.preset_id, body.capital_million, m.to_dict())
+    if rep is not None:
+        _store(rid, rec | {"mode": "replay", "result": rep | {"execution": rep["execution"] | {"why": reason}}})
+        return _json({"id": rid, "mode": "replay", "status": "done", "note": reason})
+    if ALLOW_LOCAL:
+        from agqo.service import run_decision
+
+        _store(rid, rec | {"mode": "fallback_inprocess", "stage": "started"})
+
+        def work():
+            def say(stage, **kw):
+                _runs[rid]["stage"] = stage
+            try:
+                res = run_decision(payload, progress=say)
+                _runs[rid]["result"] = res | {"execution": {"mode": "fallback_inprocess", "why": reason}}
+            except Exception as e:
+                _runs[rid]["error"] = f"{type(e).__name__}: {e}"
+        threading.Thread(target=work, daemon=True).start()
+        return _json({"id": rid, "mode": "fallback_inprocess", "status": "queued", "note": reason})
+    raise HTTPException(503, f"Không khởi động được job trên Modal ({reason}). Hãy thử lại sau ít phút.")
+
+
+@api.get("/api/run/{rid}")
+def run_status(rid: str):
+    rec = _runs.get(rid)
+    if rec is None:
+        raise HTTPException(404, "Không tìm thấy lần chạy này (máy chủ có thể đã khởi động lại). Hãy bấm chạy lại.")
+    t = round(time.time() - rec["t0"], 1)
+    if "result" in rec:
+        return _json({"id": rid, "status": "done", "seconds": t, "mode": rec["mode"], "result": rec["result"],
+                      "sources": rec["sources"]})
+    if "error" in rec:
+        return _json({"id": rid, "status": "failed", "seconds": t, "mode": rec["mode"], "error": rec["error"]})
+    if rec["mode"] == "fallback_inprocess":
+        return _json({"id": rid, "status": "running", "stage": rec.get("stage"), "seconds": t, "mode": rec["mode"]})
+    import modal
+
     try:
-        out = d.decide(body.capital_million * 1e6, m)
+        out = modal.FunctionCall.from_id(rec["fc"]).get(timeout=0)
+    except TimeoutError:
+        stage = None
+        try:
+            stage = modal.Dict.from_name("agqo-v32-progress").get(rec["key"])
+        except Exception:
+            pass
+        return _json({"id": rid, "status": "running" if stage else "queued", "stage": stage, "seconds": t,
+                      "mode": rec["mode"], "function_call": rec["fc"]})
     except Exception as e:
-        raise HTTPException(422, f"no feasible whole-lot portfolio for these rules ({type(e).__name__}: {e})")
-    did = uuid.uuid4().hex[:12]
-    _decisions[did] = out
-    while len(_decisions) > 40:
-        _decisions.popitem(last=False)
-    res = {k: v for k, v in out.items() if not k.startswith("_")}
-    res["id"] = did
-    return _json(res)
+        rec["error"] = f"{type(e).__name__}: {e}"[:500]
+        return _json({"id": rid, "status": "failed", "seconds": t, "mode": rec["mode"], "error": rec["error"]})
+    if out.get("status") == "invalid":
+        rec["error"] = "; ".join(out.get("errors", []))
+        return _json({"id": rid, "status": "failed", "seconds": t, "mode": rec["mode"], "error": rec["error"]})
+    rec["result"] = out
+    return _json({"id": rid, "status": "done", "seconds": t, "mode": rec["mode"], "result": out,
+                  "sources": rec["sources"]})
 
 
-@api.get("/api/qasm/{did}")
-def qasm(did: str):
-    out = _decisions.get(did)
-    if out is None:
-        raise HTTPException(404, "decision expired; run it again")
-    from agqo.quantum.export import build_circuit, to_qasm
-
-    inst, land, cp, spec, r = out["_rec"]
-    return PlainTextResponse(to_qasm(build_circuit(cp, spec, r.angles)), media_type="text/plain",
-                             headers={"Content-Disposition": f"attachment; filename=agqo_{inst.date}.qasm"})
+@api.get("/api/qasm/{rid}")
+def qasm(rid: str):
+    rec = _runs.get(rid)
+    q = (rec or {}).get("result", {}).get("qasm")
+    if not q:
+        raise HTTPException(404, "no circuit for this run")
+    return PlainTextResponse(q, media_type="text/plain",
+                             headers={"Content-Disposition": f"attachment; filename=agqo_{rec['result']['date']}.qasm"})
 
 
 # ------------------------------------------------------------------ LLM: explanation
@@ -221,17 +325,17 @@ class ExplainIn(BaseModel):
 
 @api.post("/api/explain")
 def explain(body: ExplainIn):
-    out = _decisions.get(body.id)
-    if out is None:
-        raise HTTPException(404, "decision expired; run it again")
-    ev = demo().evidence(out)
+    rec = _runs.get(body.id)
+    ev = (rec or {}).get("result", {}).get("evidence")
+    if not ev:
+        raise HTTPException(404, "Lần chạy này không có bằng chứng để giải thích (không chạy mạch hoặc đã hết hạn).")
     if not LIVE_LLM:
         return _json({"job": None, "evidence": ev, "note": "live LLM disabled on this server"})
     if not _llm_budget_ok():
         return _json({"job": None, "evidence": ev, "note": "live LLM budget for this hour is used up"})
     try:
         req = explain_request(ev)
-        fc = _spawn([req])
+        fc = _spawn_llm([req])
     except Exception as e:
         return _json({"job": None, "evidence": ev, "note": f"live LLM unavailable ({type(e).__name__})"})
     jid = uuid.uuid4().hex[:12]
@@ -262,11 +366,11 @@ def job(jid: str):
     res = {"status": "done", "seconds": round(time.time() - j["t0"]), "model": out.get("model"),
            "usage": out.get("usage"), "gpu": out.get("gpu"), "model_load_s": out.get("model_load_s")}
     if j["kind"] == "mandate":
-        d = demo()
-        m, clar, errs = parse_mandate(parsed, set(d.sector_of))
+        c = startup()
+        m, clar, errs = parse_mandate(parsed, set(c["sector_of"]))
         res |= {"mandate": m.to_dict(), "needs_clarification": clar, "errors": errs,
                 "question": (parsed or {}).get("clarification_question_vi"), "source": "Qwen3.8-27B (live, Modal H100)",
-                "raw": parsed}
+                "raw": parsed, "status": "needs_clarification" if clar else "ok"}
     else:
         res |= {"explanation": parsed, "check": verify_explanation(parsed, j["ev"])}
     j["result"] = res
