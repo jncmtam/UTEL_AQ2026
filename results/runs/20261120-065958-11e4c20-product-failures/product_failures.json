@@ -1,0 +1,640 @@
+{
+ "cases": [
+  {
+   "case": "reported: 200M, banking <= 25%",
+   "capital_vnd": 200000000.0,
+   "mandate": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {
+     "Banking": 0.25
+    },
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "outcome": "decision",
+   "status": "ok",
+   "app_checks": [
+    {
+     "rule": "Banking <= 25.0%",
+     "value_pct": 25.0,
+     "ok": true
+    },
+    {
+     "rule": "cash never negative after fees",
+     "value_pct": null,
+     "ok": true
+    }
+   ],
+   "app_all_ok": true,
+   "audit": {
+    "post_trade_nav_vnd": 199716786.5,
+    "fees_vnd": 283213.5,
+    "rules": [
+     {
+      "rule": "Banking <= 25.00%",
+      "post_fee_weight": 0.2503144621746655,
+      "ok": false
+     },
+     {
+      "rule": "no excluded names",
+      "post_fee_weight": null,
+      "ok": true
+     },
+     {
+      "rule": "cash >= 0",
+      "post_fee_weight": null,
+      "ok": true
+     }
+    ],
+    "all_ok": false
+   },
+   "holdings": 20,
+   "cash_after_vnd": 10907786.5,
+   "fees_vnd": 283213.5,
+   "app_says_ok_but_audit_fails": true,
+   "infeasibility": null
+  },
+  {
+   "case": "reported: hold at most one stock (20M)",
+   "capital_vnd": 20000000.0,
+   "mandate": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": 1,
+    "min_cash_pct": null
+   },
+   "outcome": "exception",
+   "error": "LinAlgError: 0-dimensional array given. Array must be at least two-dimensional",
+   "traceback": "Traceback (most recent call last):\n  File \"/usr/local/lib/python3.12/site-packages/numpy/linalg/_linalg.py\", line 253, in _assert_stacked_square\n    m, n = a.shape[-2:]\n    ^^^^\nValueError: not enough values to unpack (expected 2, got 0)\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/root/agqo/research/repro.py\", line 54, in _case\n    out = d.decide(capital, m, with_textbook=False)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/agqo/demo.py\", line 154, in decide\n    mi = market_insight(md, inst, land, excluded, ec.problem.lookback_days)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/agqo/insight.py\", line 101, in market_insight\n    factor, bets = _eigen_stats(corr)\n                   ^^^^^^^^^^^^^^^^^^\n  File \"/root/agqo/insight.py\", line 80, in _eigen_stats\n    ev = np.clip(np.linalg.eigvalsh(corr), 0, None)\n                 ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/numpy/linalg/_linalg.py\", line 1353, in eigvalsh\n    _assert_stacked_square(a)\n  File \"/usr/local/lib/python3.12/site-packages/numpy/linalg/_linalg.py\", line 255, in _assert_stacked_square\n    raise LinAlgError(f'{a.ndim}-dimensional array given. Array must be '\nnumpy.linalg.LinAlgError: 0-dimensional array given. Array must be at least two-dimensional\n"
+  },
+  {
+   "case": "hold at most one stock (100M)",
+   "capital_vnd": 100000000.0,
+   "mandate": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": 1,
+    "min_cash_pct": null
+   },
+   "outcome": "exception",
+   "error": "LinAlgError: 0-dimensional array given. Array must be at least two-dimensional",
+   "traceback": "Traceback (most recent call last):\n  File \"/usr/local/lib/python3.12/site-packages/numpy/linalg/_linalg.py\", line 253, in _assert_stacked_square\n    m, n = a.shape[-2:]\n    ^^^^\nValueError: not enough values to unpack (expected 2, got 0)\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/root/agqo/research/repro.py\", line 54, in _case\n    out = d.decide(capital, m, with_textbook=False)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/agqo/demo.py\", line 154, in decide\n    mi = market_insight(md, inst, land, excluded, ec.problem.lookback_days)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/agqo/insight.py\", line 101, in market_insight\n    factor, bets = _eigen_stats(corr)\n                   ^^^^^^^^^^^^^^^^^^\n  File \"/root/agqo/insight.py\", line 80, in _eigen_stats\n    ev = np.clip(np.linalg.eigvalsh(corr), 0, None)\n                 ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/numpy/linalg/_linalg.py\", line 1353, in eigvalsh\n    _assert_stacked_square(a)\n  File \"/usr/local/lib/python3.12/site-packages/numpy/linalg/_linalg.py\", line 255, in _assert_stacked_square\n    raise LinAlgError(f'{a.ndim}-dimensional array given. Array must be '\nnumpy.linalg.LinAlgError: 0-dimensional array given. Array must be at least two-dimensional\n"
+  },
+  {
+   "case": "hold at most two stocks (100M)",
+   "capital_vnd": 100000000.0,
+   "mandate": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": 2,
+    "min_cash_pct": null
+   },
+   "outcome": "decision",
+   "status": "ok",
+   "app_checks": [
+    {
+     "rule": "at most 2 stocks",
+     "value_pct": null,
+     "ok": true
+    },
+    {
+     "rule": "cash never negative after fees",
+     "value_pct": null,
+     "ok": true
+    }
+   ],
+   "app_all_ok": true,
+   "audit": {
+    "post_trade_nav_vnd": 99919975.0,
+    "fees_vnd": 80025.0,
+    "rules": [
+     {
+      "rule": "holdings <= 2",
+      "post_fee_weight": null,
+      "ok": true
+     },
+     {
+      "rule": "no excluded names",
+      "post_fee_weight": null,
+      "ok": true
+     },
+     {
+      "rule": "cash >= 0",
+      "post_fee_weight": null,
+      "ok": true
+     }
+    ],
+    "all_ok": true
+   },
+   "holdings": 2,
+   "cash_after_vnd": 46569975.0,
+   "fees_vnd": 80025.0,
+   "app_says_ok_but_audit_fails": false,
+   "infeasibility": null
+  },
+  {
+   "case": "20M, banking <= 25%",
+   "capital_vnd": 20000000.0,
+   "mandate": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {
+     "Banking": 0.25
+    },
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "outcome": "decision",
+   "status": "ok",
+   "app_checks": [
+    {
+     "rule": "Banking <= 25.0%",
+     "value_pct": 22.65,
+     "ok": true
+    },
+    {
+     "rule": "cash never negative after fees",
+     "value_pct": null,
+     "ok": true
+    }
+   ],
+   "app_all_ok": true,
+   "audit": {
+    "post_trade_nav_vnd": 19977057.5,
+    "fees_vnd": 22942.5,
+    "rules": [
+     {
+      "rule": "Banking <= 25.00%",
+      "post_fee_weight": 0.2267601222051846,
+      "ok": true
+     },
+     {
+      "rule": "no excluded names",
+      "post_fee_weight": null,
+      "ok": true
+     },
+     {
+      "rule": "cash >= 0",
+      "post_fee_weight": null,
+      "ok": true
+     }
+    ],
+    "all_ok": true
+   },
+   "holdings": 6,
+   "cash_after_vnd": 4682057.5,
+   "fees_vnd": 22942.5,
+   "app_says_ok_but_audit_fails": false,
+   "infeasibility": null
+  },
+  {
+   "case": "500M, banking <= 25%",
+   "capital_vnd": 500000000.0,
+   "mandate": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {
+     "Banking": 0.25
+    },
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "outcome": "decision",
+   "status": "ok",
+   "app_checks": [
+    {
+     "rule": "Banking <= 25.0%",
+     "value_pct": 24.89,
+     "ok": true
+    },
+    {
+     "rule": "cash never negative after fees",
+     "value_pct": null,
+     "ok": true
+    }
+   ],
+   "app_all_ok": true,
+   "audit": {
+    "post_trade_nav_vnd": 499287131.0,
+    "fees_vnd": 712869.0,
+    "rules": [
+     {
+      "rule": "Banking <= 25.00%",
+      "post_fee_weight": 0.2492433557235025,
+      "ok": true
+     },
+     {
+      "rule": "no excluded names",
+      "post_fee_weight": null,
+      "ok": true
+     },
+     {
+      "rule": "cash >= 0",
+      "post_fee_weight": null,
+      "ok": true
+     }
+    ],
+    "all_ok": true
+   },
+   "holdings": 24,
+   "cash_after_vnd": 24041131.0,
+   "fees_vnd": 712869.0,
+   "app_says_ok_but_audit_fails": false,
+   "infeasibility": null
+  },
+  {
+   "case": "100M, each stock <= 10%",
+   "capital_vnd": 100000000.0,
+   "mandate": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": 0.1,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "outcome": "decision",
+   "status": "ok",
+   "app_checks": [
+    {
+     "rule": "ACB <= 10.0%",
+     "value_pct": 4.22,
+     "ok": true
+    },
+    {
+     "rule": "BID <= 10.0%",
+     "value_pct": 3.55,
+     "ok": true
+    },
+    {
+     "rule": "BSR <= 10.0%",
+     "value_pct": 0.0,
+     "ok": true
+    },
+    {
+     "rule": "CTG <= 10.0%",
+     "value_pct": 3.0,
+     "ok": true
+    },
+    {
+     "rule": "FPT <= 10.0%",
+     "value_pct": 6.27,
+     "ok": true
+    },
+    {
+     "rule": "GAS <= 10.0%",
+     "value_pct": 0.0,
+     "ok": true
+    },
+    {
+     "rule": "GVR <= 10.0%",
+     "value_pct": 0.0,
+     "ok": true
+    },
+    {
+     "rule": "HDB <= 10.0%",
+     "value_pct": 4.31,
+     "ok": true
+    },
+    {
+     "rule": "HPG <= 10.0%",
+     "value_pct": 8.02,
+     "ok": true
+    },
+    {
+     "rule": "LPB <= 10.0%",
+     "value_pct": 4.2,
+     "ok": true
+    },
+    {
+     "rule": "MBB <= 10.0%",
+     "value_pct": 3.91,
+     "ok": true
+    },
+    {
+     "rule": "MCH <= 10.0%",
+     "value_pct": 0.0,
+     "ok": true
+    },
+    {
+     "rule": "MSN <= 10.0%",
+     "value_pct": 0.0,
+     "ok": true
+    },
+    {
+     "rule": "MWG <= 10.0%",
+     "value_pct": 7.16,
+     "ok": true
+    },
+    {
+     "rule": "SAB <= 10.0%",
+     "value_pct": 4.33,
+     "ok": true
+    },
+    {
+     "rule": "SHB <= 10.0%",
+     "value_pct": 2.27,
+     "ok": true
+    },
+    {
+     "rule": "SSB <= 10.0%",
+     "value_pct": 1.77,
+     "ok": true
+    },
+    {
+     "rule": "SSI <= 10.0%",
+     "value_pct": 2.02,
+     "ok": true
+    },
+    {
+     "rule": "STB <= 10.0%",
+     "value_pct": 7.03,
+     "ok": true
+    },
+    {
+     "rule": "TCB <= 10.0%",
+     "value_pct": 4.4,
+     "ok": true
+    },
+    {
+     "rule": "TCX <= 10.0%",
+     "value_pct": 0.0,
+     "ok": true
+    },
+    {
+     "rule": "VCB <= 10.0%",
+     "value_pct": 0.0,
+     "ok": true
+    },
+    {
+     "rule": "VHM <= 10.0%",
+     "value_pct": 6.84,
+     "ok": true
+    },
+    {
+     "rule": "VIB <= 10.0%",
+     "value_pct": 2.68,
+     "ok": true
+    },
+    {
+     "rule": "VIC <= 10.0%",
+     "value_pct": 0.0,
+     "ok": true
+    },
+    {
+     "rule": "VJC <= 10.0%",
+     "value_pct": 0.0,
+     "ok": true
+    },
+    {
+     "rule": "VNM <= 10.0%",
+     "value_pct": 0.0,
+     "ok": true
+    },
+    {
+     "rule": "VPB <= 10.0%",
+     "value_pct": 4.66,
+     "ok": true
+    },
+    {
+     "rule": "VPL <= 10.0%",
+     "value_pct": 7.85,
+     "ok": true
+    },
+    {
+     "rule": "VRE <= 10.0%",
+     "value_pct": 2.42,
+     "ok": true
+    },
+    {
+     "rule": "cash never negative after fees",
+     "value_pct": null,
+     "ok": true
+    }
+   ],
+   "app_all_ok": true,
+   "audit": {
+    "post_trade_nav_vnd": 99863639.5,
+    "fees_vnd": 136360.5,
+    "rules": [
+     {
+      "rule": "each stock <= 10.00%",
+      "post_fee_weight": 0.08030951044999717,
+      "ok": true
+     },
+     {
+      "rule": "no excluded names",
+      "post_fee_weight": null,
+      "ok": true
+     },
+     {
+      "rule": "cash >= 0",
+      "post_fee_weight": null,
+      "ok": true
+     }
+    ],
+    "all_ok": true
+   },
+   "holdings": 20,
+   "cash_after_vnd": 8956639.5,
+   "fees_vnd": 136360.5,
+   "app_says_ok_but_audit_fails": false,
+   "infeasibility": null
+  },
+  {
+   "case": "20M, each stock <= 2% (below one lot of every stock)",
+   "capital_vnd": 20000000.0,
+   "mandate": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": 0.02,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "outcome": "exception",
+   "error": "ValueError: not enough values to unpack (expected 2, got 0)",
+   "traceback": "Traceback (most recent call last):\n  File \"/root/agqo/research/repro.py\", line 54, in _case\n    out = d.decide(capital, m, with_textbook=False)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/agqo/demo.py\", line 149, in decide\n    cp = CompiledProblem(inst, land)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/agqo/quantum/simulator.py\", line 62, in __init__\n    self.relaxed = relaxed_solution(inst)\n                   ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/agqo/portfolio.py\", line 207, in relaxed_solution\n    res = minimize(f, np.full(inst.n_qubits, 0.5), jac=g, method=\"L-BFGS-B\",\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/scipy/optimize/_minimize.py\", line 704, in minimize\n    bounds = standardize_bounds(bounds, x0, 'new')\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/scipy/optimize/_minimize.py\", line 1126, in standardize_bounds\n    lb, ub = old_bound_to_new(bounds)\n             ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/scipy/optimize/_constraints.py\", line 484, in old_bound_to_new\n    lb, ub = zip(*bounds)\n    ^^^^^^\nValueError: not enough values to unpack (expected 2, got 0)\n"
+  },
+  {
+   "case": "100M, keep 10% cash",
+   "capital_vnd": 100000000.0,
+   "mandate": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": 10.0
+   },
+   "outcome": "decision",
+   "status": "ok",
+   "app_checks": [
+    {
+     "rule": "invested share <= 90.0%",
+     "value_pct": 89.72,
+     "ok": true
+    },
+    {
+     "rule": "cash never negative after fees",
+     "value_pct": null,
+     "ok": true
+    }
+   ],
+   "app_all_ok": true,
+   "audit": {
+    "post_trade_nav_vnd": 99865424.5,
+    "fees_vnd": 134575.5,
+    "rules": [
+     {
+      "rule": "cash >= 10.0%",
+      "post_fee_weight": 0.10162100197150817,
+      "ok": true
+     },
+     {
+      "rule": "no excluded names",
+      "post_fee_weight": null,
+      "ok": true
+     },
+     {
+      "rule": "cash >= 0",
+      "post_fee_weight": null,
+      "ok": true
+     }
+    ],
+    "all_ok": true
+   },
+   "holdings": 19,
+   "cash_after_vnd": 10148424.5,
+   "fees_vnd": 134575.5,
+   "app_says_ok_but_audit_fails": false,
+   "infeasibility": null
+  },
+  {
+   "case": "50M, exclude every sector",
+   "capital_vnd": 50000000.0,
+   "mandate": {
+    "exclude_tickers": [],
+    "exclude_sectors": [
+     "Aviation",
+     "Banking",
+     "Brokerage",
+     "Consumer",
+     "Energy",
+     "Insurance",
+     "Materials",
+     "Real estate",
+     "Technology"
+    ],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "outcome": "exception",
+   "error": "ValueError: Input must be 1- or 2-d.",
+   "traceback": "Traceback (most recent call last):\n  File \"/root/agqo/research/repro.py\", line 54, in _case\n    out = d.decide(capital, m, with_textbook=False)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/agqo/demo.py\", line 144, in decide\n    inst = build_rounding_instance(md, d, self.universe, acc, ec, m)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/agqo/backtest.py\", line 86, in build_rounding_instance\n    tickers, w, target, caps = continuous_target(md, date, universe, account, ec, mandate)\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/agqo/backtest.py\", line 72, in continuous_target\n    w, caps = solve(tickers)\n              ^^^^^^^^^^^^^^\n  File \"/root/agqo/backtest.py\", line 67, in solve\n    cov, cov_b, _ = risk_inputs(md, date, tk, cfg)\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/agqo/backtest.py\", line 52, in risk_inputs\n    S = shrunk_covariance(np.column_stack([r, b]), cfg.shrinkage)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/agqo/data.py\", line 124, in shrunk_covariance\n    return (1 - shrink) * s + shrink * np.diag(np.diag(s))\n                                               ^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/numpy/lib/_twodim_base_impl.py\", line 330, in diag\n    raise ValueError(\"Input must be 1- or 2-d.\")\nValueError: Input must be 1- or 2-d.\n"
+  },
+  {
+   "case": "5M, no rules (smallest allowed account)",
+   "capital_vnd": 5000000.0,
+   "mandate": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "outcome": "decision",
+   "status": "ok",
+   "app_checks": [
+    {
+     "rule": "cash never negative after fees",
+     "value_pct": null,
+     "ok": true
+    }
+   ],
+   "app_all_ok": true,
+   "audit": {
+    "post_trade_nav_vnd": 4996505.0,
+    "fees_vnd": 3495.0,
+    "rules": [
+     {
+      "rule": "no excluded names",
+      "post_fee_weight": null,
+      "ok": true
+     },
+     {
+      "rule": "cash >= 0",
+      "post_fee_weight": null,
+      "ok": true
+     }
+    ],
+    "all_ok": true
+   },
+   "holdings": 1,
+   "cash_after_vnd": 2666505.0,
+   "fees_vnd": 3495.0,
+   "app_says_ok_but_audit_fails": false,
+   "infeasibility": null
+  }
+ ],
+ "verifier_swap": {
+  "evidence_date": "2026-10-01",
+  "agqo_te": 5.39,
+  "rounding_te": 5.56,
+  "correct": {
+   "text": "Sai số bám so với chỉ số VN30 của danh mục lô chẵn AGQO là 5,39%, còn cách làm tròn từng mã về lô gần nhất là 5,56%.",
+   "check": {
+    "ok": true,
+    "unverified_numbers": [],
+    "trade_mismatches": [],
+    "context_issues": []
+   }
+  },
+  "swapped": {
+   "text": "Sai số bám so với chỉ số VN30 của danh mục lô chẵn AGQO là 5,56%, còn cách làm tròn từng mã về lô gần nhất là 5,39%.",
+   "check": {
+    "ok": true,
+    "unverified_numbers": [],
+    "trade_mismatches": [],
+    "context_issues": []
+   }
+  },
+  "wrong_unit": {
+   "text": "Sai số bám so với chỉ số VN30 của danh mục lô chẵn AGQO là 5,39 lô.",
+   "check": {
+    "ok": true,
+    "unverified_numbers": [],
+    "trade_mismatches": [],
+    "context_issues": []
+   }
+  }
+ },
+ "clarification": {
+  "instruction": "Đừng mua quá nhiều cổ phiếu ngân hàng",
+  "source": "Qwen3.8-27B (logged live answer)",
+  "needs_clarification": true,
+  "question": "Bạn muốn giới hạn tỷ trọng cổ phiếu ngân hàng tối đa là bao nhiêu phần trăm?",
+  "mandate": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": {},
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null
+  },
+  "v31_frontend": "app/static/app.js run(): renderMandate(mres); await decideAndShow(capital, mres.mandate) runs unconditionally, so the trade list of the unconstrained portfolio is shown while the question is pending."
+ }
+}

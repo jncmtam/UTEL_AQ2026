@@ -1,0 +1,12 @@
+07:00:00 demo loaded: date 2026-10-01, 30 usable members
+07:00:03   reported: 200M, banking <= 25%: APP OK / AUDIT FAIL
+07:00:03   reported: hold at most one stock (20M): exception
+07:00:03   hold at most one stock (100M): exception
+07:00:03   hold at most two stocks (100M): status=ok audit_ok=True
+07:00:06   20M, banking <= 25%: status=ok audit_ok=True
+07:00:10   500M, banking <= 25%: status=ok audit_ok=True
+07:00:12   100M, each stock <= 10%: status=ok audit_ok=True
+07:00:12   20M, each stock <= 2% (below one lot of every stock): exception
+07:00:16   100M, keep 10% cash: status=ok audit_ok=True
+07:00:16   50M, exclude every sector: exception
+07:00:19   5M, no rules (smallest allowed account): status=ok audit_ok=True
