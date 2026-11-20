@@ -1,0 +1,41 @@
+{
+ "run_id": "20261120-083954-df815a9-pitch",
+ "kind": "pitch",
+ "git": {
+  "sha": "df815a994773be04ab0c14d06c666d8eac012794",
+  "short": "df815a9",
+  "dirty": true
+ },
+ "data_sha256": "7f076128a4f625f9589844f7465e3a1745e1a31e2cecfa8b70e3d8e141433042",
+ "config": {
+  "capital_vnd": 20000000.0,
+  "mandate": {
+   "exclude_sectors": [
+    "Real estate"
+   ],
+   "sector_caps": {
+    "Banking": 0.3
+   }
+  },
+  "quarters": "V3 test (12)"
+ },
+ "python": "3.12.12",
+ "host": "Cedric-Mac.local",
+ "modal_task_id": null,
+ "started_utc": "2026-11-20T08:39:54Z",
+ "status": "ok",
+ "steps": [],
+ "errors": [],
+ "seconds": 49.5,
+ "finished_utc": "2026-11-20T08:40:43Z",
+ "summary": {
+  "rules|practitioner": 12.67,
+  "none|practitioner": 12.14,
+  "rules|greedy": 9.82,
+  "none|greedy": 7.47,
+  "rules|exact": 9.91,
+  "none|exact": 6.77,
+  "rules|agqo": 9.91,
+  "none|agqo": 6.77
+ }
+}

@@ -26,7 +26,7 @@ Prerequisites: `modal token new` once (credentials stay in `~/.modal.toml`), the
 
 Set `TASKS` in the next cell (papermill parameter) to choose what runs."""),
     (CODE, """# Parameters (papermill)
-TASKS = ["smoke"]          # any of: smoke, reproduce, pytest, knn_table, knn_study, knn_refine, llm_mandates, llm_circuits, presets, account_benchmark, llm_probe, pitch,
+TASKS = ["smoke"]          # any of: smoke, reproduce, pytest, knn_table, knn_study, knn_refine, llm_mandates, llm_circuits, presets, account_benchmark, llm_probe, pitch, sizes,
                            #         llm_circuits, knn_table, knn_study
 PYTEST_ARGS = []
 LLM_MODEL_APP = "agqo-llm"
@@ -310,6 +310,18 @@ without the rules."""),
         run.finish(**{r["label"]: round(r["te_pct"], 2) for r in rows})
         push(run, mr.archive)
     kept["pitch"] = run.dir; show(run.dir)"""),
+    (MD, "## Account sizes: greedy, rounding, exact and AGQO at 20–500M on the same 12 quarters (deck slide 4)"),
+    (CODE, """if "sizes" in TASKS:
+    from agqo.research.orchestrate import fanout, local_run, push
+    from agqo.research.product_runs import run_account_benchmark
+    with mr.app.run():
+        run = local_run("account-sizes", {"capitals": [20e6, 50e6, 100e6, 200e6, 500e6], "quarters": "V3 test (12)"})
+        try:
+            res = run_account_benchmark(run, lambda js: fanout(mr.walk_job, js), capitals=(20e6, 50e6, 100e6, 200e6, 500e6))
+            run.finish(**{f"{int(t['capital_vnd'] / 1e6)}M {t['comparison']}": round(t["diff_pp"], 2) for t in res["tests"]})
+        except Exception as e:
+            run.error("sizes", e); run.finish("failed")
+        push(run, mr.archive); kept["sizes"] = run.dir; show(run.dir)"""),
     (MD, "## Summary of this notebook execution"),
     (CODE, """print(json.dumps({k: str(v) for k, v in kept.items()}, indent=1))"""),
 ]

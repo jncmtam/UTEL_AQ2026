@@ -1,0 +1,40 @@
+{
+ "run_id": "20261120-083317-df815a9-llm-probe",
+ "kind": "llm-probe",
+ "git": {
+  "sha": "df815a994773be04ab0c14d06c666d8eac012794",
+  "short": "df815a9",
+  "dirty": false
+ },
+ "data_sha256": "7f076128a4f625f9589844f7465e3a1745e1a31e2cecfa8b70e3d8e141433042",
+ "config": {
+  "prompt": "V3.2",
+  "probes": [
+   "Đừng bỏ VIC",
+   "Tôi muốn ít rủi ro hơn",
+   "Không loại VIC nhưng bỏ VHM",
+   "Giữ VIC, bỏ VRE",
+   "Tôi thích VIC",
+   "Không đầu tư bất động sản, ngân hàng tối đa 30%",
+   "Tôi có 20 triệu, không muốn bất động sản, ngân hàng tối đa 30%"
+  ]
+ },
+ "python": "3.12.12",
+ "host": "Cedric-Mac.local",
+ "modal_task_id": null,
+ "started_utc": "2026-11-20T08:33:17Z",
+ "status": "ok",
+ "steps": [],
+ "errors": [],
+ "seconds": 386.1,
+ "finished_utc": "2026-11-20T08:39:43Z",
+ "summary": {
+  "Đừng bỏ VIC": "ok []",
+  "Tôi muốn ít rủi ro hơn": "needs_clarification []",
+  "Không loại VIC nhưng bỏ VHM": "ok ['VHM']",
+  "Giữ VIC, bỏ VRE": "needs_clarification ['VRE']",
+  "Tôi thích VIC": "ok []",
+  "Không đầu tư bất động sản, ngâ": "ok []",
+  "Tôi có 20 triệu, không muốn bấ": "ok []"
+ }
+}

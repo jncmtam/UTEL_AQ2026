@@ -1,0 +1,16 @@
+08:32:13 demo loaded: date 2026-10-01, 30 usable members
+08:32:16   reported: 200M, banking <= 25%: status=ok audit_ok=True
+08:32:16   reported: hold at most one stock (20M): status=ok audit_ok=True
+08:32:16   hold at most one stock (100M): status=ok audit_ok=True
+08:32:16   hold at most two stocks (100M): status=ok audit_ok=True
+08:32:19   20M, banking <= 25%: status=ok audit_ok=True
+08:32:22   500M, banking <= 25%: status=ok audit_ok=True
+08:32:24   100M, each stock <= 10%: status=ok audit_ok=True
+08:32:24   20M, each stock <= 2% (below one lot of every stock): status=infeasible audit_ok=True
+08:32:27   100M, keep 10% cash: status=ok audit_ok=True
+08:32:27   50M, exclude every sector: status=infeasible audit_ok=True
+08:32:30   5M, no rules (smallest allowed account): status=ok audit_ok=True
+08:32:30   review: 20M, <= 12 holdings, <= 10% each, >= 5% cash: status=ok audit_ok=True
+08:32:33   review: 100M, >= 1.30% cash: status=ok audit_ok=True
+08:32:36   review: 100M, >= 1.30% cash, banking <= 30%: status=ok audit_ok=True
+08:32:38   pitch: 20M, no real estate, banking <= 30%: status=ok audit_ok=True

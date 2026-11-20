@@ -1,0 +1,132 @@
+[
+ {
+  "text": "Đừng bỏ VIC",
+  "mandate": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": {},
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null
+  },
+  "status": "ok",
+  "question": null,
+  "conflicts": [],
+  "missing": [],
+  "errors": []
+ },
+ {
+  "text": "Tôi muốn ít rủi ro hơn",
+  "mandate": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": {},
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null
+  },
+  "status": "needs_clarification",
+  "question": "Bạn muốn giới hạn tỷ trọng tối đa cho mỗi cổ phiếu, từng ngành cụ thể, hay tỷ lệ tiền mặt giữ lại là bao nhiêu phần trăm?",
+  "conflicts": [],
+  "missing": [
+   "max_weight_per_stock",
+   "sector_caps",
+   "min_cash_pct"
+  ],
+  "errors": []
+ },
+ {
+  "text": "Không loại VIC nhưng bỏ VHM",
+  "mandate": {
+   "exclude_tickers": [
+    "VHM"
+   ],
+   "exclude_sectors": [],
+   "sector_caps": {},
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null
+  },
+  "status": "ok",
+  "question": null,
+  "conflicts": [],
+  "missing": [],
+  "errors": []
+ },
+ {
+  "text": "Giữ VIC, bỏ VRE",
+  "mandate": {
+   "exclude_tickers": [
+    "VRE"
+   ],
+   "exclude_sectors": [],
+   "sector_caps": {},
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null
+  },
+  "status": "needs_clarification",
+  "question": "Bạn muốn giới hạn tỷ trọng tối đa của cổ phiếu VIC là bao nhiêu phần trăm?",
+  "conflicts": [],
+  "missing": [
+   "max_weight_per_stock"
+  ],
+  "errors": []
+ },
+ {
+  "text": "Tôi thích VIC",
+  "mandate": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": {},
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null
+  },
+  "status": "ok",
+  "question": null,
+  "conflicts": [],
+  "missing": [],
+  "errors": []
+ },
+ {
+  "text": "Không đầu tư bất động sản, ngân hàng tối đa 30%",
+  "mandate": {
+   "exclude_tickers": [],
+   "exclude_sectors": [
+    "Real estate"
+   ],
+   "sector_caps": {
+    "Banking": 0.3
+   },
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null
+  },
+  "status": "ok",
+  "question": null,
+  "conflicts": [],
+  "missing": [],
+  "errors": []
+ },
+ {
+  "text": "Tôi có 20 triệu, không muốn bất động sản, ngân hàng tối đa 30%",
+  "mandate": {
+   "exclude_tickers": [],
+   "exclude_sectors": [
+    "Real estate"
+   ],
+   "sector_caps": {
+    "Banking": 0.3
+   },
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null
+  },
+  "status": "ok",
+  "question": null,
+  "conflicts": [],
+  "missing": [],
+  "errors": []
+ }
+]
