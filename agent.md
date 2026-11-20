@@ -161,6 +161,29 @@ account size ("Tôi 60 triệu") is not parsed into the capital field; the inves
   warm H100, 4 s) → fields labelled "Từ câu lệnh" → Run → `decide_job` container (6.3 s) → banking 26.03% ≤ 28%,
   cash 26.02% ≥ 7%, TE 10.81% vs 19.86% for nearest-lot rounding.
 
+## 2026-11-20 evening: owner review of the report, deck and web wording
+
+The owner sent their own edited report (`submission/report/user_base/`, git-ignored; it is the Round-2 text with
+V3/V3.1 numbers) and asked for: figures redrawn so they read at a glance, the quantum circuit in standard notation,
+English for every technical term (no calques such as "khởi động ấm", "QAOA sách giáo khoa"), parameters in tables
+instead of semicolon lists, a capital after every sentence start and colon, and writing that explains why each step
+exists and what each number means. Same treatment for the deck and the web demo.
+
+- `submission/report/figures_en.py`: all report figures in English. Circuit drawn with Qiskit's `mpl` drawer
+  (ticker-named wires, R_Y warm start, R_ZZ/R_Z cost layer, U_M(β) aligned mixer, measurement), with the layer
+  boxed as "repeated p = 6 times" and the polished angles next to the linear-ramp start. Pipeline and data charts
+  are drawn at their printed size so text prints at ~7 pt; chart titles state the finding.
+- `submission/report/revise_user_report.py <owner.docx>`: applies the review to the owner's file without touching
+  anything else: swaps figures, rewrites listed paragraphs, converts 1.3, 1.4, 3.2 (rules), 3.3, 4.3, 4.4, 5.3,
+  5.4 into tables, turns the KPI "Ghi chú" column into "Ý nghĩa", adds shaded "Vì sao…" / "Con số nói gì" boxes,
+  maps terms to English, capitalises. Result: 12 pages (PDF from Word).
+- Deck: terms and capitals in `story.yaml`, `appendix.yaml`, `qa.yaml`; new appendix kind `image` with A1a
+  (pipeline) and A1b (circuit). Web: same terms, KPI labels and captions now say what the number means, the five
+  circuit rules say why each exists, the verdict adds "about 1 in N shots is near-optimal".
+- Not changed on purpose: the owner's numbers and claims. Their report still cites V3.1 facts (24/25 tests,
+  35/35 parser, `agqo-demo` URL, `Madoi` file names, three members on the cover) while the deck and guide use V3.2
+  facts; flagged to the owner.
+
 ## Open questions and decisions
 
 - **Historical traded prices.** The only price series available is the provider's back-adjusted series. The
