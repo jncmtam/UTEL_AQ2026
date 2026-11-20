@@ -616,8 +616,13 @@ def s8_close(dk: Deck, st: dict):
 
 def cover(dk: Deck, meta: dict):
     s = dk.slide("", "Trang bìa: điền mã đội, tên đội. Không nói gì ở trang này; chuyển ngay sang trang 1.", "S0", layout=6)
-    dk.text(s, 0.8, 2.0, 11.8, 1.2, "AGQO", 60, S["agqo"], bold=True, name="S0 Product")
-    dk.text(s, 0.8, 3.15, 11.8, 1.2, meta["title"].split("—", 1)[-1].strip(), 28, D["text"], bold=True, name="S0 Title")
+    dk.prs.core_properties.title = meta["title"]
+    head, _, rest = meta["title"].partition(":")
+    dk.text(s, 0.8, 1.55, 11.8, 2.1, "", 34, runs=[[(head + ":", {"size": 40, "bold": True, "color": S["agqo"]})],
+                                                [(rest.strip(), {"size": 30, "bold": True, "color": D["text"]})]],
+            name="S0 Title", spacing=6)
+    if meta.get("tagline"):
+        dk.text(s, 0.8, 3.75, 11.8, 0.5, meta["tagline"], 18, D["muted"], name="S0 Tagline")
     team = json.loads((ROOT / "submission" / "team.local.json").read_text()) if (ROOT / "submission" / "team.local.json").exists() \
         else {"team_code": "[Mã đội]", "team_name": "[Tên đội]", "members": []}
     dk.text(s, 0.8, 4.4, 11.8, 0.9, f"Mã đội: {team['team_code']}   ·   Tên đội: {team['team_name']}   ·   AI–Quantum Challenge 2026, "

@@ -211,7 +211,7 @@ to navigate, and a README that shows how to run, use and read the code.
 
 ## 2026-11-20 night: team change
 
-Tạ Tiến Tài left the team; the team is now three members. Phạm Mạnh Quyền's contact number was corrected. Both
+One member left the team; the team is now three members. One contact number was corrected. Both
 changes live in the git-ignored `submission/team.local.json`; `build_report.py` now also copies each listed member's
 phone number from that file into the member table, and the deck cover reads its names from the same file.
 

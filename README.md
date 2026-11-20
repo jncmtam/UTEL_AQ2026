@@ -1,4 +1,4 @@
-# AGQO: AI-Guided Quantum Optimisation cho danh mục VN30 lô chẵn
+# AGQO: Hệ thống AI định hướng tối ưu lượng tử cho xây dựng danh mục đầu tư tập trung
 
 **AI-Quantum Challenge 2026 · Đội AQ2026-169 (UTEL) · Phiên bản 1.0.0**
 

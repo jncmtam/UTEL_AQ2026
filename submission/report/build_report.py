@@ -539,6 +539,7 @@ PACKAGE_TEXT = [
     ("24/25 kiểm thử đạt (pytest)", "58/58 kiểm thử đạt (pytest, Modal CPU)"),
     ("25 kiểm thử tự động.", "58 kiểm thử tự động, đạt 58/58 trên Modal CPU."),
     ("+ 25 kiểm thử", "+ 58 kiểm thử"),
+    ("AGQO - Hệ thống AI định hướng", "AGQO: Hệ thống AI định hướng"),
     ("slide 20 trang có hoạt ảnh", "slide 8 trang chính + 13 phụ lục có hoạt ảnh"),
     ("20 trang, hoạt ảnh, ghi chú lời nói", "8 slide chính + 13 phụ lục, hoạt ảnh, ghi chú lời nói"),
     ("→ LLM → Hamiltonian", "→ LLM → người dùng xác nhận → Hamiltonian"),
