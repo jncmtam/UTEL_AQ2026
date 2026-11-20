@@ -26,9 +26,7 @@ tái hiện lỗi, thăm dò Qwen với câu phủ định. Danh sách đầy đ
 
 ## Đội cần xác nhận trước khi nộp
 
-1. **Dữ liệu mẫu trong ZIP.** BTC yêu cầu “mã nguồn, cấu hình và dữ liệu mẫu”. ZIP hiện có thành phần VN30, manifest, toàn bộ kết
-   quả đã lưu, nhưng **không có tệp giá** vì nguồn DNSE không cấp quyền phân phối lại; hướng dẫn chỉ lệnh tải (`python -m agqo
-   download`) và kiểm tra mã băm. Nếu đội xác nhận được phép kèm tệp giá, chỉ cần thêm `data/vn30/ohlcv_daily.csv` (9,6 MB) vào ZIP.
+1. **Dữ liệu mẫu trong ZIP (đã quyết 20/11/2026: giữ như hiện tại).** ZIP có thành phần VN30, manifest và toàn bộ kết quả đã lưu, không có tệp giá DNSE (không có quyền phân phối lại); hướng dẫn chỉ lệnh `python -m agqo download` và kiểm tra mã băm.
 2. **Giảng viên hướng dẫn:** báo cáo ghi “Không có”.
 3. **Số điện thoại** của thành viên 3 và 4 đang giống nhau (0916929493) theo thông tin được cung cấp.
 4. **Thời lượng trình bày:** chưa có thông báo của BTC trong máy; deck có bản đầy đủ (~8–9 phút) và bản 3 phút.
