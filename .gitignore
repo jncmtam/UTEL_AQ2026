@@ -22,3 +22,5 @@ submission/out/
 # generated drafts of the semifinal package (each build writes a new folder)
 submission/drafts/
 submission/deck/figures/
+submission/team.local.json
+submission/final/

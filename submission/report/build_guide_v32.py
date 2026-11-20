@@ -103,7 +103,9 @@ def build() -> Path:
             r.italic, r.font.size, r.font.color.rgb = True, Pt(9), MUTED
     out_dir = ROOT / "submission" / "drafts" / ("guide-" + time.strftime("%Y%m%d-%H%M%S", time.gmtime()))
     out_dir.mkdir(parents=True, exist_ok=False)
-    out = out_dir / "AQ2026-R2-Madoi-Huong_dan.docx"
+    tf = ROOT / "submission" / "team.local.json"
+    code = __import__("json").loads(tf.read_text())["team_code"] if tf.exists() else "Madoi"
+    out = out_dir / f"AQ2026-R2-{code}-Huong_dan.docx"
     doc.save(out)
     print(out)
     return out

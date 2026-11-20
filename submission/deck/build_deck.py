@@ -618,8 +618,12 @@ def cover(dk: Deck, meta: dict):
     s = dk.slide("", "Trang bìa: điền mã đội, tên đội. Không nói gì ở trang này; chuyển ngay sang trang 1.", "S0", layout=6)
     dk.text(s, 0.8, 2.0, 11.8, 1.2, "AGQO", 60, S["agqo"], bold=True, name="S0 Product")
     dk.text(s, 0.8, 3.15, 11.8, 1.2, meta["title"].split("—", 1)[-1].strip(), 28, D["text"], bold=True, name="S0 Title")
-    dk.text(s, 0.8, 4.4, 11.8, 0.9, "Mã đội: [Mã đội]   ·   Tên đội: [Tên đội]   ·   AI–Quantum Challenge 2026, vòng bán kết", 16,
-            D["muted"], name="S0 Team")
+    team = json.loads((ROOT / "submission" / "team.local.json").read_text()) if (ROOT / "submission" / "team.local.json").exists() \
+        else {"team_code": "[Mã đội]", "team_name": "[Tên đội]", "members": []}
+    dk.text(s, 0.8, 4.4, 11.8, 0.9, f"Mã đội: {team['team_code']}   ·   Tên đội: {team['team_name']}   ·   AI–Quantum Challenge 2026, "
+            "vòng bán kết", 16, D["muted"], name="S0 Team")
+    if team["members"]:
+        dk.text(s, 0.8, 5.6, 11.8, 0.6, "  ·  ".join(m["name"] for m in team["members"]), 14, D["muted"], name="S0 Members")
     dk.text(s, 0.8, 5.0, 11.8, 0.6, "Prototype: https://data1--agqo-v32.us-east.modal.run", 14, D["muted"], name="S0 Link")
     for sh in list(s.shapes):
         if sh.name == "S0 Page":
@@ -715,7 +719,9 @@ def build(out_dir: Path | None = None) -> Path:
     appendix(dk, apx["items"])
     out_dir = out_dir or ROOT / "submission" / "drafts" / time.strftime("%Y%m%d-%H%M%S", time.gmtime())
     out_dir.mkdir(parents=True, exist_ok=False)          # never overwrite an earlier draft
-    path = out_dir / "AGQO_BanKet_Slide.pptx"
+    tf = ROOT / "submission" / "team.local.json"
+    code = json.loads(tf.read_text())["team_code"] if tf.exists() else "Madoi"
+    path = out_dir / f"AQ2026-R2-{code}-Slide.pptx"
     dk.save(path)
     (out_dir / "facts.json").write_text(json.dumps({k: v for k, v in F.items() if not k.startswith("_")}, indent=1,
                                                    ensure_ascii=False))

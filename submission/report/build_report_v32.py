@@ -10,6 +10,7 @@ Each run writes a new draft folder.
 
 from __future__ import annotations
 
+import json
 import sys
 import time
 from pathlib import Path
@@ -26,6 +27,7 @@ from build_deck import facts, pct, vi  # noqa: E402
 from build_report import Filler  # noqa: E402
 
 TEMPLATE = ROOT / "submission" / "template" / "mau_bao_cao_BTC.docx"
+TEAM = ROOT / "submission" / "team.local.json"
 FIG = ROOT / "submission" / "deck" / "figures"
 SHOT = ROOT / "docs" / "prototype_shots" / "v32"
 URL = "https://data1--agqo-v32.us-east.modal.run"
@@ -54,8 +56,51 @@ def build(out_dir: Path | None = None) -> Path:
     f.fill_table(4, {(1, 1): "Web app: nhập yêu cầu → xác nhận ràng buộc → job tính toán trên Modal → lệnh, phí, kiểm tra quy tắc",
                      (1, 2): "v3.2.0",
                      (2, 1): URL, (2, 2): "Công khai, không cần tài khoản; phát lại có nhãn khi không gọi được Modal",
-                     (3, 1): "AQ2026-R2-Madoi-Ma_nguon.zip", (3, 2): "Mã nguồn, dữ liệu thành phần, kết quả, 58 kiểm thử",
-                     (4, 1): "AQ2026-R2-Madoi-Huong_dan.pdf", (4, 2): "Hướng dẫn nhanh cho giám khảo + hướng dẫn tái lập"})
+                     (3, 1): "AQ2026-R2-AQ2026-169-Ma_nguon.zip", (3, 2): "Mã nguồn, cấu hình, thành phần VN30, kết quả đã lưu, 58 kiểm thử; tệp giá tải bằng lệnh có sẵn",
+                     (4, 1): "AQ2026-R2-AQ2026-169-Huong_dan.pdf", (4, 2): "Hướng dẫn nhanh cho giám khảo + hướng dẫn tái lập"})
+
+    # ---------------------------------------------------------- team details (local file, never committed)
+    team = json.loads(TEAM.read_text()) if TEAM.exists() else None
+    if team:
+        code, tname, ms = team["team_code"], team["team_name"], team["members"]
+        lead = ms[0]
+        f.write(f.para("Mã đội: [Mã đội]"), f"Mã đội: {code}     •     Tên đội: {tname}", size=12)
+        f.write(f.para("Khoa / trường đại diện"), f"Khoa / trường đại diện (theo đội trưởng): {team['school_lead']}", size=11)
+        for i in range(5):
+            ph = f.para(f"{i + 1}.  [Họ và tên]")
+            if i < len(ms):
+                f.write(ph, f"{i + 1}.  {ms[i]['name']}     •     {ms[i]['role']}", size=11)
+            else:
+                f.remove(ph)
+        f.write(f.para("Giảng viên hướng dẫn (nếu có)"), f"Giảng viên hướng dẫn (nếu có): {team['advisor']}", size=11)
+        f.fill_table(2, {(1, 1): f"{code} / {tname}", (5, 1): f"{lead['name']} – {lead['email']} – {lead['phone']}",
+                         (6, 1): team["advisor"]})
+        t3 = f.doc.tables[3]
+        for r, m in enumerate(ms, 1):
+            for c, v in enumerate([str(r), m["name"], m["major"], m["school"], m["id"], m["email"], m["phone"], m["role"]]):
+                f._cell(t3.rows[r].cells[c], v, 8)
+        for row in list(t3.rows)[len(ms) + 1:]:
+            row._tr.getparent().remove(row._tr)
+        from docx.oxml.ns import qn as _q
+        for t_ in f.doc.element.body.iter(_q("w:t")):
+            s = t_.text or ""
+            if "[................." in s and "TÊN" not in s and "GIẢI PHÁP" not in s:
+                t_.text = s[:s.index("[")] + code if s.strip().startswith("MÃ ĐỘI") else s
+            if s.strip().startswith("[......") and len(s.strip()) < 70:
+                pass
+            if "[Email / Điện thoại]" in s:
+                t_.text = s.replace("[Email / Điện thoại]", f"{lead['email']} / {lead['phone']}")
+        ts_ = list(f.doc.element.body.iter(_q("w:t")))
+        for i, t_ in enumerate(ts_):
+            s = (t_.text or "").strip()
+            if s.startswith("MÃ ĐỘI") and "[" in (t_.text or ""):
+                t_.text = f"MÃ ĐỘI  {code}"
+            elif s == "MÃ ĐỘI" and i + 1 < len(ts_) and "[" in (ts_[i + 1].text or ""):
+                ts_[i + 1].text = f"  {code}"
+            if s.startswith("TÊN ĐỘI") and "[" in (t_.text or ""):
+                t_.text = f"TÊN ĐỘI  {tname}"
+            elif s == "TÊN ĐỘI" and i + 1 < len(ts_) and "[" in (ts_[i + 1].text or ""):
+                ts_[i + 1].text = f"  {tname}"
 
     # ---------------------------------------------------------- executive summary: criterion -> evidence
     f.fill_table(6, {
@@ -69,7 +114,7 @@ def build(out_dir: Path | None = None) -> Path:
         (4, 2): "Mục 4; Hình 2; link demo",
         (5, 1): "Thí điểm kiểu công ty chứng khoán: kiểm chứng tuân thủ quy tắc và mức hiểu của người dùng; ở 16 qubit dùng bộ giải cổ điển; còn thiếu giá khớp gốc, danh mục đang có, người dùng độc lập.",
         (5, 2): "Mục 5",
-        (6, 1): "Deck PowerPoint chỉnh sửa được (8 slide + 10 phụ lục), lời nói, bản 3 phút, 10 thẻ hỏi–đáp, hướng dẫn, sổ đăng ký bằng chứng.",
+        (6, 1): "Deck PowerPoint chỉnh sửa được (8 slide + 11 phụ lục), lời nói, bản 3 phút, 10 thẻ hỏi–đáp, hướng dẫn, sổ đăng ký bằng chứng.",
         (6, 2): "Mục 6",
     })
     f.write(f.para("[Giải pháp giúp ai"),
@@ -226,7 +271,7 @@ def build(out_dir: Path | None = None) -> Path:
             "`modal_research.py` và `notebooks/` (mọi mô phỏng chạy trên Modal), `results/final` (bằng chứng V3), `results/runs` (mỗi lần chạy "
             "V3.2 một thư mục). Tái lập theo hướng dẫn kèm theo; LLM phát lại từ nhật ký, không cần GPU. Hạn chế: cần tệp giá có quyền sử "
             "dụng; GPU khởi động lạnh lâu.", size=BODY)
-    f.write(f.para("Liên kết chạy demo"), f"Liên kết chạy demo: {URL}   |   Video demo: [đội bổ sung nếu có]", size=10)
+    f.write(f.para("Liên kết chạy demo"), f"Liên kết chạy demo: {URL}   |   Video demo: không có (prototype chạy trực tiếp)", size=10)
     f.write(f.para("MINH CHỨNG BỔ SUNG", 3), "MINH CHỨNG BỔ SUNG: tests/test_v32_*.py; results/runs/*-pytest (58 passed); "
             "docs/prototype_shots/v32.", color=EVC)
 
@@ -256,10 +301,10 @@ def build(out_dir: Path | None = None) -> Path:
     # ---------------------------------------------------------- criterion 6
     p = f.write(f.para("[Liệt kê báo cáo, slide"), "Hồ sơ nộp kèm (phiên bản v3.2.0):", size=BODY)
     f.table_from(4, p, ["Thành phần", "Tên tệp / đường dẫn", "Ghi chú"], [
-        ["Báo cáo giải pháp", "AQ2026-R2-Madoi-Bao_cao_giai_phap.pdf", "theo mẫu BTC"],
-        ["Slide trình bày", "AQ2026-R2-Madoi-Slide.pptx (+ PDF dự phòng)", "8 slide chính + 10 phụ lục, chỉnh sửa được, có ghi chú"],
-        ["Mã nguồn", "AQ2026-R2-Madoi-Ma_nguon.zip", "gắn với một commit; tệp giá tải riêng"],
-        ["Hướng dẫn", "AQ2026-R2-Madoi-Huong_dan.pdf", "nhanh cho giám khảo + tái lập"],
+        ["Báo cáo giải pháp", "AQ2026-R2-AQ2026-169-Bao_cao_giai_phap.pdf", "theo mẫu BTC"],
+        ["Slide trình bày", "AQ2026-R2-AQ2026-169-Slide.pptx (+ PDF dự phòng)", "8 slide chính + 11 phụ lục, chỉnh sửa được, có ghi chú"],
+        ["Mã nguồn", "AQ2026-R2-AQ2026-169-Ma_nguon.zip", "gắn với một commit; tệp giá tải bằng lệnh có sẵn"],
+        ["Hướng dẫn", "AQ2026-R2-AQ2026-169-Huong_dan.pdf", "nhanh cho giám khảo + tái lập"],
         ["Prototype", URL, "công khai, không cần tài khoản"]], size=8.5)
     f.write(f.para("[Nêu cấu trúc trình bày rõ ràng"),
             "Tám slide quanh một quyết định: giá một lô so với 20 triệu → ba lựa chọn (ETF, lô lẻ, lô chẵn theo quy tắc) → demo (yêu cầu → "
@@ -287,7 +332,8 @@ def build(out_dir: Path | None = None) -> Path:
             el.getparent().remove(el)
     out_dir = out_dir or ROOT / "submission" / "drafts" / ("report-" + time.strftime("%Y%m%d-%H%M%S", time.gmtime()))
     out_dir.mkdir(parents=True, exist_ok=False)
-    out = out_dir / "AQ2026-R2-Madoi-Bao_cao_giai_phap.docx"
+    code = json.loads(TEAM.read_text())["team_code"] if TEAM.exists() else "Madoi"
+    out = out_dir / f"AQ2026-R2-{code}-Bao_cao_giai_phap.docx"
     f.doc.save(str(out))
     print(out)
     return out
