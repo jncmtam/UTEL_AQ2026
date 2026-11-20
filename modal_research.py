@@ -132,3 +132,11 @@ def archive(run_id: str, files: dict[str, str]) -> int:
         p.write_text(text)
     runs_volume.commit()
     return len(files)
+
+
+@app.function(cpu=2, memory=4096, image=image, timeout=3600, retries=1)
+def decide_items(jobs: list[dict]) -> list[dict]:
+    """End-to-end decisions for parsed mandates (LLM parsing experiment)."""
+    from agqo.research.workers import decide_items as go
+
+    return go(jobs)

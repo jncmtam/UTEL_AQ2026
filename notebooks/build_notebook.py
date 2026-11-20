@@ -26,7 +26,7 @@ Prerequisites: `modal token new` once (credentials stay in `~/.modal.toml`), the
 
 Set `TASKS` in the next cell (papermill parameter) to choose what runs."""),
     (CODE, """# Parameters (papermill)
-TASKS = ["smoke"]          # any of: smoke, reproduce, pytest, knn_table, knn_study, knn_refine, presets, account_benchmark, llm_mandates,
+TASKS = ["smoke"]          # any of: smoke, reproduce, pytest, knn_table, knn_study, knn_refine, llm_mandates, llm_circuits,
                            #         llm_circuits, knn_table, knn_study
 PYTEST_ARGS = []
 LLM_MODEL_APP = "agqo-llm"
@@ -166,6 +166,56 @@ mass, best-of-512 gap, circuit evaluations and wall time."""),
         run.finish(**{f"{k}_success": round(float(v), 4) for k, v in g.success.items()})
         push(run, mr.archive)
     kept["knn_refine"] = run.dir; show(run.dir)"""),
+    (MD, """## LLM experiment 1: Vietnamese instructions → constraints (protocol §3a)
+
+Qwen3.8-27B on the Modal H100 app `agqo-llm` parses the 50 V3.2 evaluation instructions twice (V3 prompt and the
+English V3.2 prompt); the keyword rules are the baseline. Every unblocked parse then runs through the
+deterministic optimiser on Modal CPU and is judged against the gold constraints."""),
+    (CODE, """if "llm_mandates" in TASKS:
+    from agqo.data import MarketData
+    from agqo.llm.client import LLMClient
+    from agqo.research.llm_runs import run_mandates
+    from agqo.research.orchestrate import fanout, local_run, push
+    md = MarketData.load()
+    run = local_run("llm-mandates", {"model_app": LLM_MODEL_APP, "items": 50, "temperature": 0.0, "decoding": "JSON schema"})
+    client = LLMClient("modal", run.dir / "llm_log.jsonl", app_name=LLM_MODEL_APP)
+    with mr.app.run():
+        try:
+            out = run_mandates(run, client, lambda b: fanout(mr.decide_items, b), {t: md.sector(t) for t in md.close.columns})
+            run.finish(**{f"{a}_e2e_pct": round(s["e2e_correct_pct"], 1) for a, s in out["score"].items()})
+        except Exception as e:
+            run.error("llm_mandates", e); run.finish("failed")
+        push(run, mr.archive)
+    kept["llm_mandates"] = run.dir; show(run.dir)"""),
+    (MD, """## LLM experiment 2: circuit design and optimisation (protocol §3b)
+
+Two rounds of 8 structured candidates from Qwen3.8 (English prompt with the problem specification, components,
+budgets and objective), validated before simulation and scored on 24 design instances on Modal CPU; random search
+over the same space with the same budget (3 seeds); then the best of each on the 330 holdout instances."""),
+    (CODE, """if "llm_circuits" in TASKS:
+    from agqo.config import RESULTS_DIR
+    from agqo.data import MarketData
+    from agqo.extras import load_config
+    from agqo.llm.client import LLMClient
+    from agqo.quantum.design import spec_of
+    from agqo.research.llm_runs import run_circuits
+    from agqo.research.orchestrate import fanout, local_run, push
+    md = MarketData.load(); ec = load_config(RESULTS_DIR)
+    fz = json.loads((RESULTS_DIR / "run_manifest.json").read_text())["frozen_schedule"]
+    frozen = {"frozen_grid": spec_of(fz).to_dict(),
+              "frozen_grid+polish": spec_of(fz, ec.design.polish_iters, ec.design.polish_cvar_alpha).to_dict()}
+    run = local_run("llm-circuits", {"model_app": LLM_MODEL_APP, "rounds": 2, "candidates_per_round": 8,
+                                     "random_seeds": [1000, 1001, 1002], "design_instances": 24, "frozen_schedule": fz})
+    client = LLMClient("modal", run.dir / "llm_log.jsonl", app_name=LLM_MODEL_APP)
+    with mr.app.run():
+        try:
+            out = run_circuits(run, client, lambda jobs: fanout(mr.evaluate_specs, jobs), md, frozen)
+            run.finish(best_llm=out["best_llm"], llm_valid=out["llm_valid"],
+                       **{k: round(v["diff_pp"], 2) for k, v in out["holdout_tests"].items()})
+        except Exception as e:
+            run.error("llm_circuits", e); run.finish("failed")
+        push(run, mr.archive)
+    kept["llm_circuits"] = run.dir; show(run.dir)"""),
     (MD, "## Summary of this notebook execution"),
     (CODE, """print(json.dumps({k: str(v) for k, v in kept.items()}, indent=1))"""),
 ]

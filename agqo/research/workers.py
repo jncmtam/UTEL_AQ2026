@@ -95,3 +95,36 @@ def evaluate_specs(job: dict) -> list[dict]:
                             "evaluations": r.evaluations, "two_qubit_gates": r.two_qubit_gates,
                             "seconds": time.time() - t0})
     return out
+
+
+def decide_items(jobs: list[dict]) -> list[dict]:
+    """End-to-end outcome of parsed mandates: the deterministic decision, audited against the gold mandate.
+
+    job = {item, arm, capital_million, mandate (parsed), gold (mandate)}"""
+    from ..mandate import Mandate
+    from ..service import demo
+    from .repro import audit
+
+    d = demo()
+    out = []
+    for j in jobs:
+        rec = {k: j[k] for k in ("item", "arm")}
+        try:
+            m, gold = Mandate.from_dict(j["mandate"]), Mandate.from_dict(j["gold"])
+            errs = m.validate(set(d.sector_of))
+            if errs:
+                out.append(rec | {"outcome": "invalid", "errors": errs})
+                continue
+            res = d.decide(j["capital_million"] * 1e6, m, with_textbook=False)
+            if res["status"] == "infeasible":
+                out.append(rec | {"outcome": "infeasible",
+                                  "blocking": [b["code"] for b in res["feasibility"]["blocking"]]})
+                continue
+            a_gold, a_own = audit(res, d.md, gold), audit(res, d.md, m)
+            out.append(rec | {"outcome": "decision", "own_rules_ok": a_own["all_ok"], "gold_rules_ok": a_gold["all_ok"],
+                              "gold_failures": [r["rule"] for r in a_gold["rules"] if not r["ok"]],
+                              "holdings": len(res["trades"]), "quantum_ran": res["quantum"]["ran"],
+                              "te_pct": res["portfolios"]["AGQO"]["te_pct"]})
+        except Exception as e:
+            out.append(rec | {"outcome": "error", "errors": [f"{type(e).__name__}: {e}"]})
+    return out
