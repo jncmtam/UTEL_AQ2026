@@ -190,6 +190,25 @@ exists and what each number means. Same treatment for the deck and the web demo.
   file placed: hash matches, smoke ok, 58 passed on Modal CPU. A member's phone number had been written into the
   tracked `docs/submission/BAN_GIAO.md`; removed before packaging (it remains in this unpushed branch's history).
 
+## 2026-11-20 night: one version, reorganised tree
+
+The owner asked for a single submission-ready version: no V3/V3.2 naming, unused files removed, a tree that is easy
+to navigate, and a README that shows how to run, use and read the code.
+
+- Removed: `agqo/figures_vi.py` and `docs/figures_vi/`, the Round-2 builders (`submission/build_{report,slides,guide}.py`),
+  the earlier report builder, the earlier screenshot script and its screenshots, `CHAY_THU.md` (folded into README).
+- Layout: `docs/{technical,guides,presentation,submission,assets}`; `submission/{report,deck,guide,source,template}`;
+  `results/app/` (was `results/v32/`); `notebooks/AGQO_Research_Modal.ipynb`; `agqo.llm.compiler`,
+  `agqo.research.mandate_eval`, `tests/test_{app,product,review}.py`, `app/capture.py`. Package version 1.0.0.
+- Words: "main study" (`results/final/`, 2023 training, 12 test quarters) and "follow-up study" (`results/runs/`)
+  replace V3 and V3.2 in text. Identifiers stored in result files (prompt versions, experiment arm names, the logged
+  agent id `mandate_compiler_v3.2`, run file names) are unchanged so existing logs replay; entries above in this log
+  keep the names used at the time.
+- Modal: web app and URL label `agqo-prototype` (https://data1--agqo-prototype.us-east.modal.run), progress Dict
+  `agqo-progress`, research Volume `agqo-research-runs`. The earlier apps (`agqo-web` / `agqo-demo`,
+  `agqo-web-v32` / `agqo-v32`) were left running.
+- Tests after the move: run `20261120-162613-6e76683-pytest`, 58 passed on Modal CPU; smoke ok.
+
 ## Open questions and decisions
 
 - **Historical traded prices.** The only price series available is the provider's back-adjusted series. The
