@@ -1,0 +1,17 @@
+{
+ "calibration_top1_minus_top10_pp": 2.7259245584718883,
+ "calibration_schedules_within_90pct_of_best": 9.466666666666667,
+ "schedules_admissible": 990,
+ "knn_v3_in_sample_estimate": 0.20765369929482405,
+ "knn_v3_realised": 0.14469492028777797,
+ "knn_3_in_sample_estimate": 0.21239381377446176,
+ "knn_3_realised": 0.14436027916769187,
+ "knn_40_in_sample_estimate": 0.21604409574839337,
+ "knn_40_realised": 0.14389205655703943,
+ "frozen_in_sample_estimate": 0.20500182782470802,
+ "frozen_realised": 0.1372647026243309,
+ "spearman_feature_distance_vs_profile_dissimilarity": 0.3232879320571966,
+ "nn1_transfer_share_of_own_best": 0.7737631578934304,
+ "frozen_share_of_own_best_validation": 0.7685627149099127,
+ "oracle_minus_frozen_validation_pp": 2.544746563459438
+}

@@ -129,6 +129,43 @@ this kernel. Validation chooses the variant before the holdout rows are scored."
     with mr.app.run():
         push(run, mr.archive)
     kept["knn_study"] = run.dir; show(run.dir)"""),
+    (MD, """## k-NN study: local refinement ablation on the holdout (protocol §4)
+
+Each holdout instance runs four circuits in a Modal container: the frozen schedule and the selected k-NN
+schedule, each without and with 40 COBYLA steps on CVaR(0.1). 512 shots, seed 7. Measures success, feasible
+mass, best-of-512 gap, circuit evaluations and wall time."""),
+    (CODE, """if "knn_refine" in TASKS:
+    import pandas as pd
+    from agqo.extras import load_config
+    from agqo.config import RESULTS_DIR
+    from agqo.quantum.design import schedule_grid, spec_of
+    from agqo.research.orchestrate import fanout, local_run, push
+    from agqo.research.runlog import RUNS_DIR
+    study = sorted(p for p in RUNS_DIR.glob("*-knn-study") if json.loads((p / "run.json").read_text())["status"] == "ok")[-1]
+    plan = json.loads((study / "refine_plan.json").read_text())
+    ec = load_config(RESULTS_DIR); grid = schedule_grid(ec.design); dc = ec.design
+    sd = lambda i, pol: spec_of(grid.iloc[i], dc.polish_iters if pol else 0, dc.polish_cvar_alpha).to_dict()
+    jobs = [{"instances": [{k: r[k] for k in ("split", "date", "capital_vnd", "constraint")}], "shots": 512, "seed": 7,
+             "specs": {"frozen": sd(r["frozen_schedule"], False), "frozen+polish": sd(r["frozen_schedule"], True),
+                       "knn": sd(r["knn_schedule"], False), "knn+polish": sd(r["knn_schedule"], True)}} for r in plan]
+    run = local_run("knn-refine", {"study_run": study.name, "instances": len(jobs), "polish_iters": dc.polish_iters,
+                                   "cvar_alpha": dc.polish_cvar_alpha, "shots": 512, "seed": 7})
+    with mr.app.run():
+        parts = fanout(mr.evaluate_specs, jobs, on_item=lambda i, r: i % 60 == 0 and run.log(f"{i}/{len(jobs)} instances"))
+        rows = [r for part in parts for r in part]
+        df = pd.DataFrame(rows)
+        run.save("refine_rows.csv", df)
+        bad = df[df.get("errors", pd.Series([[]] * len(df))).map(bool)] if "errors" in df else df.iloc[:0]
+        for r in bad.itertuples():
+            run.manifest["errors"].append({"where": f"{r.date} {r.capital_vnd} {r.constraint} {r.spec}", "error": str(r.errors), "traceback": ""})
+        ok = df[~df.index.isin(bad.index)]
+        g = ok.groupby("spec").agg(success=("success_prob", "mean"), feasible_mass=("feasible_mass", "mean"),
+                                   best_gap=("best_sample_gap", "mean"), evaluations=("evaluations", "mean"),
+                                   seconds=("seconds", "mean"), cx=("two_qubit_gates", "mean"))
+        run.save("refine_summary.csv", g.reset_index())
+        run.finish(**{f"{k}_success": round(float(v), 4) for k, v in g.success.items()})
+        push(run, mr.archive)
+    kept["knn_refine"] = run.dir; show(run.dir)"""),
     (MD, "## Summary of this notebook execution"),
     (CODE, """print(json.dumps({k: str(v) for k, v in kept.items()}, indent=1))"""),
 ]
