@@ -1,0 +1,134 @@
+{
+ "run_id": "20261120-073056-be82a55-knn-refine",
+ "kind": "knn-refine",
+ "git": {
+  "sha": "be82a55c3278c01e04616e565839cb8b8ee81145",
+  "short": "be82a55",
+  "dirty": false
+ },
+ "data_sha256": "7f076128a4f625f9589844f7465e3a1745e1a31e2cecfa8b70e3d8e141433042",
+ "config": {
+  "study_run": "20261120-073008-ab60365-knn-study",
+  "instances": 330,
+  "polish_iters": 40,
+  "cvar_alpha": 0.1,
+  "shots": 512,
+  "seed": 7
+ },
+ "python": "3.12.12",
+ "host": "Cedric-Mac.local",
+ "modal_task_id": null,
+ "started_utc": "2026-11-20T07:30:56Z",
+ "status": "partial",
+ "steps": [],
+ "errors": [
+  {
+   "where": "2024-03-01 100000000.0 none knn",
+   "error": "['layers=8 outside [1, 6]']",
+   "traceback": ""
+  },
+  {
+   "where": "2024-03-01 100000000.0 none knn+polish",
+   "error": "['layers=8 outside [1, 6]']",
+   "traceback": ""
+  },
+  {
+   "where": "2024-03-01 500000000.0 no_real_estate knn",
+   "error": "['layers=8 outside [1, 6]']",
+   "traceback": ""
+  },
+  {
+   "where": "2024-03-01 500000000.0 no_real_estate knn+polish",
+   "error": "['layers=8 outside [1, 6]']",
+   "traceback": ""
+  },
+  {
+   "where": "2024-12-02 500000000.0 no_real_estate knn",
+   "error": "['layers=8 outside [1, 6]']",
+   "traceback": ""
+  },
+  {
+   "where": "2024-12-02 500000000.0 no_real_estate knn+polish",
+   "error": "['layers=8 outside [1, 6]']",
+   "traceback": ""
+  },
+  {
+   "where": "2025-02-03 500000000.0 no_real_estate knn",
+   "error": "['layers=8 outside [1, 6]']",
+   "traceback": ""
+  },
+  {
+   "where": "2025-02-03 500000000.0 no_real_estate knn+polish",
+   "error": "['layers=8 outside [1, 6]']",
+   "traceback": ""
+  },
+  {
+   "where": "2025-08-01 500000000.0 no_real_estate knn",
+   "error": "['layers=8 outside [1, 6]']",
+   "traceback": ""
+  },
+  {
+   "where": "2025-08-01 500000000.0 no_real_estate knn+polish",
+   "error": "['layers=8 outside [1, 6]']",
+   "traceback": ""
+  },
+  {
+   "where": "2025-11-03 500000000.0 no_real_estate knn",
+   "error": "['layers=8 outside [1, 6]']",
+   "traceback": ""
+  },
+  {
+   "where": "2025-11-03 500000000.0 no_real_estate knn+polish",
+   "error": "['layers=8 outside [1, 6]']",
+   "traceback": ""
+  },
+  {
+   "where": "2025-12-01 100000000.0 bank25 knn",
+   "error": "['layers=8 outside [1, 6]']",
+   "traceback": ""
+  },
+  {
+   "where": "2025-12-01 100000000.0 bank25 knn+polish",
+   "error": "['layers=8 outside [1, 6]']",
+   "traceback": ""
+  },
+  {
+   "where": "2026-02-02 100000000.0 bank25 knn",
+   "error": "['layers=8 outside [1, 6]']",
+   "traceback": ""
+  },
+  {
+   "where": "2026-02-02 100000000.0 bank25 knn+polish",
+   "error": "['layers=8 outside [1, 6]']",
+   "traceback": ""
+  },
+  {
+   "where": "2026-06-01 200000000.0 none knn",
+   "error": "['layers=8 outside [1, 6]']",
+   "traceback": ""
+  },
+  {
+   "where": "2026-06-01 200000000.0 none knn+polish",
+   "error": "['layers=8 outside [1, 6]']",
+   "traceback": ""
+  },
+  {
+   "where": "2026-09-03 500000000.0 no_real_estate knn",
+   "error": "['layers=8 outside [1, 6]']",
+   "traceback": ""
+  },
+  {
+   "where": "2026-09-03 500000000.0 no_real_estate knn+polish",
+   "error": "['layers=8 outside [1, 6]']",
+   "traceback": ""
+  }
+ ],
+ "seconds": 37.2,
+ "finished_utc": "2026-11-20T07:31:34Z",
+ "summary": {
+  "frozen_success": 0.1458,
+  "frozen+polish_success": 0.1593,
+  "knn_success": 0.155,
+  "knn+polish_success": 0.1659
+ }
+}

@@ -19,7 +19,7 @@ ANGLE_INITS = ("linear_ramp", "constant")
 OPTIMIZERS = ("cobyla", "nelder_mead", "none")
 
 BOUNDS = {
-    "layers": (1, 6),
+    "layers": (1, 8),                    # the V3 schedule grid uses up to 8 layers
     "warm_start_epsilon": (0.0, 0.5),
     "coupling_keep_fraction": (0.1, 1.0),
     "ramp_dt": (0.05, 2.0),
