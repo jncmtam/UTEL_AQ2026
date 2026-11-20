@@ -12,6 +12,26 @@ số liệu cần thuộc. Mọi con số đều lấy từ `results/final/`.
 
 ---
 
+# CẬP NHẬT V3.2: những câu cần nói khác đi
+
+Các số trong phần dưới vẫn đúng với V3 (`results/final/`). Kết quả V3.2 nằm trong
+[KET_QUA_V3_2.md](vi/KET_QUA_V3_2.md); khi giám khảo hỏi đúng các ý sau, dùng câu trả lời mới.
+
+| Chủ đề | Nói theo V3 | Nói theo V3.2 |
+|---|---|---|
+| LLM đọc yêu cầu | “35/35, từ khóa 68,6%” | “Trên 50 câu mới, gồm 10 câu mơ hồ, 8 câu mâu thuẫn và 8 câu không khả thi, Qwen với prompt V3.2 cho **kết quả đúng đến tận lệnh 49/50**, từ khóa 33/50. Bộ câu do nhóm viết, chưa phải người dùng độc lập.” |
+| k-NN | “AI chọn lịch mạch” | “Trên 330 bài toán holdout mới, k-NN hơn lịch cố định **0,76 điểm %**, thắng 20/22 tháng. Nhưng chọn một lịch riêng cho mỗi cỡ tài khoản cũng đạt đúng như vậy. Chúng em ghi nhận điều đó.” |
+| Vì sao V3 có 21,3% < 23,8% | — | “Phần thua đến từ bước tinh chỉnh COBYLA trên tài khoản 100 triệu, không phải từ k-NN: bỏ tinh chỉnh thì k-NN đạt 24,0%. V3.2 đo lại: tinh chỉnh giúp nhiều ở 20 triệu, gần như không giúp ở 100–200 triệu.” |
+| Tham lam ở 20 triệu | “Tham lam 7,5%, AGQO 6,8%” | “Ở đúng 20 triệu, chênh lệch với tham lam **chưa có ý nghĩa thống kê** (−1,5 đến +0,02 điểm %). Lợi thế lớn và chắc chắn là so với làm tròn thông thường.” |
+| Giá đã điều chỉnh | — | “Chưa có giá khớp lệnh gốc. Chúng em đo giới hạn: nếu giá lô lịch sử thực ra cao hơn tới 50%, AGQO vẫn hơn làm tròn khoảng 5 điểm % và hơn tham lam 1,8–2,3 điểm %.” |
+| Trần ngành | “0 vi phạm” | “0 vi phạm **tính trên giá trị tài khoản sau phí**; V3.1 từng báo đạt ở 25,03% sau phí, V3.2 đã sửa và có kiểm thử.” |
+| LLM thiết kế mạch | — | “Cho Qwen tự thiết kế mạch: hơn tìm kiếm ngẫu nhiên rõ (9,8% so với 2,6–3,9%) nhưng thua lịch chọn bằng dữ liệu (14,4%). Vì vậy LLM không tự quyết mạch.” |
+
+Câu demo ngắn: “Bây giờ chúng em chọn mẫu 200 triệu, ngân hàng tối đa 25%, bấm Chạy: đây là một job thật trên Modal.
+Kết quả: ngân hàng 24,05% tính trên giá trị tài khoản sau phí.”
+
+---
+
 # PHẦN I. BÀI TRÌNH BÀY (khoảng 10 phút)
 
 ## 0. Mở đầu (0:00 – 0:40)

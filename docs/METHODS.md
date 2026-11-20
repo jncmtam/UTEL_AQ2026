@@ -1,5 +1,7 @@
 # Methods
 
+> V3.2 (2026-11-20): new runs, methods and results are in [RESULTS_V3_2.md](RESULTS_V3_2.md) and the pre-registered [protocol](research/PROTOCOL_V3_2.md). This file describes V3 and is unchanged otherwise.
+
 This page gives the exact mathematics behind every number in [RESULTS.md](RESULTS.md).
 Code references point to the module that implements each step.
 

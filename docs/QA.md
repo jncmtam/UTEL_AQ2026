@@ -4,6 +4,20 @@ Every answer below uses numbers measured in this repository. "Evidence" points t
 holds the number. Figures are in [docs/figures](figures/). Test period: 12 quarterly decisions,
 2024-01-02 → 2026-10-01, held to 2026-11 (711 trading days). Calibration uses 2023 only.
 
+**V3.2 update (2026-11-20).** The answers below use the V3 evidence in `results/final/`. Where V3.2 measured
+something new, the V3.2 answer is in [RESULTS_V3_2.md](RESULTS_V3_2.md); the short versions:
+
+- *Rules after fees.* Every cap is checked on the post-trade NAV (cash after fees + holdings); the V3.1 case that
+  passed at 25.031% is fixed and tested. Infeasible requests name the blocking rule instead of failing.
+- *LLM parsing.* On 50 new team-written Vietnamese instructions (clear, ambiguous, conflicting, infeasible), the
+  V3.2 English prompt gives 49/50 correct end-to-end outcomes vs 33/50 for keyword rules (McNemar p = 3·10⁻⁵).
+- *k-NN.* +0.76 pp over the frozen schedule on 330 fresh holdout problems (20/22 dates), equal to a per-account-
+  size frozen schedule. V3's "21.3% vs 23.8%" came from the COBYLA polish, not the selection.
+- *Greedy at 20M.* AGQO − greedy = −0.69 pp, CI [−1.53, +0.02]: not significant at 20M; significant at the smaller
+  equivalent accounts of the price-level bound.
+- *LLM-designed circuits.* Better than budget-matched random search (9.83% vs 2.6–3.9%), worse than the data-driven
+  schedule (14.35%).
+
 **Contents**
 
 1. [The 60-second answer](#1-the-60-second-answer)
