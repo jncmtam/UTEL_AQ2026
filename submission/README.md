@@ -1,7 +1,8 @@
 # Hồ sơ nộp
 
-Bốn tệp nộp theo yêu cầu của Ban tổ chức, đặt tên theo mã đội `AQ2026-169`. Các tệp đã xuất và thông tin cá nhân của đội
-nằm ngoài Git (`submission/final/`, `submission/team.local.json`); thư mục này chỉ giữ công cụ dựng chúng.
+Bốn tệp nộp theo yêu cầu của Ban tổ chức, đặt tên theo mã đội `AQ2026-169`. Slide, hướng dẫn và ghi chú bàn giao có trong
+[final/](final/). Báo cáo (có số CCCD, email, điện thoại của thành viên), ZIP mã nguồn (chính là repository này) và
+`submission/team.local.json` chỉ giữ trên máy của đội.
 
 | Tệp nộp | Công cụ | Ghi chú |
 |---|---|---|
