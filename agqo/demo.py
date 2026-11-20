@@ -97,9 +97,12 @@ def compile_mandate(text: str, sector_of: dict[str, str], backend: str = "auto",
             fallback_reason = f"{type(e).__name__}: {e}"[:200]
     else:
         fallback_reason = "LLM disabled"
+    from .mandate import rule_clarification
+
     m = rule_parse(text, tickers)
-    return {"mandate": m.to_dict(), "source": "keyword rules (fallback)", "needs_clarification": False,
-            "question": None, "errors": [], "raw": None, "fallback_reason": fallback_reason}
+    clar, question = rule_clarification(text)
+    return {"mandate": m.to_dict(), "source": "keyword rules (fallback)", "needs_clarification": clar,
+            "question": question, "errors": [], "raw": None, "fallback_reason": fallback_reason}
 
 
 # ------------------------------------------------------------------ one decision
@@ -132,33 +135,145 @@ class Demo:
         return {"weights": w.round(5).tolist(), "te_pct": round(float(100 * inst.tracking_error(w)[0]), 3),
                 "invested_pct": round(float(100 * w.sum()), 2), "holdings": int((w > 0).sum())}
 
+    # -------------------------------------------------------------- deterministic accounting
+    def _execution(self, inst, new: np.ndarray, m: Mandate) -> dict:
+        """Trades, fees, cash and every rule check, all on the post-trade NAV (cash after fees + holdings)."""
+        md, rules = self.md, self.ec.rules
+        delta = new - inst.prev_shares
+        trades, fee_total = [], 0.0
+        for tk, p, s, dv in zip(inst.tickers, inst.prices, new, delta):
+            if dv != 0:
+                v = abs(dv) * p
+                fee = rules.commission * v + (rules.sell_tax * v if dv < 0 else 0.0)
+                fee_total += fee
+                trades.append({"ticker": tk, "sector": md.sector(tk), "action": "buy" if dv > 0 else "sell",
+                               "lots": int(abs(dv) // rules.lot_size), "shares": int(s), "price_vnd": float(p),
+                               "value_vnd": float(v), "fee_vnd": float(fee)})
+        if inst.other_value:                                # holdings outside the universe are sold
+            fee_total += (rules.commission + rules.sell_tax) * inst.other_value
+        trades.sort(key=lambda z: -z["value_vnd"])
+        held_value = new * inst.prices
+        cash_after = float(inst.cash + inst.other_value + (inst.prev_shares * inst.prices).sum()
+                           - held_value.sum() - fee_total)
+        post_nav = cash_after + float(held_value.sum())
+        w = held_value / post_nav
+        sec = np.array([md.sector(t) for t in inst.tickers])
+        checks = []
+        for s, cap in m.sector_caps.items():
+            if s in m.exclude_sectors:
+                continue
+            v = float(w[sec == s].sum())
+            checks.append({"kind": "sector_cap", "sector": s, "rule": f"{s} <= {100 * cap:.1f}%",
+                           "limit_pct": 100 * cap, "value_pct": round(100 * v, 3), "ok": v <= cap + 1e-12})
+        if m.max_weight_per_stock is not None:
+            j = int(np.argmax(w)) if len(w) else 0
+            v = float(w[j]) if len(w) else 0.0
+            checks.append({"kind": "max_weight_per_stock", "ticker": inst.tickers[j] if len(w) else None,
+                           "rule": f"largest single stock <= {100 * m.max_weight_per_stock:.1f}%",
+                           "limit_pct": 100 * m.max_weight_per_stock, "value_pct": round(100 * v, 3),
+                           "ok": v <= m.max_weight_per_stock + 1e-12})
+        if m.min_cash_pct is not None:
+            v = cash_after / post_nav
+            checks.append({"kind": "min_cash_pct", "rule": f"cash >= {m.min_cash_pct:g}%", "limit_pct": m.min_cash_pct,
+                           "value_pct": round(100 * v, 3), "ok": v >= m.min_cash_pct / 100 - 1e-12})
+        held = [tk for tk, s in zip(inst.tickers, new) if s > 0]
+        if m.max_holdings is not None:
+            checks.append({"kind": "max_holdings", "rule": f"at most {m.max_holdings} stocks", "limit": m.max_holdings,
+                           "value": len(held), "ok": len(held) <= m.max_holdings})
+        if m.exclude_tickers or m.exclude_sectors:
+            bad = [tk for tk in held if tk in m.exclude_tickers or md.sector(tk) in m.exclude_sectors]
+            checks.append({"kind": "exclusions", "rule": "no excluded stock or sector held", "held": bad, "ok": not bad})
+        checks.append({"kind": "cash", "rule": "cash never negative after fees", "value_vnd": cash_after,
+                       "ok": cash_after >= 0})
+        return {"trades": trades, "fees_vnd": fee_total, "cash_after_vnd": cash_after, "post_trade_nav_vnd": post_nav,
+                "invested_pct_post_fee": round(100 * float(w.sum()), 3), "checks": checks,
+                "all_checks_ok": all(c["ok"] for c in checks),
+                "fee_rules": {"commission_pct": 100 * rules.commission, "sell_tax_pct": 100 * rules.sell_tax,
+                              "lot_size": rules.lot_size,
+                              "basis": "rules are checked on post-trade NAV = cash after fees + holdings"}}
+
+    def _infeasible(self, base: dict, diag: dict) -> dict:
+        return base | {"status": "infeasible", "feasibility": diag, "trades": [], "checks": [], "fees_vnd": 0.0,
+                       "cash_after_vnd": base["capital_vnd"], "portfolios": {}, "quantum": {"ran": False,
+                       "reason": "no feasible whole-lot portfolio"}, "_rec": None}
+
     # -------------------------------------------------------------- the pipeline
     def decide(self, capital: float, mandate: Mandate | None = None, shots: int = 512, seed: int = 0,
-               with_textbook: bool = True) -> dict:
+               with_textbook: bool = True, progress=None) -> dict:
+        """One decision. Returns status "ok" (trades verified) or "infeasible" (with the blocking rules)."""
+        from .feasibility import diagnose
+        from .portfolio import NoFeasiblePortfolio
+
         md, ec, d = self.md, self.ec, self.date
         m = mandate or Mandate()
+        say = progress or (lambda stage, **kw: None)
         t = {}
         acc = Account(cash=float(capital))
+        base = {"date": str(d.date()), "capital_vnd": float(capital), "mandate": m.to_dict(),
+                "universe": len(self.universe)}
 
+        say("feasibility")
+        diag = diagnose(md, d, self.universe, acc, m, ec)
+        if not diag["feasible"]:
+            return self._infeasible(base, diag)
+        say("build_qubo")
         t0 = time.time()
-        inst = build_rounding_instance(md, d, self.universe, acc, ec, m)
-        t["build_qubo"] = time.time() - t0
-        t0 = time.time()
-        land = landscape(inst)
-        t["enumerate_all"] = time.time() - t0
-        cp = CompiledProblem(inst, land)
+        try:
+            inst = build_rounding_instance(md, d, self.universe, acc, ec, m)
+            t["build_qubo"] = time.time() - t0
+            say("enumerate")
+            t0 = time.time()
+            land = landscape(inst)
+            t["enumerate_all"] = time.time() - t0
+        except NoFeasiblePortfolio as e:
+            diag = diag | {"feasible": False, "blocking": diag["blocking"] + [{
+                "code": "no_feasible_lot_combination", "rule": "combination",
+                "message_en": f"No whole-lot portfolio satisfies cash and every rule ({e}).",
+                "message_vi": "Không có tổ hợp lô chẵn nào vừa đủ tiền vừa thỏa mọi quy tắc.", "detail": {}}]}
+            return self._infeasible(base, diag)
         n = inst.n_qubits
-
-        # Phase 1a: market insight (statistics)
         excluded = [x for x in self.universe if x not in inst.tickers]
+        tickers = inst.tickers
+        rules = ec.rules
+
+        # baselines for the same account (deterministic)
+        say("baselines")
+        prac = practitioner_target(md, d, self.universe, acc, ec, m)
+        greedy = greedy_target(md, d, self.universe, acc, ec) if m.is_empty() else None
+        w_cont = inst.meta["continuous_weights"]
+        opt_x = _bits(land.opt_index, n)
+
+        if n < 2:
+            # Too few lot decisions for a circuit: the exact search over 2^n choices is the decision.
+            x = opt_x
+            new = inst.shares(x)[0]
+            ex = self._execution(inst, new, m)
+            ports = {"ideal (fractional shares)": self._ideal(inst, w_cont),
+                     "nearest-lot rounding": self._portfolio(inst, tickers, prac),
+                     "AGQO": self._portfolio(inst, tickers, dict(zip(tickers, new)))}
+            mi = market_insight(md, inst, land, excluded, ec.problem.lookback_days)
+            return base | ex | {
+                "status": "ok", "feasibility": diag, "excluded_by_mandate": excluded,
+                "market": self._market(mi), "stocks": self._stocks(inst), "register": [],
+                "quantum": {"ran": False, "qubits": int(n),
+                            "reason": f"only {n} lot decision(s) remain after the rules; exact search over "
+                                      f"{2 ** n} choice(s) decides directly, no circuit is run"},
+                "hamiltonian": None, "ai": None, "circuit": None,
+                "result": {"found_exact_optimum": True, "states_total": int(2 ** n),
+                           "states_affordable": int(land.feasible.sum())},
+                "portfolios": ports, "tickers": tickers, "seconds": {k: round(v, 3) for k, v in t.items()},
+                "_rec": None}
+
+        cp = CompiledProblem(inst, land)
         mi = market_insight(md, inst, land, excluded, ec.problem.lookback_days)
 
-        # Phase 2b: AI guidance (k-NN over insight features -> schedule)
+        # AI guidance (k-NN over insight features -> schedule)
+        say("schedule")
         f = design_features(cp)
         row = self.grid.iloc[self.model.choose(f)]
         spec = spec_of(row, ec.design.polish_iters if self.use_polish else 0, ec.design.polish_cvar_alpha, "AGQO:")
 
-        # Quantum: statevector simulation of the designed circuit, then 512 measurement shots
+        say("qaoa")
         t0 = time.time()
         r = run_qaoa(cp, spec, ec.problem.success_gap, shots, np.random.default_rng(seed))
         t["qaoa"] = time.time() - t0
@@ -169,6 +284,7 @@ class Demo:
         warm = warm_start_only(cp, float(row["epsilon"]), ec.problem.success_gap, shots, np.random.default_rng(seed))
         arms = {"AGQO": r.probs, "warm start only": warm.probs, "random guessing": np.full(2 ** n, 2.0 ** -n)}
         if with_textbook:
+            say("textbook")
             t0 = time.time()
             tb = run_qaoa(cp, DEFAULT_SPEC, ec.problem.success_gap, shots, np.random.default_rng(seed))
             t["textbook_qaoa"] = time.time() - t0
@@ -182,72 +298,29 @@ class Demo:
             return out
 
         # decision = best affordable sample (verified exactly)
+        say("verify")
         best = r.best_sample if r.best_sample is not None else land.opt_index
         x = _bits(best, n)
         new = inst.shares(x)[0]
-        opt_x = _bits(land.opt_index, n)
-
-        # baselines for the same account
-        prac = practitioner_target(md, d, self.universe, acc, ec, m)
-        greedy = greedy_target(md, d, self.universe, acc, ec) if m.is_empty() else None
-        tickers = inst.tickers
-        w_cont = inst.meta["continuous_weights"]
-        ports = {"ideal (fractional shares)": {"weights": np.round(w_cont, 5).tolist(),
-                                              "te_pct": round(float(100 * inst.tracking_error(w_cont)[0]), 3),
-                                              "invested_pct": round(float(100 * w_cont.sum()), 2),
-                                              "holdings": int((w_cont > 1e-4).sum())},
+        ex = self._execution(inst, new, m)
+        ports = {"ideal (fractional shares)": self._ideal(inst, w_cont),
                  "nearest-lot rounding": self._portfolio(inst, tickers, prac),
                  "AGQO": self._portfolio(inst, tickers, dict(zip(tickers, new)))}
         if greedy is not None:
             ports["greedy lot filling"] = self._portfolio(inst, tickers, greedy)
 
-        trades, fee_total = [], 0.0
-        rules = ec.rules
-        for tk, p, s in zip(tickers, inst.prices, new):
-            if s > 0:
-                v = s * p
-                fee = rules.commission * v
-                fee_total += fee
-                trades.append({"ticker": tk, "sector": md.sector(tk), "lots": int(s // rules.lot_size),
-                               "shares": int(s), "price_vnd": float(p), "value_vnd": float(v), "fee_vnd": float(fee)})
-        trades.sort(key=lambda z: -z["value_vnd"])
-        cash_after = float(inst.cash_after(x[None, :])[0])
-
-        # compliance with every rule of the mandate (post-trade weights)
-        w_new = new * inst.prices / inst.nav
-        checks = []
-        for mask, cap in inst.caps:
-            names = [tk for tk, k in zip(tickers, mask) if k]
-            label = "invested share" if mask.all() else (names[0] if mask.sum() == 1 else md.sector(names[0]))
-            checks.append({"rule": f"{label} <= {100 * cap:.1f}%", "value_pct": round(float(100 * w_new[mask].sum()), 2),
-                           "ok": bool(w_new[mask].sum() <= cap + 1e-9)})
-        held = {tk for tk, s in zip(tickers, new) if s > 0}
-        if m.exclude_tickers or m.exclude_sectors:
-            bad = [tk for tk in held if tk in m.exclude_tickers or md.sector(tk) in m.exclude_sectors]
-            checks.append({"rule": "no excluded stock or sector held", "value_pct": None, "ok": not bad})
-        if m.max_holdings is not None:
-            checks.append({"rule": f"at most {m.max_holdings} stocks", "value_pct": None, "ok": len(held) <= m.max_holdings})
-        checks.append({"rule": "cash never negative after fees", "value_pct": None, "ok": cash_after >= 0})
-
         # circuit description for drawing
-        diag, sel, scale = cp.phase_terms(spec)
+        diag_terms, sel, scale = cp.phase_terms(spec)
         reg = inst.register
         angles = r.angles if len(r.angles) else initial_angles(spec)
         p = spec.layers
         top = np.argsort(-r.probs)[:12]
         e_samples = land.energy[samples]
         ok = np.isfinite(gap)
-        return {
-            "date": inst.date, "capital_vnd": float(capital), "mandate": m.to_dict(),
-            "universe": len(self.universe), "excluded_by_mandate": excluded,
-            "market": {"avg_correlation": round(mi.avg_correlation, 3),
-                       "market_factor_share_pct": round(100 * mi.market_factor_share, 1),
-                       "effective_bets": round(mi.effective_bets, 1), "clusters": mi.clusters,
-                       "lot_cost_pct_median": round(mi.lot_cost_pct_median, 2),
-                       "lot_cost_pct_max": round(mi.lot_cost_pct_max, 2)},
-            "stocks": [{"ticker": tk, "sector": md.sector(tk), "price_vnd": float(pp),
-                        "lot_pct": round(float(100 * rules.lot_size * pp / inst.nav), 2)}
-                       for tk, pp in zip(tickers, inst.prices)],
+        return base | ex | {
+            "status": "ok", "feasibility": diag, "excluded_by_mandate": excluded,
+            "quantum": {"ran": True, "qubits": int(n)},
+            "market": self._market(mi), "stocks": self._stocks(inst),
             "register": [{"qubit": q, "ticker": reg[q], "sector": md.sector(reg[q]),
                           "lot_pct": round(float(100 * rules.lot_size * inst.prices[inst.bit_stock[q]] / inst.nav), 2),
                           "relaxed": round(float(cp.relaxed[q]), 3), "h": round(float(cp.hz[q]), 6),
@@ -282,13 +355,31 @@ class Demo:
                                          "optimum": float(land.energy[land.opt_index])},
                        "states_total": int(2 ** n), "states_affordable": int(ok.sum())},
             "portfolios": ports, "tickers": tickers,
-            "trades": trades, "fees_vnd": fee_total, "cash_after_vnd": cash_after, "checks": checks,
             "seconds": {k: round(v, 3) for k, v in t.items()}, "_rec": (inst, land, cp, spec, r),
         }
 
-    def evidence(self, out: dict) -> dict:
+    def _ideal(self, inst, w_cont) -> dict:
+        return {"weights": np.round(w_cont, 5).tolist(), "te_pct": round(float(100 * inst.tracking_error(w_cont)[0]), 3),
+                "invested_pct": round(float(100 * w_cont.sum()), 2), "holdings": int((w_cont > 1e-4).sum())}
+
+    @staticmethod
+    def _market(mi) -> dict:
+        nan = lambda v, k=3: None if not np.isfinite(v) else round(float(v), k)
+        return {"avg_correlation": nan(mi.avg_correlation), "market_factor_share_pct": nan(100 * mi.market_factor_share, 1),
+                "effective_bets": nan(mi.effective_bets, 1), "clusters": mi.clusters,
+                "lot_cost_pct_median": nan(mi.lot_cost_pct_median, 2), "lot_cost_pct_max": nan(mi.lot_cost_pct_max, 2)}
+
+    def _stocks(self, inst) -> list[dict]:
+        return [{"ticker": tk, "sector": self.md.sector(tk), "price_vnd": float(pp),
+                 "lot_pct": round(float(100 * self.ec.rules.lot_size * pp / inst.nav), 2)}
+                for tk, pp in zip(inst.tickers, inst.prices)]
+
+    def evidence(self, out: dict) -> dict | None:
+        """Fact sheet for the explainer; None when no circuit ran (infeasible or too few lot decisions)."""
         from .experiment import _evidence
 
+        if out.get("_rec") is None:
+            return None
         return _evidence(self.md, self.date, out["_rec"], None, self.ec.problem)
 
 

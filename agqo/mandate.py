@@ -133,3 +133,30 @@ def rule_parse(text: str, tickers: set[str]) -> Mandate:
     m.exclude_tickers = sorted(set(m.exclude_tickers))
     m.exclude_sectors = sorted(set(m.exclude_sectors) - set(m.sector_caps))
     return m
+
+
+# Vague limits the keyword baseline cannot turn into a number (folded text, no diacritics).
+VAGUE = ["qua nhieu", "nhieu qua", "it thoi", "it rui ro", "rui ro thap", "an toan hon", "vua phai", "khong nhieu",
+         "han che", "giam bot", "bot ", "it hon", "nhieu hon", "uu tien"]
+_NUMBER = re.compile(r"\d")
+
+
+def rule_clarification(text: str) -> tuple[bool, str | None]:
+    """(needs_clarification, question) for the keyword fallback: a vague limit without any number."""
+    t = _plain(text)
+    if not any(v in t for v in VAGUE) or _NUMBER.search(t) or re.search(r"mot phan|mot nua|phan tu", t):
+        return False, None
+    for sec, kws in SECTOR_KEYWORDS.items():
+        for kw in kws:
+            if kw in t:
+                return True, f"Bạn muốn giới hạn tỷ trọng ngành {kw_vi(sec)} tối đa bao nhiêu phần trăm?"
+    if "rui ro" in t or "an toan" in t:
+        return True, ("“Ít rủi ro hơn” có thể là giữ thêm tiền mặt hoặc giới hạn tỷ trọng mỗi mã. "
+                      "Bạn muốn giữ bao nhiêu % tiền mặt, hoặc mỗi mã tối đa bao nhiêu %?")
+    return True, "Bạn muốn đặt giới hạn này ở mức bao nhiêu phần trăm?"
+
+
+def kw_vi(sector: str) -> str:
+    from .config import SECTOR_EN
+
+    return {v: k for k, v in SECTOR_EN.items()}.get(sector, sector).lower()

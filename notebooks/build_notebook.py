@@ -49,7 +49,7 @@ print("revision", REV)
 kept = {}"""),
     (MD, "## Smoke test: image, data snapshot and Volume"),
     (CODE, """if "smoke" in TASKS:
-    with modal.enable_output(), mr.app.run():
+    with mr.app.run():
         res = mr.smoke.remote(REV)
     kept["smoke"] = keep(res); show(kept["smoke"])"""),
     (MD, """## Product failure reproduction
@@ -57,7 +57,7 @@ kept = {}"""),
 Runs the decision pipeline on the edge cases reported against V3.1 and audits every result on the
 post-trade NAV (cash after fees + holdings). Output: `product_failures.json`."""),
     (CODE, """if "reproduce" in TASKS:
-    with modal.enable_output(), mr.app.run():
+    with mr.app.run():
         res = mr.reproduce.remote(REV)
     kept["reproduce"] = keep(res); show(kept["reproduce"])
     pf = json.loads((kept["reproduce"] / "product_failures.json").read_text())
@@ -67,7 +67,7 @@ post-trade NAV (cash after fees + holdings). Output: `product_failures.json`."""
     print("verifier accepts swapped numbers:", pf["verifier_swap"]["swapped"]["check"]["ok"])"""),
     (MD, "## Test suite (including the circuit-simulating tests) on Modal CPU"),
     (CODE, """if "pytest" in TASKS:
-    with modal.enable_output(), mr.app.run():
+    with mr.app.run():
         res = mr.pytest_suite.remote(REV, PYTEST_ARGS)
     kept["pytest"] = keep(res); show(kept["pytest"])
     print((kept["pytest"] / "pytest.txt").read_text()[-3000:])"""),

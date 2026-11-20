@@ -83,7 +83,7 @@ def walk(md: MarketData, ec: ExperimentConfig, dates: list, capital: float, deci
         post = acc.value(px)
         rows.append({"date": str(d.date()), "nav_pre": nav, "fees": acc.fees_paid - fees0, "holdings": len(acc.shares),
                      "invested_pct": 100 * (1 - acc.cash / post),
-                     "_weights": {t: s * px[t] / nav for t, s in acc.shares.items()}} | info)  # vs NAV at decision
+                     "_weights": {t: s * px[t] / post for t, s in acc.shares.items()}} | info)  # post-trade NAV
         nxt = dates[k + 1] if k + 1 < len(dates) else end
         seg = daily_values(md, acc, d, nxt)
         segs.append(seg if k + 1 == len(dates) else seg.iloc[:-1])
@@ -356,13 +356,13 @@ def _compliance(md: MarketData, dates, series, rows, acc, m: Mandate) -> dict:
             viol.append(f"{r['date']}: excluded name held")
         for s_, cap in m.sector_caps.items():
             tot = sum(v for t, v in w.items() if md.sector(t) == s_)
-            if tot > cap + 1e-6:
+            if tot > cap + 1e-12:
                 viol.append(f"{r['date']}: {s_} {tot:.3f} > {cap}")
-        if m.max_weight_per_stock is not None and max(w.values(), default=0) > m.max_weight_per_stock + 1e-6:
+        if m.max_weight_per_stock is not None and max(w.values(), default=0) > m.max_weight_per_stock + 1e-12:
             viol.append(f"{r['date']}: single stock above {m.max_weight_per_stock}")
         if m.max_holdings is not None and len(held) > m.max_holdings:
             viol.append(f"{r['date']}: {len(held)} holdings")
-        if m.min_cash_pct is not None and sum(w.values()) > 1 - m.min_cash_pct / 100 + 1e-6:
+        if m.min_cash_pct is not None and sum(w.values()) > 1 - m.min_cash_pct / 100 + 1e-12:
             viol.append(f"{r['date']}: cash below {m.min_cash_pct}%")
     return {"rule_violations_at_rebalance": len(viol), "violations": "; ".join(viol[:5])}
 

@@ -321,7 +321,8 @@ def _context_issues(texts: list[str], evidence: dict) -> list[str]:
 
 def verify_explanation(parsed: dict | None, evidence: dict) -> dict:
     if not isinstance(parsed, dict):
-        return {"ok": False, "unverified_numbers": [], "trade_mismatches": ["no valid JSON"], "context_issues": []}
+        return {"ok": False, "unverified_numbers": [], "trade_mismatches": ["no valid JSON"], "context_issues": [],
+                "attribution_issues": []}
     allowed = _numbers(json.dumps(evidence, ensure_ascii=False))
     text = " ".join([parsed.get("summary_vi", ""), *[n.get("reason_vi", "") for n in parsed.get("trade_notes", [])],
                      *parsed.get("risk_notes_vi", [])])
@@ -330,5 +331,12 @@ def verify_explanation(parsed: dict | None, evidence: dict) -> dict:
     mism = [f"{n['ticker']} {n['action']} {n['lots']}" for n in parsed.get("trade_notes", [])
             if (n["ticker"], n["action"], n["lots"]) not in trades]
     ctx = _context_issues([text], evidence) if "labels_vi" in evidence else []
-    return {"ok": not bad and not mism and not ctx, "unverified_numbers": bad, "trade_mismatches": mism,
-            "context_issues": ctx}
+    attr = []
+    if "labels_vi" in evidence:                      # V3.2: each number tied to its strategy, metric and unit
+        from .attribution import check_attribution
+
+        pieces = [parsed.get("summary_vi", ""), *parsed.get("risk_notes_vi", []),
+                  *[f"{n.get('ticker', '')} {n.get('reason_vi', '')}" for n in parsed.get("trade_notes", [])]]
+        attr = [i for s in pieces for i in check_attribution(s, evidence)]
+    return {"ok": not bad and not mism and not ctx and not attr, "unverified_numbers": bad, "trade_mismatches": mism,
+            "context_issues": ctx, "attribution_issues": attr}

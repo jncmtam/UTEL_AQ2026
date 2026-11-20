@@ -9,7 +9,8 @@ Every term is quadratic in w, and w is affine in x, so the QUBO is the *exact*
 discrete objective, not an equal-weight proxy. A budget penalty
 lambda * (sum w - target)^2 steers the circuit towards affordable portfolios;
 feasibility (cash >= 0 after fees and tax, plus the investor's caps) is always
-checked exactly.
+checked exactly. Caps are checked on the post-trade NAV (cash after fees plus
+holdings), the value the investor sees after the orders fill.
 
 The investor's mandate can remove stocks and add caps, but no AI component edits
 a coefficient here: this module is the single owner of the Hamiltonian.
@@ -133,21 +134,34 @@ class Instance:
         return np.einsum("ki,ij,kj->k", x, Q, x) + x @ h + c
 
     # ---------- exact accounting ----------
-    def cash_after(self, x: np.ndarray) -> np.ndarray:
+    def fees(self, x: np.ndarray) -> np.ndarray:
+        """Commission on bought and sold value plus the sales tax, in VND."""
         r = self.rules
-        new = self.shares(x)
-        delta = (new - self.prev_shares) * self.prices
+        delta = (self.shares(x) - self.prev_shares) * self.prices
         buys = np.clip(delta, 0, None).sum(-1)
         sells = np.clip(-delta, 0, None).sum(-1) + self.other_value
-        fees = r.commission * (buys + sells) + r.sell_tax * sells
-        return self.cash + self.other_value + (self.prev_shares * self.prices).sum() - (new * self.prices).sum(-1) - fees
+        return r.commission * (buys + sells) + r.sell_tax * sells
+
+    def cash_after(self, x: np.ndarray) -> np.ndarray:
+        new = self.shares(x)
+        return self.cash + self.other_value + (self.prev_shares * self.prices).sum() - (new * self.prices).sum(-1) \
+            - self.fees(x)
+
+    def post_trade_nav(self, x: np.ndarray) -> np.ndarray:
+        """Account value right after the trades: cash after fees plus the new holdings (= NAV - fees)."""
+        return self.cash_after(x) + (self.shares(x) * self.prices).sum(-1)
+
+    def post_trade_weights(self, x: np.ndarray) -> np.ndarray:
+        """Holding weights on the post-trade NAV: the basis every investor rule is checked on."""
+        return self.shares(x) * self.prices / self.post_trade_nav(x)[:, None]
 
     def feasible(self, x: np.ndarray) -> np.ndarray:
+        """Exact check of one or many bit vectors: cash >= 0 after fees and every cap on the post-trade NAV."""
         ok = self.cash_after(x) >= 0
         if self.caps:
-            W = self.weights(x)
+            W = self.post_trade_weights(x)
             for mask, cap in self.caps:
-                ok &= W[:, mask].sum(1) <= cap + 1e-9
+                ok &= W[:, mask].sum(1) <= cap + 1e-12
         return ok
 
     def ising(self) -> tuple[np.ndarray, np.ndarray, float]:
@@ -157,6 +171,10 @@ class Instance:
         hz = -h / 2.0 - Q.sum(1) / 2.0
         cz = c + h.sum() / 2.0 + Q.sum() / 4.0
         return J, hz, cz
+
+
+class NoFeasiblePortfolio(ValueError):
+    """No whole-lot choice in the encoding satisfies cash and every investor rule."""
 
 
 def all_bitstrings(n: int) -> np.ndarray:
@@ -190,7 +208,7 @@ def landscape(inst: Instance) -> Landscape:
     obj = inst.true_objective_w(W)
     feas = inst.feasible(X)
     if not feas.any():
-        raise ValueError("No affordable portfolio in the encoding.")
+        raise NoFeasiblePortfolio("No affordable portfolio in the encoding.")
     fo = np.where(feas, obj, np.inf)
     k = int(np.argmin(fo))
     return Landscape(energy, obj, feas, k, float(obj[k]), float(np.median(obj[feas])))

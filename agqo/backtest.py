@@ -54,24 +54,50 @@ def risk_inputs(md: MarketData, date, tickers: list[str], cfg) -> tuple[np.ndarr
     return S[:n, :n], S[:n, n], float(S[n, n])
 
 
+def fee_margin(account: Account, rules) -> float:
+    """Upper bound on fees / pre-trade NAV for any rebalance of this account.
+
+    A cash-only account can only buy (bought value <= NAV): fees <= commission x NAV. An account with
+    holdings can at most sell everything and buy NAV again: fees <= (2 commission + sales tax) x NAV.
+    A cap c on the pre-trade NAV basis scaled to c x (1 - margin) therefore holds on the post-trade NAV
+    (NAV - fees) for every lot choice, which is what lets the register keep all 2^n states inside the rules.
+    """
+    held = any(s for s in account.shares.values())
+    return 2 * rules.commission + rules.sell_tax if held else rules.commission
+
+
 def continuous_target(md: MarketData, date, universe: list[str], account: Account, ec: ExperimentConfig,
                       mandate: Mandate | None = None) -> tuple[list[str], np.ndarray, float, list]:
-    """Mandate-aware continuous minimum-TE weights: (tickers, weights, invest target, caps)."""
+    """Mandate-aware continuous minimum-TE weights: (tickers, weights, invest target, construction caps).
+
+    The returned caps are the investor's caps tightened by `fee_margin`, on the pre-trade NAV basis. They
+    shape the continuous target, the register and practitioner rounding. The investor's own caps are
+    checked exactly on the post-trade NAV (`Instance.feasible`).
+    """
     m = mandate or Mandate()
     cfg = ec.problem
     tickers = m.filter_universe(universe, md.sector)
+    if not tickers:
+        from .portfolio import NoFeasiblePortfolio
+
+        raise NoFeasiblePortfolio("every usable stock is excluded by the investor's rules")
     target = m.invest_target(cfg.invest_target)
     nav = account.value(md.px.loc[date])
+    margin = fee_margin(account, ec.rules)
 
     def solve(tk):
         cov, cov_b, _ = risk_inputs(md, date, tk, cfg)
         w_prev = np.array([account.shares.get(t, 0.0) for t in tk]) * md.px.loc[date, tk].to_numpy() / nav
-        caps = m.caps(tk, md.sector)
+        caps = [(mask, cap * (1 - margin)) for mask, cap in m.caps(tk, md.sector)]
         return continuous_min_te(cov, cov_b, target, w_prev=w_prev, gamma=cfg.turnover_weight, caps=caps), caps
 
     w, caps = solve(tickers)
     if m.max_holdings is not None and m.max_holdings < len(tickers):
-        keep = sorted(np.argsort(-w)[: m.max_holdings])
+        # keep the largest continuous weights among stocks of which one lot is affordable
+        px = md.px.loc[date, tickers].to_numpy()
+        afford = ec.rules.lot_size * px * (1 + ec.rules.commission) <= nav * target * (1 - margin)
+        order = [i for i in np.argsort(-w) if afford[i]] + [i for i in np.argsort(-w) if not afford[i]]
+        keep = sorted(order[: m.max_holdings])
         tickers = [tickers[i] for i in keep]
         w, caps = solve(tickers)
     return tickers, w, target, caps
@@ -121,10 +147,11 @@ def build_rounding_instance(md: MarketData, date, universe: list[str], account: 
             base[j[np.argmax((base * px)[j])]] -= 1
     prev = np.array([account.shares.get(t, 0.0) for t in tickers])
     other = sum(s * all_px[t] for t, s in account.shares.items() if t not in tickers)
+    investor_caps = (mandate or Mandate()).caps(list(tickers), md.sector)   # checked exactly, post-trade NAV
     inst = Instance(date=str(pd.Timestamp(date).date()), tickers=list(tickers), prices=px, nav=nav, cov=cov,
                     cov_b=cov_b, var_b=var_b, prev_shares=prev, other_value=other, cash=account.cash,
                     base_shares=base * rules.lot_size, bit_stock=reg, bit_lots=np.ones(len(reg)), cfg=cfg,
-                    rules=rules, invest_target=target, caps=caps)
+                    rules=rules, invest_target=target, caps=investor_caps)
     inst.meta["continuous_weights"] = w
     inst.meta["nearest_bits"] = (frac[reg] >= 0.5).astype(int)   # plain rounding = one specific bitstring
     inst.meta["register_dropped_by_caps"] = int(min(cfg.register_size, len(tickers)) - len(reg))

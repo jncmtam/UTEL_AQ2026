@@ -84,6 +84,8 @@ def _eigen_stats(corr: np.ndarray) -> tuple[float, float]:
 
 
 def correlation_clusters(corr: np.ndarray, tickers: list[str], distance: float = CLUSTER_DISTANCE) -> list[list[str]]:
+    if len(tickers) < 2:
+        return [list(tickers)]
     d = np.sqrt(np.clip(2 * (1 - corr), 0, None))
     np.fill_diagonal(d, 0)
     labels = fcluster(linkage(squareform(d, checks=False), method="average"), t=distance, criterion="distance")
@@ -96,9 +98,10 @@ def correlation_clusters(corr: np.ndarray, tickers: list[str], distance: float =
 def market_insight(md: MarketData, inst: Instance, land: Landscape, excluded: list[str], lookback: int) -> MarketInsight:
     tickers = inst.tickers
     r, _ = history_window(md, inst.date, tickers, lookback)
-    corr = np.corrcoef(r, rowvar=False)
+    corr = np.atleast_2d(np.corrcoef(r, rowvar=False))       # one stock: corrcoef returns a scalar
     iu = np.triu_indices(len(tickers), 1)
     factor, bets = _eigen_stats(corr)
+    avg_corr = float(corr[iu].mean()) if len(iu[0]) else float("nan")
     w = inst.meta["continuous_weights"]
     sectors: dict[str, float] = {}
     for t, wi in zip(tickers, w):
@@ -116,9 +119,10 @@ def market_insight(md: MarketData, inst: Instance, land: Landscape, excluded: li
                     "relaxed_prob": None if relaxed is None else round(float(relaxed[k]), 3)})
     return MarketInsight(
         date=inst.date, usable=len(tickers), excluded=list(excluded),
-        avg_correlation=float(corr[iu].mean()), market_factor_share=factor, effective_bets=bets,
+        avg_correlation=avg_corr, market_factor_share=factor, effective_bets=bets,
         clusters=correlation_clusters(corr, tickers), sector_weights={k: round(v, 4) for k, v in sectors.items()},
-        lot_cost_pct_median=float(np.median(lot_pct[held])), lot_cost_pct_max=float(lot_pct[held].max()),
+        lot_cost_pct_median=float(np.median(lot_pct[held])) if held.any() else float("nan"),
+        lot_cost_pct_max=float(lot_pct[held].max()) if held.any() else float("nan"),
         te_continuous_pct=float(100 * inst.tracking_error(w)[0]),
         te_nearest_pct=float(100 * inst.tracking_error(inst.weights(nb))[0]),
         te_exact_pct=float(100 * inst.tracking_error(inst.weights(x_opt))[0]),

@@ -135,7 +135,7 @@ def reproduce(run) -> dict:
     sw = out["verifier_swap"]["swapped"]["check"]["ok"]
     run.step("reproduce", exceptions=n_exc, silent_cap_breaches=n_silent, verifier_accepts_swap=sw)
     return {"exceptions": n_exc, "silent_cap_breaches": n_silent, "verifier_accepts_swap": sw,
-            "clarification_blocks_trades": False}
+            "infeasible_with_reason": sum(c.get("status") == "infeasible" for c in cases)}
 
 
 def _np(o):

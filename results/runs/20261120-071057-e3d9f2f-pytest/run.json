@@ -1,0 +1,26 @@
+{
+ "run_id": "20261120-071057-e3d9f2f-pytest",
+ "kind": "pytest",
+ "git": {
+  "sha": "e3d9f2fce8c81681141e76ef4ef33232cd9d2673",
+  "short": "e3d9f2f",
+  "dirty": true
+ },
+ "data_sha256": "7f076128a4f625f9589844f7465e3a1745e1a31e2cecfa8b70e3d8e141433042",
+ "config": {
+  "args": []
+ },
+ "python": "3.12.10",
+ "host": "modal",
+ "modal_task_id": "ta-01M7VWPFH07GZVW3KQX87VJK1R",
+ "started_utc": "2026-11-20T07:10:57Z",
+ "status": "failed",
+ "steps": [],
+ "errors": [],
+ "seconds": 17.8,
+ "finished_utc": "2026-11-20T07:11:15Z",
+ "summary": {
+  "returncode": 1,
+  "tail": "1 failed, 38 passed in 16.83s"
+ }
+}
