@@ -1,13 +1,13 @@
 /* AGQO prototype front-end. Talks to app/server.py; every chart is ECharts, the circuit is hand-drawn SVG. */
 "use strict";
 
-const C = { bg: "#070b14", card: "#101a2c", line: "#1e2b44", text: "#e6edf7", muted: "#8b9ab3",
-  up: "#22c55e", down: "#ef4444", amber: "#f59e0b", ai: "#38bdf8", q: "#a78bfa", cl: "#34d399", accent: "#facc15", grey: "#64748b" };
+const C = { bg: "#0B1220", card: "#121B2E", line: "#24324A", text: "#E8EEF6", muted: "#94A3B8",
+  up: "#22C55E", down: "#F43F5E", amber: "#F59E0B", ai: "#38BDF8", q: "#A78BFA", cl: "#5EEAD4", accent: "#38BDF8", grey: "#64748B" };   // = submission/deck/theme.json
 const SECTOR_VI = { Banking: "Ngân hàng", Insurance: "Bảo hiểm", Technology: "Công nghệ", Energy: "Năng lượng",
   Materials: "Nguyên vật liệu", "Real estate": "Bất động sản", Consumer: "Tiêu dùng", Brokerage: "Chứng khoán", Aviation: "Hàng không" };
 const PORT_VI = { "ideal (fractional shares)": "Lý tưởng (cổ phiếu lẻ)", "nearest-lot rounding": "Làm tròn lô gần nhất",
   "greedy lot filling": "Tham lam (thêm từng lô)", "AGQO": "AGQO" };
-const PORT_COLOR = { "ideal (fractional shares)": C.grey, "nearest-lot rounding": C.down, "greedy lot filling": C.amber, "AGQO": C.ai };
+const PORT_COLOR = { "ideal (fractional shares)": "#334155", "nearest-lot rounding": "#64748B", "greedy lot filling": "#CBD5E1", "AGQO": "#38BDF8" };
 const BIN_VI = { "optimal": "Tối ưu", "within 5%": "Trong 5%", "5–25%": "5–25%", "25–100%": "25–100%", "worse than typical": "Tệ hơn trung bình", "over budget": "Vượt ngân sách" };
 const BIN_COLOR = { "optimal": "#16a34a", "within 5%": "#4ade80", "5–25%": "#facc15", "25–100%": "#f97316", "worse than typical": "#ef4444", "over budget": "#334155" };
 const ARM_VI = { "AGQO": "AGQO", "warm start only": "Khởi động ấm (cổ điển)", "textbook QAOA": "QAOA sách giáo khoa", "random guessing": "Đoán ngẫu nhiên" };
@@ -61,7 +61,7 @@ function lotChart(cap) {
     tooltip: { ...BASE.tooltip, trigger: "axis", formatter: (p) => `${p[0].name} · ${SECTOR_VI[s[p[0].dataIndex].sector]}<br>1 lô = ${vnd(s[p[0].dataIndex].lot_vnd)} đ<br><b>${fmt(p[0].value)}%</b> số vốn` },
     xAxis: { type: "category", data: s.map((x) => x.ticker), ...AX, axisLabel: { color: C.muted, rotate: 60, fontFamily: "JetBrains Mono", fontSize: 11 } },
     yAxis: { type: "value", name: "% số vốn", nameTextStyle: { color: C.muted }, ...AX, max: (v) => Math.max(110, Math.ceil(v.max / 10) * 10) },
-    series: [{ type: "bar", data: pct.map((v) => ({ value: +v.toFixed(2), itemStyle: { color: v > 100 ? C.down : v > 10 ? C.amber : C.up, borderRadius: [4, 4, 0, 0] } })),
+    series: [{ type: "bar", data: pct.map((v) => ({ value: +v.toFixed(2), itemStyle: { color: v > 100 ? C.down : v > 10 ? C.amber : C.grey, borderRadius: [4, 4, 0, 0] } })),
       markLine: { symbol: "none", label: { color: C.text, formatter: "{b}" }, lineStyle: { type: "dashed" },
         data: [{ yAxis: 100, name: "toàn bộ số vốn", lineStyle: { color: C.down } }, { yAxis: 10, name: "10%", lineStyle: { color: C.amber } }] } }] });
   const over10 = pct.filter((v) => v > 10).length, over100 = pct.filter((v) => v > 100).length;
@@ -207,7 +207,7 @@ let FORM = { capital: 20, exclude_sectors: [], exclude_tickers: [], sector_caps:
 let SRC = Object.fromEntries(FIELDS.map((f) => [f, f === "capital" ? "user" : "unset"]));
 let PRESET = null, PENDING = null, LAST_RUN = null, LAST_BODY = null;
 let CONFIRMED = true, LLM_PENDING = false, LAST_SOURCE = null;
-function sourceKind(src) { return /live/.test(src) ? "live" : /logged/.test(src) ? "replay" : /keyword/.test(src) ? "keyword" : ""; }
+function sourceKind(src) { return /logged/.test(src) ? "replay" : /live/.test(src) ? "live" : /keyword/.test(src) ? "keyword" : ""; }
 const SOURCE_VI = { live: "Qwen trả lời trực tiếp", replay: "câu trả lời Qwen đã lưu (phát lại)", keyword: "quy tắc từ khóa (không dùng LLM)" };
 function renderConfirm() {
   const bar = $("#confirmBar");
@@ -481,7 +481,9 @@ async function showResult(d, st) {
       label: { show: true, position: "right", color: C.text, formatter: (p) => fmt(p.value, 2) + "%" } }] });
   const gain = rd.te_pct - ag.te_pct;
   $("#cmpCaption").innerHTML = `Hình. Sai số bám VN30 dự kiến (năm hoá) cho cùng tài khoản. So với làm tròn lô gần nhất, AGQO ${gain > 0.005 ? `giảm <b class="up">${fmt(gain, 2)} điểm %</b>` : gain < -0.005 ? `<b class="down">kém hơn ${fmt(-gain, 2)} điểm %</b>` : "<b>gần như bằng</b>"}` +
-    `${d.portfolios["greedy lot filling"] ? `; thuật toán tham lam cổ điển đạt ${fmt(d.portfolios["greedy lot filling"].te_pct, 2)}%` : ""}. Đây là ước tính trước khi giao dịch, không phải kết quả tương lai.`;
+    (() => { const g = d.portfolios["greedy lot filling"]; if (!g) return ""; const dg = g.te_pct - ag.te_pct;
+      return `; thuật toán tham lam cổ điển (cùng quy tắc) đạt ${fmt(g.te_pct, 2)}%, ` + (Math.abs(dg) < 0.005 ? "bằng AGQO" : dg > 0 ? `cao hơn AGQO ${fmt(dg, 2)} điểm %` : `<b class="amber">thấp hơn AGQO ${fmt(-dg, 2)} điểm %</b>`); })() +
+    `. Đây là ước tính trước khi giao dịch cho một quyết định, không phải kết quả tương lai.`;
   const ideal = d.portfolios["ideal (fractional shares)"].weights;
   const order = d.tickers.map((t, i) => i).sort((a, b) => ideal[b] - ideal[a]);
   chart("wChart").setOption({ ...BASE, grid: { left: 50, right: 20, top: 40, bottom: 60 }, legend: LEG, tooltip: { ...BASE.tooltip, trigger: "axis", valueFormatter: (v) => fmt(v, 1) + "%" },
@@ -585,7 +587,7 @@ let SECTOR_OF = {};
     META = await api("/api/meta");
     SECTOR_OF = Object.fromEntries(META.stocks.map((s) => [s.ticker, s.sector]));
     $("#asof").textContent = `Dữ liệu đến ${META.date} · ${META.universe.length} mã VN30 · tính toán: ${META.compute === "modal" ? "Modal" : META.compute}`;
-    const tape = META.stocks.map((s) => `<span><b>${s.ticker}</b>1 lô ${vnd(s.lot_vnd)} đ <span class="${s.lot_vnd > 2e6 ? "down" : "up"}">${fmt(100 * s.lot_vnd / 20e6)}% của 20tr</span></span>`).join("");
+    const tape = META.stocks.map((s) => `<span><b>${s.ticker}</b>1 lô ${vnd(s.lot_vnd)} đ <span class="${s.lot_vnd > 20e6 ? "down" : s.lot_vnd > 2e6 ? "amber" : ""}">${fmt(100 * s.lot_vnd / 20e6)}% của 20tr</span></span>`).join("");
     $("#tape").innerHTML = tape + tape;
     const pick = ["Không mua VIC, VHM, VRE vì tôi đã có nhiều cổ phiếu nhóm này", "Ngân hàng tối đa 30%", "Tôi không thích rủi ro, hãy để 10% tiền mặt và mỗi cổ phiếu tối đa 8%",
       "Tôi muốn tập trung, chỉ 8 mã thôi", "Tôi muốn ít rủi ro hơn"];

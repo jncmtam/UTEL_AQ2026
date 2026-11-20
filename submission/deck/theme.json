@@ -1,0 +1,15 @@
+{
+  "_doc": "Shared visual language of AGQO (deck, web prototype, report figures). Edit here, then rebuild the deck; the web copies these values in app/static/style.css (:root) and app/static/app.js (C, PORT_COLOR).",
+  "dark": {"bg": "0B1220", "panel": "121B2E", "line": "24324A", "text": "E8EEF6", "muted": "94A3B8", "grid": "1A2538"},
+  "light": {"bg": "FFFFFF", "panel": "F4F6FA", "line": "D5DCE6", "text": "0F172A", "muted": "475569", "grid": "E5E9F0"},
+  "series": {"agqo": "38BDF8", "greedy": "CBD5E1", "rounding": "64748B", "ideal": "334155", "exact": "7DD3FC",
+             "etf": "94A3B8", "odd_lot": "A5B4FC", "warm_start": "94A3B8", "textbook": "475569", "frozen": "7DD3FC",
+             "random": "64748B"},
+  "series_light": {"agqo": "0284C7", "greedy": "64748B", "rounding": "94A3B8", "ideal": "CBD5E1", "exact": "0EA5E9"},
+  "semantic": {"constraint": "A5B4FC", "pending": "F59E0B", "tradeoff": "F59E0B", "violation": "F43F5E", "pass": "22C55E",
+               "quantum_stage": "A78BFA", "ai_stage": "38BDF8", "classical_stage": "5EEAD4"},
+  "font": {"deck": "Arial", "web": "Be Vietnam Pro, Arial, sans-serif", "mono": "JetBrains Mono, Consolas, monospace"},
+  "type_scale_pt": {"stage_title": 30, "stage_body": 18, "stage_caption": 13, "stage_kpi": 54, "chart_label": 14,
+                    "min_on_stage": 12},
+  "numbers": {"decimal_vi": ",", "thousands_vi": ".", "percent_decimals": 2, "pp_unit_vi": "điểm %"}
+}

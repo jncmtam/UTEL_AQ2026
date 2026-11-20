@@ -1,0 +1,428 @@
+{
+ "run_id": "20261120-084148-39544db-account-sizes",
+ "rows": [
+  {
+   "capital_vnd": 20000000.0,
+   "price_factor_equivalent": 1.0,
+   "strategy": "practitioner",
+   "te_pct": 12.143151566205006,
+   "return_ann_pct": 12.018145013555536,
+   "fees_vnd": 64103.0,
+   "avg_holdings": 5.916666666666667,
+   "avg_invested_pct": 40.953848985983186
+  },
+  {
+   "capital_vnd": 20000000.0,
+   "price_factor_equivalent": 1.0,
+   "strategy": "greedy",
+   "te_pct": 7.46765022885508,
+   "return_ann_pct": 26.056689960189374,
+   "fees_vnd": 375636.0,
+   "avg_holdings": 8.75,
+   "avg_invested_pct": 92.68803021490241
+  },
+  {
+   "capital_vnd": 20000000.0,
+   "price_factor_equivalent": 1.0,
+   "strategy": "exact",
+   "te_pct": 6.773648502112712,
+   "return_ann_pct": 16.446934731293993,
+   "fees_vnd": 170998.0,
+   "avg_holdings": 10.916666666666666,
+   "avg_invested_pct": 91.70227679172757
+  },
+  {
+   "capital_vnd": 20000000.0,
+   "price_factor_equivalent": 1.0,
+   "strategy": "agqo",
+   "te_pct": 6.773648502112712,
+   "return_ann_pct": 16.446934731293993,
+   "fees_vnd": 170998.0,
+   "avg_holdings": 10.916666666666666,
+   "avg_invested_pct": 91.70227679172757
+  },
+  {
+   "capital_vnd": 50000000.0,
+   "price_factor_equivalent": 0.4,
+   "strategy": "practitioner",
+   "te_pct": 4.429717165122749,
+   "return_ann_pct": 24.893044298555612,
+   "fees_vnd": 377040.0,
+   "avg_holdings": 17.416666666666668,
+   "avg_invested_pct": 89.69773144097421
+  },
+  {
+   "capital_vnd": 50000000.0,
+   "price_factor_equivalent": 0.4,
+   "strategy": "greedy",
+   "te_pct": 3.767562408607917,
+   "return_ann_pct": 26.904752979739023,
+   "fees_vnd": 417771.5,
+   "avg_holdings": 17.333333333333332,
+   "avg_invested_pct": 96.9753392393203
+  },
+  {
+   "capital_vnd": 50000000.0,
+   "price_factor_equivalent": 0.4,
+   "strategy": "exact",
+   "te_pct": 3.7962176366555473,
+   "return_ann_pct": 27.480758719111243,
+   "fees_vnd": 384046.5,
+   "avg_holdings": 18.333333333333332,
+   "avg_invested_pct": 98.41077336488463
+  },
+  {
+   "capital_vnd": 50000000.0,
+   "price_factor_equivalent": 0.4,
+   "strategy": "agqo",
+   "te_pct": 3.7930004562017077,
+   "return_ann_pct": 27.39651728862944,
+   "fees_vnd": 362599.5,
+   "avg_holdings": 18.333333333333332,
+   "avg_invested_pct": 98.42981945163581
+  },
+  {
+   "capital_vnd": 100000000.0,
+   "price_factor_equivalent": 0.2,
+   "strategy": "practitioner",
+   "te_pct": 3.0293665285737656,
+   "return_ann_pct": 20.135510512247134,
+   "fees_vnd": 586137.0,
+   "avg_holdings": 22.25,
+   "avg_invested_pct": 94.22082017689723
+  },
+  {
+   "capital_vnd": 100000000.0,
+   "price_factor_equivalent": 0.2,
+   "strategy": "greedy",
+   "te_pct": 3.1418716536247233,
+   "return_ann_pct": 21.966832014304938,
+   "fees_vnd": 831178.0,
+   "avg_holdings": 21.666666666666668,
+   "avg_invested_pct": 97.98182187553049
+  },
+  {
+   "capital_vnd": 100000000.0,
+   "price_factor_equivalent": 0.2,
+   "strategy": "exact",
+   "te_pct": 2.9595982356991386,
+   "return_ann_pct": 19.82217128253758,
+   "fees_vnd": 567712.5,
+   "avg_holdings": 22.833333333333332,
+   "avg_invested_pct": 97.15014015429483
+  },
+  {
+   "capital_vnd": 100000000.0,
+   "price_factor_equivalent": 0.2,
+   "strategy": "agqo",
+   "te_pct": 2.9595982356991386,
+   "return_ann_pct": 19.82217128253758,
+   "fees_vnd": 567712.5,
+   "avg_holdings": 22.833333333333332,
+   "avg_invested_pct": 97.15014015429483
+  },
+  {
+   "capital_vnd": 200000000.0,
+   "price_factor_equivalent": 0.1,
+   "strategy": "practitioner",
+   "te_pct": 2.7009800813280864,
+   "return_ann_pct": 21.446308469637444,
+   "fees_vnd": 1458897.5,
+   "avg_holdings": 25.416666666666668,
+   "avg_invested_pct": 96.39559954874814
+  },
+  {
+   "capital_vnd": 200000000.0,
+   "price_factor_equivalent": 0.1,
+   "strategy": "greedy",
+   "te_pct": 2.4310609849882527,
+   "return_ann_pct": 21.389799376398578,
+   "fees_vnd": 1311585.5,
+   "avg_holdings": 24.583333333333332,
+   "avg_invested_pct": 98.00716493379652
+  },
+  {
+   "capital_vnd": 200000000.0,
+   "price_factor_equivalent": 0.1,
+   "strategy": "exact",
+   "te_pct": 2.4979282040985478,
+   "return_ann_pct": 20.971746451632555,
+   "fees_vnd": 1341253.0,
+   "avg_holdings": 25.833333333333332,
+   "avg_invested_pct": 99.12269607839336
+  },
+  {
+   "capital_vnd": 200000000.0,
+   "price_factor_equivalent": 0.1,
+   "strategy": "agqo",
+   "te_pct": 2.5019506434585312,
+   "return_ann_pct": 20.89287302186671,
+   "fees_vnd": 1348496.5,
+   "avg_holdings": 25.833333333333332,
+   "avg_invested_pct": 99.03719337242272
+  },
+  {
+   "capital_vnd": 500000000.0,
+   "price_factor_equivalent": 0.04,
+   "strategy": "practitioner",
+   "te_pct": 2.513029821204102,
+   "return_ann_pct": 21.373709931555673,
+   "fees_vnd": 3474589.0,
+   "avg_holdings": 27.5,
+   "avg_invested_pct": 97.50995968047043
+  },
+  {
+   "capital_vnd": 500000000.0,
+   "price_factor_equivalent": 0.04,
+   "strategy": "greedy",
+   "te_pct": 2.423124264762965,
+   "return_ann_pct": 21.157650500334736,
+   "fees_vnd": 3312781.5,
+   "avg_holdings": 27.083333333333332,
+   "avg_invested_pct": 98.06550545224599
+  },
+  {
+   "capital_vnd": 500000000.0,
+   "price_factor_equivalent": 0.04,
+   "strategy": "exact",
+   "te_pct": 2.480756787944451,
+   "return_ann_pct": 21.731908594908745,
+   "fees_vnd": 3687852.0,
+   "avg_holdings": 27.666666666666668,
+   "avg_invested_pct": 98.85435040504711
+  },
+  {
+   "capital_vnd": 500000000.0,
+   "price_factor_equivalent": 0.04,
+   "strategy": "agqo",
+   "te_pct": 2.4676688761133287,
+   "return_ann_pct": 21.69190562056864,
+   "fees_vnd": 3642820.5,
+   "avg_holdings": 27.583333333333332,
+   "avg_invested_pct": 98.85227585628326
+  }
+ ],
+ "tests": [
+  {
+   "capital_vnd": 20000000.0,
+   "comparison": "agqo vs practitioner",
+   "te_a": 6.773648502112711,
+   "te_b": 12.143151566205008,
+   "diff_pp": -5.369503064092297,
+   "ci_low": -6.930600351587914,
+   "ci_high": -3.8422086806337687,
+   "p_one_sided": 0.0,
+   "days": 711
+  },
+  {
+   "capital_vnd": 20000000.0,
+   "comparison": "agqo vs greedy",
+   "te_a": 6.773648502112711,
+   "te_b": 7.46765022885508,
+   "diff_pp": -0.6940017267423686,
+   "ci_low": -1.5323093157891292,
+   "ci_high": 0.01599242390658179,
+   "p_one_sided": 0.0285,
+   "days": 711
+  },
+  {
+   "capital_vnd": 20000000.0,
+   "comparison": "exact vs practitioner",
+   "te_a": 6.773648502112711,
+   "te_b": 12.143151566205008,
+   "diff_pp": -5.369503064092297,
+   "ci_low": -6.930600351587914,
+   "ci_high": -3.8422086806337687,
+   "p_one_sided": 0.0,
+   "days": 711
+  },
+  {
+   "capital_vnd": 20000000.0,
+   "comparison": "agqo vs exact",
+   "te_a": 6.773648502112711,
+   "te_b": 6.773648502112711,
+   "diff_pp": 0.0,
+   "ci_low": 0.0,
+   "ci_high": 0.0,
+   "p_one_sided": 1.0,
+   "days": 711
+  },
+  {
+   "capital_vnd": 50000000.0,
+   "comparison": "agqo vs practitioner",
+   "te_a": 3.7930004562017077,
+   "te_b": 4.42971716512275,
+   "diff_pp": -0.6367167089210426,
+   "ci_low": -1.1430176330195345,
+   "ci_high": -0.2058958925057294,
+   "p_one_sided": 0.0,
+   "days": 711
+  },
+  {
+   "capital_vnd": 50000000.0,
+   "comparison": "agqo vs greedy",
+   "te_a": 3.7930004562017077,
+   "te_b": 3.767562408607917,
+   "diff_pp": 0.025438047593790536,
+   "ci_low": -0.4599138871247754,
+   "ci_high": 0.5473296644829265,
+   "p_one_sided": 0.5805,
+   "days": 711
+  },
+  {
+   "capital_vnd": 50000000.0,
+   "comparison": "exact vs practitioner",
+   "te_a": 3.7962176366555473,
+   "te_b": 4.42971716512275,
+   "diff_pp": -0.6334995284672029,
+   "ci_low": -1.1474676119215406,
+   "ci_high": -0.19512982045252147,
+   "p_one_sided": 0.0005,
+   "days": 711
+  },
+  {
+   "capital_vnd": 50000000.0,
+   "comparison": "agqo vs exact",
+   "te_a": 3.7930004562017077,
+   "te_b": 3.7962176366555473,
+   "diff_pp": -0.003217180453839674,
+   "ci_low": -0.02234276770423247,
+   "ci_high": 0.016087281501176578,
+   "p_one_sided": 0.3565,
+   "days": 711
+  },
+  {
+   "capital_vnd": 100000000.0,
+   "comparison": "agqo vs practitioner",
+   "te_a": 2.9595982356991386,
+   "te_b": 3.029366528573765,
+   "diff_pp": -0.0697682928746266,
+   "ci_low": -0.1851866321910649,
+   "ci_high": 0.041530163915052876,
+   "p_one_sided": 0.099,
+   "days": 711
+  },
+  {
+   "capital_vnd": 100000000.0,
+   "comparison": "agqo vs greedy",
+   "te_a": 2.9595982356991386,
+   "te_b": 3.1418716536247233,
+   "diff_pp": -0.1822734179255847,
+   "ci_low": -0.4648565399925625,
+   "ci_high": 0.07252262989732514,
+   "p_one_sided": 0.087,
+   "days": 711
+  },
+  {
+   "capital_vnd": 100000000.0,
+   "comparison": "exact vs practitioner",
+   "te_a": 2.9595982356991386,
+   "te_b": 3.029366528573765,
+   "diff_pp": -0.0697682928746266,
+   "ci_low": -0.1851866321910649,
+   "ci_high": 0.041530163915052876,
+   "p_one_sided": 0.099,
+   "days": 711
+  },
+  {
+   "capital_vnd": 100000000.0,
+   "comparison": "agqo vs exact",
+   "te_a": 2.9595982356991386,
+   "te_b": 2.9595982356991386,
+   "diff_pp": 0.0,
+   "ci_low": 0.0,
+   "ci_high": 0.0,
+   "p_one_sided": 1.0,
+   "days": 711
+  },
+  {
+   "capital_vnd": 200000000.0,
+   "comparison": "agqo vs practitioner",
+   "te_a": 2.5019506434585312,
+   "te_b": 2.700980081328087,
+   "diff_pp": -0.19902943786955563,
+   "ci_low": -0.39657978936111404,
+   "ci_high": -0.03700798373155304,
+   "p_one_sided": 0.003,
+   "days": 711
+  },
+  {
+   "capital_vnd": 200000000.0,
+   "comparison": "agqo vs greedy",
+   "te_a": 2.5019506434585312,
+   "te_b": 2.4310609849882527,
+   "diff_pp": 0.0708896584702785,
+   "ci_low": -0.054947483357963976,
+   "ci_high": 0.20795997443355435,
+   "p_one_sided": 0.8675,
+   "days": 711
+  },
+  {
+   "capital_vnd": 200000000.0,
+   "comparison": "exact vs practitioner",
+   "te_a": 2.497928204098548,
+   "te_b": 2.700980081328087,
+   "diff_pp": -0.20305187722953866,
+   "ci_low": -0.40440435288119375,
+   "ci_high": -0.04041734503461093,
+   "p_one_sided": 0.003,
+   "days": 711
+  },
+  {
+   "capital_vnd": 200000000.0,
+   "comparison": "agqo vs exact",
+   "te_a": 2.5019506434585312,
+   "te_b": 2.497928204098548,
+   "diff_pp": 0.004022439359983032,
+   "ci_low": -0.010661740880820147,
+   "ci_high": 0.024683514720444104,
+   "p_one_sided": 0.6295,
+   "days": 711
+  },
+  {
+   "capital_vnd": 500000000.0,
+   "comparison": "agqo vs practitioner",
+   "te_a": 2.4676688761133283,
+   "te_b": 2.513029821204102,
+   "diff_pp": -0.04536094509077371,
+   "ci_low": -0.10175315558363682,
+   "ci_high": -0.0008411724260656633,
+   "p_one_sided": 0.023,
+   "days": 711
+  },
+  {
+   "capital_vnd": 500000000.0,
+   "comparison": "agqo vs greedy",
+   "te_a": 2.4676688761133283,
+   "te_b": 2.423124264762965,
+   "diff_pp": 0.04454461135036336,
+   "ci_low": -0.02762649955964228,
+   "ci_high": 0.12867847514161812,
+   "p_one_sided": 0.8915,
+   "days": 711
+  },
+  {
+   "capital_vnd": 500000000.0,
+   "comparison": "exact vs practitioner",
+   "te_a": 2.480756787944451,
+   "te_b": 2.513029821204102,
+   "diff_pp": -0.03227303325965103,
+   "ci_low": -0.08817764062414588,
+   "ci_high": 0.009752043232392734,
+   "p_one_sided": 0.074,
+   "days": 711
+  },
+  {
+   "capital_vnd": 500000000.0,
+   "comparison": "agqo vs exact",
+   "te_a": 2.4676688761133283,
+   "te_b": 2.480756787944451,
+   "diff_pp": -0.013087911831122678,
+   "ci_low": -0.03526437709710475,
+   "ci_high": 0.006463276094536966,
+   "p_one_sided": 0.117,
+   "days": 711
+  }
+ ],
+ "note": "Uniformly understated historical prices by a factor f are equivalent to an account of 20M / f."
+}

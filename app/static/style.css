@@ -1,9 +1,11 @@
 /* AGQO prototype: dark trading-terminal theme. Green = up/good, red = down/bad, violet = quantum, blue = AI. */
 :root {
-  --bg: #070b14; --bg2: #0c1322; --card: #101a2c; --line: #1e2b44; --text: #e6edf7; --muted: #8b9ab3;
-  --up: #22c55e; --down: #ef4444; --amber: #f59e0b; --ai: #38bdf8; --q: #a78bfa; --cl: #34d399; --accent: #facc15;
-  --mono: "JetBrains Mono", ui-monospace, monospace;
+  /* shared with submission/deck/theme.json */
+  --bg: #0B1220; --bg2: #0E1626; --card: #121B2E; --line: #24324A; --text: #E8EEF6; --muted: #94A3B8;
+  --up: #22C55E; --down: #F43F5E; --amber: #F59E0B; --ai: #38BDF8; --q: #A78BFA; --cl: #5EEAD4; --accent: #38BDF8;
+  --constraint: #A5B4FC; --mono: "JetBrains Mono", Consolas, ui-monospace, monospace;
 }
+body, .kpi .v, .kpirow .k .v, .tbl td { font-variant-numeric: tabular-nums; }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.6 "Be Vietnam Pro", system-ui, sans-serif; overflow-x: hidden; }
