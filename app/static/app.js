@@ -5,13 +5,13 @@ const C = { bg: "#0B1220", card: "#121B2E", line: "#24324A", text: "#E8EEF6", mu
   up: "#22C55E", down: "#F43F5E", amber: "#F59E0B", ai: "#38BDF8", q: "#A78BFA", cl: "#5EEAD4", accent: "#38BDF8", grey: "#64748B" };   // = submission/deck/theme.json
 const SECTOR_VI = { Banking: "Ngân hàng", Insurance: "Bảo hiểm", Technology: "Công nghệ", Energy: "Năng lượng",
   Materials: "Nguyên vật liệu", "Real estate": "Bất động sản", Consumer: "Tiêu dùng", Brokerage: "Chứng khoán", Aviation: "Hàng không" };
-const PORT_VI = { "ideal (fractional shares)": "Lý tưởng (cổ phiếu lẻ)", "nearest-lot rounding": "Làm tròn lô gần nhất",
-  "greedy lot filling": "Tham lam (thêm từng lô)", "AGQO": "AGQO" };
+const PORT_VI = { "ideal (fractional shares)": "Lý tưởng (cổ phiếu lẻ)", "nearest-lot rounding": "Nearest-lot rounding",
+  "greedy lot filling": "Greedy (thêm từng lô)", "AGQO": "AGQO" };
 const PORT_COLOR = { "ideal (fractional shares)": "#334155", "nearest-lot rounding": "#64748B", "greedy lot filling": "#CBD5E1", "AGQO": "#38BDF8" };
 const BIN_VI = { "optimal": "Tối ưu", "within 5%": "Trong 5%", "5–25%": "5–25%", "25–100%": "25–100%", "worse than typical": "Tệ hơn trung bình", "over budget": "Vượt ngân sách" };
 const BIN_COLOR = { "optimal": "#16a34a", "within 5%": "#4ade80", "5–25%": "#facc15", "25–100%": "#f97316", "worse than typical": "#ef4444", "over budget": "#334155" };
-const ARM_VI = { "AGQO": "AGQO", "warm start only": "Khởi động ấm (cổ điển)", "textbook QAOA": "QAOA sách giáo khoa", "random guessing": "Đoán ngẫu nhiên" };
-const FEAT_VI = { warm_confidence: "Độ tự tin khởi động ấm", decided_share: "Tỷ lệ qubit đã rõ", log_field_to_coupling: "Trường / tương tác (log)",
+const ARM_VI = { "AGQO": "AGQO", "warm start only": "Warm-start baseline", "textbook QAOA": "Textbook QAOA", "random guessing": "Random guessing" };
+const FEAT_VI = { warm_confidence: "Warm-start confidence", decided_share: "Tỷ lệ qubit đã rõ", log_field_to_coupling: "Field / coupling (log)",
   coupling_concentration: "Độ tập trung tương tác", lot_weight_pct: "Cỡ lô (% vốn)" };
 
 const $ = (s) => document.querySelector(s);
@@ -76,7 +76,7 @@ function renderMarket(d) {
   const m = d.market;
   $("#marketKpis").innerHTML = [
     [fmt(m.effective_bets), "số “cược” độc lập thực sự trong VN30 (không phải 30)"],
-    [fmt(m.market_factor_share_pct) + "%", "phương sai do một nhân tố thị trường chung"],
+    [fmt(m.market_factor_share_pct) + "%", "phương sai do một market factor chung"],
     [fmt(m.avg_correlation, 2), "tương quan trung bình giữa các cặp mã"],
     [fmt(m.lot_cost_pct_max) + "%", `lô đắt nhất so với ${fmt(d.capital_vnd / 1e6, 0)} triệu vốn`]]
     .map(([v, l]) => `<div class="k"><div class="v">${v}</div><div class="l">${l}</div></div>`).join("");
@@ -102,7 +102,7 @@ function renderHamiltonian(d) {
     xAxis: { type: "category", data: tk, ...AX, axisLabel: { color: C.muted, rotate: 70, fontSize: 10, fontFamily: "JetBrains Mono" } },
     yAxis: [{ type: "value", name: "% vốn / lô", ...AX }, { type: "value", name: "xác suất", min: 0, max: 1, ...AX, splitLine: { show: false } }],
     series: [{ name: "Giá 1 lô (% vốn)", type: "bar", data: d.register.map((r) => r.lot_pct), itemStyle: { color: C.q, borderRadius: [4, 4, 0, 0] } },
-      { name: "Nới lỏng: nên mua?", type: "line", yAxisIndex: 1, data: d.register.map((r) => r.relaxed), symbolSize: 8, lineStyle: { color: C.accent }, itemStyle: { color: C.accent } }] });
+      { name: "Continuous relaxation: Nên mua?", type: "line", yAxisIndex: 1, data: d.register.map((r) => r.relaxed), symbolSize: 8, lineStyle: { color: C.accent }, itemStyle: { color: C.accent } }] });
 }
 
 /* ---------------- 4. AI design ---------------- */
@@ -118,16 +118,16 @@ function renderAI(d) {
       { name: "bài toán hôm nay", type: "scatter", data: a.features_z, symbolSize: 16, itemStyle: { color: C.accent, borderColor: "#000" } }] });
   const s = a.schedule;
   $("#schedBox").innerHTML = `<div class="sched">
-    <div><b>${s.layers}</b><small>số lớp p</small></div><div><b>${s.epsilon}</b><small>ε khởi động ấm</small></div>
+    <div><b>${s.layers}</b><small>số lớp p</small></div><div><b>${s.epsilon}</b><small>ε warm start</small></div>
     <div><b>${fmt(100 * s.coupling_mass, 0)}%</b><small>khối lượng J giữ lại</small></div><div><b>${s.dgamma}</b><small>Δγ dốc</small></div><div><b>${s.dbeta}</b><small>Δβ dốc</small></div></div>
-    <div class="nbrs">Mô hình k-NN (k = ${a.k}, chọn bằng kiểm định chéo) tìm ${a.neighbours.length} bài toán năm 2023 giống nhất rồi chọn lịch tốt nhất trên chúng, trong ${vnd(a.schedules_considered)} lịch đã chấm điểm. ` +
-    `Láng giềng: ${a.neighbours.slice(0, 6).map((n) => `${n.date.slice(0, 7)} (${fmt(n.capital_vnd / 1e6, 0)}tr)`).join(", ")}…${a.polish ? " Sau đó tinh chỉnh ngắn bằng COBYLA trên CVaR." : ""}</div>`;
+    <div class="nbrs">Mô hình k-NN (k = ${a.k}, chọn bằng cross-validation) tìm ${a.neighbours.length} bài toán năm 2023 giống nhất rồi chọn schedule tốt nhất trên chúng, trong ${vnd(a.schedules_considered)} lịch đã chấm điểm. ` +
+    `Láng giềng: ${a.neighbours.slice(0, 6).map((n) => `${n.date.slice(0, 7)} (${fmt(n.capital_vnd / 1e6, 0)}tr)`).join(", ")}…${a.polish ? " Sau đó COBYLA polish ngắn trên CVaR." : ""}</div>`;
   $("#rules").innerHTML = [
-    `R1 · Khởi động ấm: mỗi qubit bắt đầu ở xác suất “nên mua” của nghiệm nới lỏng (kẹp trong [${s.epsilon}, ${1 - s.epsilon}]).`,
-    `R2 · Bộ trộn căn chỉnh: trạng thái đầu là trạng thái riêng của bộ trộn.`,
+    `R1 · Warm start: Mỗi qubit bắt đầu ở xác suất “nên mua” của continuous relaxation (kẹp trong [${s.epsilon}, ${1 - s.epsilon}]).`,
+    `R2 · Aligned mixer: Trạng thái đầu là trạng thái riêng của mixer, nên mixer không xoá warm start.`,
     `R3 · Giữ ${d.hamiltonian.pairs_kept}/${d.hamiltonian.pairs_total} tương tác mạnh nhất (${fmt(100 * s.coupling_mass, 0)}% tổng J²).`,
     `R4 · Chia Hamiltonian cho RMS hệ số (${d.hamiltonian.scale.toExponential(2)}) để góc dùng lại được giữa các quý.`,
-    `R5 · Góc dốc tuyến tính qua ${s.layers} lớp.`].map((t) => `<div>${t}</div>`).join("");
+    `R5 · Linear-ramp schedule qua ${s.layers} lớp.`].map((t) => `<div>${t}</div>`).join("");
 }
 
 /* ---------------- 5. circuit SVG ---------------- */
@@ -147,7 +147,7 @@ function renderCircuit(d) {
   // warm start
   let g = "";
   for (let q = 0; q < n; q++) g += `<rect x="${x + 10}" y="${y(q) - 9}" width="${wInit - 26}" height="18" rx="3" fill="${C.card}" stroke="${C.cl}"/><text x="${x + wInit / 2 - 3}" y="${y(q) + 4}" fill="${C.cl}" font-size="9.5" text-anchor="middle">Ry ${d.circuit.warm_theta[q].toFixed(2)}</text>`;
-  s += box(x, wInit - 6, "khởi động ấm", C.cl, g); x += wInit; delay += 0.3;
+  s += box(x, wInit - 6, "warm start", C.cl, g); x += wInit; delay += 0.3;
   const kept = d.hamiltonian.kept, mxw = Math.max(...kept.map((k) => Math.abs(k.w))) || 1;
   for (let l = 0; l < p; l++) {
     // ZZ block: one vertical link per kept coupling
@@ -167,8 +167,8 @@ function renderCircuit(d) {
   chart("rampChart").setOption({ ...BASE, grid: { left: 40, right: 20, top: 30, bottom: 30 }, legend: LEG, tooltip: { ...BASE.tooltip, trigger: "axis" },
     xAxis: { type: "category", data: d.circuit.gammas.map((_, i) => "lớp " + (i + 1)), ...AX }, yAxis: { type: "value", ...AX },
     series: [{ name: "γ (bài toán)", type: "line", data: d.circuit.gammas, lineStyle: { color: C.q, width: 3 }, itemStyle: { color: C.q }, areaStyle: { color: "rgba(167,139,250,.12)" } },
-      { name: "β (bộ trộn)", type: "line", data: d.circuit.betas, lineStyle: { color: C.ai, width: 3 }, itemStyle: { color: C.ai } }] });
-  $("#circKpis").innerHTML = [[d.circuit.qubits, "qubit"], [p, "lớp QAOA"], [vnd(d.circuit.two_qubit_gates), "cổng 2 qubit logic"], [d.circuit.evaluations, "lần mô phỏng (gồm tinh chỉnh)"]]
+      { name: "β (mixer)", type: "line", data: d.circuit.betas, lineStyle: { color: C.ai, width: 3 }, itemStyle: { color: C.ai } }] });
+  $("#circKpis").innerHTML = [[d.circuit.qubits, "qubit"], [p, "lớp QAOA"], [vnd(d.circuit.two_qubit_gates), "cổng 2 qubit logic"], [d.circuit.evaluations, "lần mô phỏng (gồm COBYLA polish)"]]
     .map(([v, l]) => `<div class="k"><div class="v">${v}</div><div class="l">${l}</div></div>`).join("");
 }
 
@@ -186,10 +186,12 @@ function renderSampling(d) {
       `<span style="color:${t.optimal ? C.accent : t.gap_pct == null ? C.down : C.muted}">${t.optimal ? "★ tối ưu" : t.gap_pct == null ? "vượt vốn" : "+" + fmt(t.gap_pct, 1) + "%"}</span></div>`;
   }).join("") + `</div>`;
   const ratio = r.warm_success_pct > 0 ? r.success_pct / r.warm_success_pct : null;
-  $("#verdict").innerHTML = `Trong ${vnd(r.states_total)} tổ hợp lô (${vnd(r.states_affordable)} đủ tiền), <b>${fmt(r.success_pct, 1)}%</b> lượt đo của mạch AGQO rơi vào nghiệm gần tối ưu, ` +
-    `so với ${fmt(r.warm_success_pct, 1)}% của khởi động cổ điển${ratio ? ` (<b class="up">${fmt(ratio, 1)}×</b>)` : ""}, ${r.textbook_success_pct != null ? fmt(r.textbook_success_pct, 1) + "% của QAOA sách giáo khoa, " : ""}${fmt(r.random_success_pct, 2)}% nếu đoán ngẫu nhiên. ` +
-    `Liệt kê cổ điển toàn bộ 2<sup>${d.register.length}</sup> tổ hợp trong ${fmt(d.seconds.enumerate_all, 2)} giây xác nhận: lựa chọn tốt nhất trong 512 lượt đo ` +
-    (r.found_exact_optimum ? `<b class="up">chính là tối ưu chính xác</b>.` : `cách tối ưu ${fmt(r.best_sample_gap_pct, 2)}%.`);
+  $("#verdict").innerHTML = `Trong ${vnd(r.states_total)} tổ hợp lô (${vnd(r.states_affordable)} đủ tiền), <b>${fmt(r.success_pct, 1)}%</b> shot của mạch AGQO là near-optimal, ` +
+    `so với ${fmt(r.warm_success_pct, 1)}% của warm-start baseline${ratio ? ` (<b class="up">${fmt(ratio, 1)}×</b>)` : ""}, ${r.textbook_success_pct != null ? fmt(r.textbook_success_pct, 1) + "% của textbook QAOA, " : ""}${fmt(r.random_success_pct, 2)}% nếu đoán ngẫu nhiên. ` +
+    `Exhaustive enumeration toàn bộ 2<sup>${d.register.length}</sup> tổ hợp trong ${fmt(d.seconds.enumerate_all, 2)} giây xác nhận: Lựa chọn tốt nhất trong 512 shots ` +
+    (r.found_exact_optimum ? `<b class="up">chính là tối ưu chính xác</b>.` : `cách tối ưu ${fmt(r.best_sample_gap_pct, 2)}%.`) +
+    (r.success_pct > 0 ? `<br><span class="muted">Con số nói gì: Cứ khoảng ${fmt(100 / r.success_pct, 0)} shot có 1 shot near-optimal, nên với 512 shots ` +
+      `gần như chắc chắn có nghiệm tốt. Exhaustive enumeration là trọng tài: QAOA chỉ đề xuất, không tự quyết.</span>` : "");
 }
 
 /* ================= V3.2: structured constraints, presets, Modal jobs ================= */
@@ -198,9 +200,9 @@ const SRC_VI = { user: "Bạn nhập", preset: "Từ mẫu", text: "Từ câu l�
 const DEFAULT_VI = { exclude_sectors: "không loại ngành nào", exclude_tickers: "không loại mã nào", sector_caps: "không có trần ngành",
   max_weight_per_stock: "không giới hạn", max_holdings: "giữ bao nhiêu mã cũng được", min_cash_pct: "không đặt; giữ khoảng 2% làm đệm phí" };
 const STAGE_VI = { queued: "Đang xếp hàng trên Modal", started: "Container Modal đã khởi động", load: "Nạp dữ liệu VN30 và mô hình",
-  feasibility: "Kiểm tra yêu cầu có khả thi không", build_qubo: "Dựng bài toán chọn lô (QUBO)", enumerate: "Liệt kê toàn bộ tổ hợp lô để kiểm chứng",
-  baselines: "Tính các cách cổ điển để so sánh", schedule: "AI (k-NN) chọn lịch cho mạch", qaoa: "Mô phỏng mạch QAOA, đo 512 lần",
-  textbook: "Chạy QAOA sách giáo khoa để so sánh", verify: "Kiểm tra mọi quy tắc trên NAV sau phí", evidence: "Chuẩn bị bằng chứng cho lời giải thích",
+  feasibility: "Kiểm tra yêu cầu có khả thi không", build_qubo: "Dựng bài toán chọn lô (QUBO)", enumerate: "Exhaustive enumeration toàn bộ tổ hợp lô để kiểm chứng",
+  baselines: "Tính các cách cổ điển để so sánh", schedule: "AI (k-NN) chọn circuit schedule", qaoa: "Mô phỏng mạch QAOA, 512 shots",
+  textbook: "Chạy textbook QAOA để so sánh", verify: "Kiểm tra mọi quy tắc trên NAV sau phí", evidence: "Chuẩn bị bằng chứng cho lời giải thích",
   done: "Xong" };
 const STAGES = ["queued", "started", "load", "feasibility", "build_qubo", "enumerate", "baselines", "schedule", "qaoa", "textbook", "verify", "evidence", "done"];
 let FORM = { capital: 20, exclude_sectors: [], exclude_tickers: [], sector_caps: {}, max_weight_per_stock: null, max_holdings: null, min_cash_pct: null };
@@ -480,9 +482,9 @@ async function showResult(d, st) {
     series: [{ type: "bar", data: names.map((n) => ({ value: d.portfolios[n].te_pct, itemStyle: { color: PORT_COLOR[n], borderRadius: [0, 6, 6, 0] } })), barWidth: 22,
       label: { show: true, position: "right", color: C.text, formatter: (p) => fmt(p.value, 2) + "%" } }] });
   const gain = rd.te_pct - ag.te_pct;
-  $("#cmpCaption").innerHTML = `Hình. Sai số bám VN30 dự kiến (năm hoá) cho cùng tài khoản. So với làm tròn lô gần nhất, AGQO ${gain > 0.005 ? `giảm <b class="up">${fmt(gain, 2)} điểm %</b>` : gain < -0.005 ? `<b class="down">kém hơn ${fmt(-gain, 2)} điểm %</b>` : "<b>gần như bằng</b>"}` +
+  $("#cmpCaption").innerHTML = `Hình. Sai số bám VN30 dự kiến (năm hoá) cho cùng tài khoản. So với nearest-lot rounding, AGQO ${gain > 0.005 ? `giảm <b class="up">${fmt(gain, 2)} điểm %</b>` : gain < -0.005 ? `<b class="down">kém hơn ${fmt(-gain, 2)} điểm %</b>` : "<b>gần như bằng</b>"}` +
     (() => { const g = d.portfolios["greedy lot filling"]; if (!g) return ""; const dg = g.te_pct - ag.te_pct;
-      return `; thuật toán tham lam cổ điển (cùng quy tắc) đạt ${fmt(g.te_pct, 2)}%, ` + (Math.abs(dg) < 0.005 ? "bằng AGQO" : dg > 0 ? `cao hơn AGQO ${fmt(dg, 2)} điểm %` : `<b class="amber">thấp hơn AGQO ${fmt(-dg, 2)} điểm %</b>`); })() +
+      return `; thuật toán greedy cổ điển (cùng quy tắc) đạt ${fmt(g.te_pct, 2)}%, ` + (Math.abs(dg) < 0.005 ? "bằng AGQO" : dg > 0 ? `cao hơn AGQO ${fmt(dg, 2)} điểm %` : `<b class="amber">thấp hơn AGQO ${fmt(-dg, 2)} điểm %</b>`); })() +
     `. Đây là ước tính trước khi giao dịch cho một quyết định, không phải kết quả tương lai.`;
   const ideal = d.portfolios["ideal (fractional shares)"].weights;
   const order = d.tickers.map((t, i) => i).sort((a, b) => ideal[b] - ideal[a]);
@@ -553,28 +555,28 @@ async function explain() {
 async function story() {
   const s = await api("/api/story");
   const st = s.stats;
-  $("#statKpis").innerHTML = [[st["agqo vs warm_start_only"], "so với khởi động ấm cổ điển"], [st["agqo vs textbook"], "so với QAOA sách giáo khoa"], [st["agqo vs random"], "so với tìm kiếm ngẫu nhiên"]]
+  $("#statKpis").innerHTML = [[st["agqo vs warm_start_only"], "so với warm-start baseline"], [st["agqo vs textbook"], "so với textbook QAOA"], [st["agqo vs random"], "so với random search"]]
     .map(([x, l]) => `<div class="k"><div class="v up">${fmt(x.ratio)}×</div><div class="l">${l} · thắng ${x.wins}/${x.n} quý · p = ${fmt(x.wilcoxon_p, 4)}</div></div>`).join("") +
-    `<div class="k"><div class="v">${fmt(100 * st["agqo vs warm_start_only"].mean_a)}%</div><div class="l">lượt đo trúng nghiệm gần tối ưu (trung bình 12 quý)</div></div>`;
-  const qcol = { "AGQO": C.ai, "Khởi động ấm (cổ điển)": C.cl, "QAOA sách giáo khoa": C.q, "Tìm kiếm ngẫu nhiên": C.amber };
+    `<div class="k"><div class="v">${fmt(100 * st["agqo vs warm_start_only"].mean_a)}%</div><div class="l">shot near-optimal (trung bình 12 quý)</div></div>`;
+  const qcol = { "AGQO": C.ai, "Warm-start baseline": C.cl, "Textbook QAOA": C.q, "Random circuit search": C.amber };
   chart("qChart").setOption({ ...BASE, grid: { left: 50, right: 20, top: 40, bottom: 40 }, legend: LEG, tooltip: { ...BASE.tooltip, trigger: "axis", valueFormatter: (v) => fmt(v, 1) + "%" },
-    xAxis: { type: "category", data: s.quarters.dates.map((d) => d.slice(0, 7)), ...AX }, yAxis: { type: "value", name: "% lượt đo", ...AX },
+    xAxis: { type: "category", data: s.quarters.dates.map((d) => d.slice(0, 7)), ...AX }, yAxis: { type: "value", name: "% shot", ...AX },
     series: Object.entries(s.quarters.series).map(([k, v]) => ({ name: k, type: k === "AGQO" ? "bar" : "line", data: v, smooth: true, symbolSize: 7,
       itemStyle: { color: qcol[k], borderRadius: [5, 5, 0, 0] }, lineStyle: { color: qcol[k], width: 2.5 } })) });
   const acc = s.accounts;
   chart("accChart").setOption({ ...BASE, grid: { left: 50, right: 20, top: 64, bottom: 30 }, legend: LEG, tooltip: { ...BASE.tooltip, trigger: "axis", valueFormatter: (v) => fmt(v, 1) + "%" },
     xAxis: { type: "category", data: acc.map((a) => fmt(a.capital_vnd / 1e6, 0) + " triệu"), ...AX }, yAxis: { type: "value", name: "sai số bám %/năm", ...AX },
-    series: [["Làm tròn lô gần nhất", "te_practitioner", C.down], ["Tham lam", "te_greedy", C.amber], ["AGQO", "te_whole_lot_optimum", C.ai]].map(([n, k, c]) => ({ name: n, type: "bar", data: acc.map((a) => +a[k].toFixed(2)), itemStyle: { color: c, borderRadius: [5, 5, 0, 0] }, label: { show: true, position: "top", color: C.text, formatter: (p) => fmt(p.value, 1) } })) });
-  const bcol = { "AGQO": C.ai, "Làm tròn lô gần nhất": C.down, "Chỉ số VN30": C.accent, "ETF E1VFVN30": C.grey };
+    series: [["Nearest-lot rounding", "te_practitioner", C.down], ["Greedy", "te_greedy", C.amber], ["AGQO", "te_whole_lot_optimum", C.ai]].map(([n, k, c]) => ({ name: n, type: "bar", data: acc.map((a) => +a[k].toFixed(2)), itemStyle: { color: c, borderRadius: [5, 5, 0, 0] }, label: { show: true, position: "top", color: C.text, formatter: (p) => fmt(p.value, 1) } })) });
+  const bcol = { "AGQO": C.ai, "Nearest-lot rounding": C.down, "Chỉ số VN30": C.accent, "ETF E1VFVN30": C.grey };
   chart("btChart").setOption({ ...BASE, grid: { left: 50, right: 20, top: 64, bottom: 30 }, legend: LEG, tooltip: { ...BASE.tooltip, trigger: "axis", valueFormatter: (v) => fmt(v, 1) + " tr" },
     xAxis: { type: "category", data: s.backtest.dates, ...AX }, yAxis: { type: "value", name: "triệu đồng", scale: true, ...AX },
     series: Object.entries(s.backtest.series).map(([k, v]) => ({ name: k, type: "line", data: v, showSymbol: false, lineStyle: { width: k === "AGQO" ? 2.6 : 1.4, color: bcol[k] }, itemStyle: { color: bcol[k] } })) });
   const by = {}; s.scaling.forEach((r) => { (by[r.qubits] ||= { w: [], f: [] }); by[r.qubits].w.push(r.warm_success); by[r.qubits].f.push(r.frozen_success); });
   const qs = Object.keys(by).sort((a, b) => a - b), mean = (a) => a.reduce((x, y) => x + y, 0) / a.length;
   chart("scChart").setOption({ ...BASE, grid: { left: 50, right: 50, top: 40, bottom: 30 }, legend: LEG, tooltip: { ...BASE.tooltip, trigger: "axis" },
-    xAxis: { type: "category", data: qs.map((q) => q + " qubit"), ...AX }, yAxis: [{ type: "value", name: "% lượt đo", ...AX }, { type: "value", name: "lần", ...AX, splitLine: { show: false } }],
+    xAxis: { type: "category", data: qs.map((q) => q + " qubit"), ...AX }, yAxis: [{ type: "value", name: "% shot", ...AX }, { type: "value", name: "lần", ...AX, splitLine: { show: false } }],
     series: [{ name: "Mạch AGQO", type: "bar", data: qs.map((q) => +(100 * mean(by[q].f)).toFixed(2)), itemStyle: { color: C.ai, borderRadius: [5, 5, 0, 0] } },
-      { name: "Khởi động ấm", type: "bar", data: qs.map((q) => +(100 * mean(by[q].w)).toFixed(2)), itemStyle: { color: C.cl, borderRadius: [5, 5, 0, 0] } },
+      { name: "Warm-start baseline", type: "bar", data: qs.map((q) => +(100 * mean(by[q].w)).toFixed(2)), itemStyle: { color: C.cl, borderRadius: [5, 5, 0, 0] } },
       { name: "Gấp (lần)", type: "line", yAxisIndex: 1, data: qs.map((q) => +(mean(by[q].f) / mean(by[q].w)).toFixed(1)), lineStyle: { color: C.accent, width: 3 }, itemStyle: { color: C.accent }, symbolSize: 10, label: { show: true, color: C.accent, formatter: (p) => p.value + "×" } }] });
   $("#manTable").innerHTML = `<table class="tbl"><tr><th>Yêu cầu (tiếng Việt)</th><th>Sai số bám</th><th>Chi phí quy tắc</th><th>Vi phạm</th></tr>` +
     s.mandates.map((m) => `<tr><td>${m.instruction === "(none)" ? "<i>(không có yêu cầu)</i>" : m.instruction}</td><td>${fmt(m.tracking_error_ann_pct, 2)}%</td><td>+${fmt(m.te_cost_vs_unconstrained_pp, 2)} đ%</td><td class="up"><b>${m.rule_violations_at_rebalance}</b></td></tr>`).join("") + `</table>`;

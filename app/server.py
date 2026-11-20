@@ -131,13 +131,13 @@ def meta():
 def story():
     run = RESULTS_DIR
     dv = pd.read_csv(run / "daily_values.csv", parse_dates=["date"]).set_index("date")
-    keep = {"AGQO: AI-guided QAOA rounding": "AGQO", "Practitioner: nearest-lot rounding": "Làm tròn lô gần nhất",
+    keep = {"AGQO: AI-guided QAOA rounding": "AGQO", "Practitioner: nearest-lot rounding": "Nearest-lot rounding",
             "VN30 index (scaled)": "Chỉ số VN30", "ETF E1VFVN30": "ETF E1VFVN30"}
     wk = dv[list(keep)].resample("W-FRI").last().dropna()
     q = pd.read_csv(run / "quantum_test.csv")
     q["arm"] = q.arm.str.replace(r"^random_s\d+$", "random_search", regex=True)
-    arms = {"agqo": "AGQO", "warm_start_only": "Khởi động ấm (cổ điển)", "textbook": "QAOA sách giáo khoa",
-            "random_search": "Tìm kiếm ngẫu nhiên"}
+    arms = {"agqo": "AGQO", "warm_start_only": "Warm-start baseline", "textbook": "Textbook QAOA",
+            "random_search": "Random circuit search"}
     qt = (q[q.arm.isin(arms)].pivot_table(index="date", columns="arm", values="success_prob").rename(columns=arms))
     stats = json.loads((run / "quantum_stats.json").read_text())
     rb = pd.read_csv(run / "extras" / "robustness.csv")

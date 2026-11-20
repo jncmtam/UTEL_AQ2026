@@ -634,9 +634,9 @@ def cover(dk: Deck, meta: dict):
 # ================================================================== appendix
 def appendix(dk: Deck, items: list[dict]):
     s = dk.slide("Phụ lục", "Phần phụ lục: chỉ mở khi được hỏi. Mỗi trang trả lời một câu hỏi.", "A0")
-    dk.text(s, 0.55, 2.6, 12.2, 2.5, "", 22, runs=[[(f"{it['id']}  ", {"size": 20, "bold": True, "color": S["agqo"]}),
-                                                    (it["headline"].split("·", 1)[-1].strip(), {"size": 20})]
-                                                   for it in items], name="A0 Contents", spacing=6)
+    dk.text(s, 0.55, 1.45, 12.2, 5.0, "", 17, runs=[[(f"{it['id']}  ", {"size": 17, "bold": True, "color": S["agqo"]}),
+                                                     (it["headline"].split("·", 1)[-1].strip(), {"size": 17})]
+                                                    for it in items], name="A0 Contents", spacing=3)
     for it in items:
         s = dk.slide(it["headline"], it.get("notes") or f"Mở trang này khi được hỏi về: {it['headline'].split('·', 1)[-1].strip()}. "
                      "Đọc dòng đầu, chỉ vào nguồn ở chú thích, rồi quay lại câu hỏi.", it["id"])
@@ -688,6 +688,18 @@ def appendix(dk: Deck, items: list[dict]):
                 r0 = ch.category_axis.axis_title.text_frame.paragraphs[0].runs[0]
                 r0.font.size, r0.font.color.rgb = Pt(12), rgb(D["muted"])
             dk.text(s, 8.75, 1.6, 4.1, 4.9, "", 14, runs=[[(l, {"size": 14})] for l in it["side"]], name=f"{it['id']} Side")
+        elif kind == "image":
+            path = ROOT / it["image"]
+            if not path.exists():
+                raise FileNotFoundError(f"{path}: run python submission/report/figures_en.py first")
+            pic = dk.picture(s, path, 0.55, 1.6, w=it.get("width", 12.2), name=f"{it['id']} Figure")
+            if pic.height > Inches(4.75):                          # keep inside the slide
+                ratio = Inches(4.75) / pic.height
+                pic.height, pic.width = Inches(4.75), int(pic.width * ratio)
+            if it.get("side"):
+                x = 0.75 + pic.width / 914400
+                dk.text(s, x, 1.7, 12.85 - x, 4.6, "", 15, runs=[[(l, {"size": 15})] for l in it["side"]],
+                        name=f"{it['id']} Side", spacing=10)
         elif kind == "shots":
             x = 0.55
             for k, (fname, cap) in enumerate(it["shots"]):

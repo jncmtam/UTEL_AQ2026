@@ -7,25 +7,42 @@ items:
     lines:
       - "Số cổ phiếu mã j = phần cố định + 100 × x_k, với x_k ∈ {0, 1} cho 16 mã khó làm tròn nhất (giá trị lô × khoảng cách tới số nguyên)."
       - "Tỷ trọng là hàm tuyến tính của bit: w = w₀ + A·x."
-      - "Mục tiêu: E(x) = 252·(wᵀΣw − 2wᵀc + σ_b²) + γ‖w − w_cũ‖² + λ(1ᵀw − t)², Σ, c ước tính từ 250 phiên trước ngày quyết định, co về đường chéo 5%."
-      - "Vì mọi số hạng bậc hai theo w và w tuyến tính theo x, QUBO chính là mục tiêu rời rạc thật; không phải xấp xỉ."
-      - "Ràng buộc (tiền mặt ≥ 0 sau phí, trần ngành, trần mỗi mã, tiền mặt tối thiểu) kiểm tra chính xác trên NAV sau phí cho từng tổ hợp; khi dựng bài toán, mỗi trần được siết theo biên phí để mọi trạng thái của thanh ghi vẫn thỏa."
-      - "Mạch: khởi động ấm R_y theo nghiệm nới lỏng (Egger và cộng sự 2021), bộ trộn căn chỉnh, giữ các cặp ZZ mạnh nhất, chuẩn hoá RMS (Sureshbabu và cộng sự 2024), lịch góc dốc tuyến tính (Montañez-Barrera & Michielsen 2025)."
+      - "Mục tiêu: E(x) = 252·(wᵀΣw − 2wᵀc + σ_b²) + γ‖w − w_cũ‖² + λ(1ᵀw − t)², Σ, c ước tính từ 250 phiên trước ngày quyết định, covariance shrinkage 5% về đường chéo."
+      - "Vì mọi số hạng bậc hai theo w và w tuyến tính theo x, QUBO chính là mục tiêu rời rạc thật. Không phải xấp xỉ."
+      - "Ràng buộc (tiền mặt ≥ 0 sau phí, trần ngành, trần mỗi mã, tiền mặt tối thiểu) kiểm tra chính xác trên NAV sau phí cho từng tổ hợp. Khi dựng bài toán, mỗi trần được siết theo biên phí để mọi trạng thái của register vẫn thỏa."
+      - "Mạch: Warm start R_y theo continuous relaxation (Egger và cộng sự 2021), aligned mixer, coupling-mass pruning (giữ các cặp ZZ mạnh nhất), RMS scaling (Sureshbabu và cộng sự 2024), linear-ramp schedule (Montañez-Barrera & Michielsen 2025)."
     caption: "Chi tiết: docs/METHODS.md, agqo/portfolio.py, agqo/quantum/design.py."
+  - id: A1a
+    kind: image
+    headline: "A1a · Kiến trúc: Mỗi thành phần làm đúng việc nó giỏi và bị kiểm tra chéo"
+    image: submission/report/figures_en/f3_pipeline.png
+    width: 9.6
+    side:
+      - "LLM chỉ đọc ngôn ngữ, không tạo con số."
+      - "k-NN chọn schedule theo 10 bài toán 2023 giống nhất."
+      - "QAOA đề xuất 512 mẫu, không tự quyết."
+      - "Exhaustive enumeration là trọng tài cuối cùng."
+    caption: "Hình vẽ: submission/report/figures_en.py (pipeline)."
+  - id: A1b
+    kind: image
+    headline: "A1b · Mạch AGQO theo ký hiệu chuẩn: Warm start, cost layer, aligned mixer"
+    image: submission/report/figures_en/f5_circuit.png
+    width: 12.2
+    caption: "4/16 qubit. R_Y(θ_k): Warm start từ continuous relaxation. R_ZZ(2γJ_ij), R_Z(2γh_k): Cost layer. U_M(β) = R_Y(θ_k)R_Z(−2β)R_Y(−θ_k): Aligned mixer. Phải: Góc sau COBYLA polish, nét đứt là linear-ramp khởi tạo (quý 10/2026)."
   - id: A2
     kind: table
     headline: "A2 · Bốn đại lượng khác nhau, đừng trộn lẫn"
     rows:
       - ["Đại lượng", "Đo cái gì", "Giá trị trong nghiên cứu"]
-      - ["Xác suất gần tối ưu mỗi lần đo", "Chất lượng mẫu: P(đủ tiền, thỏa quy tắc, khoảng cách chuẩn hoá ≤ 5%)", "AGQO 21,3% · warm start 3,1% · sách giáo khoa 1,1%"]
-      - ["Số lần đo (shots)", "Bao nhiêu mẫu lấy từ một mạch đã chạy", "512 mỗi quyết định; với 21% mỗi lần, gần như chắc chắn có ít nhất một mẫu gần tối ưu"]
-      - ["Số lần mô phỏng mạch", "Chi phí của bộ tối ưu góc", "Lịch cố định: 1 · tinh chỉnh COBYLA: 41 · QAOA sách giáo khoa: 101"]
-      - ["Cổng hai qubit", "Độ sâu / chi phí phần cứng", "AGQO 1.440 cổng logic (p = 6); mạch chọn cho nhiễu: 4–20 logic, 2–34 sau biên dịch"]
-      - ["Khoảng cách chuẩn hoá", "(mục tiêu − tối ưu) / (trung vị khả thi − tối ưu)", "0 = tối ưu chính xác trong không gian đã mã hoá; 1 = lựa chọn khả thi điển hình"]
+      - ["Xác suất near-optimal mỗi shot", "Chất lượng mẫu: P(đủ tiền, thỏa quy tắc, normalized gap ≤ 5%)", "AGQO 21,3% · warm start 3,1% · textbook QAOA 1,1%"]
+      - ["Số shots", "Bao nhiêu mẫu lấy từ một mạch đã chạy", "512 mỗi quyết định. Với 21% mỗi lần, gần như chắc chắn có ít nhất một mẫu near-optimal"]
+      - ["Số lần mô phỏng mạch", "Chi phí của bộ tối ưu góc", "Frozen schedule: 1 · COBYLA polish: 41 · textbook QAOA: 101"]
+      - ["Cổng hai qubit", "Độ sâu / chi phí phần cứng", "AGQO 1.440 cổng logic (p = 6). Mạch chọn cho nhiễu: 4–20 logic, 2–34 sau biên dịch"]
+      - ["Normalized gap", "(Mục tiêu − tối ưu) / (trung vị khả thi − tối ưu)", "0 = tối ưu chính xác trong không gian đã mã hoá. 1 = lựa chọn khả thi điển hình"]
     caption: "Nguồn: results/final/quantum_test.csv, quantum_stats.json, extras/hardware_aware.csv."
   - id: A3
     kind: chart
-    headline: "A3 · Có nhiễu: mạch nông chọn theo nhiễu vẫn hơn warm start 1,57× (ước tính ESP)"
+    headline: "A3 · Có nhiễu: Shallow circuit chọn theo nhiễu vẫn hơn warm start 1,57× (ước tính ESP)"
     data: a_noise.csv
     x: date
     type: column
@@ -34,14 +51,14 @@ items:
     labels: false
     side:
       - "Tỷ số trung bình 1,57× (tỷ số các trung bình), hơn ở 11/12 quý."
-      - "ESP là mô hình ước tính từ số cổng và tỷ lệ lỗi; không phải chạy phần cứng."
+      - "ESP là mô hình ước tính từ số cổng và tỷ lệ lỗi. Không phải chạy phần cứng."
       - "Mô phỏng nhiễu Aer chạy cho 3 quý: 4,2% · 0,7% · 18,5%."
       - "Ở 3 quý đó, số cổng hai qubit sau biên dịch là 2–34, trung bình 16."
-      - "Mạch sâu đầy đủ (1.440 cổng logic, ~4.355 cổng thực) gần như mất hết tín hiệu dưới nhiễu hiện nay."
-    caption: "IBM Heron (FakeKingston), lịch chọn trên dữ liệu 2023. Nguồn: results/final/extras/hardware_aware.csv, hardware.csv."
+      - "Deep circuit đầy đủ (1.440 cổng logic, ~4.355 cổng thực) gần như mất hết tín hiệu dưới nhiễu hiện nay."
+    caption: "IBM Heron (FakeKingston), schedule chọn trên dữ liệu 2023. Nguồn: results/final/extras/hardware_aware.csv, hardware.csv."
   - id: A4
     kind: chart
-    headline: "A4 · Khi tăng số qubit: tỷ số tăng nhưng xác suất tuyệt đối giảm"
+    headline: "A4 · Khi tăng số qubit: Tỷ số tăng nhưng xác suất tuyệt đối giảm"
     data: a_scaling.csv
     x: qubits
     type: line
@@ -50,51 +67,51 @@ items:
     label_fmt: '0.0%'
     x_title: "Qubits"
     side:
-      - "Lịch cố định: 30,0% ở 8 qubit → 12,9% ở 20 qubit."
+      - "Frozen schedule: 30,0% ở 8 qubit → 12,9% ở 20 qubit."
       - "Tỷ số so với warm start: 4,3× → 16,7×."
-      - "Liệt kê cổ điển: 0,001 giây ở 8 qubit, 0,12 giây ở 16, 2,4 giây ở 20."
-      - "Ở quy mô này, bộ giải cổ điển là lựa chọn triển khai hợp lý; QAOA là hướng nghiên cứu khi bài toán lớn hơn."
+      - "Exhaustive enumeration: 0,001 giây ở 8 qubit, 0,12 giây ở 16, 2,4 giây ở 20."
+      - "Ở quy mô này, bộ giải cổ điển là lựa chọn triển khai hợp lý. QAOA là hướng nghiên cứu khi bài toán lớn hơn."
     caption: "Mô phỏng không nhiễu. Nguồn: results/final/extras/scaling.csv."
   - id: A5
     kind: table
-    headline: "A5 · LLM: hiểu yêu cầu và giải thích, kèm cách bắt lỗi"
+    headline: "A5 · LLM: Hiểu yêu cầu và giải thích, kèm cách bắt lỗi"
     rows:
       - ["Phép đo", "Kết quả", "Ghi chú"]
-      - ["V3: ràng buộc hiệu lực đúng (35 câu)", "Qwen 35/35 · từ khóa 24/35", "Bộ câu do nhóm viết"]
-      - ["V3: khớp JSON nghiêm ngặt", "33/35", "2 câu thêm “0% tiền mặt” không có tác dụng"]
-      - ["V3.2: kết quả đúng đến tận lệnh (50 câu mới)", "Qwen 49/50 · prompt V3 46/50 · từ khóa 33/50", "Gồm câu mơ hồ, mâu thuẫn, không khả thi"]
+      - ["V3: Ràng buộc hiệu lực đúng (35 câu)", "Qwen 35/35 · keyword parser 24/35", "Bộ câu do nhóm viết"]
+      - ["V3: Khớp JSON nghiêm ngặt", "33/35", "2 câu thêm “0% tiền mặt” không có tác dụng"]
+      - ["V3.2: Kết quả đúng đến tận lệnh (50 câu mới)", "Qwen 49/50 · prompt V3 46/50 · keyword parser 33/50", "Gồm câu mơ hồ, mâu thuẫn, không khả thi"]
       - ["Lời giải thích V3 (12 quý)", "Số liệu 12/12 khớp · kiểm tra ngữ cảnh 11/12", "Kiểm tra tự động"]
-      - ["Kiểm tra V3.2 trên 12 lời giải thích đó", "3/12 bị loại: nói thị trường không cho mua bán lô lẻ", "Trang web thay bằng giải thích tự động từ dữ liệu"]
-      - ["Ràng buộc: được hiểu → được xác nhận → được thỏa", "Hiểu: LLM · Xác nhận: người dùng bấm · Thỏa: kiểm tra trên NAV sau phí", "Chưa xác nhận thì không có lệnh"]
-    caption: "Qwen3.8-27B-FP8, nhiệt độ 0, giải mã theo lược đồ JSON. Nguồn: results/final/llm/, results/runs/*-llm-mandates."
+      - ["Kiểm tra V3.2 trên 12 lời giải thích đó", "3/12 bị loại: Nói thị trường không cho mua bán lô lẻ", "Trang web thay bằng giải thích tự động từ dữ liệu"]
+      - ["Ràng buộc: Được hiểu → được xác nhận → được thỏa", "Hiểu: LLM · Xác nhận: Người dùng bấm · Thỏa: Kiểm tra trên NAV sau phí", "Chưa xác nhận thì không có lệnh"]
+    caption: "Qwen3.8-27B-FP8, temperature 0, JSON-schema constrained decoding. Nguồn: results/final/llm/, results/runs/*-llm-mandates."
   - id: A6
     kind: table
-    headline: "A6 · k-NN chọn lịch: có ích, nhưng chưa hơn quy tắc theo cỡ tài khoản"
+    headline: "A6 · k-NN chọn schedule: Có ích, nhưng chưa hơn quy tắc theo cỡ tài khoản"
     rows:
-      - ["Cách chọn lịch (holdout V3.2, 330 bài toán)", "Xác suất mỗi lần đo", "So với lịch cố định"]
+      - ["Cách chọn schedule (holdout V3.2, 330 bài toán)", "Xác suất mỗi shot", "So với frozen schedule"]
       - ["Oracle (biết trước đáp án)", "17,80%", "+3,21 điểm %"]
       - ["k-NN cấu hình V3 (k = 10)", "15,63%", "+1,05 điểm %"]
       - ["k-NN chọn trên validation", "15,34%", "+0,76 điểm % (20/22 tháng, p = 0,0002)"]
-      - ["Một lịch cho mỗi cỡ tài khoản", "15,35%", "+0,76 điểm %"]
-      - ["Lịch cố định", "14,58%", "—"]
-      - ["Tốt nhất trong 24 lịch ngẫu nhiên", "10,80%", "−3,79 điểm %"]
-    caption: "V3 có 21,3% < 23,8% vì bước tinh chỉnh, không vì k-NN (k-NN không tinh chỉnh: 24,0%). Nguồn: docs/RESULTS_V3_2.md §2."
+      - ["Một schedule cho mỗi cỡ tài khoản", "15,35%", "+0,76 điểm %"]
+      - ["Frozen schedule", "14,58%", "—"]
+      - ["Tốt nhất trong 24 schedule ngẫu nhiên", "10,80%", "−3,79 điểm %"]
+    caption: "V3 có 21,3% < 23,8% vì bước COBYLA polish, không vì k-NN (k-NN không COBYLA polish: 24,0%). Nguồn: docs/RESULTS_V3_2.md §2."
   - id: A7
     kind: table
     headline: "A7 · Dữ liệu và giới hạn của giá đã điều chỉnh"
     rows:
-      - ["Tài khoản tương đương (giá lô lịch sử bị tính rẻ hơn)", "Làm tròn", "Tham lam", "AGQO"]
+      - ["Tài khoản tương đương (giá lô lịch sử bị tính rẻ hơn)", "Nearest-lot rounding", "Greedy", "AGQO"]
       - ["20 triệu (0%)", "12,14%", "7,47%", "6,77%"]
       - ["18,2 triệu (10%)", "12,01%", "8,85%", "6,74%"]
       - ["16 triệu (25%)", "12,45%", "9,32%", "7,53%"]
       - ["13,3 triệu (50%)", "13,27%", "10,61%", "8,36%"]
-    caption: "Giá DNSE đã điều chỉnh cổ tức và chia tách (SHA-256 7f076128…3042); chưa có giá khớp lệnh gốc nên đo giới hạn: giá lô cao hơn f lần = tài khoản nhỏ hơn f lần. Chênh lệch riêng từng mã chưa đo."
+    caption: "Giá DNSE đã điều chỉnh cổ tức và chia tách (SHA-256 7f076128…3042). Chưa có giá khớp lệnh gốc nên đo giới hạn: Giá lô cao hơn f lần = tài khoản nhỏ hơn f lần. Chênh lệch riêng từng mã chưa đo."
   - id: A8
     kind: table
-    headline: "A8 · Lô lẻ và ETF: so sánh công bằng"
+    headline: "A8 · Lô lẻ và ETF: So sánh công bằng"
     rows:
       - ["Lựa chọn (20 triệu, 12 quý)", "Sai số bám", "Giả định"]
-      - ["Lô lẻ, khớp tại giá đóng cửa", "2,53%", "Không phí chênh; 0,5–2% phí chênh: 2,54–2,60%; chưa mô hình hoá thanh khoản"]
+      - ["Lô lẻ, khớp tại giá đóng cửa", "2,53%", "Không phí chênh. 0,5–2% phí chênh: 2,54–2,60%. Chưa mô hình hoá thanh khoản"]
       - ["ETF E1VFVN30", "9,28% theo ngày · 5,17% theo tuần", "Giá thị trường của quỹ, gồm cổ tức và phí quỹ"]
       - ["Lô chẵn, AGQO, không quy tắc", "6,77%", "Sổ lệnh chính, giá đã điều chỉnh"]
       - ["Lô chẵn, AGQO, bỏ BĐS + ngân hàng ≤ 30%", "9,91%", "Quy tắc mà ETF không làm được"]
@@ -104,27 +121,27 @@ items:
     headline: "A9 · Độ trễ, chạy trực tiếp và phát lại"
     rows:
       - ["Bước", "Thời gian đo được", "Ghi chú"]
-      - ["Quyết định trên CPU Modal (container đã chạy)", "5–11 giây", "Gồm QAOA, QAOA sách giáo khoa, liệt kê 65.536 tổ hợp"]
-      - ["Container CPU khởi động lần đầu", "+20–60 giây", "Có thể giữ ấm trong buổi thi"]
+      - ["Quyết định trên CPU Modal (container đã chạy)", "5–11 giây", "Gồm QAOA, textbook QAOA, exhaustive enumeration 65.536 tổ hợp"]
+      - ["Container CPU cold start", "+20–60 giây", "Có thể giữ ấm trong buổi thi"]
       - ["Qwen trên H100, GPU đã chạy", "~4 giây", "Prompt V3.2"]
-      - ["Qwen, GPU khởi động lạnh", "440 giây (nạp mô hình 309 giây)", "Ví dụ đã ghi lại ở vòng 2"]
-      - ["Phát lại câu trả lời Qwen đã lưu", "tức thì", "Trang ghi rõ “phát lại”; tối ưu vẫn chạy trực tiếp"]
+      - ["Qwen, GPU cold start", "440 giây (nạp mô hình 309 giây)", "Ví dụ đã ghi lại ở vòng 2"]
+      - ["Phát lại câu trả lời Qwen đã lưu", "Tức thì", "Trang ghi rõ “phát lại”. Tối ưu vẫn chạy trực tiếp"]
     caption: "Nguồn: results/final/llm/prototype_live_example.json, các lần chạy trực tiếp ghi trong agent.md."
   - id: A10
     kind: text
     headline: "A10 · Tái lập và khai báo sử dụng AI"
     size: 15
     lines:
-      - "Mỗi lần chạy V3.2 có thư mục results/runs/<run_id>/ với run.json: commit, mã băm dữ liệu, cấu hình, các bước, lỗi; bằng chứng V3 giữ nguyên trong results/final/."
-      - "Mô phỏng mạch và kiểm thử chạy trên Modal CPU qua notebook notebooks/AGQO_V3_2_Research_Modal.ipynb; LLM chạy trên Modal H100; có chế độ phát lại không cần GPU."
+      - "Mỗi lần chạy V3.2 có thư mục results/runs/<run_id>/ với run.json: Commit, mã băm dữ liệu, cấu hình, các bước, lỗi. Bằng chứng V3 giữ nguyên trong results/final/."
+      - "Mô phỏng mạch và kiểm thử chạy trên Modal CPU qua notebook notebooks/AGQO_V3_2_Research_Modal.ipynb. LLM chạy trên Modal H100. Có chế độ phát lại không cần GPU."
       - "Kiểm thử: 58/58 trên Modal CPU tại thời điểm đóng gói."
-      - "Công cụ AI hỗ trợ: Qwen3.8-27B là một thành phần của sản phẩm (đọc yêu cầu, viết giải thích); nhóm dùng trợ lý lập trình AI (Claude) để viết mã, chạy thí nghiệm và soạn tài liệu; mọi con số lấy từ tệp kết quả và được nhóm kiểm tra."
-      - "Không có ưu thế lượng tử được khẳng định: ở 16 qubit, liệt kê cổ điển giải chính xác và được dùng để kiểm chứng."
+      - "Công cụ AI hỗ trợ: Qwen3.8-27B là một thành phần của sản phẩm (đọc yêu cầu, viết giải thích). Nhóm dùng trợ lý lập trình AI (Claude) để viết mã, chạy thí nghiệm và soạn tài liệu. Mọi con số lấy từ tệp kết quả và được nhóm kiểm tra."
+      - "Không có quantum advantage được khẳng định: Ở 16 qubit, exhaustive enumeration giải chính xác và được dùng để kiểm chứng."
   - id: A11
     kind: shots
     headline: "A11 · Ảnh màn hình prototype (chạy ngày 20/11/2026)"
     width: 6.0
     shots:
-      - ["pitch_constraints_pending.png", "Ràng buộc từ câu lệnh, nguồn “câu trả lời Qwen đã lưu (phát lại)”, chờ xác nhận; nút Chạy khóa."]
+      - ["pitch_constraints_pending.png", "Ràng buộc từ câu lệnh, nguồn “câu trả lời Qwen đã lưu (phát lại)”, chờ xác nhận. Nút Chạy khóa."]
       - ["pitch_kpis.png", "Kết quả job trên Modal: 5 mã, phí 22.463 đ, tiền mặt sau phí 5.002.538 đ, sai số bám ước tính 11,78%."]
-    caption: "Ảnh chụp từ https://data1--agqo-v32.us-east.modal.run bằng app/capture_v32.py; chữ giao diện giữ nguyên tiếng Việt."
+    caption: "Ảnh chụp từ https://data1--agqo-v32.us-east.modal.run bằng app/capture_v32.py. Chữ giao diện giữ nguyên tiếng Việt."
