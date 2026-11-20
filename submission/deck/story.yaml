@@ -1,0 +1,125 @@
+# Story blocks of the semifinal deck (Vietnamese). Edit words here; numbers in {braces} come from data/*.csv
+# through build_deck.py (facts()). Each slide: headline (one sentence that advances the argument), short texts
+# used by its layout, and speaker notes as a talk track: first sentence, visual cue, takeaway, handoff.
+# cut3: true = part of the three-minute version.
+
+meta:
+  title: "AGQO — Bám VN30 theo quy tắc của bạn, bằng lô chẵn, kiểm tra được"
+  footer: "AGQO · AI–Quantum Challenge 2026 · Vòng bán kết"
+  date_note: "Giá đóng cửa 01/10/2026 · lô chẵn = 100 cổ phiếu"
+
+slides:
+  - id: s1_lot
+    cut3: true
+    headline: "Với 20 triệu đồng, một lô VIC đắt hơn cả tài khoản"
+    big: "{vic_pct}%"
+    big_label: "một lô VIC so với tài khoản 20 triệu"
+    side: "{n_over10}/30 mã VN30 có một lô vượt 10% tài khoản. Mua theo lô chẵn nghĩa là mỗi mã chỉ có 0, 1, 2… lô: không có “3,4% VIC”."
+    caption: "Giá một lô (100 cổ phiếu) so với tài khoản 20 triệu đồng, giá đóng cửa 01/10/2026, 30 mã VN30 dùng được."
+    notes:
+      first: "Ngày 1 tháng 10 năm 2026, một lô VIC giá 22 triệu đồng, tức bằng 110% tài khoản 20 triệu."
+      cue: "Chỉ vào cột VIC vượt qua vạch 100%, rồi lướt sang phải để thấy hàng loạt mã nằm trên vạch 10%."
+      takeaway: "Với tài khoản nhỏ, mỗi lệnh mua là một bước nhảy lớn về tỷ trọng: bộ tối ưu muốn khoảng {fpt_ideal} FPT, nhưng chỉ chọn được 0% hoặc {fpt_lot}."
+      handoff: "Vậy một người có 20 triệu muốn bám VN30 thì đang có những lựa chọn nào?"
+
+  - id: s2_options
+    headline: "Người có 20 triệu muốn bám VN30 đang có ba lựa chọn, mỗi cái đổi một thứ"
+    columns:
+      - name: "ETF VN30"
+        lines: ["Một lệnh, đa dạng sẵn", "Không bỏ được bất động sản, không giới hạn được ngân hàng", "Sai số bám {etf_te_w} (tuần) · {etf_te_d} (ngày)*"]
+      - name: "Lô lẻ"
+        lines: ["Mua gần đúng tỷ trọng lý tưởng", "Sổ lệnh riêng, thanh khoản mỏng, giá có thể chênh", "Sai số bám {odd_te} trong mô phỏng khớp tại giá đóng cửa, chưa tính trượt giá"]
+      - name: "Danh mục lô chẵn theo quy tắc riêng"
+        lines: ["Bỏ ngành, giới hạn ngành, giữ tiền mặt theo ý", "Mỗi mã chỉ 0, 1, 2… lô; tiền mặt nằm lại", "Sai số bám {agqo_none} không quy tắc · {agqo_rules} có hai quy tắc"]
+    footnote: "* Sai số bám thực tế, năm hoá, 12 lần tái cân bằng theo quý 2024–2026, tài khoản 20 triệu, giá đã điều chỉnh. ETF so theo giá thị trường nên sai số theo ngày có nhiễu giá; theo tuần công bằng hơn."
+    notes:
+      first: "Chúng em đặt ba lựa chọn cạnh nhau và cố ý cho mỗi cái một chỗ công bằng."
+      cue: "Đi từ trái sang phải; dừng ở dòng thứ hai của mỗi cột: đó là cái giá của lựa chọn."
+      takeaway: "Lô lẻ bám tốt nhất trong mô phỏng, ETF tiện nhất; danh mục lô chẵn là lựa chọn duy nhất ở đây cho phép đặt quy tắc riêng mà vẫn dùng sổ lệnh chính."
+      handoff: "Bây giờ mời ban giám khảo xem đúng một quyết định như vậy được tạo ra thế nào."
+
+  - id: s3_demo
+    cut3: true
+    headline: "Cùng 20 triệu, cùng ngày: AI hiểu yêu cầu, bạn xác nhận, rồi mới có lệnh"
+    instruction: "“Không đầu tư bất động sản, ngân hàng tối đa 30%”"
+    chips: ["Loại ngành: Bất động sản", "Ngân hàng ≤ 30%"]
+    source: "Qwen3.8 · câu trả lời đã lưu (phát lại) · người dùng đã xác nhận"
+    left_title: "Làm tròn lô gần nhất"
+    right_title: "AGQO"
+    caption: "Một quyết định ngày 01/10/2026. Sai số bám ước tính trước giao dịch. Tham lam cùng quy tắc: {greedy_est}. Tỷ trọng tính trên NAV sau phí."
+    notes:
+      first: "Người dùng của chúng em gõ đúng một câu: không đầu tư bất động sản, ngân hàng tối đa 30%."
+      cue: "Bấm lần 1 hiện câu yêu cầu, lần 2 hiện hai ràng buộc và nguồn diễn giải, lần 3 hiện hai danh mục. Chờ hai giây trước khi nói."
+      takeaway: "Làm tròn lô gần nhất chỉ mua được {round_holdings} mã và để {round_cash} vốn nằm im; AGQO mua {agqo_holdings} mã, giữ {agqo_cash_m} triệu tiền mặt sau phí, sai số bám ước tính {agqo_est} thay vì {round_est}. Ngân hàng thực tế {bank_pct}, dưới trần."
+      handoff: "Một quyết định có thể may mắn. Câu hỏi tiếp theo là: qua 12 quý thì sao?"
+
+  - id: s4_backtest
+    cut3: true
+    headline: "Qua 12 quý, lợi thế lớn nhất nằm ở tài khoản nhỏ, và thuật toán tham lam theo rất sát"
+    callouts:
+      - "20 triệu: AGQO thấp hơn làm tròn {d20_round} điểm % [{d20_round_ci}]"
+      - "AGQO − tham lam: {d20_greedy} điểm % [{d20_greedy_ci}]: chưa có ý nghĩa thống kê"
+      - "Có hai quy tắc (20 triệu): làm tròn {r_round} · tham lam {r_greedy} · AGQO {r_agqo}"
+    caption: "Sai số bám thực tế, năm hoá, 12 lần tái cân bằng theo quý 01/2024–10/2026, giữ đến 13/11/2026; tài khoản tiền mặt mới; giá đã điều chỉnh. Khoảng tin cậy 95% bootstrap theo khối."
+    notes:
+      first: "Chúng em chạy lại cùng cách làm qua 12 quý, ở năm cỡ tài khoản, trên cùng một thang đo."
+      cue: "Nhìn nhóm cột 20 triệu trước: cột xám đậm cao gấp đôi. Rồi nhìn cột xám nhạt: thuật toán tham lam đứng sát AGQO."
+      takeaway: "Tối ưu tổ hợp lô là phần tạo ra giá trị; một thuật toán cổ điển tốt đã lấy được gần hết. Từ 100 triệu trở lên, lô đủ nhỏ và khác biệt gần như biến mất."
+      handoff: "Vậy phần lượng tử nằm ở đâu trong bài toán này? Chúng em giải thích bằng đúng một mã."
+
+  - id: s5_mapping
+    headline: "Một qubit là một câu hỏi: mua thêm một lô mã này hay không?"
+    stock: "SSI"
+    steps:
+      - "Bộ tối ưu liên tục muốn {ssi_lots} lô SSI ({ssi_ideal} tài khoản)"
+      - "Phần cố định: {ssi_fixed} lô · phần quyết định: x = 0 hoặc 1"
+      - "Một lô SSI = {ssi_lot} tài khoản: làm tròn gần nhất → 0 lô; AGQO chọn x = 1"
+    scale: "16 mã như vậy → 2¹⁶ = 65.536 tổ hợp lô"
+    pair: "VPB và TCB đi cùng nhau: mua cả hai làm ngân hàng dồn lên → tương tác J > 0"
+    rule: "Tiền mặt ≥ 0 sau phí · ngân hàng ≤ 30% · bỏ bất động sản: kiểm tra chính xác cho từng tổ hợp"
+    notes:
+      first: "Lấy SSI: bộ tối ưu, nếu được mua lẻ, muốn khoảng 0,44 lô."
+      cue: "Đi từ ô SSI xuống bit x, rồi mở rộng ra 16 bit, rồi mới chỉ cặp VPB–TCB và dòng quy tắc."
+      takeaway: "Bài toán của tài khoản nhỏ là 16 câu hỏi có/không phụ thuộc lẫn nhau. Đó chính xác là dạng bài QAOA nhận vào; và vì chỉ có 65.536 tổ hợp, máy tính cổ điển liệt kê hết để kiểm chứng."
+      handoff: "Vậy mạch lượng tử đã làm thay đổi điều gì?"
+
+  - id: s6_circuit
+    headline: "Mạch được thiết kế làm tăng xác suất gặp lựa chọn gần tối ưu ở mỗi lần đo"
+    multiplier: "{ratio_warm}× mốc warm start · {ratio_textbook}× QAOA sách giáo khoa"
+    conditions: "Điều kiện: 16 qubit, mô phỏng statevector không nhiễu, 12 quý 2024–2026, tài khoản 100 triệu, 512 lần đo. “Gần tối ưu”: đủ tiền, thỏa quy tắc và khoảng cách chuẩn hoá ≤ 5% (0 = tối ưu chính xác, 1 = lựa chọn khả thi điển hình)."
+    side: "Lịch cố định ({frozen}) và k-NN không tinh chỉnh ({nopolish}) cao hơn mạch AGQO đã tinh chỉnh ({agqo_q}). Bước tinh chỉnh tốn 41 lần mô phỏng mạch thay vì 1."
+    notes:
+      first: "Ở đây chúng em đo một thứ rất cụ thể: mỗi lần đo mạch, xác suất ra một danh mục gần tối ưu là bao nhiêu."
+      cue: "Đọc từ dưới lên: QAOA sách giáo khoa {textbook}, mốc warm start {warm}, rồi tới mạch thiết kế khoảng 21–24%."
+      takeaway: "Thiết kế mạch từ dữ liệu làm tăng xác suất mỗi lần đo khoảng bảy lần so với khởi đầu cổ điển. Nhưng chúng em cũng thấy bước tinh chỉnh không giúp, và lịch cố định đơn giản tốt ngang."
+      handoff: "Với những gì đã đo được, bước tiếp theo hợp lý là gì?"
+
+  - id: s7_next
+    headline: "Bước tiếp theo: thử nghiệm thí điểm với một công ty chứng khoán, giải bằng cổ điển, giữ QAOA là hướng nghiên cứu"
+    columns:
+      - name: "Kiểm chứng được khi thí điểm"
+        lines: ["Quy tắc được hiểu → xác nhận → thỏa trên NAV sau phí", "Người dùng hiểu lời giải thích và đánh đổi", "Độ trễ: 5–15 giây CPU mỗi quyết định"]
+      - name: "Còn thiếu đầu vào"
+        lines: ["Danh mục đang có và lệnh bán", "Giá khớp lệnh gốc và sự kiện doanh nghiệp", "Biểu phí thật của công ty chứng khoán", "Người dùng độc lập để thử trình đọc yêu cầu"]
+      - name: "Bộ giải hợp lý ở quy mô này"
+        lines: ["16 qubit: liệt kê chính xác ~0,12 giây", "Tham lam cho kết quả rất gần", "QAOA: theo dõi khi bài toán lớn hơn; chưa chạy phần cứng thật"]
+    status: "Hiện trạng: chưa có đối tác thí điểm; chưa có thử nghiệm người dùng độc lập; phần cứng lượng tử mới ở mức mô hình nhiễu và mô phỏng Aer."
+    notes:
+      first: "Nếu một công ty chứng khoán muốn thử AGQO, có ba thứ kiểm chứng được ngay và bốn thứ còn thiếu."
+      cue: "Đọc cột giữa chậm lại: đây là những thứ chúng em thiếu khi tự chạy prototype."
+      takeaway: "Ở 16 qubit, triển khai nên dùng bộ giải cổ điển. Phần đã chạy và kiểm chứng được là chuỗi hiểu yêu cầu, xác nhận, tối ưu theo lô và kiểm tra quy tắc."
+      handoff: "Quay lại với người có 20 triệu lúc đầu."
+
+  - id: s8_close
+    cut3: true
+    headline: "Quay lại người có 20 triệu: giờ họ thấy cái giá của từng quy tắc trước khi đặt lệnh"
+    lines:
+      - "{agqo_holdings} mã · {agqo_cash_m} triệu tiền mặt sau phí · sai số bám ước tính {agqo_est} (làm tròn: {round_est})"
+      - "Hai quy tắc làm sai số bám qua 12 quý tăng từ {agqo_none} lên {agqo_rules}"
+      - "Ngân hàng {bank_pct} ≤ 30% · không có bất động sản · kiểm tra trên NAV sau phí"
+    close: "Với AGQO, người có 20 triệu biết mỗi quy tắc của mình làm danh mục lệch VN30 thêm bao nhiêu, trước khi bấm đặt lệnh."
+    notes:
+      first: "Người có 20 triệu ở đầu bài giờ có một danh mục {agqo_holdings} mã và biết chính xác nó lệch VN30 bao nhiêu."
+      cue: "Dừng ở dòng thứ hai: đây là con số họ thường không bao giờ được thấy."
+      takeaway: "AGQO biến một yêu cầu tiếng Việt thành ràng buộc được xác nhận, một danh mục lô chẵn tối ưu và một bảng kiểm tra quy tắc có thể đối chiếu."
+      handoff: "Chúng em xin cảm ơn và sẵn sàng nhận câu hỏi; phụ lục có công thức, nhiễu, quy mô và cách tái lập."

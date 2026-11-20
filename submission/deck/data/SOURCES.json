@@ -1,0 +1,146 @@
+{
+ "c1_lot_cost": {
+  "source": [
+   "data/vn30/ohlcv_daily.csv (SHA-256 7f076128…3042)",
+   "VN30 membership 2026-10-01"
+  ],
+  "metric": "price of one board lot (100 shares) as % of a 20M VND account",
+  "scope": "close of 2026-10-01, 30 usable VN30 members"
+ },
+ "c2_options": {
+  "source": [
+   "/Users/jant/Documents/ChatGPT/AI-Quantum Challenge 2026/.claude/worktrees/agqo-portfolio-allocation-d30055/results/final/strategy_performance.csv",
+   "/Users/jant/Documents/ChatGPT/AI-Quantum Challenge 2026/.claude/worktrees/agqo-portfolio-allocation-d30055/results/final/extras/robustness.csv",
+   "20261120-083954-df815a9-pitch"
+  ],
+  "metric": "annualised tracking error vs the VN30 price index, daily returns × √252",
+  "scope": "12 quarterly rebalances 2024-01-02 … 2026-10-01, held to 2026-11-13"
+ },
+ "c3_pitch_weights": {
+  "source": [
+   "20261120-083954-df815a9-pitch/pitch_decision.json"
+  ],
+  "metric": "portfolio weight, % of pre-trade NAV",
+  "scope": "one decision on 2026-10-01, 20M VND, no real estate, banking ≤ 30%"
+ },
+ "c3_pitch_kpis": {
+  "source": [
+   "20261120-083954-df815a9-pitch/pitch_decision.json"
+  ],
+  "metric": "estimated tracking error (250-day covariance before the date, annualised); invested % of pre-trade NAV",
+  "scope": "one decision on 2026-10-01"
+ },
+ "c3_pitch_trades": {
+  "source": [
+   "20261120-083954-df815a9-pitch/pitch_decision.json"
+  ],
+  "metric": "AGQO buy orders",
+  "scope": "2026-10-01; cash after fees 5002538 VND; post-trade NAV 19977538 VND",
+  "cash_after_fees_vnd": 5002537.5,
+  "fees_vnd": 22462.5,
+  "post_trade_nav_vnd": 19977537.5,
+  "checks": [
+   {
+    "kind": "sector_cap",
+    "sector": "Banking",
+    "rule": "Banking <= 30.0%",
+    "limit_pct": 30.0,
+    "value_pct": 29.383,
+    "ok": true
+   },
+   {
+    "kind": "exclusions",
+    "rule": "no excluded stock or sector held",
+    "held": [],
+    "ok": true
+   },
+   {
+    "kind": "cash",
+    "rule": "cash never negative after fees",
+    "value_vnd": 5002537.5,
+    "ok": true
+   }
+  ]
+ },
+ "c4_accounts": {
+  "source": [
+   "20261120-084148-39544db-account-sizes"
+  ],
+  "metric": "realised annualised tracking error vs VN30, %",
+  "scope": "12 quarterly rebalances 2024–2026, fresh cash account per size, no rules"
+ },
+ "c4_accounts_ci": {
+  "source": [
+   "20261120-084148-39544db-account-sizes"
+  ],
+  "metric": "difference in annualised TE (pp) with 95% moving-block bootstrap CI",
+  "scope": "12 quarters"
+ },
+ "c4_pitch_rules": {
+  "source": [
+   "20261120-083954-df815a9-pitch"
+  ],
+  "metric": "realised annualised TE, %",
+  "scope": "20M VND, 12 quarters, with and without the two rules"
+ },
+ "c4_pitch_ci": {
+  "source": [
+   "20261120-083954-df815a9-pitch"
+  ],
+  "metric": "difference in annualised TE (pp), 95% block-bootstrap CI",
+  "scope": "20M VND, 12 quarters"
+ },
+ "c5_register": {
+  "source": [
+   "20261120-083954-df815a9-pitch/pitch_decision.json"
+  ],
+  "metric": "per qubit: continuous lots from the fractional optimum, fixed lots, warm-start probability, chosen bit",
+  "scope": "2026-10-01, 16 qubits"
+ },
+ "c6_circuits": {
+  "source": [
+   "/Users/jant/Documents/ChatGPT/AI-Quantum Challenge 2026/.claude/worktrees/agqo-portfolio-allocation-d30055/results/final/quantum_test.csv",
+   "/Users/jant/Documents/ChatGPT/AI-Quantum Challenge 2026/.claude/worktrees/agqo-portfolio-allocation-d30055/results/final/quantum_stats.json"
+  ],
+  "metric": "near-optimal solution probability per shot (%): feasible and normalised gap ≤ 5%",
+  "scope": "12 quarters 2024–2026, 100M VND account, 16 qubits, exact noiseless statevector, 512 shots",
+  "ratios": {
+   "agqo vs warm_start_only": 6.88645573931031,
+   "agqo vs textbook": 19.424796836574398,
+   "agqo vs random": 2.785357982951857,
+   "agqo vs frozen": 0.8943096772512973,
+   "agqo vs polish_ablation": 0.8886857570883114,
+   "agqo vs uniform": 105.55967391445907,
+   "better-than-rounding: agqo vs warm_start_only": 2.5127209836701816
+  }
+ },
+ "a_scaling": {
+  "source": [
+   "/Users/jant/Documents/ChatGPT/AI-Quantum Challenge 2026/.claude/worktrees/agqo-portfolio-allocation-d30055/results/final/extras/scaling.csv"
+  ],
+  "metric": "near-optimal probability per shot; enumeration and statevector seconds",
+  "scope": "frozen schedule from 2023, 8–20 qubits, noiseless"
+ },
+ "a_noise": {
+  "source": [
+   "/Users/jant/Documents/ChatGPT/AI-Quantum Challenge 2026/.claude/worktrees/agqo-portfolio-allocation-d30055/results/final/extras/hardware_aware.csv"
+  ],
+  "metric": "success under the ESP noise model (estimate), Aer noisy simulation where run",
+  "scope": "noise-aware shallow circuit chosen on 2023, IBM Heron model (FakeKingston); no hardware run"
+ },
+ "a_llm": {
+  "source": [
+   "/Users/jant/Documents/ChatGPT/AI-Quantum Challenge 2026/.claude/worktrees/agqo-portfolio-allocation-d30055/results/final/llm/mandate_eval.json",
+   "20261120-073653-2291b6a-llm-mandates"
+  ],
+  "metric": "team-written evaluation sets",
+  "scope": "Qwen3.8-27B-FP8, temperature 0"
+ },
+ "a_knn": {
+  "source": [
+   "20261120-073008-ab60365-knn-study"
+  ],
+  "metric": "near-optimal probability per shot (%)",
+  "scope": "V3.2 holdout: 22 months × 5 sizes × 3 rule types, fresh accounts"
+ }
+}

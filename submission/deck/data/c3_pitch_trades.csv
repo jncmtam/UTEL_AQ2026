@@ -1,0 +1,6 @@
+ticker,sector,lots,price_vnd,value_vnd,fee_vnd
+MSN,Consumer,1,70900.0,7090000.0,10635.0
+VPB,Banking,1,23300.0,2330000.0,3495.0
+TCB,Banking,1,22000.0,2200000.0,3300.0
+SSI,Brokerage,1,20150.0,2015000.0,3022.5
+VIB,Banking,1,13400.0,1340000.0,2010.0

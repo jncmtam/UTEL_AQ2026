@@ -1,0 +1,8 @@
+arm2,success_pct,evaluations,two_qubit_gates,layers,label
+agqo,21.315099357116825,41.0,1440.0,6.0,AGQO circuit (k-NN + polish)
+frozen,23.83413698779352,1.0,1440.0,6.0,Frozen schedule
+oracle,25.20723068742165,1.0,1440.0,6.0,Oracle schedule (uses test answer)
+polish_ablation,23.984967900187325,1.0,1440.0,6.0,"k-NN, no polish"
+random_search,7.652552916924369,154.33333333333334,381.3333333333333,4.666666666666667,Random circuit search
+textbook,1.0973138888630816,101.0,480.0,2.0,Textbook QAOA
+warm_start_only,3.095220555247705,0.0,0.0,1.0,Warm-start baseline

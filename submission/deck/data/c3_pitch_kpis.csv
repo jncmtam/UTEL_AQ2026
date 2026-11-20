@@ -1,0 +1,5 @@
+method,estimated_te_pct,invested_pct,holdings
+Nearest-lot rounding,17.68,11.0,1
+Greedy lot filling,11.709,63.92,4
+AGQO,11.776,74.88,5
+Ideal (fractional shares),8.781,86.97,20

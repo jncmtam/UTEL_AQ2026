@@ -1,0 +1,6 @@
+option,te_daily_pct,te_weekly_pct,rules_possible,note
+ETF E1VFVN30 (buy and hold),9.278722548065284,5.165695679429617,False,market price vs VN30 price index; ETF includes distributions and fund costs
+"Odd lots, modelled fills",2.531213604348579,,True,"simulated execution at the close, no extra odd-lot premium; liquidity not modelled"
+"Board lots, nearest-lot rounding, no rules",12.143151566205006,,True,20M VND
+"Board lots, AGQO, no rules",6.773648502112712,,True,20M VND
+"Board lots, AGQO, no real estate + banking <= 30%",9.907407627183703,,True,20M VND

@@ -1,0 +1,105 @@
+method,ticker,weight_pct
+Nearest-lot rounding,ACB,0.0
+Nearest-lot rounding,BID,0.0
+Nearest-lot rounding,BSR,0.0
+Nearest-lot rounding,CTG,0.0
+Nearest-lot rounding,FPT,0.0
+Nearest-lot rounding,GAS,0.0
+Nearest-lot rounding,GVR,0.0
+Nearest-lot rounding,HDB,0.0
+Nearest-lot rounding,HPG,0.0
+Nearest-lot rounding,LPB,0.0
+Nearest-lot rounding,MBB,0.0
+Nearest-lot rounding,MCH,0.0
+Nearest-lot rounding,MSN,0.0
+Nearest-lot rounding,MWG,0.0
+Nearest-lot rounding,SAB,0.0
+Nearest-lot rounding,SHB,0.0
+Nearest-lot rounding,SSB,0.0
+Nearest-lot rounding,SSI,0.0
+Nearest-lot rounding,STB,0.0
+Nearest-lot rounding,TCB,11.0
+Nearest-lot rounding,TCX,0.0
+Nearest-lot rounding,VCB,0.0
+Nearest-lot rounding,VIB,0.0
+Nearest-lot rounding,VJC,0.0
+Nearest-lot rounding,VNM,0.0
+Nearest-lot rounding,VPB,0.0
+Greedy lot filling,ACB,0.0
+Greedy lot filling,BID,0.0
+Greedy lot filling,BSR,0.0
+Greedy lot filling,CTG,0.0
+Greedy lot filling,FPT,0.0
+Greedy lot filling,GAS,0.0
+Greedy lot filling,GVR,0.0
+Greedy lot filling,HDB,10.77
+Greedy lot filling,HPG,0.0
+Greedy lot filling,LPB,0.0
+Greedy lot filling,MBB,0.0
+Greedy lot filling,MCH,0.0
+Greedy lot filling,MSN,0.0
+Greedy lot filling,MWG,35.82
+Greedy lot filling,SAB,0.0
+Greedy lot filling,SHB,5.675
+Greedy lot filling,SSB,0.0
+Greedy lot filling,SSI,0.0
+Greedy lot filling,STB,0.0
+Greedy lot filling,TCB,0.0
+Greedy lot filling,TCX,0.0
+Greedy lot filling,VCB,0.0
+Greedy lot filling,VIB,0.0
+Greedy lot filling,VJC,0.0
+Greedy lot filling,VNM,0.0
+Greedy lot filling,VPB,11.65
+AGQO,ACB,0.0
+AGQO,BID,0.0
+AGQO,BSR,0.0
+AGQO,CTG,0.0
+AGQO,FPT,0.0
+AGQO,GAS,0.0
+AGQO,GVR,0.0
+AGQO,HDB,0.0
+AGQO,HPG,0.0
+AGQO,LPB,0.0
+AGQO,MBB,0.0
+AGQO,MCH,0.0
+AGQO,MSN,35.449999999999996
+AGQO,MWG,0.0
+AGQO,SAB,0.0
+AGQO,SHB,0.0
+AGQO,SSB,0.0
+AGQO,SSI,10.075000000000001
+AGQO,STB,0.0
+AGQO,TCB,11.0
+AGQO,TCX,0.0
+AGQO,VCB,0.0
+AGQO,VIB,6.7
+AGQO,VJC,0.0
+AGQO,VNM,0.0
+AGQO,VPB,11.65
+Ideal (fractional shares),ACB,3.395
+Ideal (fractional shares),BID,0.0
+Ideal (fractional shares),BSR,0.0
+Ideal (fractional shares),CTG,3.0589999999999997
+Ideal (fractional shares),FPT,10.702
+Ideal (fractional shares),GAS,0.379
+Ideal (fractional shares),GVR,0.0
+Ideal (fractional shares),HDB,4.517
+Ideal (fractional shares),HPG,2.016
+Ideal (fractional shares),LPB,3.065
+Ideal (fractional shares),MBB,0.0
+Ideal (fractional shares),MCH,0.485
+Ideal (fractional shares),MSN,9.134
+Ideal (fractional shares),MWG,11.616999999999999
+Ideal (fractional shares),SAB,4.311
+Ideal (fractional shares),SHB,0.8630000000000001
+Ideal (fractional shares),SSB,0.0
+Ideal (fractional shares),SSI,4.463
+Ideal (fractional shares),STB,2.6790000000000003
+Ideal (fractional shares),TCB,5.738
+Ideal (fractional shares),TCX,2.27
+Ideal (fractional shares),VCB,0.0
+Ideal (fractional shares),VIB,1.656
+Ideal (fractional shares),VJC,9.533999999999999
+Ideal (fractional shares),VNM,2.105
+Ideal (fractional shares),VPB,4.982
