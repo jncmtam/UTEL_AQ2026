@@ -80,6 +80,12 @@ EDGE_CASES = [
                                                                  "Energy", "Insurance", "Materials",
                                                                  "Real estate", "Technology"])),
     ("5M, no rules (smallest allowed account)", 5e6, Mandate()),
+    ("review: 20M, <= 12 holdings, <= 10% each, >= 5% cash", 20e6,
+     Mandate(max_holdings=12, max_weight_per_stock=0.10, min_cash_pct=5.0)),
+    ("review: 100M, >= 1.30% cash", 100e6, Mandate(min_cash_pct=1.30)),
+    ("review: 100M, >= 1.30% cash, banking <= 30%", 100e6, Mandate(min_cash_pct=1.30, sector_caps={"Banking": 0.30})),
+    ("pitch: 20M, no real estate, banking <= 30%", 20e6,
+     Mandate(exclude_sectors=["Real estate"], sector_caps={"Banking": 0.30})),
 ]
 
 
@@ -101,6 +107,22 @@ def verifier_swap_case() -> dict:
             "correct": {"text": good, "check": verify_explanation(mk(good), ev)},
             "swapped": {"text": swapped, "check": verify_explanation(mk(swapped), ev)},
             "wrong_unit": {"text": unit, "check": verify_explanation(mk(unit), ev)}}
+
+
+def parser_cases(d) -> list[dict]:
+    """Keyword-fallback behaviour on negations and vague instructions (the LLM path is tested in llm runs)."""
+    from ..mandate import rule_clarification, rule_parse
+
+    tk = set(d.sector_of)
+    out = []
+    for text in ("Đừng bỏ VIC", "Không bỏ ngân hàng, chỉ bỏ VRE", "Tôi muốn ít rủi ro hơn", "Bỏ VIC"):
+        m = rule_parse(text, tk)
+        try:
+            q = rule_clarification(text, tk)
+        except TypeError:
+            q = rule_clarification(text)
+        out.append({"text": text, "mandate": m.to_dict(), "needs_clarification": q[0], "question": q[1]})
+    return out
 
 
 def clarification_case(d) -> dict:
@@ -128,7 +150,8 @@ def reproduce(run) -> dict:
         tag = c["outcome"] if c["outcome"] == "exception" else (
             "APP OK / AUDIT FAIL" if c["app_says_ok_but_audit_fails"] else f"status={c['status']} audit_ok={c['audit']['all_ok']}")
         run.log(f"  {name}: {tag}")
-    out = {"cases": cases, "verifier_swap": verifier_swap_case(), "clarification": clarification_case(d)}
+    out = {"cases": cases, "verifier_swap": verifier_swap_case(), "clarification": clarification_case(d),
+           "parser": parser_cases(d)}
     run.save("product_failures.json", out)
     n_exc = sum(c["outcome"] == "exception" for c in cases)
     n_silent = sum(c.get("app_says_ok_but_audit_fails", False) for c in cases)
