@@ -52,3 +52,20 @@ def push(run, archive_fn) -> None:
     files = {str(p.relative_to(run.dir)): p.read_text() for p in sorted(run.dir.rglob("*")) if p.is_file()
              and p.suffix in (".json", ".csv", ".txt", ".jsonl", ".md")}
     archive_fn.remote(run.run_id, files)
+
+
+def fanout(fn, inputs: list, on_item=None, **kw) -> list:
+    """fn.map(inputs) from a Jupyter kernel: the blocking iterator runs in a worker thread
+    (Modal refuses to iterate .map() inside a running event loop)."""
+    from concurrent.futures import ThreadPoolExecutor
+
+    def go():
+        out = []
+        for r in fn.map(inputs, order_outputs=False, **kw):
+            out.append(r)
+            if on_item:
+                on_item(len(out), r)
+        return out
+
+    with ThreadPoolExecutor(1) as ex:
+        return ex.submit(go).result()

@@ -86,12 +86,11 @@ collects rows. Output: `meta.csv` (spec, features, baselines), `success_table.np
     run = local_run("knn-table", {"n_specs": len(sp), "grid": "V3 DesignConfig (1080 schedules)", "batch": 3,
                                   "account": "fresh cash", "sizes": sorted({s["capital_vnd"] for s in sp})})
     batches = [sp[i:i + 3] for i in range(0, len(sp), 3)]
-    rows = []
+    from agqo.research.orchestrate import fanout
     with mr.app.run():
-        for out in mr.schedule_rows.map(batches, order_outputs=False):
-            rows += out
-            if len(rows) % 90 < 3:
-                run.log(f"{len(rows)}/{len(sp)} instances")
+        parts = fanout(mr.schedule_rows, batches,
+                       on_item=lambda i, r: i % 30 == 0 and run.log(f"{3 * i}/{len(sp)} instances"))
+        rows = [r for part in parts for r in part]
         ok = [r for r in rows if "error" not in r]
         bad = [r for r in rows if "error" in r]
         for r in bad:
