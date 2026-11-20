@@ -6,7 +6,7 @@
 |---|---|---|
 | Báo cáo giải pháp | AQ2026-R2-AQ2026-169-Bao_cao_giai_phap.pdf (2,8 MB; kèm .docx) | 12 trang (PDF xuất từ Word), theo mẫu BTC, đã điền thông tin đội |
 | Slide trình bày | AQ2026-R2-AQ2026-169-Slide.pptx (0,4 MB) | Bìa + 8 slide chính + 13 phụ lục; chữ, biểu đồ, sơ đồ chỉnh được; ghi chú người nói. PDF dự phòng kèm theo |
-| Mã nguồn và dữ liệu chạy thử | AQ2026-R2-AQ2026-169-Ma_nguon.zip (16 MB) | Từ commit `4866df0`; giải nén, đặt tệp giá, mã băm khớp, 58/58 test pass trên Modal |
+| Mã nguồn và dữ liệu chạy thử | AQ2026-R2-AQ2026-169-Ma_nguon.zip (18 MB) | Từ commit `466ab92` (20/11/2026, có hình, chữ web và script báo cáo mới); giải nén, đặt tệp giá, mã băm khớp, 58/58 test pass trên Modal |
 | Hướng dẫn cài đặt và sử dụng | AQ2026-R2-AQ2026-169-Huong_dan.pdf (4 trang; kèm .docx) | Có URL prototype, ghi rõ không cần tài khoản thử nghiệm |
 | Đường dẫn prototype | https://data1--agqo-v32.us-east.modal.run | Luồng mẫu, câu mơ hồ, yêu cầu không khả thi đã chạy thật ngày 20/11/2026 |
 

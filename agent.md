@@ -184,6 +184,12 @@ exists and what each number means. Same treatment for the deck and the web demo.
   35/35 parser, `agqo-demo` URL, `Madoi` file names, three members on the cover) while the deck and guide use V3.2
   facts; flagged to the owner.
 
+- Report then matched to the package at the owner's request (team code, four members read from
+  `team.local.json`, V3.2 URL, file names, 58/58 tests, 13 appendix slides, V3.2 screenshots in Figure 7).
+- Source ZIP rebuilt from `466ab92` (476 files, price file excluded as decided); extracted copy with the price
+  file placed: hash matches, smoke ok, 58 passed on Modal CPU. A member's phone number had been written into the
+  tracked `docs/submission/BAN_GIAO.md`; removed before packaging (it remains in this unpushed branch's history).
+
 ## Open questions and decisions
 
 - **Historical traded prices.** The only price series available is the provider's back-adjusted series. The
