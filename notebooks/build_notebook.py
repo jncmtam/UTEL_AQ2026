@@ -26,7 +26,7 @@ Prerequisites: `modal token new` once (credentials stay in `~/.modal.toml`), the
 
 Set `TASKS` in the next cell (papermill parameter) to choose what runs."""),
     (CODE, """# Parameters (papermill)
-TASKS = ["smoke"]          # any of: smoke, reproduce, pytest, knn_table, knn_refine, presets, account_benchmark, llm_mandates,
+TASKS = ["smoke"]          # any of: smoke, reproduce, pytest, knn_table, knn_study, knn_refine, presets, account_benchmark, llm_mandates,
                            #         llm_circuits, knn_table, knn_study
 PYTEST_ARGS = []
 LLM_MODEL_APP = "agqo-llm"
@@ -108,6 +108,27 @@ collects rows. Output: `meta.csv` (spec, features, baselines), `success_table.np
         run.finish(instances=len(ok), errors=len(bad), cpu_hours=round(float(meta.seconds.sum()) / 3600, 2))
         push(run, mr.archive)
     kept["knn_table"] = run.dir; show(run.dir)"""),
+    (MD, """## k-NN study: diagnosis, validation search, holdout (protocol §4)
+
+Reads the newest `knn-table` run; it only analyses the stored success table (no simulation), so it runs in
+this kernel. Validation chooses the variant before the holdout rows are scored."""),
+    (CODE, """if "knn_study" in TASKS:
+    from agqo.research.knn_study import run_study
+    from agqo.research.orchestrate import local_run, push
+    from agqo.research.runlog import RUNS_DIR
+    table = sorted(p for p in RUNS_DIR.glob("*-knn-table") if json.loads((p / "run.json").read_text())["status"] == "ok")[-1]
+    run = local_run("knn-study", {"table_run": table.name, "protocol": "docs/research/PROTOCOL_V3_2.md §4"})
+    try:
+        out = run_study(table, run)
+        run.finish(selected=out["selection"]["label"],
+                   holdout_knn=out["results"]["holdout"]["arms"]["knn_selected"]["mean_success"],
+                   holdout_frozen=out["results"]["holdout"]["arms"]["frozen"]["mean_success"],
+                   K2_p=out["results"]["holdout"]["tests"]["K2 knn_selected vs frozen"]["wilcoxon_p"])
+    except Exception as e:
+        run.error("knn_study", e); run.finish("failed")
+    with mr.app.run():
+        push(run, mr.archive)
+    kept["knn_study"] = run.dir; show(run.dir)"""),
     (MD, "## Summary of this notebook execution"),
     (CODE, """print(json.dumps({k: str(v) for k, v in kept.items()}, indent=1))"""),
 ]
