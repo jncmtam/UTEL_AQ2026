@@ -28,7 +28,7 @@ tái hiện lỗi, thăm dò Qwen với câu phủ định. Danh sách đầy đ
 
 1. **Dữ liệu mẫu trong ZIP (đã quyết 20/11/2026: giữ như hiện tại).** ZIP có thành phần VN30, manifest và toàn bộ kết quả đã lưu, không có tệp giá DNSE (không có quyền phân phối lại); hướng dẫn chỉ lệnh `python -m agqo download` và kiểm tra mã băm.
 2. **Giảng viên hướng dẫn:** báo cáo ghi “Không có”.
-3. **Số điện thoại** của thành viên 3 và 4 đang giống nhau (0916929493) theo thông tin được cung cấp.
+3. **Số điện thoại** của thành viên 3 và 4 đang giống nhau theo thông tin được cung cấp.
 4. **Thời lượng trình bày:** chưa có thông báo của BTC trong máy; deck có bản đầy đủ (~8–9 phút) và bản 3 phút.
 5. **Demo dùng câu trả lời Qwen đã lưu** (có nhãn “phát lại”) vì GPU khởi động lạnh mất ~440 giây; phần tối ưu chạy trực tiếp.
 6. Prototype phải chạy được trong thời gian chấm: ứng dụng Modal `agqo-web-v32` đang triển khai; nên kiểm tra hạn mức chi tiêu Modal.
