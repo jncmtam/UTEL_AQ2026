@@ -1,0 +1,123 @@
+{
+ "prompt_version": "circuit-v3.2-2026-11-20",
+ "best_llm": "llm_r2_c3",
+ "best_llm_spec": {
+  "layers": 4,
+  "initial_state": "warm_start",
+  "mixer": "warm_x",
+  "warm_start_epsilon": 0.1,
+  "coupling_keep_fraction": 1.0,
+  "angle_init": "linear_ramp",
+  "ramp_dt": 1.0,
+  "optimizer": "cobyla",
+  "max_iter": 59,
+  "cvar_alpha": 0.1,
+  "coupling_mass": 1.0,
+  "hamiltonian_scale": "max",
+  "ramp_dbeta": 0.0,
+  "rationale": "Test if a shallower circuit (4 layers) with full couplings and Cobyla optimization can outperform deeper circuits by converging faster on the warm-start landscape."
+ },
+ "best_llm_rationale": "Test if a shallower circuit (4 layers) with full couplings and Cobyla optimization can outperform deeper circuits by converging faster on the warm-start landscape.",
+ "best_random": {
+  "0": "random_s0_c7",
+  "1": "random_s1_c12",
+  "2": "random_s2_c14"
+ },
+ "llm_valid": 16,
+ "llm_rejected": {},
+ "holdout_summary": [
+  {
+   "spec": "frozen_grid",
+   "success": 0.14354657769785584,
+   "feasible_mass": 0.8393246318801572,
+   "evaluations": 1.0,
+   "two_qubit_gates": 1440.0,
+   "seconds": 0.048436364260586826
+  },
+  {
+   "spec": "frozen_grid+polish",
+   "success": 0.15312251545942596,
+   "feasible_mass": 0.7701031632283314,
+   "evaluations": 41.0,
+   "two_qubit_gates": 1440.0,
+   "seconds": 2.0017824801531705
+  },
+  {
+   "spec": "llm_best",
+   "success": 0.0982715964741117,
+   "feasible_mass": 0.8134347007417256,
+   "evaluations": 59.7,
+   "two_qubit_gates": 960.0,
+   "seconds": 2.1469564777432066
+  },
+  {
+   "spec": "random_best_s0",
+   "success": 0.03677870460713194,
+   "feasible_mass": 0.7060460950034424,
+   "evaluations": 34.0,
+   "two_qubit_gates": 31.64848484848485,
+   "seconds": 1.9168810909444636
+  },
+  {
+   "spec": "random_best_s1",
+   "success": 0.02617797022388153,
+   "feasible_mass": 0.77667367636999,
+   "evaluations": 52.0,
+   "two_qubit_gates": 7.163636363636364,
+   "seconds": 1.3471701296893033
+  },
+  {
+   "spec": "random_best_s2",
+   "success": 0.03910040930158884,
+   "feasible_mass": 0.7796675419931486,
+   "evaluations": 49.0,
+   "two_qubit_gates": 1302.0,
+   "seconds": 2.6943089246749876
+  }
+ ],
+ "holdout_tests": {
+  "llm_best vs frozen_grid": {
+   "diff_pp": -4.527498122374413,
+   "wins": 0,
+   "n_dates": 22,
+   "wilcoxon_p": 4.76837158203125e-07,
+   "alternative": "two-sided"
+  },
+  "llm_best vs frozen_grid+polish": {
+   "diff_pp": -5.485091898531427,
+   "wins": 0,
+   "n_dates": 22,
+   "wilcoxon_p": 4.76837158203125e-07,
+   "alternative": "two-sided"
+  },
+  "llm_best vs random_best_s0": {
+   "diff_pp": 6.1492891866979775,
+   "wins": 22,
+   "n_dates": 22,
+   "wilcoxon_p": 4.76837158203125e-07,
+   "alternative": "two-sided"
+  },
+  "llm_best vs random_best_s1": {
+   "diff_pp": 7.209362625023018,
+   "wins": 22,
+   "n_dates": 22,
+   "wilcoxon_p": 4.76837158203125e-07,
+   "alternative": "two-sided"
+  },
+  "llm_best vs random_best_s2": {
+   "diff_pp": 5.917118717252285,
+   "wins": 22,
+   "n_dates": 22,
+   "wilcoxon_p": 4.76837158203125e-07,
+   "alternative": "two-sided"
+  },
+  "llm_best vs random_best_mean": {
+   "diff_pp": 6.425256842991094,
+   "wins": 22,
+   "n_dates": 22,
+   "wilcoxon_p": 2.384185791015625e-07,
+   "alternative": "greater"
+  }
+ },
+ "holdout_errors": 0
+}

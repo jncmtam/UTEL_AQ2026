@@ -365,8 +365,9 @@ def job(jid: str):
     if j["kind"] == "mandate":
         c = startup()
         pr = v32.parse(parsed, set(c["sector_of"]))
-        res |= pr | {"needs_clarification": pr["status"] != "ok", "source": "Qwen3.8-27B, V3.2 prompt (live, Modal H100)",
-                     "raw": parsed}
+        mstatus = pr.pop("status")                   # keep "status" for the job state (done), not the parse state
+        res |= pr | {"mandate_status": mstatus, "needs_clarification": mstatus != "ok",
+                     "source": "Qwen3.8-27B, V3.2 prompt (live, Modal H100)", "raw": parsed}
     else:
         res |= {"explanation": parsed, "check": verify_explanation(parsed, j["ev"])}
     j["result"] = res

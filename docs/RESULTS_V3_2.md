@@ -87,6 +87,56 @@ preset's rules.
 | 20M, each stock ≤ 2% | infeasible, rule named | — | — | — |
 | Vague "đừng mua quá nhiều ngân hàng" | asks a question, no trades | — | — | — |
 
-## 5. LLM experiments
+## 5. LLM experiment 1: Vietnamese instructions → constraints (protocol §3a)
 
-(filled in from the `llm-mandates` and `llm-circuits` runs below)
+Run `20261120-073653-2291b6a-llm-mandates`. Qwen3.8-27B-FP8 (revision `c3a462cc`, vLLM 0.32, H100, temperature 0,
+JSON-schema decoding), 100 calls, 0 invalid answers, 80,318 input and 10,840 output tokens. 50 new Vietnamese
+instructions written for V3.2 (24 clear, 10 ambiguous, 8 conflicting, 8 infeasible at their account size).
+**The set is team-written; these numbers do not replace a test with independent users.**
+
+| Metric | Keyword rules | Qwen, V3 prompt | **Qwen, V3.2 English prompt** |
+|---|---|---|---|
+| End-to-end correct outcome | 66% (33/50) | 92% (46/50) | **98% (49/50)** |
+| — clear (24) | 91.7% | 100% | 100% |
+| — ambiguous (10): no trades until answered | 50% | 100% | 100% |
+| — conflicting (8): no trades until resolved | 0% | 50% | 87.5% |
+| — infeasible (8): blocked with the right rule | 75% | 100% | 100% |
+| Exact constraints on clear items | 70.8% | 100% | 100% |
+| Field accuracy (6 fields × 50) | 93.0% | 97.0% | 98.0% |
+| Clarification recall / precision | 27.8% / 100% | 77.8% / 100% | 94.4% / 100% |
+| Conflicts labelled as conflicts | — | — | 87.5% |
+| Question quality (rubric 0–1) | 0.90 | 0.98 | 0.99 |
+
+End-to-end means: the parsed rules went through the deterministic optimiser on Modal CPU and the outcome was judged
+against the gold rules (trades audited on post-trade NAV for clear items; status infeasible with the right blocking
+rule; no trade list for ambiguous and conflicting items). Primary test, V3.2 prompt vs keyword rules: 16 items only
+V3.2 correct, 0 only keyword correct, exact McNemar p = 3·10⁻⁵. V3.2 vs V3 prompt: 3 vs 0, p = 0.25 (not
+significant). The single V3.2 miss is k05, "each stock ≤ 5%, at most 4 stocks, and invest all the money": the
+contradiction needs arithmetic (4 × 5% = 20%); Qwen returned the two limits with status ok (and "0% cash" for "invest
+all"), so the optimiser followed them and invested at most about 20%. One question had a doubled question mark ("??"), which the rubric counts against it.
+
+## 6. LLM experiment 2: circuit design and optimisation (protocol §3b)
+
+Run `20261120-074358-ef91bb6-llm-circuits`. English prompt with the problem specification, the allowed QAOA
+components, budgets (≤ 1,500 two-qubit gates, ≤ 60 circuit evaluations per instance) and the objective; two rounds
+of 8 structured candidates (temperature 0.4, JSON-schema decoding); round 2 saw round 1's scores. All 16
+candidates passed validation (schema, `verify`, compiled gate count, evaluation budget). Control: random search
+over the same space, 16 candidates per seed, 3 seeds. Design set: 24 calibration instances (8 dates × 20/100/500M).
+
+| Circuit (holdout, 330 instances) | Success | Feasible mass | Evaluations | Two-qubit gates | Seconds / instance |
+|---|---|---|---|---|---|
+| V3 frozen grid schedule (found by scoring 1,080 schedules) + 40 COBYLA steps | 15.31% | 0.77 | 41 | 1,440 | 2.0 |
+| V3 frozen grid schedule | 14.35% | 0.84 | 1 | 1,440 | 0.05 |
+| **Best LLM candidate** (round 2: warm start, warm mixer, p = 4, max scaling, linear ramp, COBYLA 59 steps on CVaR 0.1) | **9.83%** | 0.81 | 59.7 | 960 | 2.1 |
+| Best random-search candidate (3 seeds) | 2.62–3.91% | 0.71–0.78 | 34–52 | 7–1,302 | 1.3–2.7 |
+
+- Primary (LLM vs budget-matched random search): +6.43 pp vs the mean of the three seeds, better on 22/22 holdout
+  dates (exact one-sided Wilcoxon p ≈ 2·10⁻⁷). The LLM's structural choices (warm start with the aligned mixer,
+  CVaR objective) carry most of that gain.
+- Exploratory: the LLM candidate is far below the data-driven schedule, −4.53 pp vs the frozen grid schedule and
+  −5.49 pp vs frozen + polish (0/22 dates), while using 60× more circuit evaluations than the frozen schedule. On
+  the design set its rounds improved from 1.1% to 3.9%. Most candidates used "max" Hamiltonian scaling and none set a
+  separate β ramp height (ramp_dbeta = 0 in all 16), whereas the grid fixes RMS scaling (rule R4) and tunes the γ and
+  β ramp heights separately; this study does not isolate which of those differences matters.
+- Conclusion: in this setting the LLM is a useful prior over circuit structure but not a substitute for scoring
+  schedules on data. AGQO keeps the data-driven schedule.

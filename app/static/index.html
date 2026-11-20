@@ -34,8 +34,8 @@
     <div class="kpis">
       <div class="kpi"><div class="v"><span class="down">12,1%</span> → <span class="up" data-count="6.8" data-dec="1">0</span>%</div><div class="l">sai số bám VN30, tài khoản 20 triệu</div></div>
       <div class="kpi"><div class="v"><span data-count="6.9" data-dec="1">0</span>×</div><div class="l">lượt đo trúng nghiệm tốt so với khởi động cổ điển (12/12 quý)</div></div>
-      <div class="kpi"><div class="v"><span data-count="35" data-dec="0">0</span>/35</div><div class="l">yêu cầu tiếng Việt được LLM dịch đúng (từ khóa: 68,6%)</div></div>
-      <div class="kpi"><div class="v"><span data-count="0" data-dec="0">0</span></div><div class="l">vi phạm quy tắc cá nhân trong 12 quý kiểm định</div></div>
+      <div class="kpi"><div class="v"><span data-count="49" data-dec="0">0</span>/50</div><div class="l">yêu cầu tiếng Việt mới, gồm câu mơ hồ và mâu thuẫn, xử lý đúng đến tận lệnh (từ khóa: 33/50; bộ câu do nhóm viết)</div></div>
+      <div class="kpi"><div class="v"><span data-count="0" data-dec="0">0</span></div><div class="l">vi phạm quy tắc tính trên NAV sau phí, qua 12 quý của các mẫu</div></div>
     </div>
     <a class="cta" href="#try">Chạy thử một quyết định thật trên Modal ↓</a>
   </div>
@@ -220,12 +220,16 @@
   <div class="grid2 reveal">
     <div class="card claim yes"><h4>✔ Khẳng định, có kiểm định</h4><ul>
       <li>Mạch do dữ liệu thiết kế dồn xác suất vào nghiệm tốt gấp 6,9× khởi động cổ điển, 19× QAOA sách giáo khoa (12/12 quý).</li>
-      <li>Tài khoản 20 triệu: sai số bám 12,1% → 6,8% (khoảng tin cậy −6,9 đến −3,8 điểm %).</li>
-      <li>LLM dịch đúng 35/35 yêu cầu; mọi con số trong lời giải thích đều được đối chiếu tự động.</li>
-      <li>Trên mô phỏng nhiễu IBM Heron, mạch nông do AI chọn vẫn hơn khởi động cổ điển 1,6×.</li></ul></div>
+      <li>Tài khoản 20 triệu: sai số bám 12,1% → 6,8% (khoảng tin cậy −6,9 đến −3,8 điểm %). V3.2 tái lập đúng; lợi thế còn khoảng 5 điểm % ngay cả khi giá lô lịch sử thực ra cao hơn 50%.</li>
+      <li>V3.2: Qwen3.8 với prompt tiếng Anh mới xử lý đúng 49/50 câu tiếng Việt mới, gồm câu mơ hồ, mâu thuẫn và không khả thi (từ khóa 33/50, p = 0,00003).</li>
+      <li>V3.2: mọi trần được kiểm tra trên NAV sau phí; yêu cầu không khả thi được giải thích, không tạo lệnh.</li>
+      <li>V3.2: chọn lịch mạch theo dữ liệu (k-NN) hơn lịch cố định 0,76 điểm % trên 330 bài toán holdout mới (20/22 tháng).</li></ul></div>
     <div class="card claim no"><h4>○ Không khẳng định, và đã đo để biết</h4><ul>
       <li>Ưu thế lượng tử: ở 16 qubit, liệt kê cổ điển giải chính xác trong 0,12 giây. Chính nhờ vậy mỗi quyết định được kiểm chứng.</li>
-      <li>Thuật toán tham lam đạt 7,5%: phần lớn lợi ích đến từ việc “chọn lô có tối ưu”, AGQO thêm phần chính xác cuối.</li>
+      <li>Thuật toán tham lam đạt 7,5%: phần lớn lợi ích đến từ việc “chọn lô có tối ưu”. Ở đúng 20 triệu, chênh lệch AGQO với tham lam chưa có ý nghĩa thống kê (−1,5 đến +0,02 điểm %).</li>
+      <li>k-NN chưa hơn quy tắc đơn giản “một lịch cho mỗi cỡ tài khoản” (cùng +0,76 điểm %).</li>
+      <li>LLM tự thiết kế mạch: hơn tìm kiếm ngẫu nhiên (9,8% so với 2,6–3,9%) nhưng thua lịch chọn bằng dữ liệu (14,4%).</li>
+      <li>Giá lịch sử là giá đã điều chỉnh; chênh lệch riêng theo từng mã chưa đo được. Bộ câu tiếng Việt do nhóm viết.</li>
       <li>Lô lẻ bám tốt hơn khi phí chênh dưới 6,8%; nhưng sổ lệnh lô lẻ mỏng và rủi ro khớp lệnh chưa được mô hình hoá.</li>
       <li>Với 100 triệu, khác biệt không có ý nghĩa thống kê: lô đã đủ nhỏ.</li></ul></div>
   </div>
@@ -234,6 +238,6 @@
 <footer>AGQO · AI–Quantum Challenge 2026 · Dữ liệu: DNSE (giá đã điều chỉnh), thành phần VN30 theo thời điểm · Qwen3.8-27B (mã nguồn mở) trên Modal H100 · Qiskit 2.5 · Mô phỏng statevector chính xác</footer>
 
 <div id="toast" class="toast"></div>
-<script src="/static/app.js?v=9"></script>
+<script src="/static/app.js?v=10"></script>
 </body>
 </html>

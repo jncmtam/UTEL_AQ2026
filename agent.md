@@ -114,6 +114,45 @@ Written before any new holdout result was computed: `docs/research/PROTOCOL_V3_2
 - Conclusion for the product: the gain from k-NN is real on a diverse instance pool but equals a simpler
   "schedule per account size" rule; polish helps small accounts and costs 40× more simulation.
 
+### 2026-11-20 — Step 5: presets and small-account benchmark (Modal CPU)
+
+- `20261120-073818-5c9f384-presets`: each preset's latest decision (copied to `results/v32/presets.json` for the
+  app's labelled replay) and 12-quarter walks with its rules. Outcomes: 20M favourable (6.77% vs 12.14%), 200M
+  banking ≤ 25% favourable (3.57% vs 4.34%, rule costs +1.07 pp), exclusions favourable but small, 500M no clear
+  difference, one stock no difference (exact search), 2% per stock infeasible with the rule named, vague
+  instruction asks. 0 rule violations on post-fee NAV in every walk.
+- `20261120-073913-5c9f384-account-benchmark`: V3.2 code reproduces the V3 20M numbers exactly. Price-level bound
+  (18.2M / 16M / 13.3M = lots understated 10/25/50%): AGQO − rounding stays −4.9 to −5.4 pp; AGQO − greedy is not
+  significant at 20M (CI −1.53 to +0.02) but is at the smaller equivalents (−1.8 to −2.3 pp). AGQO equals exact.
+
+### 2026-11-20 — Step 6: LLM experiments (Modal H100 + CPU)
+
+- Parsing `20261120-073653-2291b6a-llm-mandates`: 100 calls, 0 invalid. End-to-end correct: keyword 33/50, V3
+  prompt 46/50, V3.2 English prompt 49/50 (McNemar vs keyword p = 3e-5; vs V3 prompt p = 0.25). Only miss: k05
+  (conflict that needs arithmetic). Team-written set, stated next to every number.
+- Product now uses the V3.2 prompt (`agqo/llm/v32.py`); its 50 logged answers are in
+  `results/v32/llm_log_mandates.jsonl` for replay; status `conflict` blocks the run like a clarification.
+- Circuit design `20261120-074358-ef91bb6-llm-circuits`: 16/16 candidates valid. Holdout: best LLM candidate 9.83%
+  vs random search best 2.6–3.9% (+6.43 pp, 22/22 dates) but vs frozen grid schedule 14.35% (−4.53 pp, 0/22) and
+  frozen + polish 15.31%, at 60× the circuit evaluations. AGQO keeps the data-driven schedule.
+- Test suite after these changes: `20261120-074335-ef91bb6-pytest`, 44 passed on Modal CPU.
+
+### 2026-11-20 — Step 7: documentation
+
+- Vietnamese: `docs/vi/HUONG_DAN_MODAL.md` (setup, credentials, deploy, env vars, costs),
+  `docs/vi/NGHIEN_CUU_MODAL.md` (rerunning the notebook tasks, outputs, interpretation, errors),
+  `docs/vi/DEMO_VONG_CHUNG_KET.md` (final-round runbook and recovery), `docs/vi/KET_QUA_V3_2.md` (plain-language
+  results), `docs/vi/LO_TRINH.md` (roadmap with scope and prerequisites).
+- English research record: `docs/RESULTS_V3_2.md`; protocol with change log: `docs/research/PROTOCOL_V3_2.md`.
+- Page claims updated (hero KPIs, "Minh bạch" lists) to the V3.2 numbers.
+
+Observed while testing the live page: the keyword fallback read "ngân hàng không quá 28%" as an exclusion of the
+Aviation sector ("hàng không"). Fixed in `rule_parse` (regression test added) because the fallback fills the
+product form when the GPU is unavailable. None of the 50 V3.2 evaluation items contain the pattern, so the V3.2
+keyword arm is unchanged; two V3 items do ("Ngân hàng không quá 1/4 …", "Nhóm ngân hàng không vượt quá …"), so the
+archived V3 keyword score (68.6%) was measured with the old rule and would change on a rerun. The instruction's
+account size ("Tôi 60 triệu") is not parsed into the capital field; the investor sets capital in its own field.
+
 ## Open questions and decisions
 
 - **Historical traded prices.** The only price series available is the provider's back-adjusted series. The

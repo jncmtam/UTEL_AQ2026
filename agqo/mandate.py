@@ -111,6 +111,8 @@ def rule_parse(text: str, tickers: set[str]) -> Mandate:
     for sec, kws in SECTOR_KEYWORDS.items():
         for kw in kws:
             for hit in re.finditer(kw, t):
+                if kw == "hang khong" and t[max(0, hit.start() - 5): hit.start()] == "ngan ":
+                    continue                      # "ngân hàng không quá ..." is banking, not aviation
                 window = t[hit.end(): hit.end() + 40]
                 pct = re.search(r"(\d+(?:[.,]\d+)?)\s*%", window)
                 before = t[max(0, hit.start() - 25): hit.start()]

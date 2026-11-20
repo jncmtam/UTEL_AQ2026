@@ -109,6 +109,14 @@ def test_conflicting_rules_are_reported_not_fatal(demo):
 
 
 # ---------------------------------------------------------------- clarification
+def test_keyword_fallback_does_not_read_banking_as_aviation():
+    from agqo.mandate import rule_parse
+
+    m = rule_parse("bỏ HPG, ngân hàng không quá 28% và giữ 7% tiền mặt", {"HPG", "VJC"})
+    assert m.exclude_sectors == [] and m.sector_caps == {"Banking": 0.28} and m.exclude_tickers == ["HPG"]
+    assert rule_parse("Tránh hàng không", {"VJC"}).exclude_sectors == ["Aviation"]
+
+
 def test_keyword_fallback_asks_instead_of_guessing():
     q, text = rule_clarification("Đừng mua quá nhiều cổ phiếu ngân hàng")
     assert q and "ngân hàng" in text and text.endswith("?")

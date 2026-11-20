@@ -29,7 +29,7 @@
  "host": "Cedric-Mac.local",
  "modal_task_id": null,
  "started_utc": "2026-11-20T07:43:58Z",
- "status": "running",
+ "status": "ok",
  "steps": [
   {
    "step": "llm_round_1",
@@ -38,7 +38,37 @@
    "valid": 8,
    "rejected": 0,
    "best": 0.010680925365920671
+  },
+  {
+   "step": "llm_round_2",
+   "status": "ok",
+   "t_s": 101.1,
+   "valid": 8,
+   "rejected": 0,
+   "best": 0.03930943778908017
+  },
+  {
+   "step": "design_selection",
+   "status": "ok",
+   "t_s": 154.4,
+   "best_llm": "llm_r2_c3",
+   "best_llm_score": 0.03930943778908017,
+   "best_random_s0": "random_s0_c7",
+   "best_random_s1": "random_s1_c12",
+   "best_random_s2": "random_s2_c14"
   }
  ],
- "errors": []
+ "errors": [],
+ "seconds": 205.0,
+ "finished_utc": "2026-11-20T07:47:23Z",
+ "summary": {
+  "best_llm": "llm_r2_c3",
+  "llm_valid": 16,
+  "llm_best vs frozen_grid": -4.53,
+  "llm_best vs frozen_grid+polish": -5.49,
+  "llm_best vs random_best_s0": 6.15,
+  "llm_best vs random_best_s1": 7.21,
+  "llm_best vs random_best_s2": 5.92,
+  "llm_best vs random_best_mean": 6.43
+ }
 }

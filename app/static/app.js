@@ -343,9 +343,9 @@ async function liveMandate(job, text) {
   box.innerHTML = `<div class="bubble"><span class="spinner"></span>Đang hiện kết quả quy tắc từ khóa; Qwen3.8 đang đọc yêu cầu trên GPU H100…</div>`;
   const res = await pollJob(job, (s) => box.innerHTML = `<div class="bubble"><span class="spinner"></span>Qwen3.8 đang đọc yêu cầu (${s} giây${s > 20 ? "; GPU khởi động lần đầu mất khoảng 6 phút" : ""})…</div>`);
   if ($("#instr").value.trim() !== text) { box.innerHTML = ""; return; }           // the user moved on
-  if (res.status !== "done") { box.innerHTML = `<div class="bubble">Qwen3.8 không phản hồi (${res.error || "lỗi"}); giữ kết quả quy tắc từ khóa.</div>`; return; }
+  if (res.status !== "done") { box.innerHTML = `<div class="bubble">Qwen3.8 không phản hồi (${res.error || res.status || "lỗi"}); giữ kết quả quy tắc từ khóa.</div>`; return; }
   box.innerHTML = `<div class="bubble">✔ Qwen3.8 trả lời sau ${res.seconds} giây; các ô bên dưới đã cập nhật. Hãy xem lại rồi bấm Chạy.</div>`;
-  showMandateResult(res, text);
+  showMandateResult({ ...res, status: res.mandate_status }, text);
 }
 
 /* ---------------- run on Modal ---------------- */

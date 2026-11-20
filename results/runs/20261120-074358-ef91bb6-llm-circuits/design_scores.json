@@ -1,0 +1,514 @@
+{
+ "llm_r1_c1": {
+  "mean_success": 1.4121026996766213e-06,
+  "feasible_mass": 0.2424859999917214,
+  "evaluations": 1.0,
+  "two_qubit_gates": 1440,
+  "seconds": 0.045828014612197876,
+  "instances": 24
+ },
+ "llm_r1_c2": {
+  "mean_success": 0.008878472443239072,
+  "feasible_mass": 0.6809308422541164,
+  "evaluations": 1.0,
+  "two_qubit_gates": 960,
+  "seconds": 0.03617008527119955,
+  "instances": 24
+ },
+ "llm_r1_c3": {
+  "mean_success": 1.4323327074203189e-05,
+  "feasible_mass": 0.24053844774843833,
+  "evaluations": 1.0,
+  "two_qubit_gates": 240,
+  "seconds": 0.05723083019256592,
+  "instances": 24
+ },
+ "llm_r1_c4": {
+  "mean_success": 0.00045162668420126867,
+  "feasible_mass": 0.4478310317646978,
+  "evaluations": 21.0,
+  "two_qubit_gates": 960,
+  "seconds": 0.6920523444811503,
+  "instances": 24
+ },
+ "llm_r1_c5": {
+  "mean_success": 0.010680925365920671,
+  "feasible_mass": 0.7802757232686371,
+  "evaluations": 31.0,
+  "two_qubit_gates": 528,
+  "seconds": 1.4825548032919567,
+  "instances": 24
+ },
+ "llm_r1_c6": {
+  "mean_success": 7.237034518769172e-05,
+  "feasible_mass": 0.31682483120974253,
+  "evaluations": 1.0,
+  "two_qubit_gates": 96,
+  "seconds": 0.05741727352142334,
+  "instances": 24
+ },
+ "llm_r1_c7": {
+  "mean_success": 3.7252292707413592e-06,
+  "feasible_mass": 0.2846407893973351,
+  "evaluations": 1.0,
+  "two_qubit_gates": 1200,
+  "seconds": 0.03930898507436117,
+  "instances": 24
+ },
+ "llm_r1_c8": {
+  "mean_success": 0.00179834580641991,
+  "feasible_mass": 0.600419383248993,
+  "evaluations": 41.0,
+  "two_qubit_gates": 360,
+  "seconds": 1.7726962864398956,
+  "instances": 24
+ },
+ "llm_r2_c1": {
+  "mean_success": 0.016595857925472746,
+  "feasible_mass": 0.7699267792605077,
+  "evaluations": 60.0,
+  "two_qubit_gates": 528,
+  "seconds": 3.10333044330279,
+  "instances": 24
+ },
+ "llm_r2_c2": {
+  "mean_success": 0.0018019377313664518,
+  "feasible_mass": 0.7908062189978402,
+  "evaluations": 60.0,
+  "two_qubit_gates": 240,
+  "seconds": 3.885684907436371,
+  "instances": 24
+ },
+ "llm_r2_c3": {
+  "mean_success": 0.03930943778908017,
+  "feasible_mass": 0.8421153388905241,
+  "evaluations": 60.0,
+  "two_qubit_gates": 960,
+  "seconds": 2.0762513279914856,
+  "instances": 24
+ },
+ "llm_r2_c4": {
+  "mean_success": 0.0010210710270657467,
+  "feasible_mass": 0.6705721170715823,
+  "evaluations": 60.0,
+  "two_qubit_gates": 528,
+  "seconds": 2.9072504540284476,
+  "instances": 24
+ },
+ "llm_r2_c5": {
+  "mean_success": 0.01655156588473495,
+  "feasible_mass": 0.7671441019734596,
+  "evaluations": 60.0,
+  "two_qubit_gates": 528,
+  "seconds": 2.7816183964411416,
+  "instances": 24
+ },
+ "llm_r2_c6": {
+  "mean_success": 0.0016946386289951865,
+  "feasible_mass": 0.7703672284248108,
+  "evaluations": 60.0,
+  "two_qubit_gates": 336,
+  "seconds": 3.6010599931081138,
+  "instances": 24
+ },
+ "llm_r2_c7": {
+  "mean_success": 0.02664352802036547,
+  "feasible_mass": 0.7452740633487567,
+  "evaluations": 60.0,
+  "two_qubit_gates": 528,
+  "seconds": 2.8853683173656464,
+  "instances": 24
+ },
+ "llm_r2_c8": {
+  "mean_success": 0.011471442618017733,
+  "feasible_mass": 0.7546469920523379,
+  "evaluations": 60.0,
+  "two_qubit_gates": 240,
+  "seconds": 0.7671419779459635,
+  "instances": 24
+ },
+ "random_s0_c1": {
+  "mean_success": 2.713686817763145e-06,
+  "feasible_mass": 0.2418979713801648,
+  "evaluations": 20.0,
+  "two_qubit_gates": 966,
+  "seconds": 0.9890716671943665,
+  "instances": 24
+ },
+ "random_s0_c2": {
+  "mean_success": 2.8469773364490613e-06,
+  "feasible_mass": 0.2750879666067037,
+  "evaluations": 1.0,
+  "two_qubit_gates": 1416,
+  "seconds": 0.04257239898045858,
+  "instances": 24
+ },
+ "random_s0_c3": {
+  "mean_success": 1.0653888421080106e-05,
+  "feasible_mass": 0.25014466380270883,
+  "evaluations": 60.0,
+  "two_qubit_gates": 1392,
+  "seconds": 3.3632635474205017,
+  "instances": 24
+ },
+ "random_s0_c4": {
+  "mean_success": 0.0004830163019642092,
+  "feasible_mass": 0.46190547686407024,
+  "evaluations": 19.0,
+  "two_qubit_gates": 784,
+  "seconds": 1.0336282153924305,
+  "instances": 24
+ },
+ "random_s0_c5": {
+  "mean_success": 0.00013959736384611842,
+  "feasible_mass": 0.3503899023046045,
+  "evaluations": 1.0,
+  "two_qubit_gates": 168,
+  "seconds": 0.04517399271329244,
+  "instances": 24
+ },
+ "random_s0_c6": {
+  "mean_success": 9.25193160805317e-06,
+  "feasible_mass": 0.3005257384522611,
+  "evaluations": 1.0,
+  "two_qubit_gates": 364,
+  "seconds": 0.02036215861638387,
+  "instances": 24
+ },
+ "random_s0_c7": {
+  "mean_success": 0.006000616010480867,
+  "feasible_mass": 0.7237804672964409,
+  "evaluations": 34.0,
+  "two_qubit_gates": 42,
+  "seconds": 1.8326416015625,
+  "instances": 24
+ },
+ "random_s0_c8": {
+  "mean_success": 0.005184186089912486,
+  "feasible_mass": 0.7343612797156108,
+  "evaluations": 1.0,
+  "two_qubit_gates": 138,
+  "seconds": 0.02695825695991516,
+  "instances": 24
+ },
+ "random_s0_c9": {
+  "mean_success": 0.001163745262191337,
+  "feasible_mass": 0.5957566827869584,
+  "evaluations": 57.0,
+  "two_qubit_gates": 648,
+  "seconds": 1.1484707196553547,
+  "instances": 24
+ },
+ "random_s0_c10": {
+  "mean_success": 0.0004092044941297181,
+  "feasible_mass": 0.4410851478926936,
+  "evaluations": 1.0,
+  "two_qubit_gates": 1176,
+  "seconds": 0.0532374382019043,
+  "instances": 24
+ },
+ "random_s0_c11": {
+  "mean_success": 4.417651094999599e-05,
+  "feasible_mass": 0.2790344010746659,
+  "evaluations": 1.0,
+  "two_qubit_gates": 104,
+  "seconds": 0.02759105960528056,
+  "instances": 24
+ },
+ "random_s0_c12": {
+  "mean_success": 0.002658173820443785,
+  "feasible_mass": 0.6373047121523677,
+  "evaluations": 1.0,
+  "two_qubit_gates": 208,
+  "seconds": 0.03407671054204305,
+  "instances": 24
+ },
+ "random_s0_c13": {
+  "mean_success": 8.625197566658348e-05,
+  "feasible_mass": 0.36417716002510025,
+  "evaluations": 1.0,
+  "two_qubit_gates": 324,
+  "seconds": 0.01678230365117391,
+  "instances": 24
+ },
+ "random_s0_c14": {
+  "mean_success": 0.005142768498701953,
+  "feasible_mass": 0.8047133460691464,
+  "evaluations": 44.0,
+  "two_qubit_gates": 8,
+  "seconds": 1.4229323069254558,
+  "instances": 24
+ },
+ "random_s0_c15": {
+  "mean_success": 0.0008237866941415476,
+  "feasible_mass": 0.5046024235747467,
+  "evaluations": 44.0,
+  "two_qubit_gates": 312,
+  "seconds": 1.2365541259447734,
+  "instances": 24
+ },
+ "random_s0_c16": {
+  "mean_success": 8.684787891349533e-05,
+  "feasible_mass": 0.30843047897561565,
+  "evaluations": 44.0,
+  "two_qubit_gates": 644,
+  "seconds": 2.300504376490911,
+  "instances": 24
+ },
+ "random_s1_c1": {
+  "mean_success": 0.006288976665156963,
+  "feasible_mass": 0.7224585868292922,
+  "evaluations": 15.0,
+  "two_qubit_gates": 212,
+  "seconds": 0.2805830140908559,
+  "instances": 24
+ },
+ "random_s1_c2": {
+  "mean_success": 2.682651636850254e-06,
+  "feasible_mass": 0.2586296790536977,
+  "evaluations": 1.0,
+  "two_qubit_gates": 224,
+  "seconds": 0.057644555966059365,
+  "instances": 24
+ },
+ "random_s1_c3": {
+  "mean_success": 0.0002955613105974526,
+  "feasible_mass": 0.39697038471810275,
+  "evaluations": 1.0,
+  "two_qubit_gates": 826,
+  "seconds": 0.048990219831466675,
+  "instances": 24
+ },
+ "random_s1_c4": {
+  "mean_success": 1.355351560450422e-05,
+  "feasible_mass": 0.2715462572412987,
+  "evaluations": 24.0,
+  "two_qubit_gates": 10,
+  "seconds": 0.7587061822414398,
+  "instances": 24
+ },
+ "random_s1_c5": {
+  "mean_success": 0.0005376873658088591,
+  "feasible_mass": 0.8465059861074465,
+  "evaluations": 1.0,
+  "two_qubit_gates": 210,
+  "seconds": 0.05408740043640137,
+  "instances": 24
+ },
+ "random_s1_c6": {
+  "mean_success": 0.0024357507426421288,
+  "feasible_mass": 0.6775199147073088,
+  "evaluations": 40.0,
+  "two_qubit_gates": 50,
+  "seconds": 0.49802687764167786,
+  "instances": 24
+ },
+ "random_s1_c7": {
+  "mean_success": 0.0005588455706183653,
+  "feasible_mass": 0.419717153601968,
+  "evaluations": 40.0,
+  "two_qubit_gates": 180,
+  "seconds": 1.343267281850179,
+  "instances": 24
+ },
+ "random_s1_c8": {
+  "mean_success": 0.004291480173172658,
+  "feasible_mass": 0.7147923799572012,
+  "evaluations": 33.0,
+  "two_qubit_gates": 212,
+  "seconds": 0.6859783132870992,
+  "instances": 24
+ },
+ "random_s1_c9": {
+  "mean_success": 0.00015341930357407928,
+  "feasible_mass": 0.3658745009457911,
+  "evaluations": 1.0,
+  "two_qubit_gates": 768,
+  "seconds": 0.027821987867355347,
+  "instances": 24
+ },
+ "random_s1_c10": {
+  "mean_success": 1.7109678065693683e-05,
+  "feasible_mass": 0.30565050287747747,
+  "evaluations": 1.0,
+  "two_qubit_gates": 392,
+  "seconds": 0.020234326521555584,
+  "instances": 24
+ },
+ "random_s1_c11": {
+  "mean_success": 0.0006145915641363242,
+  "feasible_mass": 0.46280823501050317,
+  "evaluations": 19.0,
+  "two_qubit_gates": 22,
+  "seconds": 0.13505754868189493,
+  "instances": 24
+ },
+ "random_s1_c12": {
+  "mean_success": 0.0064233807687089075,
+  "feasible_mass": 0.7689576204716874,
+  "evaluations": 52.0,
+  "two_qubit_gates": 6,
+  "seconds": 1.3551126023133595,
+  "instances": 24
+ },
+ "random_s1_c13": {
+  "mean_success": 2.06420367289603e-05,
+  "feasible_mass": 0.2745627249740336,
+  "evaluations": 1.0,
+  "two_qubit_gates": 48,
+  "seconds": 0.04058462381362915,
+  "instances": 24
+ },
+ "random_s1_c14": {
+  "mean_success": 0.00038851922131018815,
+  "feasible_mass": 0.43977058100368555,
+  "evaluations": 1.0,
+  "two_qubit_gates": 678,
+  "seconds": 0.024105101823806763,
+  "instances": 24
+ },
+ "random_s1_c15": {
+  "mean_success": 0.0007094014837358088,
+  "feasible_mass": 0.4663894046544,
+  "evaluations": 52.0,
+  "two_qubit_gates": 364,
+  "seconds": 0.7745407323042551,
+  "instances": 24
+ },
+ "random_s1_c16": {
+  "mean_success": 0.003046024109041501,
+  "feasible_mass": 0.7132070299125202,
+  "evaluations": 38.0,
+  "two_qubit_gates": 8,
+  "seconds": 1.0443456172943115,
+  "instances": 24
+ },
+ "random_s2_c1": {
+  "mean_success": 0.00700480612165177,
+  "feasible_mass": 0.7234317517731904,
+  "evaluations": 20.0,
+  "two_qubit_gates": 720,
+  "seconds": 0.7540527284145355,
+  "instances": 24
+ },
+ "random_s2_c2": {
+  "mean_success": 4.872210216182399e-05,
+  "feasible_mass": 0.2909131476150787,
+  "evaluations": 1.0,
+  "two_qubit_gates": 80,
+  "seconds": 0.0352726678053538,
+  "instances": 24
+ },
+ "random_s2_c3": {
+  "mean_success": 0.0007786446703988587,
+  "feasible_mass": 0.4903116003227656,
+  "evaluations": 53.0,
+  "two_qubit_gates": 84,
+  "seconds": 1.06086469690005,
+  "instances": 24
+ },
+ "random_s2_c4": {
+  "mean_success": 0.0009694415698509877,
+  "feasible_mass": 0.5298577181027246,
+  "evaluations": 39.0,
+  "two_qubit_gates": 156,
+  "seconds": 0.5409312546253204,
+  "instances": 24
+ },
+ "random_s2_c5": {
+  "mean_success": 0.00025200203190988313,
+  "feasible_mass": 0.36580971568557574,
+  "evaluations": 1.0,
+  "two_qubit_gates": 144,
+  "seconds": 0.028955906629562378,
+  "instances": 24
+ },
+ "random_s2_c6": {
+  "mean_success": 0.00330860144468991,
+  "feasible_mass": 0.6396028770831707,
+  "evaluations": 1.0,
+  "two_qubit_gates": 4,
+  "seconds": 0.013854801654815674,
+  "instances": 24
+ },
+ "random_s2_c7": {
+  "mean_success": 0.0007793342349171976,
+  "feasible_mass": 0.5942056860408037,
+  "evaluations": 50.0,
+  "two_qubit_gates": 708,
+  "seconds": 1.4663162132104237,
+  "instances": 24
+ },
+ "random_s2_c8": {
+  "mean_success": 0.0011870657365118957,
+  "feasible_mass": 0.6331612444381933,
+  "evaluations": 36.0,
+  "two_qubit_gates": 310,
+  "seconds": 1.2444571554660797,
+  "instances": 24
+ },
+ "random_s2_c9": {
+  "mean_success": 0.00039282210961269953,
+  "feasible_mass": 0.43228646949829974,
+  "evaluations": 1.0,
+  "two_qubit_gates": 1008,
+  "seconds": 0.04595420757929484,
+  "instances": 24
+ },
+ "random_s2_c10": {
+  "mean_success": 0.005171300040761672,
+  "feasible_mass": 0.7139275705075766,
+  "evaluations": 42.0,
+  "two_qubit_gates": 110,
+  "seconds": 1.6727448006470997,
+  "instances": 24
+ },
+ "random_s2_c11": {
+  "mean_success": 0.0001237734859588513,
+  "feasible_mass": 0.34642927122753964,
+  "evaluations": 16.0,
+  "two_qubit_gates": 6,
+  "seconds": 0.3241716722647349,
+  "instances": 24
+ },
+ "random_s2_c12": {
+  "mean_success": 0.007423147027878129,
+  "feasible_mass": 0.717072788689452,
+  "evaluations": 50.0,
+  "two_qubit_gates": 350,
+  "seconds": 2.5615153213342032,
+  "instances": 24
+ },
+ "random_s2_c13": {
+  "mean_success": 0.0011355324945059517,
+  "feasible_mass": 0.6453325529808107,
+  "evaluations": 25.0,
+  "two_qubit_gates": 306,
+  "seconds": 0.5361288686593374,
+  "instances": 24
+ },
+ "random_s2_c14": {
+  "mean_success": 0.010612964871684503,
+  "feasible_mass": 0.758411661576906,
+  "evaluations": 49.0,
+  "two_qubit_gates": 1302,
+  "seconds": 2.774903188149134,
+  "instances": 24
+ },
+ "random_s2_c15": {
+  "mean_success": 0.0015686699718492807,
+  "feasible_mass": 0.6496656590641218,
+  "evaluations": 24.0,
+  "two_qubit_gates": 60,
+  "seconds": 0.8115908106168112,
+  "instances": 24
+ },
+ "random_s2_c16": {
+  "mean_success": 0.00037170818771840836,
+  "feasible_mass": 0.4187806466886304,
+  "evaluations": 1.0,
+  "two_qubit_gates": 32,
+  "seconds": 0.051150768995285034,
+  "instances": 24
+ }
+}
