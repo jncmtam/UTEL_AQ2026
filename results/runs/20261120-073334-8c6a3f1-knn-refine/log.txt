@@ -1,0 +1,5 @@
+14:33:57 60/330 instances
+14:34:01 120/330 instances
+14:34:03 180/330 instances
+14:34:06 240/330 instances
+14:34:09 300/330 instances

@@ -115,7 +115,7 @@ def meta():
     stocks = sorted(({"ticker": t, "sector": md.sector(t), "price_vnd": float(px[t]), "lot_vnd": float(100 * px[t])}
                      for t in c["universe"]), key=lambda z: -z["lot_vnd"])
     measured = {p["id"]: p for p in (c["replay"] or {}).get("presets", [])}
-    presets = [public(p) | {"measured": {k: v for k, v in measured.get(p["id"], {}).items() if k != "decision"},
+    presets = [public(p) | {"measured": measured.get(p["id"], {}).get("measured", {}) | {"outcome": measured.get(p["id"], {}).get("outcome")},
                             "replay_available": "decision" in measured.get(p["id"], {})} for p in PRESETS]
     rules = c["ec"].rules
     return _json({"date": str(date.date()), "universe": c["universe"], "stocks": stocks,

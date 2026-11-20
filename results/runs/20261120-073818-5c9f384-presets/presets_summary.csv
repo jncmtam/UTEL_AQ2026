@@ -1,0 +1,8 @@
+id,expect,outcome,status,capital_million,te_pct,te_rounding_pct,te_greedy_pct,te_ideal_pct,holdings,fees_vnd,cash_after_vnd,all_checks_ok,quantum_ran,realised_te_agqo_pct,realised_te_rounding_pct,realised_diff_pp,rule_violations_12q,avg_holdings_12q,rule_cost_pp,blocking,question,source
+small20,favourable,favourable,ok,20.0,9.483,18.434,10.776,5.097,7.0,24328.5,3756671.5,True,True,6.773648502112712,12.143151566205006,-5.369503064092297,0.0,10.916666666666666,0.0,,,
+bank25_200,favourable,favourable,ok,200.0,5.494,5.391,,5.258,21.0,284413.5,10106586.5,True,True,3.5698861125149532,4.341809810142071,-0.7719236976271175,0.0,23.166666666666668,1.067935469056422,,,
+exclude_100,favourable,favourable,ok,100.0,8.954,8.954,,8.695,17.0,141063.0,5816937.0,True,True,6.392368190704305,6.628891602404816,-0.23652341170051017,0.0,19.916666666666668,3.4327699550051665,,,
+large500,unfavourable,no clear difference,ok,500.0,5.174,5.262,5.238,5.097,27.0,734914.5,9322085.5,True,True,2.472671008480101,2.513029821204102,-0.040358812724001325,0.0,27.416666666666668,0.0,,,
+one_stock_20,unfavourable,no clear difference,ok,20.0,17.639,17.639,,17.605,1.0,9405.0,13720595.0,True,False,16.186042291625746,16.186042291625746,0.0,0.0,0.75,9.412393789513034,,,
+cap2_20,infeasible,infeasible,infeasible,20.0,,,,,,,,,,,,,,,,"Quy tắc mỗi mã tối đa 2% chỉ cho phép 399.400 đ mỗi mã, nhưng lô rẻ nhất (SHB) đã là 1.135.000 đ.",,
+vague_bank,clarification,clarification,needs_clarification,,,,,,,,,,,,,,,,,,Bạn muốn giới hạn tỷ trọng cổ phiếu ngân hàng tối đa là bao nhiêu phần trăm?,Qwen3.8-27B (logged live answer)

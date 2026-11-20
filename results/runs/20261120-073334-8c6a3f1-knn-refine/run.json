@@ -1,0 +1,33 @@
+{
+ "run_id": "20261120-073334-8c6a3f1-knn-refine",
+ "kind": "knn-refine",
+ "git": {
+  "sha": "8c6a3f1d01e57fba5205874161648b6a8c3c87b9",
+  "short": "8c6a3f1",
+  "dirty": false
+ },
+ "data_sha256": "7f076128a4f625f9589844f7465e3a1745e1a31e2cecfa8b70e3d8e141433042",
+ "config": {
+  "study_run": "20261120-073008-ab60365-knn-study",
+  "instances": 330,
+  "polish_iters": 40,
+  "cvar_alpha": 0.1,
+  "shots": 512,
+  "seed": 7
+ },
+ "python": "3.12.12",
+ "host": "Cedric-Mac.local",
+ "modal_task_id": null,
+ "started_utc": "2026-11-20T07:33:34Z",
+ "status": "ok",
+ "steps": [],
+ "errors": [],
+ "seconds": 38.8,
+ "finished_utc": "2026-11-20T07:34:13Z",
+ "summary": {
+  "frozen_success": 0.1458,
+  "frozen+polish_success": 0.1593,
+  "knn_success": 0.1534,
+  "knn+polish_success": 0.1637
+ }
+}

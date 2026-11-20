@@ -34,6 +34,7 @@ image = (
     .env({"AGQO_LIVE_LLM": "0", "PYTHONPATH": "/root"})
     .add_local_dir(ROOT / "data" / "vn30", "/root/data/vn30")
     .add_local_dir(ROOT / "results" / "final", "/root/results/final")
+    .add_local_dir(ROOT / "results" / "v32", "/root/results/v32")
     .add_local_dir(ROOT / "tests", "/root/tests")
     .add_local_dir(ROOT / "app", "/root/app")
     .add_local_file(ROOT / "pyproject.toml", "/root/pyproject.toml")

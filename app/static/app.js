@@ -282,12 +282,14 @@ function bindForm() {
 }
 
 /* ---------------- presets ---------------- */
-const EXPECT_VI = { favourable: ["Có lợi", "up"], unfavourable: ["Ít lợi / đánh đổi", "amber"], infeasible: ["Không khả thi", "down"], clarification: ["Cần hỏi lại", "ai"] };
+const EXPECT_VI = { favourable: ["Có lợi", "up"], unfavourable: ["Ít lợi / đánh đổi", "amber"], "no clear difference": ["Không khác biệt rõ", "amber"],
+  infeasible: ["Không khả thi", "down"], clarification: ["Cần hỏi lại", "ai"] };
 function renderPresets() {
   $("#presets").innerHTML = META.presets.map((p) => {
-    const [lab, cls] = EXPECT_VI[p.expect] || ["", ""], m = p.measured || {};
-    const meas = m.status === "ok" && m.te_pct != null ? `Đo trên Modal: sai số bám ${fmt(m.te_pct, 2)}%${m.te_rounding_pct != null ? ` (làm tròn: ${fmt(m.te_rounding_pct, 2)}%)` : ""}`
-      : m.status === "infeasible" ? `Đo trên Modal: không khả thi (${m.blocking || ""})` : m.status === "needs_clarification" ? "Đo: hệ thống hỏi lại, không hiện lệnh" : "";
+    const m = p.measured || {}, cls_ = m.outcome || p.expect, [lab, cls] = EXPECT_VI[cls_] || EXPECT_VI[p.expect] || ["", ""];
+    const meas = m.realised_te_agqo_pct != null ? `Đo trên Modal, 12 quý: sai số bám ${fmt(m.realised_te_agqo_pct, 2)}% (làm tròn: ${fmt(m.realised_te_rounding_pct, 2)}%)` +
+        (m.rule_cost_pp ? ` · quy tắc làm tăng ${fmt(m.rule_cost_pp, 2)} điểm %` : "")
+      : m.status === "infeasible" ? `Đo trên Modal: không khả thi` : m.status === "needs_clarification" ? "Đo: hệ thống hỏi lại, không hiện lệnh" : "";
     return `<div class="pcard" data-id="${p.id}"><div class="pt"><b>${p.title_vi}</b><span class="badge ${cls}">${lab}</span></div>` +
       `<p>${p.why_vi}</p><p class="muted">Đánh đổi: ${p.tradeoff_vi}</p>${meas ? `<p class="meas">${meas}</p>` : ""}</div>`;
   }).join("");

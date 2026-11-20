@@ -1,0 +1,34 @@
+{
+ "run_id": "20261120-073913-5c9f384-account-benchmark",
+ "kind": "account-benchmark",
+ "git": {
+  "sha": "5c9f3846e95b298854afe34d560179df643ba891",
+  "short": "5c9f384",
+  "dirty": true
+ },
+ "data_sha256": "7f076128a4f625f9589844f7465e3a1745e1a31e2cecfa8b70e3d8e141433042",
+ "config": {
+  "capitals": [
+   20000000.0,
+   18180000.0,
+   16000000.0,
+   13330000.0
+  ],
+  "quarters": "V3 test (12)"
+ },
+ "python": "3.12.12",
+ "host": "Cedric-Mac.local",
+ "modal_task_id": null,
+ "started_utc": "2026-11-20T07:39:13Z",
+ "status": "ok",
+ "steps": [],
+ "errors": [],
+ "seconds": 32.1,
+ "finished_utc": "2026-11-20T07:39:45Z",
+ "summary": {
+  "20M agqo vs practitioner": -5.37,
+  "18.1M agqo vs practitioner": -5.27,
+  "16M agqo vs practitioner": -4.92,
+  "13.3M agqo vs practitioner": -4.92
+ }
+}

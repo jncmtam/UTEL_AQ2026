@@ -1,0 +1,46 @@
+{
+ "run_id": "20261120-073818-5c9f384-presets",
+ "kind": "presets",
+ "git": {
+  "sha": "5c9f3846e95b298854afe34d560179df643ba891",
+  "short": "5c9f384",
+  "dirty": false
+ },
+ "data_sha256": "7f076128a4f625f9589844f7465e3a1745e1a31e2cecfa8b70e3d8e141433042",
+ "config": {
+  "quarters": "V3 test (12)",
+  "account": "fresh cash, then walk"
+ },
+ "python": "3.12.12",
+ "host": "Cedric-Mac.local",
+ "modal_task_id": null,
+ "started_utc": "2026-11-20T07:38:18Z",
+ "status": "ok",
+ "steps": [
+  {
+   "step": "latest_decisions",
+   "status": "ok",
+   "t_s": 15.5,
+   "presets": 6
+  },
+  {
+   "step": "walks",
+   "status": "ok",
+   "t_s": 51.7,
+   "jobs": 14,
+   "errors": 0
+  }
+ ],
+ "errors": [],
+ "seconds": 51.9,
+ "finished_utc": "2026-11-20T07:39:10Z",
+ "summary": {
+  "small20": "favourable",
+  "bank25_200": "favourable",
+  "exclude_100": "favourable",
+  "large500": "no clear difference",
+  "one_stock_20": "no clear difference",
+  "cap2_20": "infeasible",
+  "vague_bank": "clarification"
+ }
+}
