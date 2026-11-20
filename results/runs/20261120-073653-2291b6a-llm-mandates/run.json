@@ -17,7 +17,31 @@
  "host": "Cedric-Mac.local",
  "modal_task_id": null,
  "started_utc": "2026-11-20T07:36:53Z",
- "status": "running",
- "steps": [],
- "errors": []
+ "status": "ok",
+ "steps": [
+  {
+   "step": "llm_calls",
+   "status": "ok",
+   "t_s": 377.5,
+   "calls": 100,
+   "invalid": 0,
+   "input_tokens": 80318,
+   "output_tokens": 10840
+  },
+  {
+   "step": "end_to_end",
+   "status": "ok",
+   "t_s": 420.5,
+   "decisions": 114,
+   "errors": 0
+  }
+ ],
+ "errors": [],
+ "seconds": 420.6,
+ "finished_utc": "2026-11-20T07:43:54Z",
+ "summary": {
+  "keyword_e2e_pct": 66.0,
+  "qwen_v32_prompt_e2e_pct": 98.0,
+  "qwen_v3_prompt_e2e_pct": 92.0
+ }
 }

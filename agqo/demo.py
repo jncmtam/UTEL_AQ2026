@@ -66,12 +66,20 @@ def _bitstring(idx: int, n: int) -> str:
 # ------------------------------------------------------------------ mandate compiler
 def compile_mandate(text: str, sector_of: dict[str, str], backend: str = "auto",
                     log: Path = RESULTS_DIR / "llm" / "llm_log.jsonl") -> dict:
-    """Return {mandate, source, needs_clarification, errors, raw}. Never raises on LLM failure."""
-    from .llm.tasks import mandate_request, parse_mandate
+    """Return {mandate, status, needs_clarification, question, conflicts, source, errors, raw}. Never raises.
 
-    req = mandate_request(text, sector_of)
+    Order: logged live V3.2 answer for this exact text -> logged live V3 answer -> live Qwen with the V3.2 prompt
+    (backend "auto"/"modal") -> keyword rules. status is ok | needs_clarification | conflict."""
+    from .llm import v32
+    from .llm.tasks import parse_mandate
+
     tickers = set(sector_of)
-    if log.exists():                                     # same instruction already answered live (latest answer)
+    hit = v32.logged(text)
+    if hit is not None:
+        res = v32.parse(hit["parsed"], tickers)
+        return res | {"source": "Qwen3.8-27B, V3.2 prompt (logged live answer)", "raw": hit["parsed"],
+                      "needs_clarification": res["status"] != "ok"}
+    if log.exists():                                     # same instruction answered live in V3 (latest answer)
         hit = None
         for line in log.read_text().splitlines():
             rec = json.loads(line)
@@ -79,20 +87,21 @@ def compile_mandate(text: str, sector_of: dict[str, str], backend: str = "auto",
                 hit = rec
         if hit is not None:
             m, clar, errs = parse_mandate(hit["parsed"], tickers)
-            return {"mandate": m.to_dict(), "source": "Qwen3.8-27B (logged live answer)",
-                    "needs_clarification": clar, "question": hit["parsed"].get("clarification_question_vi"),
-                    "errors": errs, "raw": hit["parsed"]}
+            return {"mandate": m.to_dict(), "source": "Qwen3.8-27B, V3 prompt (logged live answer)",
+                    "status": "needs_clarification" if clar else "ok", "needs_clarification": clar, "conflicts": [],
+                    "question": hit["parsed"].get("clarification_question_vi"), "errors": errs, "raw": hit["parsed"]}
     if backend in ("auto", "modal"):
         try:
             import modal
 
+            req = v32.request(text, sector_of)
             engine = modal.Cls.from_name("agqo-llm", "Engine")()
             payload = [{k: req[k] for k in ("system", "user", "schema", "seed", "temperature", "max_tokens")}]
             out = engine.generate.remote(payload)[0]
             parsed = json.loads(out["raw_text"])
-            m, clar, errs = parse_mandate(parsed, tickers)
-            return {"mandate": m.to_dict(), "source": "Qwen3.8-27B (live, Modal H100)", "needs_clarification": clar,
-                    "question": parsed.get("clarification_question_vi"), "errors": errs, "raw": parsed}
+            res = v32.parse(parsed, tickers)
+            return res | {"source": "Qwen3.8-27B, V3.2 prompt (live, Modal H100)", "raw": parsed,
+                          "needs_clarification": res["status"] != "ok"}
         except Exception as e:                           # no Modal credentials, cold start failure, ...
             fallback_reason = f"{type(e).__name__}: {e}"[:200]
     else:
@@ -102,6 +111,7 @@ def compile_mandate(text: str, sector_of: dict[str, str], backend: str = "auto",
     m = rule_parse(text, tickers)
     clar, question = rule_clarification(text)
     return {"mandate": m.to_dict(), "source": "keyword rules (fallback)", "needs_clarification": clar,
+            "status": "needs_clarification" if clar else "ok", "conflicts": [],
             "question": question, "errors": [], "raw": None, "fallback_reason": fallback_reason}
 
 

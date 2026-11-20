@@ -41,7 +41,8 @@ from pydantic import BaseModel, Field
 
 from agqo.config import RESULTS_DIR, ROOT, SECTOR_EN
 from agqo.demo import compile_mandate
-from agqo.llm.tasks import explain_request, mandate_request, parse_mandate, verify_explanation
+from agqo.llm import v32
+from agqo.llm.tasks import explain_request, verify_explanation
 from agqo.mandate import Mandate
 from agqo.presets import PRESETS, public
 from agqo.service import clean
@@ -170,16 +171,13 @@ class MandateIn(BaseModel):
     live: bool = True
 
 
-def _status(res: dict) -> str:
-    return "needs_clarification" if res.get("needs_clarification") else "ok"
-
-
 @api.post("/api/mandate")
 def mandate(body: MandateIn):
     c = startup()
     text = body.text.strip()
     if not text:
-        return _json({"mandate": Mandate().to_dict(), "source": "no instruction", "status": "ok", "job": None})
+        return _json({"mandate": Mandate().to_dict(), "source": "no instruction", "status": "ok", "conflicts": [],
+                      "job": None})
     res = compile_mandate(text, c["sector_of"], backend="none")     # logged live answer, else keyword rules
     res["job"] = None
     if res["source"].startswith("keyword") and body.live and LIVE_LLM:
@@ -187,7 +185,7 @@ def mandate(body: MandateIn):
             res["llm_note"] = "live LLM budget for this hour is used up; keyword rules shown"
         else:
             try:
-                req = mandate_request(text, c["sector_of"])
+                req = v32.request(text, c["sector_of"])
                 fc = _spawn_llm([req])
                 jid = uuid.uuid4().hex[:12]
                 _jobs[jid] = {"kind": "mandate", "fc": fc.object_id, "req": req, "t0": time.time()}
@@ -195,7 +193,6 @@ def mandate(body: MandateIn):
             except Exception as e:
                 res["llm_note"] = f"live LLM unavailable ({type(e).__name__}); keyword rules shown"
     res.pop("fallback_reason", None)
-    res["status"] = _status(res)
     return _json(res)
 
 
@@ -367,10 +364,9 @@ def job(jid: str):
            "usage": out.get("usage"), "gpu": out.get("gpu"), "model_load_s": out.get("model_load_s")}
     if j["kind"] == "mandate":
         c = startup()
-        m, clar, errs = parse_mandate(parsed, set(c["sector_of"]))
-        res |= {"mandate": m.to_dict(), "needs_clarification": clar, "errors": errs,
-                "question": (parsed or {}).get("clarification_question_vi"), "source": "Qwen3.8-27B (live, Modal H100)",
-                "raw": parsed, "status": "needs_clarification" if clar else "ok"}
+        pr = v32.parse(parsed, set(c["sector_of"]))
+        res |= pr | {"needs_clarification": pr["status"] != "ok", "source": "Qwen3.8-27B, V3.2 prompt (live, Modal H100)",
+                     "raw": parsed}
     else:
         res |= {"explanation": parsed, "check": verify_explanation(parsed, j["ev"])}
     j["result"] = res

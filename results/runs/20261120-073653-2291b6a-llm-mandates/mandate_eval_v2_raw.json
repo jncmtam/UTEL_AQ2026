@@ -1,0 +1,2106 @@
+[
+ {
+  "item": "c01",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "c01",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [
+    "Banking"
+   ],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "needs_clarification": false,
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c01",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [
+    "Banking"
+   ],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "status": "ok",
+   "missing_fields": [],
+   "conflicts": [],
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c02",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "c02",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [
+    "HPG"
+   ],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "needs_clarification": false,
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c02",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [
+    "HPG"
+   ],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "status": "ok",
+   "missing_fields": [],
+   "conflicts": [],
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c03",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "c03",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [
+    {
+     "sector": "Banking",
+     "max_weight": 0.35
+    }
+   ],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "needs_clarification": false,
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c03",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [
+    {
+     "sector": "Banking",
+     "max_weight": 0.35
+    }
+   ],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "status": "ok",
+   "missing_fields": [],
+   "conflicts": [],
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c04",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "c04",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": 15,
+   "needs_clarification": false,
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c04",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": 15,
+   "status": "ok",
+   "missing_fields": [],
+   "conflicts": [],
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c05",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "c05",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": 0.08,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "needs_clarification": false,
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c05",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": 0.08,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "status": "ok",
+   "missing_fields": [],
+   "conflicts": [],
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c06",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "c06",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": 10,
+   "min_cash_pct": null,
+   "needs_clarification": false,
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c06",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": 10,
+   "min_cash_pct": null,
+   "status": "ok",
+   "missing_fields": [],
+   "conflicts": [],
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c07",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "c07",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [
+    "Brokerage",
+    "Insurance"
+   ],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": 5,
+   "needs_clarification": false,
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c07",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [
+    "Brokerage",
+    "Insurance"
+   ],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": 5,
+   "status": "ok",
+   "missing_fields": [],
+   "conflicts": [],
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c08",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "c08",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [
+    {
+     "sector": "Real estate",
+     "max_weight": 0.15
+    }
+   ],
+   "max_weight_per_stock": 0.1,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "needs_clarification": false,
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c08",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [
+    {
+     "sector": "Real estate",
+     "max_weight": 0.15
+    }
+   ],
+   "max_weight_per_stock": 0.1,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "status": "ok",
+   "missing_fields": [],
+   "conflicts": [],
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c09",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "c09",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [
+    "VNM",
+    "SAB"
+   ],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "needs_clarification": false,
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c09",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [
+    "VNM",
+    "SAB"
+   ],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "status": "ok",
+   "missing_fields": [],
+   "conflicts": [],
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c10",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "c10",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [
+    {
+     "sector": "Banking",
+     "max_weight": 0.25
+    }
+   ],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "needs_clarification": false,
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c10",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [
+    {
+     "sector": "Banking",
+     "max_weight": 0.25
+    }
+   ],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "status": "ok",
+   "missing_fields": [],
+   "conflicts": [],
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c11",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "c11",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [
+    "MBB"
+   ],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "needs_clarification": false,
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c11",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [
+    "MBB"
+   ],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "status": "ok",
+   "missing_fields": [],
+   "conflicts": [],
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c12",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "c12",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [
+    "Aviation",
+    "Energy"
+   ],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": 15,
+   "min_cash_pct": null,
+   "needs_clarification": false,
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c12",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [
+    "Aviation",
+    "Energy"
+   ],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": 15,
+   "min_cash_pct": null,
+   "status": "ok",
+   "missing_fields": [],
+   "conflicts": [],
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c13",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "c13",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": 10,
+   "needs_clarification": false,
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c13",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": 10,
+   "status": "ok",
+   "missing_fields": [],
+   "conflicts": [],
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c14",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "c14",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [
+    {
+     "sector": "Materials",
+     "max_weight": 0.2
+    }
+   ],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "needs_clarification": false,
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c14",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [
+    {
+     "sector": "Materials",
+     "max_weight": 0.2
+    }
+   ],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "status": "ok",
+   "missing_fields": [],
+   "conflicts": [],
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c15",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "c15",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [
+    {
+     "sector": "Technology",
+     "max_weight": 0.1
+    },
+    {
+     "sector": "Consumer",
+     "max_weight": 0.2
+    }
+   ],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "needs_clarification": false,
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c15",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [
+    {
+     "sector": "Technology",
+     "max_weight": 0.1
+    },
+    {
+     "sector": "Consumer",
+     "max_weight": 0.2
+    }
+   ],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "status": "ok",
+   "missing_fields": [],
+   "conflicts": [],
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c16",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "c16",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [
+    "VIC",
+    "VHM",
+    "VRE"
+   ],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "needs_clarification": false,
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c16",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [
+    "VIC",
+    "VHM",
+    "VRE"
+   ],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "status": "ok",
+   "missing_fields": [],
+   "conflicts": [],
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c17",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "c17",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": 0.12,
+   "max_holdings": null,
+   "min_cash_pct": 3,
+   "needs_clarification": false,
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c17",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": 0.12,
+   "max_holdings": null,
+   "min_cash_pct": 3,
+   "status": "ok",
+   "missing_fields": [],
+   "conflicts": [],
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c18",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "c18",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "needs_clarification": false,
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c18",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "status": "ok",
+   "missing_fields": [],
+   "conflicts": [],
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c19",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "c19",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [
+    "Real estate"
+   ],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "needs_clarification": false,
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c19",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [
+    "Real estate"
+   ],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "status": "ok",
+   "missing_fields": [],
+   "conflicts": [],
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c20",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "c20",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [
+    {
+     "sector": "Banking",
+     "max_weight": 0.3
+    },
+    {
+     "sector": "Real estate",
+     "max_weight": 0.1
+    }
+   ],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "needs_clarification": false,
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c20",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [
+    {
+     "sector": "Banking",
+     "max_weight": 0.3
+    },
+    {
+     "sector": "Real estate",
+     "max_weight": 0.1
+    }
+   ],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "status": "ok",
+   "missing_fields": [],
+   "conflicts": [],
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c21",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "c21",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": 6,
+   "min_cash_pct": 10,
+   "needs_clarification": false,
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c21",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": 6,
+   "min_cash_pct": 10,
+   "status": "ok",
+   "missing_fields": [],
+   "conflicts": [],
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c22",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "c22",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [
+    "GAS",
+    "PLX",
+    "POW"
+   ],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "needs_clarification": false,
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c22",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [
+    "GAS",
+    "PLX",
+    "POW"
+   ],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "status": "ok",
+   "missing_fields": [],
+   "conflicts": [],
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c23",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "c23",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [
+    {
+     "sector": "Banking",
+     "max_weight": 0.5
+    }
+   ],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "needs_clarification": false,
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c23",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [
+    {
+     "sector": "Banking",
+     "max_weight": 0.5
+    }
+   ],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "status": "ok",
+   "missing_fields": [],
+   "conflicts": [],
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c24",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "c24",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [
+    "SSI"
+   ],
+   "exclude_sectors": [
+    "Insurance"
+   ],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "needs_clarification": false,
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "c24",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [
+    "SSI"
+   ],
+   "exclude_sectors": [
+    "Insurance"
+   ],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "status": "ok",
+   "missing_fields": [],
+   "conflicts": [],
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "a01",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "a01",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "needs_clarification": true,
+   "clarification_question_vi": "Bạn muốn giới hạn tỷ trọng tối đa của nhóm Bất động sản là bao nhiêu phần trăm?"
+  }
+ },
+ {
+  "item": "a01",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "status": "needs_clarification",
+   "missing_fields": [
+    "sector_caps"
+   ],
+   "conflicts": [],
+   "clarification_question_vi": "Bạn muốn giới hạn tỷ trọng ngành Bất động sản tối đa là bao nhiêu phần trăm?"
+  }
+ },
+ {
+  "item": "a02",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "a02",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "needs_clarification": true,
+   "clarification_question_vi": "Bạn muốn giới hạn tỷ trọng tối đa của từng nhóm ngành (ví dụ: ngân hàng, bất động sản) hay tỷ trọng của từng mã cổ phiếu cụ thể để giảm rủi ro?"
+  }
+ },
+ {
+  "item": "a02",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "status": "needs_clarification",
+   "missing_fields": [
+    "max_weight_per_stock",
+    "sector_caps",
+    "min_cash_pct"
+   ],
+   "conflicts": [],
+   "clarification_question_vi": "Anh/chị muốn giới hạn tỷ trọng tối đa cho mỗi cổ phiếu, cho từng ngành, hay giữ lại bao nhiêu % tiền mặt để giảm rủi ro?"
+  }
+ },
+ {
+  "item": "a03",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "a03",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "needs_clarification": true,
+   "clarification_question_vi": "Bạn muốn giữ bao nhiêu phần trăm tiền mặt (ví dụ: 5%, 10%)?"
+  }
+ },
+ {
+  "item": "a03",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "status": "needs_clarification",
+   "missing_fields": [
+    "min_cash_pct"
+   ],
+   "conflicts": [],
+   "clarification_question_vi": "Bạn muốn giữ bao nhiêu phần trăm tiền mặt (ví dụ: 5%, 10%...)??"
+  }
+ },
+ {
+  "item": "a04",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "a04",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "needs_clarification": true,
+   "clarification_question_vi": "Bạn muốn giới hạn tỷ trọng tối đa cho mỗi mã cổ phiếu là bao nhiêu phần trăm?"
+  }
+ },
+ {
+  "item": "a04",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "status": "needs_clarification",
+   "missing_fields": [
+    "max_weight_per_stock"
+   ],
+   "conflicts": [],
+   "clarification_question_vi": "Bạn muốn giới hạn tỷ trọng tối đa của mỗi mã cổ phiếu là bao nhiêu phần trăm?"
+  }
+ },
+ {
+  "item": "a05",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "a05",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "needs_clarification": true,
+   "clarification_question_vi": "Bạn muốn giới hạn tối đa số lượng mã cổ phiếu là bao nhiêu?"
+  }
+ },
+ {
+  "item": "a05",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "status": "needs_clarification",
+   "missing_fields": [
+    "max_holdings"
+   ],
+   "conflicts": [],
+   "clarification_question_vi": "Bạn muốn giới hạn tối đa bao nhiêu mã cổ phiếu trong danh mục?"
+  }
+ },
+ {
+  "item": "a06",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "a06",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": 5,
+   "needs_clarification": true,
+   "clarification_question_vi": "Bạn muốn giới hạn tỷ trọng tối đa của nhóm Ngân hàng là bao nhiêu phần trăm?"
+  }
+ },
+ {
+  "item": "a06",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": 5,
+   "status": "needs_clarification",
+   "missing_fields": [
+    "sector_caps"
+   ],
+   "conflicts": [],
+   "clarification_question_vi": "Bạn muốn giới hạn tỷ trọng tối đa của nhóm Ngân hàng là bao nhiêu phần trăm?"
+  }
+ },
+ {
+  "item": "a07",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "a07",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "needs_clarification": true,
+   "clarification_question_vi": "Bạn muốn giới hạn tổng tỷ trọng của các cổ phiếu họ Vin (VIC, VHM, VRE) ở mức bao nhiêu phần trăm?"
+  }
+ },
+ {
+  "item": "a07",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "status": "needs_clarification",
+   "missing_fields": [
+    "max_weight_per_stock"
+   ],
+   "conflicts": [],
+   "clarification_question_vi": "Bạn muốn giới hạn tỷ trọng tối đa cho mỗi cổ phiếu họ Vin (VHM, VIC, VRE) là bao nhiêu phần trăm?"
+  }
+ },
+ {
+  "item": "a08",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "a08",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "needs_clarification": true,
+   "clarification_question_vi": "Bạn muốn tỷ trọng tối đa cho nhóm Ngân hàng là bao nhiêu phần trăm?"
+  }
+ },
+ {
+  "item": "a08",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "status": "needs_clarification",
+   "missing_fields": [
+    "sector_caps"
+   ],
+   "conflicts": [],
+   "clarification_question_vi": "Bạn muốn giới hạn tỷ trọng ngành Ngân hàng tối đa là bao nhiêu phần trăm?"
+  }
+ },
+ {
+  "item": "a09",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "a09",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "needs_clarification": true,
+   "clarification_question_vi": "Bạn muốn an toàn hơn theo cách nào: giữ tỷ lệ tiền mặt cụ thể, giới hạn tỷ trọng từng mã, hay loại bỏ một số ngành nhất định?"
+  }
+ },
+ {
+  "item": "a09",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "status": "needs_clarification",
+   "missing_fields": [
+    "max_weight_per_stock",
+    "sector_caps",
+    "min_cash_pct"
+   ],
+   "conflicts": [],
+   "clarification_question_vi": "Bạn muốn giới hạn tỷ trọng tối đa cho từng cổ phiếu, từng ngành, hay giữ lại bao nhiêu % tiền mặt để danh mục an toàn hơn?"
+  }
+ },
+ {
+  "item": "a10",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "a10",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [
+    "VJC"
+   ],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "needs_clarification": true,
+   "clarification_question_vi": "Bạn muốn giới hạn tỷ trọng ngành Công nghệ tối đa là bao nhiêu phần trăm?"
+  }
+ },
+ {
+  "item": "a10",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [
+    "VJC"
+   ],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "status": "needs_clarification",
+   "missing_fields": [
+    "sector_caps"
+   ],
+   "conflicts": [],
+   "clarification_question_vi": "Bạn muốn giới hạn tỷ trọng ngành Công nghệ tối đa là bao nhiêu phần trăm?"
+  }
+ },
+ {
+  "item": "k01",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "k01",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [
+    {
+     "sector": "Banking",
+     "max_weight": 0.2
+    }
+   ],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "needs_clarification": false,
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "k01",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [
+    "Banking"
+   ],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "status": "conflict",
+   "missing_fields": [],
+   "conflicts": [
+    "Excluding the Banking sector contradicts setting a maximum cap of 20% for the Banking sector."
+   ],
+   "clarification_question_vi": "Bạn muốn loại bỏ hoàn toàn nhóm Ngân hàng hay chỉ giới hạn tối đa 20%?"
+  }
+ },
+ {
+  "item": "k02",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "k02",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": 30,
+   "needs_clarification": true,
+   "clarification_question_vi": "Bạn muốn giữ 30% tiền mặt hay dùng 100% vốn để mua cổ phiếu?"
+  }
+ },
+ {
+  "item": "k02",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "status": "conflict",
+   "missing_fields": [],
+   "conflicts": [
+    "Keeping 30% cash contradicts the request to invest 100% of the capital in stocks."
+   ],
+   "clarification_question_vi": "Bạn muốn giữ 30% tiền mặt hay đầu tư 100% vốn vào cổ phiếu?"
+  }
+ },
+ {
+  "item": "k03",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "k03",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "needs_clarification": true,
+   "clarification_question_vi": "Bạn muốn loại FPT ra khỏi danh mục hay muốn mua thêm FPT?"
+  }
+ },
+ {
+  "item": "k03",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "status": "conflict",
+   "missing_fields": [],
+   "conflicts": [
+    "The investor requested to exclude FPT but also to buy a lot of it."
+   ],
+   "clarification_question_vi": "Bạn muốn loại FPT ra khỏi danh mục hay muốn mua FPT?"
+  }
+ },
+ {
+  "item": "k04",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "k04",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": 3,
+   "min_cash_pct": null,
+   "needs_clarification": true,
+   "clarification_question_vi": "Bạn muốn giữ tối đa 3 mã hay tối thiểu 10 mã? Vui lòng làm rõ giới hạn số lượng cổ phiếu."
+  }
+ },
+ {
+  "item": "k04",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "status": "conflict",
+   "missing_fields": [],
+   "conflicts": [
+    "The request to hold at most 3 stocks contradicts the request to hold at least 10 stocks."
+   ],
+   "clarification_question_vi": "Bạn muốn giữ tối đa 3 mã hay tối thiểu 10 mã?"
+  }
+ },
+ {
+  "item": "k05",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "k05",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": 0.05,
+   "max_holdings": 4,
+   "min_cash_pct": 0,
+   "needs_clarification": false,
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "k05",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": 0.05,
+   "max_holdings": 4,
+   "min_cash_pct": 0,
+   "status": "ok",
+   "missing_fields": [],
+   "conflicts": [],
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "k06",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "k06",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [
+    {
+     "sector": "Real estate",
+     "max_weight": 0.1
+    }
+   ],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "needs_clarification": true,
+   "clarification_question_vi": "Bạn muốn giới hạn tỷ trọng Bất động sản là bao nhiêu? (Ví dụ: tối đa 10% hoặc tối thiểu 20%?)"
+  }
+ },
+ {
+  "item": "k06",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "status": "conflict",
+   "missing_fields": [],
+   "conflicts": [
+    "The request to cap Real estate at 10% conflicts with the request to require a minimum of 20% for Real estate."
+   ],
+   "clarification_question_vi": "Bạn muốn giữ giới hạn tối đa 10% hay yêu cầu tối thiểu 20% cho ngành Bất động sản?"
+  }
+ },
+ {
+  "item": "k07",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "k07",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": 10,
+   "needs_clarification": false,
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "k07",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "status": "conflict",
+   "missing_fields": [],
+   "conflicts": [
+    "The instruction requests both 0% cash and 10% cash."
+   ],
+   "clarification_question_vi": "Bạn muốn giữ 0% hay 10% tiền mặt?"
+  }
+ },
+ {
+  "item": "k08",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "k08",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [
+    {
+     "sector": "Consumer",
+     "max_weight": 0.3
+    }
+   ],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "needs_clarification": false,
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "k08",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [
+    "Consumer"
+   ],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "status": "conflict",
+   "missing_fields": [],
+   "conflicts": [
+    "The investor excludes the Consumer sector but also requires it to occupy 30% of the portfolio."
+   ],
+   "clarification_question_vi": "Bạn muốn loại bỏ hoàn toàn ngành tiêu dùng hay giữ lại 30% cho ngành này?"
+  }
+ },
+ {
+  "item": "i01",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "i01",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": 0.01,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "needs_clarification": false,
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "i01",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": 0.01,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "status": "ok",
+   "missing_fields": [],
+   "conflicts": [],
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "i02",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "i02",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [
+    "Banking",
+    "Real estate",
+    "Consumer",
+    "Materials",
+    "Energy",
+    "Brokerage",
+    "Technology",
+    "Insurance",
+    "Aviation"
+   ],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "needs_clarification": false,
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "i02",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [
+    "Banking",
+    "Real estate",
+    "Consumer",
+    "Materials",
+    "Energy",
+    "Brokerage",
+    "Technology",
+    "Insurance",
+    "Aviation"
+   ],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "status": "ok",
+   "missing_fields": [],
+   "conflicts": [],
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "i03",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "i03",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": 95,
+   "needs_clarification": false,
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "i03",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": 95,
+   "status": "ok",
+   "missing_fields": [],
+   "conflicts": [],
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "i04",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "i04",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": 0.005,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "needs_clarification": false,
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "i04",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": 0.005,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "status": "ok",
+   "missing_fields": [],
+   "conflicts": [],
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "i05",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "i05",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [
+    "Banking",
+    "Insurance",
+    "Technology",
+    "Energy",
+    "Materials",
+    "Real estate",
+    "Consumer",
+    "Brokerage"
+   ],
+   "sector_caps": [],
+   "max_weight_per_stock": 0.02,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "needs_clarification": false,
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "i05",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [
+    "ACB",
+    "BCM",
+    "BID",
+    "BSR",
+    "BVH",
+    "CTG",
+    "DGC",
+    "FPT",
+    "GAS",
+    "GVR",
+    "HDB",
+    "HPG",
+    "KDH",
+    "LPB",
+    "MBB",
+    "MCH",
+    "MSN",
+    "MWG",
+    "NVL",
+    "PDR",
+    "PLX",
+    "PNJ",
+    "POW",
+    "SAB",
+    "SHB",
+    "SSB",
+    "SSI",
+    "STB",
+    "TCB",
+    "TCX"
+   ],
+   "exclude_sectors": [
+    "Banking",
+    "Insurance",
+    "Technology",
+    "Energy",
+    "Materials",
+    "Real estate",
+    "Consumer",
+    "Brokerage"
+   ],
+   "sector_caps": [],
+   "max_weight_per_stock": 0.02,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "status": "ok",
+   "missing_fields": [],
+   "conflicts": [],
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "i06",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "i06",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": 90,
+   "needs_clarification": false,
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "i06",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": 90,
+   "status": "ok",
+   "missing_fields": [],
+   "conflicts": [],
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "i07",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "i07",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [
+    "ACB",
+    "BCM",
+    "BID",
+    "BSR",
+    "BVH",
+    "CTG",
+    "DGC",
+    "FPT",
+    "GAS",
+    "GVR",
+    "HDB",
+    "HPG",
+    "KDH",
+    "LPB",
+    "MBB",
+    "MCH",
+    "MSN",
+    "MWG",
+    "NVL",
+    "PDR",
+    "PLX",
+    "PNJ",
+    "POW",
+    "SAB",
+    "SHB",
+    "SSB",
+    "SSI",
+    "STB",
+    "TCB",
+    "TCX"
+   ],
+   "exclude_sectors": [
+    "Banking",
+    "Insurance",
+    "Technology",
+    "Energy",
+    "Materials",
+    "Real estate",
+    "Consumer",
+    "Brokerage"
+   ],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "needs_clarification": false,
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "i07",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [
+    "ACB",
+    "BCM",
+    "BID",
+    "BSR",
+    "BVH",
+    "CTG",
+    "DGC",
+    "FPT",
+    "GAS",
+    "GVR",
+    "HDB",
+    "HPG",
+    "KDH",
+    "LPB",
+    "MBB",
+    "MCH",
+    "MSN",
+    "MWG",
+    "NVL",
+    "PDR",
+    "PLX",
+    "PNJ",
+    "POW",
+    "SAB",
+    "SHB",
+    "SSB",
+    "SSI",
+    "STB",
+    "TCB",
+    "TCX"
+   ],
+   "exclude_sectors": [
+    "Banking",
+    "Insurance",
+    "Technology",
+    "Energy",
+    "Materials",
+    "Real estate",
+    "Consumer",
+    "Brokerage"
+   ],
+   "sector_caps": [],
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "status": "ok",
+   "missing_fields": [],
+   "conflicts": [],
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "i08",
+  "arm": "keyword",
+  "raw": null
+ },
+ {
+  "item": "i08",
+  "arm": "qwen_v3_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": 0.03,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "needs_clarification": false,
+   "clarification_question_vi": null
+  }
+ },
+ {
+  "item": "i08",
+  "arm": "qwen_v32_prompt",
+  "raw": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": [],
+   "max_weight_per_stock": 0.03,
+   "max_holdings": null,
+   "min_cash_pct": null,
+   "status": "ok",
+   "missing_fields": [],
+   "conflicts": [],
+   "clarification_question_vi": null
+  }
+ }
+]

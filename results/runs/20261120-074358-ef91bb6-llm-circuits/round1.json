@@ -1,0 +1,201 @@
+{
+ "request_user": "Round 1: propose 8 candidates.",
+ "status": "ok",
+ "candidates": {
+  "llm_r1_c1": {
+   "initial_state": "uniform",
+   "mixer": "x",
+   "layers": 6,
+   "coupling_mass": 1.0,
+   "coupling_keep_fraction": 1.0,
+   "hamiltonian_scale": "max",
+   "angle_init": "linear_ramp",
+   "ramp_dt": 1.0,
+   "ramp_dbeta": 0.0,
+   "optimizer": "none",
+   "max_iter": 0,
+   "cvar_alpha": 1.0,
+   "warm_start_epsilon": 0.0,
+   "rationale_en": "Baseline standard QAOA with p=6, no pruning, and fixed linear ramp angles to establish the performance floor without optimization overhead."
+  },
+  "llm_r1_c2": {
+   "initial_state": "warm_start",
+   "mixer": "warm_x",
+   "layers": 4,
+   "coupling_mass": 1.0,
+   "coupling_keep_fraction": 1.0,
+   "hamiltonian_scale": "max",
+   "angle_init": "constant",
+   "ramp_dt": 1.0,
+   "ramp_dbeta": 0.0,
+   "optimizer": "none",
+   "max_iter": 0,
+   "cvar_alpha": 1.0,
+   "warm_start_epsilon": 0.1,
+   "rationale_en": "Leverages the continuous relaxation via warm-start initialization and mixer with constant angles to test if the prior knowledge alone improves success probability."
+  },
+  "llm_r1_c3": {
+   "initial_state": "uniform",
+   "mixer": "x",
+   "layers": 8,
+   "coupling_mass": 0.5,
+   "coupling_keep_fraction": 1.0,
+   "hamiltonian_scale": "max",
+   "angle_init": "linear_ramp",
+   "ramp_dt": 1.0,
+   "ramp_dbeta": 0.0,
+   "optimizer": "none",
+   "max_iter": 0,
+   "cvar_alpha": 1.0,
+   "warm_start_epsilon": 0.0,
+   "rationale_en": "Tests the effect of aggressive coupling pruning (keeping only 50% of ZZ mass) to allow deeper p=8 circuits, checking if removing weak couplings helps or hurts."
+  },
+  "llm_r1_c4": {
+   "initial_state": "uniform",
+   "mixer": "x",
+   "layers": 4,
+   "coupling_mass": 1.0,
+   "coupling_keep_fraction": 1.0,
+   "hamiltonian_scale": "rms",
+   "angle_init": "linear_ramp",
+   "ramp_dt": 1.0,
+   "ramp_dbeta": 0.0,
+   "optimizer": "cobyla",
+   "max_iter": 20,
+   "cvar_alpha": 0.1,
+   "warm_start_epsilon": 0.0,
+   "rationale_en": "Uses RMS scaling and COBYLA optimization with low CVaR alpha to focus on the best 10% of outcomes, testing if optimization significantly boosts success rate."
+  },
+  "llm_r1_c5": {
+   "initial_state": "warm_start",
+   "mixer": "warm_x",
+   "layers": 6,
+   "coupling_mass": 0.8,
+   "coupling_keep_fraction": 1.0,
+   "hamiltonian_scale": "max",
+   "angle_init": "linear_ramp",
+   "ramp_dt": 1.5,
+   "ramp_dbeta": 0.0,
+   "optimizer": "nelder_mead",
+   "max_iter": 30,
+   "cvar_alpha": 0.2,
+   "warm_start_epsilon": 0.1,
+   "rationale_en": "Combines warm-start with moderate pruning and Nelder-Mead optimization to see if the hybrid approach outperforms pure uniform or pure warm-start baselines."
+  },
+  "llm_r1_c6": {
+   "initial_state": "uniform",
+   "mixer": "x",
+   "layers": 8,
+   "coupling_mass": 0.3,
+   "coupling_keep_fraction": 1.0,
+   "hamiltonian_scale": "rms",
+   "angle_init": "constant",
+   "ramp_dt": 1.0,
+   "ramp_dbeta": 0.0,
+   "optimizer": "none",
+   "max_iter": 0,
+   "cvar_alpha": 1.0,
+   "warm_start_epsilon": 0.0,
+   "rationale_en": "Explores extreme pruning (30% mass) with deep p=8 and constant angles to test if a very sparse Hamiltonian representation is sufficient for high success probability."
+  },
+  "llm_r1_c7": {
+   "initial_state": "warm_start",
+   "mixer": "x",
+   "layers": 5,
+   "coupling_mass": 1.0,
+   "coupling_keep_fraction": 1.0,
+   "hamiltonian_scale": "max",
+   "angle_init": "linear_ramp",
+   "ramp_dt": 0.5,
+   "ramp_dbeta": 0.0,
+   "optimizer": "none",
+   "max_iter": 0,
+   "cvar_alpha": 1.0,
+   "warm_start_epsilon": 0.05,
+   "rationale_en": "Tests warm-start initialization with the standard X mixer and a short ramp duration to see if the initial state bias is enough without the specialized warm mixer."
+  },
+  "llm_r1_c8": {
+   "initial_state": "uniform",
+   "mixer": "x",
+   "layers": 6,
+   "coupling_mass": 0.7,
+   "coupling_keep_fraction": 1.0,
+   "hamiltonian_scale": "max",
+   "angle_init": "linear_ramp",
+   "ramp_dt": 1.0,
+   "ramp_dbeta": 0.0,
+   "optimizer": "cobyla",
+   "max_iter": 40,
+   "cvar_alpha": 0.05,
+   "warm_start_epsilon": 0.0,
+   "rationale_en": "Uses moderate pruning to fit p=6 with optimization, focusing on the top 5% of outcomes via CVaR to maximize the probability of finding a near-optimal feasible solution."
+  }
+ },
+ "results": {
+  "llm_r1_c1": {
+   "mean_success": 1.4121026996766213e-06,
+   "feasible_mass": 0.2424859999917214,
+   "evaluations": 1.0,
+   "two_qubit_gates": 1440,
+   "seconds": 0.045828014612197876,
+   "instances": 24
+  },
+  "llm_r1_c2": {
+   "mean_success": 0.008878472443239072,
+   "feasible_mass": 0.6809308422541164,
+   "evaluations": 1.0,
+   "two_qubit_gates": 960,
+   "seconds": 0.03617008527119955,
+   "instances": 24
+  },
+  "llm_r1_c3": {
+   "mean_success": 1.4323327074203189e-05,
+   "feasible_mass": 0.24053844774843833,
+   "evaluations": 1.0,
+   "two_qubit_gates": 240,
+   "seconds": 0.05723083019256592,
+   "instances": 24
+  },
+  "llm_r1_c4": {
+   "mean_success": 0.00045162668420126867,
+   "feasible_mass": 0.4478310317646978,
+   "evaluations": 21.0,
+   "two_qubit_gates": 960,
+   "seconds": 0.6920523444811503,
+   "instances": 24
+  },
+  "llm_r1_c5": {
+   "mean_success": 0.010680925365920671,
+   "feasible_mass": 0.7802757232686371,
+   "evaluations": 31.0,
+   "two_qubit_gates": 528,
+   "seconds": 1.4825548032919567,
+   "instances": 24
+  },
+  "llm_r1_c6": {
+   "mean_success": 7.237034518769172e-05,
+   "feasible_mass": 0.31682483120974253,
+   "evaluations": 1.0,
+   "two_qubit_gates": 96,
+   "seconds": 0.05741727352142334,
+   "instances": 24
+  },
+  "llm_r1_c7": {
+   "mean_success": 3.7252292707413592e-06,
+   "feasible_mass": 0.2846407893973351,
+   "evaluations": 1.0,
+   "two_qubit_gates": 1200,
+   "seconds": 0.03930898507436117,
+   "instances": 24
+  },
+  "llm_r1_c8": {
+   "mean_success": 0.00179834580641991,
+   "feasible_mass": 0.600419383248993,
+   "evaluations": 41.0,
+   "two_qubit_gates": 360,
+   "seconds": 1.7726962864398956,
+   "instances": 24
+  }
+ },
+ "rejected": {}
+}

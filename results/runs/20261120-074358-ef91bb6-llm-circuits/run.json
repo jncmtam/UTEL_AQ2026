@@ -1,0 +1,44 @@
+{
+ "run_id": "20261120-074358-ef91bb6-llm-circuits",
+ "kind": "llm-circuits",
+ "git": {
+  "sha": "ef91bb6a3f5ff3607bc4838eb7adc8c631e7a39b",
+  "short": "ef91bb6",
+  "dirty": true
+ },
+ "data_sha256": "7f076128a4f625f9589844f7465e3a1745e1a31e2cecfa8b70e3d8e141433042",
+ "config": {
+  "model_app": "agqo-llm",
+  "rounds": 2,
+  "candidates_per_round": 8,
+  "random_seeds": [
+   1000,
+   1001,
+   1002
+  ],
+  "design_instances": 24,
+  "frozen_schedule": {
+   "layers": 6.0,
+   "epsilon": 0.02,
+   "coupling_mass": 1.0,
+   "dgamma": 0.9,
+   "dbeta": 0.4
+  }
+ },
+ "python": "3.12.12",
+ "host": "Cedric-Mac.local",
+ "modal_task_id": null,
+ "started_utc": "2026-11-20T07:43:58Z",
+ "status": "running",
+ "steps": [
+  {
+   "step": "llm_round_1",
+   "status": "ok",
+   "t_s": 45.2,
+   "valid": 8,
+   "rejected": 0,
+   "best": 0.010680925365920671
+  }
+ ],
+ "errors": []
+}

@@ -307,9 +307,10 @@ async function choosePreset(id) {
 }
 
 /* ---------------- instruction -> constraints ---------------- */
-function showClarify(question, text) {
+function showClarify(question, text, conflicts) {
   PENDING = { question, text };
-  $("#clarify").innerHTML = `<div class="bubble ask">🤖 Cần làm rõ: “${question}”<div class="ans"><input id="ansIn" placeholder="Trả lời, VD: tối đa 25%"><button class="btn tiny" id="ansBtn">Gửi trả lời</button>` +
+  $("#clarify").innerHTML = `<div class="bubble ask">🤖 ${conflicts ? "Yêu cầu có mâu thuẫn" : "Cần làm rõ"}: “${question}”` +
+    (conflicts?.length ? `<br><small class="muted">Mâu thuẫn phát hiện: ${conflicts.join("; ")}</small>` : "") + `<div class="ans"><input id="ansIn" placeholder="Trả lời, VD: tối đa 25%"><button class="btn tiny" id="ansBtn">Gửi trả lời</button>` +
     `<button class="btn tiny ghost" id="skipBtn">Bỏ qua, không đặt giới hạn này</button></div><small>Chưa có lệnh nào được tạo: AGQO chờ câu trả lời của bạn.</small></div>`;
   $("#ansBtn").onclick = async () => { const a = $("#ansIn").value.trim(); if (!a) return; $("#instr").value = `${text}. ${a}`; await parseInstruction(); };
   $("#ansIn").onkeydown = (e) => { if (e.key === "Enter") $("#ansBtn").click(); };
@@ -321,7 +322,7 @@ function showMandateResult(res, text) {
   $("#mandateSource").innerHTML = `Nguồn diễn giải: <b style="color:${live ? C.ai : C.amber}">${res.source}</b>${res.llm_note ? " · " + res.llm_note : ""}` +
     (res.errors?.length ? ` · <span class="down">câu trả lời bị loại: ${res.errors.join("; ")}</span>` : "");
   applyMandate(res.mandate, "text");
-  if (res.status === "needs_clarification" && res.question) showClarify(res.question, text);
+  if ((res.status === "needs_clarification" || res.status === "conflict") && res.question) showClarify(res.question, text, res.status === "conflict" ? res.conflicts : null);
   else { PENDING = null; $("#clarify").innerHTML = ""; validateForm(); }
 }
 async function parseInstruction() {

@@ -1,0 +1,81 @@
+{
+ "prompt_version": "mandate-v3.2-2026-11-20",
+ "model": "Qwen/Qwen3.8-27B-FP8",
+ "revision": "c3a462cc3d38cf351f3b26cbd763469eeb74ef81",
+ "gpu": "NVIDIA H100 80GB HBM3",
+ "score": {
+  "keyword": {
+   "items": 50,
+   "invalid": 0,
+   "field_accuracy_pct": 93.0,
+   "exact_mandate_clear_pct": 70.83333333333334,
+   "status_accuracy_pct": 74.0,
+   "block_decision_accuracy_pct": 74.0,
+   "clarification_recall_pct": 27.77777777777778,
+   "clarification_precision_pct": 100.0,
+   "conflict_detected_pct": 0.0,
+   "question_quality_mean": 0.9,
+   "e2e_correct_pct": 66.0,
+   "e2e_exact_pct": 54.0,
+   "e2e_by_category_pct": {
+    "ambiguous": 50.0,
+    "clear": 91.66666666666666,
+    "conflicting": 0.0,
+    "infeasible": 75.0
+   }
+  },
+  "qwen_v32_prompt": {
+   "items": 50,
+   "invalid": 0,
+   "field_accuracy_pct": 98.0,
+   "exact_mandate_clear_pct": 100.0,
+   "status_accuracy_pct": 98.0,
+   "block_decision_accuracy_pct": 98.0,
+   "clarification_recall_pct": 94.44444444444444,
+   "clarification_precision_pct": 100.0,
+   "conflict_detected_pct": 87.5,
+   "question_quality_mean": 0.9852941176470589,
+   "e2e_correct_pct": 98.0,
+   "e2e_exact_pct": 94.0,
+   "e2e_by_category_pct": {
+    "ambiguous": 100.0,
+    "clear": 100.0,
+    "conflicting": 87.5,
+    "infeasible": 100.0
+   }
+  },
+  "qwen_v3_prompt": {
+   "items": 50,
+   "invalid": 0,
+   "field_accuracy_pct": 97.0,
+   "exact_mandate_clear_pct": 100.0,
+   "status_accuracy_pct": 84.0,
+   "block_decision_accuracy_pct": 92.0,
+   "clarification_recall_pct": 77.77777777777779,
+   "clarification_precision_pct": 100.0,
+   "conflict_detected_pct": 0.0,
+   "question_quality_mean": 0.9821428571428571,
+   "e2e_correct_pct": 92.0,
+   "e2e_exact_pct": 90.0,
+   "e2e_by_category_pct": {
+    "ambiguous": 100.0,
+    "clear": 100.0,
+    "conflicting": 50.0,
+    "infeasible": 100.0
+   }
+  }
+ },
+ "tests": {
+  "qwen_v32_prompt vs keyword": {
+   "v32_only_correct": 16,
+   "other_only_correct": 0,
+   "mcnemar_exact_p": 3.0517578125e-05
+  },
+  "qwen_v32_prompt vs qwen_v3_prompt": {
+   "v32_only_correct": 3,
+   "other_only_correct": 0,
+   "mcnemar_exact_p": 0.25
+  }
+ },
+ "note": "team-written evaluation set (50 items), not independent users"
+}
