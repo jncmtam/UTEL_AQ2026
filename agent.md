@@ -209,6 +209,12 @@ to navigate, and a README that shows how to run, use and read the code.
   `agqo-web-v32` / `agqo-v32`) were left running.
 - Tests after the move: run `20261120-162613-6e76683-pytest`, 58 passed on Modal CPU; smoke ok.
 
+## 2026-11-20 night: team change
+
+Tạ Tiến Tài left the team; the team is now three members. Phạm Mạnh Quyền's contact number was corrected. Both
+changes live in the git-ignored `submission/team.local.json`; `build_report.py` now also copies each listed member's
+phone number from that file into the member table, and the deck cover reads its names from the same file.
+
 ## Open questions and decisions
 
 - **Historical traded prices.** The only price series available is the provider's back-adjusted series. The

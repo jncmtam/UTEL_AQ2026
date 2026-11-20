@@ -579,6 +579,18 @@ def package_facts(doc):
     # members missing from the cover list and the member table
     roster = doc.tables[3]
     listed = {r.cells[1].text.strip() for r in roster.rows[1:]}
+    # contact details of listed members follow the team file (the owner's copy may be out of date)
+    head = [c.text.strip() for c in roster.rows[0].cells]
+    by_name = {m["name"]: m for m in team["members"]}
+    for row in roster.rows[1:]:
+        m = by_name.get(row.cells[1].text.strip())
+        if m is None:
+            continue
+        for col, key in (("Điện thoại", "phone"),):
+            if col in head and row.cells[head.index(col)].text.strip() != m[key]:
+                para = row.cells[head.index(col)].paragraphs[0]
+                r0 = para._p.find(qn("w:r"))
+                rich(para, m[key], r0.find(qn("w:rPr")) if r0 is not None else None)
     cover = [p for p in doc.paragraphs[:22] if re.match(r"^\d+\.\s", p.text.strip())]
     for m in team["members"]:
         if m["name"] in listed:
