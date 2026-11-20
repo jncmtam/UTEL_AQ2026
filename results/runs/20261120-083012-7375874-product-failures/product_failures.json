@@ -1,0 +1,1033 @@
+{
+ "cases": [
+  {
+   "case": "reported: 200M, banking <= 25%",
+   "capital_vnd": 200000000.0,
+   "mandate": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {
+     "Banking": 0.25
+    },
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "outcome": "decision",
+   "status": "ok",
+   "app_checks": [
+    {
+     "kind": "sector_cap",
+     "sector": "Banking",
+     "rule": "Banking <= 25.0%",
+     "limit_pct": 25.0,
+     "value_pct": 24.053,
+     "ok": true
+    },
+    {
+     "kind": "cash",
+     "rule": "cash never negative after fees",
+     "value_vnd": 10106586.5,
+     "ok": true
+    }
+   ],
+   "app_all_ok": true,
+   "audit": {
+    "post_trade_nav_vnd": 199715586.5,
+    "fees_vnd": 284413.5,
+    "rules": [
+     {
+      "rule": "Banking <= 25.00%",
+      "post_fee_weight": 0.24052704569455324,
+      "ok": true
+     },
+     {
+      "rule": "no excluded names",
+      "post_fee_weight": null,
+      "ok": true
+     },
+     {
+      "rule": "cash >= 0",
+      "post_fee_weight": null,
+      "ok": true
+     }
+    ],
+    "all_ok": true
+   },
+   "holdings": 21,
+   "cash_after_vnd": 10106586.5,
+   "fees_vnd": 284413.5,
+   "app_says_ok_but_audit_fails": false,
+   "infeasibility": null
+  },
+  {
+   "case": "reported: hold at most one stock (20M)",
+   "capital_vnd": 20000000.0,
+   "mandate": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": 1,
+    "min_cash_pct": null
+   },
+   "outcome": "decision",
+   "status": "ok",
+   "app_checks": [
+    {
+     "kind": "max_holdings",
+     "rule": "at most 1 stocks",
+     "limit": 1,
+     "value": 1,
+     "ok": true
+    },
+    {
+     "kind": "cash",
+     "rule": "cash never negative after fees",
+     "value_vnd": 13720595.0,
+     "ok": true
+    }
+   ],
+   "app_all_ok": true,
+   "audit": {
+    "post_trade_nav_vnd": 19990595.0,
+    "fees_vnd": 9405.0,
+    "rules": [
+     {
+      "rule": "holdings <= 1",
+      "post_fee_weight": null,
+      "ok": true
+     },
+     {
+      "rule": "no excluded names",
+      "post_fee_weight": null,
+      "ok": true
+     },
+     {
+      "rule": "cash >= 0",
+      "post_fee_weight": null,
+      "ok": true
+     }
+    ],
+    "all_ok": true
+   },
+   "holdings": 1,
+   "cash_after_vnd": 13720595.0,
+   "fees_vnd": 9405.0,
+   "app_says_ok_but_audit_fails": false,
+   "infeasibility": null
+  },
+  {
+   "case": "hold at most one stock (100M)",
+   "capital_vnd": 100000000.0,
+   "mandate": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": 1,
+    "min_cash_pct": null
+   },
+   "outcome": "decision",
+   "status": "ok",
+   "app_checks": [
+    {
+     "kind": "max_holdings",
+     "rule": "at most 1 stocks",
+     "limit": 1,
+     "value": 1,
+     "ok": true
+    },
+    {
+     "kind": "cash",
+     "rule": "cash never negative after fees",
+     "value_vnd": 77967000.0,
+     "ok": true
+    }
+   ],
+   "app_all_ok": true,
+   "audit": {
+    "post_trade_nav_vnd": 99967000.0,
+    "fees_vnd": 33000.0,
+    "rules": [
+     {
+      "rule": "holdings <= 1",
+      "post_fee_weight": null,
+      "ok": true
+     },
+     {
+      "rule": "no excluded names",
+      "post_fee_weight": null,
+      "ok": true
+     },
+     {
+      "rule": "cash >= 0",
+      "post_fee_weight": null,
+      "ok": true
+     }
+    ],
+    "all_ok": true
+   },
+   "holdings": 1,
+   "cash_after_vnd": 77967000.0,
+   "fees_vnd": 33000.0,
+   "app_says_ok_but_audit_fails": false,
+   "infeasibility": null
+  },
+  {
+   "case": "hold at most two stocks (100M)",
+   "capital_vnd": 100000000.0,
+   "mandate": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": 2,
+    "min_cash_pct": null
+   },
+   "outcome": "decision",
+   "status": "ok",
+   "app_checks": [
+    {
+     "kind": "max_holdings",
+     "rule": "at most 2 stocks",
+     "limit": 2,
+     "value": 2,
+     "ok": true
+    },
+    {
+     "kind": "cash",
+     "rule": "cash never negative after fees",
+     "value_vnd": 46569975.0,
+     "ok": true
+    }
+   ],
+   "app_all_ok": true,
+   "audit": {
+    "post_trade_nav_vnd": 99919975.0,
+    "fees_vnd": 80025.0,
+    "rules": [
+     {
+      "rule": "holdings <= 2",
+      "post_fee_weight": null,
+      "ok": true
+     },
+     {
+      "rule": "no excluded names",
+      "post_fee_weight": null,
+      "ok": true
+     },
+     {
+      "rule": "cash >= 0",
+      "post_fee_weight": null,
+      "ok": true
+     }
+    ],
+    "all_ok": true
+   },
+   "holdings": 2,
+   "cash_after_vnd": 46569975.0,
+   "fees_vnd": 80025.0,
+   "app_says_ok_but_audit_fails": false,
+   "infeasibility": null
+  },
+  {
+   "case": "20M, banking <= 25%",
+   "capital_vnd": 20000000.0,
+   "mandate": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {
+     "Banking": 0.25
+    },
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "outcome": "decision",
+   "status": "ok",
+   "app_checks": [
+    {
+     "kind": "sector_cap",
+     "sector": "Banking",
+     "rule": "Banking <= 25.0%",
+     "limit_pct": 25.0,
+     "value_pct": 22.676,
+     "ok": true
+    },
+    {
+     "kind": "cash",
+     "rule": "cash never negative after fees",
+     "value_vnd": 4682057.5,
+     "ok": true
+    }
+   ],
+   "app_all_ok": true,
+   "audit": {
+    "post_trade_nav_vnd": 19977057.5,
+    "fees_vnd": 22942.5,
+    "rules": [
+     {
+      "rule": "Banking <= 25.00%",
+      "post_fee_weight": 0.2267601222051846,
+      "ok": true
+     },
+     {
+      "rule": "no excluded names",
+      "post_fee_weight": null,
+      "ok": true
+     },
+     {
+      "rule": "cash >= 0",
+      "post_fee_weight": null,
+      "ok": true
+     }
+    ],
+    "all_ok": true
+   },
+   "holdings": 6,
+   "cash_after_vnd": 4682057.5,
+   "fees_vnd": 22942.5,
+   "app_says_ok_but_audit_fails": false,
+   "infeasibility": null
+  },
+  {
+   "case": "500M, banking <= 25%",
+   "capital_vnd": 500000000.0,
+   "mandate": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {
+     "Banking": 0.25
+    },
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "outcome": "decision",
+   "status": "ok",
+   "app_checks": [
+    {
+     "kind": "sector_cap",
+     "sector": "Banking",
+     "rule": "Banking <= 25.0%",
+     "limit_pct": 25.0,
+     "value_pct": 24.924,
+     "ok": true
+    },
+    {
+     "kind": "cash",
+     "rule": "cash never negative after fees",
+     "value_vnd": 24041131.0,
+     "ok": true
+    }
+   ],
+   "app_all_ok": true,
+   "audit": {
+    "post_trade_nav_vnd": 499287131.0,
+    "fees_vnd": 712869.0,
+    "rules": [
+     {
+      "rule": "Banking <= 25.00%",
+      "post_fee_weight": 0.2492433557235025,
+      "ok": true
+     },
+     {
+      "rule": "no excluded names",
+      "post_fee_weight": null,
+      "ok": true
+     },
+     {
+      "rule": "cash >= 0",
+      "post_fee_weight": null,
+      "ok": true
+     }
+    ],
+    "all_ok": true
+   },
+   "holdings": 24,
+   "cash_after_vnd": 24041131.0,
+   "fees_vnd": 712869.0,
+   "app_says_ok_but_audit_fails": false,
+   "infeasibility": null
+  },
+  {
+   "case": "100M, each stock <= 10%",
+   "capital_vnd": 100000000.0,
+   "mandate": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": 0.1,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "outcome": "decision",
+   "status": "ok",
+   "app_checks": [
+    {
+     "kind": "max_weight_per_stock",
+     "ticker": "HPG",
+     "rule": "largest single stock <= 10.0%",
+     "limit_pct": 10.0,
+     "value_pct": 8.031,
+     "ok": true
+    },
+    {
+     "kind": "cash",
+     "rule": "cash never negative after fees",
+     "value_vnd": 8696249.5,
+     "ok": true
+    }
+   ],
+   "app_all_ok": true,
+   "audit": {
+    "post_trade_nav_vnd": 99863249.5,
+    "fees_vnd": 136750.5,
+    "rules": [
+     {
+      "rule": "each stock <= 10.00%",
+      "post_fee_weight": 0.0803098240859867,
+      "ok": true
+     },
+     {
+      "rule": "no excluded names",
+      "post_fee_weight": null,
+      "ok": true
+     },
+     {
+      "rule": "cash >= 0",
+      "post_fee_weight": null,
+      "ok": true
+     }
+    ],
+    "all_ok": true
+   },
+   "holdings": 20,
+   "cash_after_vnd": 8696249.5,
+   "fees_vnd": 136750.5,
+   "app_says_ok_but_audit_fails": false,
+   "infeasibility": null
+  },
+  {
+   "case": "20M, each stock <= 2% (below one lot of every stock)",
+   "capital_vnd": 20000000.0,
+   "mandate": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": 0.02,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "outcome": "decision",
+   "status": "infeasible",
+   "app_checks": [],
+   "app_all_ok": true,
+   "audit": {
+    "post_trade_nav_vnd": 20000000.0,
+    "fees_vnd": 0.0,
+    "rules": [
+     {
+      "rule": "each stock <= 2.00%",
+      "post_fee_weight": 0.0,
+      "ok": true
+     },
+     {
+      "rule": "no excluded names",
+      "post_fee_weight": null,
+      "ok": true
+     },
+     {
+      "rule": "cash >= 0",
+      "post_fee_weight": null,
+      "ok": true
+     }
+    ],
+    "all_ok": true
+   },
+   "holdings": 0,
+   "cash_after_vnd": 20000000.0,
+   "fees_vnd": 0.0,
+   "app_says_ok_but_audit_fails": false,
+   "infeasibility": null
+  },
+  {
+   "case": "100M, keep 10% cash",
+   "capital_vnd": 100000000.0,
+   "mandate": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": 10.0
+   },
+   "outcome": "decision",
+   "status": "ok",
+   "app_checks": [
+    {
+     "kind": "min_cash_pct",
+     "rule": "cash >= 10%",
+     "limit_pct": 10.0,
+     "value_pct": 10.162,
+     "ok": true
+    },
+    {
+     "kind": "cash",
+     "rule": "cash never negative after fees",
+     "value_vnd": 10148424.5,
+     "ok": true
+    }
+   ],
+   "app_all_ok": true,
+   "audit": {
+    "post_trade_nav_vnd": 99865424.5,
+    "fees_vnd": 134575.5,
+    "rules": [
+     {
+      "rule": "cash >= 10.0%",
+      "post_fee_weight": 0.10162100197150817,
+      "ok": true
+     },
+     {
+      "rule": "no excluded names",
+      "post_fee_weight": null,
+      "ok": true
+     },
+     {
+      "rule": "cash >= 0",
+      "post_fee_weight": null,
+      "ok": true
+     }
+    ],
+    "all_ok": true
+   },
+   "holdings": 19,
+   "cash_after_vnd": 10148424.5,
+   "fees_vnd": 134575.5,
+   "app_says_ok_but_audit_fails": false,
+   "infeasibility": null
+  },
+  {
+   "case": "50M, exclude every sector",
+   "capital_vnd": 50000000.0,
+   "mandate": {
+    "exclude_tickers": [],
+    "exclude_sectors": [
+     "Aviation",
+     "Banking",
+     "Brokerage",
+     "Consumer",
+     "Energy",
+     "Insurance",
+     "Materials",
+     "Real estate",
+     "Technology"
+    ],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "outcome": "decision",
+   "status": "infeasible",
+   "app_checks": [],
+   "app_all_ok": true,
+   "audit": {
+    "post_trade_nav_vnd": 50000000.0,
+    "fees_vnd": 0.0,
+    "rules": [
+     {
+      "rule": "no excluded names",
+      "post_fee_weight": null,
+      "ok": true
+     },
+     {
+      "rule": "cash >= 0",
+      "post_fee_weight": null,
+      "ok": true
+     }
+    ],
+    "all_ok": true
+   },
+   "holdings": 0,
+   "cash_after_vnd": 50000000.0,
+   "fees_vnd": 0.0,
+   "app_says_ok_but_audit_fails": false,
+   "infeasibility": null
+  },
+  {
+   "case": "5M, no rules (smallest allowed account)",
+   "capital_vnd": 5000000.0,
+   "mandate": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "outcome": "decision",
+   "status": "ok",
+   "app_checks": [
+    {
+     "kind": "cash",
+     "rule": "cash never negative after fees",
+     "value_vnd": 2666505.0,
+     "ok": true
+    }
+   ],
+   "app_all_ok": true,
+   "audit": {
+    "post_trade_nav_vnd": 4996505.0,
+    "fees_vnd": 3495.0,
+    "rules": [
+     {
+      "rule": "no excluded names",
+      "post_fee_weight": null,
+      "ok": true
+     },
+     {
+      "rule": "cash >= 0",
+      "post_fee_weight": null,
+      "ok": true
+     }
+    ],
+    "all_ok": true
+   },
+   "holdings": 1,
+   "cash_after_vnd": 2666505.0,
+   "fees_vnd": 3495.0,
+   "app_says_ok_but_audit_fails": false,
+   "infeasibility": null
+  },
+  {
+   "case": "review: 20M, <= 12 holdings, <= 10% each, >= 5% cash",
+   "capital_vnd": 20000000.0,
+   "mandate": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": 0.1,
+    "max_holdings": 12,
+    "min_cash_pct": 5.0
+   },
+   "outcome": "decision",
+   "status": "ok",
+   "app_checks": [
+    {
+     "kind": "max_weight_per_stock",
+     "ticker": "MBB",
+     "rule": "largest single stock <= 10.0%",
+     "limit_pct": 10.0,
+     "value_pct": 9.78,
+     "ok": true
+    },
+    {
+     "kind": "min_cash_pct",
+     "rule": "cash >= 5%",
+     "limit_pct": 5.0,
+     "value_pct": 68.961,
+     "ok": true
+    },
+    {
+     "kind": "max_holdings",
+     "rule": "at most 12 stocks",
+     "limit": 12,
+     "value": 4,
+     "ok": true
+    },
+    {
+     "kind": "cash",
+     "rule": "cash never negative after fees",
+     "value_vnd": 13785692.5,
+     "ok": true
+    }
+   ],
+   "app_all_ok": true,
+   "audit": {
+    "post_trade_nav_vnd": 19990692.5,
+    "fees_vnd": 9307.5,
+    "rules": [
+     {
+      "rule": "each stock <= 10.00%",
+      "post_fee_weight": 0.09779551158620443,
+      "ok": true
+     },
+     {
+      "rule": "cash >= 5.0%",
+      "post_fee_weight": 0.6896055501829164,
+      "ok": true
+     },
+     {
+      "rule": "holdings <= 12",
+      "post_fee_weight": null,
+      "ok": true
+     },
+     {
+      "rule": "no excluded names",
+      "post_fee_weight": null,
+      "ok": true
+     },
+     {
+      "rule": "cash >= 0",
+      "post_fee_weight": null,
+      "ok": true
+     }
+    ],
+    "all_ok": true
+   },
+   "holdings": 4,
+   "cash_after_vnd": 13785692.5,
+   "fees_vnd": 9307.5,
+   "app_says_ok_but_audit_fails": false,
+   "infeasibility": null
+  },
+  {
+   "case": "review: 100M, >= 1.30% cash",
+   "capital_vnd": 100000000.0,
+   "mandate": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": 1.3
+   },
+   "outcome": "decision",
+   "status": "ok",
+   "app_checks": [
+    {
+     "kind": "min_cash_pct",
+     "rule": "cash >= 1.3%",
+     "limit_pct": 1.3,
+     "value_pct": 4.038,
+     "ok": true
+    },
+    {
+     "kind": "cash",
+     "rule": "cash never negative after fees",
+     "value_vnd": 4032264.0,
+     "ok": true
+    }
+   ],
+   "app_all_ok": true,
+   "audit": {
+    "post_trade_nav_vnd": 99856264.0,
+    "fees_vnd": 143736.0,
+    "rules": [
+     {
+      "rule": "cash >= 1.3%",
+      "post_fee_weight": 0.040380681576470755,
+      "ok": true
+     },
+     {
+      "rule": "no excluded names",
+      "post_fee_weight": null,
+      "ok": true
+     },
+     {
+      "rule": "cash >= 0",
+      "post_fee_weight": null,
+      "ok": true
+     }
+    ],
+    "all_ok": true
+   },
+   "holdings": 18,
+   "cash_after_vnd": 4032264.0,
+   "fees_vnd": 143736.0,
+   "app_says_ok_but_audit_fails": false,
+   "infeasibility": null
+  },
+  {
+   "case": "review: 100M, >= 1.30% cash, banking <= 30%",
+   "capital_vnd": 100000000.0,
+   "mandate": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {
+     "Banking": 0.3
+    },
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": 1.3
+   },
+   "outcome": "decision",
+   "status": "ok",
+   "app_checks": [
+    {
+     "kind": "sector_cap",
+     "sector": "Banking",
+     "rule": "Banking <= 30.0%",
+     "limit_pct": 30.0,
+     "value_pct": 28.915,
+     "ok": true
+    },
+    {
+     "kind": "min_cash_pct",
+     "rule": "cash >= 1.3%",
+     "limit_pct": 1.3,
+     "value_pct": 5.175,
+     "ok": true
+    },
+    {
+     "kind": "cash",
+     "rule": "cash never negative after fees",
+     "value_vnd": 5167965.0,
+     "ok": true
+    }
+   ],
+   "app_all_ok": true,
+   "audit": {
+    "post_trade_nav_vnd": 99857965.0,
+    "fees_vnd": 142035.0,
+    "rules": [
+     {
+      "rule": "Banking <= 30.00%",
+      "post_fee_weight": 0.289150695189913,
+      "ok": true
+     },
+     {
+      "rule": "cash >= 1.3%",
+      "post_fee_weight": 0.051753157597393455,
+      "ok": true
+     },
+     {
+      "rule": "no excluded names",
+      "post_fee_weight": null,
+      "ok": true
+     },
+     {
+      "rule": "cash >= 0",
+      "post_fee_weight": null,
+      "ok": true
+     }
+    ],
+    "all_ok": true
+   },
+   "holdings": 17,
+   "cash_after_vnd": 5167965.0,
+   "fees_vnd": 142035.0,
+   "app_says_ok_but_audit_fails": false,
+   "infeasibility": null
+  },
+  {
+   "case": "pitch: 20M, no real estate, banking <= 30%",
+   "capital_vnd": 20000000.0,
+   "mandate": {
+    "exclude_tickers": [],
+    "exclude_sectors": [
+     "Real estate"
+    ],
+    "sector_caps": {
+     "Banking": 0.3
+    },
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "outcome": "decision",
+   "status": "ok",
+   "app_checks": [
+    {
+     "kind": "sector_cap",
+     "sector": "Banking",
+     "rule": "Banking <= 30.0%",
+     "limit_pct": 30.0,
+     "value_pct": 29.383,
+     "ok": true
+    },
+    {
+     "kind": "exclusions",
+     "rule": "no excluded stock or sector held",
+     "held": [],
+     "ok": true
+    },
+    {
+     "kind": "cash",
+     "rule": "cash never negative after fees",
+     "value_vnd": 5002537.5,
+     "ok": true
+    }
+   ],
+   "app_all_ok": true,
+   "audit": {
+    "post_trade_nav_vnd": 19977537.5,
+    "fees_vnd": 22462.5,
+    "rules": [
+     {
+      "rule": "Banking <= 30.00%",
+      "post_fee_weight": 0.2938300078275413,
+      "ok": true
+     },
+     {
+      "rule": "no excluded names",
+      "post_fee_weight": null,
+      "ok": true
+     },
+     {
+      "rule": "cash >= 0",
+      "post_fee_weight": null,
+      "ok": true
+     }
+    ],
+    "all_ok": true
+   },
+   "holdings": 5,
+   "cash_after_vnd": 5002537.5,
+   "fees_vnd": 22462.5,
+   "app_says_ok_but_audit_fails": false,
+   "infeasibility": null
+  }
+ ],
+ "verifier_swap": {
+  "evidence_date": "2026-10-01",
+  "agqo_te": 5.39,
+  "rounding_te": 5.56,
+  "correct": {
+   "text": "Sai số bám so với chỉ số VN30 của danh mục lô chẵn AGQO là 5,39%, còn cách làm tròn từng mã về lô gần nhất là 5,56%.",
+   "check": {
+    "ok": true,
+    "unverified_numbers": [],
+    "trade_mismatches": [],
+    "context_issues": [],
+    "attribution_issues": [],
+    "claim_issues": []
+   }
+  },
+  "swapped": {
+   "text": "Sai số bám so với chỉ số VN30 của danh mục lô chẵn AGQO là 5,56%, còn cách làm tròn từng mã về lô gần nhất là 5,39%.",
+   "check": {
+    "ok": false,
+    "unverified_numbers": [],
+    "trade_mismatches": [],
+    "context_issues": [],
+    "attribution_issues": [
+     {
+      "type": "misattributed",
+      "number": "5,56",
+      "metric": "tracking_error",
+      "entity": "agqo",
+      "evidence_value": [
+       "5.39"
+      ],
+      "number_belongs_to": [
+       "tracking_error_vs_vn30_index_pct.nearest_lot_rounding_portfolio"
+      ],
+      "clause": "chỉ số VN30 của danh mục lô chẵn AGQO là 5,56%"
+     },
+     {
+      "type": "misattributed",
+      "number": "5,39",
+      "metric": "tracking_error",
+      "entity": "rounding",
+      "evidence_value": [
+       "5.56"
+      ],
+      "number_belongs_to": [
+       "tracking_error_vs_vn30_index_pct.agqo_whole_lot_portfolio"
+      ],
+      "clause": "cách làm tròn từng mã về lô gần nhất là 5,39%"
+     }
+    ],
+    "claim_issues": []
+   }
+  },
+  "wrong_unit": {
+   "text": "Sai số bám so với chỉ số VN30 của danh mục lô chẵn AGQO là 5,39 lô.",
+   "check": {
+    "ok": false,
+    "unverified_numbers": [],
+    "trade_mismatches": [],
+    "context_issues": [],
+    "attribution_issues": [
+     {
+      "type": "wrong_unit",
+      "number": "5,39",
+      "unit_written": "lot",
+      "evidence_units": [
+       "pct"
+      ],
+      "clause": "chỉ số VN30 của danh mục lô chẵn AGQO là 5,39 lô"
+     }
+    ],
+    "claim_issues": []
+   }
+  }
+ },
+ "clarification": {
+  "instruction": "Đừng mua quá nhiều cổ phiếu ngân hàng",
+  "source": "Qwen3.8-27B, V3 prompt (logged live answer)",
+  "needs_clarification": true,
+  "question": "Bạn muốn giới hạn tỷ trọng cổ phiếu ngân hàng tối đa là bao nhiêu phần trăm?",
+  "mandate": {
+   "exclude_tickers": [],
+   "exclude_sectors": [],
+   "sector_caps": {},
+   "max_weight_per_stock": null,
+   "max_holdings": null,
+   "min_cash_pct": null
+  },
+  "v31_frontend": "app/static/app.js run(): renderMandate(mres); await decideAndShow(capital, mres.mandate) runs unconditionally, so the trade list of the unconstrained portfolio is shown while the question is pending."
+ },
+ "parser": [
+  {
+   "text": "Đừng bỏ VIC",
+   "mandate": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "needs_clarification": false,
+   "question": null
+  },
+  {
+   "text": "Không bỏ ngân hàng, chỉ bỏ VRE",
+   "mandate": {
+    "exclude_tickers": [
+     "VRE"
+    ],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "needs_clarification": false,
+   "question": null
+  },
+  {
+   "text": "Tôi muốn ít rủi ro hơn",
+   "mandate": {
+    "exclude_tickers": [],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "needs_clarification": true,
+   "question": "“Ít rủi ro hơn” có thể là giữ thêm tiền mặt hoặc giới hạn tỷ trọng mỗi mã. Bạn muốn giữ bao nhiêu % tiền mặt, hoặc mỗi mã tối đa bao nhiêu %?"
+  },
+  {
+   "text": "Bỏ VIC",
+   "mandate": {
+    "exclude_tickers": [
+     "VIC"
+    ],
+    "exclude_sectors": [],
+    "sector_caps": {},
+    "max_weight_per_stock": null,
+    "max_holdings": null,
+    "min_cash_pct": null
+   },
+   "needs_clarification": false,
+   "question": null
+  }
+ ]
+}

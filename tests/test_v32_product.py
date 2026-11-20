@@ -156,8 +156,15 @@ def test_verifier_rejects_wrong_and_missing_units():
 
 
 def test_verifier_keeps_accepting_the_archived_explanations():
-    """No new false alarms on the 12 live Qwen explanations of V3 (verdicts unchanged)."""
+    """No new false alarms from the attribution check on the 12 live Qwen explanations of V3. The only new
+    rejections are the three that state the market forbids odd lots (a false claim, caught since V3.2)."""
     ex = json.loads((RESULTS_DIR / "llm" / "explanations.json").read_text())
     evs = {e["date"]: describe_evidence(e) for e in json.loads((RESULTS_DIR / "evidence.json").read_text())}
+    newly = []
     for row in ex["rows"]:
-        assert verify_explanation(row["explanation"], evs[row["date"]])["ok"] == row["check"]["ok"]
+        c = verify_explanation(row["explanation"], evs[row["date"]])
+        assert not c["attribution_issues"]
+        if c["ok"] != row["check"]["ok"]:
+            assert c["claim_issues"] and row["check"]["ok"]
+            newly.append(row["date"])
+    assert newly == ["2024-07-01", "2025-01-02", "2026-10-01"]

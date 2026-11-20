@@ -1,0 +1,17 @@
+............................................F.............               [100%]
+=================================== FAILURES ===================================
+___________ test_verifier_keeps_accepting_the_archived_explanations ____________
+
+    def test_verifier_keeps_accepting_the_archived_explanations():
+        """No new false alarms on the 12 live Qwen explanations of V3 (verdicts unchanged)."""
+        ex = json.loads((RESULTS_DIR / "llm" / "explanations.json").read_text())
+        evs = {e["date"]: describe_evidence(e) for e in json.loads((RESULTS_DIR / "evidence.json").read_text())}
+        for row in ex["rows"]:
+>           assert verify_explanation(row["explanation"], evs[row["date"]])["ok"] == row["check"]["ok"]
+E           assert False == True
+
+tests/test_v32_product.py:163: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_v32_product.py::test_verifier_keeps_accepting_the_archived_explanations
+1 failed, 57 passed in 28.58s
+

@@ -10,6 +10,12 @@ from __future__ import annotations
 from .mandate import Mandate
 
 PRESETS = [
+    {"id": "pitch20", "title_vi": "20 triệu, bỏ bất động sản, ngân hàng tối đa 30%", "capital_million": 20,
+     "mandate": Mandate(exclude_sectors=["Real estate"], sector_caps={"Banking": 0.30}), "expect": "favourable",
+     "instruction_vi": "Không đầu tư bất động sản, ngân hàng tối đa 30%",
+     "why_vi": "Quyết định dùng trong bài trình bày: một tài khoản nhỏ muốn bám VN30 nhưng không giữ bất động sản và "
+               "giới hạn ngân hàng. ETF không làm được; làm tròn từng mã thì lệch nhiều.",
+     "tradeoff_vi": "Bỏ một nhóm lớn và giới hạn ngân hàng làm danh mục lệch khỏi chỉ số; nhiều tiền mặt nằm lại vì lô đắt."},
     {"id": "small20", "title_vi": "Tài khoản nhỏ 20 triệu, không quy tắc", "capital_million": 20,
      "mandate": Mandate(), "expect": "favourable",
      "why_vi": "Ở 20 triệu, một lô của nhiều mã chiếm 3–7% vốn. Làm tròn từng mã về lô gần nhất làm lệch danh mục "

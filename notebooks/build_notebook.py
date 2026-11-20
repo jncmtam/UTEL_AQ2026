@@ -26,7 +26,7 @@ Prerequisites: `modal token new` once (credentials stay in `~/.modal.toml`), the
 
 Set `TASKS` in the next cell (papermill parameter) to choose what runs."""),
     (CODE, """# Parameters (papermill)
-TASKS = ["smoke"]          # any of: smoke, reproduce, pytest, knn_table, knn_study, knn_refine, llm_mandates, llm_circuits, presets, account_benchmark, llm_probe,
+TASKS = ["smoke"]          # any of: smoke, reproduce, pytest, knn_table, knn_study, knn_refine, llm_mandates, llm_circuits, presets, account_benchmark, llm_probe, pitch,
                            #         llm_circuits, knn_table, knn_study
 PYTEST_ARGS = []
 LLM_MODEL_APP = "agqo-llm"
@@ -265,11 +265,51 @@ A handful of new instructions through the V3.2 prompt on the H100; answers are a
     run.save("probe.json", rows)
     with open(ROOT / "results" / "v32" / "llm_log_mandates.jsonl", "a") as f:
         for r in recs:
-            f.write(json.dumps(r | {"source_run": run.run_id}, ensure_ascii=False) + "\n")
+            f.write(json.dumps(r | {"source_run": run.run_id}, ensure_ascii=False) + "\\n")
     run.finish(**{r["text"][:30]: f"{r['status']} {r['mandate']['exclude_tickers']}" for r in rows})
     with mr.app.run():
         push(run, mr.archive)
     kept["llm_probe"] = run.dir; show(run.dir)"""),
+    (MD, """## Pitch decision (semifinal deck)
+
+The investor of the talk: 20 million VND, no real estate, banking ≤ 30%. Latest-date decision (full output) and
+12-quarter walks for nearest-lot rounding, greedy lot filling (same rules), exact lot rounding and AGQO, with and
+without the rules."""),
+    (CODE, """if "pitch" in TASKS:
+    from agqo.backtest import active_returns, performance
+    from agqo.data import MarketData
+    from agqo.research.orchestrate import fanout, local_run, push
+    from agqo.stats import block_bootstrap_te_diff
+    import pandas as pd
+    M = {"exclude_sectors": ["Real estate"], "sector_caps": {"Banking": 0.30}}
+    run = local_run("pitch", {"capital_vnd": 20e6, "mandate": M, "quarters": "V3 test (12)"})
+    jobs = [{"label": f"{tag}|{s}", "capital_vnd": 20e6, "strategy": s, "mandate": m}
+            for tag, m in (("rules", M), ("none", {})) for s in ("practitioner", "greedy", "exact", "agqo")]
+    with mr.app.run():
+        dec = mr.preset_job.remote({"id": "pitch20", "capital_million": 20, "mandate": M})
+        walks = {r["label"]: r for r in fanout(mr.walk_job, jobs)}
+        md = MarketData.load(); etf = md.etf_close["E1VFVN30"]
+        ser = lambda r: pd.Series(r["values"], index=pd.to_datetime(r["dates"]))
+        rows, tests = [], []
+        for lab, r in walks.items():
+            if "error" in r:
+                run.manifest["errors"].append({"where": lab, "error": r["error"], "traceback": ""}); continue
+            pf = performance(ser(r), md.index, etf)
+            rows.append({"label": lab, "te_pct": pf["tracking_error_ann_pct"], "return_ann_pct": pf["return_ann_pct"],
+                         "fees_vnd": r["fees_vnd"], "avg_holdings": r["avg_holdings"], "avg_invested_pct": r["avg_invested_pct"],
+                         "violations": r["rule_violations_at_rebalance"]})
+        for tag in ("rules", "none"):
+            for a, b in (("agqo", "practitioner"), ("agqo", "greedy"), ("agqo", "exact")):
+                ra, rb = walks.get(f"{tag}|{a}"), walks.get(f"{tag}|{b}")
+                if ra and rb and "error" not in ra and "error" not in rb:
+                    tests.append({"mandate": tag, "comparison": f"{a} vs {b}",
+                                  **block_bootstrap_te_diff(active_returns(ser(ra), md.index), active_returns(ser(rb), md.index))})
+        run.save("pitch_decision.json", dec)
+        run.save("pitch_walks.csv", pd.DataFrame(rows)); run.save("pitch_tests.csv", pd.DataFrame(tests))
+        run.save("pitch_series.json", {lab: {"dates": r["dates"], "values": r["values"]} for lab, r in walks.items() if "error" not in r})
+        run.finish(**{r["label"]: round(r["te_pct"], 2) for r in rows})
+        push(run, mr.archive)
+    kept["pitch"] = run.dir; show(run.dir)"""),
     (MD, "## Summary of this notebook execution"),
     (CODE, """print(json.dumps({k: str(v) for k, v in kept.items()}, indent=1))"""),
 ]
