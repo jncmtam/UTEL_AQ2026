@@ -30,7 +30,9 @@ FIG = Path(__file__).resolve().parent / "figures_en"
 FIGURES = {"image3.png": "f1a_lot_cost.png", "image4.png": "f1b_one_decision.png", "image5.png": "f2_market.png",
            "image6.png": "f3_pipeline.png", "image7.png": "f4_probability.png", "image8.png": "f5_circuit.png",
            "image9.png": "f6_hardware.png", "image12.png": "f8a_accounts.png", "image13.png": "f8b_scaling.png"}
-WIDTH_CM = {"image6.png": 16.5, "image8.png": 15.5, "image7.png": 9.2, "image9.png": 9.0, "image5.png": 9.0, "image10.png": 7.3, "image11.png": 7.3, "image3.png": 7.4, "image4.png": 8.0}
+SHOTS = ROOT / "docs" / "prototype_shots" / "v32"
+FIGURES.update({"image10.png": SHOTS / "pitch_constraints_pending.png", "image11.png": SHOTS / "infeasible.png"})
+WIDTH_CM = {"image6.png": 16.5, "image8.png": 15.5, "image7.png": 9.2, "image9.png": 9.0, "image5.png": 9.0, "image10.png": 8.1, "image11.png": 8.1, "image3.png": 7.4, "image4.png": 8.0}
 FIRST_COL = 2650                                             # twips, label column of the new tables          # the two wide diagrams get the full text width
 
 # ------------------------------------------------------------------ English technical terms (longest first)
@@ -157,12 +159,13 @@ REWRITE = {
         "đối chiếu số. Câu mẫu phát lại câu trả lời thật đã lưu của Qwen3.8, câu mới gọi GPU H100 trực tiếp. Chưa có: "
         "Đặt lệnh thật, tài khoản người dùng.",
     "Mở link →":
-        "Mở link → nhập vốn (ví dụ 20 triệu) và yêu cầu (ví dụ “Không mua VIC, VHM, VRE…”) → **Chạy AGQO**. Bảy bảng "
-        "hiện lần lượt (ràng buộc JSON, cụm cổ phiếu, coupling matrix J, circuit schedule, sơ đồ mạch, phân bố xác suất, "
-        "lệnh) → **Giải thích bằng AI** → **Tải mạch OpenQASM**.",
+        "Mở link → chọn mẫu hoặc gõ yêu cầu (ví dụ “Không đầu tư bất động sản, ngân hàng tối đa 30%”) → xem các ô ràng "
+        "buộc có nhãn nguồn → **Xác nhận** → **Chạy trên Modal** → lệnh, phí, tiền mặt sau phí, kiểm tra từng quy tắc → "
+        "**Bên trong quyết định này** (Hamiltonian, mạch, phân bố xác suất, **Tải mạch OpenQASM**). Câu mơ hồ bị hỏi lại, "
+        "yêu cầu không khả thi được giải thích, không tạo lệnh.",
     "Hình 7.":
-        "Hình 7. Prototype chạy thật. Bước 5: Mạch QAOA 16 qubit với từng cặp ZZ coupling và angle schedule. Bước 6: "
-        "Phân bố xác suất, 12 trạng thái có xác suất cao nhất, kết luận exact verification.",
+        "Hình 7. Prototype V3.2 chạy thật (20/11/2026). Trái: Ràng buộc đọc từ câu lệnh, có nhãn nguồn, chờ xác nhận, "
+        "nút Chạy khoá. Phải: Yêu cầu không khả thi (mỗi mã ≤ 2%) được giải thích bằng quy tắc chặn, không tạo lệnh.",
     "Hình 8.":
         "Hình 8. Trái: Sai số bám VN30 thực tế theo cỡ tài khoản, 12 quý. Phải: Từ 8 đến 20 qubit, mạch AGQO giữ nguyên "
         "schedule chọn trên dữ liệu 2023 (không học lại) vẫn hơn warm-start baseline, từ 4,3× lên 16,7×. Lợi thế tăng "
@@ -209,8 +212,8 @@ TABLES = [
                      "schedule ở 12/12 quý"),
     ]),
     ("Đo trên bản triển khai", "Đo trên bản triển khai", ("Phép đo trên bản triển khai", "Kết quả"), [
-        ("Một quyết định 16 qubit (CPU)", "Khoảng 2 giây sau khi container khởi động (~8 giây): Xây QUBO 0,01 giây, exhaustive enumeration 0,12 giây, "
-                                          "QAOA + COBYLA polish khoảng 1 giây (textbook QAOA đối chứng 0,7 giây)"),
+        ("Một quyết định 16 qubit", "Tính toán khoảng 2 giây CPU (QUBO 0,01 giây, exhaustive enumeration 0,12 giây, QAOA + "
+                                    "COBYLA polish ~1 giây). Job Modal trọn vẹn 5–11 giây, cold start thêm 20–60 giây"),
         ("LLM call mới", "440 giây khi GPU cold start (nạp mô hình 309 giây), vài giây khi GPU đang chạy"),
         ("Câu thử khó", "“Tôi làm ở ngân hàng nên không muốn giữ thêm cổ phiếu ngân hàng, và giữ lại 10% tiền mặt”. "
                         "Qwen3.8 dịch đúng cả hai ý, keyword parser bỏ sót ý thứ nhất"),
@@ -386,7 +389,7 @@ def replace_in_paragraph(p, old, new):
             runs[ei].text = runs[ei].text[eo:]
 
 
-SKIP_CAP = re.compile(r"^((?:i|ii|iii|iv|v|vi)\)|k-NN|vLLM|pytest|python|pip|https?|agqo|app/|results|tests|e\.g|p =|x_|q=)")
+SKIP_CAP = re.compile(r"^((?:i|ii|iii|iv|v|vi)\)|[^\s]*[.@_][^\s]|\S+\s@|k-NN|vLLM|pytest|python|pip|https?|agqo|app/|results|tests|e\.g|p =|x_|q=)")
 
 
 def capitalise(p):
@@ -510,7 +513,7 @@ def swap_figures(doc):
         from PIL import Image
         import io
         if name in FIGURES:
-            png = FIG / FIGURES[name]
+            png = FIGURES[name] if isinstance(FIGURES[name], Path) else FIG / FIGURES[name]
             rel.target_part._blob = png.read_bytes()
         w, h = Image.open(io.BytesIO(rel.target_part.blob)).size
         for blip in doc.element.body.iter(qn("a:blip")):
@@ -526,6 +529,88 @@ def swap_figures(doc):
                 if x.get("cx"):
                     x.set("cx", str(cx))
                     x.set("cy", str(cy))
+
+
+PACKAGE_TEXT = [
+    ("data1--agqo-demo.us-east.modal.run", "data1--agqo-v32.us-east.modal.run"),
+    ("AQ2026-R2-Madoi-", "AQ2026-R2-AQ2026-169-"),
+    ("v3.1 (16/11/2026)", "V3.2 (20/11/2026)"), ("phiên bản v3.1, 16/11/2026", "phiên bản V3.2, 20/11/2026"),
+    ("24/25 kiểm thử tự động đạt", "58/58 kiểm thử tự động đạt trên Modal CPU"),
+    ("24/25 kiểm thử đạt (pytest)", "58/58 kiểm thử đạt (pytest, Modal CPU)"),
+    ("25 kiểm thử tự động.", "58 kiểm thử tự động, đạt 58/58 trên Modal CPU."),
+    ("+ 25 kiểm thử", "+ 58 kiểm thử"),
+    ("slide 20 trang có hoạt ảnh", "slide 8 trang chính + 13 phụ lục có hoạt ảnh"),
+    ("20 trang, hoạt ảnh, ghi chú lời nói", "8 slide chính + 13 phụ lục, hoạt ảnh, ghi chú lời nói"),
+    ("→ LLM → Hamiltonian", "→ LLM → người dùng xác nhận → Hamiltonian"),
+]
+
+
+def package_facts(doc):
+    """Team code, members, advisor, URL, file names, version and test count as in the submission package."""
+    import json
+    tf = ROOT / "submission" / "team.local.json"
+    team = json.loads(tf.read_text()) if tf.exists() else None
+    paras = list(doc.paragraphs) + [p for t in doc.tables for r in t.rows for c in r.cells for p in c.paragraphs]
+    for p in paras:
+        for old, new in PACKAGE_TEXT:
+            if old in p.text:
+                replace_in_paragraph(p, old, new)
+    for rel in doc.part.rels.values():                      # hyperlink targets
+        if rel.is_external and "agqo-demo" in rel.target_ref:
+            rel._target = rel.target_ref.replace("agqo-demo", "agqo-v32")
+    if team is None:
+        return
+    code, num = team["team_code"], team["team_code"].split("-")[-1]
+    for p in paras:
+        for r in p.runs:
+            if r.text.strip() == num and ("Mã đội" in p.text or "MÃ ĐỘI" in p.text):
+                r.text = r.text.replace(num, code)
+        if p.text.strip().startswith(f"{num} / "):
+            for r in p.runs:
+                if r.text.lstrip().startswith(num):
+                    r.text = r.text.replace(num, code, 1)
+                    break
+    info = doc.tables[2]
+    for row in info.rows:
+        if row.cells[0].text.strip().startswith("Giảng viên") and not row.cells[1].text.strip():
+            cell = row.cells[1].paragraphs[0]
+            ref = row.cells[0].paragraphs[0]._p.find(qn("w:r"))
+            rich(cell, team.get("advisor") or "Không có", ref.find(qn("w:rPr")) if ref is not None else None)
+    # members missing from the cover list and the member table
+    roster = doc.tables[3]
+    listed = {r.cells[1].text.strip() for r in roster.rows[1:]}
+    cover = [p for p in doc.paragraphs[:22] if re.match(r"^\d+\.\s", p.text.strip())]
+    for m in team["members"]:
+        if m["name"] in listed:
+            continue
+        n = len(roster.rows)
+        tr = copy.deepcopy(roster.rows[-1]._tr)
+        roster._tbl.append(tr)
+        row = roster.rows[-1]
+        email = m["email"].replace("@", " @")
+        school = m["school"].replace("Đại học ", "Đại học ") if m["school"] != "Đại học Kinh tế - Luật" else "Kinh tế - Luật"
+        for cell, val in zip(row.cells, [str(n), m["name"], m["major"], school, m["id"], email, m["phone"], m["role"]]):
+            para = cell.paragraphs[0]
+            r0 = para._p.find(qn("w:r"))
+            rich(para, val, r0.find(qn("w:rPr")) if r0 is not None else None)
+        listed.add(m["name"])
+        if cover:
+            last = cover[-1]
+            el = copy.deepcopy(last._p)
+            from docx.text.paragraph import Paragraph
+            np_ = Paragraph(el, last._parent)
+            runs = np_.runs
+            runs[0].text = f"{len(cover) + 1}.  "
+            runs[1].text = m["name"]
+            for r in runs[2:]:
+                r.text = ""
+            runs[-1].text = " " * round(5 + 2.2 * max(0, 20 - len(m["name"]))) + m["role"]   # line up the role column
+            nxt = last._p.getnext()
+            last._p.addnext(el)
+            # keep the cover height: drop one empty spacer paragraph after the list
+            if nxt is not None and nxt.tag == qn("w:p") and not "".join(t.text or "" for t in nxt.iter(qn("w:t"))).strip():
+                nxt.getparent().remove(nxt)
+            cover.append(np_)
 
 
 def main(src: str) -> Path:
@@ -564,6 +649,7 @@ def main(src: str) -> Path:
     pipe._p.getparent().remove(pipe._p)
     for opening, text in REWRITE.items():
         rich(find(doc, opening), text)
+    package_facts(doc)
     for c, text in zip([row.cells[3] for row in kpi.rows], KPI_MEANING):
         para = c.paragraphs[0]
         r0 = para._p.find(qn("w:r"))

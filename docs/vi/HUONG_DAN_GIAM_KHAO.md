@@ -48,6 +48,6 @@ hoặc gõ câu của bạn ở bước 2 rồi bấm **Diễn giải thành rà
 | Tệp | Nội dung |
 |---|---|
 | AQ2026-R2-AQ2026-169-Bao_cao_giai_phap.pdf | Báo cáo theo mẫu BTC |
-| AQ2026-R2-AQ2026-169-Slide.pptx (+ .pdf) | 8 slide chính + 11 phụ lục; ghi chú người nói trong từng slide |
+| AQ2026-R2-AQ2026-169-Slide.pptx (+ .pdf) | 8 slide chính + 13 phụ lục; ghi chú người nói trong từng slide |
 | AQ2026-R2-AQ2026-169-Ma_nguon.zip | Mã nguồn gắn với một commit, cấu hình, thành phần VN30, kết quả đã lưu, kiểm thử; tệp giá tải bằng lệnh `python -m agqo download` (xem phần tái lập) |
 | AQ2026-R2-AQ2026-169-Huong_dan.pdf | Tài liệu này và phần tái lập |
