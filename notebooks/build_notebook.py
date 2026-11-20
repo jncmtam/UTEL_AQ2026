@@ -26,7 +26,7 @@ Prerequisites: `modal token new` once (credentials stay in `~/.modal.toml`), the
 
 Set `TASKS` in the next cell (papermill parameter) to choose what runs."""),
     (CODE, """# Parameters (papermill)
-TASKS = ["smoke"]          # any of: smoke, reproduce, pytest, knn_table, knn_study, knn_refine, llm_mandates, llm_circuits,
+TASKS = ["smoke"]          # any of: smoke, reproduce, pytest, knn_table, knn_study, knn_refine, llm_mandates, llm_circuits, presets, account_benchmark,
                            #         llm_circuits, knn_table, knn_study
 PYTEST_ARGS = []
 LLM_MODEL_APP = "agqo-llm"
@@ -216,6 +216,35 @@ over the same space with the same budget (3 seeds); then the best of each on the
             run.error("llm_circuits", e); run.finish("failed")
         push(run, mr.archive)
     kept["llm_circuits"] = run.dir; show(run.dir)"""),
+    (MD, """## Product presets (protocol §6) and small-account benchmark (protocol §5)
+
+Presets: the latest-date decision of every preset (kept for the app's replay) and 12-quarter walks with AGQO and
+nearest-lot rounding under the preset's rules. Benchmark: 20M and the price-level bound (18.2M, 16M, 13.3M =
+historical lot costs understated by 10%, 25%, 50%) for rounding, greedy, exact and AGQO."""),
+    (CODE, """if "presets" in TASKS or "account_benchmark" in TASKS:
+    import shutil
+    from agqo.research.orchestrate import fanout, local_run, push
+    from agqo.research.product_runs import run_account_benchmark, run_presets
+    with mr.app.run():
+        if "presets" in TASKS:
+            run = local_run("presets", {"quarters": "V3 test (12)", "account": "fresh cash, then walk"})
+            try:
+                res = run_presets(run, lambda ps: fanout(mr.preset_job, ps), lambda js: fanout(mr.walk_job, js))
+                (ROOT / "results" / "v32").mkdir(parents=True, exist_ok=True)
+                shutil.copy(run.dir / "presets.json", ROOT / "results" / "v32" / "presets.json")
+                run.finish(**{p["id"]: p["outcome"] for p in res["presets"]})
+            except Exception as e:
+                run.error("presets", e); run.finish("failed")
+            push(run, mr.archive); kept["presets"] = run.dir; show(run.dir)
+        if "account_benchmark" in TASKS:
+            run = local_run("account-benchmark", {"capitals": [20e6, 18.18e6, 16e6, 13.33e6], "quarters": "V3 test (12)"})
+            try:
+                res = run_account_benchmark(run, lambda js: fanout(mr.walk_job, js))
+                run.finish(**{f"{int(t['capital_vnd'] / 1e5) / 10:g}M {t['comparison']}": round(t["diff_pp"], 2)
+                              for t in res["tests"] if t["comparison"] == "agqo vs practitioner"})
+            except Exception as e:
+                run.error("account_benchmark", e); run.finish("failed")
+            push(run, mr.archive); kept["account_benchmark"] = run.dir; show(run.dir)"""),
     (MD, "## Summary of this notebook execution"),
     (CODE, """print(json.dumps({k: str(v) for k, v in kept.items()}, indent=1))"""),
 ]

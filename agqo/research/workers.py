@@ -128,3 +128,75 @@ def decide_items(jobs: list[dict]) -> list[dict]:
         except Exception as e:
             out.append(rec | {"outcome": "error", "errors": [f"{type(e).__name__}: {e}"]})
     return out
+
+
+def walk_job(job: dict) -> dict:
+    """One account through the 12 V3 test quarters with one strategy (protocol §5 and §6).
+
+    job = {capital_vnd, strategy: practitioner | greedy | exact | agqo, mandate: dict, label}
+    Returns daily account values, per-rebalance rows (post-trade weights) and the mandate audit."""
+    from ..backtest import build_rounding_instance, practitioner_target
+    from ..experiment import _compliance, walk
+    from ..extras import greedy_target
+    from ..mandate import Mandate
+    from ..portfolio import landscape
+    from ..quantum.design import design_features, spec_of
+    from ..quantum.simulator import CompiledProblem, run_qaoa
+    from ..service import demo
+
+    c = _ctx()
+    md, ec = c["md"], c["ec"]
+    dm = demo()
+    m = Mandate.from_dict(job.get("mandate") or {})
+    dates = md.rebalance_dates(ec.test_start, ec.test_end, "QS")
+    uni = lambda d: c["uni"].setdefault(("u", d), md.universe(d, ec.problem.lookback_days, ec.problem.min_history)[0])
+    t0 = time.time()
+
+    def decide(d, k, acc):
+        s = job["strategy"]
+        if s == "practitioner":
+            return practitioner_target(md, d, uni(d), acc, ec, m), {}
+        if s == "greedy":
+            return greedy_target(md, d, uni(d), acc, ec), {}
+        inst = build_rounding_instance(md, d, uni(d), acc, ec, m)
+        land = landscape(inst)
+        if s == "exact" or inst.n_qubits < 2:
+            x = (land.opt_index >> np.arange(inst.n_qubits)) & 1
+            return dict(zip(inst.tickers, inst.shares(x)[0])), {"qubits": inst.n_qubits}
+        cp = CompiledProblem(inst, land)
+        row = dm.grid.iloc[dm.model.choose(design_features(cp))]
+        spec = spec_of(row, ec.design.polish_iters if dm.use_polish else 0, ec.design.polish_cvar_alpha)
+        r = run_qaoa(cp, spec, ec.problem.success_gap, 512, np.random.default_rng(ec.search.seed + k))
+        idx = r.best_sample if r.best_sample is not None else land.opt_index
+        x = (idx >> np.arange(inst.n_qubits)) & 1
+        return dict(zip(inst.tickers, inst.shares(x)[0])), {"qaoa_success": r.success_prob,
+                                                            "gap_vs_exact": float(land.gap()[idx])}
+
+    try:
+        series, rows, acc = walk(md, ec, dates, job["capital_vnd"], decide)
+    except Exception as e:
+        return job | {"error": f"{type(e).__name__}: {e}"}
+    comp = _compliance(md, dates, series, rows, acc, m)
+    return job | {"dates": [str(x.date()) for x in series.index], "values": series.round(2).tolist(),
+                  "fees_vnd": acc.fees_paid, "avg_holdings": float(np.mean([r["holdings"] for r in rows])),
+                  "avg_invested_pct": float(np.mean([r["invested_pct"] for r in rows])), **comp,
+                  "rows": [{k: v for k, v in r.items() if k != "_weights"} for r in rows], "seconds": time.time() - t0}
+
+
+def preset_job(p: dict) -> dict:
+    """Latest-date decision of one preset (kept for the app's replay) plus its measured summary."""
+    from ..service import run_decision
+
+    res = run_decision({"capital_million": p["capital_million"], "mandate": p["mandate"], "with_textbook": True})
+    ports = res.get("portfolios") or {}
+    meas = {"status": res["status"], "capital_million": p["capital_million"]}
+    if res["status"] == "ok":
+        meas |= {"te_pct": ports["AGQO"]["te_pct"], "te_rounding_pct": ports["nearest-lot rounding"]["te_pct"],
+                 "te_greedy_pct": (ports.get("greedy lot filling") or {}).get("te_pct"),
+                 "te_ideal_pct": ports["ideal (fractional shares)"]["te_pct"], "holdings": len(res["trades"]),
+                 "fees_vnd": res["fees_vnd"], "cash_after_vnd": res["cash_after_vnd"],
+                 "all_checks_ok": res["all_checks_ok"], "quantum_ran": res["quantum"]["ran"]}
+    else:
+        meas |= {"blocking": "; ".join(b["message_vi"] for b in res["feasibility"]["blocking"])}
+    res["execution"] = {"mode": "modal_research", "function": "preset_job"}
+    return {"id": p["id"], "measured": meas, "decision": res}

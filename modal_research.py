@@ -140,3 +140,19 @@ def decide_items(jobs: list[dict]) -> list[dict]:
     from agqo.research.workers import decide_items as go
 
     return go(jobs)
+
+
+@app.function(cpu=2, memory=4096, image=image, timeout=3600, retries=1)
+def walk_job(job: dict) -> dict:
+    """One account through the 12 V3 quarters with one strategy and mandate."""
+    from agqo.research.workers import walk_job as go
+
+    return go(job)
+
+
+@app.function(cpu=2, memory=4096, image=image, timeout=1800, retries=1)
+def preset_job(p: dict) -> dict:
+    """Latest-date decision of one product preset (replayed by the app when Modal jobs cannot start)."""
+    from agqo.research.workers import preset_job as go
+
+    return go(p)
