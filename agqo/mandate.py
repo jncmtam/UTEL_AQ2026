@@ -101,13 +101,44 @@ SECTOR_KEYWORDS = {
 NEG = ["khong", "bo", "loai", "tranh", "tru"]
 
 
+NEG_EXCL = re.compile(r"\b(?:dung|khong|chang|dung co)\s+(?:bo|loai|tranh)\b")      # "đừng bỏ", "không loại"
+EXCL = re.compile(r"\b(?:loai bo|bo|loai|khong mua|dung mua|tranh|tru|ban het|khong nam giu|khong giu|khong muon)\b")
+KEEP = re.compile(r"\b(?:giu|van mua|mua them|muon mua|nen mua|uu tien)\b")
+CLAUSE = re.compile(r"[.;!?]|\bnhung\b|\bcon\b")
+
+
+def ticker_intents(text: str, tickers: set[str]) -> dict[str, str]:
+    """Each ticker named in the text -> "exclude" | "keep" | "unclear", from the nearest verb before it in the
+    same clause. Negated exclusions ("đừng bỏ VIC", "không loại VIC") count as keep, never as exclude."""
+    t = _plain(text)
+    out: dict[str, str] = {}
+    for mt in re.finditer(r"\b[A-Za-z]{3}\b", text):
+        tk = mt.group().upper()
+        if tk not in tickers or not mt.group().isupper():
+            continue
+        lo = max(0, mt.start() - 45)
+        seg = t[lo:mt.start()]
+        cut = [c.end() for c in CLAUSE.finditer(seg)]
+        seg = seg[cut[-1]:] if cut else seg
+        spans = []                                           # (end, kind); nearest verb before the ticker wins
+        masked = seg
+        for x in NEG_EXCL.finditer(seg):
+            spans.append((x.end(), "keep"))
+            masked = masked[:x.start()] + " " * (x.end() - x.start()) + masked[x.end():]
+        excl = [(x.start(), x.end()) for x in EXCL.finditer(masked)]
+        spans += [(e, "exclude") for _, e in excl]
+        spans += [(x.end(), "keep") for x in KEEP.finditer(masked) if not any(a <= x.start() < b for a, b in excl)]
+        kind = max(spans)[1] if spans else "unclear"
+        if out.get(tk) != "exclude":
+            out[tk] = kind
+    return out
+
+
 def rule_parse(text: str, tickers: set[str]) -> Mandate:
     """Transparent keyword baseline the LLM compiler must beat. No learning, no context."""
     raw, t = text, _plain(text)
     m = Mandate()
-    for tk in re.findall(r"\b[A-Z]{3}\b", raw):
-        if tk in tickers:
-            m.exclude_tickers.append(tk)
+    m.exclude_tickers = [tk for tk, k in ticker_intents(raw, tickers).items() if k == "exclude"]
     for sec, kws in SECTOR_KEYWORDS.items():
         for kw in kws:
             for hit in re.finditer(kw, t):
@@ -116,6 +147,9 @@ def rule_parse(text: str, tickers: set[str]) -> Mandate:
                 window = t[hit.end(): hit.end() + 40]
                 pct = re.search(r"(\d+(?:[.,]\d+)?)\s*%", window)
                 before = t[max(0, hit.start() - 25): hit.start()]
+                negated = NEG_EXCL.search(before)                  # "không bỏ ngân hàng" keeps the sector
+                if negated:
+                    before = before[:negated.start()] + " " * (negated.end() - negated.start()) + before[negated.end():]
                 if pct and re.search(r"toi da|khong qua|duoi|max", before + window[: pct.start()]):
                     m.sector_caps[sec] = float(pct.group(1).replace(",", ".")) / 100
                 elif any(re.search(rf"\b{n}\b", before) for n in NEG):
@@ -143,9 +177,15 @@ VAGUE = ["qua nhieu", "nhieu qua", "it thoi", "it rui ro", "rui ro thap", "an to
 _NUMBER = re.compile(r"\d")
 
 
-def rule_clarification(text: str) -> tuple[bool, str | None]:
-    """(needs_clarification, question) for the keyword fallback: a vague limit without any number."""
+def rule_clarification(text: str, tickers: set[str] | None = None) -> tuple[bool, str | None]:
+    """(needs_clarification, question) for the keyword fallback: a vague limit without any number, or a ticker
+    named without saying what to do with it."""
     t = _plain(text)
+    if tickers:
+        unclear = [tk for tk, k in ticker_intents(text, tickers).items() if k == "unclear"]
+        if unclear:
+            names = ", ".join(unclear)
+            return True, f"Bạn nhắc tới {names}: bạn muốn loại {names} khỏi danh mục, hay để bộ tối ưu tự quyết?"
     if not any(v in t for v in VAGUE) or _NUMBER.search(t) or re.search(r"mot phan|mot nua|phan tu", t):
         return False, None
     for sec, kws in SECTOR_KEYWORDS.items():

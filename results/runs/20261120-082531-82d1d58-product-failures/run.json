@@ -1,0 +1,35 @@
+{
+ "run_id": "20261120-082531-82d1d58-product-failures",
+ "kind": "product-failures",
+ "git": {
+  "sha": "82d1d58179a6dd55f89f21ede09921c19e0fbe74",
+  "short": "82d1d58",
+  "dirty": false
+ },
+ "data_sha256": "7f076128a4f625f9589844f7465e3a1745e1a31e2cecfa8b70e3d8e141433042",
+ "config": {},
+ "python": "3.12.10",
+ "host": "modal",
+ "modal_task_id": "ta-01M7W0Z1H8RPBAH3321SQ3HZ4R",
+ "started_utc": "2026-11-20T08:25:31Z",
+ "status": "ok",
+ "steps": [
+  {
+   "step": "reproduce",
+   "status": "ok",
+   "t_s": 29.6,
+   "exceptions": 0,
+   "silent_cap_breaches": 0,
+   "verifier_accepts_swap": false
+  }
+ ],
+ "errors": [],
+ "seconds": 29.6,
+ "finished_utc": "2026-11-20T08:26:01Z",
+ "summary": {
+  "exceptions": 0,
+  "silent_cap_breaches": 0,
+  "verifier_accepts_swap": false,
+  "infeasible_with_reason": 2
+ }
+}

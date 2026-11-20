@@ -157,7 +157,7 @@ def walk_job(job: dict) -> dict:
         if s == "practitioner":
             return practitioner_target(md, d, uni(d), acc, ec, m), {}
         if s == "greedy":
-            return greedy_target(md, d, uni(d), acc, ec), {}
+            return greedy_target(md, d, uni(d), acc, ec, m), {}
         inst = build_rounding_instance(md, d, uni(d), acc, ec, m)
         land = landscape(inst)
         if s == "exact" or inst.n_qubits < 2:

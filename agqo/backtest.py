@@ -95,7 +95,13 @@ def continuous_target(md: MarketData, date, universe: list[str], account: Accoun
     if m.max_holdings is not None and m.max_holdings < len(tickers):
         # keep the largest continuous weights among stocks of which one lot is affordable
         px = md.px.loc[date, tickers].to_numpy()
-        afford = ec.rules.lot_size * px * (1 + ec.rules.commission) <= nav * target * (1 - margin)
+        room = nav * target * (1 - margin)
+        if m.max_weight_per_stock is not None:                # one lot must also fit under the per-stock cap
+            room = min(room, nav * m.max_weight_per_stock * (1 - margin))
+        afford = ec.rules.lot_size * px * (1 + ec.rules.commission) <= room
+        for s, cap in m.sector_caps.items():                  # ... and under its sector cap
+            sec = np.array([md.sector(x) == s for x in tickers])
+            afford &= ~sec | (ec.rules.lot_size * px <= nav * cap * (1 - margin))
         order = [i for i in np.argsort(-w) if afford[i]] + [i for i in np.argsort(-w) if not afford[i]]
         keep = sorted(order[: m.max_holdings])
         tickers = [tickers[i] for i in keep]

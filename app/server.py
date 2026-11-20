@@ -148,6 +148,17 @@ def story():
     man = man[man.strategy.str.startswith("AGQO")][["instruction", "tracking_error_ann_pct", "te_cost_vs_unconstrained_pp",
                                                      "avg_holdings", "rule_violations_at_rebalance"]]
     expl = json.loads((run / "llm" / "explanations.json").read_text())
+    example = expl["rows"][-1]
+    ev_last = {e["date"]: e for e in json.loads((run / "evidence.json").read_text())}.get(example["date"])
+    if ev_last is not None:                       # re-check the saved example with the V3.2 verifier
+        from agqo.llm.fallback import deterministic_explanation
+        from agqo.llm.tasks import describe_evidence
+
+        ev_last = describe_evidence(ev_last)
+        recheck = verify_explanation(example["explanation"], ev_last)
+        example = example | {"check_v32": recheck}
+        if not recheck["ok"]:
+            example["fallback"] = deterministic_explanation(ev_last)
     v32 = json.loads((V32 / "summary.json").read_text()) if (V32 / "summary.json").exists() else None
     return _json({
         "backtest": {"dates": [str(x.date()) for x in wk.index],
@@ -160,7 +171,7 @@ def story():
         "hardware": hw.to_dict("records") if hw is not None else [],
         "mandates": man.to_dict("records"),
         "explainer_score": expl["score"],
-        "explanation_example": expl["rows"][-1],
+        "explanation_example": example,
         "v32": v32,
     })
 
@@ -203,6 +214,7 @@ class RunIn(BaseModel):
     sources: dict = {}                   # field -> "user" | "preset" | "text" | "unset" (shown back, logged)
     preset_id: str | None = None
     clarification_pending: bool = False
+    constraints_confirmed: bool = True      # the page sends false until the user confirms text-derived rules
     with_textbook: bool = True
 
 
@@ -227,6 +239,8 @@ def run(body: RunIn):
     c = startup()
     if body.clarification_pending:
         raise HTTPException(409, "Hãy trả lời câu hỏi làm rõ trước khi chạy danh mục cá nhân hóa.")
+    if not body.constraints_confirmed and "text" in (body.sources or {}).values():
+        raise HTTPException(409, "Hãy xác nhận các ràng buộc được diễn giải từ câu của bạn trước khi chạy.")
     m = Mandate.from_dict(body.mandate or {})
     errs = m.validate(set(c["sector_of"]))
     if errs:
@@ -369,6 +383,12 @@ def job(jid: str):
         res |= pr | {"mandate_status": mstatus, "needs_clarification": mstatus != "ok",
                      "source": "Qwen3.8-27B, V3.2 prompt (live, Modal H100)", "raw": parsed}
     else:
-        res |= {"explanation": parsed, "check": verify_explanation(parsed, j["ev"])}
+        check = verify_explanation(parsed, j["ev"])
+        res |= {"explanation": parsed, "check": check}
+        if not check["ok"]:                       # never show an unchecked sentence as the explanation
+            from agqo.llm.fallback import deterministic_explanation
+
+            det = deterministic_explanation(j["ev"])
+            res |= {"fallback": det, "fallback_check": verify_explanation(det, j["ev"])}
     j["result"] = res
     return _json(res)

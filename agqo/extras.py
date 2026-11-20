@@ -214,12 +214,15 @@ def scaling(md, ec, dates, man, sizes=(8, 12, 16, 20)) -> pd.DataFrame:
 
 
 # ------------------------------------------------------------------ 4. finance robustness
-def greedy_target(md, d, universe, acc, ec) -> dict:
+def greedy_target(md, d, universe, acc, ec, mandate=None) -> dict:
     """Strong classical heuristic: floor lots of the QP target, then add the single lot that lowers
-    TE^2 + turnover the most, while cash (after fees) allows; stop when no lot helps."""
+    TE^2 + turnover the most, while cash (after fees) allows; stop when no lot helps.
+
+    With a mandate (V3.2) the same rules as AGQO apply: exclusions and the holdings limit through the
+    continuous target, and every cap (sector, per stock, cash floor) tightened by the fee margin on each step."""
     from .backtest import risk_inputs
 
-    tk, w, target, _ = continuous_target(md, d, universe, acc, ec)
+    tk, w, target, caps = continuous_target(md, d, universe, acc, ec, mandate)
     px = md.px.loc[d, tk].to_numpy()
     nav = acc.value(md.px.loc[d])
     lot = ec.rules.lot_size
@@ -229,6 +232,11 @@ def greedy_target(md, d, universe, acc, ec) -> dict:
     a = lot * px / nav
     obj = lambda wv: 252 * (wv @ cov @ wv - 2 * wv @ cov_b + var_b) + ec.problem.turnover_weight * ((wv - prev) ** 2).sum()
     budget = nav * (1 - 2 * ec.rules.commission) * min(0.985, target + 0.005)
+    caps = caps if mandate is not None else []
+    for mask, cap in caps:                                  # floor lots may already break a cap: trim first
+        while (lots * a)[mask].sum() > cap + 1e-12:
+            j = np.flatnonzero(mask & (lots > 0))
+            lots[j[np.argmax(a[j])]] -= 1
     while True:
         wv = lots * a
         base = obj(wv)
@@ -236,6 +244,8 @@ def greedy_target(md, d, universe, acc, ec) -> dict:
         spend = (lots * lot * px).sum()
         for j in range(len(tk)):
             if spend + lot * px[j] > budget:
+                continue
+            if any(mask[j] and wv[mask].sum() + a[j] > cap + 1e-12 for mask, cap in caps):
                 continue
             wv[j] += a[j]
             g = base - obj(wv)

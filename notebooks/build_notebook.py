@@ -26,7 +26,7 @@ Prerequisites: `modal token new` once (credentials stay in `~/.modal.toml`), the
 
 Set `TASKS` in the next cell (papermill parameter) to choose what runs."""),
     (CODE, """# Parameters (papermill)
-TASKS = ["smoke"]          # any of: smoke, reproduce, pytest, knn_table, knn_study, knn_refine, llm_mandates, llm_circuits, presets, account_benchmark,
+TASKS = ["smoke"]          # any of: smoke, reproduce, pytest, knn_table, knn_study, knn_refine, llm_mandates, llm_circuits, presets, account_benchmark, llm_probe,
                            #         llm_circuits, knn_table, knn_study
 PYTEST_ARGS = []
 LLM_MODEL_APP = "agqo-llm"
@@ -245,6 +245,31 @@ historical lot costs understated by 10%, 25%, 50%) for rounding, greedy, exact a
             except Exception as e:
                 run.error("account_benchmark", e); run.finish("failed")
             push(run, mr.archive); kept["account_benchmark"] = run.dir; show(run.dir)"""),
+    (MD, """## LLM probe: negations and vague requests (semifinal review)
+
+A handful of new instructions through the V3.2 prompt on the H100; answers are appended to
+`results/v32/llm_log_mandates.jsonl` so the app can replay them (labelled as replay)."""),
+    (CODE, """if "llm_probe" in TASKS:
+    from agqo.data import MarketData
+    from agqo.llm import v32
+    from agqo.llm.client import LLMClient
+    from agqo.research.orchestrate import local_run, push
+    PROBES = ["Đừng bỏ VIC", "Tôi muốn ít rủi ro hơn", "Không loại VIC nhưng bỏ VHM", "Giữ VIC, bỏ VRE",
+              "Tôi thích VIC", "Không đầu tư bất động sản, ngân hàng tối đa 30%",
+              "Tôi có 20 triệu, không muốn bất động sản, ngân hàng tối đa 30%"]
+    md = MarketData.load(); so = {t: md.sector(t) for t in md.close.columns}
+    run = local_run("llm-probe", {"prompt": "V3.2", "probes": PROBES})
+    client = LLMClient("modal", run.dir / "llm_log.jsonl", app_name=LLM_MODEL_APP)
+    recs = client.generate([v32.request(p, so, seed=i) for i, p in enumerate(PROBES)])
+    rows = [{"text": p, **v32.parse(r["parsed"], set(so))} for p, r in zip(PROBES, recs)]
+    run.save("probe.json", rows)
+    with open(ROOT / "results" / "v32" / "llm_log_mandates.jsonl", "a") as f:
+        for r in recs:
+            f.write(json.dumps(r | {"source_run": run.run_id}, ensure_ascii=False) + "\n")
+    run.finish(**{r["text"][:30]: f"{r['status']} {r['mandate']['exclude_tickers']}" for r in rows})
+    with mr.app.run():
+        push(run, mr.archive)
+    kept["llm_probe"] = run.dir; show(run.dir)"""),
     (MD, "## Summary of this notebook execution"),
     (CODE, """print(json.dumps({k: str(v) for k, v in kept.items()}, indent=1))"""),
 ]

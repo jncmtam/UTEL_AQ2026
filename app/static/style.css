@@ -246,3 +246,11 @@ html { overflow-x: hidden; }
 .exec { white-space: normal; overflow-wrap: anywhere; max-width: 100%; }
 @media (max-width: 760px) { .live { max-width: 55vw; white-space: nowrap; } .topbar { max-width: 100vw; } }
 .ph > * { min-width: 0; }
+
+.confirm { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 14px; padding: 10px 14px; border-radius: 12px;
+  border: 1px solid rgba(245,158,11,.5); background: rgba(245,158,11,.07); font-size: 13.5px; }
+.confirm.ok { border-color: rgba(34,197,94,.45); background: rgba(34,197,94,.06); }
+.confirm .btn { padding: 8px 14px; font-size: 13.5px; }
+.srcbadge { font: 11.5px var(--mono); padding: 1px 8px; border-radius: 6px; border: 1px solid; margin-left: 4px; }
+.srcbadge.live { color: var(--up); border-color: rgba(34,197,94,.5); } .srcbadge.replay { color: var(--accent); border-color: rgba(250,204,21,.5); }
+.srcbadge.keyword { color: var(--amber); border-color: rgba(245,158,11,.5); }

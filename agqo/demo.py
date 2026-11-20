@@ -109,7 +109,7 @@ def compile_mandate(text: str, sector_of: dict[str, str], backend: str = "auto",
     from .mandate import rule_clarification
 
     m = rule_parse(text, tickers)
-    clar, question = rule_clarification(text)
+    clar, question = rule_clarification(text, tickers)
     return {"mandate": m.to_dict(), "source": "keyword rules (fallback)", "needs_clarification": clar,
             "status": "needs_clarification" if clar else "ok", "conflicts": [],
             "question": question, "errors": [], "raw": None, "fallback_reason": fallback_reason}
@@ -202,6 +202,19 @@ class Demo:
                               "lot_size": rules.lot_size,
                               "basis": "rules are checked on post-trade NAV = cash after fees + holdings"}}
 
+    @staticmethod
+    def _all_cash_note(ex: dict, diag: dict) -> dict:
+        """No board lot fits the rules inside the encoded search space: say so instead of a silent cash result."""
+        if any(t["action"] == "buy" for t in ex["trades"]):
+            return diag
+        note = {"code": "no_lot_fits", "rule": "combination",
+                "message_en": "No board lot fits the supplied limits inside the encoded search space; the feasible "
+                              "result is to keep all cash.",
+                "message_vi": "Trong không gian tìm kiếm đã mã hoá, không có lô chẵn nào vừa với các giới hạn bạn đặt; "
+                              "kết quả khả thi là giữ toàn bộ tiền mặt. Hãy nới “mỗi mã tối đa”, “tối đa số mã” hoặc "
+                              "tăng số vốn.", "detail": {}}
+        return diag | {"notes": diag["notes"] + [note], "all_cash": True}
+
     def _infeasible(self, base: dict, diag: dict) -> dict:
         return base | {"status": "infeasible", "feasibility": diag, "trades": [], "checks": [], "fees_vnd": 0.0,
                        "cash_after_vnd": base["capital_vnd"], "portfolios": {}, "quantum": {"ran": False,
@@ -249,7 +262,7 @@ class Demo:
         # baselines for the same account (deterministic)
         say("baselines")
         prac = practitioner_target(md, d, self.universe, acc, ec, m)
-        greedy = greedy_target(md, d, self.universe, acc, ec) if m.is_empty() else None
+        greedy = greedy_target(md, d, self.universe, acc, ec, m)
         w_cont = inst.meta["continuous_weights"]
         opt_x = _bits(land.opt_index, n)
 
@@ -263,7 +276,7 @@ class Demo:
                      "AGQO": self._portfolio(inst, tickers, dict(zip(tickers, new)))}
             mi = market_insight(md, inst, land, excluded, ec.problem.lookback_days)
             return base | ex | {
-                "status": "ok", "feasibility": diag, "excluded_by_mandate": excluded,
+                "status": "ok", "feasibility": self._all_cash_note(ex, diag), "excluded_by_mandate": excluded,
                 "market": self._market(mi), "stocks": self._stocks(inst), "register": [],
                 "quantum": {"ran": False, "qubits": int(n),
                             "reason": f"only {n} lot decision(s) remain after the rules; exact search over "
@@ -330,7 +343,7 @@ class Demo:
         e_samples = land.energy[samples]
         ok = np.isfinite(gap)
         return base | ex | {
-            "status": "ok", "feasibility": diag, "excluded_by_mandate": excluded,
+            "status": "ok", "feasibility": self._all_cash_note(ex, diag), "excluded_by_mandate": excluded,
             "quantum": {"ran": True, "qubits": int(n)},
             "market": self._market(mi), "stocks": self._stocks(inst),
             "register": [{"qubit": q, "ticker": reg[q], "sector": md.sector(reg[q]),

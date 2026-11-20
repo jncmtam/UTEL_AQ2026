@@ -206,6 +206,20 @@ const STAGES = ["queued", "started", "load", "feasibility", "build_qubo", "enume
 let FORM = { capital: 20, exclude_sectors: [], exclude_tickers: [], sector_caps: {}, max_weight_per_stock: null, max_holdings: null, min_cash_pct: null };
 let SRC = Object.fromEntries(FIELDS.map((f) => [f, f === "capital" ? "user" : "unset"]));
 let PRESET = null, PENDING = null, LAST_RUN = null, LAST_BODY = null;
+let CONFIRMED = true, LLM_PENDING = false, LAST_SOURCE = null;
+function sourceKind(src) { return /live/.test(src) ? "live" : /logged/.test(src) ? "replay" : /keyword/.test(src) ? "keyword" : ""; }
+const SOURCE_VI = { live: "Qwen trả lời trực tiếp", replay: "câu trả lời Qwen đã lưu (phát lại)", keyword: "quy tắc từ khóa (không dùng LLM)" };
+function renderConfirm() {
+  const bar = $("#confirmBar");
+  if (CONFIRMED) { bar.innerHTML = LAST_SOURCE ? `<div class="confirm ok">✔ Bạn đã xác nhận các ràng buộc trên.</div>` : ""; return; }
+  const k = sourceKind(LAST_SOURCE || "");
+  bar.innerHTML = `<div class="confirm"><span>Các ô có nhãn “Từ câu lệnh” được diễn giải bởi <span class="srcbadge ${k}">${SOURCE_VI[k] || LAST_SOURCE}</span>. ` +
+    `Hãy xem lại; chưa có lệnh nào được tạo.</span>` +
+    (LLM_PENDING ? `<span class="amber"><span class="spinner"></span>Đang chờ Qwen trả lời…</span><button class="btn ghost" id="useNow">Dùng kết quả hiện tại</button>`
+      : `<button class="btn" id="confirmBtn">✔ Xác nhận các ràng buộc này</button>`) + `</div>`;
+  if ($("#confirmBtn")) $("#confirmBtn").onclick = () => { CONFIRMED = true; renderConfirm(); validateForm(); };
+  if ($("#useNow")) $("#useNow").onclick = () => { LLM_PENDING = false; renderConfirm(); };
+}
 
 function isSet(f, v) { return Array.isArray(v) ? v.length > 0 : (v && typeof v === "object") ? Object.keys(v).length > 0 : v != null && v !== ""; }
 function mandateOf() {
@@ -258,8 +272,9 @@ function validateForm() {
   for (const s of FORM.exclude_sectors) if (s in FORM.sector_caps) errs.push(`Ngành ${SECTOR_VI[s]} vừa bị loại vừa có trần: khi chạy, quy tắc loại được áp dụng.`);
   $("#formErr").innerHTML = errs.map((e) => `<div>${e}</div>`).join("");
   const blocking = errs.filter((e) => !e.includes("quy tắc loại được áp dụng")).length;
-  $("#runBtn").disabled = !!PENDING || blocking > 0;
-  $("#runNote").innerHTML = PENDING ? `<b class="amber">Hãy trả lời câu hỏi làm rõ ở bước 2</b> (hoặc chọn bỏ qua) trước khi chạy.` : "";
+  $("#runBtn").disabled = !!PENDING || !CONFIRMED || blocking > 0;
+  $("#runNote").innerHTML = PENDING ? `<b class="amber">Hãy trả lời câu hỏi làm rõ ở bước 2</b> (hoặc chọn bỏ qua) trước khi chạy.`
+    : !CONFIRMED ? `<b class="amber">Xác nhận các ràng buộc ở trên</b> trước khi chạy.` : "";
   return blocking === 0;
 }
 function bindForm() {
@@ -300,6 +315,7 @@ async function choosePreset(id) {
   const p = META.presets.find((x) => x.id === id);
   PENDING = null; $("#clarify").innerHTML = ""; $("#llmLive").innerHTML = ""; $("#mandateSource").innerHTML = "";
   applyMandate(p.mandate, "preset", p.capital_million);
+  CONFIRMED = true; LAST_SOURCE = null; LLM_PENDING = false; renderConfirm(); validateForm();
   PRESET = id; markPreset();
   if (p.instruction_vi) { $("#instr").value = p.instruction_vi; await parseInstruction(); PRESET = id; markPreset(); }
   else $("#instr").value = "";
@@ -318,12 +334,14 @@ function showClarify(question, text, conflicts) {
   validateForm();
 }
 function showMandateResult(res, text) {
-  const live = res.source.includes("live") || res.source.includes("logged");
-  $("#mandateSource").innerHTML = `Nguồn diễn giải: <b style="color:${live ? C.ai : C.amber}">${res.source}</b>${res.llm_note ? " · " + res.llm_note : ""}` +
+  const k = sourceKind(res.source);
+  LAST_SOURCE = res.source; CONFIRMED = false;
+  $("#mandateSource").innerHTML = `Nguồn diễn giải: <span class="srcbadge ${k}">${SOURCE_VI[k] || res.source}</span> <small>${res.source}</small>${res.llm_note ? " · " + res.llm_note : ""}` +
     (res.errors?.length ? ` · <span class="down">câu trả lời bị loại: ${res.errors.join("; ")}</span>` : "");
   applyMandate(res.mandate, "text");
   if ((res.status === "needs_clarification" || res.status === "conflict") && res.question) showClarify(res.question, text, res.status === "conflict" ? res.conflicts : null);
   else { PENDING = null; $("#clarify").innerHTML = ""; validateForm(); }
+  renderConfirm(); validateForm();
 }
 async function parseInstruction() {
   const text = $("#instr").value.trim();
@@ -340,12 +358,20 @@ async function parseInstruction() {
 }
 async function liveMandate(job, text) {
   const box = $("#llmLive");
+  LLM_PENDING = true; renderConfirm();
   box.innerHTML = `<div class="bubble"><span class="spinner"></span>Đang hiện kết quả quy tắc từ khóa; Qwen3.8 đang đọc yêu cầu trên GPU H100…</div>`;
   const res = await pollJob(job, (s) => box.innerHTML = `<div class="bubble"><span class="spinner"></span>Qwen3.8 đang đọc yêu cầu (${s} giây${s > 20 ? "; GPU khởi động lần đầu mất khoảng 6 phút" : ""})…</div>`);
-  if ($("#instr").value.trim() !== text) { box.innerHTML = ""; return; }           // the user moved on
-  if (res.status !== "done") { box.innerHTML = `<div class="bubble">Qwen3.8 không phản hồi (${res.error || res.status || "lỗi"}); giữ kết quả quy tắc từ khóa.</div>`; return; }
-  box.innerHTML = `<div class="bubble">✔ Qwen3.8 trả lời sau ${res.seconds} giây; các ô bên dưới đã cập nhật. Hãy xem lại rồi bấm Chạy.</div>`;
-  showMandateResult({ ...res, status: res.mandate_status }, text);
+  const wasPending = LLM_PENDING; LLM_PENDING = false;
+  if ($("#instr").value.trim() !== text) { box.innerHTML = ""; renderConfirm(); return; }           // the user moved on
+  if (res.status !== "done") { box.innerHTML = `<div class="bubble">Qwen3.8 không phản hồi (${res.error || res.status || "lỗi"}); giữ kết quả quy tắc từ khóa.</div>`; renderConfirm(); return; }
+  const answer = { ...res, status: res.mandate_status };
+  if (!wasPending || CONFIRMED) {                     // the user already chose the keyword result: offer, do not overwrite
+    box.innerHTML = `<div class="bubble">Qwen3.8 đã trả lời sau ${res.seconds} giây. <button class="btn tiny" id="applyLLM">Dùng kết quả của Qwen</button></div>`;
+    $("#applyLLM").onclick = () => { showMandateResult(answer, text); box.innerHTML = `<div class="bubble">✔ Đã áp dụng kết quả Qwen; hãy xác nhận lại.</div>`; };
+    renderConfirm(); return;
+  }
+  box.innerHTML = `<div class="bubble">✔ Qwen3.8 trả lời sau ${res.seconds} giây; các ô bên dưới đã cập nhật. Hãy xem lại và xác nhận.</div>`;
+  showMandateResult(answer, text);
 }
 
 /* ---------------- run on Modal ---------------- */
@@ -388,7 +414,8 @@ async function runJob(body) {
 }
 function runClicked() {
   if (!validateForm()) return;
-  runJob({ capital_million: FORM.capital, mandate: mandateOf(), sources: { ...SRC }, preset_id: PRESET, clarification_pending: !!PENDING });
+  runJob({ capital_million: FORM.capital, mandate: mandateOf(), sources: { ...SRC }, preset_id: PRESET, clarification_pending: !!PENDING,
+    constraints_confirmed: CONFIRMED });
 }
 
 /* ---------------- result ---------------- */
@@ -501,6 +528,15 @@ async function explain() {
     if (!r.job) { box.innerHTML = `<div class="explain">${r.note}. Bằng chứng LLM sẽ nhận:<pre class="code">${JSON.stringify(r.evidence, null, 1)}</pre></div>`; return; }
     const res = await pollJob(r.job, (s) => box.innerHTML = `<div class="explain"><span class="spinner"></span>Qwen3.8 đang viết giải thích (${s} giây${s > 20 ? "; GPU đang khởi động, lần đầu mất khoảng 6 phút" : ""})…</div>`);
     if (res.status !== "done" || !res.explanation) { box.innerHTML = `<div class="explain">Không nhận được giải thích (${res.error || "lỗi"}).</div>`; return; }
+    if (res.fallback) {
+      const why = [...(res.check.claim_issues || []).map((i) => "khẳng định sai về thị trường"), ...(res.check.attribution_issues || []).map(() => "số gán sai"),
+        ...(res.check.unverified_numbers || []).map(() => "số không có trong dữ liệu"), ...(res.check.context_issues || []).map(() => "thiếu ngữ cảnh")];
+      const f = res.fallback;
+      box.innerHTML = `<div class="explain"><p class="muted"><b class="amber">Câu trả lời của Qwen không qua kiểm tra</b> (${[...new Set(why)].join(", ") || "lỗi định dạng"}). ` +
+        `Dưới đây là <b>giải thích tự động</b> được tạo trực tiếp từ dữ liệu của lần chạy, mọi con số đã được đối chiếu.</p><p>${f.summary_vi}</p>` +
+        f.trade_notes.map((t) => `<p>• ${t.reason_vi}</p>`).join("") + f.risk_notes_vi.map((t) => `<p>⚠ ${t}</p>`).join("") + `</div>`;
+      return;
+    }
     const e = res.explanation, ck = res.check, bad = ck.unverified_numbers, attr = ck.attribution_issues || [];
     const badAttr = attr.map((i) => i.number.replace(/\./g, "").replace(",", "."));
     box.innerHTML = `<div class="explain"><p>${highlightNumbers(e.summary_vi, [...bad, ...badAttr])}</p>` +
@@ -567,7 +603,8 @@ let SECTOR_OF = {};
     if (P.get("preset")) await choosePreset(P.get("preset"));
     if (P.get("capital")) { FORM.capital = +P.get("capital"); SRC.capital = "user"; renderForm(); }
     if (P.get("q")) { $("#instr").value = P.get("q"); await parseInstruction(); }
-    if (P.get("run") === "1" && !PENDING) { document.documentElement.style.scrollBehavior = "auto"; $("#try").scrollIntoView(); await runJob({ capital_million: FORM.capital, mandate: mandateOf(), sources: { ...SRC }, preset_id: PRESET, clarification_pending: false }); }
+    if (P.get("confirm") === "1") { CONFIRMED = true; renderConfirm(); validateForm(); }
+    if (P.get("run") === "1" && !PENDING && CONFIRMED) { document.documentElement.style.scrollBehavior = "auto"; $("#try").scrollIntoView(); await runJob({ capital_million: FORM.capital, mandate: mandateOf(), sources: { ...SRC }, preset_id: PRESET, clarification_pending: false, constraints_confirmed: true }); }
     document.body.dataset.done = "1";
   } catch (err) { toast("Không tải được dữ liệu: " + err.message, 8000); }
 })();

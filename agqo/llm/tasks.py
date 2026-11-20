@@ -322,7 +322,7 @@ def _context_issues(texts: list[str], evidence: dict) -> list[str]:
 def verify_explanation(parsed: dict | None, evidence: dict) -> dict:
     if not isinstance(parsed, dict):
         return {"ok": False, "unverified_numbers": [], "trade_mismatches": ["no valid JSON"], "context_issues": [],
-                "attribution_issues": []}
+                "attribution_issues": [], "claim_issues": []}
     allowed = _numbers(json.dumps(evidence, ensure_ascii=False))
     text = " ".join([parsed.get("summary_vi", ""), *[n.get("reason_vi", "") for n in parsed.get("trade_notes", [])],
                      *parsed.get("risk_notes_vi", [])])
@@ -338,5 +338,8 @@ def verify_explanation(parsed: dict | None, evidence: dict) -> dict:
         pieces = [parsed.get("summary_vi", ""), *parsed.get("risk_notes_vi", []),
                   *[f"{n.get('ticker', '')} {n.get('reason_vi', '')}" for n in parsed.get("trade_notes", [])]]
         attr = [i for s in pieces for i in check_attribution(s, evidence)]
-    return {"ok": not bad and not mism and not ctx and not attr, "unverified_numbers": bad, "trade_mismatches": mism,
-            "context_issues": ctx, "attribution_issues": attr}
+    from .fallback import market_claim_issues
+
+    claims = market_claim_issues([text])
+    return {"ok": not bad and not mism and not ctx and not attr and not claims, "unverified_numbers": bad,
+            "trade_mismatches": mism, "context_issues": ctx, "attribution_issues": attr, "claim_issues": claims}
